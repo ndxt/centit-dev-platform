@@ -1,0 +1,32 @@
+{
+  "osInfos": [
+    {
+      "osId": "CONTRACT",
+      "osName": "contract",
+      "osUrl": "http://productsvr.centit.com:8080/contract",
+      "ddeSyncUrl": "http://productsvr.centit.com:8080/contract/datasync",
+      "sysDataPushOption": "NONE",
+      "created": "u0000000"
+    }
+  ],
+  "databaseInfos": [
+    {
+      "databaseCode": "0000000001",
+      "osId": "CONTRACT",
+      "databaseName": "南京公安",
+      "databaseUrl": "jdbc:mysql://192.168.129.143:3306/eval?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai",
+      "username": "root",
+      "password": "glkj20140709",
+      "databaseDesc": "nj_public测试库",
+      "created": "u0000000"
+    }
+  ],
+  "userAccessTokens": [
+    {
+      "tokenId": "LTAI9QEcfHf7VrSE",
+      "userCode": "u0000000",
+      "secretAccessKey": "fYHyfoehaUS48tv53XEh3tihHx4hsN",
+      "isValid": "T"
+    }
+  ]
+}
