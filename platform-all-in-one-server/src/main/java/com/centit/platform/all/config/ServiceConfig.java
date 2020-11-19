@@ -14,6 +14,7 @@ import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
+import com.centit.framework.session.SimpleMapSessionRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
@@ -21,7 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 /**
  * Created by codefan on 17-7-18.
@@ -35,6 +39,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
         JdbcConfig.class,
         SpringSecurityDaoConfig.class,
         SpringSecurityCasConfig.class,})
+@EnableSpringHttpSession
 public class ServiceConfig {
 
     @Autowired
@@ -106,6 +111,15 @@ public class ServiceConfig {
         return new InstantiationServiceBeanPostProcessor();
     }
 
+    @Bean
+    public FindByIndexNameSessionRepository sessionRepository() {
+        return new SimpleMapSessionRepository();
+    }
 
+    @Bean
+    public SessionRegistry sessionRegistry(
+        @Autowired FindByIndexNameSessionRepository sessionRepository){
+        return new SpringSessionBackedSessionRegistry(sessionRepository);
+    }
 }
 

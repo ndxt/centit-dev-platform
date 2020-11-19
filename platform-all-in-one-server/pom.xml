@@ -67,7 +67,7 @@
         </dependency>
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>framework-session-jdbc</artifactId>
+            <artifactId>framework-session-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
