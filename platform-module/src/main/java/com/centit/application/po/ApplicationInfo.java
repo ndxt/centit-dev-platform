@@ -37,7 +37,7 @@ public class ApplicationInfo implements java.io.Serializable {
     @Length(max = 200, message = "字段长度不能大于{max}")
     private String  applicationName;
 
-    @ApiModelProperty(value = "所属机构，用于用户隔离")
+    @ApiModelProperty(value = "所属机构，租户代码，和用户的topUnit对应，用于用户隔离")
     @Column(name = "OWNER_UNIT")
     @Length(max = 32, message = "字段长度不能大于{max}")
     private String  ownerUnit;
