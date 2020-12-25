@@ -1,6 +1,6 @@
-package com.centit.application.service;
+package com.centit.platformmodule.service;
 
-import com.centit.application.po.ApplicationInfo;
+import com.centit.platformmodule.po.ApplicationInfo;
 import com.centit.support.database.utils.PageDesc;
 
 import java.util.List;

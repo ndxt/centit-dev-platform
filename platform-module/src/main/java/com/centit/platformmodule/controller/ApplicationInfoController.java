@@ -1,7 +1,7 @@
-package com.centit.application.controller;
+package com.centit.platformmodule.controller;
 
-import com.centit.application.po.ApplicationInfo;
-import com.centit.application.service.ApplicationInfoManager;
+import com.centit.platformmodule.po.ApplicationInfo;
+import com.centit.platformmodule.service.ApplicationInfoManager;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;

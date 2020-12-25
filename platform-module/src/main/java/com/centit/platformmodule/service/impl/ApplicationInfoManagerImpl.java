@@ -1,8 +1,8 @@
-package com.centit.application.service.impl;
+package com.centit.platformmodule.service.impl;
 
-import com.centit.application.dao.ApplicationInfoDao;
-import com.centit.application.po.ApplicationInfo;
-import com.centit.application.service.ApplicationInfoManager;
+import com.centit.platformmodule.dao.ApplicationInfoDao;
+import com.centit.platformmodule.po.ApplicationInfo;
+import com.centit.platformmodule.service.ApplicationInfoManager;
 import com.centit.support.database.utils.PageDesc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
