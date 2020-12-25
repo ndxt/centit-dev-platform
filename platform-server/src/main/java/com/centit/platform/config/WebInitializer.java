@@ -20,13 +20,13 @@ public class WebInitializer implements WebApplicationInitializer {
     public void onStartup(@Nonnull ServletContext servletContext) throws ServletException {
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
 
-        String [] servletUrlPatterns = {"/system/*","/application/*"};
+        String [] servletUrlPatterns = {"/system/*","/platform/*"};
         WebConfig.registerServletConfig(servletContext, "system",
             "/system/*",
             SystemSpringMvcConfig.class, SwaggerConfig.class);
-        WebConfig.registerServletConfig(servletContext, "application",
-            "/application/*",
-            ApplicationSpringMvcConfig.class,SwaggerConfig.class);
+        WebConfig.registerServletConfig(servletContext, "platform",
+            "/platform/*",
+            PlatformSpringMvcConfig.class,SwaggerConfig.class);
 
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);

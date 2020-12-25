@@ -6,23 +6,23 @@ import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.platformmodule.po.GroupInfo;
 import com.centit.platformmodule.service.GroupInfoManager;
-import com.centit.platformmodule.service.GroupInfoManager;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.support.network.HtmlFormUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author zhf
+ */
 @RestController
 @RequestMapping(value = "GroupInfo")
-@Api(value = "应用管理", tags = "应用管理")
+@Api(value = "分组管理", tags = "分组管理")
 public class GroupInfoController extends BaseController{
     @Autowired
     private GroupInfoManager groupInfoManager;

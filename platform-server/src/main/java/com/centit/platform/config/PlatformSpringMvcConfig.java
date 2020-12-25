@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
  * @author zou_wy
  * @date 2017/3/29
  */
-@ComponentScan(basePackages = {"com.centit.application.controller"},
+@ComponentScan(basePackages = {"com.centit.platformmodule.controller"},
         includeFilters = {@ComponentScan.Filter(value= org.springframework.stereotype.Controller.class)},
         useDefaultFilters = false)
-class ApplicationSpringMvcConfig extends BaseSpringMvcConfig {
+class PlatformSpringMvcConfig extends BaseSpringMvcConfig {
 
 }
