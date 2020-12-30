@@ -1,7 +1,5 @@
 package com.centit.platform.all.config;
 
-
-import com.centit.bdbclient.AppSystemBeanConfig;
 import com.centit.fileserver.common.FileStore;
 import com.centit.fileserver.utils.OsFileStore;
 import com.centit.framework.components.impl.NotificationCenterImpl;
@@ -10,6 +8,7 @@ import com.centit.framework.config.SpringSecurityCasConfig;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.core.service.DataScopePowerManager;
 import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
+import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
@@ -35,7 +34,7 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 @ComponentScan(basePackages = "com.centit",
         excludeFilters = @ComponentScan.Filter(type= FilterType.ANNOTATION,
                 value = org.springframework.stereotype.Controller.class))
-@Import({AppSystemBeanConfig.class,
+@Import({IPAppSystemBeanConfig.class,
         JdbcConfig.class,
         SpringSecurityDaoConfig.class,
         SpringSecurityCasConfig.class,})
