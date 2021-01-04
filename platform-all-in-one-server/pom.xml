@@ -48,13 +48,43 @@
 
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>centit-workflow-client</artifactId>
+            <artifactId>centit-workflow-module</artifactId>
             <version>${workflow.version}</version>
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-module</artifactId>
             <version>${centit.dde.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>platform-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-utils</artifactId>
+            <version>${centit.fileserver.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>meta-form-module</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>meta-form-view</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>opt-log-module</artifactId>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -86,30 +116,6 @@
             <groupId>com.dm</groupId>
             <artifactId>dmjdbc7</artifactId>
             <version>1.7.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>platform-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>fileserver-utils</artifactId>
-            <version>${centit.fileserver.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>meta-form-module</artifactId>
-            <version>${centit.metaform.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>meta-form-view</artifactId>
-            <version>${centit.metaform.version}</version>
         </dependency>
 
         <dependency>

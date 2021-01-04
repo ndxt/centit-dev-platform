@@ -17,7 +17,7 @@ public class WebInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        String [] servletUrlPatterns = {"/system/*","/metadata/*","/metaform/*",
+        String [] servletUrlPatterns = {"/system/*","/metadata/*","/metaform/*", "/workflow/*",
                 "/dbdesign/*","/application/*","/fileserver/*","/dde/*","/oa/*"};
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
         WebConfig.registerServletConfig(servletContext, "system",
@@ -27,6 +27,10 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerServletConfig(servletContext, "metadata",
                 "/metadata/*",
                 MetaDataSpringMvcConfig.class, SwaggerConfig.class);
+
+        WebConfig.registerServletConfig(servletContext, "workflow",
+            "/workflow/*",
+            WorkflowSpringMvcConfig.class,SwaggerConfig.class);
 
         WebConfig.registerServletConfig(servletContext, "application",
                 "/application/*",
