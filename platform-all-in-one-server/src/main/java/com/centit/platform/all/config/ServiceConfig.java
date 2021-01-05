@@ -12,8 +12,9 @@ import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
+import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
-import com.centit.framework.session.SimpleMapSessionRepository;
+import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
@@ -21,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
-import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 
 /**
  * Created by codefan on 17-7-18.
@@ -106,11 +104,16 @@ public class ServiceConfig {
     }
 
     @Bean
+    public UserUnitFilterCalcContextFactory userUnitFilterFactory() {
+        return new SystemUserUnitCalcContextFactoryImpl();
+    }
+
+    @Bean
     public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
         return new InstantiationServiceBeanPostProcessor();
     }
 
-    @Bean
+    /*@Bean
     public FindByIndexNameSessionRepository sessionRepository() {
         return new SimpleMapSessionRepository();
     }
@@ -119,6 +122,6 @@ public class ServiceConfig {
     public SessionRegistry sessionRegistry(
         @Autowired FindByIndexNameSessionRepository sessionRepository){
         return new SpringSessionBackedSessionRegistry(sessionRepository);
-    }
+    }*/
 }
 
