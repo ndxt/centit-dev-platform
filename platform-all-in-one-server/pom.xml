@@ -98,7 +98,7 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>opt-log-module</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>${optlog.version}</version>
         </dependency>
 
         <dependency>
@@ -148,7 +148,7 @@
 
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>oa-component-module</artifactId>
+            <artifactId>communion-module</artifactId>
             <version>${oa.module.version}</version>
         </dependency>
         <!-- server runtime library -->
