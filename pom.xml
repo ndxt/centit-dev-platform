@@ -31,7 +31,7 @@
         <centit.search.version>1.2-SNAPSHOT</centit.search.version>
         <mongodb.version>3.11.2</mongodb.version>
         <centit.fileserver.version>3.1-SNAPSHOT</centit.fileserver.version>
-        <centit.dde.version>3.0-SNAPSHOT</centit.dde.version>
+        <centit.dde.version>3.1-SNAPSHOT</centit.dde.version>
         <centit.metaform.version>1.0-SNAPSHOT</centit.metaform.version>
         <oa.module.version>1.0-SNAPSHOT</oa.module.version>
     </properties>
