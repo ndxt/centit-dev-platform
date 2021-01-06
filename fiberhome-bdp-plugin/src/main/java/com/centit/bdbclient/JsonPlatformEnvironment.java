@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.components.CodeRepositoryCache;
+import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.model.basedata.IUserInfo;
 import com.centit.framework.staticsystem.po.*;
 import com.centit.framework.system.dao.DataCatalogDao;
@@ -87,6 +88,12 @@ public class JsonPlatformEnvironment extends AbstractStaticPlatformEnvironment {
         if (tempJa != null) {
             List<UserUnit> userunits = tempJa.toJavaList(UserUnit.class);
             CodeRepositoryCache.userUnitRepo.setFreshData(userunits);
+        }
+
+        tempJa = json.getJSONArray("osInfos");
+        if (tempJa != null) {
+            List<OsInfo> osInfos = tempJa.toJavaList(OsInfo.class);
+            CodeRepositoryCache.osInfoCache.setFreshData(osInfos);
         }
 
         tempJa = json.getJSONArray("dataCatalogs");

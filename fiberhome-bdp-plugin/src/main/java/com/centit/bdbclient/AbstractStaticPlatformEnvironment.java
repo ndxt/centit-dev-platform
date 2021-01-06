@@ -346,6 +346,11 @@ public abstract class AbstractStaticPlatformEnvironment
         return roles;
     }
 
+    @Override
+    public List<? extends IOsInfo> listOsInfos() {
+        reloadPlatformData();
+        return CodeRepositoryCache.osInfoCache.getCachedTarget();
+    }
     /**
      * 获取 角色用户关系
      * @param roleCode 角色代码
