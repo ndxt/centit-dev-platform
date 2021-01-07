@@ -10,6 +10,7 @@ import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.network.HtmlFormUtils;
 import io.swagger.annotations.Api;
@@ -63,7 +64,7 @@ public class ApplicationInfoController extends BaseController {
     public PageQueryResult<ApplicationInfo> listApplicationInfo(HttpServletRequest request, PageDesc pageDesc) {
         Map<String, Object> searchColumn = collectRequestParameters(request);
         String topUnit = getTopUnit(WebOptUtils.getCurrentUnitCode(request));
-        if (topUnit != null) {
+        if (!StringBaseOpt.isNvl(topUnit)) {
             searchColumn.put("ownerUnit", topUnit);
         }
         List<ApplicationInfo> list = applicationInfoManager.listApplicationInfo(searchColumn, pageDesc);
