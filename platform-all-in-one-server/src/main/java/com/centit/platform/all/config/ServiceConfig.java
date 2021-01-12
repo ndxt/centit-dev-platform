@@ -12,8 +12,10 @@ import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
+import com.centit.product.message.EmailMessageSenderImpl;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
@@ -54,6 +56,7 @@ public class ServiceConfig {
     public DataScopePowerManager queryDataScopeFilter(){
         return new DataScopePowerManagerImpl();
     }
+
     @Bean
     public FileStore fileStore(){
         String baseHome = env.getProperty("os.file.base.dir");
@@ -87,10 +90,19 @@ public class ServiceConfig {
     }
 
     @Bean
-    public NotificationCenter notificationCenter() {
+    public NotificationCenter notificationCenter(@Autowired PlatformEnvironment platformEnvironment) {
+        EmailMessageSenderImpl messageManager = new EmailMessageSenderImpl();
+        messageManager.setHostName("mail.centit.com");
+        messageManager.setSmtpPort(25);
+        messageManager.setUserName("accounts");
+        messageManager.setUserPassword("yhs@yhs1");
+        messageManager.setServerEmail("noreplay@centit.com");
+
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
-        notificationCenter.initDummyMsgSenders();
-        //notificationCenter.registerMessageSender("innerMsg",innerMessageManager);
+        //notificationCenter.initDummyMsgSenders();
+        notificationCenter.setPlatformEnvironment(platformEnvironment);
+        notificationCenter.registerMessageSender("email",messageManager);
+        notificationCenter.appointDefaultSendType("email");
         return notificationCenter;
     }
 
