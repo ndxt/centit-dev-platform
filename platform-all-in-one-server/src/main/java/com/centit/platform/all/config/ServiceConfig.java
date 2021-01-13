@@ -16,6 +16,7 @@ import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
 import com.centit.product.message.EmailMessageSenderImpl;
+import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
@@ -94,9 +95,9 @@ public class ServiceConfig {
         EmailMessageSenderImpl messageManager = new EmailMessageSenderImpl();
         messageManager.setHostName("mail.centit.com");
         messageManager.setSmtpPort(25);
-        messageManager.setUserName("accounts");
-        messageManager.setUserPassword("yhs@yhs1");
-        messageManager.setServerEmail("noreplay@centit.com");
+        messageManager.setUserName("alertmail@centit.com");
+        messageManager.setUserPassword(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==",""));
+        messageManager.setServerEmail("no-reply@centit.com");
 
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //notificationCenter.initDummyMsgSenders();
