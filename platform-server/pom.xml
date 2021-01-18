@@ -70,7 +70,11 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-client</artifactId>
+            <version>${centit.ui.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
