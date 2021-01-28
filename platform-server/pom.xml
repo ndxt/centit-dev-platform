@@ -75,6 +75,11 @@
             <version>${centit.ui.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>optflow-serial-number</artifactId>
+            <version>${centit.oa.modules.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
             <version>1.5.21</version>
