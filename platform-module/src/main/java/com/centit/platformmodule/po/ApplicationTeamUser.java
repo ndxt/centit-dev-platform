@@ -53,12 +53,14 @@ public class ApplicationTeamUser implements java.io.Serializable {
     /**
      * 创建人 创建人
      */
+    @ApiModelProperty(value = "创建人")
     @Column(name = "create_user")
     @JsonIgnore
     private String createUser;
     /**
      * 创建时间 创建时间
      */
+    @ApiModelProperty(value = "创建时间")
     @Column(name = "create_time")
     @ValueGenerator( strategy= GeneratorType.FUNCTION, value = "today()")
     @JsonIgnore
