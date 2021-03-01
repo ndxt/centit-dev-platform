@@ -4,6 +4,7 @@ import com.centit.framework.jdbc.service.BaseEntityManagerImpl;
 import com.centit.platformmodule.dao.ApplicationTeamUserDao;
 import com.centit.platformmodule.po.ApplicationTeamUser;
 import com.centit.platformmodule.service.ApplicationTeamUserManager;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +35,8 @@ public class ApplicationTeamUserManagerImpl extends BaseEntityManagerImpl<Applic
 
     @Override
     public void updateApplicationTeamUser(ApplicationTeamUser applicationTeamUser) {
-        applicationTeamUserDao.updateObject(applicationTeamUser);
+        applicationTeamUserDao.deleteObjectsForceByProperties(CollectionsOpt.createHashMap("teamUser", applicationTeamUser.getTeamUser(), "applicationId", applicationTeamUser.getApplicationId()));
+        applicationTeamUserDao.saveNewObject(applicationTeamUser);
         applicationTeamUserDao.saveObjectReferences(applicationTeamUser);
     }
 

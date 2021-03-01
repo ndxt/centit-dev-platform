@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -91,7 +92,7 @@ public class ApplicationTeamUserController extends BaseController {
     @RequestMapping(method = {RequestMethod.PUT})
     @ApiOperation(value = "更新项目库授权信息")
     @WrapUpResponseBody
-    public void updateTeamUser(@RequestBody ApplicationTeamUser applicationTeamUser) {
-        applicationTeamMag.updateApplicationTeamUser(applicationTeamUser);
+    public void updateTeamUser(@RequestBody List<ApplicationTeamUser> applicationTeamUser) {
+        applicationTeamUser.forEach(applicationTeamMag::updateApplicationTeamUser);
     }
 }
