@@ -31,6 +31,7 @@
                    <exclude>test/*</exclude>
                    <exclude>prod/*</exclude>
                    <exclude>system.properties</exclude>
+                   <exclude>demo/*</exclude>
                </excludes>
            </resource>
            <resource>
@@ -236,7 +237,13 @@
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-	    </profile>
+        </profile>
+        <profile>
+            <id>demo</id>
+            <properties>
+                <profiles.active>demo</profiles.active>
+            </properties>
+        </profile>
 	</profiles>
 
 </project>
