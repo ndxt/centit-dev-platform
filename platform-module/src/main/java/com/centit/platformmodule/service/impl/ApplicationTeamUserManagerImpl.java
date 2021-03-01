@@ -34,10 +34,12 @@ public class ApplicationTeamUserManagerImpl extends BaseEntityManagerImpl<Applic
     private ApplicationTeamUserDao applicationTeamUserDao;
 
     @Override
-    public void updateApplicationTeamUser(ApplicationTeamUser applicationTeamUser) {
-        applicationTeamUserDao.deleteObjectsForceByProperties(CollectionsOpt.createHashMap("teamUser", applicationTeamUser.getTeamUser(), "applicationId", applicationTeamUser.getApplicationId()));
-        applicationTeamUserDao.saveNewObject(applicationTeamUser);
-        applicationTeamUserDao.saveObjectReferences(applicationTeamUser);
+    public void updateApplicationTeamUser(List<ApplicationTeamUser> applicationTeamUsers) {
+        if(applicationTeamUsers==null || applicationTeamUsers.size()==0){
+            return;
+        }
+        applicationTeamUserDao.deleteObjectsForceByProperties(CollectionsOpt.createHashMap( "applicationId", applicationTeamUsers.get(0).getApplicationId()));
+        applicationTeamUsers.forEach(applicationTeamUserDao::saveNewObject);
     }
 
     @Override

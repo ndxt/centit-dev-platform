@@ -91,10 +91,10 @@ public class ApplicationTeamUserController extends BaseController {
      * @param applicationTeamUser {@link ApplicationTeamUser}
      */
     @RequestMapping(method = {RequestMethod.PUT})
-    @ApiOperation(value = "更新项目库授权信息")
+    @ApiOperation(value = "批量更新项目组成员")
     @WrapUpResponseBody
     @JdbcTransaction
     public void updateTeamUser(@RequestBody List<ApplicationTeamUser> applicationTeamUser) {
-        applicationTeamUser.forEach(applicationTeamMag::updateApplicationTeamUser);
+        applicationTeamMag.updateApplicationTeamUser(applicationTeamUser);
     }
 }

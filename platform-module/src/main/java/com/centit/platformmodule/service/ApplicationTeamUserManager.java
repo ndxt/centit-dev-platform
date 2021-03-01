@@ -20,7 +20,7 @@ public interface ApplicationTeamUserManager extends BaseEntityManager<Applicatio
      * 更新user
      * @param applicationTeamUser 更新user
      */
-    void updateApplicationTeamUser(ApplicationTeamUser applicationTeamUser);
+    void updateApplicationTeamUser(List<ApplicationTeamUser> applicationTeamUsers);
 
     /**
      * 删除user
