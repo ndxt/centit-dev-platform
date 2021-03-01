@@ -8,6 +8,7 @@ import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.DictionaryMapUtils;
 import com.centit.platformmodule.po.ApplicationTeamUser;
 import com.centit.platformmodule.service.ApplicationTeamUserManager;
+import com.centit.support.database.transaction.JdbcTransaction;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -92,6 +93,7 @@ public class ApplicationTeamUserController extends BaseController {
     @RequestMapping(method = {RequestMethod.PUT})
     @ApiOperation(value = "更新项目库授权信息")
     @WrapUpResponseBody
+    @JdbcTransaction
     public void updateTeamUser(@RequestBody List<ApplicationTeamUser> applicationTeamUser) {
         applicationTeamUser.forEach(applicationTeamMag::updateApplicationTeamUser);
     }
