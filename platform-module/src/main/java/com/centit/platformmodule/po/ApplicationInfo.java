@@ -33,7 +33,7 @@ public class ApplicationInfo implements java.io.Serializable {
     private String applicationId;
 
     @ApiModelProperty(value = "应用模块名称，如果是子摸快，这个字段名为 applicationName", required = true)
-    @Column(name = "APPLICATION_ID_NAME")
+    @Column(name = "APPLICATION_NAME")
     @Length(max = 200, message = "字段长度不能大于{max}")
     private String  applicationName;
 
@@ -49,23 +49,28 @@ public class ApplicationInfo implements java.io.Serializable {
     @Basic(fetch = FetchType.LAZY)
     private String  pageFlow;
 
-    @JSONField(serialize=false)
-    public String getPageFlow() {
-        return pageFlow;
-    }
     @Column(name = "is_delete")
     @NotBlank(message = "字段不能为空[T/F]")
     @Length(max = 1, message = "字段长度不能大于{max}")
     private Boolean isDelete;
+
     @ApiModelProperty(value = "图片id")
     @Column(name = "pic_id")
     @Length(max = 64, message = "字段长度不能大于{max}")
     private String  picId;
-    public ApplicationInfo(){isDelete=false;}
+
+    public ApplicationInfo(){
+        isDelete=false;
+    }
+
+    @JSONField(serialize=false)
+    public String getPageFlow() {
+        return pageFlow;
+    }
+
     public void setPageFlow(String pageFlow) {
         this.pageFlow = pageFlow;
     }
-
 
     public JSONObject getPageFlowJson() {
         if(StringUtils.isBlank(pageFlow)) {
