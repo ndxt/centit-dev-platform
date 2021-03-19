@@ -15,7 +15,7 @@ import com.centit.platformmodule.service.ModelExportManager;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.dbdesign.service.MetaTableManager;
-import com.centit.product.metadata.dao.DatabaseInfoDao;
+import com.centit.product.metadata.dao.SourceInfoDao;
 import com.centit.product.metadata.po.*;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.algorithm.GeneralAlgorithm;
@@ -44,7 +44,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Value("${app.home:./}")
     private String appHome;
     @Autowired
-    private DatabaseInfoDao databaseInfoDao;
+    private SourceInfoDao databaseInfoDao;
     @Autowired
     private MetaTableManager metaTableManager;
 
@@ -122,10 +122,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return in;
     }
 
-    private JSONArray createFile(Map<String, Object> map, String sql, String fileName, String filePath) {
+    private JSONArray createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
         JSONArray jsonArray = new JSONArray();
         if ("f_database_info".equals(fileName)) {
-            for (DatabaseInfo db : databaseInfoDao.listDatabase()) {
+            for (SourceInfo db : databaseInfoDao.listDatabase()) {
                 if (StringUtils.isNotBlank(db.getOsId()) && db.getOsId().equals(map.get("applicationId"))) {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("databaseCode", db.getDatabaseCode());
@@ -154,7 +154,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     @Transactional
-    public JSONObject uploadModel(File zipFile, String isCover) {
+    public JSONObject uploadModel(File zipFile, String isCover) throws FileNotFoundException {
         JSONObject jsonObject = new JSONObject();
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         ZipCompressor.release(zipFile, filePath);
@@ -194,7 +194,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     break;
                 case "f_database_info":
                     if (!isCover.equals(COVER)) {
-                        object.addAll(convertMap(DatabaseInfo.class, list));
+                        object.addAll(convertMap(SourceInfoDao.class, list));
                     }
                     list.stream().map(s -> (String) s.get("databaseCode")).forEach(listDatabaseName::add);
                     break;
