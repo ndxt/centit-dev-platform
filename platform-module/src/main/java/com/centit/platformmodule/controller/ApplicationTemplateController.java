@@ -1,0 +1,88 @@
+package com.centit.platformmodule.controller;
+
+import com.centit.fileserver.utils.UploadDownloadUtils;
+import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.core.controller.BaseController;
+import com.centit.framework.core.controller.WrapUpResponseBody;
+import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.platformmodule.po.ApplicationTemplate;
+import com.centit.platformmodule.service.ApplicationTemplateManager;
+import com.centit.support.algorithm.ByteBaseOpt;
+import com.centit.support.database.utils.PageDesc;
+import com.centit.support.file.FileIOOpt;
+import com.centit.support.file.FileType;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author zhf
+ */
+@RestController
+@RequestMapping(value = "applicationTemplate")
+@Api(value = "应用模板管理", tags = "应用模板管理")
+public class ApplicationTemplateController extends BaseController {
+    @Autowired
+    private ApplicationTemplateManager applicationTemplateManager;
+
+    @ApiOperation(value = "保存应用模板")
+    @PostMapping
+    @WrapUpResponseBody
+    public void createApplicationInfo(ApplicationTemplate applicationTemplate, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Pair<String, InputStream> fileField =UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request);
+        applicationTemplate.setTemplateContent(StreamUtils.copyToByteArray(fileField.getRight()));
+        applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
+        JsonResultUtils.writeSingleDataJson(applicationTemplate.getTemplateId(), response);
+    }
+
+
+    @ApiOperation(value = "删除应用模板")
+    @ApiImplicitParam(name = "templateId", value = "模板ID")
+    @DeleteMapping(value = "/{templateId}")
+    @WrapUpResponseBody
+    public void deleteApplicationTemplate(@PathVariable String templateId) {
+        applicationTemplateManager.deleteApplicationTemplate(templateId);
+    }
+
+    @ApiOperation(value = "查询应用模板")
+    @GetMapping
+    @WrapUpResponseBody
+    public PageQueryResult<ApplicationTemplate> listApplicationTemplate(HttpServletRequest request, PageDesc pageDesc) {
+        Map<String, Object> searchColumn = collectRequestParameters(request);
+        List<ApplicationTemplate> list = applicationTemplateManager.listApplicationTemplate(searchColumn, pageDesc);
+        return PageQueryResult.createResult(list, pageDesc);
+    }
+
+    @ApiOperation(value = "查询单个应用模板")
+    @GetMapping(value = "/{templateId}")
+    @WrapUpResponseBody
+    public ApplicationTemplate getApplicationTemplate(@PathVariable String templateId) {
+        return applicationTemplateManager.getApplicationTemplate(templateId);
+    }
+    @ApiOperation(value = "下载应用模板")
+    @GetMapping(value = "/downloadTemplate/{templateId}")
+    public void downLoadTemplate(@PathVariable String templateId, HttpServletResponse response) throws IOException {
+        ApplicationTemplate applicationTemplate=applicationTemplateManager.getApplicationTemplate(templateId);
+        InputStream in =  new ByteArrayInputStream(applicationTemplate.getTemplateContent());
+        String fileName = URLEncoder.encode(applicationTemplate.getTemplateName(), "UTF-8") +
+            ".zip";
+        response.setContentType(FileType.mapExtNameToMimeType("zip"));
+        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
+        IOUtils.copy(in, response.getOutputStream());
+    }
+}
