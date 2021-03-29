@@ -54,7 +54,7 @@ public class ModelExportController extends BaseController {
                                  HttpServletResponse response) throws Exception {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("objList", modelExportManager.uploadModel(fileStore.getFile(fileId), isCover,
-            GeneralAlgorithm.nvl(WebOptUtils.getCurrentUserCode(request),"admin")));
+            StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request),"admin")));
         JsonResultUtils.writeSingleDataJson(jsonObject, response);
         return null;
     }
@@ -66,7 +66,7 @@ public class ModelExportController extends BaseController {
         ApplicationTemplate applicationTemplate=applicationTemplateManager.getApplicationTemplate(templateId);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("objList", modelExportManager.uploadModel(FileSystemOpt.createTmpFile(new ByteArrayInputStream(applicationTemplate.getTemplateContent()),applicationTemplate.getTemplateId(),"zip"),
-            "F", GeneralAlgorithm.nvl(WebOptUtils.getCurrentUserCode(request),"admin")));
+            "F", StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request),"admin")));
         JsonResultUtils.writeSingleDataJson(jsonObject, response);
         return null;
     }

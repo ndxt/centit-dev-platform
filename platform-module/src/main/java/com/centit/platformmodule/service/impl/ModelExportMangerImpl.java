@@ -54,12 +54,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public InputStream downModel(String applicationId) throws FileNotFoundException {
         String filePath = appHome + File.separator + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
-        Map<String, Object> mapApplicaton = new HashMap<>();
-        mapApplicaton.put("applicationId", applicationId);
+        Map<String, Object> mapApplication = new HashMap<>();
+        mapApplication.put("applicationId", applicationId);
         String sql = "select * from m_application_info where APPLICATION_ID=:applicationId";
-        createFile(mapApplicaton, sql, "m_application_info", filePath);
-        sql = "select * from f_database_info where os_id=:applicationId";
-        JSONArray jsonArrayDatabase = createFile(mapApplicaton, sql, "f_database_info", filePath);
+        createFile(mapApplication, sql, "m_application_info", filePath);
+        sql = "select database_code,database_name,os_id,database_url,database_desc,source_type,ext_props from f_database_info where os_id=:applicationId";
+        JSONArray jsonArrayDatabase = createFile(mapApplication, sql, "f_database_info", filePath);
         String[] databaseCodes = new String[jsonArrayDatabase.size()];
         for (int i = 0; i < jsonArrayDatabase.size(); i++) {
             JSONObject jsonObject = jsonArrayDatabase.getJSONObject(i);
@@ -79,19 +79,19 @@ public class ModelExportMangerImpl implements ModelExportManager {
             createFile(mapDatabase, sql, "f_md_rel_detail", filePath);
         }
         sql = "select * from m_meta_form_model where APPLICATION_ID=:applicationId";
-        createFile(mapApplicaton, sql, "m_meta_form_model", filePath);
+        createFile(mapApplication, sql, "m_meta_form_model", filePath);
         sql = "select * from f_datacatalog where opt_ID=:applicationId";
-        createFile(mapApplicaton, sql, "f_datacatalog", filePath);
+        createFile(mapApplication, sql, "f_datacatalog", filePath);
         sql = "select * from f_datadictionary where catalog_code in (" +
             "select catalog_code from f_datacatalog where opt_ID=:applicationId)";
-        createFile(mapApplicaton, sql, "f_datadictionary", filePath);
+        createFile(mapApplication, sql, "f_datadictionary", filePath);
         sql = "select * from f_group_table where APPLICATION_ID=:applicationId";
-        createFile(mapApplicaton, sql, "f_group_table", filePath);
+        createFile(mapApplication, sql, "f_group_table", filePath);
         sql = "select * from q_data_packet where APPLICATION_ID=:applicationId";
-        createFile(mapApplicaton, sql, "q_data_packet", filePath);
+        createFile(mapApplication, sql, "q_data_packet", filePath);
         sql = "select * from q_data_packet_param where packet_id in (" +
             "select packet_id from q_data_packet where APPLICATION_ID=:applicationId)";
-        createFile(mapApplicaton, sql, "q_data_packet_param", filePath);
+        createFile(mapApplication, sql, "q_data_packet_param", filePath);
 
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
