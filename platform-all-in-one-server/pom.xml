@@ -145,7 +145,11 @@
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-core-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>optflow-serial-number</artifactId>
+            <version>${centit.oa.modules.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>message-sender-utils</artifactId>

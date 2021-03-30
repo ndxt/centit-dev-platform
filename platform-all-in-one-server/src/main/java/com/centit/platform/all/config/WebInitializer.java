@@ -35,7 +35,6 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerServletConfig(servletContext, "platform",
                 "/platform/*",
                 PlatformSpringMvcConfig.class, SwaggerConfig.class);
-
         WebConfig.registerServletConfig(servletContext, "metaform",
                 "/metaform/*",
                 MetaformSpringMvcConfig.class, SwaggerConfig.class);
