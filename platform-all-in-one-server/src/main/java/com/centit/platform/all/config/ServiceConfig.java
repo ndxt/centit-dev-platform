@@ -67,6 +67,7 @@ public class ServiceConfig {
         fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
         return fileClient;
     }
+
     @Bean
     public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient) {
         ClientAsFileStore fileStoreBean = new ClientAsFileStore();
