@@ -1,5 +1,7 @@
 package com.centit.platform.all.config;
 
+import com.centit.fileserver.client.ClientAsFileStore;
+import com.centit.fileserver.client.FileClientImpl;
 import com.centit.fileserver.common.FileStore;
 import com.centit.fileserver.utils.OsFileStore;
 import com.centit.framework.components.impl.NotificationCenterImpl;
@@ -41,7 +43,8 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
         SpringSecurityCasConfig.class,})
 @EnableSpringHttpSession
 public class ServiceConfig {
-
+    @Value("${fileserver.url}")
+    private String fileserver;
     @Autowired
     private Environment env;
 
@@ -59,12 +62,17 @@ public class ServiceConfig {
     }
 
     @Bean
-    public FileStore fileStore(){
-        String baseHome = env.getProperty("os.file.base.dir");
-        if(StringUtils.isBlank(baseHome)) {
-            baseHome = appHome + "/upload";
-        }
-        return new OsFileStore(baseHome);
+    public FileClientImpl fileClient() {
+        FileClientImpl fileClient = new FileClientImpl();
+        fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
+        return fileClient;
+    }
+
+    @Bean
+    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient) {
+        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
+        fileStoreBean.setFileClient(fileClient);
+        return fileStoreBean;
     }
 
 //    @Bean

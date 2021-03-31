@@ -18,7 +18,7 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         String [] servletUrlPatterns = {"/system/*","/metadata/*","/metaform/*", "/workflow/*",
-                "/dbdesign/*","/platform/*","/fileserver/*","/dde/*","/oa/*"};
+                "/dbdesign/*","/platform/*","/dde/*","/oa/*"};
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
         WebConfig.registerServletConfig(servletContext, "system",
                 "/system/*",
@@ -43,9 +43,6 @@ public class WebInitializer implements WebApplicationInitializer {
                 "/dbdesign/*",
                 DBDesignSpringMvcConfig.class,SwaggerConfig.class);
 
-        WebConfig.registerServletConfig(servletContext, "fileserver",
-                "/fileserver/*",
-                FileServerSpringMvcConfig.class, SwaggerConfig.class);
         WebConfig.registerServletConfig(servletContext, "dde",
             "/dde/*",
             DdeSpringMvcConfig.class, SwaggerConfig.class);
