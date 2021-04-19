@@ -52,8 +52,14 @@ public class ApplicationTemplate implements java.io.Serializable {
     @Column(name = "TEMPLATE_CONTENT")
     @Basic(fetch = FetchType.LAZY)
     private byte[] templateContent;
+
     @Column(name = "LAST_UPDATE_TIME")
     @ValueGenerator(strategy = GeneratorType.FUNCTION,
         condition = GeneratorCondition.ALWAYS, value = "today()")
     private Date lastUpdateTime;
+
+    @ApiModelProperty(value = "图片id")
+    @Column(name = "pic_id")
+    @Length(max = 64, message = "字段长度不能大于{max}")
+    private String picId;
 }
