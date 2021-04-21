@@ -1,6 +1,5 @@
 package com.centit.platformmodule.po;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -10,7 +9,6 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -47,6 +45,11 @@ public class ApplicationTemplate implements java.io.Serializable {
     @Column(name = "TEMPLATE_MEMO")
     @Length(max = 1000, message = "字段长度不能大于{max}")
     private String templateMemo;
+
+    @ApiModelProperty(value = "模板文件id")
+    @Column(name = "FILE_ID")
+    @Length(max = 32, message = "字段长度不能大于{max}")
+    private String fileId;
 
     @ApiModelProperty(value = "模板内容")
     @Column(name = "TEMPLATE_CONTENT")

@@ -1,7 +1,7 @@
 package com.centit.platformmodule.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.centit.fileserver.utils.UploadDownloadUtils;
+import com.centit.fileserver.common.FileStore;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
@@ -12,15 +12,14 @@ import com.centit.platformmodule.service.ApplicationTemplateManager;
 import com.centit.platformmodule.service.ModelExportManager;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.database.utils.PageDesc;
+import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileSystemOpt;
 import com.centit.support.file.FileType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,15 +41,19 @@ import java.util.Map;
 public class ApplicationTemplateController extends BaseController {
     @Autowired
     private ApplicationTemplateManager applicationTemplateManager;
+
     @Autowired
     private ModelExportManager modelExportManager;
+
+    @Autowired(required = false)
+    private FileStore fileStore;
 
     @ApiOperation(value = "保存应用模板")
     @PostMapping
     @WrapUpResponseBody
     public void createApplicationInfo(ApplicationTemplate applicationTemplate, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Pair<String, InputStream> fileField = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request);
-        applicationTemplate.setTemplateContent(StreamUtils.copyToByteArray(fileField.getRight()));
+        File file = fileStore.getFile(applicationTemplate.getFileId());
+        applicationTemplate.setTemplateContent(FileIOOpt.readBytesFromFile(file));
         applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
         JsonResultUtils.writeSingleDataJson(applicationTemplate.getTemplateId(), response);
     }
