@@ -44,15 +44,12 @@ public class ModelExportController extends BaseController {
         IOUtils.copy(in, response.getOutputStream());
     }
 
-    @ApiOperation(value = "导入zip创建应用")
-    @RequestMapping(value = "/uploadModel", method = {RequestMethod.POST})
+    @ApiOperation(value = "导入zip覆盖应用")
+    @RequestMapping(value = "/updateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public void upLoadModel(String fileId, String isCover, HttpServletRequest request,
-                            HttpServletResponse response) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("objList", modelExportManager.uploadModel(fileStore.getFile(fileId), isCover,
-            StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin")));
-        JsonResultUtils.writeSingleDataJson(jsonObject, response);
+    public void upLoadModel(String fileId, HttpServletRequest request) throws Exception {
+        JSONObject jsonObject = modelExportManager.uploadModel(fileStore.getFile(fileId));
+        modelExportManager.createApp(jsonObject, "T",
+            StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin"));
     }
-
 }

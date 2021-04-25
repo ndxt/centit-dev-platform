@@ -1,5 +1,6 @@
 package com.centit.platformmodule.po;
 
+import com.alibaba.fastjson.JSONObject;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -54,7 +55,7 @@ public class ApplicationTemplate implements java.io.Serializable {
     @ApiModelProperty(value = "模板内容")
     @Column(name = "TEMPLATE_CONTENT")
     @Basic(fetch = FetchType.LAZY)
-    private byte[] templateContent;
+    private JSONObject templateContent;
 
     @Column(name = "LAST_UPDATE_TIME")
     @ValueGenerator(strategy = GeneratorType.FUNCTION,

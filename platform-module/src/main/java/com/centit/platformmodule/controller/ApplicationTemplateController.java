@@ -53,11 +53,14 @@ public class ApplicationTemplateController extends BaseController {
     @WrapUpResponseBody
     public void createApplicationInfo(ApplicationTemplate applicationTemplate, HttpServletRequest request, HttpServletResponse response) throws IOException {
         File file = fileStore.getFile(applicationTemplate.getFileId());
-        applicationTemplate.setTemplateContent(FileIOOpt.readBytesFromFile(file));
-        applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
-        JsonResultUtils.writeSingleDataJson(applicationTemplate.getTemplateId(), response);
+        try {
+            applicationTemplate.setTemplateContent(modelExportManager.uploadModel(file));
+            applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
+            JsonResultUtils.writeSingleDataJson(applicationTemplate, response);
+        } catch (Exception e) {
+            JsonResultUtils.writeErrorMessageJson(e.getLocalizedMessage(),response);
+        }
     }
-
 
     @ApiOperation(value = "删除应用模板")
     @ApiImplicitParam(name = "templateId", value = "模板ID")
@@ -83,28 +86,11 @@ public class ApplicationTemplateController extends BaseController {
         return applicationTemplateManager.getApplicationTemplate(templateId);
     }
 
-    @ApiOperation(value = "下载应用模板")
-    @GetMapping(value = "/downloadTemplate/{templateId}")
-    public void downLoadTemplate(@PathVariable String templateId, HttpServletResponse response) throws IOException {
-        ApplicationTemplate applicationTemplate = applicationTemplateManager.getApplicationTemplate(templateId);
-        InputStream in = new ByteArrayInputStream(applicationTemplate.getTemplateContent());
-        String fileName = URLEncoder.encode(applicationTemplate.getTemplateName(), "UTF-8") +
-            ".zip";
-        response.setContentType(FileType.mapExtNameToMimeType("zip"));
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-        IOUtils.copy(in, response.getOutputStream());
-    }
-
-    @ApiOperation(value = "根据模板创建应用")
+    @ApiOperation(value = "传入json创建应用")
     @RequestMapping(value = "/createApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public void upLoadModel(String templateId, HttpServletRequest request,
-                            HttpServletResponse response) throws Exception {
-        ApplicationTemplate applicationTemplate = applicationTemplateManager.getApplicationTemplate(templateId);
-        JSONObject jsonObject = new JSONObject();
-        File tempZip = FileSystemOpt.createTmpFile(new ByteArrayInputStream(applicationTemplate.getTemplateContent()), applicationTemplate.getTemplateId(), "zip");
-        jsonObject.put("objList", modelExportManager.uploadModel(tempZip,
-            "F", StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin")));
-        JsonResultUtils.writeSingleDataJson(jsonObject, response);
+    public void createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
+        modelExportManager.createApp(jsonObject, "F",
+            StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin"));
     }
 }

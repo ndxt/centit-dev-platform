@@ -74,7 +74,14 @@ public class ServiceConfig {
         fileStoreBean.setFileClient(fileClient);
         return fileStoreBean;
     }
-
+//    @Bean
+//    public FileStore fileStore(){
+//        String baseHome = env.getProperty("os.file.base.dir");
+//        if(StringUtils.isBlank(baseHome)) {
+//            baseHome = appHome + "/upload";
+//        }
+//        return new OsFileStore(baseHome);
+//    }
 //    @Bean
 //    @Lazy(value = false)
 //    public IntegrationEnvironment integrationEnvironment() {

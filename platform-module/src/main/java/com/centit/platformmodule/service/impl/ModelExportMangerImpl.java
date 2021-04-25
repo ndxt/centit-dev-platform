@@ -10,6 +10,7 @@ import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.system.po.DataCatalog;
 import com.centit.framework.system.po.DataDictionary;
 import com.centit.metaform.po.MetaFormModel;
+import com.centit.platformmodule.Vo.TableName;
 import com.centit.platformmodule.po.ApplicationInfo;
 import com.centit.platformmodule.po.ApplicationTeamUser;
 import com.centit.platformmodule.po.GroupInfo;
@@ -33,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,49 +52,49 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private SourceInfoDao databaseInfoDao;
     @Autowired
     private MetaTableManager metaTableManager;
+    private Map<String, String> applicationSql = new HashMap<>(10);
+    private Map<String, String> dataBaseSql = new HashMap<>(4);
+
+    @PostConstruct
+    void init() {
+        applicationSql.put(TableName.M_APPLICATION_INFO.name(), "select * from m_application_info where APPLICATION_ID=:applicationId");
+        applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,database_name,os_id,database_url,database_desc,source_type,ext_props from f_database_info where os_id=:applicationId");
+        applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where APPLICATION_ID=:applicationId");
+        applicationSql.put(TableName.F_GROUP_TABLE.name(), "select * from f_group_table where APPLICATION_ID=:applicationId");
+        applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where APPLICATION_ID=:applicationId");
+        applicationSql.put(TableName.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
+            "select packet_id from q_data_packet where APPLICATION_ID=:applicationId)");
+        dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (:databaseCode)");
+        dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
+        dataBaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
+        dataBaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode)))");
+    }
 
     @Override
     public InputStream downModel(String applicationId) throws FileNotFoundException {
         String filePath = appHome + File.separator + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         Map<String, Object> mapApplication = new HashMap<>();
         mapApplication.put("applicationId", applicationId);
-        String sql = "select * from m_application_info where APPLICATION_ID=:applicationId";
-        createFile(mapApplication, sql, "m_application_info", filePath);
-        sql = "select database_code,database_name,os_id,database_url,database_desc,source_type,ext_props from f_database_info where os_id=:applicationId";
-        JSONArray jsonArrayDatabase = createFile(mapApplication, sql, "f_database_info", filePath);
-        String[] databaseCodes = new String[jsonArrayDatabase.size()];
-        for (int i = 0; i < jsonArrayDatabase.size(); i++) {
-            JSONObject jsonObject = jsonArrayDatabase.getJSONObject(i);
-            databaseCodes[i] = (String) jsonObject.get("databaseCode");
+        String[] databaseCodes = new String[0];
+        for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
+            if (TableName.F_DATABASE_INFO.name().equals(entry.getKey())) {
+                JSONArray jsonArrayDatabase = createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
+                databaseCodes = new String[jsonArrayDatabase.size()];
+                for (int i = 0; i < jsonArrayDatabase.size(); i++) {
+                    JSONObject jsonObject = jsonArrayDatabase.getJSONObject(i);
+                    databaseCodes[i] = (String) jsonObject.get("databaseCode");
+                }
+                continue;
+            }
+            createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
         }
         if (databaseCodes.length > 0) {
             Map<String, Object> mapDatabase = new HashMap<>();
             mapDatabase.put("databaseCode", databaseCodes);
-            sql = "select * from f_md_table where database_code in (:databaseCode)";
-            createFile(mapDatabase, sql, "f_md_table", filePath);
-            sql = "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in (:databaseCode))";
-            createFile(mapDatabase, sql, "f_md_column", filePath);
-            sql = "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode))";
-            createFile(mapDatabase, sql, "f_md_relation", filePath);
-            sql = "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in (select table_id from " +
-                "f_md_table where database_code in (:databaseCode)))";
-            createFile(mapDatabase, sql, "f_md_rel_detail", filePath);
+            for (Map.Entry<String, String> entry : dataBaseSql.entrySet()) {
+                createFile(mapDatabase, entry.getValue(), entry.getKey(), filePath);
+            }
         }
-        sql = "select * from m_meta_form_model where APPLICATION_ID=:applicationId";
-        createFile(mapApplication, sql, "m_meta_form_model", filePath);
-        sql = "select * from f_datacatalog where opt_ID=:applicationId";
-        createFile(mapApplication, sql, "f_datacatalog", filePath);
-        sql = "select * from f_datadictionary where catalog_code in (" +
-            "select catalog_code from f_datacatalog where opt_ID=:applicationId)";
-        createFile(mapApplication, sql, "f_datadictionary", filePath);
-        sql = "select * from f_group_table where APPLICATION_ID=:applicationId";
-        createFile(mapApplication, sql, "f_group_table", filePath);
-        sql = "select * from q_data_packet where APPLICATION_ID=:applicationId";
-        createFile(mapApplication, sql, "q_data_packet", filePath);
-        sql = "select * from q_data_packet_param where packet_id in (" +
-            "select packet_id from q_data_packet where APPLICATION_ID=:applicationId)";
-        createFile(mapApplication, sql, "q_data_packet_param", filePath);
-
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
         InputStream in = new FileInputStream(filePath + ".zip");
@@ -114,9 +116,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return jsonArray;
     }
 
-    @Override
-    @Transactional
-    public JSONObject uploadModel(File zipFile, String isCover, String userCode) throws FileNotFoundException {
+    private JSONObject getFileContent(File zipFile) throws FileNotFoundException {
         JSONObject jsonObject = new JSONObject();
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         ZipCompressor.release(zipFile, filePath);
@@ -127,8 +127,18 @@ public class ModelExportMangerImpl implements ModelExportManager {
             csvDataSet.setFilePath(file.getPath());
             jsonObject.put(fileName, csvDataSet.load(null).getData());
         }
-        jsonObject.put("userCode", userCode);
         FileSystemOpt.deleteDirect(filePath);
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject uploadModel(File zipFile) throws FileNotFoundException {
+        return getFileContent(zipFile);
+    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public JSONObject createApp(JSONObject jsonObject, String isCover, String userCode){
+        jsonObject.put("userCode", userCode);
         try {
             int success = createApp(jsonObject, isCover);
             jsonObject.put("success", success);
@@ -187,12 +197,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     case "m_meta_form_model":
                         object.addAll(convertMap(MetaFormModel.class, list));
                         break;
-                    case "f_datacatalog":
-                        object.addAll(convertMap(DataCatalog.class, list));
-                        break;
-                    case "f_datadictionary":
-                        object.addAll(convertMap(DataDictionary.class, list));
-                        break;
                     case "q_data_packet":
                         object.addAll(convertMap(DataPacket.class, list));
                         break;
@@ -235,13 +239,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return object;
     }
 
-    private JSONObject updatePrimary(JSONObject jsonObject) {
+    private void updatePrimary(JSONObject jsonObject) {
         List<Map<String, Object>> list = (List<Map<String, Object>>) jsonObject.get("m_application_info");
         String applicationId = UuidOpt.getUuidAsString22();
         if (list != null) {
             list.forEach(map -> map.put("applicationId", applicationId));
         }
-
         Map<String, Object> databaseMap = new HashMap<>();
         list = (List<Map<String, Object>>) jsonObject.get("f_database_info");
         if (list != null) {
@@ -251,23 +254,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 map.put("databaseCode", uuid);
                 map.put("osId", applicationId);
             });
-        }
-
-        Map<String, Object> dictionaryMap = new HashMap<>();
-        list = (List<Map<String, Object>>) jsonObject.get("f_datacatalog");
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString22();
-                dictionaryMap.put((String) map.get("catalogCode"), uuid);
-                map.put("catalogCode", uuid);
-                map.put("optId", applicationId);
-            });
-        }
-
-        list = (List<Map<String, Object>>) jsonObject.get("f_datadictionary");
-        if (list != null) {
-            list.forEach(map -> dictionaryMap.keySet().stream().filter(key -> key.equals(map.get("catalogCode")))
-                .findFirst().ifPresent(key -> map.put("catalogCode", dictionaryMap.get(key))));
         }
 
         Map<String, Object> mdtableMap = new HashMap<>();
@@ -287,8 +273,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
             list.forEach(map -> {
                 mdtableMap.keySet().stream().filter(key -> key.equals(map.get("tableId")))
                     .findFirst().ifPresent(key -> map.put("tableId", mdtableMap.get(key)));
-                dictionaryMap.keySet().stream().filter(key -> key.equals(map.get("referenceData")))
-                    .findFirst().ifPresent(key -> map.put("referenceData", dictionaryMap.get(key)));
             });
         }
 
@@ -331,9 +315,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 }
                 for (String key : datapacketMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) datapacketMap.get(key));
-                }
-                for (String key : dictionaryMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
                 }
                 map.put("dataOptDescJson", form);
             });
@@ -383,12 +364,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 for (String key : datapacketMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) datapacketMap.get(key));
                 }
-                for (String key : dictionaryMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
-                }
                 map.put("formTemplate", form);
             });
         }
-        return jsonObject;
     }
 }
