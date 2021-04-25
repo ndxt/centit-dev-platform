@@ -1,14 +1,19 @@
 package com.centit.platformmodule.Vo;
 
 import com.alibaba.fastjson.JSONObject;
-import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.platformmodule.po.ApplicationInfo;
+import com.centit.platformmodule.po.ApplicationTeamUser;
+import com.centit.product.dbdesign.po.PendingMetaColumn;
+import com.centit.product.dbdesign.po.PendingMetaTable;
+import com.centit.product.metadata.po.MetaColumn;
+import com.centit.product.metadata.po.MetaRelation;
+import com.centit.product.metadata.po.MetaTable;
+import com.centit.product.metadata.po.SourceInfo;
 import com.centit.support.algorithm.UuidOpt;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.centit.support.common.JavaBeanMetaData;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -36,8 +41,102 @@ public class JsonAppVo {
         this.userCode = userCode;
     }
 
-    private JsonAppVo updatePrimary(){
-        return this.updateApplication().updateDatabase().updateMdTableWithColumn()
+    public void createApp() {
+        if (!isCover) {
+            updatePrimary();
+        }
+        createAppObject();
+    }
+
+    private void createAppObject() {
+        this.createApplicationObject().createDataBaseObject()
+            .createMdTableWithColumnObject().createMdRelationWithDetailObject();
+    }
+
+    private List<Object> convertMap(Class type, List<Map<String, Object>> list) {
+        List<Object> object = new ArrayList<>();
+        try {
+            JavaBeanMetaData javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(type);
+            for (Map<String, Object> map : list) {
+                object.add(javaBeanMetaData.createBeanObjectFromMap(map));
+            }
+            return object;
+        } catch (Exception e) {
+            return object;
+        }
+    }
+
+    private JsonAppVo createApplicationObject() {
+        if (jsonObject.get(TableName.M_APPLICATION_INFO.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.M_APPLICATION_INFO.name()));
+        if (!isCover) {
+            object.addAll(convertMap(ApplicationInfo.class, list));
+            ApplicationTeamUser teamUser = new ApplicationTeamUser();
+            teamUser.setApplicationId((String) list.get(0).get("applicationId"));
+            teamUser.setTeamUser(userCode);
+            teamUser.setCreateUser(userCode);
+            object.add(teamUser);
+        }
+        return this;
+    }
+
+    private JsonAppVo createDataBaseObject() {
+        if (jsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_DATABASE_INFO.name()));
+        if (!isCover) {
+            object.addAll(convertMap(SourceInfo.class, list));
+        }
+        return this;
+    }
+
+    private JsonAppVo createMdTableWithColumnObject() {
+        if (jsonObject.get(TableName.F_MD_TABLE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_MD_TABLE.name()));
+        metaObject.addAll(convertMap(MetaTable.class, list));
+        list.forEach(map -> map.put("tableState", "W"));
+        object.addAll(convertMap(PendingMetaTable.class, list));
+        if (jsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
+            return this;
+        }
+        list = objectToMap(jsonObject.get(TableName.F_MD_COLUMN.name()));
+        metaObject.addAll(convertMap(MetaColumn.class, list));
+        list.forEach(map -> map.put("maxLength", map.get("columnLength")));
+        object.addAll(convertMap(PendingMetaColumn.class, list));
+        return this;
+    }
+
+    private JsonAppVo createMdRelationWithDetailObject() {
+        if (jsonObject.get(TableName.F_MD_RELATION.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_MD_RELATION.name()));
+        metaObject.addAll(convertMap(MetaColumn.class, list));
+        list.forEach(map -> map.put("maxLength", map.get("columnLength")));
+        object.addAll(convertMap(PendingMetaColumn.class, list));
+        if (jsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
+            return this;
+        }
+        list = objectToMap(jsonObject.get(TableName.F_MD_REL_DETAIL.name()));
+        object.addAll(convertMap(MetaRelation.class, list));
+        return this;
+    }
+
+    private void setDatabaseName() {
+        if (jsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+            return;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_DATABASE_INFO.name()));
+        list.stream().map(s -> (String) s.get("databaseCode")).forEach(listDatabaseName::add);
+    }
+
+    private void updatePrimary() {
+        this.updateApplication().updateDatabase().updateMdTableWithColumn()
             .updateMdRelationWithDetail().updateGroup()
             .updatePacketWithParams().updateMetaForm()
             .updatePacketUseMetaForm();
