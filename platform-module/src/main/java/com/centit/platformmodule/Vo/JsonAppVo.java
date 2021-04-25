@@ -1,8 +1,12 @@
 package com.centit.platformmodule.Vo;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centit.dde.po.DataPacket;
+import com.centit.dde.po.DataPacketParam;
+import com.centit.metaform.po.MetaFormModel;
 import com.centit.platformmodule.po.ApplicationInfo;
 import com.centit.platformmodule.po.ApplicationTeamUser;
+import com.centit.platformmodule.po.GroupInfo;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.metadata.po.MetaColumn;
@@ -14,7 +18,10 @@ import com.centit.support.common.JavaBeanMetaData;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhf
@@ -50,7 +57,9 @@ public class JsonAppVo {
 
     private void createAppObject() {
         this.createApplicationObject().createDataBaseObject()
-            .createMdTableWithColumnObject().createMdRelationWithDetailObject();
+            .createMdTableWithColumnObject().createMdRelationWithDetailObject()
+            .createMetaFormObject().createMetaFormObject()
+            .createDataPacketAndParamsObject().createGroupObject();
     }
 
     private List<Object> convertMap(Class type, List<Map<String, Object>> list) {
@@ -126,6 +135,39 @@ public class JsonAppVo {
         object.addAll(convertMap(MetaRelation.class, list));
         return this;
     }
+
+    private JsonAppVo createMetaFormObject() {
+        if (jsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.M_META_FORM_MODEL.name()));
+        object.addAll(convertMap(MetaFormModel.class, list));
+        return this;
+    }
+
+    private JsonAppVo createDataPacketAndParamsObject() {
+        if (jsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.Q_DATA_PACKET.name()));
+        object.addAll(convertMap(DataPacket.class, list));
+        if (jsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
+            return this;
+        }
+        list = objectToMap(jsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()));
+        object.addAll(convertMap(DataPacketParam.class, list));
+        return this;
+    }
+
+    private JsonAppVo createGroupObject() {
+        if (jsonObject.get(TableName.F_GROUP_TABLE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_GROUP_TABLE.name()));
+        object.addAll(convertMap(GroupInfo.class, list));
+        return this;
+    }
+
 
     private void setDatabaseName() {
         if (jsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
