@@ -22,7 +22,7 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
         WebConfig.registerServletConfig(servletContext, "system",
                 "/system/*",
-                SystemSpringMvcConfig.class,SwaggerConfig.class);
+                SystemSpringMvcConfig.class, SwaggerConfig.class);
 
         WebConfig.registerServletConfig(servletContext, "metadata",
                 "/metadata/*",
@@ -30,7 +30,7 @@ public class WebInitializer implements WebApplicationInitializer {
 
         WebConfig.registerServletConfig(servletContext, "workflow",
             "/workflow/*",
-            WorkflowSpringMvcConfig.class,SwaggerConfig.class);
+            WorkflowSpringMvcConfig.class, SwaggerConfig.class);
 
         WebConfig.registerServletConfig(servletContext, "platform",
                 "/platform/*",
@@ -44,7 +44,7 @@ public class WebInitializer implements WebApplicationInitializer {
 
         WebConfig.registerServletConfig(servletContext, "dbdesign",
                 "/dbdesign/*",
-                DBDesignSpringMvcConfig.class,SwaggerConfig.class);
+                DBDesignSpringMvcConfig.class, SwaggerConfig.class);
 
         WebConfig.registerServletConfig(servletContext, "dde",
             "/dde/*",
