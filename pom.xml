@@ -14,7 +14,7 @@
 
     <modules>
         <module>platform-module</module>
-        <!--<module>fiberhome-bdp-plugin</module>-->
+        <module>fiberhome-bdp-plugin</module>
     </modules>
 
     <packaging>pom</packaging>

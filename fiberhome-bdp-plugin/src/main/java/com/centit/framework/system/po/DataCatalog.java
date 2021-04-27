@@ -1,5 +1,6 @@
 package com.centit.framework.system.po;
 
+import com.centit.framework.common.GlobalConstValue;
 import com.centit.framework.core.dao.DictionaryMap;
 import com.centit.framework.model.basedata.IDataCatalog;
 import com.centit.support.database.orm.GeneratorCondition;
@@ -168,6 +169,26 @@ public class DataCatalog implements IDataCatalog, java.io.Serializable{
 
     public String getCatalogName() {
         return this.catalogName;
+    }
+
+    /**
+     * 所属租户ID
+     *
+     * @return 所属租户ID
+     */
+    @Override
+    public String getTopUnit() {
+        return GlobalConstValue.SYSTEM_TENANT_TOP_UNIT;
+    }
+
+    /**
+     * 所属系统ID
+     *
+     * @return 所属系统ID
+     */
+    @Override
+    public String getOsId() {
+        return "bdp";
     }
 
     public void setCatalogName(String catalogname) {
