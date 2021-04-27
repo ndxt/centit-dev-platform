@@ -63,27 +63,12 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public PageQueryResult<ApplicationInfo> listApplicationInfo(HttpServletRequest request, PageDesc pageDesc) {
         Map<String, Object> searchColumn = collectRequestParameters(request);
-        String topUnit = getTopUnit(WebOptUtils.getCurrentUnitCode(request));
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
         if (!StringBaseOpt.isNvl(topUnit)) {
             searchColumn.put("ownerUnit", topUnit);
         }
         List<ApplicationInfo> list = applicationInfoManager.listApplicationInfo(searchColumn, pageDesc);
         return PageQueryResult.createResult(list, pageDesc);
-    }
-
-    private String getTopUnit(String sUnit) {
-        if (sUnit == null) {
-            return null;
-        }
-        IUnitInfo uinfo = CodeRepositoryUtil.getUnitRepo().get(sUnit);
-        while (uinfo != null) {
-            String puc = uinfo.getParentUnit();
-            if ((puc == null) || ("0".equals(puc)) || ("".equals(puc))) {
-                return uinfo.getUnitCode();
-            }
-            uinfo = CodeRepositoryUtil.getUnitRepo().get(puc);
-        }
-        return sUnit;
     }
 
     @ApiOperation(value = "查询单个应用模块")
