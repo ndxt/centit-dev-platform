@@ -10,6 +10,7 @@ import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.system.po.DataCatalog;
 import com.centit.framework.system.po.DataDictionary;
 import com.centit.metaform.po.MetaFormModel;
+import com.centit.platformmodule.Vo.JsonAppVo;
 import com.centit.platformmodule.Vo.TableName;
 import com.centit.platformmodule.po.ApplicationInfo;
 import com.centit.platformmodule.po.ApplicationTeamUser;
@@ -125,7 +126,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         for (File file : files) {
             String fileName = FileSystemOpt.extractFileName(file.getPath());
             csvDataSet.setFilePath(file.getPath());
-            jsonObject.put(fileName, csvDataSet.load(null).getData());
+            jsonObject.put(fileName, csvDataSet.load(null));
         }
         FileSystemOpt.deleteDirect(filePath);
         return jsonObject;
@@ -137,235 +138,34 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject createApp(JSONObject jsonObject, String isCover, String userCode){
-        jsonObject.put("userCode", userCode);
+    public Integer createApp(JSONObject jsonObject, String isCover, String userCode){
         try {
-            int success = createApp(jsonObject, isCover);
-            jsonObject.put("success", success);
+            JsonAppVo jsonAppVo=new JsonAppVo(jsonObject,isCover,userCode);
+            return createApp(jsonAppVo);
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());
         }
-        return jsonObject;
     }
 
-    private int createApp(JSONObject jsonObject, String isCover) throws Exception {
+    private Integer createApp(JsonAppVo jsonAppVo) throws Exception {
         int result = 0;
-        List<Object> object = new ArrayList<>();
-        List<Object> metaObject = new ArrayList<>();
-        List<String> listDatabaseName = new ArrayList<>();
-        String COVER = "T";
-        if (!isCover.equals(COVER)) {
-            updatePrimary(jsonObject);
-        }
-        String userCode = jsonObject.getString("userCode");
-        for (String fileName : jsonObject.keySet()) {
-            if (jsonObject.get(fileName) instanceof List) {
-                List<Map<String, Object>> list = (List<Map<String, Object>>) jsonObject.get(fileName);
-                switch (fileName) {
-                    case "m_application_info":
-                        if (!isCover.equals(COVER)) {
-                            object.addAll(convertMap(ApplicationInfo.class, list));
-                            ApplicationTeamUser teamUser = new ApplicationTeamUser();
-                            teamUser.setApplicationId((String) list.get(0).get("applicationId"));
-                            teamUser.setTeamUser(userCode);
-                            teamUser.setCreateUser(userCode);
-                            object.add(teamUser);
-                        }
-                        break;
-                    case "f_database_info":
-                        if (!isCover.equals(COVER)) {
-                            object.addAll(convertMap(SourceInfo.class, list));
-                        }
-                        list.stream().map(s -> (String) s.get("databaseCode")).forEach(listDatabaseName::add);
-                        break;
-                    case "f_md_table":
-                        metaObject.addAll(convertMap(MetaTable.class, list));
-                        list.forEach(map -> map.put("tableState", "W"));
-                        object.addAll(convertMap(PendingMetaTable.class, list));
-                        break;
-                    case "f_md_column":
-                        metaObject.addAll(convertMap(MetaColumn.class, list));
-                        list.forEach(map -> map.put("maxLength", map.get("columnLength")));
-                        object.addAll(convertMap(PendingMetaColumn.class, list));
-                        break;
-                    case "f_md_relation":
-                        object.addAll(convertMap(MetaRelation.class, list));
-                        break;
-                    case "f_md_rel_detail":
-                        object.addAll(convertMap(MetaRelDetail.class, list));
-                        break;
-                    case "m_meta_form_model":
-                        object.addAll(convertMap(MetaFormModel.class, list));
-                        break;
-                    case "q_data_packet":
-                        object.addAll(convertMap(DataPacket.class, list));
-                        break;
-                    case "q_data_packet_param":
-                        object.addAll(convertMap(DataPacketParam.class, list));
-                        break;
-                    case "f_group_table":
-                        object.addAll(convertMap(GroupInfo.class, list));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+        jsonAppVo.prepareApp();
         try {
-            if (object.size() > 0) {
-                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, object);
-                for (String s : listDatabaseName) {
-                    Pair<Integer, String> pair = metaTableManager.publishDatabase(s, userCode);
+            if (jsonAppVo.getObject().size() > 0) {
+                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, jsonAppVo.getObject());
+                for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
+                    Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
                     if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {
                         throw new Exception(pair.getRight());
                     }
                 }
             }
-            if (metaObject.size() > 0) {
-                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, metaObject);
+            if (jsonAppVo.getMetaObject().size() > 0) {
+                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, jsonAppVo.getMetaObject());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
         return result;
-    }
-
-    private List<Object> convertMap(Class type, List<Map<String, Object>> list) throws InstantiationException, IllegalAccessException {
-        JavaBeanMetaData javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(type);
-        List<Object> object = new ArrayList<>();
-        for (Map map : list) {
-            object.add(javaBeanMetaData.createBeanObjectFromMap(map));
-        }
-        return object;
-    }
-
-    private void updatePrimary(JSONObject jsonObject) {
-        List<Map<String, Object>> list = (List<Map<String, Object>>) jsonObject.get("m_application_info");
-        String applicationId = UuidOpt.getUuidAsString22();
-        if (list != null) {
-            list.forEach(map -> map.put("applicationId", applicationId));
-        }
-        Map<String, Object> databaseMap = new HashMap<>();
-        list = (List<Map<String, Object>>) jsonObject.get("f_database_info");
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString22();
-                databaseMap.put((String) map.get("databaseCode"), uuid);
-                map.put("databaseCode", uuid);
-                map.put("osId", applicationId);
-            });
-        }
-
-        Map<String, Object> mdtableMap = new HashMap<>();
-        list = (List<Map<String, Object>>) jsonObject.get("f_md_table");
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString32();
-                mdtableMap.put((String) map.get("tableId"), uuid);
-                map.put("tableId", uuid);
-                databaseMap.keySet().stream().filter(key -> key.equals(map.get("databaseCode")))
-                    .findFirst().ifPresent(key -> map.put("databaseCode", databaseMap.get(key)));
-            });
-        }
-
-        list = (List<Map<String, Object>>) jsonObject.get("f_md_column");
-        if (list != null) {
-            list.forEach(map -> {
-                mdtableMap.keySet().stream().filter(key -> key.equals(map.get("tableId")))
-                    .findFirst().ifPresent(key -> map.put("tableId", mdtableMap.get(key)));
-            });
-        }
-
-        Map<String, Object> relationMap = new HashMap<>();
-        list = (List<Map<String, Object>>) jsonObject.get("f_md_relation");
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString22();
-                relationMap.put((String) map.get("relationId"), uuid);
-                map.put("relationId", uuid);
-                mdtableMap.keySet().stream().filter(key -> key.equals(map.get("parentTableId")))
-                    .findFirst().ifPresent(key -> map.put("parentTableId", mdtableMap.get(key)));
-                mdtableMap.keySet().stream().filter(key -> key.equals(map.get("childTableId")))
-                    .findFirst().ifPresent(key -> map.put("childTableId", mdtableMap.get(key)));
-            });
-        }
-
-        list = (List<Map<String, Object>>) jsonObject.get("f_md_rel_detail");
-        if (list != null) {
-            list.forEach(map -> relationMap.keySet().stream().filter(key -> key.equals(map.get("relationId")))
-                .findFirst().ifPresent(key -> map.put("relationId", relationMap.get(key))));
-        }
-
-        Map<String, Object> datapacketMap = new HashMap<>();
-        list = (List<Map<String, Object>>) jsonObject.get("q_data_packet");
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString22();
-                datapacketMap.put((String) map.get("packetId"), uuid);
-                map.put("packetId", uuid);
-                map.put("applicationId", applicationId);
-            });
-            list.forEach(map -> {
-                String form = (String) map.get("dataOptDescJson");
-                for (String key : mdtableMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) mdtableMap.get(key));
-                }
-                for (String key : databaseMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) databaseMap.get(key));
-                }
-                for (String key : datapacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) datapacketMap.get(key));
-                }
-                map.put("dataOptDescJson", form);
-            });
-        }
-
-        list = (List<Map<String, Object>>) jsonObject.get("q_data_packet_param");
-        if (list != null) {
-            list.forEach(map -> datapacketMap.keySet().stream().filter(key -> key.equals(map.get("packetId")))
-                .findFirst().ifPresent(key -> map.put("packetId", datapacketMap.get(key))));
-        }
-        Map<String, Object> groupMap = new HashMap<>();
-        list = (List<Map<String, Object>>) jsonObject.get("f_group_table");
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString22();
-                groupMap.put((String) map.get("groupId"), uuid);
-                map.put("groupId", uuid);
-                map.put("applicationId", applicationId);
-            });
-        }
-        list = (List<Map<String, Object>>) jsonObject.get("m_meta_form_model");
-        Map<String, Object> metaformMap = new HashMap<>();
-        if (list != null) {
-            list.forEach(map -> {
-                String uuid = UuidOpt.getUuidAsString36();
-                metaformMap.put((String) map.get("modelId"), uuid);
-                map.put("modelId", uuid);
-                map.put("applicationId", applicationId);
-                mdtableMap.keySet().stream().filter(key -> key.equals(map.get("tableId")))
-                    .findFirst().ifPresent(key -> map.put("tableId", mdtableMap.get(key)));
-                databaseMap.keySet().stream().filter(key -> key.equals(map.get("databaseCode")))
-                    .findFirst().ifPresent(key -> map.put("databaseCode", databaseMap.get(key)));
-                groupMap.keySet().stream().filter(key -> key.equals(map.get("ownGroup")))
-                    .findFirst().ifPresent(key -> map.put("ownGroup", groupMap.get(key)));
-            });
-            list.forEach(map -> {
-                String form = (String) map.get("formTemplate");
-                for (String key : metaformMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) metaformMap.get(key));
-                }
-                for (String key : mdtableMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) mdtableMap.get(key));
-                }
-                for (String key : databaseMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) databaseMap.get(key));
-                }
-                for (String key : datapacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) datapacketMap.get(key));
-                }
-                map.put("formTemplate", form);
-            });
-        }
     }
 }

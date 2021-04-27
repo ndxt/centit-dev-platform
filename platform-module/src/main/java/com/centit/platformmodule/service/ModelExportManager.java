@@ -9,5 +9,5 @@ import java.io.InputStream;
 public interface ModelExportManager {
     InputStream downModel(String applicationId) throws FileNotFoundException;
     JSONObject uploadModel(File zipFile) throws Exception;
-    JSONObject createApp(JSONObject jsonObject, String isCover,String userCode);
+    Integer createApp(JSONObject jsonObject, String isCover,String userCode);
 }

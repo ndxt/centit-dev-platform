@@ -1,6 +1,7 @@
 package com.centit.platformmodule.Vo;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.metaform.po.MetaFormModel;
@@ -15,7 +16,9 @@ import com.centit.product.metadata.po.MetaTable;
 import com.centit.product.metadata.po.SourceInfo;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -26,15 +29,21 @@ import java.util.Map;
 /**
  * @author zhf
  */
-@Data
+
 public class JsonAppVo {
     private JSONObject jsonObject;
     private Boolean isCover;
+    private Map<String, List<Map<String, Object>>> mapJsonObject = new HashMap<>();
+    @Getter
     private String userCode;
     private String applicationId;
+    @Getter
     private List<Object> object = new ArrayList<>();
+    @Getter
     private List<Object> metaObject = new ArrayList<>();
+    @Getter
     private List<String> listDatabaseName = new ArrayList<>();
+
     private Map<String, Object> databaseMap = new HashMap<>();
     private Map<String, Object> mdTableMap = new HashMap<>();
     private Map<String, Object> relationMap = new HashMap<>();
@@ -48,11 +57,20 @@ public class JsonAppVo {
         this.userCode = userCode;
     }
 
-    public void createApp() {
+    public void prepareApp() {
+        jsonObjectToMap();
         if (!isCover) {
             updatePrimary();
         }
         createAppObject();
+        setDatabaseName();
+    }
+
+    private void jsonObjectToMap() {
+        for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
+            mapJsonObject.put(entry.getKey(),
+                new ObjectMapper().convertValue(entry.getValue(),SimpleDataSet.class).getDataAsList());
+        }
     }
 
     private void createAppObject() {
@@ -76,10 +94,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createApplicationObject() {
-        if (jsonObject.get(TableName.M_APPLICATION_INFO.name()) == null) {
+        if (mapJsonObject.get(TableName.M_APPLICATION_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.M_APPLICATION_INFO.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_INFO.name());
         if (!isCover) {
             object.addAll(convertMap(ApplicationInfo.class, list));
             ApplicationTeamUser teamUser = new ApplicationTeamUser();
@@ -92,10 +110,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createDataBaseObject() {
-        if (jsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_DATABASE_INFO.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
         if (!isCover) {
             object.addAll(convertMap(SourceInfo.class, list));
         }
@@ -103,17 +121,17 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createMdTableWithColumnObject() {
-        if (jsonObject.get(TableName.F_MD_TABLE.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_TABLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_MD_TABLE.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_TABLE.name());
         metaObject.addAll(convertMap(MetaTable.class, list));
         list.forEach(map -> map.put("tableState", "W"));
         object.addAll(convertMap(PendingMetaTable.class, list));
-        if (jsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
             return this;
         }
-        list = objectToMap(jsonObject.get(TableName.F_MD_COLUMN.name()));
+        list = mapJsonObject.get(TableName.F_MD_COLUMN.name());
         metaObject.addAll(convertMap(MetaColumn.class, list));
         list.forEach(map -> map.put("maxLength", map.get("columnLength")));
         object.addAll(convertMap(PendingMetaColumn.class, list));
@@ -121,59 +139,59 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createMdRelationWithDetailObject() {
-        if (jsonObject.get(TableName.F_MD_RELATION.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_RELATION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_MD_RELATION.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_RELATION.name());
         metaObject.addAll(convertMap(MetaColumn.class, list));
         list.forEach(map -> map.put("maxLength", map.get("columnLength")));
         object.addAll(convertMap(PendingMetaColumn.class, list));
-        if (jsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
             return this;
         }
-        list = objectToMap(jsonObject.get(TableName.F_MD_REL_DETAIL.name()));
+        list = mapJsonObject.get(TableName.F_MD_REL_DETAIL.name());
         object.addAll(convertMap(MetaRelation.class, list));
         return this;
     }
 
     private JsonAppVo createMetaFormObject() {
-        if (jsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+        if (mapJsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.M_META_FORM_MODEL.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
         object.addAll(convertMap(MetaFormModel.class, list));
         return this;
     }
 
     private JsonAppVo createDataPacketAndParamsObject() {
-        if (jsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+        if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.Q_DATA_PACKET.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET.name());
         object.addAll(convertMap(DataPacket.class, list));
-        if (jsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
+        if (mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
             return this;
         }
-        list = objectToMap(jsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()));
+        list = mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name());
         object.addAll(convertMap(DataPacketParam.class, list));
         return this;
     }
 
     private JsonAppVo createGroupObject() {
-        if (jsonObject.get(TableName.F_GROUP_TABLE.name()) == null) {
+        if (mapJsonObject.get(TableName.F_GROUP_TABLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_GROUP_TABLE.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_GROUP_TABLE.name());
         object.addAll(convertMap(GroupInfo.class, list));
         return this;
     }
 
 
     private void setDatabaseName() {
-        if (jsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
             return;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_DATABASE_INFO.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
         list.stream().map(s -> (String) s.get("databaseCode")).forEach(listDatabaseName::add);
     }
 
@@ -184,25 +202,22 @@ public class JsonAppVo {
             .updatePacketUseMetaForm();
     }
 
-    private List<Map<String, Object>> objectToMap(Object object) {
-        return (List<Map<String, Object>>) object;
-    }
 
     private JsonAppVo updateApplication() {
-        if (jsonObject.get(TableName.M_APPLICATION_INFO.name()) == null) {
+        if (mapJsonObject.get(TableName.M_APPLICATION_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.M_APPLICATION_INFO.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_INFO.name());
         applicationId = UuidOpt.getUuidAsString22();
         list.forEach(map -> map.put("applicationId", applicationId));
         return this;
     }
 
     private JsonAppVo updateDatabase() {
-        if (jsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_DATABASE_INFO.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
         list.forEach(map -> {
             String uuid = UuidOpt.getUuidAsString22();
             databaseMap.put((String) map.get("databaseCode"), uuid);
@@ -213,10 +228,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateMdTableWithColumn() {
-        if (jsonObject.get(TableName.F_MD_TABLE.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_TABLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_MD_TABLE.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_TABLE.name());
         list.forEach(map -> {
             String uuid = UuidOpt.getUuidAsString32();
             mdTableMap.put((String) map.get("tableId"), uuid);
@@ -224,10 +239,10 @@ public class JsonAppVo {
             databaseMap.keySet().stream().filter(key -> key.equals(map.get("databaseCode")))
                 .findFirst().ifPresent(key -> map.put("databaseCode", databaseMap.get(key)));
         });
-        if (jsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
             return this;
         }
-        list = objectToMap(jsonObject.get(TableName.F_MD_COLUMN.name()));
+        list = mapJsonObject.get(TableName.F_MD_COLUMN.name());
         list.forEach(map -> {
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get("tableId")))
                 .findFirst().ifPresent(key -> map.put("tableId", mdTableMap.get(key)));
@@ -236,10 +251,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateMdRelationWithDetail() {
-        if (jsonObject.get(TableName.F_MD_RELATION.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_RELATION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_MD_RELATION.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_RELATION.name());
         list.forEach(map -> {
             String uuid = UuidOpt.getUuidAsString22();
             relationMap.put((String) map.get("relationId"), uuid);
@@ -249,20 +264,20 @@ public class JsonAppVo {
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get("childTableId")))
                 .findFirst().ifPresent(key -> map.put("childTableId", mdTableMap.get(key)));
         });
-        if (jsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
+        if (mapJsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
             return this;
         }
-        list = objectToMap(jsonObject.get(TableName.F_MD_REL_DETAIL.name()));
+        list =mapJsonObject.get(TableName.F_MD_REL_DETAIL.name());
         list.forEach(map -> relationMap.keySet().stream().filter(key -> key.equals(map.get("relationId")))
             .findFirst().ifPresent(key -> map.put("relationId", relationMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateGroup() {
-        if (jsonObject.get(TableName.F_GROUP_TABLE.name()) == null) {
+        if (mapJsonObject.get(TableName.F_GROUP_TABLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.F_GROUP_TABLE.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_GROUP_TABLE.name());
         list.forEach(map -> {
             String uuid = UuidOpt.getUuidAsString22();
             groupMap.put((String) map.get("groupId"), uuid);
@@ -273,10 +288,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updatePacketWithParams() {
-        if (jsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+        if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.Q_DATA_PACKET.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET.name());
         list.forEach(map -> {
             String uuid = UuidOpt.getUuidAsString22();
             dataPacketMap.put((String) map.get("packetId"), uuid);
@@ -298,20 +313,20 @@ public class JsonAppVo {
             }
             map.put("dataOptDescJson", form);
         });
-        if (jsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
+        if (mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
             return this;
         }
-        list = objectToMap(jsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()));
+        list = mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name());
         list.forEach(map -> dataPacketMap.keySet().stream().filter(key -> key.equals(map.get("packetId")))
             .findFirst().ifPresent(key -> map.put("packetId", dataPacketMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateMetaForm() {
-        if (jsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+        if (mapJsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = objectToMap(jsonObject.get(TableName.M_META_FORM_MODEL.name()));
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
         list.forEach(map -> {
             String uuid = UuidOpt.getUuidAsString36();
             metaFormMap.put((String) map.get("modelId"), uuid);
@@ -344,11 +359,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updatePacketUseMetaForm() {
-        if (jsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+        if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
             return this;
         }
         List<Map<String, Object>> list =
-            objectToMap(jsonObject.get(TableName.Q_DATA_PACKET.name()));
+            mapJsonObject.get(TableName.Q_DATA_PACKET.name());
         list.forEach(map -> {
             String form = (String) map.get("dataOptDescJson");
             for (String key : metaFormMap.keySet()) {

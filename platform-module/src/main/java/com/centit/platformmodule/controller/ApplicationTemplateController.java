@@ -56,7 +56,7 @@ public class ApplicationTemplateController extends BaseController {
         try {
             applicationTemplate.setTemplateContent(modelExportManager.uploadModel(file));
             applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
-            JsonResultUtils.writeSingleDataJson(applicationTemplate, response);
+            JsonResultUtils.writeSingleDataJson(applicationTemplate.getTemplateId(), response);
         } catch (Exception e) {
             JsonResultUtils.writeErrorMessageJson(e.getLocalizedMessage(),response);
         }
@@ -89,8 +89,8 @@ public class ApplicationTemplateController extends BaseController {
     @ApiOperation(value = "传入json创建应用")
     @RequestMapping(value = "/createApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public void createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
-        modelExportManager.createApp(jsonObject, "F",
+    public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
+        return modelExportManager.createApp(jsonObject, "F",
             StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin"));
     }
 }

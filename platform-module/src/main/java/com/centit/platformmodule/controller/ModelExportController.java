@@ -47,9 +47,9 @@ public class ModelExportController extends BaseController {
     @ApiOperation(value = "导入zip覆盖应用")
     @RequestMapping(value = "/updateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public void upLoadModel(String fileId, HttpServletRequest request) throws Exception {
+    public Integer upLoadModel(String fileId, HttpServletRequest request) throws Exception {
         JSONObject jsonObject = modelExportManager.uploadModel(fileStore.getFile(fileId));
-        modelExportManager.createApp(jsonObject, "T",
+        return modelExportManager.createApp(jsonObject, "T",
             StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin"));
     }
 }
