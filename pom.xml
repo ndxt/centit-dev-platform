@@ -10,11 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.centit.product</groupId>
     <artifactId>centit-dev-platform</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>5.1-SNAPSHOT</version>
 
     <modules>
         <module>platform-module</module>
-        <module>fiberhome-bdp-plugin</module>
+        <!--<module>fiberhome-bdp-plugin</module>-->
     </modules>
 
     <packaging>pom</packaging>
@@ -24,15 +24,13 @@
     <properties>
         <jaxen.version>1.1.6</jaxen.version>
         <workflow.version>5.1-SNAPSHOT</workflow.version>
-        <metadata.commons.version>1.1-SNAPSHOT</metadata.commons.version>
-        <centit.search.version>1.2-SNAPSHOT</centit.search.version>
+        <metadata.commons.version>5.1-SNAPSHOT</metadata.commons.version>
+        <centit.search.version>5.1-SNAPSHOT</centit.search.version>
         <mongodb.version>3.11.2</mongodb.version>
-        <centit.fileserver.version>3.2-SNAPSHOT</centit.fileserver.version>
-        <centit.dde.version>3.1-SNAPSHOT</centit.dde.version>
-        <centit.metaform.version>1.0-SNAPSHOT</centit.metaform.version>
+        <centit.fileserver.version>5.1-SNAPSHOT</centit.fileserver.version>
+        <centit.dde.version>5.1-SNAPSHOT</centit.dde.version>
+        <centit.metaform.version>5.1-SNAPSHOT</centit.metaform.version>
     </properties>
-
-
     <build>
         <plugins>
             <plugin>
