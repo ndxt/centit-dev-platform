@@ -14,8 +14,11 @@ import com.centit.product.metadata.po.MetaColumn;
 import com.centit.product.metadata.po.MetaRelation;
 import com.centit.product.metadata.po.MetaTable;
 import com.centit.product.metadata.po.SourceInfo;
+import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
+import com.centit.workflow.po.*;
+import com.centit.workflow.service.FlowDefine;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +52,10 @@ public class JsonAppVo {
     private Map<String, Object> dataPacketMap = new HashMap<>();
     private Map<String, Object> groupMap = new HashMap<>();
     private Map<String, Object> metaFormMap = new HashMap<>();
+    private Map<String, Object> flowDefineMap = new HashMap<>();
+    private Map<String, Object> wfOptInfoMap = new HashMap<>();
+    private Map<String, Object> wfOptPageMap = new HashMap<>();
+    private Map<String, Object> wfNodeMap = new HashMap<>();
 
     public JsonAppVo(JSONObject jsonObject, String cover, String userCode) {
         this.jsonObject = jsonObject;
@@ -76,7 +83,9 @@ public class JsonAppVo {
         this.createApplicationObject().createDataBaseObject()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createMetaFormObject()
-            .createDataPacketAndParamsObject().createGroupObject();
+            .createDataPacketAndParamsObject().createGroupObject()
+            .createWfOptInfo().createWfOptTeamRole().createWfOptVariable().createWfOptPage()
+            .createWfDefine().createWfNode().createWfTransition();
     }
 
     private List<Object> convertMap(Class type, List<Map<String, Object>> list) {
@@ -184,7 +193,62 @@ public class JsonAppVo {
         object.addAll(convertMap(GroupInfo.class, list));
         return this;
     }
-
+    private JsonAppVo createWfOptInfo() {
+        if (mapJsonObject.get(TableName.WF_OPTINFO.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPTINFO.name());
+        object.addAll(convertMap(FlowOptInfo.class, list));
+        return this;
+    }
+    private JsonAppVo createWfOptTeamRole() {
+        if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name());
+        object.addAll(convertMap(OptTeamRole.class, list));
+        return this;
+    }
+    private JsonAppVo createWfOptVariable() {
+        if (mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name());
+        object.addAll(convertMap(OptVariableDefine.class, list));
+        return this;
+    }
+    private JsonAppVo createWfOptPage() {
+        if (mapJsonObject.get(TableName.WF_OPTPAGE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPTPAGE.name());
+        object.addAll(convertMap(FlowOptPage.class, list));
+        return this;
+    }
+    private JsonAppVo createWfDefine() {
+        if (mapJsonObject.get(TableName.WF_FLOW_DEFINE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
+        object.addAll(convertMap(FlowDefine.class, list));
+        return this;
+    }
+    private JsonAppVo createWfNode() {
+        if (mapJsonObject.get(TableName.WF_NODE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_NODE.name());
+        object.addAll(convertMap(NodeInfo.class, list));
+        return this;
+    }
+    private JsonAppVo createWfTransition() {
+        if (mapJsonObject.get(TableName.WF_TRANSITION.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_TRANSITION.name());
+        object.addAll(convertMap(FlowTransition.class, list));
+        return this;
+    }
 
     private void setDatabaseName() {
         if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
@@ -197,8 +261,9 @@ public class JsonAppVo {
     private void updatePrimary() {
         this.updateApplication().updateDatabase().updateMdTableWithColumn()
             .updateMdRelationWithDetail().updateGroup()
-            .updatePacketWithParams().updateMetaForm()
-            .updatePacketUseMetaForm();
+            .updatePacketWithParams().updateMetaForm().updatePacketUseMetaForm()
+            .updateWfOptInfo().updateWfOptTeamRole().updateWfOptVariable().updateWfOptPage()
+            .updateWfDefine().updateWfNode().updateWfTransition();
     }
 
 
@@ -372,7 +437,116 @@ public class JsonAppVo {
         });
         return this;
     }
+    private JsonAppVo updateWfOptInfo() {
+        if (mapJsonObject.get(TableName.WF_OPTINFO.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPTINFO.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            wfOptInfoMap.put((String) map.get("optId"), uuid);
+            map.put("optId", uuid);
+            map.put("applicationId", applicationId);
+        });
+        return this;
+    }
+    private JsonAppVo updateWfOptTeamRole() {
+        if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            map.put("optTeamRoleId", uuid);
+            wfOptInfoMap.keySet().stream().filter(key -> key.equals(map.get("optId")))
+                .findFirst().ifPresent(key -> map.put("optId", wfOptInfoMap.get(key)));
+        });
+        return this;
+    }
+    private JsonAppVo updateWfOptVariable() {
+        if (mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            map.put("optVariableId", uuid);
+            wfOptInfoMap.keySet().stream().filter(key -> key.equals(map.get("optId")))
+                .findFirst().ifPresent(key -> map.put("optId", wfOptInfoMap.get(key)));
+        });
+        return this;
+    }
+    private JsonAppVo updateWfOptPage() {
+        if (mapJsonObject.get(TableName.WF_OPTPAGE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPTPAGE.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            wfOptPageMap.put((String) map.get("optCode"), uuid);
+            map.put("optCode", uuid);
+            wfOptInfoMap.keySet().stream().filter(key -> key.equals(map.get("optId")))
+                .findFirst().ifPresent(key -> map.put("optId", wfOptInfoMap.get(key)));
+        });
+        return this;
+    }
+    private JsonAppVo updateWfDefine() {
+        if (mapJsonObject.get(TableName.WF_FLOW_DEFINE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
+        list.sort((o1, o2) -> GeneralAlgorithm.compareTwoObject(o1.get("version"),o2.get("version")));
+        list.forEach(map -> {
+            if(map.get("version").equals(0)) {
+                String uuid = UuidOpt.getUuidAsString22();
+                flowDefineMap.put((String) map.get("flowCode"), uuid);
+                map.put("flowCode", uuid);
+            }else{
+                flowDefineMap.keySet().stream().filter(key -> key.equals(map.get("flowCode")))
+                    .findFirst().ifPresent(key -> map.put("flowCode", flowDefineMap.get(key)));
+            }
+            wfOptInfoMap.keySet().stream().filter(key -> key.equals(map.get("optId")))
+                .findFirst().ifPresent(key -> map.put("optId", wfOptInfoMap.get(key)));
+            map.put("osId", applicationId);
+        });
+        return this;
+    }
 
+    private JsonAppVo updateWfNode() {
+        if (mapJsonObject.get(TableName.WF_NODE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_NODE.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            wfNodeMap.put((String) map.get("nodeId"), uuid);
+            map.put("nodeId", uuid);
+            map.put("osId", applicationId);
+            flowDefineMap.keySet().stream().filter(key -> key.equals(map.get("flowCode")))
+                .findFirst().ifPresent(key -> map.put("flowCode", flowDefineMap.get(key)));
+            wfOptPageMap.keySet().stream().filter(key -> key.equals(map.get("optCode")))
+                .findFirst().ifPresent(key -> map.put("optCode", wfOptPageMap.get(key)));
+        });
+        return this;
+    }
+    private JsonAppVo updateWfTransition() {
+        if (mapJsonObject.get(TableName.WF_TRANSITION.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_TRANSITION.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            wfNodeMap.put((String) map.get("nodeId"), uuid);
+            map.put("transId", uuid);
+            flowDefineMap.keySet().stream().filter(key -> key.equals(map.get("flowCode")))
+                .findFirst().ifPresent(key -> map.put("flowCode", flowDefineMap.get(key)));
+            wfNodeMap.keySet().stream().filter(key -> key.equals(map.get("startNodeId")))
+                .findFirst().ifPresent(key -> map.put("startNodeId", wfNodeMap.get(key)));
+            wfNodeMap.keySet().stream().filter(key -> key.equals(map.get("endNodeId")))
+                .findFirst().ifPresent(key -> map.put("endNodeId", wfNodeMap.get(key)));
+        });
+        return this;
+    }
 
 }
 

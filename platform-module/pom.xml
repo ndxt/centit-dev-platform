@@ -75,6 +75,11 @@
             <artifactId>meta-form-module</artifactId>
             <version>${centit.metaform.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>centit-workflow-core</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
 
     </dependencies>
 </project>
