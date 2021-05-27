@@ -217,6 +217,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>centit-dde-workflow-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 	<profiles>
