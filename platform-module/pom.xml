@@ -27,10 +27,6 @@
             <artifactId>framework-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-module</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
