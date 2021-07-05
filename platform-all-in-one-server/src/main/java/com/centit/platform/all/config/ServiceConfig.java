@@ -111,7 +111,7 @@ public class ServiceConfig {
         EmailMessageSenderImpl messageManager = new EmailMessageSenderImpl();
         messageManager.setHostName("mail.centit.com");
         messageManager.setSmtpPort(25);
-        messageManager.setUserName("alertmail@centit.com");
+        messageManager.setUserName("alertmail2@centit.com");
         messageManager.setUserPassword(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==",""));
         messageManager.setServerEmail("no-reply@centit.com");
 
