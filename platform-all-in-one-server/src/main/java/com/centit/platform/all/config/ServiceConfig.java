@@ -113,7 +113,7 @@ public class ServiceConfig {
         messageManager.setSmtpPort(25);
         messageManager.setUserName("alertmail2@centit.com");
         messageManager.setUserPassword(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==",""));
-        messageManager.setServerEmail("no-reply@centit.com");
+        //messageManager.setServerEmail("no-reply@centit.com");
 
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //notificationCenter.initDummyMsgSenders();
