@@ -61,28 +61,28 @@ public class ServiceConfig {
         return new DataScopePowerManagerImpl();
     }
 
-//    @Bean
-//    public FileClientImpl fileClient() {
-//        FileClientImpl fileClient = new FileClientImpl();
-//        fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
-//        return fileClient;
-//    }
-//
-//    @Bean
-//    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient) {
-//        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
-//        fileStoreBean.setFileClient(fileClient);
-//        return fileStoreBean;
-//    }
+    @Bean
+    public FileClientImpl fileClient() {
+        FileClientImpl fileClient = new FileClientImpl();
+        fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
+        return fileClient;
+    }
 
     @Bean
-    public FileStore fileStore(){
-        String baseHome = env.getProperty("os.file.base.dir");
-        if(StringUtils.isBlank(baseHome)) {
-            baseHome = appHome + "/upload";
-        }
-        return new OsFileStore(baseHome);
+    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient) {
+        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
+        fileStoreBean.setFileClient(fileClient);
+        return fileStoreBean;
     }
+
+//    @Bean
+//    public FileStore fileStore(){
+//        String baseHome = env.getProperty("os.file.base.dir");
+//        if(StringUtils.isBlank(baseHome)) {
+//            baseHome = appHome + "/upload";
+//        }
+//        return new OsFileStore(baseHome);
+//    }
 //    @Bean
 //    @Lazy(value = false)
 //    public IntegrationEnvironment integrationEnvironment() {
