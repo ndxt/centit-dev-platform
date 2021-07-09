@@ -101,7 +101,7 @@
         </dependency>
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>framework-session-jdbc</artifactId>
+            <artifactId>framework-session-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
