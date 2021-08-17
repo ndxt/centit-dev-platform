@@ -118,7 +118,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return jsonArray;
     }
 
-    private JSONObject getFileContent(File zipFile) throws FileNotFoundException {
+    private JSONObject getFileContent(File zipFile) throws Exception {
         JSONObject jsonObject = new JSONObject();
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         ZipCompressor.release(zipFile, filePath);
@@ -134,7 +134,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     @Override
-    public JSONObject uploadModel(File zipFile) throws FileNotFoundException {
+    public JSONObject uploadModel(File zipFile) throws Exception {
         return getFileContent(zipFile);
     }
     @Override
