@@ -12,12 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Autowired
     private ApplicationInfoDao applicationInfoDao;
     @Override
-    @Transactional(propagation= Propagation.REQUIRED)
     public void createApplicationInfo(ApplicationInfo applicationInfo){
         applicationInfoDao.saveNewObject(applicationInfo);
         applicationInfoDao.saveObjectReferences(applicationInfo);
@@ -32,7 +31,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
        return applicationInfoDao.getObjectWithReferences(applicationId);
     }
     @Override
-    @Transactional(propagation=Propagation.REQUIRED)
     public void deleteApplicationInfo(String applicationId){
         ApplicationInfo applicationInfo=applicationInfoDao.getObjectById(applicationId);
         applicationInfo.setIsDelete(true);
@@ -40,7 +38,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    @Transactional(propagation=Propagation.REQUIRED)
     public void updateApplicationInfo(ApplicationInfo applicationInfo){
         applicationInfoDao.updateObject(applicationInfo);
         applicationInfoDao.saveObjectReferences(applicationInfo);
