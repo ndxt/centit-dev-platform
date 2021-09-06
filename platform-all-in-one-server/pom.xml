@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.product</groupId>
-        <version>5.1-SNAPSHOT</version>
+        <version>5.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,27 +24,24 @@
             </plugin>
         </plugins>
 
-        <resources>
-           <resource>
-               <directory>src/main/resources</directory>
-               <excludes>
-                   <exclude>test/*</exclude>
-                   <exclude>prod/*</exclude>
-                   <exclude>system.properties</exclude>
-                   <exclude>demo/*</exclude>
-               </excludes>
-           </resource>
-           <resource>
-               <directory>src/main/resources/${profiles.active}</directory>
-           </resource>
-       </resources>
+<!--        <resources>-->
+<!--           <resource>-->
+<!--               <directory>src/main/resources</directory>-->
+<!--               <excludes>-->
+<!--                   <exclude>test/*</exclude>-->
+<!--                   <exclude>prod/*</exclude>-->
+<!--                   <exclude>system.properties</exclude>-->
+<!--                   <exclude>demo/*</exclude>-->
+<!--               </excludes>-->
+<!--           </resource>-->
+<!--           <resource>-->
+<!--               <directory>src/main/resources/${profiles.active}</directory>-->
+<!--           </resource>-->
+<!--       </resources>-->
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-static</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>com.centit.framework</groupId>
@@ -220,7 +217,7 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-workflow-plugin</artifactId>
-            <version>${project.version}</version>
+            <version>${workflow.version}</version>
         </dependency>
     </dependencies>
 
