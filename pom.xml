@@ -22,13 +22,10 @@
     <description>南大先腾云研发平台</description>
 
     <properties>
-        <jaxen.version>1.1.6</jaxen.version>
-        <workflow.version>5.1-SNAPSHOT</workflow.version>
+        <workflow.version>5.2-SNAPSHOT</workflow.version>
         <metadata.commons.version>5.2-SNAPSHOT</metadata.commons.version>
-        <centit.search.version>5.1-SNAPSHOT</centit.search.version>
-        <mongodb.version>3.11.2</mongodb.version>
         <centit.fileserver.version>5.1-SNAPSHOT</centit.fileserver.version>
-        <centit.dde.version>5.1-SNAPSHOT</centit.dde.version>
+        <centit.dde.version>5.2-SNAPSHOT</centit.dde.version>
         <centit.metaform.version>5.2-SNAPSHOT</centit.metaform.version>
     </properties>
     <build>
