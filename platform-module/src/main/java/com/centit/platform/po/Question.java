@@ -24,6 +24,7 @@ public class Question implements Serializable {
 
     @Id
     @Column(name = "question_id")
+    @ApiModelProperty(value = "id",hidden = true)
     @NotBlank(message = "字段不能为空")
     @ValueGenerator(strategy = GeneratorType.UUID)
     private  String questionId;
@@ -58,7 +59,7 @@ public class Question implements Serializable {
     @Length(max = 1, message = "字段长度不能大于{max}")
     private  String state;
 
-    @ApiModelProperty(value = "检查时间")
+    @ApiModelProperty(value = "检查时间",hidden = true)
     @Column(name = "check_time")
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
     private Date checkTime;

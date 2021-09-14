@@ -22,6 +22,7 @@ public class HistoryVersion implements Serializable {
 
     @Id
     @Column(name = "hitstory_id")
+    @ApiModelProperty(value = "id",hidden = true)
     @NotBlank(message = "字段不能为空")
     @ValueGenerator(strategy = GeneratorType.UUID)
     private  String hitstoryId;
@@ -51,7 +52,7 @@ public class HistoryVersion implements Serializable {
     @Length(max = 500, message = "字段长度不能大于{max}")
     private  String  memo;
 
-    @ApiModelProperty(value = "提交时间", name = "push_time")
+    @ApiModelProperty(value = "提交时间", name = "push_time",hidden = true)
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
     @Column(name = "push_time")
     private Date pushTime;
