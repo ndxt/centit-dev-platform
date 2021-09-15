@@ -77,5 +77,11 @@
             <version>${workflow.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>work-group-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 </project>
