@@ -1,12 +1,16 @@
 package com.centit.platform.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.WebOptUtils;
+import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.platform.po.ApplicationInfo;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.network.HtmlFormUtils;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,52 +33,46 @@ import java.util.Map;
 public class ApplicationInfoController extends BaseController {
     @Autowired
     private ApplicationInfoManager applicationInfoManager;
+    @Autowired
+    private PlatformEnvironment platformEnvironment;
 
     @ApiOperation(value = "新增应用")
     @PostMapping
     @WrapUpResponseBody
-    public void createApplicationInfo(ApplicationInfo applicationInfo, HttpServletResponse response) {
-        applicationInfo.setPageFlow(HtmlFormUtils.htmlString(applicationInfo.getPageFlow()));
-        applicationInfoManager.createApplicationInfo(applicationInfo);
-        JsonResultUtils.writeSingleDataJson(applicationInfo.getApplicationId(), response);
+    public IOsInfo createApplicationInfo(@RequestBody JSONObject osInfo) {
+        return platformEnvironment.addOsInfo(osInfo);
     }
 
     @ApiOperation(value = "修改应用")
     @ApiImplicitParam(name = "applicationId", value = "应用ID")
-    @PutMapping(value = "/{applicationId}")
+    @PutMapping
     @WrapUpResponseBody
-    public void updateApplicationInfo(@PathVariable String applicationId, @RequestBody ApplicationInfo applicationInfo) {
-        applicationInfo.setApplicationId(applicationId);
-        applicationInfo.setPageFlow(HtmlFormUtils.htmlString(applicationInfo.getPageFlow()));
-        applicationInfoManager.updateApplicationInfo(applicationInfo);
+    public IOsInfo updateApplicationInfo(@RequestBody JSONObject osInfo) {
+        return platformEnvironment.updateOsInfo(osInfo);
     }
 
     @ApiOperation(value = "删除应用模块")
     @ApiImplicitParam(name = "applicationId", value = "图表ID")
     @DeleteMapping(value = "/{applicationId}")
     @WrapUpResponseBody
-    public void deleteApplicationInfo(@PathVariable String applicationId) {
-        applicationInfoManager.deleteApplicationInfo(applicationId);
+    public IOsInfo deleteApplicationInfo(@PathVariable String applicationId) {
+        return platformEnvironment.deleteOsInfo(applicationId);
     }
 
     @ApiOperation(value = "查询应用模块")
     @GetMapping
     @WrapUpResponseBody
-    public PageQueryResult<ApplicationInfo> listApplicationInfo(HttpServletRequest request, PageDesc pageDesc) {
-        Map<String, Object> searchColumn = collectRequestParameters(request);
-        String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        if (!StringBaseOpt.isNvl(topUnit)) {
-            searchColumn.put("ownerUnit", topUnit);
-        }
-        List<ApplicationInfo> list = applicationInfoManager.listApplicationInfo(searchColumn, pageDesc);
-        return PageQueryResult.createResult(list, pageDesc);
+    public List<? extends IOsInfo> listApplicationInfo(String topUnit) {
+        List<? extends IOsInfo> osInfos= platformEnvironment.listOsInfos(topUnit);
+        osInfos.removeIf(osInfo-> BooleanBaseOpt.castObjectToBoolean(osInfo.getIsDelete(),true));
+        osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate,Comparator.nullsFirst(Date::compareTo)).reversed());
+        return osInfos;
     }
 
     @ApiOperation(value = "查询单个应用模块")
     @GetMapping(value = "/{applicationId}")
     @WrapUpResponseBody
-    public ApplicationInfo getApplicationInfo(@PathVariable String applicationId) {
-        ApplicationInfo applicationInfo = applicationInfoManager.getApplicationInfo(applicationId);
-        return applicationInfo;
+    public IOsInfo getApplicationInfo(@PathVariable String applicationId) {
+        return platformEnvironment.getOsInfo(applicationId);
     }
 }

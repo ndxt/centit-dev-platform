@@ -36,10 +36,6 @@
         </dependency>
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-static</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.centit.framework</groupId>
             <artifactId>framework-session-redis</artifactId>
         </dependency>
         <dependency>

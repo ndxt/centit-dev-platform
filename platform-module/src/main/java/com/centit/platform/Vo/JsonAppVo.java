@@ -13,7 +13,6 @@ import com.centit.product.metadata.po.MetaColumn;
 import com.centit.product.metadata.po.MetaRelation;
 import com.centit.product.metadata.po.MetaTable;
 import com.centit.product.metadata.po.SourceInfo;
-import com.centit.product.po.ApplicationTeamUser;
 import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
@@ -108,11 +107,11 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_INFO.name());
         if (!isCover) {
             object.addAll(convertMap(ApplicationInfo.class, list));
-            ApplicationTeamUser teamUser = new ApplicationTeamUser();
-            teamUser.setApplicationId((String) list.get(0).get("applicationId"));
-            teamUser.setTeamUser(userCode);
-            teamUser.setCreateUser(userCode);
-            object.add(teamUser);
+//            ApplicationTeamUser teamUser = new ApplicationTeamUser();
+//            teamUser.setApplicationId((String) list.get(0).get("applicationId"));
+//            teamUser.setTeamUser(userCode);
+//            teamUser.setCreateUser(userCode);
+//            object.add(teamUser);
         }
         return this;
     }
