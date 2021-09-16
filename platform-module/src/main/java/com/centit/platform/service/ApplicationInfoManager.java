@@ -1,19 +1,20 @@
 package com.centit.platform.service;
 
-import com.centit.platform.po.ApplicationInfo;
-import com.centit.support.database.utils.PageDesc;
-
+import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.model.basedata.IOsInfo;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * @author zhf
+ */
 public interface ApplicationInfoManager {
-    void createApplicationInfo(ApplicationInfo applicationInfo);
+    JSONObject createApplicationInfo(JSONObject osInfo);
 
-    List<ApplicationInfo> listApplicationInfo(Map<String, Object> param, PageDesc pageDesc);
+    List<? extends IOsInfo> listApplicationInfo(String topUnit);
 
-    ApplicationInfo getApplicationInfo(String applicationId);
+    JSONObject getApplicationInfo(String applicationId);
 
-    void deleteApplicationInfo(String applicationId);
+    IOsInfo deleteApplicationInfo(String applicationId);
 
-    void updateApplicationInfo(ApplicationInfo applicationInfo);
+    IOsInfo updateApplicationInfo(JSONObject osInfo);
 }

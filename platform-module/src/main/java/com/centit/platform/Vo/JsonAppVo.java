@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketParam;
+import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.metaform.po.MetaFormModel;
-import com.centit.platform.po.ApplicationInfo;
 import com.centit.platform.po.GroupInfo;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
@@ -106,7 +106,7 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_INFO.name());
         if (!isCover) {
-            object.addAll(convertMap(ApplicationInfo.class, list));
+            object.addAll(convertMap(IOsInfo.class, list));
 //            ApplicationTeamUser teamUser = new ApplicationTeamUser();
 //            teamUser.setApplicationId((String) list.get(0).get("applicationId"));
 //            teamUser.setTeamUser(userCode);
