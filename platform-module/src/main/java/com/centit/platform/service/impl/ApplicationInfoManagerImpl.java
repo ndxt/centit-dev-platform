@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -34,20 +35,24 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private final static String FILE_TYPE_ITEM = "I";
     private final static String OSINFO_CREATED_NAME = "created";
     private final static String OSINFO_TOPUNIT_NAME = "topUnit";
+    private final static String OPTINFO_INTOOLBAR_NO = "N";
+    private final static String OPTINFO_FORMCODE_ITEM = "I";
+    private final static String OPTINFO_FORMCODE_COMMON = "C";
+    private final static String OPTINFO_FORMCODE_PAGEENTER = "A";
     private IOsInfo iOsInfo;
     private JSONObject fileLibraryInfo;
-    private List<? extends IOptInfo> menuFunsByUser;
+    private List<IOptInfo> optInfos=new ArrayList<>();
 
 
     @Override
     public JSONObject createApplicationInfo(JSONObject osInfo) {
-        iOsInfo = createOsInfo(osInfo);
-        fileLibraryInfo = insertFileLibrary(iOsInfo);
-        //创建模块
+        createOsInfo(osInfo);
+        insertFileLibrary();
+        createOptInfos();
         return assemblyJsonObject();
     }
 
-    private IOsInfo createOsInfo(JSONObject osInfo) {
+    private void createOsInfo(JSONObject osInfo) {
         String loginUser = WebOptUtils.getCurrentUserCode(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         if (StringBaseOpt.isNvl(loginUser) && StringBaseOpt.isNvl(osInfo.getString(OSINFO_CREATED_NAME))) {
@@ -67,10 +72,10 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             osInfo.put(OSINFO_TOPUNIT_NAME, topUnit);
         }
         osInfo.put("osType", IOsInfo.OSTYPE_LOCODE);
-        return platformEnvironment.addOsInfo(osInfo);
+        iOsInfo = platformEnvironment.addOsInfo(osInfo);
     }
 
-    private JSONObject insertFileLibrary(IOsInfo iOsInfo) {
+    private void insertFileLibrary() {
         JSONObject result = new JSONObject();
         result.put("libraryId", iOsInfo.getOsId());
         result.put("libraryName", iOsInfo.getOsName());
@@ -82,14 +87,42 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         teamUser.put("accessUsercode", iOsInfo.getCreated());
         jsonArray.add(teamUser);
         result.put("fileLibraryAccesss", jsonArray);
-        return fileStore.insertFileLibrary(result);
+        fileLibraryInfo = fileStore.insertFileLibrary(result);
+    }
+
+    private void createOptInfos(){
+        JSONObject result = createParentMenu();
+        result.put("optName","通用业务");
+        result.put("formCode",OPTINFO_FORMCODE_COMMON);
+        creatSubMenu(result);
+        result.put("optName","应用入口页面");
+        result.put("formCode",OPTINFO_FORMCODE_PAGEENTER);
+        creatSubMenu(result);
+    }
+
+    private JSONObject createParentMenu() {
+        JSONObject result = new JSONObject();
+        result.put("optId", iOsInfo.getOsId());
+        result.put("optName", iOsInfo.getOsName());
+        result.put("isInToolbar",OPTINFO_INTOOLBAR_NO);
+        result.put("formCode",OPTINFO_FORMCODE_ITEM);
+        platformEnvironment.addOptInfo(result);
+        return result;
+    }
+
+    private void creatSubMenu(JSONObject result) {
+        result.remove("optId");
+        result.put("isInToolbar",OPTINFO_INTOOLBAR_NO);
+        result.put("preOptId",iOsInfo.getOsId());
+        IOptInfo optInfo=platformEnvironment.addOptInfo(result);
+        optInfos.add(optInfo);
     }
 
     private JSONObject assemblyJsonObject() {
         JSONObject result = new JSONObject();
         result.put("osInfo", iOsInfo);
         result.put("fileLibrary", fileLibraryInfo);
-        result.put("submenu", menuFunsByUser);
+        result.put("submenu", optInfos);
         return result;
     }
 
@@ -105,10 +138,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public JSONObject getApplicationInfo(String applicationId) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
         fileLibraryInfo = fileStore.getFileLibrary(applicationId);
-        String loginUser = WebOptUtils.getCurrentUserCode(
-            RequestThreadLocal.getLocalThreadWrapperRequest());
-        menuFunsByUser = platformEnvironment
-            .listUserMenuOptInfosUnderSuperOptId(loginUser, applicationId, false);
+        optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
         return assemblyJsonObject();
     }
 

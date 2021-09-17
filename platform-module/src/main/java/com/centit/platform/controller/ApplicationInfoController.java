@@ -51,7 +51,7 @@ public class ApplicationInfoController extends BaseController {
     }
 
     @ApiOperation(value = "查询应用模块")
-    @GetMapping(value = "/{topUnit}")
+    @GetMapping(value = "/list/{topUnit}")
     @WrapUpResponseBody
     public List<? extends IOsInfo> listApplicationInfo(@PathVariable String topUnit) {
         return applicationInfoManager.listApplicationInfo(topUnit);
