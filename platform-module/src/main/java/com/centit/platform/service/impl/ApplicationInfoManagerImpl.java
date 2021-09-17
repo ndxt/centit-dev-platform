@@ -92,6 +92,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     private void createOptInfos(){
         JSONObject result = createParentMenu();
+        optInfos.clear();
         result.put("optName","通用业务");
         result.put("formCode",OPTINFO_FORMCODE_COMMON);
         creatSubMenu(result);
@@ -106,6 +107,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         result.put("optName", iOsInfo.getOsName());
         result.put("isInToolbar",OPTINFO_INTOOLBAR_NO);
         result.put("formCode",OPTINFO_FORMCODE_ITEM);
+        result.put("optUrl","");
         platformEnvironment.addOptInfo(result);
         return result;
     }
