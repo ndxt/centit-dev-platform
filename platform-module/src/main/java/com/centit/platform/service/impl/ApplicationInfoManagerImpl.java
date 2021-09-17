@@ -39,20 +39,72 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private final static String OPTINFO_FORMCODE_ITEM = "I";
     private final static String OPTINFO_FORMCODE_COMMON = "C";
     private final static String OPTINFO_FORMCODE_PAGEENTER = "A";
+    private final static String WORKGROUP_ROLECODE_LEADER = "组长";
     private IOsInfo iOsInfo;
     private JSONObject fileLibraryInfo;
-    private List<IOptInfo> optInfos=new ArrayList<>();
+    private List<IOptInfo> optInfos = new ArrayList<>();
 
 
     @Override
     public JSONObject createApplicationInfo(JSONObject osInfo) {
         createOsInfo(osInfo);
-        insertFileLibrary();
+        createFileLibrary();
         createOptInfos();
-        return assemblyJsonObject();
+        return assemblyApplicationInfo();
+    }
+
+    @Override
+    public List<? extends IOsInfo> listApplicationInfo(String topUnit) {
+        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.getIsDelete(), true));
+        osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
+        return osInfos;
+    }
+
+    @Override
+    public JSONObject getApplicationInfo(String applicationId) {
+        iOsInfo = platformEnvironment.getOsInfo(applicationId);
+        fileLibraryInfo = fileStore.getFileLibrary(applicationId);
+        optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
+        return assemblyApplicationInfo();
+    }
+
+    @Override
+    public IOsInfo deleteApplicationInfo(String applicationId) {
+        return platformEnvironment.deleteOsInfo(applicationId);
+    }
+
+    @Override
+    public IOsInfo updateApplicationInfo(JSONObject osInfo) {
+        return platformEnvironment.updateOsInfo(osInfo);
     }
 
     private void createOsInfo(JSONObject osInfo) {
+        JSONObject result = assemblyOsInfo(osInfo);
+        iOsInfo = platformEnvironment.addOsInfo(result);
+    }
+
+    private void createFileLibrary() {
+        JSONObject fileLibrary = assemblyFileLibraryInfo();
+        fileLibraryInfo = fileStore.insertFileLibrary(fileLibrary);
+    }
+
+    private void createOptInfos() {
+        optInfos.clear();
+        createParentMenu();
+        creatSubMenuAndAddOptList(OPTINFO_FORMCODE_COMMON);
+        creatSubMenuAndAddOptList(OPTINFO_FORMCODE_PAGEENTER);
+    }
+
+    private JSONObject assemblyApplicationInfo() {
+        JSONObject result = new JSONObject();
+        result.put("osInfo", iOsInfo);
+        result.put("fileLibrary", fileLibraryInfo);
+        result.put("submenu", optInfos);
+        return result;
+    }
+
+    private JSONObject assemblyOsInfo(JSONObject osInfo) {
         String loginUser = WebOptUtils.getCurrentUserCode(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         if (StringBaseOpt.isNvl(loginUser) && StringBaseOpt.isNvl(osInfo.getString(OSINFO_CREATED_NAME))) {
@@ -72,85 +124,66 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             osInfo.put(OSINFO_TOPUNIT_NAME, topUnit);
         }
         osInfo.put("osType", IOsInfo.OSTYPE_LOCODE);
-        iOsInfo = platformEnvironment.addOsInfo(osInfo);
+        return osInfo;
     }
 
-    private void insertFileLibrary() {
-        JSONObject result = new JSONObject();
-        result.put("libraryId", iOsInfo.getOsId());
-        result.put("libraryName", iOsInfo.getOsName());
-        result.put("libraryType", FILE_TYPE_ITEM);
-        result.put("createUser", iOsInfo.getCreated());
-        JSONArray jsonArray = new JSONArray();
+    private JSONObject assemblyFileLibraryInfo() {
+        JSONObject fileLibrary = new JSONObject();
+        fileLibrary.put("libraryId", iOsInfo.getOsId());
+        fileLibrary.put("libraryName", iOsInfo.getOsName());
+        fileLibrary.put("libraryType", FILE_TYPE_ITEM);
+        fileLibrary.put("createUser", iOsInfo.getCreated());
+        JSONArray teamUsers = new JSONArray();
         JSONObject teamUser = new JSONObject();
-        teamUser.put("libraryId", iOsInfo.getOsId());
-        teamUser.put("accessUsercode", iOsInfo.getCreated());
-        jsonArray.add(teamUser);
-        result.put("fileLibraryAccesss", jsonArray);
-        fileLibraryInfo = fileStore.insertFileLibrary(result);
+        JSONObject teamUserPrimary = new JSONObject();
+        teamUserPrimary.put("groupId", iOsInfo.getOsId());
+        teamUserPrimary.put("userCode", iOsInfo.getCreated());
+        teamUserPrimary.put("roleCode", WORKGROUP_ROLECODE_LEADER);
+        teamUser.put("workGroupParameter", teamUserPrimary);
+        teamUser.put("creator", iOsInfo.getCreated());
+        teamUsers.add(teamUser);
+        fileLibrary.put("workGroups", teamUsers);
+        return fileLibrary;
     }
 
-    private void createOptInfos(){
-        JSONObject result = createParentMenu();
-        optInfos.clear();
-        result.put("optName","通用业务");
-        result.put("formCode",OPTINFO_FORMCODE_COMMON);
-        creatSubMenu(result);
-        result.put("optName","应用入口页面");
-        result.put("formCode",OPTINFO_FORMCODE_PAGEENTER);
-        creatSubMenu(result);
-    }
-
-    private JSONObject createParentMenu() {
-        JSONObject result = new JSONObject();
-        result.put("optId", iOsInfo.getOsId());
-        result.put("optName", iOsInfo.getOsName());
-        result.put("isInToolbar",OPTINFO_INTOOLBAR_NO);
-        result.put("formCode",OPTINFO_FORMCODE_ITEM);
-        result.put("optUrl","");
+    private void createParentMenu() {
+        JSONObject result = assemblyParentMenuInfo();
         platformEnvironment.addOptInfo(result);
-        return result;
     }
 
-    private void creatSubMenu(JSONObject result) {
-        result.remove("optId");
-        result.put("isInToolbar",OPTINFO_INTOOLBAR_NO);
-        result.put("preOptId",iOsInfo.getOsId());
-        IOptInfo optInfo=platformEnvironment.addOptInfo(result);
+    private void creatSubMenuAndAddOptList(String type) {
+        JSONObject result = assemblySubMenuInfo(type);
+        IOptInfo optInfo = platformEnvironment.addOptInfo(result);
         optInfos.add(optInfo);
     }
 
-    private JSONObject assemblyJsonObject() {
+    private JSONObject assemblyParentMenuInfo() {
         JSONObject result = new JSONObject();
-        result.put("osInfo", iOsInfo);
-        result.put("fileLibrary", fileLibraryInfo);
-        result.put("submenu", optInfos);
+        result.put("optId", iOsInfo.getOsId());
+        result.put("optName", iOsInfo.getOsName());
+        result.put("isInToolbar", OPTINFO_INTOOLBAR_NO);
+        result.put("formCode", OPTINFO_FORMCODE_ITEM);
+        result.put("optUrl", "");
         return result;
     }
 
-    @Override
-    public List<? extends IOsInfo> listApplicationInfo(String topUnit) {
-        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
-        osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.getIsDelete(), true));
-        osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
-        return osInfos;
+    private JSONObject assemblySubMenuInfo(String type) {
+        JSONObject result = new JSONObject();
+        result.put("isInToolbar", OPTINFO_INTOOLBAR_NO);
+        result.put("preOptId", iOsInfo.getOsId());
+        result.put("optUrl", "");
+        switch (type) {
+            case OPTINFO_FORMCODE_COMMON:
+                result.put("optName", "通用业务");
+                result.put("formCode", OPTINFO_FORMCODE_COMMON);
+                break;
+            case OPTINFO_FORMCODE_PAGEENTER:
+                result.put("optName", "应用入口页面");
+                result.put("formCode", OPTINFO_FORMCODE_PAGEENTER);
+                break;
+            default:
+        }
+        return result;
     }
 
-    @Override
-    public JSONObject getApplicationInfo(String applicationId) {
-        iOsInfo = platformEnvironment.getOsInfo(applicationId);
-        fileLibraryInfo = fileStore.getFileLibrary(applicationId);
-        optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
-        return assemblyJsonObject();
-    }
-
-    @Override
-    public IOsInfo deleteApplicationInfo(String applicationId) {
-        return platformEnvironment.deleteOsInfo(applicationId);
-    }
-
-    @Override
-    public IOsInfo updateApplicationInfo(JSONObject osInfo) {
-        return platformEnvironment.updateOsInfo(osInfo);
-    }
 }
