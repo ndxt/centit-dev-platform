@@ -31,14 +31,14 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "新增应用")
     @PostMapping
     @WrapUpResponseBody
-    public JSONObject createApplicationInfo(@RequestBody JSONObject osInfo) {
+    public JSONObject createApplicationInfo(@RequestBody IOsInfo osInfo) {
         return applicationInfoManager.createApplicationInfo(osInfo);
     }
 
     @ApiOperation(value = "修改应用")
     @PutMapping
     @WrapUpResponseBody
-    public IOsInfo updateApplicationInfo(@RequestBody JSONObject osInfo) {
+    public IOsInfo updateApplicationInfo(@RequestBody IOsInfo osInfo) {
         return applicationInfoManager.updateApplicationInfo(osInfo);
     }
 

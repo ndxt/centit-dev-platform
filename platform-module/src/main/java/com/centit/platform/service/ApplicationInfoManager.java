@@ -8,7 +8,7 @@ import java.util.List;
  * @author zhf
  */
 public interface ApplicationInfoManager {
-    JSONObject createApplicationInfo(JSONObject osInfo);
+    JSONObject createApplicationInfo(IOsInfo osInfo);
 
     List<? extends IOsInfo> listApplicationInfo(String topUnit);
 
@@ -16,5 +16,5 @@ public interface ApplicationInfoManager {
 
     IOsInfo deleteApplicationInfo(String applicationId);
 
-    IOsInfo updateApplicationInfo(JSONObject osInfo);
+    IOsInfo updateApplicationInfo(IOsInfo osInfo);
 }
