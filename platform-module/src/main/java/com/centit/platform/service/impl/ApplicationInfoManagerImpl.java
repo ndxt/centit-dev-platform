@@ -47,9 +47,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     @Override
     public JSONObject createApplicationInfo(JSONObject osInfo) {
-        createOsInfo(osInfo);
-        createFileLibrary();
-        createOptInfos();
+        createOsInfoAndOther(osInfo);
         return assemblyApplicationInfo();
     }
 
@@ -65,8 +63,31 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public JSONObject getApplicationInfo(String applicationId) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
         fileLibraryInfo = fileStore.getFileLibrary(applicationId);
+        if (notHaveAuth()) {
+            throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
+        }
         optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
         return assemblyApplicationInfo();
+    }
+
+    private boolean notHaveAuth() {
+        String loginUser = WebOptUtils.getCurrentUserCode(
+            RequestThreadLocal.getLocalThreadWrapperRequest());
+        if (StringBaseOpt.isNvl(loginUser)) {
+            loginUser = WebOptUtils.getRequestFirstOneParameter(
+                RequestThreadLocal.getLocalThreadWrapperRequest(), "userCode");
+        }
+        if(StringBaseOpt.isNvl(loginUser)){
+            return true;
+        }
+        JSONArray workGroups = fileLibraryInfo.getJSONArray("workGroups");
+        for (int i = 0; i < workGroups.size(); i++) {
+            JSONObject user = workGroups.getJSONObject(i).getJSONObject("workGroupParameter");
+            if (user.getString("userCode").equals(loginUser)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -79,9 +100,11 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return platformEnvironment.updateOsInfo(osInfo);
     }
 
-    private void createOsInfo(JSONObject osInfo) {
+    private void createOsInfoAndOther(JSONObject osInfo) {
         JSONObject result = assemblyOsInfo(osInfo);
         iOsInfo = platformEnvironment.addOsInfo(result);
+        createFileLibrary();
+        createOptInfos();
     }
 
     private void createFileLibrary() {
