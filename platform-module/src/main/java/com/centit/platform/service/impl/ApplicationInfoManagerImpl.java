@@ -1,7 +1,8 @@
 package com.centit.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.centit.fileserver.common.IFileLibrary;
+import com.centit.fileserver.common.FileLibrary;
 import com.centit.fileserver.common.OperateFileLibrary;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
@@ -42,12 +43,13 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private WorkGroupManager workGroupManager;
     private final static String FILE_TYPE_ITEM = "I";
     private final static String OPTINFO_INTOOLBAR_NO = "N";
+    private final static String OPTINFO_OPTTYPE_COMMON = "O";
     private final static String OPTINFO_FORMCODE_ITEM = "I";
     private final static String OPTINFO_FORMCODE_COMMON = "C";
     private final static String OPTINFO_FORMCODE_PAGEENTER = "A";
     private final static String WORKGROUP_ROLECODE_LEADER = "组长";
     private IOsInfo iOsInfo;
-    private IFileLibrary fileLibrary;
+    private FileLibrary fileLibrary;
     private List<IOptInfo> optInfos = new ArrayList<>();
     private List<WorkGroup> workGroup = new ArrayList<>();
 
@@ -60,7 +62,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Override
     public List<? extends IOsInfo> listApplicationInfo(String topUnit) {
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
-        osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.getIsDelete(), true));
+        osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
         osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
         return osInfos;
     }
@@ -111,6 +113,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         createWorkGroup();
         createFileLibrary();
         createOptInfos();
+        updateOsInfo();
     }
 
     private void createWorkGroup() {
@@ -120,8 +123,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private void createFileLibrary() {
-        fileLibrary = assemblyFileLibraryInfo();
-        fileStore.insertFileLibrary(fileLibrary);
+        FileLibrary assemblyLibrary = assemblyFileLibraryInfo();
+        fileLibrary = fileStore.insertFileLibrary(assemblyLibrary);
     }
 
     private void createOptInfos() {
@@ -129,6 +132,11 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         createParentMenu();
         creatSubMenuAndAddOptList(OPTINFO_FORMCODE_COMMON);
         creatSubMenuAndAddOptList(OPTINFO_FORMCODE_PAGEENTER);
+    }
+
+    private void updateOsInfo() {
+        iOsInfo.setRelOptId(iOsInfo.getOsId());
+        platformEnvironment.updateOsInfo(iOsInfo);
     }
 
     private JSONObject assemblyApplicationInfo() {
@@ -161,6 +169,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         }
         osInfo.setOsType(IOsInfo.OSTYPE_LOCODE);
         osInfo.setOsId(null);
+        osInfo.setDeleted(false);
         return osInfo;
     }
 
@@ -175,8 +184,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return workGroup;
     }
 
-    private IFileLibrary assemblyFileLibraryInfo() {
-        IFileLibrary fileLibrary = fileStore.getInstance();
+    private FileLibrary assemblyFileLibraryInfo() {
+        FileLibrary fileLibrary = new FileLibrary();
         fileLibrary.setLibraryId(iOsInfo.getOsId());
         fileLibrary.setLibraryName(iOsInfo.getOsName());
         fileLibrary.setLibraryType(FILE_TYPE_ITEM);
@@ -202,6 +211,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         result.put("isInToolbar", OPTINFO_INTOOLBAR_NO);
         result.put("formCode", OPTINFO_FORMCODE_ITEM);
         result.put("optUrl", "");
+        result.put("optType", OPTINFO_OPTTYPE_COMMON);
         return result;
     }
 
