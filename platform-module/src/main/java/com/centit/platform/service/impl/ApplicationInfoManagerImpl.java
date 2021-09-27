@@ -1,6 +1,5 @@
 package com.centit.platform.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.fileserver.common.FileLibrary;
 import com.centit.fileserver.common.OperateFileLibrary;
@@ -36,7 +35,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Autowired
     private PlatformEnvironment platformEnvironment;
     @Autowired
-    private OperateFileLibrary fileStore;
+    private OperateFileLibrary operateFileLibrary;
     @Autowired
     private WorkGroupDao workGroupDao;
     @Autowired
@@ -70,7 +69,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Override
     public JSONObject getApplicationInfo(String applicationId) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
-        fileLibrary = fileStore.getFileLibrary(applicationId);
+        fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         workGroup = workGroupDao.listObjectsByProperty("groupId", applicationId);
         if (notHaveAuth()) {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
@@ -124,7 +123,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     private void createFileLibrary() {
         FileLibrary assemblyLibrary = assemblyFileLibraryInfo();
-        fileLibrary = fileStore.insertFileLibrary(assemblyLibrary);
+        fileLibrary = operateFileLibrary.insertFileLibrary(assemblyLibrary);
     }
 
     private void createOptInfos() {

@@ -71,9 +71,9 @@
             <version>${centit.fileserver.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-dubbo-config</artifactId>
-            <version>5.2-SNAPSHOT</version>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-dubbo-client-config</artifactId>
+            <version>${centit.fileserver.version}</version>
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>

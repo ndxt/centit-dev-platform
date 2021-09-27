@@ -3,6 +3,8 @@ package com.centit.platform.config;
 
 import com.centit.fileserver.client.ClientAsFileStore;
 import com.centit.fileserver.client.FileClientImpl;
+import com.centit.fileserver.common.FileStore;
+import com.centit.fileserver.utils.OsFileStore;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityDaoConfig;
@@ -73,19 +75,23 @@ public class ServiceConfig {
         return operationLog;
     }
 
-    @Bean
-    public FileClientImpl fileClient() {
-        FileClientImpl fileClient = new FileClientImpl();
-        fileClient.init(fileserver,fileserver,"u0000000", "000000",fileserver);
-        return fileClient;
-    }
-    @Bean
-    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient){
-        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
-        fileStoreBean.setFileClient(fileClient);
-        return fileStoreBean;
-    }
-
+//    @Bean
+//    public FileClientImpl fileClient() {
+//        FileClientImpl fileClient = new FileClientImpl();
+//        fileClient.init(fileserver,fileserver,"u0000000", "000000",fileserver);
+//        return fileClient;
+//    }
+//    @Bean
+//    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient){
+//        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
+//        fileStoreBean.setFileClient(fileClient);
+//        return fileStoreBean;
+//    }
+//    @Bean
+//    public FileStore fileStore(){
+//        String baseHome = appHome + "/upload";
+//        return new OsFileStore(baseHome);
+//    }
 
 
 }
