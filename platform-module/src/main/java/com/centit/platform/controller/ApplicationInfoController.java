@@ -6,6 +6,7 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.basedata.IOsInfo;
+import com.centit.framework.system.po.OsInfo;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
@@ -31,14 +32,14 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "新增应用")
     @PostMapping
     @WrapUpResponseBody
-    public JSONObject createApplicationInfo(@RequestBody IOsInfo osInfo) {
+    public JSONObject createApplicationInfo(@RequestBody OsInfo osInfo) {
         return applicationInfoManager.createApplicationInfo(osInfo);
     }
 
     @ApiOperation(value = "修改应用")
     @PutMapping
     @WrapUpResponseBody
-    public IOsInfo updateApplicationInfo(@RequestBody IOsInfo osInfo) {
+    public IOsInfo updateApplicationInfo(@RequestBody OsInfo osInfo) {
         return applicationInfoManager.updateApplicationInfo(osInfo);
     }
 

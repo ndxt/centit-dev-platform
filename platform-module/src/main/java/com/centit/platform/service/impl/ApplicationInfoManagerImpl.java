@@ -9,6 +9,8 @@ import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptInfo;
 import com.centit.framework.model.basedata.IOsInfo;
+import com.centit.framework.system.po.OptInfo;
+import com.centit.framework.system.po.OsInfo;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.product.dao.WorkGroupDao;
 import com.centit.product.po.WorkGroup;
@@ -34,7 +36,7 @@ import java.util.List;
 public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Autowired
     private PlatformEnvironment platformEnvironment;
-    @Autowired
+    @Autowired(required = false)
     private OperateFileLibrary operateFileLibrary;
     @Autowired
     private WorkGroupDao workGroupDao;
@@ -53,7 +55,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private List<WorkGroup> workGroup = new ArrayList<>();
 
     @Override
-    public JSONObject createApplicationInfo(IOsInfo osInfo) {
+    public JSONObject createApplicationInfo(OsInfo osInfo) {
         createOsInfoAndOther(osInfo);
         return assemblyApplicationInfo();
     }
@@ -102,12 +104,12 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public IOsInfo updateApplicationInfo(IOsInfo osInfo) {
+    public IOsInfo updateApplicationInfo(OsInfo osInfo) {
         return platformEnvironment.updateOsInfo(osInfo);
     }
 
-    private void createOsInfoAndOther(IOsInfo osInfo) {
-        IOsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
+    private void createOsInfoAndOther(OsInfo osInfo) {
+        OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
         iOsInfo = platformEnvironment.addOsInfo(assemblyOsInfo);
         createWorkGroup();
         createFileLibrary();
@@ -147,7 +149,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return result;
     }
 
-    private IOsInfo assemblyOsInfo(IOsInfo osInfo) {
+    private OsInfo assemblyOsInfo(OsInfo osInfo) {
         String loginUser = WebOptUtils.getCurrentUserCode(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         if (StringBaseOpt.isNvl(loginUser) && StringBaseOpt.isNvl(osInfo.getCreated())) {
@@ -193,40 +195,40 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private void createParentMenu() {
-        JSONObject result = assemblyParentMenuInfo();
+        OptInfo result = assemblyParentMenuInfo();
         platformEnvironment.addOptInfo(result);
     }
 
     private void creatSubMenuAndAddOptList(String type) {
-        JSONObject result = assemblySubMenuInfo(type);
+        OptInfo result = assemblySubMenuInfo(type);
         IOptInfo optInfo = platformEnvironment.addOptInfo(result);
         optInfos.add(optInfo);
     }
 
-    private JSONObject assemblyParentMenuInfo() {
-        JSONObject result = new JSONObject();
-        result.put("optId", iOsInfo.getOsId());
-        result.put("optName", iOsInfo.getOsName());
-        result.put("isInToolbar", OPTINFO_INTOOLBAR_NO);
-        result.put("formCode", OPTINFO_FORMCODE_ITEM);
-        result.put("optUrl", "");
-        result.put("optType", OPTINFO_OPTTYPE_COMMON);
+    private OptInfo assemblyParentMenuInfo() {
+        OptInfo result = new OptInfo();
+        result.setOptId(iOsInfo.getOsId());
+        result.setOptName(iOsInfo.getOsName());
+        result.setIsInToolbar(OPTINFO_INTOOLBAR_NO);
+        result.setFormCode(OPTINFO_FORMCODE_ITEM);
+        result.setOptUrl("");
+        result.setOptType(OPTINFO_OPTTYPE_COMMON);
         return result;
     }
 
-    private JSONObject assemblySubMenuInfo(String type) {
-        JSONObject result = new JSONObject();
-        result.put("isInToolbar", OPTINFO_INTOOLBAR_NO);
-        result.put("preOptId", iOsInfo.getOsId());
-        result.put("optUrl", "");
+    private OptInfo assemblySubMenuInfo(String type) {
+        OptInfo result = new OptInfo();
+        result.setIsInToolbar(OPTINFO_INTOOLBAR_NO);
+        result.setPreOptId(iOsInfo.getOsId());
+        result.setOptUrl("");
         switch (type) {
             case OPTINFO_FORMCODE_COMMON:
-                result.put("optName", "通用业务");
-                result.put("formCode", OPTINFO_FORMCODE_COMMON);
+                result.setOptName("通用业务");
+                result.setFormCode(OPTINFO_FORMCODE_COMMON);
                 break;
             case OPTINFO_FORMCODE_PAGEENTER:
-                result.put("optName", "应用入口页面");
-                result.put("formCode", OPTINFO_FORMCODE_PAGEENTER);
+                result.setOptName("应用入口页面");
+                result.setFormCode(OPTINFO_FORMCODE_PAGEENTER);
                 break;
             default:
         }

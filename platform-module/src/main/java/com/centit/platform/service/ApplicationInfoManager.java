@@ -2,13 +2,15 @@ package com.centit.platform.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.model.basedata.IOsInfo;
+import com.centit.framework.system.po.OsInfo;
+
 import java.util.List;
 
 /**
  * @author zhf
  */
 public interface ApplicationInfoManager {
-    JSONObject createApplicationInfo(IOsInfo osInfo);
+    JSONObject createApplicationInfo(OsInfo osInfo);
 
     List<? extends IOsInfo> listApplicationInfo(String topUnit);
 
@@ -16,5 +18,5 @@ public interface ApplicationInfoManager {
 
     IOsInfo deleteApplicationInfo(String applicationId);
 
-    IOsInfo updateApplicationInfo(IOsInfo osInfo);
+    IOsInfo updateApplicationInfo(OsInfo osInfo);
 }
