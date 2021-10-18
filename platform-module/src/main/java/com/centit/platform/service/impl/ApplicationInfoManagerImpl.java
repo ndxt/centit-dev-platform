@@ -23,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zhf
@@ -61,10 +58,17 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public List<? extends IOsInfo> listApplicationInfo(String topUnit) {
+    public List<? extends IOsInfo> listApplicationInfo(String topUnit, Map<String, Object> parameters) {
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
-        osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
+        if (parameters.containsKey("osName")){
+            osInfos.removeIf(osInfo -> !osInfo.getOsName().equals(parameters.get("osName")));
+        }
+        if (parameters.containsKey("sortValue") && parameters.get("sortValue").equals("ASC")){
+            osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)));
+        }else {
+            osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
+        }
         return osInfos;
     }
 

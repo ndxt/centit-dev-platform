@@ -1,6 +1,7 @@
 package com.centit.platform.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.basedata.IOsInfo;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhf
@@ -53,11 +55,12 @@ public class ApplicationInfoController extends BaseController {
     @GetMapping(value = "/list")
     @WrapUpResponseBody
     public List<? extends IOsInfo> listApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
-        String topUnit = request.getParameter("topUnit");
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        Map<String, Object> parameters = BaseController.collectRequestParameters(request);
         if (StringUtils.isBlank(topUnit)){
             return null;
         }
-        return applicationInfoManager.listApplicationInfo(topUnit);
+        return applicationInfoManager.listApplicationInfo(topUnit,parameters);
     }
 
     @ApiOperation(value = "查询单个应用模块")
