@@ -1,22 +1,20 @@
 package com.centit.platform.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.centit.framework.common.ResponseData;
-import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.platform.service.ApplicationInfoManager;
-import com.centit.support.algorithm.StringBaseOpt;
-import com.centit.support.common.ObjectException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -52,9 +50,13 @@ public class ApplicationInfoController extends BaseController {
     }
 
     @ApiOperation(value = "查询应用模块")
-    @GetMapping(value = "/list/{topUnit}")
+    @GetMapping(value = "/list")
     @WrapUpResponseBody
-    public List<? extends IOsInfo> listApplicationInfo(@PathVariable String topUnit) {
+    public List<? extends IOsInfo> listApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
+        String topUnit = request.getParameter("topUnit");
+        if (StringUtils.isBlank(topUnit)){
+            return null;
+        }
         return applicationInfoManager.listApplicationInfo(topUnit);
     }
 
