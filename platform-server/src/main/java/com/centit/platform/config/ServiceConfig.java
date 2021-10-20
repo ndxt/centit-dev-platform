@@ -1,10 +1,8 @@
 package com.centit.platform.config;
 
 
-import com.centit.fileserver.client.ClientAsFileStore;
-import com.centit.fileserver.client.FileClientImpl;
 import com.centit.fileserver.common.FileStore;
-import com.centit.fileserver.utils.OsFileStore;
+import com.centit.fileserver.common.FileStoreContext;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityDaoConfig;
@@ -20,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -93,5 +93,11 @@ public class ServiceConfig {
 //        return new OsFileStore(baseHome);
 //    }
 
+    @Resource
+    FileStore fileStore;
 
+    @Bean
+    public FileStoreContext fileStoreContext(){
+        return new  FileStoreContext(fileStore);
+    }
 }
