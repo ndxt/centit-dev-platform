@@ -1,9 +1,12 @@
 package com.centit.platform.all.config;
 
-import com.centit.fileserver.client.ClientAsFileStore;
-import com.centit.fileserver.client.FileClientImpl;
 import com.centit.fileserver.common.FileStore;
+import com.centit.fileserver.common.FileStoreContext;
+import com.centit.fileserver.common.FileTaskQueue;
+import com.centit.fileserver.service.impl.DubboFileStoreImpl;
+import com.centit.fileserver.task.*;
 import com.centit.fileserver.utils.OsFileStore;
+import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityCasConfig;
@@ -11,13 +14,23 @@ import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.core.service.DataScopePowerManager;
 import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
 import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
+import com.centit.framework.ip.app.config.IPOrStaticAppSystemBeanConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
+import com.centit.framework.system.config.SystemBeanConfig;
 import com.centit.product.oa.EmailMessageSenderImpl;
+import com.centit.search.document.FileDocument;
+import com.centit.search.document.ObjectDocument;
+import com.centit.search.service.ESServerConfig;
+import com.centit.search.service.Impl.ESIndexer;
+import com.centit.search.service.Impl.ESSearcher;
+import com.centit.search.service.IndexerSearcherFactory;
+import com.centit.search.service.Searcher;
+import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -35,12 +48,15 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
 @Configuration
 @PropertySource("classpath:system.properties")
 @ComponentScan(basePackages = "com.centit",
-        excludeFilters = @ComponentScan.Filter(type= FilterType.ANNOTATION,
-                value = org.springframework.stereotype.Controller.class))
+    excludeFilters = @ComponentScan.Filter(type= FilterType.ANNOTATION,
+        value = org.springframework.stereotype.Controller.class))
 @Import({IPAppSystemBeanConfig.class,
-        JdbcConfig.class,
-        SpringSecurityDaoConfig.class,
-        SpringSecurityCasConfig.class,})
+    JdbcConfig.class,
+    SystemBeanConfig.class,
+    IPOrStaticAppSystemBeanConfig.class,
+    SpringSecurityDaoConfig.class,
+    SpringSecurityCasConfig.class,})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringHttpSession
 public class ServiceConfig {
     @Value("${fileserver.url}")
@@ -50,6 +66,21 @@ public class ServiceConfig {
 
     @Value("${app.home:./}")
     private String appHome;
+
+    @Bean
+    public FileStore fileStore(){
+        String baseHome = env.getProperty("os.file.base.dir");
+        if (StringUtils.isBlank(baseHome)) {
+            baseHome = env.getProperty("app.home") + "/upload";
+        }
+        return new OsFileStore(baseHome);
+    }
+    @Bean
+    public FileTaskQueue fileOptTaskQueue() throws Exception {
+        return new LinkedBlockingQueueFileOptTaskQueue(appHome + "/task");
+    }
+
+
 
     @Bean(name = "passwordEncoder")
     public StandardPasswordEncoderImpl passwordEncoder(){
@@ -61,7 +92,67 @@ public class ServiceConfig {
         return new DataScopePowerManagerImpl();
     }
 
+
     @Bean
+    public FileStoreContext dubboFileStoreContext(@Autowired DubboFileStoreImpl dubboFileStore){
+        return new  FileStoreContext(dubboFileStore);
+    }
+
+    /* 这个定时任务 不能用run来做，应该用一个 定时任务容器
+     */
+    @Bean
+    public FileOptTaskExecutor fileOptTaskExecutor(
+        @Autowired FileTaskQueue fileOptTaskQueue,
+        @Autowired SaveFileOpt saveFileOpt,
+        @Autowired CreatePdfOpt createPdfOpt,
+        @Autowired PdfWatermarkOpt pdfWatermarkOpt,
+        @Autowired AddThumbnailOpt addThumbnailOpt,
+        @Autowired ZipFileOpt zipFileOpt,
+        @Autowired EncryptFileWithAesOpt encryptFileWithAesOpt,
+        @Autowired DocumentIndexOpt documentIndexOpt) {
+        FileOptTaskExecutor fileOptTaskExecutor = new FileOptTaskExecutor();
+        fileOptTaskExecutor.setFileOptTaskQueue(fileOptTaskQueue);
+
+        fileOptTaskExecutor.addFileOperator(saveFileOpt);
+        fileOptTaskExecutor.addFileOperator(createPdfOpt);
+        fileOptTaskExecutor.addFileOperator(pdfWatermarkOpt);
+        fileOptTaskExecutor.addFileOperator(addThumbnailOpt);
+        fileOptTaskExecutor.addFileOperator(zipFileOpt);
+        fileOptTaskExecutor.addFileOperator(encryptFileWithAesOpt);
+        fileOptTaskExecutor.addFileOperator(documentIndexOpt);
+        return fileOptTaskExecutor;
+    }
+    @Bean
+    public ESServerConfig esServerConfig(){
+        return IndexerSearcherFactory.loadESServerConfigFormProperties(
+            SysParametersUtils.loadProperties()
+        );
+    }
+
+    @Bean(name = "esObjectIndexer")
+    public ESIndexer esObjectIndexer(@Autowired ESServerConfig esServerConfig){
+        return IndexerSearcherFactory.obtainIndexer(
+            esServerConfig, ObjectDocument.class);
+    }
+
+    @Bean
+    public Searcher documentSearcher(){
+        if(BooleanBaseOpt.castObjectToBoolean(
+            env.getProperty("fulltext.index.enable"),false)) {
+            return IndexerSearcherFactory.obtainSearcher(
+                IndexerSearcherFactory.loadESServerConfigFormProperties(
+                    SysParametersUtils.loadProperties()), FileDocument.class);
+        }
+        return null;
+    }
+    @Bean(name = "esObjectSearcher")
+    public ESSearcher esObjectSearcher(@Autowired ESServerConfig esServerConfig){
+        return IndexerSearcherFactory.obtainSearcher(
+            esServerConfig, ObjectDocument.class);
+    }
+
+
+   /* @Bean
     public FileClientImpl fileClient() {
         FileClientImpl fileClient = new FileClientImpl();
         fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
@@ -73,7 +164,7 @@ public class ServiceConfig {
         ClientAsFileStore fileStoreBean = new ClientAsFileStore();
         fileStoreBean.setFileClient(fileClient);
         return fileStoreBean;
-    }
+    }*/
 
 //    @Bean
 //    public FileStore fileStore(){

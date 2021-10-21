@@ -3,10 +3,12 @@ package com.centit.platform.all.config;
 import com.centit.framework.config.SystemSpringMvcConfig;
 import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
+import org.apache.dubbo.remoting.http.servlet.DispatcherServlet;
 import org.springframework.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 import java.util.Properties;
 
 /**
@@ -18,7 +20,7 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         String [] servletUrlPatterns = {"/system/*","/metadata/*","/metaform/*", "/workflow/*",
-                "/dbdesign/*","/platform/*","/dde/*","/oa/*"};
+                "/dbdesign/*","/platform/*","/dde/*","/oa/*","/fileserver/*"};
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
         WebConfig.registerServletConfig(servletContext, "system",
                 "/system/*",
@@ -49,6 +51,14 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerServletConfig(servletContext, "oa",
             "/oa/*",
             OaComponentSpringMvcConfig.class, SwaggerConfig.class);
+
+        WebConfig.registerServletConfig(servletContext, "fileserver",
+            "/fileserver/*",
+            FileServerSpringMvcConfig.class,SwaggerConfig.class);
+        //dubbo hessian协议使用
+        ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
+        dubbo.addMapping("/*");
+
 
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);

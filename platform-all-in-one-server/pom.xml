@@ -24,20 +24,20 @@
             </plugin>
         </plugins>
 
-<!--        <resources>-->
-<!--           <resource>-->
-<!--               <directory>src/main/resources</directory>-->
-<!--               <excludes>-->
-<!--                   <exclude>test/*</exclude>-->
-<!--                   <exclude>prod/*</exclude>-->
-<!--                   <exclude>system.properties</exclude>-->
-<!--                   <exclude>demo/*</exclude>-->
-<!--               </excludes>-->
-<!--           </resource>-->
-<!--           <resource>-->
-<!--               <directory>src/main/resources/${profiles.active}</directory>-->
-<!--           </resource>-->
-<!--       </resources>-->
+        <!--        <resources>-->
+        <!--           <resource>-->
+        <!--               <directory>src/main/resources</directory>-->
+        <!--               <excludes>-->
+        <!--                   <exclude>test/*</exclude>-->
+        <!--                   <exclude>prod/*</exclude>-->
+        <!--                   <exclude>system.properties</exclude>-->
+        <!--                   <exclude>demo/*</exclude>-->
+        <!--               </excludes>-->
+        <!--           </resource>-->
+        <!--           <resource>-->
+        <!--               <directory>src/main/resources/${profiles.active}</directory>-->
+        <!--           </resource>-->
+        <!--       </resources>-->
     </build>
 
     <dependencies>
@@ -70,11 +70,11 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>fileserver-client</artifactId>
-            <version>${centit.fileserver.version}</version>
-        </dependency>
+        <!--  <dependency>
+              <groupId>com.centit.product</groupId>
+              <artifactId>fileserver-client</artifactId>
+              <version>${centit.fileserver.version}</version>
+          </dependency>-->
 
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -214,29 +214,66 @@
             <artifactId>centit-dde-workflow-plugin</artifactId>
             <version>${centit.dde.version}</version>
         </dependency>
+        <!--文件服务器依赖-->
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-dubbo-server-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-module</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.centit.support</groupId>
+                    <artifactId>centit-es-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.support</groupId>
+            <artifactId>centit-quartz-extend</artifactId>
+            <version>${centit.commons.modules.version}</version>
+        </dependency>
+
+
+        <!--ip-demo 依赖-->
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-system-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>centit-ip-dubbo-server-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
-	<profiles>
-		<profile>
-	        <id>test</id>
-	        <properties>
-	            <profiles.active>test</profiles.active>
-	        </properties>
-	    </profile>
-	    <profile>
-	        <id>prod</id>
-	        <properties>
-	            <profiles.active>prod</profiles.active>
-	        </properties>
-	    </profile>
-	    <profile>
-			<id>dev</id>
-			<properties>
-				<profiles.active></profiles.active>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active></profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <id>demo</id>
@@ -244,6 +281,6 @@
                 <profiles.active>demo</profiles.active>
             </properties>
         </profile>
-	</profiles>
+    </profiles>
 
 </project>
