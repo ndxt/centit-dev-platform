@@ -13,8 +13,6 @@ import com.centit.framework.config.SpringSecurityCasConfig;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.core.service.DataScopePowerManager;
 import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
-import com.centit.framework.ip.app.config.IPAppSystemBeanConfig;
-import com.centit.framework.ip.app.config.IPOrStaticAppSystemBeanConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
@@ -50,17 +48,15 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
 @ComponentScan(basePackages = "com.centit",
     excludeFilters = @ComponentScan.Filter(type= FilterType.ANNOTATION,
         value = org.springframework.stereotype.Controller.class))
-@Import({IPAppSystemBeanConfig.class,
+@Import({
     JdbcConfig.class,
     SystemBeanConfig.class,
-    IPOrStaticAppSystemBeanConfig.class,
     SpringSecurityDaoConfig.class,
     SpringSecurityCasConfig.class,})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringHttpSession
 public class ServiceConfig {
-    @Value("${fileserver.url}")
-    private String fileserver;
+
     @Autowired
     private Environment env;
 
