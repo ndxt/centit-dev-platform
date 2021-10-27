@@ -1,7 +1,8 @@
 package com.centit.platform.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.centit.fileserver.common.FileStore;
+import com.centit.fileserver.utils.SystemTempFileUtils;
+import com.centit.fileserver.utils.UploadDownloadUtils;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
@@ -12,16 +13,18 @@ import com.centit.platform.service.ApplicationTemplateManager;
 import com.centit.platform.service.ModelExportManager;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.database.utils.PageDesc;
+import com.centit.support.file.FileSystemOpt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -38,20 +41,28 @@ public class ApplicationTemplateController extends BaseController {
     @Autowired
     private ModelExportManager modelExportManager;
 
-    @Autowired(required = false)
-    private FileStore fileStore;
-
     @ApiOperation(value = "保存应用模板")
-    @PostMapping
-    @WrapUpResponseBody
-    public void createApplicationInfo(ApplicationTemplate applicationTemplate, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        File file = fileStore.getFile(applicationTemplate.getFileId());
+    @PostMapping(value = "/saveApp")
+    public void createApplicationInfo(HttpServletRequest request, HttpServletResponse response){
+        ApplicationTemplate applicationTemplate = new ApplicationTemplate();
+        applicationTemplate.setTemplateName(request.getParameter("templateName"));
+        applicationTemplate.setTemplateType(request.getParameter("templateType"));
+        applicationTemplate.setPicId(request.getParameter("picId"));
+        applicationTemplate.setFileId(request.getParameter("fileId"));
+        applicationTemplate.setTemplateMemo(request.getParameter("templateMemo"));
+        FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
+        String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
         try {
+            InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();
+            File file = new File(tempFilePath);
+            FileUtils.copyInputStreamToFile(inputStream, file);
             applicationTemplate.setTemplateContent(modelExportManager.uploadModel(file));
             applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
-            JsonResultUtils.writeSingleDataJson(applicationTemplate.getTemplateId(), response);
+            JsonResultUtils.writeSingleDataJson(applicationTemplate, response);
         } catch (Exception e) {
             JsonResultUtils.writeErrorMessageJson(e.getLocalizedMessage(),response);
+        }finally {
+            FileSystemOpt.deleteFile(tempFilePath);
         }
     }
 
