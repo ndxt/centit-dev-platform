@@ -227,7 +227,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         result.setOptUrl("");
         switch (type) {
             case OPTINFO_FORMCODE_COMMON:
-                result.setOptName("通用业务");
+                result.setOptName("通用模块");
                 result.setFormCode(OPTINFO_FORMCODE_COMMON);
                 break;
             case OPTINFO_FORMCODE_PAGEENTER:
