@@ -27,7 +27,7 @@ public class ApplicationTemplateManagerImpl implements ApplicationTemplateManage
 
     @Override
     public List<ApplicationTemplate> listApplicationTemplate(Map<String, Object> param, PageDesc pageDesc) {
-        return applicationTemplateDao.listObjectsByProperties(param, pageDesc);
+        return applicationTemplateDao.listObjects(param, pageDesc);
     }
 
     @Override

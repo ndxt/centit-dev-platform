@@ -61,8 +61,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public List<? extends IOsInfo> listApplicationInfo(String topUnit, Map<String, Object> parameters) {
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
-        if (parameters.containsKey("osName")){
-            osInfos.removeIf(osInfo -> !osInfo.getOsName().equals(parameters.get("osName")));
+        if (parameters.containsKey("osName")){//因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
+            osInfos.removeIf(osInfo -> !osInfo.getOsName().contains((String)parameters.get("osName")));
         }
         if (parameters.containsKey("sortValue") && parameters.get("sortValue").equals("ASC")){
             osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)));
