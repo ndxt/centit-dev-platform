@@ -21,7 +21,7 @@ import java.util.Map;
  * @author zhf
  */
 @RestController
-@RequestMapping(value = "GroupInfo")
+@RequestMapping(value = "group")
 @Api(value = "分组管理", tags = "分组管理")
 public class GroupInfoController extends BaseController{
     @Autowired

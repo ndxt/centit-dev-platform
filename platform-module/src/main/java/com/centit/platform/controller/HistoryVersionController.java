@@ -1,5 +1,6 @@
 package com.centit.platform.controller;
 
+import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Api(value = "历史版本管理", tags = "历史版本管理")
@@ -23,14 +25,15 @@ public class HistoryVersionController extends BaseController {
     private HistoryVersionService historyVersionService;
 
     @ApiOperation(value = "新增版本信息")
-    @PostMapping("/addHistory")
+    @PostMapping()
     @WrapUpResponseBody
-    public void createHistoryVersion(@RequestBody HistoryVersion historyVersion) {
+    public void createHistoryVersion(HistoryVersion historyVersion, HttpServletResponse response) {
          historyVersionService.createHistoryVersion(historyVersion);
+        JsonResultUtils.writeSingleDataJson(historyVersion.getHitstoryId(),response);
     }
 
-    @ApiOperation(value = "编辑版本信息")
-    @PutMapping(value = "/updateHistory")
+    @ApiOperation(value = "修改版本信息")
+    @PutMapping()
     @WrapUpResponseBody
     public void updateHistory(@RequestBody HistoryVersion historyVersion) {
         historyVersionService.updateHistoryVersion(historyVersion);
@@ -44,7 +47,7 @@ public class HistoryVersionController extends BaseController {
     }
 
     @ApiOperation(value = "查询版本信息列表")
-    @GetMapping("/listHistory")
+    @GetMapping("/list")
     @WrapUpResponseBody
     public PageQueryResult<HistoryVersion> listHistory(HttpServletRequest request, PageDesc pageDesc) {
         List<HistoryVersion> list = historyVersionService.listHistoryVersion(BaseController.collectRequestParameters(request), pageDesc);
