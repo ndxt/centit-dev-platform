@@ -6,7 +6,6 @@ import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.metaform.po.MetaFormModel;
-import com.centit.platform.po.GroupInfo;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.metadata.po.MetaColumn;
@@ -82,7 +81,7 @@ public class JsonAppVo {
         this.createApplicationObject().createDataBaseObject()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createMetaFormObject()
-            .createDataPacketAndParamsObject().createGroupObject()
+            .createDataPacketAndParamsObject()//.createGroupObject()
             .createWfOptInfo().createWfOptTeamRole().createWfOptVariable().createWfOptPage()
             .createWfDefine().createWfNode().createWfTransition();
     }
@@ -184,14 +183,14 @@ public class JsonAppVo {
         return this;
     }
 
-    private JsonAppVo createGroupObject() {
+   /* private JsonAppVo createGroupObject() {
         if (mapJsonObject.get(TableName.F_GROUP_TABLE.name()) == null) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_GROUP_TABLE.name());
         object.addAll(convertMap(GroupInfo.class, list));
         return this;
-    }
+    }*/
     private JsonAppVo createWfOptInfo() {
         if (mapJsonObject.get(TableName.WF_OPTINFO.name()) == null) {
             return this;
