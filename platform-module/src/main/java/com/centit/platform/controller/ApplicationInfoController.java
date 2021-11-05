@@ -8,7 +8,6 @@ import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptMethod;
 import com.centit.framework.model.basedata.IOsInfo;
-import com.centit.framework.system.po.OptMethod;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.metaform.service.MetaFormModelDraftManager;
 import com.centit.metaform.service.MetaFormModelManager;
@@ -103,12 +102,12 @@ public class ApplicationInfoController extends BaseController {
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
         //页面数据
-      /*  JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, pageDesc);
+        JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, pageDesc);
         JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, pageDesc);
         if (!metaFormModelList.isEmpty() || !metaFormModelDraftList.isEmpty()){
             jsonObject.put("msg","页面存在数据，无法删除，请先移除！");
             return jsonObject;
-        }*/
+        }
         //接口数据
         List<? extends IOptMethod> iOptMethods = platformEnvironment.listAllOptMethod(topUnit);
         List<String> optIds = iOptMethods.stream().map(iOptMethod -> iOptMethod.getOptId()).collect(Collectors.toList());
@@ -125,6 +124,9 @@ public class ApplicationInfoController extends BaseController {
             jsonObject.put("msg","流程存在数据，无法删除，请先移除！");
             return jsonObject;
         }
+        //删除业务模块
+        boolean result = platformEnvironment.deleteOptInfoByOptId(optId);
+        jsonObject.put("msg",result);
         return jsonObject;
     }
 }
