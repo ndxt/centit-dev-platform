@@ -13,6 +13,8 @@ import com.centit.metaform.service.MetaFormModelDraftManager;
 import com.centit.metaform.service.MetaFormModelManager;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.support.database.utils.PageDesc;
+import com.centit.workflow.po.FlowInfo;
+import com.centit.workflow.service.FlowDefine;
 import com.centit.workflow.service.FlowOptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -48,7 +50,7 @@ public class ApplicationInfoController extends BaseController {
     private PlatformEnvironment platformEnvironment;
 
     @Autowired(required = false)
-    FlowOptService flowOptService;
+    FlowDefine  flowDefine;
 
     @ApiOperation(value = "新增应用")
     @PostMapping
@@ -94,7 +96,7 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "业务模块删除按钮")
     @PostMapping(value = "/businessDelete")
     @WrapUpResponseBody
-    public JSONObject businessDelete(String optId,  String topUnit,String applicationId) {
+    public JSONObject businessDelete(String optId,  String topUnit) {
         JSONObject jsonObject = new JSONObject();
         PageDesc pageDesc = new PageDesc();
         pageDesc.setPageNo(1);
@@ -116,11 +118,8 @@ public class ApplicationInfoController extends BaseController {
             return jsonObject;
         }
         //流程数据
-        Map<String, Object> map = new HashMap<>();
-        map.put("applicationId",applicationId);
-        map.put("optId",optId);
-        JSONArray flowOptInfoList = flowOptService.listOptInfo(map, pageDesc);
-        if (!flowOptInfoList.isEmpty()){
+        List<FlowInfo> flowInfos = flowDefine.listFlowsByOptId(optId);
+        if (!flowInfos.isEmpty()){
             jsonObject.put("msg","流程存在数据，无法删除，请先移除！");
             return jsonObject;
         }
