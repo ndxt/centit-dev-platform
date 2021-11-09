@@ -19,6 +19,7 @@ import com.centit.product.service.WorkGroupManager;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +62,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public List<? extends IOsInfo> listApplicationInfo(String topUnit, Map<String, Object> parameters) {
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
-        if (parameters.containsKey("osName")){//因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
+        if (parameters.containsKey("osName")&& StringUtils.isNotBlank((String)parameters.get("osName"))){//因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
             osInfos.removeIf(osInfo -> !osInfo.getOsName().contains((String)parameters.get("osName")));
         }
         if (parameters.containsKey("sortValue") && parameters.get("sortValue").equals("ASC")){

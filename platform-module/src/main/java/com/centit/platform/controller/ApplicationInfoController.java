@@ -15,7 +15,6 @@ import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workflow.po.FlowInfo;
 import com.centit.workflow.service.FlowDefine;
-import com.centit.workflow.service.FlowOptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
