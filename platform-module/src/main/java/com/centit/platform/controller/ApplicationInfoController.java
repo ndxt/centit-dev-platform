@@ -9,8 +9,8 @@ import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptMethod;
 import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.system.po.OsInfo;
-import com.centit.metaform.service.MetaFormModelDraftManager;
-import com.centit.metaform.service.MetaFormModelManager;
+import com.centit.metaform.dubbo.adapter.MetaFormModelDraftManager;
+import com.centit.metaform.dubbo.adapter.MetaFormModelManager;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.workflow.po.FlowInfo;
@@ -48,7 +48,7 @@ public class ApplicationInfoController extends BaseController {
     @Autowired
     private PlatformEnvironment platformEnvironment;
 
-    @Autowired(required = false)
+    @Autowired
     FlowDefine  flowDefine;
 
     @ApiOperation(value = "新增应用")

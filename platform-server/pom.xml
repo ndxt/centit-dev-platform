@@ -58,37 +58,11 @@
             <artifactId>framework-core-web</artifactId>
         </dependency>
 
-        <!--metaform dubbo-->
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>meta-form-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-app-base-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.centit.product</groupId>-->
-<!--            <artifactId>fileserver-client</artifactId>-->
-<!--            <version>${centit.fileserver.version}</version>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>fileserver-dubbo-client-config</artifactId>
-            <version>${centit.fileserver.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>optflow-serial-number</artifactId>

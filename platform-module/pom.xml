@@ -66,14 +66,14 @@
             <version>${centit.dde.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>database-design</artifactId>
-            <version>${metadata.commons.version}</version>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>centit-ip-app-base-config</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>meta-form-module</artifactId>
-            <version>${centit.metaform.version}</version>
+            <artifactId>database-design</artifactId>
+            <version>${metadata.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -81,16 +81,27 @@
             <version>${workflow.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>work-group-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workflow-dubbo-client-config</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>meta-form-dubbo-client-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>centit-ip-dubbo-client-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-dubbo-client-config</artifactId>
+            <version>${centit.fileserver.version}</version>
         </dependency>
     </dependencies>
 </project>
