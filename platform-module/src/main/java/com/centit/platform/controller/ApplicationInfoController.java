@@ -49,7 +49,7 @@ public class ApplicationInfoController extends BaseController {
     private PlatformEnvironment platformEnvironment;
 
     @Autowired
-    FlowDefine  flowDefine;
+    private FlowDefine flowDefine;
 
     @ApiOperation(value = "新增应用")
     @PostMapping

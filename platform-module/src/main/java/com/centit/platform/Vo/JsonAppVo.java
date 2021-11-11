@@ -5,7 +5,6 @@ import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.framework.model.basedata.IOsInfo;
-import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.metadata.po.MetaColumn;
@@ -81,8 +80,8 @@ public class JsonAppVo {
         this.createApplicationObject().createDataBaseObject()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createMetaFormObject()
-            .createDataPacketAndParamsObject()//.createGroupObject()
-            .createWfOptInfo().createWfOptTeamRole().createWfOptVariable().createWfOptPage()
+            .createDataPacketAndParamsObject()
+            .createWfOptTeamRole().createWfOptVariable().createWfOptPage()
             .createWfDefine().createWfNode().createWfTransition();
     }
 
@@ -191,14 +190,14 @@ public class JsonAppVo {
         object.addAll(convertMap(GroupInfo.class, list));
         return this;
     }*/
-    private JsonAppVo createWfOptInfo() {
+/*    private JsonAppVo createWfOptInfo() {
         if (mapJsonObject.get(TableName.WF_OPTINFO.name()) == null) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPTINFO.name());
-        object.addAll(convertMap(FlowOptInfo.class, list));
+        //object.addAll(convertMap(FlowOptInfo.class, list));
         return this;
-    }
+    }*/
     private JsonAppVo createWfOptTeamRole() {
         if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
             return this;
