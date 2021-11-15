@@ -77,11 +77,11 @@ public class ApplicationInfoController extends BaseController {
     @GetMapping(value = "/list")
     @WrapUpResponseBody
     public List<? extends IOsInfo> listApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
-        String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        Map<String, Object> parameters = BaseController.collectRequestParameters(request);
-        if (StringUtils.isBlank(topUnit)){
+        if (!WebOptUtils.isTenantTopUnit(request)){
             return null;
         }
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        Map<String, Object> parameters = BaseController.collectRequestParameters(request);
         return applicationInfoManager.listApplicationInfo(topUnit,parameters);
     }
 
