@@ -5,8 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
-import com.centit.platform.Vo.JsonAppVo;
-import com.centit.platform.Vo.TableName;
+import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.platform.vo.JsonAppVo;
+import com.centit.platform.vo.TableName;
 import com.centit.platform.service.ModelExportManager;
 import com.centit.product.dbdesign.service.MetaTableManager;
 import com.centit.product.metadata.dao.SourceInfoDao;
@@ -43,29 +44,30 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @PostConstruct
     void init() {
-        applicationSql.put(TableName.M_APPLICATION_INFO.name(), "select * from m_application_info where APPLICATION_ID=:applicationId");
-        applicationSql.put(TableName.M_APPLICATION_TEAM_USERS.name(), "select * from m_application_team_users where APPLICATION_ID=:applicationId");
-        applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,database_name,os_id,database_url,database_desc,source_type,ext_props from f_database_info where os_id=:applicationId");
-        applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where APPLICATION_ID=:applicationId");
-        applicationSql.put(TableName.F_GROUP_TABLE.name(), "select * from f_group_table where APPLICATION_ID=:applicationId");
-        applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where APPLICATION_ID=:applicationId");
+        applicationSql.put(TableName.F_OS_INFO.name(), "select * from os_info where os_id=:osId");
+        applicationSql.put(TableName.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
+        applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
+            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        applicationSql.put(TableName.WORK_GROUP.name(), "select * from work_group where group_id=:osId");
+        applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_url,database_desc,source_type,ext_props " +
+            "from f_database_info where database_code in (select a.DATABASE_CODE from f_md_table a join f_table_opt_relation b on a.table_id=b.table_id where os_id=:osId)");
+        applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
+        applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
+        applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId");
         applicationSql.put(TableName.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
-            "select packet_id from q_data_packet where APPLICATION_ID=:applicationId)");
-        applicationSql.put(TableName.WF_FLOW_DEFINE.name(),"select * from wf_flow_define where opt_id in " +
-            "(select opt_id from wf_optinfo where APPLICATION_ID=:applicationId)");
-        applicationSql.put(TableName.WF_NODE.name(),"select * from wf_node where flow_code in(" +
-            "select flow_code from wf_flow_define where opt_id in (select opt_id from wf_optinfo where APPLICATION_ID=:applicationId))");
-        applicationSql.put(TableName.WF_TRANSITION.name(),"select * from wf_transition where flow_code in(" +
-            "select flow_code from wf_flow_define where opt_id in (select opt_id from wf_optinfo where APPLICATION_ID=:applicationId))");
-        applicationSql.put(TableName.WF_OPTINFO.name(),"select * from wf_optinfo where APPLICATION_ID=:applicationId");
-        applicationSql.put(TableName.WF_FLOW_STAGE.name(),"select * from wf_flow_stage where flow_code in(" +
-            "select flow_code from wf_flow_define where opt_id in (select opt_id from wf_optinfo where APPLICATION_ID=:applicationId))");
-        applicationSql.put(TableName.WF_OPT_TEAM_ROLE.name(),"select * from wf_opt_team_role where opt_id in " +
-            "(select opt_id from wf_optinfo where APPLICATION_ID=:applicationId)");
-        applicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(),"select * from wf_opt_variable_define where opt_id in " +
-            "(select opt_id from wf_optinfo where APPLICATION_ID=:applicationId)");
-        applicationSql.put(TableName.WF_OPTPAGE.name(),"select * from wf_optpage where opt_id in " +
-            "(select opt_id from wf_optinfo where APPLICATION_ID=:applicationId)");
+            "select packet_id from q_data_packet where OS_ID=:osId)");
+        applicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:applicationId");
+        applicationSql.put(TableName.WF_NODE.name(), "select * from wf_node where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=:osId)");
+        applicationSql.put(TableName.WF_TRANSITION.name(), "select * from wf_transition where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=:osId)");
+        applicationSql.put(TableName.WF_FLOW_STAGE.name(), "select * from wf_flow_stage where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=:osId)");
+        applicationSql.put(TableName.WF_OPT_TEAM_ROLE.name(), "select * from wf_opt_team_role where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        applicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+
         dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (:databaseCode)");
         dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
         dataBaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
@@ -73,10 +75,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     @Override
-    public InputStream downModel(String applicationId) throws FileNotFoundException {
+    public InputStream downModel(String osId) throws FileNotFoundException {
         String filePath = appHome + File.separator + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         Map<String, Object> mapApplication = new HashMap<>();
-        mapApplication.put("applicationId", applicationId);
+        mapApplication.put("osId", osId);
         String[] databaseCodes = new String[0];
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
             if (TableName.F_DATABASE_INFO.name().equals(entry.getKey())) {
@@ -118,6 +120,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return jsonArray;
     }
 
+    @Override
+    public JSONObject uploadModel(File zipFile) throws Exception {
+        return getFileContent(zipFile);
+    }
+
     private JSONObject getFileContent(File zipFile) throws Exception {
         JSONObject jsonObject = new JSONObject();
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
@@ -134,14 +141,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     @Override
-    public JSONObject uploadModel(File zipFile) throws Exception {
-        return getFileContent(zipFile);
-    }
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer createApp(JSONObject jsonObject, String isCover, String userCode){
+    public Integer createApp(JSONObject jsonObject, String isCover, CentitUserDetails userDetails) {
         try {
-            JsonAppVo jsonAppVo=new JsonAppVo(jsonObject,isCover,userCode);
+            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, isCover, userDetails);
             return createApp(jsonAppVo);
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());
@@ -152,8 +155,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         int result = 0;
         jsonAppVo.prepareApp();
         try {
-            if (jsonAppVo.getObject().size() > 0) {
-                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, jsonAppVo.getObject());
+            if (jsonAppVo.getAppList().size() > 0) {
+                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, jsonAppVo.getAppList());
                 for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
                     Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
                     if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {

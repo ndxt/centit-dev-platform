@@ -95,6 +95,6 @@ public class ApplicationTemplateController extends BaseController {
     @WrapUpResponseBody
     public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
         return modelExportManager.createApp(jsonObject, "F",
-            StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin"));
+            WebOptUtils.getCurrentUserDetails(request));
     }
 }
