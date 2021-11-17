@@ -53,7 +53,7 @@ public class ModelExportController extends BaseController {
         FileUtils.copyInputStreamToFile(inputStream, file);
         JSONObject jsonObject = modelExportManager.uploadModel(file);
         Integer app = modelExportManager.createApp(jsonObject, "T",
-            StringBaseOpt.emptyValue(WebOptUtils.getCurrentUserCode(request), "admin"));
+            WebOptUtils.getCurrentUserDetails(request));
         FileSystemOpt.deleteFile(tempFilePath);
         return app;
     }
