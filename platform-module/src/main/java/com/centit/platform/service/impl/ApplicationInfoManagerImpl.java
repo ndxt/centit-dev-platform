@@ -5,6 +5,7 @@ import com.centit.fileserver.common.FileLibrary;
 import com.centit.fileserver.common.OperateFileLibrary;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
+import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptInfo;
@@ -12,10 +13,10 @@ import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.platform.service.ApplicationInfoManager;
+import com.centit.product.adapter.api.WorkGroupManager;
+import com.centit.product.adapter.po.WorkGroup;
+import com.centit.product.adapter.po.WorkGroupParameter;
 import com.centit.product.dao.WorkGroupDao;
-import com.centit.product.po.WorkGroup;
-import com.centit.product.po.WorkGroupParameter;
-import com.centit.product.service.WorkGroupManager;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
@@ -44,7 +45,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private final static String OPTINFO_INTOOLBAR_NO = "N";
     private final static String OPTINFO_OPTTYPE_COMMON = "O";
     private final static String OPTINFO_FORMCODE_ITEM = "I";
-    private final static String OPTINFO_FORMCODE_COMMON = "C";
     private final static String OPTINFO_FORMCODE_PAGEENTER = "A";
     private final static String WORKGROUP_ROLECODE_LEADER = "组长";
     private IOsInfo iOsInfo;
@@ -136,7 +136,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private void createOptInfos() {
         optInfos.clear();
         createParentMenu();
-        creatSubMenuAndAddOptList(OPTINFO_FORMCODE_COMMON);
+        creatSubMenuAndAddOptList(CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON);
         creatSubMenuAndAddOptList(OPTINFO_FORMCODE_PAGEENTER);
     }
 
@@ -227,9 +227,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         result.setPreOptId(iOsInfo.getOsId());
         result.setOptUrl("");
         switch (type) {
-            case OPTINFO_FORMCODE_COMMON:
+            case CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON:
                 result.setOptName("通用模块");
-                result.setFormCode(OPTINFO_FORMCODE_COMMON);
+                result.setFormCode(CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON);
                 break;
             case OPTINFO_FORMCODE_PAGEENTER:
                 result.setOptName("应用入口页面");
