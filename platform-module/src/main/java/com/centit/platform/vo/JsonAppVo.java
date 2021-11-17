@@ -9,11 +9,12 @@ import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OptMethod;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
+import com.centit.product.adapter.po.WorkGroup;
+import com.centit.product.adapter.po.WorkGroupParameter;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.metadata.po.*;
-import com.centit.product.po.WorkGroup;
-import com.centit.product.po.WorkGroupParameter;
+
 import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
