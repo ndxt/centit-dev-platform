@@ -112,11 +112,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <dependency>
+     <!--   <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-ip-dubbo-client-config</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-dubbo-client-config</artifactId>
