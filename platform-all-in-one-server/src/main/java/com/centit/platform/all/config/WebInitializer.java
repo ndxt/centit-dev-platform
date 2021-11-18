@@ -3,12 +3,10 @@ package com.centit.platform.all.config;
 import com.centit.framework.config.SystemSpringMvcConfig;
 import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
-import org.apache.dubbo.remoting.http.servlet.DispatcherServlet;
 import org.springframework.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 import java.util.Properties;
 
 /**
@@ -56,8 +54,8 @@ public class WebInitializer implements WebApplicationInitializer {
             "/fileserver/*",
             FileServerSpringMvcConfig.class,SwaggerConfig.class);
         //dubbo hessian协议使用
-        ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
-        dubbo.addMapping("/*");
+       /* ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
+        dubbo.addMapping("/*");*/
 
 
         WebConfig.registerRequestContextListener(servletContext);
