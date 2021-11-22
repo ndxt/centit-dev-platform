@@ -1,5 +1,7 @@
 package com.centit.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.fileserver.common.FileLibrary;
 import com.centit.fileserver.common.OperateFileLibrary;
@@ -59,7 +61,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public List<? extends IOsInfo> listApplicationInfo(String topUnit, Map<String, Object> parameters) {
+    public JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters) {
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
         if (parameters.containsKey("osName")&& StringUtils.isNotBlank((String)parameters.get("osName"))){//因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
@@ -70,7 +72,14 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         }else {
             osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
         }
-        return osInfos;
+        JSONArray jsonArray = new JSONArray();
+        for (IOsInfo osInfo : osInfos) {
+            JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(osInfo), JSONObject.class);
+            String userName = CodeRepositoryUtil.getUserName(topUnit, osInfo.getCreated());
+            jsonObject.put("createUserName",userName);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
     }
 
     @Override

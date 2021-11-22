@@ -76,7 +76,7 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "查询应用模块")
     @GetMapping(value = "/list")
     @WrapUpResponseBody
-    public List<? extends IOsInfo> listApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
+    public JSONArray listApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
         if (!WebOptUtils.isTenantTopUnit(request)){
             return null;
         }

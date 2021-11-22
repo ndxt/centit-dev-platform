@@ -1,10 +1,10 @@
 package com.centit.platform.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.system.po.OsInfo;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Map;
 public interface ApplicationInfoManager {
     JSONObject createApplicationInfo(OsInfo osInfo);
 
-    List<? extends IOsInfo> listApplicationInfo(String topUnit, Map<String, Object> parameters);
+    JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters);
 
     JSONObject getApplicationInfo(String applicationId);
 
