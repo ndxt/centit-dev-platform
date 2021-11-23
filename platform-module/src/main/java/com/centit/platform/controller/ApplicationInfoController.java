@@ -1,5 +1,6 @@
 package com.centit.platform.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.WebOptUtils;
@@ -19,7 +20,6 @@ import com.centit.workflow.service.FlowDefine;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author zhf
@@ -106,19 +105,27 @@ public class ApplicationInfoController extends BaseController {
         metaFormParam.put("optId",optId);
         //页面数据
         JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, pageDesc);
+        System.out.println(JSON.toJSONString(metaFormModelList));
+        System.out.println("metaFormModelList返回结果："+metaFormModelList.size());
         JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, pageDesc);
+        System.out.println(JSON.toJSONString(metaFormModelList));
+        System.out.println("metaFormModelDraftList返回结果："+metaFormModelDraftList.size());
         if (!metaFormModelList.isEmpty() || !metaFormModelDraftList.isEmpty()){
             jsonObject.put("msg","页面存在数据，无法删除，请先移除！");
             return jsonObject;
         }
         //接口数据
         List<? extends IOptMethod> iOptMethods = CodeRepositoryUtil.getOptMethodByOptID(topUnit,optId);
+        System.out.println(JSON.toJSONString(iOptMethods));
+        System.out.println("iOptMethods返回结果："+iOptMethods.size());
         if (iOptMethods.size()>1){
             jsonObject.put("msg","接口存在数据，无法删除，请先移除！");
             return jsonObject;
         }
         //流程数据
         List<FlowInfo> flowInfos = flowDefine.listFlowsByOptId(optId);
+        System.out.println(JSON.toJSONString(flowInfos));
+        System.out.println("flowInfos返回结果："+flowInfos.size());
         if (!flowInfos.isEmpty()){
             jsonObject.put("msg","流程存在数据，无法删除，请先移除！");
             return jsonObject;
