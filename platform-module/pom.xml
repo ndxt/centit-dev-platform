@@ -66,11 +66,6 @@
             <version>${centit.dde.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-app-base-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>database-design</artifactId>
             <version>${metadata.commons.version}</version>
