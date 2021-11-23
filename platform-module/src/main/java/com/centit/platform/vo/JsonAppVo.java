@@ -114,8 +114,8 @@ public class JsonAppVo {
     private void updatePrimary() {
         this.updateOsInfo().updateDatabase().updateMdTableWithColumn()
             .updateMdRelationWithDetail()
-            .updateOptInfo().updateTableRelation().updatePacketWithParams()
-            .updateMetaForm().updatePacketByMetaFormMap().updateOptDef()
+            .updateOptInfo().updateOptDef().updateTableRelation().updatePacketWithParams()
+            .updateMetaForm().updatePacketByMetaFormMap()
             .updateWfOptTeamRole().updateWfOptVariable()
             .updateWfDefine().updateWfNode().updateWfTransition();
     }
@@ -219,6 +219,21 @@ public class JsonAppVo {
         return this;
     }
 
+    private JsonAppVo updateOptDef() {
+        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
+        list.forEach(map -> {
+            String uuid = UuidOpt.getUuidAsString22();
+            optDefMap.put((String) map.get(OPT_CODE), uuid);
+            map.put(OPT_CODE, uuid);
+            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+        });
+        return this;
+    }
+
     private JsonAppVo updateTableRelation() {
         if (mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name()) == null) {
             return this;
@@ -248,6 +263,8 @@ public class JsonAppVo {
             map.put(OS_ID, osId);
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optDefMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, optDefMap.get(key)));
         });
         list.forEach(map -> {
             String form = (String) map.get(DATA_OPT_DESC_JSON);
@@ -323,22 +340,6 @@ public class JsonAppVo {
         return this;
     }
 
-    private JsonAppVo updateOptDef() {
-        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
-            return this;
-        }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
-        list.forEach(map -> {
-            String uuid = UuidOpt.getUuidAsString22();
-            optDefMap.put((String) map.get(OPT_CODE), uuid);
-            map.put(OPT_CODE, uuid);
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
-            dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(API_ID)))
-                .findFirst().ifPresent(key -> map.put(API_ID, dataPacketMap.get(key)));
-        });
-        return this;
-    }
 
     private JsonAppVo updateWfOptTeamRole() {
         if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
