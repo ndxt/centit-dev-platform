@@ -3,6 +3,7 @@ package com.centit.platform.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.WebOptUtils;
+import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.adapter.PlatformEnvironment;
@@ -95,7 +96,8 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "业务模块删除按钮")
     @PostMapping(value = "/businessDelete")
     @WrapUpResponseBody
-    public JSONObject businessDelete(String optId,  String topUnit) {
+    public JSONObject businessDelete(String optId,  HttpServletRequest request) {
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
         JSONObject jsonObject = new JSONObject();
         PageDesc pageDesc = new PageDesc();
         pageDesc.setPageNo(1);
@@ -110,9 +112,8 @@ public class ApplicationInfoController extends BaseController {
             return jsonObject;
         }
         //接口数据
-        List<? extends IOptMethod> iOptMethods = platformEnvironment.listAllOptMethod(topUnit);
-        List<String> optIds = iOptMethods.stream().map(iOptMethod -> iOptMethod.getOptId()).collect(Collectors.toList());
-        if (optIds.contains(optId)){
+        List<? extends IOptMethod> iOptMethods = CodeRepositoryUtil.getOptMethodByOptID(topUnit,optId);
+        if (iOptMethods.size()>1){
             jsonObject.put("msg","接口存在数据，无法删除，请先移除！");
             return jsonObject;
         }
