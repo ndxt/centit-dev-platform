@@ -93,38 +93,28 @@ public class ApplicationInfoController extends BaseController {
     }
 
     @ApiOperation(value = "业务模块删除按钮")
-    @PostMapping(value = "/businessDelete")
+    @DeleteMapping(value = "/businessDelete/{optId}")
     @WrapUpResponseBody
-    public JSONObject businessDelete(@RequestParam String optId,  HttpServletRequest request) {
+    public JSONObject businessDelete(@PathVariable String optId,  HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        System.out.println("topUnit----------->"+topUnit);
-        System.out.println("optId----------->"+optId);
         JSONObject jsonObject = new JSONObject();
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
         //页面数据
         JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, null);
-        System.out.println("metaFormModelList="+JSON.toJSONString(metaFormModelList));
-        System.out.println("metaFormModelList----------->"+metaFormModelList.size());
         JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, null);
-        System.out.println("metaFormModelDraftList="+JSON.toJSONString(metaFormModelDraftList));
-        System.out.println("metaFormModelDraftList----------->"+metaFormModelDraftList.size());
         if (!metaFormModelList.isEmpty() || !metaFormModelDraftList.isEmpty()){
             jsonObject.put("msg","页面存在数据，无法删除，请先移除！");
             return jsonObject;
         }
         //接口数据
         List<? extends IOptMethod> iOptMethods = CodeRepositoryUtil.getOptMethodByOptID(topUnit,optId);
-        System.out.println("iOptMethods="+JSON.toJSONString(iOptMethods));
-        System.out.println("iOptMethods----------->"+iOptMethods.size());
         if (iOptMethods.size()>1){
             jsonObject.put("msg","接口存在数据，无法删除，请先移除！");
             return jsonObject;
         }
         //流程数据
         List<FlowInfo> flowInfos = flowDefine.listFlowsByOptId(optId);
-        System.out.println("flowInfos="+JSON.toJSONString(flowInfos));
-        System.out.println("flowInfos----------->"+flowInfos.size());
         if (!flowInfos.isEmpty()){
             jsonObject.put("msg","流程存在数据，无法删除，请先移除！");
             return jsonObject;
