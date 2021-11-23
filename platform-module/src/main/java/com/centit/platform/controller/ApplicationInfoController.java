@@ -95,7 +95,7 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "业务模块删除按钮")
     @PostMapping(value = "/businessDelete")
     @WrapUpResponseBody
-    public JSONObject businessDelete(String optId,  HttpServletRequest request) {
+    public JSONObject businessDelete(@RequestParam String optId,  HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         System.out.println("topUnit----------->"+topUnit);
         System.out.println("optId----------->"+optId);
