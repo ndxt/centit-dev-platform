@@ -97,36 +97,34 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public JSONObject businessDelete(String optId,  HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        System.out.println("topUnit："+topUnit);
+        System.out.println("topUnit----------->"+topUnit);
+        System.out.println("optId----------->"+optId);
         JSONObject jsonObject = new JSONObject();
-        PageDesc pageDesc = new PageDesc();
-        pageDesc.setPageNo(1);
-        pageDesc.setPageSize(10);
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
         //页面数据
-        JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, pageDesc);
-        System.out.println(JSON.toJSONString(metaFormModelList));
-        System.out.println("metaFormModelList返回结果："+metaFormModelList.size());
-        JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, pageDesc);
-        System.out.println(JSON.toJSONString(metaFormModelList));
-        System.out.println("metaFormModelDraftList返回结果："+metaFormModelDraftList.size());
+        JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, null);
+        System.out.println("metaFormModelList="+JSON.toJSONString(metaFormModelList));
+        System.out.println("metaFormModelList----------->"+metaFormModelList.size());
+        JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, null);
+        System.out.println("metaFormModelDraftList="+JSON.toJSONString(metaFormModelDraftList));
+        System.out.println("metaFormModelDraftList----------->"+metaFormModelDraftList.size());
         if (!metaFormModelList.isEmpty() || !metaFormModelDraftList.isEmpty()){
             jsonObject.put("msg","页面存在数据，无法删除，请先移除！");
             return jsonObject;
         }
         //接口数据
         List<? extends IOptMethod> iOptMethods = CodeRepositoryUtil.getOptMethodByOptID(topUnit,optId);
-        System.out.println(JSON.toJSONString(iOptMethods));
-        System.out.println("iOptMethods返回结果："+iOptMethods.size());
+        System.out.println("iOptMethods="+JSON.toJSONString(iOptMethods));
+        System.out.println("iOptMethods----------->"+iOptMethods.size());
         if (iOptMethods.size()>1){
             jsonObject.put("msg","接口存在数据，无法删除，请先移除！");
             return jsonObject;
         }
         //流程数据
         List<FlowInfo> flowInfos = flowDefine.listFlowsByOptId(optId);
-        System.out.println(JSON.toJSONString(flowInfos));
-        System.out.println("flowInfos返回结果："+flowInfos.size());
+        System.out.println("flowInfos="+JSON.toJSONString(flowInfos));
+        System.out.println("flowInfos----------->"+flowInfos.size());
         if (!flowInfos.isEmpty()){
             jsonObject.put("msg","流程存在数据，无法删除，请先移除！");
             return jsonObject;
