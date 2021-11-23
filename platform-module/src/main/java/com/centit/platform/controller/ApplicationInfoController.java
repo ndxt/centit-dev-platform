@@ -118,6 +118,6 @@ public class ApplicationInfoController extends BaseController {
         }
         //删除业务模块
         boolean result = platformEnvironment.deleteOptInfoByOptId(optId);
-        return ResponseData.makeErrorMessage(0,result+"");
+        return ResponseData.makeSuccessResponse(result+"");
     }
 }
