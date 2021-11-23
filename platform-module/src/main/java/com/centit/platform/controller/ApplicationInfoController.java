@@ -97,6 +97,7 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public JSONObject businessDelete(String optId,  HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        System.out.println("topUnit："+topUnit);
         JSONObject jsonObject = new JSONObject();
         PageDesc pageDesc = new PageDesc();
         pageDesc.setPageNo(1);
