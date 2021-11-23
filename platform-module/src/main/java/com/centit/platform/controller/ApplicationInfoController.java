@@ -3,6 +3,7 @@ package com.centit.platform.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.core.controller.BaseController;
@@ -95,33 +96,28 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "业务模块删除按钮")
     @DeleteMapping(value = "/businessDelete/{optId}")
     @WrapUpResponseBody
-    public JSONObject businessDelete(@PathVariable String optId,  HttpServletRequest request) {
+    public ResponseData businessDelete(@PathVariable String optId,  HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        JSONObject jsonObject = new JSONObject();
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
         //页面数据
         JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, null);
         JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, null);
         if (!metaFormModelList.isEmpty() || !metaFormModelDraftList.isEmpty()){
-            jsonObject.put("msg","页面存在数据，无法删除，请先移除！");
-            return jsonObject;
+            return ResponseData.makeErrorMessage("页面存在数据，无法删除，请先移除！");
         }
         //接口数据
         List<? extends IOptMethod> iOptMethods = CodeRepositoryUtil.getOptMethodByOptID(topUnit,optId);
         if (iOptMethods.size()>1){
-            jsonObject.put("msg","接口存在数据，无法删除，请先移除！");
-            return jsonObject;
+            return ResponseData.makeErrorMessage("接口存在数据，无法删除，请先移除！");
         }
         //流程数据
         List<FlowInfo> flowInfos = flowDefine.listFlowsByOptId(optId);
         if (!flowInfos.isEmpty()){
-            jsonObject.put("msg","流程存在数据，无法删除，请先移除！");
-            return jsonObject;
+            return ResponseData.makeErrorMessage("流程存在数据，无法删除，请先移除！");
         }
         //删除业务模块
         boolean result = platformEnvironment.deleteOptInfoByOptId(optId);
-        jsonObject.put("msg",result);
-        return jsonObject;
+        return ResponseData.makeErrorMessage(0,result+"");
     }
 }
