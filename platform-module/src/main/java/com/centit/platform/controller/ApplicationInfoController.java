@@ -1,13 +1,12 @@
 package com.centit.platform.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
-import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
+import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptMethod;
 import com.centit.framework.model.basedata.IOsInfo;
@@ -15,12 +14,15 @@ import com.centit.framework.system.po.OsInfo;
 import com.centit.metaform.dubbo.adapter.MetaFormModelDraftManager;
 import com.centit.metaform.dubbo.adapter.MetaFormModelManager;
 import com.centit.platform.service.ApplicationInfoManager;
-import com.centit.support.database.utils.PageDesc;
+import com.centit.product.metadata.service.MetaOptRelationService;
+import com.centit.support.algorithm.StringBaseOpt;
+import com.centit.support.common.ObjectException;
 import com.centit.workflow.po.FlowInfo;
 import com.centit.workflow.service.FlowDefine;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,9 @@ public class ApplicationInfoController extends BaseController {
 
     @Autowired
     private MetaFormModelDraftManager metaFormModelDraftManager;
+
+    @Autowired
+    MetaOptRelationService metaOptRelationService;
 
     @Autowired
     private PlatformEnvironment platformEnvironment;
@@ -97,6 +102,13 @@ public class ApplicationInfoController extends BaseController {
     @DeleteMapping(value = "/businessDelete/{optId}")
     @WrapUpResponseBody
     public ResponseData businessDelete(@PathVariable String optId,  HttpServletRequest request) {
+        String loginUser = WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest());
+        if (StringBaseOpt.isNvl(loginUser)) {
+            loginUser = WebOptUtils.getRequestFirstOneParameter(RequestThreadLocal.getLocalThreadWrapperRequest(), "userCode");
+        }
+        if (StringUtils.isBlank(loginUser)){
+            throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");
+        }
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
@@ -107,7 +119,8 @@ public class ApplicationInfoController extends BaseController {
             return ResponseData.makeErrorMessage("页面存在数据，无法删除，请先移除！");
         }
         //接口数据
-        List<? extends IOptMethod> iOptMethods = CodeRepositoryUtil.getOptMethodByOptID(topUnit,optId);
+        List<? extends IOptMethod> iOptMethods = platformEnvironment.listAllOptMethod(topUnit);
+        iOptMethods.removeIf(iOptMethod -> !iOptMethod.getOptId().equals(optId));
         if (iOptMethods.size()>1){
             return ResponseData.makeErrorMessage("接口存在数据，无法删除，请先移除！");
         }
@@ -116,6 +129,8 @@ public class ApplicationInfoController extends BaseController {
         if (!flowInfos.isEmpty()){
             return ResponseData.makeErrorMessage("流程存在数据，无法删除，请先移除！");
         }
+        //移除关联数据
+        metaOptRelationService.deleteMetaOptRelationByOptIds(optId);
         //删除业务模块
         boolean result = platformEnvironment.deleteOptInfoByOptId(optId);
         return ResponseData.makeSuccessResponse(result+"");
