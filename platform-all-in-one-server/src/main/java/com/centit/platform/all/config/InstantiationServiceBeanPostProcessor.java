@@ -70,7 +70,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         DBPlatformEnvironment dbPlatformEnvironment = applicationContext.getBean("dbPlatformEnvironment", DBPlatformEnvironment.class);
         dbPlatformEnvironment.setSupportTenant(true);
         CodeRepositoryCache.setPlatformEnvironment(platformEnvironment);
-        CodeRepositoryCache.setEvictCacheExtOpt(osInfoManager);
         CodeRepositoryCache.setAllCacheFreshPeriod(CodeRepositoryCache.CACHE_FRESH_PERIOD_SECONDS);
         WebOptUtils.setExceptionNotAsHttpError(httpExceptionNotAsHttpError);
         WebOptUtils.setIsTenant(supportTenant);
