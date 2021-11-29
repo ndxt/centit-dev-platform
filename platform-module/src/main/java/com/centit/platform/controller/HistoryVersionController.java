@@ -29,7 +29,7 @@ public class HistoryVersionController extends BaseController {
     @WrapUpResponseBody
     public void createHistoryVersion(@RequestBody HistoryVersion historyVersion, HttpServletResponse response) {
          historyVersionService.createHistoryVersion(historyVersion);
-        JsonResultUtils.writeSingleDataJson(historyVersion.getHitstoryId(),response);
+        JsonResultUtils.writeSingleDataJson(historyVersion.getHistoryId(),response);
     }
 
     @ApiOperation(value = "修改版本信息")

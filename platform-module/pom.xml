@@ -67,6 +67,11 @@
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
+            <artifactId>centit-dde-dubbo-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
             <artifactId>database-design</artifactId>
             <version>${metadata.commons.version}</version>
         </dependency>
@@ -78,6 +83,11 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-dubbo-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>unified-question-web</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

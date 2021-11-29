@@ -21,11 +21,11 @@ public class HistoryVersion implements Serializable {
     private static final long serialVersionUID = 1;
 
     @Id
-    @Column(name = "hitstory_id")
+    @Column(name = "history_id")
     @ApiModelProperty(value = "id",hidden = true)
     @NotBlank(message = "字段不能为空")
     @ValueGenerator(strategy = GeneratorType.UUID)
-    private  String hitstoryId;
+    private  String historyId;
 
     @ApiModelProperty(value = "关联表id")
     @Column(name = "relation_id")
