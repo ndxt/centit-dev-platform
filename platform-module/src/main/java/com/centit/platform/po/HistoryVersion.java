@@ -43,9 +43,9 @@ public class HistoryVersion implements Serializable {
     private JSONObject content;
 
     @ApiModelProperty(value = "标签")
-    @Column(name = "lable")
+    @Column(name = "label")
     @Length(max = 100, message = "字段长度不能大于{max}")
-    private  String lable;
+    private  String label;
 
     @ApiModelProperty(value = "备注")
     @Column(name = "memo")
