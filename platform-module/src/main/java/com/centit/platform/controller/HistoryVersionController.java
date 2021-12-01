@@ -25,7 +25,7 @@ public class HistoryVersionController extends BaseController {
     private HistoryVersionService historyVersionService;
 
     @ApiOperation(value = "新增版本信息")
-    @PutMapping()
+    @PostMapping()
     @WrapUpResponseBody
     public void createHistoryVersion(@RequestBody HistoryVersion historyVersion, HttpServletResponse response) {
          historyVersionService.createHistoryVersion(historyVersion);
@@ -33,7 +33,7 @@ public class HistoryVersionController extends BaseController {
     }
 
     @ApiOperation(value = "修改版本信息")
-    @PostMapping()
+    @PutMapping()
     @WrapUpResponseBody
     public void updateHistory(@RequestBody HistoryVersion historyVersion) {
         historyVersionService.updateHistoryVersion(historyVersion);
