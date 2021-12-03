@@ -83,8 +83,11 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public JSONObject getApplicationInfo(String applicationId) {
+    public JSONObject getApplicationInfo(String applicationId,String topUnit) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
+        if (!topUnit.equals(iOsInfo.getTopUnit())){
+            throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
+        }
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         workGroup = workGroupDao.listObjectsByProperty("groupId", applicationId);
         if (notHaveAuth()) {

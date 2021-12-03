@@ -94,8 +94,12 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "查询单个应用模块")
     @GetMapping(value = "/{applicationId}")
     @WrapUpResponseBody
-    public JSONObject getApplicationInfo(@PathVariable String applicationId) {
-        return applicationInfoManager.getApplicationInfo(applicationId);
+    public JSONObject getApplicationInfo(@PathVariable String applicationId,HttpServletRequest request) {
+        if (!WebOptUtils.isTenantTopUnit(request)){
+            return null;
+        }
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        return applicationInfoManager.getApplicationInfo(applicationId,topUnit);
     }
 
     @ApiOperation(value = "业务模块删除按钮")

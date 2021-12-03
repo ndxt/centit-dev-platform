@@ -15,7 +15,7 @@ public interface ApplicationInfoManager {
 
     JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters);
 
-    JSONObject getApplicationInfo(String applicationId);
+    JSONObject getApplicationInfo(String applicationId,String topUnit);
 
     IOsInfo deleteApplicationInfo(String applicationId);
 
