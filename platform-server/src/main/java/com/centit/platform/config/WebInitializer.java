@@ -21,7 +21,7 @@ public class WebInitializer implements WebApplicationInitializer {
     public void onStartup(@Nonnull ServletContext servletContext) throws ServletException {
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
 
-        String [] servletUrlPatterns = {"/system/*","/platform/*","/oa/*"};
+        String [] servletUrlPatterns = {"/system/*","/platform/*","/oa/*","/help/*"};
         WebConfig.registerServletConfig(servletContext, "system",
             "/system/*",
             SystemSpringMvcConfig.class, SwaggerConfig.class);
@@ -31,6 +31,9 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerServletConfig(servletContext, "oa",
             "/oa/*",
             OaComponentSpringMvcConfig.class, SwaggerConfig.class);
+        WebConfig.registerServletConfig(servletContext, "help",
+            "/help/*",
+            WorkOrderSpringMvcConfig.class, SwaggerConfig.class);
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);
         WebConfig.registerCharacterEncodingFilter(servletContext, servletUrlPatterns);

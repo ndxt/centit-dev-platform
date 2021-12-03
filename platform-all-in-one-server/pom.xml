@@ -63,7 +63,11 @@
             <artifactId>centit-dde-module</artifactId>
             <version>${centit.dde.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>centit-workorder-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>platform-module</artifactId>
