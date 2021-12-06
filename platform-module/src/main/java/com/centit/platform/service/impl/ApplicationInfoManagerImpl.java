@@ -230,6 +230,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         result.setFormCode(OPTINFO_FORMCODE_ITEM);
         result.setOptUrl("");
         result.setOptType(OPTINFO_OPTTYPE_COMMON);
+        result.setTopOptId(iOsInfo.getOsId());
         return result;
     }
 
@@ -237,6 +238,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         OptInfo result = new OptInfo();
         result.setIsInToolbar(OPTINFO_INTOOLBAR_NO);
         result.setPreOptId(iOsInfo.getOsId());
+        result.setTopOptId(iOsInfo.getOsId());
         result.setOptUrl("");
         switch (type) {
             case CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON:
