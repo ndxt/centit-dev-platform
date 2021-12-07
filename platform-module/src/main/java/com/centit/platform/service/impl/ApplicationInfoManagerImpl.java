@@ -75,8 +75,14 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         JSONArray jsonArray = new JSONArray();
         for (IOsInfo osInfo : osInfos) {
             JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(osInfo), JSONObject.class);
-            String userName = CodeRepositoryUtil.getUserName(topUnit, osInfo.getCreated());
-            jsonObject.put("createUserName",userName);
+            Map map = new HashMap();
+            map.put("groupId",osInfo.getOsId());
+            map.put("roleCode","组长");
+            WorkGroup workGroup = workGroupDao.getObjectByProperties(map);
+            if (workGroup!=null){
+                String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.getWorkGroupParameter().getUserCode());
+                jsonObject.put("createUserName",userName);
+            }
             jsonArray.add(jsonObject);
         }
         return jsonArray;
