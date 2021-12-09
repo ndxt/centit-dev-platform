@@ -134,7 +134,7 @@ public class ApplicationInfoController extends BaseController {
             return ResponseData.makeErrorMessage("流程存在数据，无法删除，请先移除！");
         }
         //移除关联数据
-        metaOptRelationService.deleteMetaOptRelationByOptIds(optId);
+        metaOptRelationService.deleteMetaOptRelationByOptId(optId);
         //删除业务模块
         boolean result = platformEnvironment.deleteOptInfoByOptId(optId);
         return ResponseData.makeSuccessResponse(result+"");
