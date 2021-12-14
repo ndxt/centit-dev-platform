@@ -36,7 +36,7 @@ import java.util.*;
 public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Autowired
     private PlatformEnvironment platformEnvironment;
-    @Autowired(required = false)
+    @Autowired
     private OperateFileLibrary operateFileLibrary;
     @Autowired
     private WorkGroupManager workGroupManager;
