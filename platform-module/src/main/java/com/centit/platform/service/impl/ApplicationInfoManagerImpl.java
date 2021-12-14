@@ -94,15 +94,15 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         Map map = new HashMap();
         map.put("groupId",applicationId);
-        workGroup = workGroupManager.listWorkGroup(map,null);
-        if (notHaveAuth()) {
+        List<WorkGroup>   workGroup = workGroupManager.listWorkGroup(map,null);
+        if (notHaveAuth(workGroup)) {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
         optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
         return assemblyApplicationInfo();
     }
 
-    private boolean notHaveAuth() {
+    private boolean notHaveAuth(List<WorkGroup>   workGroups) {
         String loginUser = WebOptUtils.getCurrentUserCode(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         if (StringBaseOpt.isNvl(loginUser)) {
@@ -112,7 +112,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (StringBaseOpt.isNvl(loginUser)) {
             return true;
         }
-        for (WorkGroup workGroup : workGroup) {
+        for (WorkGroup workGroup : workGroups) {
             if (workGroup.getWorkGroupParameter().getUserCode().equals(loginUser)) {
                 return false;
             }
