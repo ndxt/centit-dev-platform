@@ -94,7 +94,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         Map map = new HashMap();
         map.put("groupId",applicationId);
-        map.put("roleCode","组长");
         List<WorkGroup> workGroupList = workGroupManager.listWorkGroup(map,null);
         workGroup.addAll(workGroupList);
         if (notHaveAuth()) {
