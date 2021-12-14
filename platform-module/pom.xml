@@ -30,11 +30,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>work-group-module</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc</artifactId>
@@ -89,6 +85,12 @@
             <groupId>com.centit.product</groupId>
             <artifactId>unified-question-web</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>work-group-adapter</artifactId>
+            <version>${parent.version}</version>
         </dependency>
     </dependencies>
 </project>

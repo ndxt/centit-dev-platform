@@ -7,6 +7,8 @@ import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityDaoConfig;
+import com.centit.framework.core.service.DataScopePowerManager;
+import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
@@ -72,6 +74,11 @@ public class ServiceConfig {
     }
 
     @Bean
+    public DataScopePowerManager queryDataScopeFilter(){
+        return new DataScopePowerManagerImpl();
+    }
+
+    @Bean
     @Lazy(value = false)
     public OperationLogWriter operationLogWriter() {
         TextOperationLogWriterImpl operationLog = new TextOperationLogWriterImpl();
@@ -115,13 +122,5 @@ public class ServiceConfig {
     public ESSearcher esSearcher(@Autowired ESServerConfig esServerConfig) {
         return IndexerSearcherFactory.obtainSearcher(
             esServerConfig, ObjectDocument.class);
-    }
-
-    @Resource
-    FileStore fileStore;
-
-    @Bean
-    public FileStoreContext fileStoreContext() {
-        return new FileStoreContext(fileStore);
     }
 }

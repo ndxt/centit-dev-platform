@@ -18,7 +18,6 @@ import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.product.adapter.api.WorkGroupManager;
 import com.centit.product.adapter.po.WorkGroup;
 import com.centit.product.adapter.po.WorkGroupParameter;
-import com.centit.product.dao.WorkGroupDao;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
@@ -39,8 +38,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private PlatformEnvironment platformEnvironment;
     @Autowired(required = false)
     private OperateFileLibrary operateFileLibrary;
-    @Autowired
-    private WorkGroupDao workGroupDao;
     @Autowired
     private WorkGroupManager workGroupManager;
     private final static String FILE_TYPE_ITEM = "I";
@@ -78,9 +75,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             Map map = new HashMap();
             map.put("groupId",osInfo.getOsId());
             map.put("roleCode","组长");
-            WorkGroup workGroup = workGroupDao.getObjectByProperties(map);
-            if (workGroup!=null){
-                String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.getWorkGroupParameter().getUserCode());
+            List<WorkGroup> workGroup = workGroupManager.listWorkGroup(map,null);
+            if (workGroup!=null&&workGroup.size()>0){
+                String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.get(0).getWorkGroupParameter().getUserCode());
                 jsonObject.put("createUserName",userName);
             }
             jsonArray.add(jsonObject);
@@ -95,7 +92,11 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
-        workGroup = workGroupDao.listObjectsByProperty("groupId", applicationId);
+        Map map = new HashMap();
+        map.put("groupId",applicationId);
+        map.put("roleCode","组长");
+        List<WorkGroup> workGroupList = workGroupManager.listWorkGroup(map,null);
+        workGroup.addAll(workGroupList);
         if (notHaveAuth()) {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
