@@ -94,8 +94,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         Map map = new HashMap();
         map.put("groupId",applicationId);
-        List<WorkGroup> workGroupList = workGroupManager.listWorkGroup(map,null);
-        workGroup.addAll(workGroupList);
+        workGroup = workGroupManager.listWorkGroup(map,null);
         if (notHaveAuth()) {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
