@@ -44,7 +44,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @PostConstruct
     void init() {
-        applicationSql.put(TableName.F_OS_INFO.name(), "select * from os_info where os_id=:osId");
+        applicationSql.put(TableName.F_OS_INFO.name(), "select * from f_os_info where os_id=:osId");
         applicationSql.put(TableName.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
         applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
@@ -56,7 +56,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId");
         applicationSql.put(TableName.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
             "select packet_id from q_data_packet where OS_ID=:osId)");
-        applicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:applicationId");
+        applicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId");
         applicationSql.put(TableName.WF_NODE.name(), "select * from wf_node where flow_code in(" +
             "select flow_code from wf_flow_define where OS_ID=:osId)");
         applicationSql.put(TableName.WF_TRANSITION.name(), "select * from wf_transition where flow_code in(" +
