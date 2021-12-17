@@ -3,13 +3,16 @@ package com.centit.platform.vo;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.po.DataPacket;
+import com.centit.dde.po.DataPacketDraft;
 import com.centit.dde.po.DataPacketParam;
+import com.centit.dde.po.DataPacketParamDraft;
 import com.centit.fileserver.common.FileLibrary;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OptMethod;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
+import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
 import com.centit.product.adapter.po.WorkGroup;
 import com.centit.product.adapter.po.WorkGroupParameter;
 import com.centit.product.dbdesign.po.PendingMetaColumn;
@@ -136,8 +139,7 @@ public class JsonAppVo {
     private void createAppObject() {
         this.createOsInfo().createLibraryInfo().createDataBaseObject()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
-            .createMetaFormObject().createMetaFormObject()
-            .createDataPacketAndParamsObject()
+            .createMetaFormObject().createDataPacketAndParamsObject()
             .createWfOptTeamRole().createWfOptVariable().createOptInfo().createOptDef()
             .createWfDefine().createWfNode().createWfTransition().createTableRelation();
     }
@@ -590,6 +592,7 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
         appList.addAll(convertMap(MetaFormModel.class, list));
+        appList.addAll(convertMap(MetaFormModelDraft.class, list));
         return this;
     }
 
@@ -599,11 +602,13 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET.name());
         appList.addAll(convertMap(DataPacket.class, list));
+        appList.addAll(convertMap(DataPacketDraft.class, list));
         if (mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
             return this;
         }
         list = mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name());
         appList.addAll(convertMap(DataPacketParam.class, list));
+        appList.addAll(convertMap(DataPacketParamDraft.class, list));
         return this;
     }
 
