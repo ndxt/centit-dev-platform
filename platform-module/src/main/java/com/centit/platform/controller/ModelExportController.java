@@ -3,10 +3,13 @@ package com.centit.platform.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.fileserver.utils.UploadDownloadUtils;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
+import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.service.ModelExportManager;
+import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import com.centit.support.file.FileType;
 import io.swagger.annotations.Api;
@@ -45,6 +48,10 @@ public class ModelExportController extends BaseController {
     @RequestMapping(value = "/updateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public Integer upLoadModel(HttpServletRequest request) throws Exception {
+        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
+        if (userDetails==null){
+            throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");
+        }
         FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
         String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
         InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();

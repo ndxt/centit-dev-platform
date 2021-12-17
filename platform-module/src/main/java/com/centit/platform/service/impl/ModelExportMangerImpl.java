@@ -45,6 +45,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @PostConstruct
     void init() {
         applicationSql.put(TableName.F_OS_INFO.name(), "select * from f_os_info where os_id=:osId");
+        applicationSql.put(TableName.FILE_LIBRARY_INFO.name(), "select * from file_library_info where library_id=:osId");
         applicationSql.put(TableName.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
         applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
             "(select opt_id from f_optinfo where top_opt_id=:osId)");

@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.fileserver.utils.UploadDownloadUtils;
 import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.po.ApplicationTemplate;
 import com.centit.platform.service.ApplicationTemplateManager;
 import com.centit.platform.service.ModelExportManager;
+import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.file.FileSystemOpt;
 import io.swagger.annotations.Api;
@@ -93,6 +96,10 @@ public class ApplicationTemplateController extends BaseController {
     @RequestMapping(value = "/createApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
+        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
+        if (userDetails==null){
+            throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");
+        }
         return modelExportManager.createApp(jsonObject, "F",
             WebOptUtils.getCurrentUserDetails(request));
     }
