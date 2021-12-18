@@ -1,7 +1,6 @@
 package com.centit.platform.all.config;
 
 import com.centit.fileserver.common.FileStore;
-import com.centit.fileserver.common.FileStoreContext;
 import com.centit.fileserver.common.FileTaskQueue;
 import com.centit.fileserver.service.impl.DubboFileStoreImpl;
 import com.centit.fileserver.task.*;
@@ -90,8 +89,8 @@ public class ServiceConfig {
 
 
     @Bean
-    public FileStoreContext dubboFileStoreContext(@Autowired DubboFileStoreImpl dubboFileStore){
-        return new  FileStoreContext(dubboFileStore);
+    public FileStore dubboFileStoreContext(@Autowired DubboFileStoreImpl dubboFileStore){
+        return dubboFileStore;
     }
 
     /* 这个定时任务 不能用run来做，应该用一个 定时任务容器

@@ -1,8 +1,6 @@
 package com.centit.platform.config;
 
 
-import com.centit.fileserver.common.FileStore;
-import com.centit.fileserver.common.FileStoreContext;
 import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
@@ -26,8 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import javax.annotation.Resource;
 
 
 /**
@@ -86,24 +82,6 @@ public class ServiceConfig {
         operationLog.init();
         return operationLog;
     }
-
-    //    @Bean
-//    public FileClientImpl fileClient() {
-//        FileClientImpl fileClient = new FileClientImpl();
-//        fileClient.init(fileserver,fileserver,"u0000000", "000000",fileserver);
-//        return fileClient;
-//    }
-//    @Bean
-//    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient){
-//        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
-//        fileStoreBean.setFileClient(fileClient);
-//        return fileStoreBean;
-//    }
-//    @Bean
-//    public FileStore fileStore(){
-//        String baseHome = appHome + "/upload";
-//        return new OsFileStore(baseHome);
-//    }
 
     @Bean
     public ESServerConfig esServerConfig() {
