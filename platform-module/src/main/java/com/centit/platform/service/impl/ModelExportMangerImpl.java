@@ -6,9 +6,9 @@ import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
-import com.centit.platform.service.ModelExportManager;
 import com.centit.platform.vo.JsonAppVo;
 import com.centit.platform.vo.TableName;
+import com.centit.platform.service.ModelExportManager;
 import com.centit.product.dbdesign.service.MetaTableManager;
 import com.centit.product.metadata.dao.SourceInfoDao;
 import com.centit.support.algorithm.DatetimeOpt;
@@ -50,10 +50,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.F_OS_INFO.name(), "select * from f_os_info where os_id=:osId");
         applicationSql.put(TableName.FILE_LIBRARY_INFO.name(), "select * from file_library_info where library_id=:osId");
         applicationSql.put(TableName.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
-        applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in " +
+        applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.WORK_GROUP.name(), "select * from work_group where group_id=:osId");
-        applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
+        applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_url,database_desc,source_type,ext_props " +
             "from f_database_info where database_code in (select a.DATABASE_CODE from f_md_table a join f_table_opt_relation b on a.table_id=b.table_id where os_id=:osId)");
         applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
         applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
