@@ -7,7 +7,9 @@ import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.platform.service.ModelExportManager;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
@@ -16,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +35,15 @@ import java.net.URLEncoder;
 public class ModelExportController extends BaseController {
     @Autowired
     private ModelExportManager modelExportManager;
+    @Autowired
+    private PlatformEnvironment platformEnvironment;
 
     @ApiOperation(value = "导出应用")
     @GetMapping(value = "/downloadModel/{applicationId}")
     public void downLoadModel(@PathVariable String applicationId, HttpServletResponse response) throws IOException {
         InputStream in = modelExportManager.downModel(applicationId);
-        String fileName = URLEncoder.encode(applicationId, "UTF-8") +
+        String fileName = platformEnvironment.getOsInfo(applicationId).getOsName();
+        fileName = URLEncoder.encode(fileName, "UTF-8") +
             ".zip";
         response.setContentType(FileType.mapExtNameToMimeType("zip"));
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
