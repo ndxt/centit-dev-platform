@@ -19,6 +19,7 @@ import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.metadata.po.*;
 import com.centit.support.algorithm.GeneralAlgorithm;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.workflow.po.*;
@@ -56,7 +57,6 @@ public class JsonAppVo {
     private static final String END_NODE_ID = "endNodeId";
     private static final String TOP_UNIT = "topUnit";
     private static final String WORKGROUP_ROLE_CODE_LEADER = "组长";
-    private static final String TABLE_STATE = "tableState";
     private static final String NO_PUBLISH = "W";
     private static final String MAX_LENGTH = "maxLength";
     private static final String COLUMN_LENGTH = "columnLength";
@@ -104,6 +104,7 @@ public class JsonAppVo {
     private Map<String, Object> optInfoMap = new HashMap<>();
     private Map<String, Object> optDefMap = new HashMap<>();
     private Map<String, Object> wfNodeMap = new HashMap<>();
+    private static final String MAP_DATA_CODE = "mapDataCode";
 
     public JsonAppVo(JSONObject jsonObject, String cover, CentitUserDetails userDetails) {
         createMapJsonObject(jsonObject);
@@ -137,7 +138,7 @@ public class JsonAppVo {
     }
 
     private void createAppObject() {
-        this.createOsInfo().createLibraryInfo().createDataBaseObject()
+        this.createOsInfo().createLibraryInfo()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createDataPacketAndParamsObject()
             .createWfOptTeamRole().createWfOptVariable().createOptInfo().createOptDef()
@@ -189,7 +190,12 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
         list.forEach(map -> {
-            String uuid = UuidOpt.getUuidAsString22();
+            String uuid;
+            if (map.get(MAP_DATA_CODE) != null && !StringBaseOpt.isNvl((String) map.get(MAP_DATA_CODE))) {
+                uuid = (String) map.get(MAP_DATA_CODE);
+            } else {
+                uuid = UuidOpt.getUuidAsString22();
+            }
             databaseMap.put((String) map.get(DATABASE_CODE), uuid);
             map.put(DATABASE_CODE, uuid);
             map.put(OS_ID, osId);
@@ -534,17 +540,6 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(TableName.FILE_LIBRARY_INFO.name());
         if (!coverApp) {
             appList.addAll(convertMap(FileLibraryInfo.class, list));
-        }
-        return this;
-    }
-
-    private JsonAppVo createDataBaseObject() {
-        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
-            return this;
-        }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
-        if (!coverApp) {
-            appList.addAll(convertMap(SourceInfo.class, list));
         }
         return this;
     }
