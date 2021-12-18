@@ -19,6 +19,7 @@ import com.centit.product.dbdesign.po.PendingMetaColumn;
 import com.centit.product.dbdesign.po.PendingMetaTable;
 import com.centit.product.metadata.po.*;
 import com.centit.support.algorithm.GeneralAlgorithm;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.workflow.po.*;
@@ -80,6 +81,7 @@ public class JsonAppVo {
     private static final String CREATOR = "creator";
     private static final String CREATE_DATE = "createDate";
     private static final String TABLE_TYPE = "T";
+    private static final String MAP_DATA_CODE = "mapDataCode";
 
 
     private Boolean coverApp;
@@ -137,7 +139,7 @@ public class JsonAppVo {
     }
 
     private void createAppObject() {
-        this.createOsInfo().createLibraryInfo().createDataBaseObject()
+        this.createOsInfo().createLibraryInfo()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createDataPacketAndParamsObject()
             .createWfOptTeamRole().createWfOptVariable().createOptInfo().createOptDef()
@@ -189,7 +191,12 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
         list.forEach(map -> {
-            String uuid = UuidOpt.getUuidAsString22();
+            String uuid;
+            if (map.get(MAP_DATA_CODE) != null && !StringBaseOpt.isNvl((String) map.get(MAP_DATA_CODE))) {
+                uuid = (String) map.get(MAP_DATA_CODE);
+            } else {
+                uuid = UuidOpt.getUuidAsString22();
+            }
             databaseMap.put((String) map.get(DATABASE_CODE), uuid);
             map.put(DATABASE_CODE, uuid);
             map.put(OS_ID, osId);
@@ -538,27 +545,16 @@ public class JsonAppVo {
         return this;
     }
 
-    private JsonAppVo createDataBaseObject() {
-        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
-            return this;
-        }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
-        if (!coverApp) {
-            appList.addAll(convertMap(SourceInfo.class, list));
-        }
-        return this;
-    }
-
     private JsonAppVo createMdTableWithColumnObject() {
         if (mapJsonObject.get(TableName.F_MD_TABLE.name()) == null) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_TABLE.name());
         metaObject.addAll(convertMap(MetaTable.class, list));
-        List<Object> objectList=convertMap(PendingMetaTable.class, list);
-        objectList.forEach(map->{
-            if(TABLE_TYPE.equals(((PendingMetaTable)map).getTableType())){
-                ((PendingMetaTable)map).setTableState(NO_PUBLISH);
+        List<Object> objectList = convertMap(PendingMetaTable.class, list);
+        objectList.forEach(map -> {
+            if (TABLE_TYPE.equals(((PendingMetaTable) map).getTableType())) {
+                ((PendingMetaTable) map).setTableState(NO_PUBLISH);
                 appList.add(map);
             }
         });
