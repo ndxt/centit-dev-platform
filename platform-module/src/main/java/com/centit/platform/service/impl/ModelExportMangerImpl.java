@@ -31,6 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author zhf
+ */
 @Service
 public class ModelExportMangerImpl implements ModelExportManager {
     @Value("${app.home:./}")
@@ -39,8 +42,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private SourceInfoDao databaseInfoDao;
     @Autowired
     private MetaTableManager metaTableManager;
-    private Map<String, String> applicationSql = new HashMap<>(10);
-    private Map<String, String> dataBaseSql = new HashMap<>(4);
+    private final Map<String, String> applicationSql = new HashMap<>(16);
+    private final Map<String, String> dataBaseSql = new HashMap<>(4);
 
     @PostConstruct
     void init() {
@@ -78,7 +81,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public InputStream downModel(String osId) throws FileNotFoundException {
         String filePath = appHome + File.separator + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
-        Map<String, Object> mapApplication = new HashMap<>();
+        Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
         String[] databaseCodes = new String[0];
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
@@ -94,7 +97,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
         }
         if (databaseCodes.length > 0) {
-            Map<String, Object> mapDatabase = new HashMap<>();
+            Map<String, Object> mapDatabase = new HashMap<>(10);
             mapDatabase.put("databaseCode", databaseCodes);
             for (Map.Entry<String, String> entry : dataBaseSql.entrySet()) {
                 createFile(mapDatabase, entry.getValue(), entry.getKey(), filePath);
@@ -114,7 +117,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         CsvDataSet csvDataSet = new CsvDataSet();
         File file = new File(filePath);
         if (!file.exists()) {
-            file.mkdirs();
+            if (!file.mkdirs()) {
+                throw new SecurityException();
+            }
         }
         csvDataSet.setFilePath(filePath + File.separator + fileName + ".csv");
         csvDataSet.save(simpleDataSet);
