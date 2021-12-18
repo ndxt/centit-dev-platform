@@ -6,7 +6,7 @@ import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketDraft;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.dde.po.DataPacketParamDraft;
-import com.centit.fileserver.common.FileLibrary;
+import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OptMethod;
@@ -540,7 +540,7 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.FILE_LIBRARY_INFO.name());
         if (!coverApp) {
-            appList.addAll(convertMap(FileLibrary.class, list));
+            appList.addAll(convertMap(FileLibraryInfo.class, list));
         }
         return this;
     }

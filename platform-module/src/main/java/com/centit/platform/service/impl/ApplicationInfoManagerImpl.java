@@ -3,7 +3,7 @@ package com.centit.platform.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centit.fileserver.common.FileLibrary;
+import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.fileserver.common.OperateFileLibrary;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
@@ -47,7 +47,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private final static String OPTINFO_FORMCODE_PAGEENTER = "A";
     private final static String WORKGROUP_ROLECODE_LEADER = "组长";
     private IOsInfo iOsInfo;
-    private FileLibrary fileLibrary;
+    private FileLibraryInfo fileLibrary;
     private List<IOptInfo> optInfos = new ArrayList<>();
     private List<WorkGroup> workGroup = new ArrayList<>();
 
@@ -146,7 +146,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private void createFileLibrary() {
-        FileLibrary assemblyLibrary = assemblyFileLibraryInfo();
+        FileLibraryInfo assemblyLibrary = assemblyFileLibraryInfo();
         fileLibrary = operateFileLibrary.insertFileLibrary(assemblyLibrary);
     }
 
@@ -207,8 +207,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return workGroup;
     }
 
-    private FileLibrary assemblyFileLibraryInfo() {
-        FileLibrary fileLibrary = new FileLibrary();
+    private FileLibraryInfo assemblyFileLibraryInfo() {
+        FileLibraryInfo fileLibrary = new FileLibraryInfo();
         fileLibrary.setLibraryId(iOsInfo.getOsId());
         fileLibrary.setLibraryName(iOsInfo.getOsName());
         fileLibrary.setLibraryType(FILE_TYPE_ITEM);
