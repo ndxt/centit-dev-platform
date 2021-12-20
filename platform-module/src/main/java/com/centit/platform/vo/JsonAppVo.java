@@ -459,16 +459,15 @@ public class JsonAppVo {
             if (map.get(VERSION).equals(0)) {
                 String uuid = UuidOpt.getUuidAsString22();
                 flowDefineMap.put((String) map.get(FLOW_CODE), uuid);
-                map.put(FLOW_CODE, uuid);
-            } else {
-                flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
-                    .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key)));
             }
             map.put(FLOW_PUBLISH_DATE, new Date());
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
             map.put(OS_ID, osId);
         });
+        list.forEach(map ->
+            flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
+                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key))));
         return this;
     }
 
