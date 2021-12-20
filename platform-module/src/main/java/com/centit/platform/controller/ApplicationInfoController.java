@@ -14,7 +14,7 @@ import com.centit.framework.system.po.OsInfo;
 import com.centit.metaform.dubbo.adapter.MetaFormModelDraftManager;
 import com.centit.metaform.dubbo.adapter.MetaFormModelManager;
 import com.centit.platform.service.ApplicationInfoManager;
-import com.centit.product.metadata.service.MetaOptRelationService;
+import com.centit.product.adapter.api.MetadataManageService;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.workflow.po.FlowInfo;
@@ -49,7 +49,7 @@ public class ApplicationInfoController extends BaseController {
     private MetaFormModelDraftManager metaFormModelDraftManager;
 
     @Autowired
-    MetaOptRelationService metaOptRelationService;
+    MetadataManageService metadataManageService;
 
     @Autowired
     private PlatformEnvironment platformEnvironment;
@@ -134,9 +134,23 @@ public class ApplicationInfoController extends BaseController {
             return ResponseData.makeErrorMessage("流程存在数据，无法删除，请先移除！");
         }
         //移除关联数据
-        metaOptRelationService.deleteMetaOptRelationByOptId(optId);
+        metadataManageService.deleteMetaOptRelationByOptId(optId);
         //删除业务模块
         boolean result = platformEnvironment.deleteOptInfoByOptId(optId);
         return ResponseData.makeSuccessResponse(result+"");
+    }
+
+    @ApiOperation(value = "查询资源的详情和使用情况")
+    @GetMapping(value = "/resourceInfo")
+    @WrapUpResponseBody
+    public JSONObject resourceInfo(HttpServletRequest request, HttpServletResponse response) {
+        if (StringUtils.isBlank(WebOptUtils.getCurrentUserCode(request))){
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN,"您未登录");
+        }
+        Map<String, Object> parameters = collectRequestParameters(request);
+        if (WebOptUtils.isTenantTopUnit(request)) {
+            parameters.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
+        }
+        return applicationInfoManager.getResourceInfo(parameters);
     }
 }

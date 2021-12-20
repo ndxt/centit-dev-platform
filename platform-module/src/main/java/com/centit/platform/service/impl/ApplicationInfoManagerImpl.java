@@ -15,12 +15,17 @@ import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.platform.service.ApplicationInfoManager;
+import com.centit.product.adapter.api.MetadataManageService;
 import com.centit.product.adapter.api.WorkGroupManager;
 import com.centit.product.adapter.po.WorkGroup;
 import com.centit.product.adapter.po.WorkGroupParameter;
 import com.centit.support.algorithm.BooleanBaseOpt;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
+import com.centit.tenant.dubbo.adapter.TenantManageService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +45,13 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private OperateFileLibrary operateFileLibrary;
     @Autowired
     private WorkGroupManager workGroupManager;
+
+    @Autowired
+    private MetadataManageService metadataManageService;
+
+    @Autowired
+    private TenantManageService tenantManageService;
+
     private final static String FILE_TYPE_ITEM = "I";
     private final static String OPTINFO_INTOOLBAR_NO = "N";
     private final static String OPTINFO_OPTTYPE_COMMON = "O";
@@ -128,6 +140,26 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Override
     public IOsInfo updateApplicationInfo(OsInfo osInfo) {
         return platformEnvironment.updateOsInfo(osInfo);
+    }
+
+    @Override
+    public JSONObject getResourceInfo(Map<String, Object> parameters) {
+
+        String topUnit = MapUtils.getString(parameters, "topUnit");
+        String sourceType = MapUtils.getString(parameters, "sourceType","D");
+
+        JSONObject tenantInfo = tenantManageService.getTenantInfoByTopUnit(topUnit);
+        int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit, "sourceType", sourceType));
+        int unitCount = platformEnvironment.countUnitByTopUnit(topUnit);
+        int userCount = platformEnvironment.countUserByTopUnit(topUnit);
+        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
+
+        tenantInfo.put("dataBaseCount",dataBaseCount);
+        tenantInfo.put("unitCount",unitCount);
+        tenantInfo.put("userCount",userCount);
+        tenantInfo.put("osCount",osCount);
+        return tenantInfo;
     }
 
     private void createOsInfoAndOther(OsInfo osInfo) {

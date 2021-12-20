@@ -20,4 +20,11 @@ public interface ApplicationInfoManager {
     IOsInfo deleteApplicationInfo(String applicationId);
 
     IOsInfo updateApplicationInfo(OsInfo osInfo);
+
+    /**
+     * 获取资源详情及使用情况
+     * @param parameters
+     * @return
+     */
+    JSONObject getResourceInfo(Map<String, Object> parameters);
 }

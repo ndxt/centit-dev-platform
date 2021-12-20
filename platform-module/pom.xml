@@ -92,5 +92,11 @@
             <artifactId>work-group-adapter</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>integraton-platform-dubbo-adapter</artifactId>
+            <version>5.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
