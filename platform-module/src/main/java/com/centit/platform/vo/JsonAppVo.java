@@ -15,6 +15,7 @@ import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
 import com.centit.product.adapter.po.*;
 import com.centit.support.algorithm.GeneralAlgorithm;
+import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.JavaBeanMetaData;
@@ -452,7 +453,7 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
         list.sort((o1, o2) -> GeneralAlgorithm.compareTwoObject(o1.get(VERSION), o2.get(VERSION)));
         list.forEach(map -> {
-            if (map.get(VERSION).equals(0)) {
+            if (NumberBaseOpt.castObjectToInteger(map.get(VERSION),-1)==0) {
                 String uuid = UuidOpt.getUuidAsString22();
                 flowDefineMap.put((String) map.get(FLOW_CODE), uuid);
             }
