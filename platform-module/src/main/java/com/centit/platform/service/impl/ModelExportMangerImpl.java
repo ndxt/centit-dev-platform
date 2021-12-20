@@ -6,6 +6,7 @@ import com.centit.dde.core.SimpleDataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.platform.dao.ApplicationTemplateDao;
 import com.centit.platform.vo.JsonAppVo;
 import com.centit.platform.vo.TableName;
 import com.centit.platform.service.ModelExportManager;
@@ -17,6 +18,7 @@ import com.centit.support.algorithm.ZipCompressor;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.cxf.jaxrs.model.ApplicationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Value("${app.home:./}")
     private String appHome;
     @Autowired
-    private SourceInfoDao databaseInfoDao;
+    private ApplicationTemplateDao applicationTemplateDao;
     @Autowired
     private MetaTableManager metaTableManager;
     private final Map<String, String> applicationSql = new HashMap<>(16);
@@ -111,7 +113,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     private JSONArray createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
-        JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(databaseInfoDao, sql, map);
+        JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, sql, map);
         SimpleDataSet simpleDataSet = new SimpleDataSet();
         simpleDataSet.setData(jsonArray);
         CsvDataSet csvDataSet = new CsvDataSet();
@@ -162,7 +164,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         jsonAppVo.prepareApp();
         try {
             if (jsonAppVo.getAppList().size() > 0) {
-                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, jsonAppVo.getAppList());
+                result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
                 for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
                     Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
                     if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {
@@ -171,7 +173,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 }
             }
             if (jsonAppVo.getMetaObject().size() > 0) {
-                result += DatabaseOptUtils.batchMergeObjects(databaseInfoDao, jsonAppVo.getMetaObject());
+                result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
