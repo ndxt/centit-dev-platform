@@ -157,7 +157,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
 
-        tenantInfo.put("dataBaseCount",dataBaseCount);
+        tenantInfo.put("databaseCount",dataBaseCount);
         tenantInfo.put("unitCount",unitCount);
         tenantInfo.put("userCount",userCount);
         tenantInfo.put("osCount",osCount);
