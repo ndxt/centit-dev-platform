@@ -66,7 +66,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Override
     public JSONObject createApplicationInfo(OsInfo osInfo) {
         //验证应用数量是否达到限制
-        checkOsNumberLimitIsOver(osInfo.getTopUnit());
+        checkOsNumberLimitIsOver(WebOptUtils.getCurrentTopUnit(RequestThreadLocal.getLocalThreadWrapperRequest()));
         createOsInfoAndOther(osInfo);
         return assemblyApplicationInfo();
     }
