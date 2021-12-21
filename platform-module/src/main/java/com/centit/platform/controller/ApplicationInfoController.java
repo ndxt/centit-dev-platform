@@ -22,6 +22,7 @@ import com.centit.workflow.service.FlowDefine;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -148,8 +149,8 @@ public class ApplicationInfoController extends BaseController {
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN,"您未登录");
         }
         Map<String, Object> parameters = collectRequestParameters(request);
-        if (WebOptUtils.isTenantTopUnit(request)) {
-            parameters.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
+        if (StringUtils.isBlank(MapUtils.getString(parameters,"topUnit"))){
+            throw new ObjectException("topUnit不能为空!");
         }
         return applicationInfoManager.getResourceInfo(parameters);
     }
