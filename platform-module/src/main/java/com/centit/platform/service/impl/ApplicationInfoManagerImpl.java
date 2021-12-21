@@ -65,6 +65,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     @Override
     public JSONObject createApplicationInfo(OsInfo osInfo) {
+        //验证应用数量是否达到限制
+        checkOsNumberLimitIsOver(osInfo.getTopUnit());
         createOsInfoAndOther(osInfo);
         return assemblyApplicationInfo();
     }
@@ -291,4 +293,22 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return result;
     }
 
+    /**
+     * 验证租户下的应用数量是否达到最大限制
+     * @param topUnit 租户code
+     */
+    private void checkOsNumberLimitIsOver(String topUnit) {
+        if (StringUtils.isBlank(topUnit)){
+            throw new ObjectException("topUnit不能为空!");
+        }
+        JSONObject tenantInfo = tenantManageService.getTenantInfoByTopUnit(topUnit);
+        if (null == tenantInfo){
+            throw new ObjectException("租户信息有误!");
+        }
+        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
+        if (osCount>=tenantInfo.getIntValue("osNumberLimit")){
+            throw new ObjectException("应用个数达到最大限制!");
+        }
+    }
 }
