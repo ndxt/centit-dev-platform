@@ -10,7 +10,9 @@ import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptMethod;
 import com.centit.framework.model.basedata.IOsInfo;
+import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OsInfo;
+import com.centit.framework.system.service.OptInfoManager;
 import com.centit.metaform.dubbo.adapter.MetaFormModelDraftManager;
 import com.centit.metaform.dubbo.adapter.MetaFormModelManager;
 import com.centit.platform.service.ApplicationInfoManager;
@@ -25,6 +27,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +45,9 @@ import java.util.Map;
 public class ApplicationInfoController extends BaseController {
     @Autowired
     private ApplicationInfoManager applicationInfoManager;
+
+    @Autowired
+    private OptInfoManager optInfoManager;
 
     @Autowired
     private MetaFormModelManager metaFormModelManager;
@@ -68,7 +74,12 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "修改应用")
     @PutMapping
     @WrapUpResponseBody
+    @Transactional(rollbackFor = Exception.class)
     public IOsInfo updateApplicationInfo(@RequestBody OsInfo osInfo) {
+        OptInfo optInfo = new OptInfo();
+        optInfo.setOptId(osInfo.getOsId());
+        optInfo.setOptName(osInfo.getOsName());
+        optInfoManager.updateOptInfo(optInfo);
         return applicationInfoManager.updateApplicationInfo(osInfo);
     }
 
