@@ -12,7 +12,6 @@ import com.centit.framework.model.basedata.IOptMethod;
 import com.centit.framework.model.basedata.IOsInfo;
 import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OsInfo;
-import com.centit.framework.system.service.OptInfoManager;
 import com.centit.metaform.dubbo.adapter.MetaFormModelDraftManager;
 import com.centit.metaform.dubbo.adapter.MetaFormModelManager;
 import com.centit.platform.service.ApplicationInfoManager;
@@ -47,9 +46,6 @@ public class ApplicationInfoController extends BaseController {
     private ApplicationInfoManager applicationInfoManager;
 
     @Autowired
-    private OptInfoManager optInfoManager;
-
-    @Autowired
     private MetaFormModelManager metaFormModelManager;
 
     @Autowired
@@ -79,7 +75,7 @@ public class ApplicationInfoController extends BaseController {
         OptInfo optInfo = new OptInfo();
         optInfo.setOptId(osInfo.getOsId());
         optInfo.setOptName(osInfo.getOsName());
-        optInfoManager.updateOptInfo(optInfo);
+        platformEnvironment.updateOptInfo(optInfo);
         return applicationInfoManager.updateApplicationInfo(osInfo);
     }
 
