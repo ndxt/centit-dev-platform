@@ -165,17 +165,19 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private void createOsInfoAndOther(OsInfo osInfo) {
+        //获取工作组组长code
+        String leaderCode = osInfo.getCreated();
         OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
         iOsInfo = platformEnvironment.addOsInfo(assemblyOsInfo);
-        createWorkGroup();
+        createWorkGroup(leaderCode);
         createFileLibrary();
         createOptInfos();
         updateOsInfo();
     }
 
-    private void createWorkGroup() {
+    private void createWorkGroup(String leaderCode) {
         workGroup.clear();
-        workGroup.add(assemblyWorkGroupInfo());
+        workGroup.add(assemblyWorkGroupInfo(leaderCode));
         workGroupManager.batchWorkGroup(workGroup);
     }
 
@@ -230,13 +232,13 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return osInfo;
     }
 
-    private WorkGroup assemblyWorkGroupInfo() {
+    private WorkGroup assemblyWorkGroupInfo(String leaderCode) {
         WorkGroup workGroup = new WorkGroup();
         workGroup.setCreator(iOsInfo.getCreated());
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
         workGroupParameter.setRoleCode(WORKGROUP_ROLECODE_LEADER);
         workGroupParameter.setGroupId(iOsInfo.getOsId());
-        workGroupParameter.setUserCode(iOsInfo.getCreated());
+        workGroupParameter.setUserCode(StringUtils.isBlank(leaderCode)?iOsInfo.getCreated():leaderCode);
         workGroup.setWorkGroupParameter(workGroupParameter);
         return workGroup;
     }
