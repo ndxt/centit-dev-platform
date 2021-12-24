@@ -93,6 +93,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             if (workGroup!=null&&workGroup.size()>0){
                 String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.get(0).getWorkGroupParameter().getUserCode());
                 jsonObject.put("createUserName",userName);
+                jsonObject.put("userCode",workGroup.get(0).getWorkGroupParameter().getUserCode());
             }
             jsonArray.add(jsonObject);
         }
