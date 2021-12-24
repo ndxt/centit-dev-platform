@@ -220,9 +220,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             throw new ObjectException(ResponseData.ERROR_USER_LOGIN_ERROR,
                 "没有所属租户");
         }
-        if (StringBaseOpt.isNvl(osInfo.getCreated())) {
-            osInfo.setCreated(loginUser);
-        }
+        osInfo.setCreated(loginUser);
         if (StringBaseOpt.isNvl(osInfo.getTopUnit())) {
             osInfo.setTopUnit(topUnit);
         }
