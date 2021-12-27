@@ -1,6 +1,7 @@
 package com.centit.platform.po;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centit.framework.core.dao.DictionaryMap;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -40,17 +41,13 @@ public class ApplicationTemplate implements java.io.Serializable {
     @ApiModelProperty(value = "模板分类")
     @Column(name = "TEMPLATE_TYPE")
     @Length(max = 32, message = "字段长度不能大于{max}")
+    @DictionaryMap(fieldName = "templateTypeText", value = "TemplateType")
     private String templateType;
 
     @ApiModelProperty(value = "模板说明")
     @Column(name = "TEMPLATE_MEMO")
     @Length(max = 1000, message = "字段长度不能大于{max}")
     private String templateMemo;
-
-    @ApiModelProperty(value = "模板文件id")
-    @Column(name = "FILE_ID")
-    @Length(max = 32, message = "字段长度不能大于{max}")
-    private String fileId;
 
     @ApiModelProperty(value = "模板内容")
     @Column(name = "TEMPLATE_CONTENT")
@@ -63,7 +60,12 @@ public class ApplicationTemplate implements java.io.Serializable {
     private Date lastUpdateTime;
 
     @ApiModelProperty(value = "图片id")
-    @Column(name = "pic_id")
+    @Column(name = "PIC_ID")
     @Length(max = 64, message = "字段长度不能大于{max}")
     private String picId;
+
+    @ApiModelProperty(value = "是否启用")
+    @Column(name = "IS_USED")
+    @Length(max = 1, message = "字段长度不能大于{max}")
+    private Boolean isUsed;
 }

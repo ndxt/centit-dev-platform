@@ -3,6 +3,7 @@ package com.centit.platform.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.fileserver.utils.UploadDownloadUtils;
+import com.centit.framework.common.GlobalConstValue;
 import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
@@ -46,25 +47,33 @@ public class ApplicationTemplateController extends BaseController {
     @ApiOperation(value = "保存应用模板")
     @PostMapping(value = "/saveApp")
     public void createApplicationInfo(HttpServletRequest request, HttpServletResponse response){
-        ApplicationTemplate applicationTemplate = new ApplicationTemplate();
-        applicationTemplate.setTemplateName(request.getParameter("templateName"));
-        applicationTemplate.setTemplateType(request.getParameter("templateType"));
-        applicationTemplate.setPicId(request.getParameter("picId"));
-        applicationTemplate.setFileId(request.getParameter("fileId"));
-        applicationTemplate.setTemplateMemo(request.getParameter("templateMemo"));
-        FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
-        String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
-        try {
-            InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();
-            File file = new File(tempFilePath);
-            FileUtils.copyInputStreamToFile(inputStream, file);
-            applicationTemplate.setTemplateContent(modelExportManager.uploadModel(file));
-            applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
-            JsonResultUtils.writeSingleDataJson(applicationTemplate, response);
-        } catch (Exception e) {
-            JsonResultUtils.writeErrorMessageJson(e.getLocalizedMessage(),response);
-        }finally {
-            FileSystemOpt.deleteFile(tempFilePath);
+        if(GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
+            ApplicationTemplate applicationTemplate = new ApplicationTemplate();
+            applicationTemplate.setTemplateName(request.getParameter("templateName"));
+            applicationTemplate.setTemplateType(request.getParameter("templateType"));
+            applicationTemplate.setPicId(request.getParameter("picId"));
+            applicationTemplate.setTemplateMemo(request.getParameter("templateMemo"));
+            if(request.getParameter("isUsed")==null || "".equals(request.getParameter("isUsed"))){
+                applicationTemplate.setIsUsed(true);
+            }
+            FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
+            String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
+            try {
+                InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();
+                File file = new File(tempFilePath);
+                FileUtils.copyInputStreamToFile(inputStream, file);
+                if(file.length()!=0) {
+                    applicationTemplate.setTemplateContent(modelExportManager.uploadModel(file));
+                }
+                applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
+                JsonResultUtils.writeSingleDataJson(applicationTemplate, response);
+            } catch (Exception e) {
+                JsonResultUtils.writeErrorMessageJson(e.getLocalizedMessage(), response);
+            } finally {
+                FileSystemOpt.deleteFile(tempFilePath);
+            }
+        }else{
+            JsonResultUtils.writeErrorMessageJson("只有平台管理员有权限", response);
         }
     }
 
@@ -72,8 +81,12 @@ public class ApplicationTemplateController extends BaseController {
     @ApiImplicitParam(name = "templateId", value = "模板ID")
     @DeleteMapping(value = "/{templateId}")
     @WrapUpResponseBody
-    public void deleteApplicationTemplate(@PathVariable String templateId) {
-        applicationTemplateManager.deleteApplicationTemplate(templateId);
+    public void deleteApplicationTemplate(@PathVariable String templateId,HttpServletRequest request,HttpServletResponse response) {
+        if(GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
+            applicationTemplateManager.deleteApplicationTemplate(templateId);
+        }else{
+            JsonResultUtils.writeErrorMessageJson("只有平台管理员有权限", response);
+        }
     }
 
     @ApiOperation(value = "查询应用模板")
@@ -81,6 +94,9 @@ public class ApplicationTemplateController extends BaseController {
     @WrapUpResponseBody
     public PageQueryResult<ApplicationTemplate> listApplicationTemplate(HttpServletRequest request, PageDesc pageDesc) {
         Map<String, Object> searchColumn = collectRequestParameters(request);
+        if(!GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
+          searchColumn.put("isUsed","T");
+        }
         List<ApplicationTemplate> list = applicationTemplateManager.listApplicationTemplate(searchColumn, pageDesc);
         return PageQueryResult.createResult(list, pageDesc);
     }
