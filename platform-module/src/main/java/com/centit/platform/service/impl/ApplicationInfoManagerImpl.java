@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author zhf
@@ -83,6 +84,14 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         }else {
             osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
         }
+        if (parameters.get("involved") !=null){
+            Map<String, Object> parames = new HashMap<>();
+            parames.put("userCode",WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest()));
+            List<WorkGroup> workGroups = workGroupManager.listWorkGroup(parames, null);
+            List<String> osId = workGroups.stream().map(workGroup -> workGroup.getWorkGroupParameter().getGroupId()).collect(Collectors.toList());
+            osInfos.removeIf(osInfo->!osId.contains(osInfo.getOsId()));
+        }
+
         JSONArray jsonArray = new JSONArray();
         for (IOsInfo osInfo : osInfos) {
             JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(osInfo), JSONObject.class);
