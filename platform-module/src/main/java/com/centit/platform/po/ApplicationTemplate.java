@@ -67,5 +67,5 @@ public class ApplicationTemplate implements java.io.Serializable {
     @ApiModelProperty(value = "是否启用")
     @Column(name = "IS_USED")
     @Length(max = 1, message = "字段长度不能大于{max}")
-    private Boolean isUsed;
+    private String isUsed;
 }

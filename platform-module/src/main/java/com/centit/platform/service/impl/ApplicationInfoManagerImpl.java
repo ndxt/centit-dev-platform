@@ -56,7 +56,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private final static String OPTINFO_INTOOLBAR_NO = "N";
     private final static String OPTINFO_OPTTYPE_COMMON = "O";
     private final static String OPTINFO_FORMCODE_ITEM = "I";
-    private final static String OPTINFO_FORMCODE_PAGEENTER = "A";
+    public final static String OPTINFO_FORMCODE_PAGEENTER = "A";
     private final static String WORKGROUP_ROLECODE_LEADER = "组长";
     private IOsInfo iOsInfo;
     private FileLibraryInfo fileLibrary;

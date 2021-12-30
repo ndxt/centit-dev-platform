@@ -16,6 +16,7 @@ import com.centit.support.file.FileSystemOpt;
 import com.centit.support.file.FileType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.ws.rs.Path;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.checkerframework.checker.units.qual.A;
@@ -39,10 +40,10 @@ public class ModelExportController extends BaseController {
     private PlatformEnvironment platformEnvironment;
 
     @ApiOperation(value = "导出应用")
-    @GetMapping(value = "/downloadModel/{applicationId}")
-    public void downLoadModel(@PathVariable String applicationId, HttpServletResponse response) throws IOException {
-        InputStream in = modelExportManager.downModel(applicationId);
-        String fileName = platformEnvironment.getOsInfo(applicationId).getOsName();
+    @GetMapping(value = "/downloadModel/{osId}")
+    public void downLoadModel(@PathVariable String osId, HttpServletResponse response) throws IOException {
+        InputStream in = modelExportManager.downModel(osId);
+        String fileName = platformEnvironment.getOsInfo(osId).getOsName();
         fileName = URLEncoder.encode(fileName, "UTF-8") +
             ".zip";
         response.setContentType(FileType.mapExtNameToMimeType("zip"));
@@ -50,23 +51,23 @@ public class ModelExportController extends BaseController {
         IOUtils.copy(in, response.getOutputStream());
     }
 
-    @ApiOperation(value = "导入zip覆盖应用")
+    @ApiOperation(value = "导入zip获取json")
     @RequestMapping(value = "/updateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public Integer upLoadModel(HttpServletRequest request) throws Exception {
+    public JSONObject upLoadModel(HttpServletRequest request)  {
         CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
         if (userDetails==null){
-            throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
         }
         FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
         String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
-        InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();
-        File file = new File(tempFilePath);
-        FileUtils.copyInputStreamToFile(inputStream, file);
-        JSONObject jsonObject = modelExportManager.uploadModel(file);
-        Integer app = modelExportManager.createApp(jsonObject, "T",
-            WebOptUtils.getCurrentUserDetails(request));
-        FileSystemOpt.deleteFile(tempFilePath);
-        return app;
+        try {
+            InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();
+            File file = new File(tempFilePath);
+            FileUtils.copyInputStreamToFile(inputStream, file);
+            return modelExportManager.uploadModel(file);
+        }catch (Exception e){
+            throw new ObjectException(e.getMessage());
+        }
     }
 }

@@ -14,6 +14,7 @@ import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.po.ApplicationTemplate;
 import com.centit.platform.service.ApplicationTemplateManager;
 import com.centit.platform.service.ModelExportManager;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.file.FileSystemOpt;
@@ -38,6 +39,8 @@ import java.util.Map;
 @RequestMapping(value = "applicationTemplate")
 @Api(value = "应用模板管理", tags = "应用模板管理")
 public class ApplicationTemplateController extends BaseController {
+    private static final String TEMPLATE_ID = "templateId";
+    private static final String IS_USED = "isUsed";
     @Autowired
     private ApplicationTemplateManager applicationTemplateManager;
 
@@ -49,12 +52,15 @@ public class ApplicationTemplateController extends BaseController {
     public void createApplicationInfo(HttpServletRequest request, HttpServletResponse response){
         if(GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
             ApplicationTemplate applicationTemplate = new ApplicationTemplate();
+            if(!StringBaseOpt.isNvl(request.getParameter(TEMPLATE_ID))){
+                applicationTemplate.setTemplateId(request.getParameter(TEMPLATE_ID));
+            }
             applicationTemplate.setTemplateName(request.getParameter("templateName"));
             applicationTemplate.setTemplateType(request.getParameter("templateType"));
             applicationTemplate.setPicId(request.getParameter("picId"));
             applicationTemplate.setTemplateMemo(request.getParameter("templateMemo"));
-            if(request.getParameter("isUsed")==null || "".equals(request.getParameter("isUsed"))){
-                applicationTemplate.setIsUsed(true);
+            if(request.getParameter(IS_USED)==null || "".equals(request.getParameter(IS_USED))){
+                applicationTemplate.setIsUsed("T");
             }
             FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
             String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
@@ -78,7 +84,7 @@ public class ApplicationTemplateController extends BaseController {
     }
 
     @ApiOperation(value = "删除应用模板")
-    @ApiImplicitParam(name = "templateId", value = "模板ID")
+    @ApiImplicitParam(name = TEMPLATE_ID, value = "模板ID")
     @DeleteMapping(value = "/{templateId}")
     @WrapUpResponseBody
     public void deleteApplicationTemplate(@PathVariable String templateId,HttpServletRequest request,HttpServletResponse response) {
@@ -95,7 +101,7 @@ public class ApplicationTemplateController extends BaseController {
     public PageQueryResult<ApplicationTemplate> listApplicationTemplate(HttpServletRequest request, PageDesc pageDesc) {
         Map<String, Object> searchColumn = collectRequestParameters(request);
         if(!GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
-          searchColumn.put("isUsed","T");
+          searchColumn.put(IS_USED,"T");
         }
         List<ApplicationTemplate> list = applicationTemplateManager.listApplicationTemplate(searchColumn, pageDesc);
         return PageQueryResult.createResult(list, pageDesc);
@@ -108,15 +114,34 @@ public class ApplicationTemplateController extends BaseController {
         return applicationTemplateManager.getApplicationTemplate(templateId);
     }
 
-    @ApiOperation(value = "传入json创建应用")
+    @ApiOperation(value = "根据模板创建应用")
     @RequestMapping(value = "/createApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
         CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
         if (userDetails==null){
-            throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
         }
-        return modelExportManager.createApp(jsonObject, "F",
+        if(jsonObject==null){
+            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
+        }
+        return modelExportManager.createApp(jsonObject, "",
+            WebOptUtils.getCurrentUserDetails(request));
+    }
+
+    @ApiOperation(value = "导入覆盖应用")
+    @RequestMapping(value = "/updateApp/{osId}", method = {RequestMethod.POST})
+    @WrapUpResponseBody
+    public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request,
+                             @PathVariable String osId)  {
+        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
+        if (userDetails==null){
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
+        }
+        if(jsonObject==null){
+            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
+        }
+        return modelExportManager.createApp(jsonObject, osId,
             WebOptUtils.getCurrentUserDetails(request));
     }
 }

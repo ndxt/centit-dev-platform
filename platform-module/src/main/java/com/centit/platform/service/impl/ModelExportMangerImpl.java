@@ -14,6 +14,7 @@ import com.centit.product.dbdesign.service.MetaTableManager;
 import com.centit.product.metadata.dao.SourceInfoDao;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.algorithm.GeneralAlgorithm;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.algorithm.ZipCompressor;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
@@ -54,7 +55,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
         applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
-        applicationSql.put(TableName.WORK_GROUP.name(), "select * from work_group where group_id=:osId");
         applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
             "from f_database_info where database_code in (select a.DATABASE_CODE from f_md_table a join f_table_opt_relation b on a.table_id=b.table_id where os_id=:osId)");
         applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
@@ -150,13 +150,28 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer createApp(JSONObject jsonObject, String isCover, CentitUserDetails userDetails) {
+    public Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails) {
         try {
-            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, isCover, userDetails);
+            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails);
             return createApp(jsonAppVo);
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());
         }
+    }
+    private JSONObject getOldApplication(String osId){
+        if(StringBaseOpt.isNvl(osId)){
+            return new JSONObject();
+        }
+        Map<String, Object> mapApplication = new HashMap<>(1);
+        mapApplication.put("osId", osId);
+        JSONObject jsonObject = new JSONObject();
+        for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
+            JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, entry.getValue(), mapApplication);
+            if(jsonArray!=null){
+                jsonObject.put(entry.getKey(),jsonArray);
+            }
+        }
+        return jsonObject;
     }
 
     private Integer createApp(JsonAppVo jsonAppVo) throws Exception {
