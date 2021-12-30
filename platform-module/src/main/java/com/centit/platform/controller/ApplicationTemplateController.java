@@ -61,6 +61,8 @@ public class ApplicationTemplateController extends BaseController {
             applicationTemplate.setTemplateMemo(request.getParameter("templateMemo"));
             if(request.getParameter(IS_USED)==null || "".equals(request.getParameter(IS_USED))){
                 applicationTemplate.setIsUsed("T");
+            }else{
+                applicationTemplate.setIsUsed(request.getParameter(IS_USED));
             }
             FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
             String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
