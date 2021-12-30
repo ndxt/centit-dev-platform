@@ -14,6 +14,7 @@ public class ApplicationTemplateDao extends BaseDaoImpl<ApplicationTemplate, Str
     public Map<String, String> getFilterField() {
         Map<String, String> filterField = new HashMap<>();
         filterField.put("templateName", CodeBook.LIKE_HQL_ID);
+        filterField.put("isUsed", CodeBook.EQUAL_HQL_ID);
         return filterField;
     }
 }
