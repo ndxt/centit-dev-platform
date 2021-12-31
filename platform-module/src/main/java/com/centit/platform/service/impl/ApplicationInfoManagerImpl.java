@@ -112,6 +112,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Override
     public JSONObject getApplicationInfo(String applicationId,String topUnit) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
+        if(iOsInfo==null){
+            return null;
+        }
         if (!topUnit.equals(iOsInfo.getTopUnit())){
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
