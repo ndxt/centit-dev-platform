@@ -86,9 +86,11 @@ public class JsonAppVo {
     private static final String DOC_ID = "docId";
     private static final String ROLE_CODE = "roleCode";
     private static final String VARIABLE_NAME = "variableName";
-    public static final String OS_NAME = "osName";
-    public static final String LIBRARY_NAME = "libraryName";
-    public static final String FORM_CODE = "formCode";
+    private static final String OS_NAME = "osName";
+    private static final String LIBRARY_NAME = "libraryName";
+    private static final String FORM_CODE = "formCode";
+    private static final String MOBILE_FORM_TEMPLATE = "mobileFormTemplate";
+    private static final String STRUCTURE_FUNCTION = "structureFunction";
 
 
     private JSONObject oldAppObject;
@@ -532,6 +534,16 @@ public class JsonAppVo {
                 form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
             }
             map.put(FORM_TEMPLATE, form);
+            form = (String) map.get(MOBILE_FORM_TEMPLATE);
+            for (String key : metaFormMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+            }
+            map.put(MOBILE_FORM_TEMPLATE, form);
+            form = (String) map.get(STRUCTURE_FUNCTION);
+            for (String key : dataPacketMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+            }
+            map.put(STRUCTURE_FUNCTION, form);
         });
         return this;
     }
