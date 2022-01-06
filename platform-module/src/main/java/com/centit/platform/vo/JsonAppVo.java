@@ -526,24 +526,31 @@ public class JsonAppVo {
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
         });
         list.forEach(map -> {
-            String form = (String) map.get(FORM_TEMPLATE);
-            for (String key : metaFormMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+            String form;
+            if(map.get(FORM_TEMPLATE)!=null) {
+                form = (String) map.get(FORM_TEMPLATE);
+                for (String key : metaFormMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                }
+                for (String key : dataPacketMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                map.put(FORM_TEMPLATE, form);
             }
-            for (String key : dataPacketMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+            if(map.get(MOBILE_FORM_TEMPLATE)!=null) {
+                form = (String) map.get(MOBILE_FORM_TEMPLATE);
+                for (String key : metaFormMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                }
+                map.put(MOBILE_FORM_TEMPLATE, form);
             }
-            map.put(FORM_TEMPLATE, form);
-            form = (String) map.get(MOBILE_FORM_TEMPLATE);
-            for (String key : metaFormMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+            if(map.get(STRUCTURE_FUNCTION)!=null) {
+                form = (String) map.get(STRUCTURE_FUNCTION);
+                for (String key : dataPacketMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                map.put(STRUCTURE_FUNCTION, form);
             }
-            map.put(MOBILE_FORM_TEMPLATE, form);
-            form = (String) map.get(STRUCTURE_FUNCTION);
-            for (String key : dataPacketMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
-            }
-            map.put(STRUCTURE_FUNCTION, form);
         });
         return this;
     }
