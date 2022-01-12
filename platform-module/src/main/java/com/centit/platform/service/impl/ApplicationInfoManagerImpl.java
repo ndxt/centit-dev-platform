@@ -12,13 +12,13 @@ import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptInfo;
 import com.centit.framework.model.basedata.IOsInfo;
+import com.centit.framework.model.basedata.IWorkGroup;
 import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OsInfo;
+import com.centit.framework.system.po.WorkGroup;
+import com.centit.framework.system.po.WorkGroupParameter;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.product.adapter.api.MetadataManageService;
-import com.centit.product.adapter.api.WorkGroupManager;
-import com.centit.product.adapter.po.WorkGroup;
-import com.centit.product.adapter.po.WorkGroupParameter;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
@@ -44,8 +44,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private PlatformEnvironment platformEnvironment;
     @Autowired
     private OperateFileLibrary operateFileLibrary;
-    @Autowired
-    private WorkGroupManager workGroupManager;
 
     @Autowired
     private MetadataManageService metadataManageService;
@@ -62,7 +60,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private IOsInfo iOsInfo;
     private FileLibraryInfo fileLibrary;
     private List<IOptInfo> optInfos = new ArrayList<>();
-    private List<WorkGroup> workGroup = new ArrayList<>();
+    private List<IWorkGroup> workGroup = new ArrayList<>();
 
     @Override
     public JSONObject createApplicationInfo(OsInfo osInfo) {
@@ -87,8 +85,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (parameters.get("involved") !=null){
             Map<String, Object> parames = new HashMap<>();
             parames.put("userCode",WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest()));
-            List<WorkGroup> workGroups = workGroupManager.listWorkGroup(parames, null);
-            List<String> osId = workGroups.stream().map(workGroup -> workGroup.getWorkGroupParameter().getGroupId()).collect(Collectors.toList());
+            List<? extends IWorkGroup> workGroups = platformEnvironment.listWorkGroup(parames, null);
+            List<String> osId = workGroups.stream().map(IWorkGroup::getGroupId).collect(Collectors.toList());
             osInfos.removeIf(osInfo->!osId.contains(osInfo.getOsId()));
         }
 
@@ -98,11 +96,11 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             Map map = new HashMap();
             map.put("groupId",osInfo.getOsId());
             map.put("roleCode","组长");
-            List<WorkGroup> workGroup = workGroupManager.listWorkGroup(map,null);
+            List<? extends IWorkGroup> workGroup = platformEnvironment.listWorkGroup(map,null);
             if (workGroup!=null&&workGroup.size()>0){
-                String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.get(0).getWorkGroupParameter().getUserCode());
+                String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.get(0).getUserCode());
                 jsonObject.put("createUserName",userName);
-                jsonObject.put("userCode",workGroup.get(0).getWorkGroupParameter().getUserCode());
+                jsonObject.put("userCode",workGroup.get(0).getUserCode());
             }
             jsonArray.add(jsonObject);
         }
@@ -121,7 +119,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         Map map = new HashMap();
         map.put("groupId",applicationId);
-        List<WorkGroup>   workGroup = workGroupManager.listWorkGroup(map,null);
+        List<IWorkGroup>   workGroup = platformEnvironment.listWorkGroup(map,null);
         if (notHaveAuth(workGroup)) {
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
@@ -129,7 +127,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return assemblyApplicationInfo();
     }
 
-    private boolean notHaveAuth(List<WorkGroup>   workGroups) {
+    private boolean notHaveAuth(List<IWorkGroup>   workGroups) {
         String loginUser = WebOptUtils.getCurrentUserCode(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         if (StringBaseOpt.isNvl(loginUser)) {
@@ -139,8 +137,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (StringBaseOpt.isNvl(loginUser)) {
             return true;
         }
-        for (WorkGroup workGroup : workGroups) {
-            if (workGroup.getWorkGroupParameter().getUserCode().equals(loginUser)) {
+        for (IWorkGroup workGroup : workGroups) {
+            if (workGroup.getUserCode().equals(loginUser)) {
                 return false;
             }
         }
@@ -191,7 +189,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private void createWorkGroup(String leaderCode) {
         workGroup.clear();
         workGroup.add(assemblyWorkGroupInfo(leaderCode));
-        workGroupManager.batchWorkGroup(workGroup);
+        platformEnvironment.batchWorkGroup(workGroup);
     }
 
     private void createFileLibrary() {
