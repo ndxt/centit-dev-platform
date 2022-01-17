@@ -345,10 +345,10 @@ public class JsonAppVo {
                 if (finalOldList != null) {
                     for (OptInfo oldMap : finalOldList) {
                         if (map.get(OPT_ID).toString().equals(oldMap.getSourceId())
-                        || (CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
-                           &&CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
-                        ||(ApplicationInfoManagerImpl.OPTINFO_FORMCODE_PAGEENTER.equals(oldMap.getFormCode())
-                            &&ApplicationInfoManagerImpl.OPTINFO_FORMCODE_PAGEENTER.equals(map.get(FORM_CODE)))){
+                        || (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
+                           &&OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
+                        ||(OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(oldMap.getFormCode())
+                            &&OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE)))){
                             uuid = oldMap.getOptId();
                             map.put(DOC_ID, oldMap.getDocId());
                             break;
