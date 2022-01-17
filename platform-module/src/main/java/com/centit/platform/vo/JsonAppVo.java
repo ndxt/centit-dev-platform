@@ -54,7 +54,6 @@ public class JsonAppVo {
     private static final String START_NODE_ID = "startNodeId";
     private static final String END_NODE_ID = "endNodeId";
     private static final String TOP_UNIT = "topUnit";
-    private static final String WORKGROUP_ROLE_CODE_LEADER = "组长";
     private static final String NO_PUBLISH = "W";
     private static final String MAX_LENGTH = "maxLength";
     private static final String COLUMN_LENGTH = "columnLength";
@@ -753,7 +752,7 @@ public class JsonAppVo {
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
         workGroupParameter.setUserCode(userCode);
         workGroupParameter.setGroupId(osId);
-        workGroupParameter.setRoleCode(WORKGROUP_ROLE_CODE_LEADER);
+        workGroupParameter.setRoleCode(WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
         teamUser.setWorkGroupParameter(workGroupParameter);
         teamUser.setCreator(userCode);
         return teamUser;

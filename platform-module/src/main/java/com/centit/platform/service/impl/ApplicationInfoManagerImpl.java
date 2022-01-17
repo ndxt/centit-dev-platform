@@ -52,11 +52,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private TenantManageService tenantManageService;
 
     private final static String FILE_TYPE_ITEM = "I";
-    private final static String OPTINFO_INTOOLBAR_NO = "N";
-    private final static String OPTINFO_OPTTYPE_COMMON = "O";
-    private final static String OPTINFO_FORMCODE_ITEM = "I";
-    public final static String OPTINFO_FORMCODE_PAGEENTER = "A";
-    private final static String WORKGROUP_ROLECODE_LEADER = "组长";
     private IOsInfo iOsInfo;
     private FileLibraryInfo fileLibrary;
     private List<IOptInfo> optInfos = new ArrayList<>();
@@ -200,8 +195,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private void createOptInfos() {
         optInfos.clear();
         createParentMenu();
-        creatSubMenuAndAddOptList(CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON);
-        creatSubMenuAndAddOptList(OPTINFO_FORMCODE_PAGEENTER);
+        creatSubMenuAndAddOptList(OptInfo.OPT_INFO_FORM_CODE_COMMON,OptInfo.OPT_INFO_FORM_CODE_COMMON_NAME);
+        creatSubMenuAndAddOptList(OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER,OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER_NAME);
     }
 
     private void updateOsInfo() {
@@ -245,7 +240,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         WorkGroup workGroup = new WorkGroup();
         workGroup.setCreator(iOsInfo.getCreated());
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
-        workGroupParameter.setRoleCode(WORKGROUP_ROLECODE_LEADER);
+        workGroupParameter.setRoleCode(WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
         workGroupParameter.setGroupId(iOsInfo.getOsId());
         workGroupParameter.setUserCode(StringUtils.isBlank(leaderCode)?iOsInfo.getCreated():leaderCode);
         workGroup.setWorkGroupParameter(workGroupParameter);
@@ -266,8 +261,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         platformEnvironment.addOptInfo(result);
     }
 
-    private void creatSubMenuAndAddOptList(String type) {
-        OptInfo result = assemblySubMenuInfo(type);
+    private void creatSubMenuAndAddOptList(String type,String optName) {
+        OptInfo result = assemblySubMenuInfo(type,optName);
         IOptInfo optInfo = platformEnvironment.addOptInfo(result);
         optInfos.add(optInfo);
     }
@@ -276,31 +271,22 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         OptInfo result = new OptInfo();
         result.setOptId(iOsInfo.getOsId());
         result.setOptName(iOsInfo.getOsName());
-        result.setIsInToolbar(OPTINFO_INTOOLBAR_NO);
-        result.setFormCode(OPTINFO_FORMCODE_ITEM);
+        result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
+        result.setFormCode(OptInfo.OPT_INFO_FORM_CODE_ITEM);
         result.setOptUrl("");
-        result.setOptType(OPTINFO_OPTTYPE_COMMON);
+        result.setOptType(OptInfo.OPT_INFO_OPT_TYPE_COMMON);
         result.setTopOptId(iOsInfo.getOsId());
         return result;
     }
 
-    private OptInfo assemblySubMenuInfo(String type) {
+    private OptInfo assemblySubMenuInfo(String type,String optName) {
         OptInfo result = new OptInfo();
-        result.setIsInToolbar(OPTINFO_INTOOLBAR_NO);
+        result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
         result.setPreOptId(iOsInfo.getOsId());
         result.setTopOptId(iOsInfo.getOsId());
         result.setOptUrl("");
-        switch (type) {
-            case CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON:
-                result.setOptName("通用模块");
-                result.setFormCode(CodeRepositoryUtil.OPT_INFO_FORM_CODE_COMMON);
-                break;
-            case OPTINFO_FORMCODE_PAGEENTER:
-                result.setOptName("应用入口页面");
-                result.setFormCode(OPTINFO_FORMCODE_PAGEENTER);
-                break;
-            default:
-        }
+        result.setFormCode(type);
+        result.setOptName(optName);
         return result;
     }
 
