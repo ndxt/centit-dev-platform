@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
-import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
@@ -82,32 +81,26 @@ public class ApplicationRescourseController extends BaseController  {
     @WrapUpResponseBody
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
         List<ApplicationRescourse> list = applicationRescourseService.listApplicationRescourse(BaseController.collectRequestParameters(request), pageDesc);
-        Set<String> appSet = new HashSet<>();
-        list.forEach(t -> {
-            appSet.add(t.getDataBaseId());
-        });
-        Map<String, Object> searchColumn = new HashMap<>();
-        if (WebOptUtils.isTenantTopUnit(request)) {
-            searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
-        }
-        List<SourceInfo> sourceInfoList = databaseInfoMag.listObjects(searchColumn);
-        Map<String, SourceInfo> maps = new HashMap<>();
-        for (SourceInfo sourceInfo : sourceInfoList) {
-            maps.put(sourceInfo.getDatabaseCode(), sourceInfo);
-        }
-        Iterator var4 = appSet.iterator();
-        List<SourceInfo> newSourceInfos = new ArrayList<>();
-        while(var4.hasNext()) {
-            String uc = (String)var4.next();
-            SourceInfo sourceInfo = maps.get(uc);
-            if (sourceInfo != null) {
-                newSourceInfos.add(sourceInfo);
+        List<Map<String, Object>> resultList = new ArrayList();
+        SourceInfo sourceInfo = new SourceInfo();
+        if (list != null && list.size() > 0) {
+            for(ApplicationRescourse applicationRescourse : list){
+                Map<String, Object> resultMap = new HashMap<>();
+                String dataBaseId = applicationRescourse.getDataBaseId();
+                resultMap.put("osId",applicationRescourse.getOsId());
+                resultMap.put("dataBaseId", dataBaseId);
+                resultMap.put("isUsed",applicationRescourse.getIsUsed());
+                sourceInfo = databaseInfoMag.getObjectById(dataBaseId);
+                if(sourceInfo != null){
+                    resultMap.put("databaseName", sourceInfo.getDatabaseName());
+                    resultMap.put("databaseUrl", sourceInfo.getDatabaseUrl());
+                    resultMap.put("createTime", sourceInfo.getCreateTime());
+                    resultMap.put("sourceType", sourceInfo.getSourceType());
+                }
+                resultList.add(resultMap);
             }
         }
-        if(newSourceInfos != null && newSourceInfos.size() > 0){
-            pageDesc.setTotalRows(newSourceInfos.size());
-        }
-        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(newSourceInfos)), pageDesc, new Class[]{SourceInfo.class});
+        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc);
     }
 
     @ApiOperation(value = "查询单个关联信息")
