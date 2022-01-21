@@ -110,6 +110,8 @@ public class ApplicationRescourseController extends BaseController  {
                 resultMap.put("osId",applicationRescourse.getOsId());
                 resultMap.put("dataBaseId", dataBaseId);
                 resultMap.put("isUsed",applicationRescourse.getIsUsed());
+                resultMap.put("pushTime",applicationRescourse.getPushTime());
+                resultMap.put("pushUser",applicationRescourse.getPushUser());
                 sourceInfo = databaseInfoMag.getObjectById(dataBaseId);
                 if(sourceInfo != null){
                     resultMap.put("databaseName", sourceInfo.getDatabaseName());
