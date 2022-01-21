@@ -122,7 +122,7 @@ public class ApplicationRescourseController extends BaseController  {
                 resultList.add(resultMap);
             }
         }
-        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc);
+        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationRescourse.class});
     }
 
     @ApiOperation(value = "查询单个关联信息")

@@ -1,5 +1,6 @@
 package com.centit.platform.po;
 
+import com.centit.framework.core.dao.DictionaryMap;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
 import io.swagger.annotations.ApiModel;
@@ -47,6 +48,10 @@ public class ApplicationRescourse implements Serializable{
     @ApiModelProperty(value = "分配人")
     @Column(name = "push_user")
     @Length(max = 32, message = "字段长度不能大于{max}")
+    @DictionaryMap(
+        fieldName = {"pushUserName"},
+        value = {"userCode"}
+    )
     private  String pushUser;
 
     @ApiModelProperty(value = "是否为默认关系数据库")
