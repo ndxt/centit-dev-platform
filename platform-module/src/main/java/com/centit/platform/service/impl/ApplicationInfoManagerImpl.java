@@ -103,20 +103,22 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public JSONObject getApplicationInfo(String applicationId,String topUnit) {
+    public JSONObject getApplicationInfo(String applicationId,String topUnit,boolean checkAuth) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
         if(iOsInfo==null){
             return null;
         }
-        if (!topUnit.equals(iOsInfo.getTopUnit())){
+        if (checkAuth && !topUnit.equals(iOsInfo.getTopUnit())){
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
-        Map map = new HashMap();
-        map.put("groupId",applicationId);
-        List<IWorkGroup>   workGroup = platformEnvironment.listWorkGroup(map,null);
-        if (notHaveAuth(workGroup)) {
-            throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
+        if(checkAuth) {
+            Map map = new HashMap();
+            map.put("groupId", applicationId);
+            List<IWorkGroup> workGroup = platformEnvironment.listWorkGroup(map, null);
+            if (notHaveAuth(workGroup)) {
+                throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
+            }
         }
         optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
         return assemblyApplicationInfo();

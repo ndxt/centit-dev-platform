@@ -107,7 +107,14 @@ public class ApplicationInfoController extends BaseController {
             return null;
         }
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        return applicationInfoManager.getApplicationInfo(applicationId,topUnit);
+        return applicationInfoManager.getApplicationInfo(applicationId,topUnit,true);
+    }
+
+    @ApiOperation(value = "查询单个应用模块")
+    @GetMapping(value = "no-auth/{applicationId}")
+    @WrapUpResponseBody
+    public JSONObject getApplicationInfoNoAuth(@PathVariable String applicationId) {
+        return applicationInfoManager.getApplicationInfo(applicationId,"",false);
     }
 
     @ApiOperation(value = "业务模块删除按钮")
