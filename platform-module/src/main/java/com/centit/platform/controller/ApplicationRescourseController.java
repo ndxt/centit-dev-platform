@@ -107,6 +107,7 @@ public class ApplicationRescourseController extends BaseController  {
             for(ApplicationRescourse applicationRescourse : list){
                 Map<String, Object> resultMap = new HashMap<>();
                 String dataBaseId = applicationRescourse.getDataBaseId();
+                resultMap.put("id",applicationRescourse.getId());
                 resultMap.put("osId",applicationRescourse.getOsId());
                 resultMap.put("dataBaseId", dataBaseId);
                 resultMap.put("isUsed",applicationRescourse.getIsUsed());
