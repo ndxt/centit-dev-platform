@@ -19,4 +19,6 @@ public interface ApplicationRescourseService {
     ApplicationRescourse getApplicationRescourse(String id);
 
     void deleteAppRescourse(String osId, String dataBaseId);
+
+    List<ApplicationRescourse> listObjectsByProperty(Map<String, Object> propertiesMap);
 }

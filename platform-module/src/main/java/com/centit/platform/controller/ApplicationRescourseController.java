@@ -13,6 +13,7 @@ import com.centit.product.adapter.po.SourceInfo;
 import com.centit.product.metadata.service.SourceInfoManager;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,9 +64,28 @@ public class ApplicationRescourseController extends BaseController  {
     }
 
     @ApiOperation(value = "修改关联信息")
-    @PostMapping("/update")
+    @PutMapping()
     @WrapUpResponseBody
     public void update(@RequestBody ApplicationRescourse applicationRescourse){
+        String osId = applicationRescourse.getOsId();
+        String isUsed = applicationRescourse.getIsUsed();
+        Map<String, Object> propertiesMap =  new HashMap<>();
+        if(StringUtils.isNotBlank(osId)){
+            propertiesMap.put("osId", osId);
+        }
+        if(StringUtils.isNotBlank(isUsed)){
+            propertiesMap.put("isUsed", isUsed);
+        }
+        //如果修改默认关系数据库，则修改当前应用下默认关系库为0
+        if(isUsed != null && "1".equals(isUsed)){
+            List<ApplicationRescourse> list = applicationRescourseService.listObjectsByProperty(propertiesMap);
+            if(list != null && list.size() > 0){
+                for(ApplicationRescourse app : list){
+                    app.setIsUsed("0");
+                    applicationRescourseService.updateApplicationRescourse(app);
+                }
+            }
+        }
         applicationRescourseService.updateApplicationRescourse(applicationRescourse);
     }
 

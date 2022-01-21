@@ -55,7 +55,7 @@ public class ApplicationDictionaryController extends BaseController {
     }
 
     @ApiOperation(value = "修改关联信息")
-    @PostMapping("/update")
+    @PutMapping()
     @WrapUpResponseBody
     public void update(@RequestBody ApplicationDictionary applicationDictionary){
         applicationDictionaryService.updateApplicationDictionary(applicationDictionary);

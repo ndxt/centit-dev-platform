@@ -57,4 +57,9 @@ public class ApplicationRescourseServiceImpl implements ApplicationRescourseServ
         }
         applicationRescourseDao.deleteObjectsByProperties(filterMap);
     }
+
+    @Override
+    public List<ApplicationRescourse> listObjectsByProperty(Map<String, Object> propertiesMap) {
+        return applicationRescourseDao.listObjectsByProperties(propertiesMap);
+    }
 }
