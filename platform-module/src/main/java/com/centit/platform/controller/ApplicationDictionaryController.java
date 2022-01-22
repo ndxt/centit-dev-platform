@@ -99,6 +99,7 @@ public class ApplicationDictionaryController extends BaseController {
                     resultMap.put("catalogName",dataMap.get("catalogName"));
                     resultMap.put("catalogStyle",dataMap.get("catalogStyle"));
                     resultMap.put("optId",dataMap.get("optId"));
+                    dataMap.clear();
                     resultList.add(resultMap);
                 }
             }
