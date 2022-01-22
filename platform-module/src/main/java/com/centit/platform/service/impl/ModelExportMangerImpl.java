@@ -56,7 +56,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
-            "from f_database_info where database_code in (select a.DATABASE_CODE from f_md_table a join f_table_opt_relation b on a.table_id=b.table_id where os_id=:osId)");
+            "from f_database_info where database_code in (select a.DATABASE_ID from m_application_rescourse where os_id=:osId)");
+        applicationSql.put(TableName.M_APPLICATION_RESCOURSE.name(), "select * from M_APPLICATION_RESCOURSE where os_id=:osId");
         applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
         applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
         applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId");
@@ -73,6 +74,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " +
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        applicationSql.put(TableName.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in (" +
+            "SELECT reference_data FROM f_md_column where REFERENCE_TYPE='1' and " +
+            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_rescourse where os_id=:osId)))");
+        applicationSql.put(TableName.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in (" +
+            "SELECT reference_data FROM f_md_column where REFERENCE_TYPE='1' and " +
+            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_rescourse where os_id=:osId)))");
 
         dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (:databaseCode)");
         dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
