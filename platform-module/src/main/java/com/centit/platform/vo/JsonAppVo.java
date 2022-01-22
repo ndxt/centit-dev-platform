@@ -7,12 +7,11 @@ import com.centit.dde.po.DataPacketDraft;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.dde.po.DataPacketParamDraft;
 import com.centit.fileserver.common.FileLibraryInfo;
-import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
-import com.centit.platform.service.impl.ApplicationInfoManagerImpl;
+import com.centit.platform.po.ApplicationRescourse;
 import com.centit.product.adapter.po.*;
 import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.algorithm.NumberBaseOpt;
@@ -88,6 +87,9 @@ public class JsonAppVo {
     private static final String FORM_CODE = "formCode";
     private static final String MOBILE_FORM_TEMPLATE = "mobileFormTemplate";
     private static final String STRUCTURE_FUNCTION = "structureFunction";
+    private static final String DATABASE_ID = "databaseId";
+    private static final String PUSH_USER = "pushUser";
+    private static final String PUSH_TIME = "pushTime";
 
 
     private JSONObject oldAppObject;
@@ -136,7 +138,7 @@ public class JsonAppVo {
     }
 
     private void updatePrimary() {
-        this.updateOsInfo().updateLibraryInfo().updateDatabase().updateOsInfoUseDatabase()
+        this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
             .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updatePacketParams()
             .updateMetaForm()
@@ -145,7 +147,7 @@ public class JsonAppVo {
     }
 
     private void createAppObject() {
-        this.createOsInfo().createLibraryInfo()
+        this.createOsInfo().createLibraryInfo().createApplicationResource().createDataCatalog().createDataDictionary()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createDataPacketAndParamsObject()
             .createWfOptTeamRole().createWfOptVariable().createOptInfo().createOptDef()
@@ -226,6 +228,37 @@ public class JsonAppVo {
             map.put(CREATED, userCode);
             map.put(CREATE_TIME, new Date());
             map.put(LAST_MODIFY_DATE, new Date());
+        });
+        return this;
+    }
+
+    private JsonAppVo updateApplicationResource() {
+        if (mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name());
+        List<ApplicationRescourse> oldList = convertJavaList(ApplicationRescourse.class, TableName.M_APPLICATION_RESCOURSE.name());
+        list.forEach(map -> {
+            String uuid = "";
+            databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_CODE)))
+                .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
+            if (oldList != null) {
+                for (ApplicationRescourse oldMap : oldList) {
+                    if (oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
+                        oldMap.getOsId().equals(map.get(OS_ID).toString())
+                    ) {
+                        uuid = oldMap.getId();
+                        break;
+                    }
+                }
+            }
+            if (StringBaseOpt.isNvl(uuid)) {
+                uuid = UuidOpt.getUuidAsString();
+            }
+            map.put(ID, uuid);
+            map.put(OS_ID, osId);
+            map.put(PUSH_USER, userCode);
+            map.put(PUSH_TIME, new Date());
         });
         return this;
     }
@@ -345,10 +378,10 @@ public class JsonAppVo {
                 if (finalOldList != null) {
                     for (OptInfo oldMap : finalOldList) {
                         if (map.get(OPT_ID).toString().equals(oldMap.getSourceId())
-                        || (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
-                           &&OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
-                        ||(OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(oldMap.getFormCode())
-                            &&OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE)))){
+                            || (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
+                            && OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
+                            || (OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(oldMap.getFormCode())
+                            && OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE)))) {
                             uuid = oldMap.getOptId();
                             map.put(DOC_ID, oldMap.getDocId());
                             break;
@@ -524,7 +557,7 @@ public class JsonAppVo {
         });
         list.forEach(map -> {
             String form;
-            if(map.get(FORM_TEMPLATE)!=null) {
+            if (map.get(FORM_TEMPLATE) != null) {
                 form = (String) map.get(FORM_TEMPLATE);
                 for (String key : metaFormMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
@@ -534,14 +567,14 @@ public class JsonAppVo {
                 }
                 map.put(FORM_TEMPLATE, form);
             }
-            if(map.get(MOBILE_FORM_TEMPLATE)!=null) {
+            if (map.get(MOBILE_FORM_TEMPLATE) != null) {
                 form = (String) map.get(MOBILE_FORM_TEMPLATE);
                 for (String key : metaFormMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
                 }
                 map.put(MOBILE_FORM_TEMPLATE, form);
             }
-            if(map.get(STRUCTURE_FUNCTION)!=null) {
+            if (map.get(STRUCTURE_FUNCTION) != null) {
                 form = (String) map.get(STRUCTURE_FUNCTION);
                 for (String key : dataPacketMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
@@ -766,6 +799,33 @@ public class JsonAppVo {
         if (oldAppObject.size() == 0) {
             appList.addAll(convertMap(FileLibraryInfo.class, list));
         }
+        return this;
+    }
+
+    private JsonAppVo createApplicationResource() {
+        if (mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name());
+        appList.addAll(convertMap(ApplicationRescourse.class, list));
+        return this;
+    }
+
+    private JsonAppVo createDataCatalog() {
+        if (mapJsonObject.get(TableName.F_DATACATALOG.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATACATALOG.name());
+        appList.addAll(convertMap(DataCatalog.class, list));
+        return this;
+    }
+
+    private JsonAppVo createDataDictionary() {
+        if (mapJsonObject.get(TableName.F_DATADICTIONARY.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATADICTIONARY.name());
+        appList.addAll(convertMap(DataDictionary.class, list));
         return this;
     }
 
