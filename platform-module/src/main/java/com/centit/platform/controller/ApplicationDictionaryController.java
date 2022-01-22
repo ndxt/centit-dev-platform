@@ -99,8 +99,8 @@ public class ApplicationDictionaryController extends BaseController {
                     resultMap.put("catalogName",dataMap.get("catalogName"));
                     resultMap.put("catalogStyle",dataMap.get("catalogStyle"));
                     resultMap.put("optId",dataMap.get("optId"));
+                    resultList.add(resultMap);
                 }
-                resultList.add(resultMap);
             }
         }
         return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{DataCatalog.class});

@@ -118,8 +118,8 @@ public class ApplicationResourcesController extends BaseController  {
                     resultMap.put("databaseUrl", sourceInfo.getDatabaseUrl());
                     resultMap.put("createTime", sourceInfo.getCreateTime());
                     resultMap.put("sourceType", sourceInfo.getSourceType());
+                    resultList.add(resultMap);
                 }
-                resultList.add(resultMap);
             }
         }
         return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationResources.class});
