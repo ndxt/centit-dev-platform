@@ -11,7 +11,7 @@ import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
-import com.centit.platform.po.ApplicationRescourse;
+import com.centit.platform.po.ApplicationResources;
 import com.centit.product.adapter.po.*;
 import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.algorithm.NumberBaseOpt;
@@ -237,13 +237,13 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name());
-        List<ApplicationRescourse> oldList = convertJavaList(ApplicationRescourse.class, TableName.M_APPLICATION_RESCOURSE.name());
+        List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, TableName.M_APPLICATION_RESCOURSE.name());
         list.forEach(map -> {
             String uuid = "";
             databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_CODE)))
                 .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
             if (oldList != null) {
-                for (ApplicationRescourse oldMap : oldList) {
+                for (ApplicationResources oldMap : oldList) {
                     if (oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
                         oldMap.getOsId().equals(map.get(OS_ID).toString())
                     ) {
@@ -807,7 +807,7 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name());
-        appList.addAll(convertMap(ApplicationRescourse.class, list));
+        appList.addAll(convertMap(ApplicationResources.class, list));
         return this;
     }
 
