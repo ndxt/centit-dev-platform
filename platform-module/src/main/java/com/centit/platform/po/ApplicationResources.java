@@ -16,11 +16,14 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author tian_y
+ */
 @Data
 @Entity
-@Table(name = "m_application_rescourse")
+@Table(name = "m_application_resources")
 @ApiModel("应用资源关联表")
-public class ApplicationRescourse implements Serializable{
+public class ApplicationResources implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id

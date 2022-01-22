@@ -7,8 +7,8 @@ import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
-import com.centit.platform.po.ApplicationRescourse;
-import com.centit.platform.service.ApplicationRescourseService;
+import com.centit.platform.po.ApplicationResources;
+import com.centit.platform.service.ApplicationResourcesService;
 import com.centit.product.adapter.po.SourceInfo;
 import com.centit.product.metadata.service.SourceInfoManager;
 import com.centit.support.database.utils.PageDesc;
@@ -26,11 +26,11 @@ import java.util.*;
  */
 @Api(value = "应用资源关联", tags = "应用资源关联")
 @RestController
-@RequestMapping(value = "/appRescourse")
-public class ApplicationRescourseController extends BaseController  {
+@RequestMapping(value = "/appResources")
+public class ApplicationResourcesController extends BaseController  {
 
     @Autowired
-    private ApplicationRescourseService applicationRescourseService;
+    private ApplicationResourcesService applicationResourcesService;
 
     @Autowired
     private SourceInfoManager databaseInfoMag;
@@ -45,7 +45,7 @@ public class ApplicationRescourseController extends BaseController  {
         String dataBaseId = jsonObject.getString("dataBaseId");
         if (dataBaseIds != null && !dataBaseIds.isEmpty()) {
             for(int i = 0; i < dataBaseIds.size(); i++){
-                ApplicationRescourse app = new ApplicationRescourse();
+                ApplicationResources app = new ApplicationResources();
                 app.setOsId(osId);
                 app.setDataBaseId(dataBaseIds.get(i) + "");
                 app.setPushUser(pushUser);
@@ -56,7 +56,7 @@ public class ApplicationRescourseController extends BaseController  {
                     //默认关系数据库--否
                     app.setIsUsed("0");
                 }
-                applicationRescourseService.createApplicationRescourse(app);
+                applicationResourcesService.createApplicationResources(app);
             }
             JsonResultUtils.writeSingleDataJson(dataBaseIds,response);
         }
@@ -65,9 +65,9 @@ public class ApplicationRescourseController extends BaseController  {
     @ApiOperation(value = "修改关联信息")
     @PutMapping()
     @WrapUpResponseBody
-    public void update(@RequestBody ApplicationRescourse applicationRescourse){
-        String osId = applicationRescourse.getOsId();
-        String isUsed = applicationRescourse.getIsUsed();
+    public void update(@RequestBody ApplicationResources applicationResources){
+        String osId = applicationResources.getOsId();
+        String isUsed = applicationResources.getIsUsed();
         Map<String, Object> propertiesMap =  new HashMap<>();
         if(StringUtils.isNotBlank(osId)){
             propertiesMap.put("osId", osId);
@@ -77,43 +77,43 @@ public class ApplicationRescourseController extends BaseController  {
         }
         //如果修改默认关系数据库，则修改当前应用下默认关系库为0
         if(isUsed != null && "1".equals(isUsed)){
-            List<ApplicationRescourse> list = applicationRescourseService.listObjectsByProperty(propertiesMap);
+            List<ApplicationResources> list = applicationResourcesService.listObjectsByProperty(propertiesMap);
             if(list != null && list.size() > 0){
-                for(ApplicationRescourse app : list){
+                for(ApplicationResources app : list){
                     app.setIsUsed("0");
-                    applicationRescourseService.updateApplicationRescourse(app);
+                    applicationResourcesService.updateApplicationResources(app);
                 }
             }
         }
-        applicationRescourseService.updateApplicationRescourse(applicationRescourse);
+        applicationResourcesService.updateApplicationResources(applicationResources);
     }
 
     @ApiOperation(value = "删除关联信息")
     @DeleteMapping(value = "/{id}")
     @WrapUpResponseBody
     public void deleteById(@PathVariable String id){
-        applicationRescourseService.deleteApplicationRescourse(id);
+        applicationResourcesService.deleteApplicationResources(id);
     }
 
     @ApiOperation(value = "查询关联信息列表")
     @GetMapping("/list")
     @WrapUpResponseBody
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
-        List<ApplicationRescourse> list = applicationRescourseService.listApplicationRescourse(BaseController.collectRequestParameters(request), pageDesc);
+        List<ApplicationResources> list = applicationResourcesService.listApplicationResources(BaseController.collectRequestParameters(request), pageDesc);
         List<Map<String, Object>> resultList = new ArrayList();
         SourceInfo sourceInfo = new SourceInfo();
         if (list != null && list.size() > 0) {
-            for(ApplicationRescourse applicationRescourse : list){
-                Map<String, Object> resultMap = new HashMap<>();
-                String dataBaseId = applicationRescourse.getDataBaseId();
-                resultMap.put("id",applicationRescourse.getId());
-                resultMap.put("osId",applicationRescourse.getOsId());
-                resultMap.put("dataBaseId", dataBaseId);
-                resultMap.put("isUsed",applicationRescourse.getIsUsed());
-                resultMap.put("pushTime",applicationRescourse.getPushTime());
-                resultMap.put("pushUser",applicationRescourse.getPushUser());
+            for(ApplicationResources applicationResources : list){
+                String dataBaseId = applicationResources.getDataBaseId();
                 sourceInfo = databaseInfoMag.getObjectById(dataBaseId);
+                Map<String, Object> resultMap = new HashMap<>();
                 if(sourceInfo != null){
+                    resultMap.put("id",applicationResources.getId());
+                    resultMap.put("osId",applicationResources.getOsId());
+                    resultMap.put("dataBaseId", dataBaseId);
+                    resultMap.put("isUsed",applicationResources.getIsUsed());
+                    resultMap.put("pushTime",applicationResources.getPushTime());
+                    resultMap.put("pushUser",applicationResources.getPushUser());
                     resultMap.put("databaseName", sourceInfo.getDatabaseName());
                     resultMap.put("databaseUrl", sourceInfo.getDatabaseUrl());
                     resultMap.put("createTime", sourceInfo.getCreateTime());
@@ -122,13 +122,13 @@ public class ApplicationRescourseController extends BaseController  {
                 resultList.add(resultMap);
             }
         }
-        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationRescourse.class});
+        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationResources.class});
     }
 
     @ApiOperation(value = "查询单个关联信息")
     @GetMapping(value = "/{id}")
     @WrapUpResponseBody
-    public ApplicationRescourse getHistory(@PathVariable String id) {
-        return applicationRescourseService.getApplicationRescourse(id);
+    public ApplicationResources getHistory(@PathVariable String id) {
+        return applicationResourcesService.getApplicationResources(id);
     }
 }

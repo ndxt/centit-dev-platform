@@ -4,9 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.basedata.IDataCatalog;
 import com.centit.framework.system.po.DataCatalog;
 import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.service.ApplicationDictionaryService;
@@ -29,6 +32,9 @@ public class ApplicationDictionaryController extends BaseController {
 
     @Autowired
     private ApplicationDictionaryService applicationDictionaryService;
+
+    @Autowired
+    private PlatformEnvironment platformEnvironment;
 
     @ApiOperation(value = "新增关联信息")
     @PostMapping()
@@ -74,16 +80,25 @@ public class ApplicationDictionaryController extends BaseController {
             for(ApplicationDictionary applicationDictionary : list) {
                 Map<String, Object> resultMap = new HashMap<>();
                 String dictionaryId = applicationDictionary.getDictionaryId();
-                resultMap.put("id",applicationDictionary.getId());
-                resultMap.put("osId",applicationDictionary.getOsId());
-                resultMap.put("catalogCode", dictionaryId);
-                resultMap.put("pushTime",applicationDictionary.getPushTime());
-                resultMap.put("pushUser",applicationDictionary.getPushUser());
-                dataMap = applicationDictionaryService.getReferences(dictionaryId);
-                if(dataMap != null){
-                    resultMap.put("catalogName",dataMap.get("CATALOG_NAME"));
-                    resultMap.put("catalogStyle",dataMap.get("CATALOG_STYLE"));
-                    resultMap.put("optId",dataMap.get("OPT_ID"));
+                String topUnit = WebOptUtils.getCurrentTopUnit(request);
+                List<? extends IDataCatalog> dataCatalogs =  platformEnvironment.listAllDataCatalogs(topUnit);
+                for(IDataCatalog iDataCatalog : dataCatalogs){
+                    if(iDataCatalog != null && dictionaryId.equals(iDataCatalog.getCatalogCode())){
+                        DataCatalog dataCatalog = (DataCatalog)iDataCatalog;
+                        dataMap.put("catalogName", dataCatalog.getCatalogName());
+                        dataMap.put("catalogStyle", dataCatalog.getCatalogStyle());
+                        dataMap.put("optId", dataCatalog.getOptId());
+                    }
+                }
+                if(dataMap != null && !dataMap.isEmpty()){
+                    resultMap.put("id",applicationDictionary.getId());
+                    resultMap.put("osId",applicationDictionary.getOsId());
+                    resultMap.put("catalogCode", dictionaryId);
+                    resultMap.put("pushTime",applicationDictionary.getPushTime());
+                    resultMap.put("pushUser",applicationDictionary.getPushUser());
+                    resultMap.put("catalogName",dataMap.get("catalogName"));
+                    resultMap.put("catalogStyle",dataMap.get("catalogStyle"));
+                    resultMap.put("optId",dataMap.get("optId"));
                 }
                 resultList.add(resultMap);
             }
