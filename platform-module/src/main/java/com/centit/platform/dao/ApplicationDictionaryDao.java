@@ -4,7 +4,6 @@ import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.platform.po.ApplicationDictionary;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Map;
 
 @Repository
