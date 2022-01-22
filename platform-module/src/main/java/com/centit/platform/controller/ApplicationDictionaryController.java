@@ -1,15 +1,16 @@
 package com.centit.platform.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
-import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.model.basedata.IDataCatalog;
+import com.centit.framework.system.po.DataCatalog;
 import com.centit.platform.po.ApplicationDictionary;
+import com.centit.platform.po.ApplicationRescourse;
 import com.centit.platform.service.ApplicationDictionaryService;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.*;
@@ -41,7 +42,6 @@ public class ApplicationDictionaryController extends BaseController {
         String osId = jsonObject.getString("osId");
         JSONArray dictionaryIds = jsonObject.getJSONArray("dictionaryIds");
         String pushUser = jsonObject.getString("pushUser");
-        applicationDictionaryService.deleteAppDictionary(osId, "");
         if (dictionaryIds != null && !dictionaryIds.isEmpty()) {
             for(int i = 0; i < dictionaryIds.size(); i ++){
                 ApplicationDictionary app = new ApplicationDictionary();
@@ -73,29 +73,51 @@ public class ApplicationDictionaryController extends BaseController {
     @WrapUpResponseBody
     public PageQueryResult list(String[] field, HttpServletRequest request, PageDesc pageDesc){
         List<ApplicationDictionary> list = applicationDictionaryService.listApplicationDictionary(BaseController.collectRequestParameters(request), pageDesc);
-        Set<String> appSet = new HashSet<>();
-        list.forEach(t -> {
-            appSet.add(t.getDictionaryId());
-        });
-        String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        List<? extends IDataCatalog> dataCatalogs =  platformEnvironment.listAllDataCatalogs(topUnit);
-        Map<String, IDataCatalog> maps = new HashMap<>();
-        for (IDataCatalog dataCatalog : dataCatalogs) {
-            maps.put(dataCatalog.getCatalogCode(), dataCatalog);
-        }
-        Iterator var4 = appSet.iterator();
-        List<IDataCatalog> newDataCatalogs = new ArrayList<>();
-        while(var4.hasNext()) {
-            String uc = (String)var4.next();
-            IDataCatalog dataCatalog = maps.get(uc);
-            if (dataCatalog != null) {
-                newDataCatalogs.add(dataCatalog);
+        List<Map<String, Object>> resultList = new ArrayList();
+        Map<String, Object> dataMap = new HashMap<>();
+        if (list != null && list.size() > 0) {
+            for(ApplicationDictionary applicationDictionary : list) {
+                Map<String, Object> resultMap = new HashMap<>();
+                String dictionaryId = applicationDictionary.getDictionaryId();
+                resultMap.put("id",applicationDictionary.getId());
+                resultMap.put("osId",applicationDictionary.getOsId());
+                resultMap.put("catalogCode", dictionaryId);
+                resultMap.put("pushTime",applicationDictionary.getPushTime());
+                resultMap.put("pushUser",applicationDictionary.getPushUser());
+                dataMap = applicationDictionaryService.getReferences(dictionaryId);
+                if(dataMap != null){
+                    resultMap.put("catalogName",dataMap.get("CATALOG_NAME"));
+                    resultMap.put("catalogStyle",dataMap.get("CATALOG_STYLE"));
+                    resultMap.put("optId",dataMap.get("OPT_ID"));
+                }
+                resultList.add(resultMap);
             }
         }
-        if(newDataCatalogs != null && newDataCatalogs.size() > 0){
-            pageDesc.setTotalRows(newDataCatalogs.size());
-        }
-        return PageQueryResult.createResultMapDict(newDataCatalogs, pageDesc, field);
+        //return PageQueryResult.createResultMapDict(resultList, pageDesc, field);
+        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{DataCatalog.class});
+
+
+//        Set<String> appSet = new HashSet<>();
+//        list.forEach(t -> {
+//            appSet.add(t.getDictionaryId());
+//        });
+//        String topUnit = WebOptUtils.getCurrentTopUnit(request);
+//        List<? extends IDataCatalog> dataCatalogs =  platformEnvironment.listAllDataCatalogs(topUnit);
+//        Map<String, IDataCatalog> maps = new HashMap<>();
+//        for (IDataCatalog dataCatalog : dataCatalogs) {
+//            maps.put(dataCatalog.getCatalogCode(), dataCatalog);
+//        }
+//        Iterator var4 = appSet.iterator();
+//        List<IDataCatalog> newDataCatalogs = new ArrayList<>();
+//        while(var4.hasNext()) {
+//            String uc = (String)var4.next();
+//            IDataCatalog dataCatalog = maps.get(uc);
+//            if (dataCatalog != null) {
+//                newDataCatalogs.add(dataCatalog);
+//            }
+//        }
+//        return PageQueryResult.createResultMapDict(newDataCatalogs, pageDesc, field);
+
     }
 
     @ApiOperation(value = "查询单个关联信息")

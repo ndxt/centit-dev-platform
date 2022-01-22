@@ -43,7 +43,6 @@ public class ApplicationRescourseController extends BaseController  {
         JSONArray dataBaseIds = jsonObject.getJSONArray("dataBaseIds");
         String pushUser = jsonObject.getString("pushUser");
         String dataBaseId = jsonObject.getString("dataBaseId");
-        applicationRescourseService.deleteAppRescourse(osId, "");
         if (dataBaseIds != null && !dataBaseIds.isEmpty()) {
             for(int i = 0; i < dataBaseIds.size(); i++){
                 ApplicationRescourse app = new ApplicationRescourse();

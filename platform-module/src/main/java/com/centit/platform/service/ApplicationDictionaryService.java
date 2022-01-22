@@ -20,4 +20,5 @@ public interface ApplicationDictionaryService {
 
     void deleteAppDictionary(String osId, String dictionaryId);
 
+    Map<String, Object> getReferences(String dictionaryId);
 }

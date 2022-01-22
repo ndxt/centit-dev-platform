@@ -58,4 +58,9 @@ public class ApplicationDictionaryServiceImpl implements ApplicationDictionarySe
         }
         applicationDictionaryDao.deleteObjectsByProperties(filterMap);
     }
+
+    @Override
+    public Map<String, Object> getReferences(String dictionaryId) {
+        return applicationDictionaryDao.getReferences(dictionaryId);
+    }
 }
