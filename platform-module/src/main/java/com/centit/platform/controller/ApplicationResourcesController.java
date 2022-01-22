@@ -119,6 +119,9 @@ public class ApplicationResourcesController extends BaseController  {
                     resultMap.put("createTime", sourceInfo.getCreateTime());
                     resultMap.put("sourceType", sourceInfo.getSourceType());
                     resultList.add(resultMap);
+                }else{
+                    //未查询到资源信息，说明资源已经被删除，删除关联信息
+                    applicationResourcesService.deleteApplicationResources(applicationResources.getId());
                 }
             }
         }

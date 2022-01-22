@@ -101,6 +101,9 @@ public class ApplicationDictionaryController extends BaseController {
                     resultMap.put("optId",dataMap.get("optId"));
                     dataMap.clear();
                     resultList.add(resultMap);
+                }else{
+                    //未查询到数据字典，说明数据字典被删除，删除关联信息
+                    applicationDictionaryService.deleteApplicationDictionary(applicationDictionary.getId());
                 }
             }
         }
