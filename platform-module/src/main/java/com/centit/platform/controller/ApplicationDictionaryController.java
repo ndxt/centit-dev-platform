@@ -7,10 +7,8 @@ import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
-import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.system.po.DataCatalog;
 import com.centit.platform.po.ApplicationDictionary;
-import com.centit.platform.po.ApplicationRescourse;
 import com.centit.platform.service.ApplicationDictionaryService;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.*;
@@ -31,9 +29,6 @@ public class ApplicationDictionaryController extends BaseController {
 
     @Autowired
     private ApplicationDictionaryService applicationDictionaryService;
-
-    @Autowired
-    private PlatformEnvironment platformEnvironment;
 
     @ApiOperation(value = "新增关联信息")
     @PostMapping()
@@ -93,31 +88,7 @@ public class ApplicationDictionaryController extends BaseController {
                 resultList.add(resultMap);
             }
         }
-        //return PageQueryResult.createResultMapDict(resultList, pageDesc, field);
         return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{DataCatalog.class});
-
-
-//        Set<String> appSet = new HashSet<>();
-//        list.forEach(t -> {
-//            appSet.add(t.getDictionaryId());
-//        });
-//        String topUnit = WebOptUtils.getCurrentTopUnit(request);
-//        List<? extends IDataCatalog> dataCatalogs =  platformEnvironment.listAllDataCatalogs(topUnit);
-//        Map<String, IDataCatalog> maps = new HashMap<>();
-//        for (IDataCatalog dataCatalog : dataCatalogs) {
-//            maps.put(dataCatalog.getCatalogCode(), dataCatalog);
-//        }
-//        Iterator var4 = appSet.iterator();
-//        List<IDataCatalog> newDataCatalogs = new ArrayList<>();
-//        while(var4.hasNext()) {
-//            String uc = (String)var4.next();
-//            IDataCatalog dataCatalog = maps.get(uc);
-//            if (dataCatalog != null) {
-//                newDataCatalogs.add(dataCatalog);
-//            }
-//        }
-//        return PageQueryResult.createResultMapDict(newDataCatalogs, pageDesc, field);
-
     }
 
     @ApiOperation(value = "查询单个关联信息")
