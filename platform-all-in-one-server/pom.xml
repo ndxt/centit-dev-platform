@@ -225,11 +225,11 @@
             <version>${centit.dde.version}</version>
         </dependency>
         <!--文件服务器依赖-->
-        <dependency>
+       <!-- <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-dubbo-server-config</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -255,10 +255,17 @@
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-system-config</artifactId>
         </dependency>
-        <dependency>
+ <!--       <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-ip-dubbo-server-config</artifactId>
             <version>${project.version}</version>
+        </dependency>-->
+
+
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>centit-ip-tenant-manage</artifactId>
+            <version>5.2-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
