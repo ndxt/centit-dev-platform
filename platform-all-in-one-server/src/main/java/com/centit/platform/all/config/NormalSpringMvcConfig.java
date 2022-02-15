@@ -8,9 +8,9 @@ import org.springframework.context.annotation.FilterType;
 /**
  * Created by zou_wy on 2017/3/29.
  */
-@ComponentScan(basePackages = {"com.centit.workflow.controller"},
-        includeFilters = {@ComponentScan.Filter(type= FilterType.ANNOTATION,value= org.springframework.stereotype.Controller.class)},
-        useDefaultFilters = false)
-public class WorkflowSpringMvcConfig extends BaseSpringMvcConfig {
+@ComponentScan(basePackages = {"com.centit.im.controller"},
+    includeFilters = {@ComponentScan.Filter(type= FilterType.ANNOTATION,value= org.springframework.stereotype.Controller.class)},
+    useDefaultFilters = false)
+public class NormalSpringMvcConfig extends BaseSpringMvcConfig {
 
 }

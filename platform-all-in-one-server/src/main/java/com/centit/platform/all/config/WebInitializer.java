@@ -18,7 +18,7 @@ public class WebInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         String [] servletUrlPatterns = {"/system/*","/metadata/*","/metaform/*", "/workflow/*",
-                "/dbdesign/*","/platform/*","/dde/*","/oa/*","/fileserver/*","/help/*"};
+                "/dbdesign/*","/platform/*","/dde/*","/oa/*","/fileserver/*","/help/*","/task/*","/im/*"};
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
         WebConfig.registerServletConfig(servletContext, "system",
                 "/system/*",
@@ -56,6 +56,14 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerServletConfig(servletContext, "help",
             "/help/*",
             WorkOrderSpringMvcConfig.class, SwaggerConfig.class);
+        WebConfig.registerServletConfig(servletContext, "task",
+            "/task/*",
+            TaskSpringMvcConfig.class, SwaggerConfig.class);
+        WebConfig.registerServletConfig(servletContext, "im",
+            "/im/*",
+            NormalSpringMvcConfig.class,SwaggerConfig.class);
+
+
         //dubbo hessian协议使用
        /* ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
         dubbo.addMapping("/*");*/

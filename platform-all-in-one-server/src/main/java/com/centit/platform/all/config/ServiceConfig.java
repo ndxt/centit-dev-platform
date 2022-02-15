@@ -19,6 +19,9 @@ import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
 import com.centit.framework.system.config.SystemBeanConfig;
+import com.centit.im.service.IntelligentRobotFactory;
+import com.centit.im.service.impl.IntelligentRobotFactoryRpcImpl;
+import com.centit.im.service.impl.IntelligentRobotFactorySingleImpl;
 import com.centit.product.oa.EmailMessageSenderImpl;
 import com.centit.search.document.FileDocument;
 import com.centit.search.document.ObjectDocument;
@@ -28,6 +31,7 @@ import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.BooleanBaseOpt;
+import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -87,6 +91,12 @@ public class ServiceConfig {
     @Bean
     public DataScopePowerManager queryDataScopeFilter(){
         return new DataScopePowerManagerImpl();
+    }
+
+    @Bean
+    public IntelligentRobotFactory intelligentRobotFactory() {
+        IntelligentRobotFactoryRpcImpl intelligentRobotFactory = new IntelligentRobotFactoryRpcImpl();
+        return intelligentRobotFactory;
     }
 
 
