@@ -11,9 +11,11 @@
 
     <artifactId>platform-all-in-one-server</artifactId>
     <packaging>war</packaging>
-
-    <build>
+    <properties>
         <finalName>${project.artifactId}-${project.version}</finalName>
+    </properties>
+    <build>
+        <finalName>${finalName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
