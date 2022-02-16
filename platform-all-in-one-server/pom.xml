@@ -13,6 +13,7 @@
     <packaging>war</packaging>
 
     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -32,6 +33,7 @@
                     <exclude>prod/*</exclude>
                     <exclude>system.properties</exclude>
                     <exclude>demo/*</exclude>
+                    <exclude>prev/*</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -314,6 +316,12 @@
             <id>demo</id>
             <properties>
                 <profiles.active>demo</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prev</id>
+            <properties>
+                <profiles.active>prev</profiles.active>
             </properties>
         </profile>
     </profiles>
