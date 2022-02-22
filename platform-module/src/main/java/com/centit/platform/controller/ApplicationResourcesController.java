@@ -104,16 +104,16 @@ public class ApplicationResourcesController extends BaseController  {
     @WrapUpResponseBody
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
         List<ApplicationResources> list = applicationResourcesService.listObjectsByProperty(BaseController.collectRequestParameters(request));
-        if (list==null || list.size()==0){
-            return PageQueryResult.createResult(new JSONArray(), pageDesc);
+        if (list!=null && list.size()>0){
+            List<String> dataBaseCode = list.stream().map(applicationResources -> applicationResources.getDataBaseId()).collect(Collectors.toList());
+            Map map = new HashMap();
+            map.put("databaseCodes",dataBaseCode);
+            map.putAll(BaseController.collectRequestParameters(request));
+            map.remove("osId");
+            JSONArray sourceInfos = databaseInfoMag.listDatabaseAsJson(map,pageDesc);
+            return PageQueryResult.createResult(sourceInfos, pageDesc);
         }
-        List<String> dataBaseCode = list.stream().map(applicationResources -> applicationResources.getDataBaseId()).collect(Collectors.toList());
-        Map map = new HashMap();
-        map.put("databaseCodes",dataBaseCode);
-        map.putAll(BaseController.collectRequestParameters(request));
-        map.remove("osId");
-        JSONArray sourceInfos = databaseInfoMag.listDatabaseAsJson(map,pageDesc);
-        return PageQueryResult.createResult(sourceInfos, pageDesc);
+        return PageQueryResult.createResult(new JSONArray(), pageDesc);
     }
 
     @ApiOperation(value = "查询单个关联信息")
