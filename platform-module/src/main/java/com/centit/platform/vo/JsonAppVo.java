@@ -244,7 +244,7 @@ public class JsonAppVo {
         List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, TableName.M_APPLICATION_RESCOURSE.name());
         list.forEach(map -> {
             String uuid = "";
-            databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_CODE)))
+            databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_ID)))
                 .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
             if (oldList != null) {
                 for (ApplicationResources oldMap : oldList) {
