@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author tian_y
@@ -100,7 +101,14 @@ public class ApplicationResourcesController extends BaseController  {
     @WrapUpResponseBody
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
         List<ApplicationResources> list = applicationResourcesService.listApplicationResources(BaseController.collectRequestParameters(request), pageDesc);
-        List<Map<String, Object>> resultList = new ArrayList();
+        List<String> dataBaseCode = list.stream().map(applicationResources -> applicationResources.getDataBaseId()).collect(Collectors.toList());
+        List<SourceInfo> sourceInfos = databaseInfoMag.listDatabase();
+        sourceInfos.removeIf(sourceInfo ->!dataBaseCode.contains(sourceInfo.getDatabaseCode()));
+        if (StringUtils.isNotBlank(request.getParameter("sourceType"))){
+            sourceInfos.removeIf(sourceInfo -> !sourceInfo.getSourceType().equals(request.getParameter("sourceType")));
+        }
+        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(sourceInfos)), pageDesc, new Class[]{SourceInfo.class});
+        /*List<Map<String, Object>> resultList = new ArrayList();
         SourceInfo sourceInfo = new SourceInfo();
         if (list != null && list.size() > 0) {
             for(ApplicationResources applicationResources : list){
@@ -125,7 +133,7 @@ public class ApplicationResourcesController extends BaseController  {
                 }
             }
         }
-        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationResources.class});
+        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationResources.class});*/
     }
 
     @ApiOperation(value = "查询单个关联信息")
