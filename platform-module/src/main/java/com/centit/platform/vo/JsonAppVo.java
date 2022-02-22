@@ -90,6 +90,8 @@ public class JsonAppVo {
     private static final String DATABASE_ID = "databaseId";
     private static final String PUSH_USER = "pushUser";
     private static final String PUSH_TIME = "pushTime";
+    public static final String OPT_ROUTE = "optRoute";
+    public static final String OPT_URL = "optUrl";
 
 
     private JSONObject oldAppObject;
@@ -433,6 +435,24 @@ public class JsonAppVo {
             map.put(CREATE_DATE, new Date());
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+        });
+        list = mapJsonObject.get(TableName.F_OPTINFO.name());
+        list.forEach(map -> {
+            String form;
+            if (map.get(OPT_ROUTE) != null) {
+                form = (String) map.get(OPT_ROUTE);
+                for (String key : optDefMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) optDefMap.get(key));
+                }
+                map.put(OPT_ROUTE, form);
+            }
+            if (map.get(OPT_URL) != null) {
+                form = (String) map.get(OPT_URL);
+                for (String key : optDefMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) optDefMap.get(key));
+                }
+                map.put(OPT_URL, form);
+            }
         });
         return this;
     }
