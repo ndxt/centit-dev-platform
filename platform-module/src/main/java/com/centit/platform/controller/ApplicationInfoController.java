@@ -63,7 +63,10 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "新增应用")
     @PostMapping
     @WrapUpResponseBody
-    public JSONObject createApplicationInfo(@RequestBody OsInfo osInfo) {
+    public JSONObject createApplicationInfo(@RequestBody OsInfo osInfo,HttpServletRequest httpServletRequest) {
+        if(StringBaseOpt.isNvl(osInfo.getTopUnit())){
+            osInfo.setTopUnit(WebOptUtils.getCurrentTopUnit(httpServletRequest));
+        }
         return applicationInfoManager.createApplicationInfo(osInfo);
     }
 

@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Override
     public JSONObject createApplicationInfo(OsInfo osInfo) {
         //验证应用数量是否达到限制
-        checkOsNumberLimitIsOver(WebOptUtils.getCurrentTopUnit(RequestThreadLocal.getLocalThreadWrapperRequest()));
+        checkOsNumberLimitIsOver(osInfo.getTopUnit());
         createOsInfoAndOther(osInfo);
         return assemblyApplicationInfo();
     }
