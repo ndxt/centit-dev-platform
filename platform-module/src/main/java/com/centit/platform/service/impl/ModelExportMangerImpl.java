@@ -7,11 +7,10 @@ import com.centit.dde.dataset.CsvDataSet;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.dao.ApplicationTemplateDao;
+import com.centit.platform.service.ModelExportManager;
 import com.centit.platform.vo.JsonAppVo;
 import com.centit.platform.vo.TableName;
-import com.centit.platform.service.ModelExportManager;
 import com.centit.product.dbdesign.service.MetaTableManager;
-import com.centit.product.metadata.dao.SourceInfoDao;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.algorithm.GeneralAlgorithm;
 import com.centit.support.algorithm.StringBaseOpt;
@@ -19,7 +18,6 @@ import com.centit.support.algorithm.ZipCompressor;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.cxf.jaxrs.model.ApplicationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -53,11 +51,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.F_OS_INFO.name(), "select * from f_os_info where os_id=:osId");
         applicationSql.put(TableName.FILE_LIBRARY_INFO.name(), "select * from file_library_info where library_id=:osId");
         applicationSql.put(TableName.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
-        applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in "+
+        applicationSql.put(TableName.F_OPTDEF.name(), "select * from f_optdef where opt_id in " +
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
-            "from f_database_info where database_code in (select a.DATABASE_ID from m_application_rescourse where os_id=:osId)");
-        applicationSql.put(TableName.M_APPLICATION_RESCOURSE.name(), "select * from M_APPLICATION_RESCOURSE where os_id=:osId");
+            "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
+        applicationSql.put(TableName.M_APPLICATION_RESCOURSE.name(), "select * from m_application_resources where os_id=:osId");
         applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
         applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
         applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId");
@@ -76,15 +74,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in (" +
             "SELECT reference_data FROM f_md_column where REFERENCE_TYPE='1' and " +
-            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_rescourse where os_id=:osId)))");
+            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_resources where os_id=:osId)))");
         applicationSql.put(TableName.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in (" +
             "SELECT reference_data FROM f_md_column where REFERENCE_TYPE='1' and " +
-            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_rescourse where os_id=:osId)))");
+            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_resources where os_id=:osId)))");
 
         dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (:databaseCode)");
         dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
         dataBaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
-        dataBaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode)))");
+        dataBaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
+            "(select table_id from f_md_table where database_code in (:databaseCode)))");
     }
 
     @Override
@@ -165,8 +164,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
             throw new ObjectException(e.getMessage());
         }
     }
-    private JSONObject getOldApplication(String osId){
-        if(StringBaseOpt.isNvl(osId)){
+
+    private JSONObject getOldApplication(String osId) {
+        if (StringBaseOpt.isNvl(osId)) {
             return new JSONObject();
         }
         Map<String, Object> mapApplication = new HashMap<>(1);
@@ -174,8 +174,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         JSONObject jsonObject = new JSONObject();
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
             JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, entry.getValue(), mapApplication);
-            if(jsonArray!=null){
-                jsonObject.put(entry.getKey(),jsonArray);
+            if (jsonArray != null) {
+                jsonObject.put(entry.getKey(), jsonArray);
             }
         }
         return jsonObject;
