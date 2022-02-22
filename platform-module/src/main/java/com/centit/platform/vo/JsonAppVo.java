@@ -9,6 +9,8 @@ import com.centit.dde.po.DataPacketParamDraft;
 import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
+import com.centit.framework.system.po.WorkGroup;
+import com.centit.framework.system.po.WorkGroupParameter;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
 import com.centit.platform.po.ApplicationResources;

@@ -11,6 +11,7 @@ import com.centit.platform.po.ApplicationResources;
 import com.centit.platform.service.ApplicationResourcesService;
 import com.centit.product.adapter.po.SourceInfo;
 import com.centit.product.metadata.service.SourceInfoManager;
+import com.centit.product.metadata.service.impl.SourceInfoManagerImpl;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,8 @@ public class ApplicationResourcesController extends BaseController  {
 
     @Autowired
     private SourceInfoManager databaseInfoMag;
+
+
 
     @ApiOperation(value = "新增关联信息")
     @PostMapping()
@@ -100,40 +103,14 @@ public class ApplicationResourcesController extends BaseController  {
     @GetMapping("/list")
     @WrapUpResponseBody
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
-        List<ApplicationResources> list = applicationResourcesService.listApplicationResources(BaseController.collectRequestParameters(request), pageDesc);
+        List<ApplicationResources> list = applicationResourcesService.listObjectsByProperty(BaseController.collectRequestParameters(request));
         List<String> dataBaseCode = list.stream().map(applicationResources -> applicationResources.getDataBaseId()).collect(Collectors.toList());
-        List<SourceInfo> sourceInfos = databaseInfoMag.listDatabase();
-        sourceInfos.removeIf(sourceInfo ->!dataBaseCode.contains(sourceInfo.getDatabaseCode()));
-        if (StringUtils.isNotBlank(request.getParameter("sourceType"))){
-            sourceInfos.removeIf(sourceInfo -> !sourceInfo.getSourceType().equals(request.getParameter("sourceType")));
-        }
-        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(sourceInfos)), pageDesc, new Class[]{SourceInfo.class});
-        /*List<Map<String, Object>> resultList = new ArrayList();
-        SourceInfo sourceInfo = new SourceInfo();
-        if (list != null && list.size() > 0) {
-            for(ApplicationResources applicationResources : list){
-                String dataBaseId = applicationResources.getDataBaseId();
-                sourceInfo = databaseInfoMag.getObjectById(dataBaseId);
-                Map<String, Object> resultMap = new HashMap<>();
-                if(sourceInfo != null){
-                    resultMap.put("id",applicationResources.getId());
-                    resultMap.put("osId",applicationResources.getOsId());
-                    resultMap.put("dataBaseId", dataBaseId);
-                    resultMap.put("isUsed",applicationResources.getIsUsed());
-                    resultMap.put("pushTime",applicationResources.getPushTime());
-                    resultMap.put("pushUser",applicationResources.getPushUser());
-                    resultMap.put("databaseName", sourceInfo.getDatabaseName());
-                    resultMap.put("databaseUrl", sourceInfo.getDatabaseUrl());
-                    resultMap.put("createTime", sourceInfo.getCreateTime());
-                    resultMap.put("sourceType", sourceInfo.getSourceType());
-                    resultList.add(resultMap);
-                }else{
-                    //未查询到资源信息，说明资源已经被删除，删除关联信息
-                    applicationResourcesService.deleteApplicationResources(applicationResources.getId());
-                }
-            }
-        }
-        return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{ApplicationResources.class});*/
+        Map map = new HashMap();
+        map.put("databaseCodes",dataBaseCode);
+        map.putAll(BaseController.collectRequestParameters(request));
+        map.remove("osId");
+        JSONArray sourceInfos = databaseInfoMag.listDatabaseAsJson(map,pageDesc);
+        return PageQueryResult.createResult(sourceInfos, pageDesc);
     }
 
     @ApiOperation(value = "查询单个关联信息")
