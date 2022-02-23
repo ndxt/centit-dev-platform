@@ -299,7 +299,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
      */
     private void checkOsNumberLimitIsOver(String topUnit) {
         if (StringUtils.isBlank(topUnit)){
-            throw new ObjectException("topUnit不能为空!");
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN,"topUnit不能为空!");
         }
         JSONObject tenantInfo = tenantManageService.getTenantInfoByTopUnit(topUnit);
         if (null == tenantInfo){
