@@ -9,8 +9,6 @@ import com.centit.dde.po.DataPacketParamDraft;
 import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
-import com.centit.framework.system.po.WorkGroup;
-import com.centit.framework.system.po.WorkGroupParameter;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
 import com.centit.platform.po.ApplicationResources;
@@ -92,8 +90,8 @@ public class JsonAppVo {
     private static final String DATABASE_ID = "databaseId";
     private static final String PUSH_USER = "pushUser";
     private static final String PUSH_TIME = "pushTime";
-    public static final String OPT_ROUTE = "optRoute";
-    public static final String OPT_URL = "optUrl";
+    private static final String OPT_ROUTE = "optRoute";
+    private static final String OPT_URL = "optUrl";
 
 
     private JSONObject oldAppObject;
@@ -145,7 +143,7 @@ public class JsonAppVo {
         this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
             .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updatePacketParams()
-            .updateMetaForm()
+            .updateMetaForm().updateOptInfoUseMetaForm()
             .updateWfOptTeamRole().updateWfOptVariable()
             .updateWfDefine().updateWfNode().updateWfTransition().updatePacketUseWfDefine();
     }
@@ -381,11 +379,12 @@ public class JsonAppVo {
                 uuid = UuidOpt.getUuidAsString();
                 if (finalOldList != null) {
                     for (OptInfo oldMap : finalOldList) {
-                        if (map.get(OPT_ID).toString().equals(oldMap.getSourceId())
+                        boolean canChangDocId = map.get(OPT_ID).toString().equals(oldMap.getSourceId())
                             || (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
                             && OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
                             || (OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(oldMap.getFormCode())
-                            && OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE)))) {
+                            && OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE)));
+                        if (canChangDocId) {
                             uuid = oldMap.getOptId();
                             map.put(DOC_ID, oldMap.getDocId());
                             break;
@@ -437,24 +436,6 @@ public class JsonAppVo {
             map.put(CREATE_DATE, new Date());
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
-        });
-        list = mapJsonObject.get(TableName.F_OPTINFO.name());
-        list.forEach(map -> {
-            String form;
-            if (map.get(OPT_ROUTE) != null) {
-                form = (String) map.get(OPT_ROUTE);
-                for (String key : optDefMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) optDefMap.get(key));
-                }
-                map.put(OPT_ROUTE, form);
-            }
-            if (map.get(OPT_URL) != null) {
-                form = (String) map.get(OPT_URL);
-                for (String key : optDefMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) optDefMap.get(key));
-                }
-                map.put(OPT_URL, form);
-            }
         });
         return this;
     }
@@ -607,6 +588,24 @@ public class JsonAppVo {
         return this;
     }
 
+    private JsonAppVo updateOptInfoUseMetaForm() {
+        if (mapJsonObject.get(TableName.F_OPTINFO.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTINFO.name());
+        list.forEach(map -> {
+            metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ROUTE)))
+                .findFirst().ifPresent(key -> map.put(OPT_ROUTE, metaFormMap.get(key)));
+            if (map.get(OPT_URL) != null) {
+                String form = (String) map.get(OPT_URL);
+                for (String key : metaFormMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                }
+                map.put(OPT_URL, form);
+            }
+        });
+        return this;
+    }
 
     private JsonAppVo updateWfOptTeamRole() {
         if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
