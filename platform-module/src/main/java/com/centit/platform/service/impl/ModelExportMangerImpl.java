@@ -72,18 +72,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " +
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
-        applicationSql.put(TableName.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in (" +
-            "SELECT reference_data FROM f_md_column where REFERENCE_TYPE='1' and " +
-            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_resources where os_id=:osId)))");
-        applicationSql.put(TableName.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in (" +
-            "SELECT reference_data FROM f_md_column where REFERENCE_TYPE='1' and " +
-            "table_id in (select table_id from f_md_table where database_code in (select database_id from m_application_resources where os_id=:osId)))");
+        applicationSql.put(TableName.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " +
+            "(select dictionary_id from m_application_dictionary where os_id=:osId)");
+        applicationSql.put(TableName.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " +
+            "(select dictionary_id from m_application_dictionary where os_id=:osId)");
 
-        dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (:databaseCode)");
-        dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
-        dataBaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in (:databaseCode))");
+        dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        dataBaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
         dataBaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
-            "(select table_id from f_md_table where database_code in (:databaseCode)))");
+            "(select table_id from f_table_opt_relation where OS_ID=:osId))");
     }
 
     @Override
