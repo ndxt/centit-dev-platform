@@ -88,7 +88,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
         JSONArray jsonArray = new JSONArray();
         for (IOsInfo osInfo : osInfos) {
-            JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(osInfo), JSONObject.class);
+            JSONObject jsonObject = JSON.parseObject(JSON.toJSONStringWithDateFormat(osInfo,JSON.DEFFAULT_DATE_FORMAT), JSONObject.class);
             Map map = new HashMap();
             map.put("groupId",osInfo.getOsId());
             map.put("roleCode","组长");
