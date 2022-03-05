@@ -77,10 +77,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " +
             "(select dictionary_id from m_application_dictionary where os_id=:osId)");
 
-        dataBaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        dataBaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        dataBaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        dataBaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
+        applicationSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        applicationSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        applicationSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        applicationSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
             "(select table_id from f_table_opt_relation where OS_ID=:osId))");
     }
 
@@ -89,25 +89,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         String filePath = appHome + File.separator + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
-        String[] databaseCodes = new String[0];
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
-            if (TableName.F_DATABASE_INFO.name().equals(entry.getKey())) {
-                JSONArray jsonArrayDatabase = createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
-                databaseCodes = new String[jsonArrayDatabase.size()];
-                for (int i = 0; i < jsonArrayDatabase.size(); i++) {
-                    JSONObject jsonObject = jsonArrayDatabase.getJSONObject(i);
-                    databaseCodes[i] = (String) jsonObject.get("databaseCode");
-                }
-                continue;
-            }
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
-        }
-        if (databaseCodes.length > 0) {
-            Map<String, Object> mapDatabase = new HashMap<>(10);
-            mapDatabase.put("databaseCode", databaseCodes);
-            for (Map.Entry<String, String> entry : dataBaseSql.entrySet()) {
-                createFile(mapDatabase, entry.getValue(), entry.getKey(), filePath);
-            }
         }
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
