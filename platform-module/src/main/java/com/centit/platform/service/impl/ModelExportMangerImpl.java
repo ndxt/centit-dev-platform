@@ -44,7 +44,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Autowired
     private MetaTableManager metaTableManager;
     private final Map<String, String> applicationSql = new HashMap<>(16);
-    private final Map<String, String> dataBaseSql = new HashMap<>(4);
+    private final Map<String, String> newDatabaseSql = new HashMap<>(4);
+    private final Map<String, String> oldDatabaseSql = new HashMap<>(4);
 
     @PostConstruct
     void init() {
@@ -77,11 +78,20 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(TableName.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " +
             "(select dictionary_id from m_application_dictionary where os_id=:osId)");
 
-        applicationSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        applicationSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        applicationSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        applicationSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
+        newDatabaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        newDatabaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        newDatabaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        newDatabaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
             "(select table_id from f_table_opt_relation where OS_ID=:osId))");
+
+        oldDatabaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
+        oldDatabaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in " +
+            "(select DATABASE_ID from m_application_resources where os_id=:osId))");
+        oldDatabaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in " +
+            "(select DATABASE_ID from m_application_resources where os_id=:osId))");
+        oldDatabaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
+            "(select table_id from f_md_table where database_code in " +
+            "(select DATABASE_ID from m_application_resources where os_id=:osId)))");
     }
 
     @Override
@@ -90,6 +100,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
+            createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
+        }
+        for (Map.Entry<String, String> entry : newDatabaseSql.entrySet()) {
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
         }
         ZipCompressor.compress(filePath + ".zip", filePath);
@@ -154,6 +167,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
         mapApplication.put("osId", osId);
         JSONObject jsonObject = new JSONObject();
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
+            JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, entry.getValue(), mapApplication);
+            if (jsonArray != null) {
+                jsonObject.put(entry.getKey(), jsonArray);
+            }
+        }
+        for (Map.Entry<String, String> entry : oldDatabaseSql.entrySet()) {
             JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, entry.getValue(), mapApplication);
             if (jsonArray != null) {
                 jsonObject.put(entry.getKey(), jsonArray);
