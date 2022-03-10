@@ -105,13 +105,25 @@ public class ApplicationResourcesController extends BaseController  {
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
         List<ApplicationResources> list = applicationResourcesService.listObjectsByProperty(BaseController.collectRequestParameters(request));
         if (list!=null && list.size()>0){
+            Map<String, String> ids = new HashMap<>();
+            list.stream().forEach(applicationResources -> ids.put(applicationResources.getId(),applicationResources.getDataBaseId()));
             List<String> dataBaseCode = list.stream().map(applicationResources -> applicationResources.getDataBaseId()).collect(Collectors.toList());
             Map map = new HashMap();
             map.put("databaseCodes",dataBaseCode);
             map.putAll(BaseController.collectRequestParameters(request));
             map.remove("osId");
             JSONArray sourceInfos = databaseInfoMag.listDatabaseAsJson(map,pageDesc);
-            return PageQueryResult.createResult(sourceInfos, pageDesc);
+            JSONArray jsonArray = new JSONArray();
+            ids.forEach((key,value)->{
+                sourceInfos.stream().forEach(sourceInfo->{
+                    JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(sourceInfo), JSONObject.class);
+                    if (jsonObject.getString("databaseCode").equals(ids.get(key))){
+                        jsonObject.put("id",key);
+                        jsonArray.add(jsonObject);
+                    }
+                });
+            });
+            return PageQueryResult.createResult(jsonArray, pageDesc);
         }
         return PageQueryResult.createResult(new JSONArray(), pageDesc);
     }
