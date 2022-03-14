@@ -119,6 +119,7 @@ public class ApplicationResourcesController extends BaseController  {
                     JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(sourceInfo), JSONObject.class);
                     if (jsonObject.getString("databaseCode").equals(ids.get(key))){
                         jsonObject.put("id",key);
+                        jsonObject.put("dataBaseId", jsonObject.getString("databaseCode"));
                         jsonArray.add(jsonObject);
                     }
                 });
