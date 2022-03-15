@@ -88,6 +88,7 @@ public class ApplicationDictionaryController extends BaseController {
                         dataMap.put("catalogName", dataCatalog.getCatalogName());
                         dataMap.put("catalogStyle", dataCatalog.getCatalogStyle());
                         dataMap.put("optId", dataCatalog.getOptId());
+                        dataMap.put("catalogType",dataCatalog.getCatalogType());
                     }
                 }
                 if(dataMap != null && !dataMap.isEmpty()){
@@ -98,6 +99,7 @@ public class ApplicationDictionaryController extends BaseController {
                     resultMap.put("pushUser",applicationDictionary.getPushUser());
                     resultMap.put("catalogName",dataMap.get("catalogName"));
                     resultMap.put("catalogStyle",dataMap.get("catalogStyle"));
+                    resultMap.put("catalogType",dataMap.get("catalogType"));
                     resultMap.put("optId",dataMap.get("optId"));
                     dataMap.clear();
                     resultList.add(resultMap);
