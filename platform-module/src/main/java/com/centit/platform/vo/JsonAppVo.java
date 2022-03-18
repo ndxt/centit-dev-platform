@@ -92,6 +92,7 @@ public class JsonAppVo {
     private static final String PUSH_TIME = "pushTime";
     private static final String OPT_ROUTE = "optRoute";
     private static final String OPT_URL = "optUrl";
+    private static final String API_ID = "apiId";
 
 
     private JSONObject oldAppObject;
@@ -500,6 +501,14 @@ public class JsonAppVo {
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
             dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
                 .findFirst().ifPresent(key -> map.put(OPT_CODE, dataPacketMap.get(key)));
+            if (map.get(OPT_URL) != null) {
+                String form = (String) map.get(OPT_URL);
+                for (String key : dataPacketMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                map.put(OPT_URL, form);
+            }
+            map.put(API_ID,map.get(OPT_CODE));
         });
         return this;
     }
