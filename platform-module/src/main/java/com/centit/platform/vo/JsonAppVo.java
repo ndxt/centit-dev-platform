@@ -115,7 +115,6 @@ public class JsonAppVo {
     private Map<String, Object> metaFormMap = new HashMap<>();
     private Map<String, Object> flowDefineMap = new HashMap<>();
     private Map<String, Object> optInfoMap = new HashMap<>();
-    private Map<String, Object> optDefMap = new HashMap<>();
     private Map<String, Object> wfNodeMap = new HashMap<>();
     private static final String MAP_DATA_CODE = "mapDataCode";
 
@@ -142,7 +141,7 @@ public class JsonAppVo {
     private void updatePrimary() {
         this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
-            .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updatePacketParams()
+            .updateOptInfo().updateTableRelation().updatePacket().updateOptDef().updatePacketParams()
             .updateMetaForm().updateOptInfoUseMetaForm()
             .updateWfOptTeamRole().updateWfOptVariable()
             .updateWfDefine().updateWfNode().updateWfTransition().updatePacketUseWfDefine();
@@ -408,38 +407,6 @@ public class JsonAppVo {
         return this;
     }
 
-    private JsonAppVo updateOptDef() {
-        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
-            return this;
-        }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
-        List<OptMethod> finalOldList = convertJavaList(OptMethod.class, TableName.F_OPTDEF.name());
-        list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(OPT_CODE));
-            String uuid = "";
-            if (finalOldList != null) {
-                for (OptMethod oldMap : finalOldList) {
-                    if (map.get(OPT_CODE).toString().equals(oldMap.getSourceId())) {
-                        uuid = oldMap.getOptCode();
-                        break;
-                    }
-                }
-            }
-            if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
-            }
-            optDefMap.put((String) map.get(OPT_CODE), uuid);
-            map.put(OPT_CODE, uuid);
-            map.put(UPDATOR, userCode);
-            map.put(UPDATE_DATE, new Date());
-            map.put(CREATOR, userCode);
-            map.put(CREATE_DATE, new Date());
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
-        });
-        return this;
-    }
-
     private JsonAppVo updateTableRelation() {
         if (mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name()) == null) {
             return this;
@@ -498,10 +465,9 @@ public class JsonAppVo {
             map.put(UPDATE_DATE, new Date());
             map.put(PUBLISH_DATE, new Date());
             map.put(RECORDER, userCode);
+            map.put(OPT_CODE, uuid);
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
-            optDefMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
-                .findFirst().ifPresent(key -> map.put(OPT_CODE, optDefMap.get(key)));
         });
         list.forEach(map -> {
             String form = (String) map.get(DATA_OPT_DESC_JSON);
@@ -515,6 +481,25 @@ public class JsonAppVo {
                 form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
             }
             map.put(DATA_OPT_DESC_JSON, form);
+        });
+        return this;
+    }
+
+    private JsonAppVo updateOptDef() {
+        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
+        list.forEach(map -> {
+            map.put(SOURCE_ID, map.get(OPT_CODE));
+            map.put(UPDATOR, userCode);
+            map.put(UPDATE_DATE, new Date());
+            map.put(CREATOR, userCode);
+            map.put(CREATE_DATE, new Date());
+            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, dataPacketMap.get(key)));
         });
         return this;
     }
@@ -723,8 +708,8 @@ public class JsonAppVo {
             map.put(OS_ID, osId);
             flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
                 .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key)));
-            optDefMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
-                .findFirst().ifPresent(key -> map.put(OPT_CODE, optDefMap.get(key)));
+            metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, metaFormMap.get(key)));
         });
         return this;
     }
