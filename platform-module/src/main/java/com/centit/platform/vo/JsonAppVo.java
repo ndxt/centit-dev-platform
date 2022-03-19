@@ -93,6 +93,7 @@ public class JsonAppVo {
     private static final String OPT_ROUTE = "optRoute";
     private static final String OPT_URL = "optUrl";
     private static final String API_ID = "apiId";
+    private static final String DDE_RUN = "/dde/run/";
 
 
     private JSONObject oldAppObject;
@@ -142,7 +143,7 @@ public class JsonAppVo {
     private void updatePrimary() {
         this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
-            .updateOptInfo().updateTableRelation().updatePacket().updateOptDef().updatePacketParams()
+            .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updateOptDefUsePacket().updatePacketParams()
             .updateMetaForm().updateOptInfoUseMetaForm()
             .updateWfOptTeamRole().updateWfOptVariable()
             .updateWfDefine().updateWfNode().updateWfTransition().updatePacketUseWfDefine();
@@ -408,6 +409,37 @@ public class JsonAppVo {
         return this;
     }
 
+    private JsonAppVo updateOptDef() {
+        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
+        List<OptMethod> finalOldList = convertJavaList(OptMethod.class, TableName.F_OPTDEF.name());
+        list.forEach(map -> {
+            map.put(SOURCE_ID, map.get(OPT_CODE));
+            String uuid = "";
+            if (finalOldList != null) {
+                for (OptMethod oldMap : finalOldList) {
+                    if (map.get(OPT_CODE).toString().equals(oldMap.getSourceId())) {
+                        uuid = oldMap.getOptCode();
+                        break;
+                    }
+                }
+            }
+            if (StringBaseOpt.isNvl(uuid)) {
+                uuid = UuidOpt.getUuidAsString();
+            }
+            map.put(OPT_CODE, uuid);
+            map.put(UPDATOR, userCode);
+            map.put(UPDATE_DATE, new Date());
+            map.put(CREATOR, userCode);
+            map.put(CREATE_DATE, new Date());
+            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+        });
+        return this;
+    }
+
     private JsonAppVo updateTableRelation() {
         if (mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name()) == null) {
             return this;
@@ -486,29 +518,18 @@ public class JsonAppVo {
         return this;
     }
 
-    private JsonAppVo updateOptDef() {
+    private JsonAppVo updateOptDefUsePacket() {
         if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(OPT_CODE));
-            map.put(UPDATOR, userCode);
-            map.put(UPDATE_DATE, new Date());
-            map.put(CREATOR, userCode);
-            map.put(CREATE_DATE, new Date());
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
-            dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
-                .findFirst().ifPresent(key -> map.put(OPT_CODE, dataPacketMap.get(key)));
-            if (map.get(OPT_URL) != null) {
-                String form = (String) map.get(OPT_URL);
-                for (String key : dataPacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
-                }
-                map.put(OPT_URL, form);
+            if(map.get(API_ID) != null){
+                dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(API_ID)))
+                    .findFirst().ifPresent(key -> map.put(API_ID, dataPacketMap.get(key)));
+                map.put(OPT_URL, DDE_RUN +map.get(API_ID));
+                map.put(OPT_CODE,map.get(API_ID));
             }
-            map.put(API_ID,map.get(OPT_CODE));
         });
         return this;
     }
