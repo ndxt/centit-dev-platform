@@ -87,7 +87,8 @@ public class JsonAppVo {
     private static final String FORM_CODE = "formCode";
     private static final String MOBILE_FORM_TEMPLATE = "mobileFormTemplate";
     private static final String STRUCTURE_FUNCTION = "structureFunction";
-    private static final String DATABASE_ID = "dataBaseId";
+    private static final String DATABASE_ID = "databaseId";
+    private static final String DATABASE_ID_CLASS = "dataBaseId";
     private static final String PUSH_USER = "pushUser";
     private static final String PUSH_TIME = "pushTime";
     private static final String OPT_ROUTE = "optRoute";
@@ -260,6 +261,7 @@ public class JsonAppVo {
             }
             map.put(ID, uuid);
             map.put(OS_ID, osId);
+            map.put(DATABASE_ID_CLASS,map.get(DATABASE_ID));
             map.put(PUSH_USER, userCode);
             map.put(PUSH_TIME, new Date());
         });
