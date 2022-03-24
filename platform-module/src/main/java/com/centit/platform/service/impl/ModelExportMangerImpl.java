@@ -56,7 +56,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
             "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
-        applicationSql.put(TableName.M_APPLICATION_RESCOURSE.name(), "select * from m_application_resources where os_id=:osId");
+        applicationSql.put(TableName.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where os_id=:osId");
         applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
         applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
         applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId");

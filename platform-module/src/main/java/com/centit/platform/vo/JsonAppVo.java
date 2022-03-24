@@ -87,7 +87,7 @@ public class JsonAppVo {
     private static final String FORM_CODE = "formCode";
     private static final String MOBILE_FORM_TEMPLATE = "mobileFormTemplate";
     private static final String STRUCTURE_FUNCTION = "structureFunction";
-    private static final String DATABASE_ID = "databaseId";
+    private static final String DATABASE_ID = "dataBaseId";
     private static final String PUSH_USER = "pushUser";
     private static final String PUSH_TIME = "pushTime";
     private static final String OPT_ROUTE = "optRoute";
@@ -236,11 +236,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateApplicationResource() {
-        if (mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name()) == null) {
+        if (mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name());
-        List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, TableName.M_APPLICATION_RESCOURSE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name());
+        List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, TableName.M_APPLICATION_RESOURCES.name());
         list.forEach(map -> {
             String uuid = "";
             databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_ID)))
@@ -839,10 +839,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createApplicationResource() {
-        if (mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name()) == null) {
+        if (mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESCOURSE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name());
         appList.addAll(convertMap(ApplicationResources.class, list));
         return this;
     }
