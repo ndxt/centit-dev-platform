@@ -26,10 +26,9 @@
         <centit.fileserver.version>5.2-SNAPSHOT</centit.fileserver.version>
         <centit.dde.version>5.2-SNAPSHOT</centit.dde.version>
         <centit.metaform.version>5.2-SNAPSHOT</centit.metaform.version>
-    </properties>
-    <properties>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
+
     <build>
         <plugins>
             <plugin>
