@@ -11,12 +11,12 @@
 
     <artifactId>platform-all-in-one-server</artifactId>
     <packaging>war</packaging>
+
     <properties>
         <finalName>${project.artifactId}-${project.version}</finalName>
-    </properties>
-    <properties>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
+
     <build>
         <finalName>${finalName}</finalName>
         <plugins>
@@ -275,7 +275,7 @@
             <version>${project.version}</version>
         </dependency>
         <!--opt-task依赖-->
-        <dependency>
+        <!--<dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>opt-task-module</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -284,7 +284,7 @@
             <groupId>com.centit.product</groupId>
             <artifactId>centit-general-task</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.centit.framework</groupId>
@@ -297,8 +297,6 @@
             <artifactId>framework-system-web</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
 
     </dependencies>
 
