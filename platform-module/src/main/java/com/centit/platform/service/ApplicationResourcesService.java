@@ -24,4 +24,6 @@ public interface ApplicationResourcesService {
     void deleteAppResources(String osId, String dataBaseId);
 
     List<ApplicationResources> listObjectsByProperty(Map<String, Object> propertiesMap);
+
+    void deleteSourceInfo(String dataBaseId);
 }

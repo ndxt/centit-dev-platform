@@ -3,6 +3,7 @@ package com.centit.platform.service.impl;
 import com.centit.platform.dao.ApplicationResourcesDao;
 import com.centit.platform.po.ApplicationResources;
 import com.centit.platform.service.ApplicationResourcesService;
+import com.centit.product.metadata.service.SourceInfoManager;
 import com.centit.support.database.utils.PageDesc;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class ApplicationResourcesServiceImpl implements ApplicationResourcesServ
 
     @Autowired
     ApplicationResourcesDao applicationResourcesDao;
+
+    @Autowired
+    private SourceInfoManager sourceInfoManager;
 
     @Override
     public void createApplicationResources(ApplicationResources applicationResources) {
@@ -64,5 +68,15 @@ public class ApplicationResourcesServiceImpl implements ApplicationResourcesServ
     @Override
     public List<ApplicationResources> listObjectsByProperty(Map<String, Object> propertiesMap) {
         return applicationResourcesDao.listObjectsByProperties(propertiesMap);
+    }
+
+    @Override
+    public void deleteSourceInfo(String dataBaseId) {
+        Map<String, Object> filterMap = new HashMap<>();
+        if (StringUtils.isNotBlank(dataBaseId)) {
+            filterMap.put("dataBaseId", dataBaseId);
+        }
+        applicationResourcesDao.deleteObjectsByProperties(filterMap);
+        sourceInfoManager.deleteObjectById(dataBaseId);
     }
 }

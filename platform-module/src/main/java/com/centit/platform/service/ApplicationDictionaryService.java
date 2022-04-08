@@ -19,4 +19,6 @@ public interface ApplicationDictionaryService {
     ApplicationDictionary getApplicationDictionary(String id);
 
     void deleteAppDictionary(String osId, String dictionaryId);
+
+    void deleteDataDictionary(String dictionaryId);
 }

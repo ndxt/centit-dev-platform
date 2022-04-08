@@ -22,4 +22,6 @@ public interface ApplicationRuleService {
     ApplicationRule getApplicationRule(String id);
 
     void deleteAppRule(String osId, String ruleId);
+
+    void deleteCheckRule(String ruleId);
 }

@@ -1,6 +1,7 @@
 package com.centit.platform.service.impl;
 
 
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.platform.dao.ApplicationDictionaryDao;
 import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.service.ApplicationDictionaryService;
@@ -14,12 +15,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author tian_y
+ */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ApplicationDictionaryServiceImpl implements ApplicationDictionaryService {
 
     @Autowired
     ApplicationDictionaryDao applicationDictionaryDao;
+
+    @Autowired
+    PlatformEnvironment platformEnvironment;
 
     @Override
     public void createApplicationDictionary(ApplicationDictionary applicationDictionary) {
@@ -57,5 +64,15 @@ public class ApplicationDictionaryServiceImpl implements ApplicationDictionarySe
             filterMap.put("dictionaryId", dictionaryId);
         }
         applicationDictionaryDao.deleteObjectsByProperties(filterMap);
+    }
+
+    @Override
+    public void deleteDataDictionary(String dictionaryId) {
+        Map<String, Object> filterMap = new HashMap<>();
+        if (StringUtils.isNotBlank(dictionaryId)) {
+            filterMap.put("dictionaryId", dictionaryId);
+        }
+        applicationDictionaryDao.deleteObjectsByProperties(filterMap);
+        platformEnvironment.deleteDataDictionary(dictionaryId);
     }
 }

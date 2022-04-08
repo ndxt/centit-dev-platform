@@ -135,4 +135,12 @@ public class ApplicationResourcesController extends BaseController  {
     public ApplicationResources getHistory(@PathVariable String id) {
         return applicationResourcesService.getApplicationResources(id);
     }
+
+    @ApiOperation(value = "删除资源管理以及关联信息")
+    @DeleteMapping(value = "/sourceInfo/{id}")
+    @WrapUpResponseBody
+    public void deleteSourceInfo(@PathVariable String id){
+        applicationResourcesService.deleteSourceInfo(id);
+    }
+
 }

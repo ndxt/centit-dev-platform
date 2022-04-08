@@ -102,4 +102,10 @@ public class ApplicationRuleController extends BaseController {
         return applicationRuleService.getApplicationRule(id);
     }
 
+    @ApiOperation(value = "删除校验规则以及关联信息")
+    @DeleteMapping(value = "/checkRule/{id}")
+    @WrapUpResponseBody
+    public void deleteCheckRule(@PathVariable String id) {
+        applicationRuleService.deleteCheckRule(id);
+    }
 }

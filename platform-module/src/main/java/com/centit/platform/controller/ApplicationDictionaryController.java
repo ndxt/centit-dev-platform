@@ -119,4 +119,11 @@ public class ApplicationDictionaryController extends BaseController {
         return applicationDictionaryService.getApplicationDictionary(id);
     }
 
+    @ApiOperation(value = "删除数据字典关联信息")
+    @DeleteMapping(value = "/dataDictionary/{id}")
+    @WrapUpResponseBody
+    public void deleteDataDictionary(@PathVariable String id){
+        applicationDictionaryService.deleteDataDictionary(id);
+    }
+
 }
