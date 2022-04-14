@@ -11,6 +11,7 @@ import com.centit.platform.po.ApplicationRule;
 import com.centit.platform.service.ApplicationRuleService;
 import com.centit.product.adapter.po.DataCheckRule;
 import com.centit.product.metadata.service.DataCheckRuleService;
+import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -80,14 +81,11 @@ public class ApplicationRuleController extends BaseController {
         List<Map<String, Object>> resultList = new ArrayList();
         if (list != null && list.size() > 0) {
             for(ApplicationRule applicationRule : list) {
-                Map<String, Object> resultMap = new HashMap<>();
                 String ruleId = applicationRule.getRuleId();
                 DataCheckRule dataCheckRule = dataCheckRuleService.getObjectById(ruleId);
                 if(dataCheckRule != null){
+                    Map<String, Object> resultMap = CollectionsOpt.objectToMap(dataCheckRule);
                     resultMap.put("id", applicationRule.getId());
-                    resultMap.put("ruleId", applicationRule.getRuleId());
-                    resultMap.put("ruleType", dataCheckRule.getRuleType());
-                    resultMap.put("ruleName", dataCheckRule.getRuleName());
                     resultList.add(resultMap);
                 }
             }
