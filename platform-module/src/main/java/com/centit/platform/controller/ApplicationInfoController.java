@@ -147,7 +147,7 @@ public class ApplicationInfoController extends BaseController {
             return ResponseData.makeErrorMessage("接口存在数据，无法删除，请先移除！");
         }
         //流程数据
-        List<FlowInfo> flowInfos = flowDefine.listFlowsByOptId(optId);
+        JSONArray flowInfos = flowDefine.listFlowsByOptId(optId);
         if (!flowInfos.isEmpty()){
             return ResponseData.makeErrorMessage("流程存在数据，无法删除，请先移除！");
         }
