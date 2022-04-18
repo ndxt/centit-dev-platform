@@ -11,6 +11,7 @@ import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
+import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.po.ApplicationResources;
 import com.centit.product.adapter.po.*;
 import com.centit.support.algorithm.GeneralAlgorithm;
@@ -88,6 +89,7 @@ public class JsonAppVo {
     private static final String MOBILE_FORM_TEMPLATE = "mobileFormTemplate";
     private static final String STRUCTURE_FUNCTION = "structureFunction";
     private static final String DATABASE_ID = "databaseId";
+    private static final String DICTIONARY_ID = "dictionaryId";
     private static final String DATABASE_ID_CLASS = "dataBaseId";
     private static final String PUSH_USER = "pushUser";
     private static final String PUSH_TIME = "pushTime";
@@ -142,7 +144,7 @@ public class JsonAppVo {
     }
 
     private void updatePrimary() {
-        this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateOsInfoUseDatabase()
+        this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateApplicationDictionary().updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
             .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updateOptDefUsePacket().updatePacketParams()
             .updateMetaForm().updateOptInfoUseMetaForm()
@@ -151,7 +153,7 @@ public class JsonAppVo {
     }
 
     private void createAppObject() {
-        this.createOsInfo().createLibraryInfo().createApplicationResource().createDataCatalog().createDataDictionary()
+        this.createOsInfo().createLibraryInfo().createApplicationResource().createDataCatalog().createDataDictionary().createApplicationDictionary()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createDataPacketAndParamsObject()
             .createWfOptTeamRole().createWfOptVariable().createOptInfo().createOptDef()
@@ -248,9 +250,9 @@ public class JsonAppVo {
                 .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
             if (oldList != null) {
                 for (ApplicationResources oldMap : oldList) {
-                    if (oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
-                        oldMap.getOsId().equals(map.get(OS_ID).toString())
-                    ) {
+                    boolean equalsResource = oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
+                        (oldMap.getOsId().equals(map.get(OS_ID).toString()) || oldMap.getOsId().equals(osId));
+                    if (equalsResource) {
                         uuid = oldMap.getId();
                         break;
                     }
@@ -261,7 +263,37 @@ public class JsonAppVo {
             }
             map.put(ID, uuid);
             map.put(OS_ID, osId);
-            map.put(DATABASE_ID_CLASS,map.get(DATABASE_ID));
+            map.put(DATABASE_ID_CLASS, map.get(DATABASE_ID));
+            map.put(PUSH_USER, userCode);
+            map.put(PUSH_TIME, new Date());
+        });
+        return this;
+    }
+
+    private JsonAppVo updateApplicationDictionary() {
+        if (mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name());
+        List<ApplicationDictionary> oldList = convertJavaList(ApplicationDictionary.class, TableName.M_APPLICATION_DICTIONARY.name());
+        list.forEach(map -> {
+            String uuid = "";
+            if (oldList != null) {
+                for (ApplicationDictionary oldMap : oldList) {
+                    boolean equalsResource = oldMap.getDictionaryId().equals(map.get(DICTIONARY_ID).toString()) &&
+                        (oldMap.getOsId().equals(map.get(OS_ID).toString()) || oldMap.getOsId().equals(osId));
+                    if (equalsResource) {
+                        uuid = oldMap.getId();
+                        break;
+                    }
+                }
+            }
+            if (StringBaseOpt.isNvl(uuid)) {
+                uuid = UuidOpt.getUuidAsString();
+            }
+            map.put(ID, uuid);
+            map.put(OS_ID, osId);
+            map.put(DICTIONARY_ID, map.get(DICTIONARY_ID));
             map.put(PUSH_USER, userCode);
             map.put(PUSH_TIME, new Date());
         });
@@ -526,11 +558,11 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
         list.forEach(map -> {
-            if(map.get(API_ID) != null){
+            if (map.get(API_ID) != null) {
                 dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(API_ID)))
                     .findFirst().ifPresent(key -> map.put(API_ID, dataPacketMap.get(key)));
-                map.put(OPT_URL, DDE_RUN +map.get(API_ID));
-                map.put(OPT_CODE,map.get(API_ID));
+                map.put(OPT_URL, DDE_RUN + map.get(API_ID));
+                map.put(OPT_CODE, map.get(API_ID));
             }
         });
         return this;
@@ -864,6 +896,15 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATADICTIONARY.name());
         appList.addAll(convertMap(DataDictionary.class, list));
+        return this;
+    }
+
+    private JsonAppVo createApplicationDictionary() {
+        if (mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name());
+        appList.addAll(convertMap(ApplicationDictionary.class, list));
         return this;
     }
 
