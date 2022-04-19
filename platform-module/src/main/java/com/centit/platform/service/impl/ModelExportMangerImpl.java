@@ -58,17 +58,17 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
         applicationSql.put(TableName.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where os_id=:osId");
         applicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select * from f_table_opt_relation where OS_ID=:osId");
-        applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
-        applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId");
+        applicationSql.put(TableName.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId and is_valid='F'");
+        applicationSql.put(TableName.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId and is_disable='F'");
         applicationSql.put(TableName.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
-            "select packet_id from q_data_packet where OS_ID=:osId)");
-        applicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId");
+            "select packet_id from q_data_packet where OS_ID=:osId and is_disable='F')");
+        applicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId and flow_state<>'D'");
         applicationSql.put(TableName.WF_NODE.name(), "select * from wf_node where flow_code in(" +
-            "select flow_code from wf_flow_define where OS_ID=:osId)");
+            "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
         applicationSql.put(TableName.WF_TRANSITION.name(), "select * from wf_transition where flow_code in(" +
-            "select flow_code from wf_flow_define where OS_ID=:osId)");
+            "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
         applicationSql.put(TableName.WF_FLOW_STAGE.name(), "select * from wf_flow_stage where flow_code in(" +
-            "select flow_code from wf_flow_define where OS_ID=:osId)");
+            "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
         applicationSql.put(TableName.WF_OPT_TEAM_ROLE.name(), "select * from wf_opt_team_role where opt_id in " +
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         applicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " +
