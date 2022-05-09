@@ -2,7 +2,7 @@ package com.centit.platform.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.centit.dde.core.SimpleDataSet;
+import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
@@ -115,7 +115,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     private JSONArray createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
         JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, sql, map);
-        SimpleDataSet simpleDataSet = new SimpleDataSet();
+        DataSet simpleDataSet = new DataSet();
         simpleDataSet.setData(jsonArray);
         CsvDataSet csvDataSet = new CsvDataSet();
         File file = new File(filePath);

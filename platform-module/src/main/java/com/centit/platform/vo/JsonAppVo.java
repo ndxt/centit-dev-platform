@@ -1,7 +1,8 @@
 package com.centit.platform.vo;
 
 import com.alibaba.fastjson.JSONObject;
-import com.centit.dde.core.SimpleDataSet;
+
+import com.centit.dde.core.DataSet;
 import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketDraft;
 import com.centit.dde.po.DataPacketParam;
@@ -133,7 +134,7 @@ public class JsonAppVo {
     private void createMapJsonObject(JSONObject jsonObject) {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
             mapJsonObject.put(entry.getKey(),
-                new ObjectMapper().convertValue(entry.getValue(), SimpleDataSet.class).getDataAsList());
+                new ObjectMapper().convertValue(entry.getValue(), DataSet.class).getDataAsList());
         }
     }
 
