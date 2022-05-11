@@ -149,6 +149,10 @@
             <artifactId>fileserver-dubbo-client-config</artifactId>
             <version>${centit.fileserver.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>
