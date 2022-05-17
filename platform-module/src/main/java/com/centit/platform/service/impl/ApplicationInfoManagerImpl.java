@@ -157,10 +157,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public JSONObject getResourceInfo(Map<String, Object> parameters) {
 
         String topUnit = MapUtils.getString(parameters, "topUnit");
-        String sourceType = MapUtils.getString(parameters, "sourceType","D");
 
         JSONObject tenantInfo = tenantManageService.getTenantInfoByTopUnit(topUnit);
-        int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit, "sourceType", sourceType));
+        int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit));
         int unitCount = platformEnvironment.countUnitByTopUnit(topUnit);
         int userCount = platformEnvironment.countUserByTopUnit(topUnit);
         List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
