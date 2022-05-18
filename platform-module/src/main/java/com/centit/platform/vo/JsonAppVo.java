@@ -98,6 +98,7 @@ public class JsonAppVo {
     private static final String OPT_URL = "optUrl";
     private static final String API_ID = "apiId";
     private static final String DDE_RUN = "/dde/run/";
+    public static final String CATALOG_CODE = "catalogCode";
 
 
     private JSONObject oldAppObject;
@@ -122,6 +123,7 @@ public class JsonAppVo {
     private Map<String, Object> flowDefineMap = new HashMap<>();
     private Map<String, Object> optInfoMap = new HashMap<>();
     private Map<String, Object> wfNodeMap = new HashMap<>();
+    private Map<String, Object> dictionaryMap = new HashMap<>();
     private static final String MAP_DATA_CODE = "mapDataCode";
 
     public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails) {
@@ -145,7 +147,9 @@ public class JsonAppVo {
     }
 
     private void updatePrimary() {
-        this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource().updateApplicationDictionary().updateOsInfoUseDatabase()
+        this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource()
+            .updateDataCatalog().updateDataDictionaryUseCatalog().updateApplicationDictionary()
+            .updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
             .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updateOptDefUsePacket().updatePacketParams()
             .updateMetaForm().updateOptInfoUseMetaForm()
@@ -271,6 +275,47 @@ public class JsonAppVo {
         return this;
     }
 
+    private JsonAppVo updateDataCatalog() {
+        if (mapJsonObject.get(TableName.F_DATACATALOG.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATACATALOG.name());
+        List<DataCatalog> oldList = convertJavaList(DataCatalog.class, TableName.F_DATACATALOG.name());
+        list.forEach(map -> {
+            String uuid = "";
+            if (oldList != null) {
+                for (DataCatalog oldMap : oldList) {
+                    boolean equalsResource = oldMap.getSourceId().equals(map.get(SOURCE_ID).toString());
+                    if (equalsResource) {
+                        uuid = oldMap.getSourceId();
+                        break;
+                    }
+                }
+            }
+            if (StringBaseOpt.isNvl(uuid)) {
+                uuid = UuidOpt.getUuidAsString();
+            }
+            dictionaryMap.put(map.get(CATALOG_CODE).toString(), uuid);
+            map.put(CATALOG_CODE, uuid);
+            map.put(OS_ID, osId);
+            map.put(CREATOR, userCode);
+            map.put(CREATE_DATE, new Date());
+            map.put(UPDATOR, userCode);
+            map.put(UPDATE_DATE, new Date());
+        });
+        return this;
+    }
+
+    private JsonAppVo updateDataDictionaryUseCatalog() {
+        if (mapJsonObject.get(TableName.F_DATADICTIONARY.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATADICTIONARY.name());
+        list.forEach(map -> dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(CATALOG_CODE)))
+            .findFirst().ifPresent(key -> map.put(CATALOG_CODE, dictionaryMap.get(key))));
+        return this;
+    }
+
     private JsonAppVo updateApplicationDictionary() {
         if (mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name()) == null) {
             return this;
@@ -279,6 +324,8 @@ public class JsonAppVo {
         List<ApplicationDictionary> oldList = convertJavaList(ApplicationDictionary.class, TableName.M_APPLICATION_DICTIONARY.name());
         list.forEach(map -> {
             String uuid = "";
+            dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(DICTIONARY_ID)))
+                .findFirst().ifPresent(key -> map.put(DICTIONARY_ID, dictionaryMap.get(key)));
             if (oldList != null) {
                 for (ApplicationDictionary oldMap : oldList) {
                     boolean equalsResource = oldMap.getDictionaryId().equals(map.get(DICTIONARY_ID).toString()) &&

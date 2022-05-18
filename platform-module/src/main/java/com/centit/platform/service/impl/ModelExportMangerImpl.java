@@ -44,6 +44,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Autowired
     private MetaTableManager metaTableManager;
     private final Map<String, String> applicationSql = new HashMap<>(16);
+    private final Map<String, String> oldApplicationSql = new HashMap<>(16);
     private final Map<String, String> newDatabaseSql = new HashMap<>(4);
     private final Map<String, String> oldDatabaseSql = new HashMap<>(4);
 
@@ -85,14 +86,33 @@ public class ModelExportMangerImpl implements ModelExportManager {
         newDatabaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
             "(select table_id from f_table_opt_relation where OS_ID=:osId))");
 
-        oldDatabaseSql.put(TableName.F_MD_TABLE.name(), "select * from f_md_table where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
-        oldDatabaseSql.put(TableName.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_md_table where database_code in " +
+        oldDatabaseSql.put(TableName.F_MD_TABLE.name(), "select table_id,table_name,DATABASE_CODE from f_md_table where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
+        oldDatabaseSql.put(TableName.F_MD_RELATION.name(), "select RELATION_ID,PARENT_TABLE_ID,CHILD_TABLE_ID from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in " +
             "(select DATABASE_ID from m_application_resources where os_id=:osId))");
-        oldDatabaseSql.put(TableName.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in " +
-            "(select DATABASE_ID from m_application_resources where os_id=:osId))");
-        oldDatabaseSql.put(TableName.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
-            "(select table_id from f_md_table where database_code in " +
-            "(select DATABASE_ID from m_application_resources where os_id=:osId)))");
+
+        oldApplicationSql.put(TableName.F_OS_INFO.name(), "select os_id,os_name,default_database from f_os_info where os_id=:osId");
+        oldApplicationSql.put(TableName.FILE_LIBRARY_INFO.name(), "select library_name from file_library_info where library_id=:osId");
+        oldApplicationSql.put(TableName.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID from f_optinfo where top_opt_id=:osId");
+        oldApplicationSql.put(TableName.F_OPTDEF.name(), "select SOURCE_ID,OPT_CODE from f_optdef where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        oldApplicationSql.put(TableName.F_DATABASE_INFO.name(), "select database_code " +
+            "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
+        oldApplicationSql.put(TableName.M_APPLICATION_RESOURCES.name(), "select id,os_id,database_id from m_application_resources where os_id=:osId");
+        oldApplicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select table_id,opt_id,id from f_table_opt_relation where OS_ID=:osId");
+        oldApplicationSql.put(TableName.M_META_FORM_MODEL.name(), "select source_id,MODEL_ID from m_meta_form_model where OS_ID=:osId and is_valid='F'");
+        oldApplicationSql.put(TableName.Q_DATA_PACKET.name(), "select source_id,packet_id from q_data_packet where OS_ID=:osId and is_disable='F'");
+        oldApplicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select SOURCE_ID,FLOW_CODE from wf_flow_define where OS_ID=:osId and flow_state<>'D'");
+        oldApplicationSql.put(TableName.WF_NODE.name(), "select SOURCE_ID,NODE_ID from wf_node where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
+        oldApplicationSql.put(TableName.WF_TRANSITION.name(), "select FLOW_CODE,START_NODE_ID,END_NODE_ID,TRANS_ID from wf_transition where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
+        oldApplicationSql.put(TableName.WF_OPT_TEAM_ROLE.name(), "select OPT_TEAM_ROLE_ID,OPT_ID,ROLE_CODE from wf_opt_team_role where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        oldApplicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(), "select VARIABLE_NAME,OPT_ID,OPT_VARIABLE_ID from wf_opt_variable_define where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        oldApplicationSql.put(TableName.F_DATACATALOG.name(), "select catalog_code,source_id from f_datacatalog where CATALOG_CODE in " +
+            "(select dictionary_id from m_application_dictionary where os_id=:osId)");
+        oldApplicationSql.put(TableName.M_APPLICATION_DICTIONARY.name(), "select id,os_id,dictionary_id from m_application_dictionary where os_id=:osId");
     }
 
     @Override
@@ -167,7 +187,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
         JSONObject jsonObject = new JSONObject();
-        for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
+        for (Map.Entry<String, String> entry : oldApplicationSql.entrySet()) {
             JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, entry.getValue(), mapApplication);
             if (jsonArray != null) {
                 jsonObject.put(entry.getKey(), jsonArray);
