@@ -2,7 +2,6 @@ package com.centit.platform.all.config;
 
 import com.centit.fileserver.common.FileStore;
 import com.centit.fileserver.common.FileTaskQueue;
-import com.centit.fileserver.service.impl.DubboFileStoreImpl;
 import com.centit.fileserver.task.*;
 import com.centit.fileserver.utils.OsFileStore;
 import com.centit.framework.common.SysParametersUtils;
@@ -21,7 +20,6 @@ import com.centit.framework.security.model.StandardPasswordEncoderImpl;
 import com.centit.framework.system.config.SystemBeanConfig;
 import com.centit.im.service.IntelligentRobotFactory;
 import com.centit.im.service.impl.IntelligentRobotFactoryRpcImpl;
-import com.centit.im.service.impl.IntelligentRobotFactorySingleImpl;
 import com.centit.product.oa.EmailMessageSenderImpl;
 import com.centit.search.document.FileDocument;
 import com.centit.search.document.ObjectDocument;
@@ -31,7 +29,6 @@ import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.BooleanBaseOpt;
-import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -51,7 +48,7 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
 @Configuration
 @PropertySource("classpath:system.properties")
 @ComponentScan(basePackages = "com.centit",
-    excludeFilters = @ComponentScan.Filter(type= FilterType.ANNOTATION,
+    excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,
         value = org.springframework.stereotype.Controller.class))
 @Import({
     JdbcConfig.class,
@@ -69,27 +66,27 @@ public class ServiceConfig {
     private String appHome;
 
     @Bean
-    public FileStore fileStore(){
+    public FileStore fileStore() {
         String baseHome = env.getProperty("os.file.base.dir");
         if (StringUtils.isBlank(baseHome)) {
             baseHome = env.getProperty("app.home") + "/upload";
         }
         return new OsFileStore(baseHome);
     }
+
     @Bean
     public FileTaskQueue fileOptTaskQueue() throws Exception {
         return new LinkedBlockingQueueFileOptTaskQueue(appHome + "/task");
     }
 
 
-
     @Bean(name = "passwordEncoder")
-    public StandardPasswordEncoderImpl passwordEncoder(){
+    public StandardPasswordEncoderImpl passwordEncoder() {
         return new StandardPasswordEncoderImpl();
     }
 
     @Bean
-    public DataScopePowerManager queryDataScopeFilter(){
+    public DataScopePowerManager queryDataScopeFilter() {
         return new DataScopePowerManagerImpl();
     }
 
@@ -99,11 +96,6 @@ public class ServiceConfig {
         return intelligentRobotFactory;
     }
 
-
-    @Bean
-    public FileStore dubboFileStoreContext(@Autowired DubboFileStoreImpl dubboFileStore){
-        return dubboFileStore;
-    }
 
     /* 这个定时任务 不能用run来做，应该用一个 定时任务容器
      */
@@ -129,31 +121,33 @@ public class ServiceConfig {
         fileOptTaskExecutor.addFileOperator(documentIndexOpt);
         return fileOptTaskExecutor;
     }
+
     @Bean
-    public ESServerConfig esServerConfig(){
+    public ESServerConfig esServerConfig() {
         return IndexerSearcherFactory.loadESServerConfigFormProperties(
             SysParametersUtils.loadProperties()
         );
     }
 
     @Bean(name = "esObjectIndexer")
-    public ESIndexer esObjectIndexer(@Autowired ESServerConfig esServerConfig){
+    public ESIndexer esObjectIndexer(@Autowired ESServerConfig esServerConfig) {
         return IndexerSearcherFactory.obtainIndexer(
             esServerConfig, ObjectDocument.class);
     }
 
     @Bean
-    public Searcher documentSearcher(){
-        if(BooleanBaseOpt.castObjectToBoolean(
-            env.getProperty("fulltext.index.enable"),false)) {
+    public Searcher documentSearcher() {
+        if (BooleanBaseOpt.castObjectToBoolean(
+            env.getProperty("fulltext.index.enable"), false)) {
             return IndexerSearcherFactory.obtainSearcher(
                 IndexerSearcherFactory.loadESServerConfigFormProperties(
                     SysParametersUtils.loadProperties()), FileDocument.class);
         }
         return null;
     }
+
     @Bean(name = "esObjectSearcher")
-    public ESSearcher esObjectSearcher(@Autowired ESServerConfig esServerConfig){
+    public ESSearcher esObjectSearcher(@Autowired ESServerConfig esServerConfig) {
         return IndexerSearcherFactory.obtainSearcher(
             esServerConfig, ObjectDocument.class);
     }
@@ -200,7 +194,7 @@ public class ServiceConfig {
 //    }
 
     @Bean
-    public SchedulerFactory schedulerFactory()  {
+    public SchedulerFactory schedulerFactory() {
         return new StdSchedulerFactory();
     }
 
@@ -210,13 +204,13 @@ public class ServiceConfig {
         messageManager.setHostName("mail.centit.com");
         messageManager.setSmtpPort(25);
         messageManager.setUserName("alertmail2@centit.com");
-        messageManager.setUserPassword(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==",""));
+        messageManager.setUserPassword(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
         messageManager.setServerEmail("alertmail2@centit.com");
 
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //notificationCenter.initDummyMsgSenders();
         notificationCenter.setPlatformEnvironment(platformEnvironment);
-        notificationCenter.registerMessageSender("email",messageManager);
+        notificationCenter.registerMessageSender("email", messageManager);
         notificationCenter.appointDefaultSendType("email");
         return notificationCenter;
     }
@@ -225,7 +219,7 @@ public class ServiceConfig {
     @Lazy(value = false)
     public OperationLogWriter operationLogWriter() {
         TextOperationLogWriterImpl operationLog = new TextOperationLogWriterImpl();
-        operationLog.setOptLogHomePath(appHome+"/logs");
+        operationLog.setOptLogHomePath(appHome + "/logs");
         operationLog.init();
         return operationLog;
     }
