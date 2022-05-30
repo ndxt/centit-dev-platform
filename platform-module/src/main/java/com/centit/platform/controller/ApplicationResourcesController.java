@@ -9,9 +9,7 @@ import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.platform.po.ApplicationResources;
 import com.centit.platform.service.ApplicationResourcesService;
-import com.centit.product.adapter.po.SourceInfo;
 import com.centit.product.metadata.service.SourceInfoManager;
-import com.centit.product.metadata.service.impl.SourceInfoManagerImpl;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
@@ -118,13 +116,17 @@ public class ApplicationResourcesController extends BaseController  {
                 sourceInfos.stream().forEach(sourceInfo->{
                     JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(sourceInfo), JSONObject.class);
                     if (jsonObject.getString("databaseCode").equals(ids.get(key))){
+                        ApplicationResources po = applicationResourcesService.getApplicationResources(key);
                         jsonObject.put("id",key);
                         jsonObject.put("dataBaseId", jsonObject.getString("databaseCode"));
+                        jsonObject.put("pushUser", po.getPushUser());
+                        jsonObject.put("pushTime", po.getPushTime());
                         jsonArray.add(jsonObject);
                     }
                 });
             });
-            return PageQueryResult.createResult(jsonArray, pageDesc);
+            return PageQueryResult.createJSONArrayResult(jsonArray, pageDesc, new Class[]{ApplicationResources.class});
+
         }
         return PageQueryResult.createResult(new JSONArray(), pageDesc);
     }
