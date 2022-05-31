@@ -39,12 +39,12 @@ public class ApplicationDictionaryController extends BaseController {
     @ApiOperation(value = "新增关联信息")
     @PostMapping()
     @WrapUpResponseBody
-    public void createApplicationDictionary(@RequestBody JSONObject jsonObject, HttpServletResponse response){
+    public void createApplicationDictionary(@RequestBody JSONObject jsonObject, HttpServletResponse response) {
         String osId = jsonObject.getString("osId");
         JSONArray dictionaryIds = jsonObject.getJSONArray("dictionaryIds");
         String pushUser = jsonObject.getString("pushUser");
         if (dictionaryIds != null && !dictionaryIds.isEmpty()) {
-            for(int i = 0; i < dictionaryIds.size(); i ++){
+            for (int i = 0; i < dictionaryIds.size(); i++) {
                 ApplicationDictionary app = new ApplicationDictionary();
                 app.setOsId(osId);
                 app.setDictionaryId(dictionaryIds.get(i) + "");
@@ -52,61 +52,51 @@ public class ApplicationDictionaryController extends BaseController {
                 applicationDictionaryService.createApplicationDictionary(app);
             }
         }
-        JsonResultUtils.writeSingleDataJson(dictionaryIds,response);
+        JsonResultUtils.writeSingleDataJson(dictionaryIds, response);
     }
 
     @ApiOperation(value = "修改关联信息")
     @PutMapping()
     @WrapUpResponseBody
-    public void update(@RequestBody ApplicationDictionary applicationDictionary){
+    public void update(@RequestBody ApplicationDictionary applicationDictionary) {
         applicationDictionaryService.updateApplicationDictionary(applicationDictionary);
     }
 
     @ApiOperation(value = "删除关联信息")
     @DeleteMapping(value = "/{id}")
     @WrapUpResponseBody
-    public void deleteById(@PathVariable String id){
+    public void deleteById(@PathVariable String id) {
         applicationDictionaryService.deleteApplicationDictionary(id);
     }
 
     @ApiOperation(value = "查询关联信息列表")
     @GetMapping("/list")
     @WrapUpResponseBody
-    public PageQueryResult list(String[] field, HttpServletRequest request, PageDesc pageDesc){
+    public PageQueryResult list(String[] field, HttpServletRequest request, PageDesc pageDesc) {
         List<ApplicationDictionary> list = applicationDictionaryService.listApplicationDictionary(BaseController.collectRequestParameters(request), pageDesc);
         List<Map<String, Object>> resultList = new ArrayList();
-        Map<String, Object> dataMap = new HashMap<>();
         if (list != null && list.size() > 0) {
-            for(ApplicationDictionary applicationDictionary : list) {
-                Map<String, Object> resultMap = new HashMap<>();
+            for (ApplicationDictionary applicationDictionary : list) {
+                Map<String, Object> resultMap = new HashMap<>(1);
                 String dictionaryId = applicationDictionary.getDictionaryId();
+                resultMap.put("id", applicationDictionary.getId());
+                resultMap.put("osId", applicationDictionary.getOsId());
+                resultMap.put("catalogCode", dictionaryId);
+                resultMap.put("pushTime", applicationDictionary.getPushTime());
+                resultMap.put("pushUser", applicationDictionary.getPushUser());
                 String topUnit = WebOptUtils.getCurrentTopUnit(request);
-                List<? extends IDataCatalog> dataCatalogs =  platformEnvironment.listAllDataCatalogs(topUnit);
-                for(IDataCatalog iDataCatalog : dataCatalogs){
-                    if(iDataCatalog != null && dictionaryId.equals(iDataCatalog.getCatalogCode())){
-                        DataCatalog dataCatalog = (DataCatalog)iDataCatalog;
-                        dataMap.put("catalogName", dataCatalog.getCatalogName());
-                        dataMap.put("catalogStyle", dataCatalog.getCatalogStyle());
-                        dataMap.put("optId", dataCatalog.getOptId());
-                        dataMap.put("catalogType",dataCatalog.getCatalogType());
+                List<? extends IDataCatalog> dataCatalogs = platformEnvironment.listAllDataCatalogs(topUnit);
+                for (IDataCatalog iDataCatalog : dataCatalogs) {
+                    if (iDataCatalog != null && dictionaryId.equals(iDataCatalog.getCatalogCode())) {
+                        DataCatalog dataCatalog = (DataCatalog) iDataCatalog;
+                        resultMap.put("catalogName", dataCatalog.getCatalogName());
+                        resultMap.put("catalogStyle", dataCatalog.getCatalogStyle());
+                        resultMap.put("optId", dataCatalog.getOptId());
+                        resultMap.put("catalogType", dataCatalog.getCatalogType());
+                        break;
                     }
                 }
-                if(dataMap != null && !dataMap.isEmpty()){
-                    resultMap.put("id",applicationDictionary.getId());
-                    resultMap.put("osId",applicationDictionary.getOsId());
-                    resultMap.put("catalogCode", dictionaryId);
-                    resultMap.put("pushTime",applicationDictionary.getPushTime());
-                    resultMap.put("pushUser",applicationDictionary.getPushUser());
-                    resultMap.put("catalogName",dataMap.get("catalogName"));
-                    resultMap.put("catalogStyle",dataMap.get("catalogStyle"));
-                    resultMap.put("catalogType",dataMap.get("catalogType"));
-                    resultMap.put("optId",dataMap.get("optId"));
-                    dataMap.clear();
-                    resultList.add(resultMap);
-                }else{
-                    //未查询到数据字典，说明数据字典被删除，删除关联信息
-                    applicationDictionaryService.deleteApplicationDictionary(applicationDictionary.getId());
-                }
+                resultList.add(resultMap);
             }
         }
         return PageQueryResult.createJSONArrayResult(JSONArray.parseArray(JSON.toJSONString(resultList)), pageDesc, new Class[]{DataCatalog.class});
