@@ -162,7 +162,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         CsvDataSet csvDataSet = new CsvDataSet();
         for (File file : files) {
             String fileName = FileSystemOpt.extractFileName(file.getPath());
-            csvDataSet.setFilePath(file.getPath());
+            csvDataSet.setInputStream(new FileInputStream(file.getPath()));
             jsonObject.put(fileName, csvDataSet.load(null));
         }
         FileSystemOpt.deleteDirect(filePath);
