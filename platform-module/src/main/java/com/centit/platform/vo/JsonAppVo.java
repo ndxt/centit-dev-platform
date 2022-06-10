@@ -36,6 +36,7 @@ public class JsonAppVo {
     private static final String OS_ID = "osId";
     private static final String DATABASE_CODE = "databaseCode";
     private static final String TABLE_ID = "tableId";
+    private static final String REFERENCE_DATA = "referenceData";
     private static final String RELATION_ID = "relationId";
     private static final String PARENT_TABLE_ID = "parentTableId";
     private static final String OPT_ID = "optId";
@@ -282,6 +283,7 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATACATALOG.name());
         List<DataCatalog> oldList = convertJavaList(DataCatalog.class, TableName.F_DATACATALOG.name());
         list.forEach(map -> {
+            map.put(SOURCE_ID,map.get(CATALOG_CODE));
             String uuid = "";
             if (oldList != null) {
                 for (DataCatalog oldMap : oldList) {
@@ -302,6 +304,7 @@ public class JsonAppVo {
             map.put(CREATE_DATE, new Date());
             map.put(UPDATOR, userCode);
             map.put(UPDATE_DATE, new Date());
+            map.put(TOP_UNIT, topUnit);
         });
         return this;
     }
@@ -399,6 +402,8 @@ public class JsonAppVo {
             map.put(LAST_MODIFY_DATE, new Date());
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
                 .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableMap.get(key)));
+            dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(REFERENCE_DATA)))
+                .findFirst().ifPresent(key -> map.put(REFERENCE_DATA, dictionaryMap.get(key)));
         });
         return this;
     }
@@ -595,6 +600,9 @@ public class JsonAppVo {
             for (String key : dataPacketMap.keySet()) {
                 form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
             }
+            for (String key : dictionaryMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+            }
             map.put(DATA_OPT_DESC_JSON, form);
         });
         return this;
@@ -665,6 +673,9 @@ public class JsonAppVo {
                 for (String key : dataPacketMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
                 }
+                for (String key : dictionaryMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+                }
                 map.put(FORM_TEMPLATE, form);
             }
             if (map.get(MOBILE_FORM_TEMPLATE) != null) {
@@ -672,12 +683,24 @@ public class JsonAppVo {
                 for (String key : metaFormMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
                 }
+                for (String key : dataPacketMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                for (String key : dictionaryMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+                }
                 map.put(MOBILE_FORM_TEMPLATE, form);
             }
             if (map.get(STRUCTURE_FUNCTION) != null) {
                 form = (String) map.get(STRUCTURE_FUNCTION);
                 for (String key : dataPacketMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                for (String key : dataPacketMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                for (String key : dictionaryMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
                 }
                 map.put(STRUCTURE_FUNCTION, form);
             }

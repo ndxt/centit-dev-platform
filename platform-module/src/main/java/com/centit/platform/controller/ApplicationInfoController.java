@@ -134,6 +134,7 @@ public class ApplicationInfoController extends BaseController {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
+        metaFormParam.put("isValid","F");
         //页面数据
         JSONArray metaFormModelList = metaFormModelManager.listFormModeAsJson(null, metaFormParam, null);
         JSONArray metaFormModelDraftList = metaFormModelDraftManager.listFormModeAsJson(null, metaFormParam, null);
