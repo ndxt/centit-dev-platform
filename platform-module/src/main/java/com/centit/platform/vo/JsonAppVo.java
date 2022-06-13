@@ -7,7 +7,10 @@ import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketDraft;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.dde.po.DataPacketParamDraft;
+import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.common.FileLibraryInfo;
+import com.centit.fileserver.po.FileInfo;
+import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
@@ -15,17 +18,20 @@ import com.centit.metaform.dubbo.adapter.po.MetaFormModelDraft;
 import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.po.ApplicationResources;
 import com.centit.product.adapter.po.*;
-import com.centit.support.algorithm.GeneralAlgorithm;
-import com.centit.support.algorithm.NumberBaseOpt;
-import com.centit.support.algorithm.StringBaseOpt;
-import com.centit.support.algorithm.UuidOpt;
+import com.centit.support.algorithm.*;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
+import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -104,6 +110,9 @@ public class JsonAppVo {
 
     private JSONObject oldAppObject;
     private Map<String, List<Map<String, Object>>> mapJsonObject = new HashMap<>();
+    private String zipFilePath;
+    private String appHome;
+    private FileInfoOpt fileInfoOpt;
     @Getter
     private String userCode;
     private String topUnit;
@@ -125,19 +134,26 @@ public class JsonAppVo {
     private Map<String, Object> optInfoMap = new HashMap<>();
     private Map<String, Object> wfNodeMap = new HashMap<>();
     private Map<String, Object> dictionaryMap = new HashMap<>();
+    private Map<String, Object> fileMap = new HashMap<>();
     private static final String MAP_DATA_CODE = "mapDataCode";
 
-    public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails) {
+    public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt) throws IOException {
         createMapJsonObject(jsonObject);
         this.oldAppObject = oldObject;
         this.userCode = userDetails.getUserCode();
         this.topUnit = userDetails.getTopUnitCode();
+        this.appHome = appHome;
+        this.fileInfoOpt = fileInfoOpt;
     }
 
-    private void createMapJsonObject(JSONObject jsonObject) {
+    private void createMapJsonObject(JSONObject jsonObject) throws IOException {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
-            mapJsonObject.put(entry.getKey(),
-                new ObjectMapper().convertValue(entry.getValue(), DataSet.class).getDataAsList());
+            if ("file".equals(entry.getKey())) {
+                zipFilePath = StringBaseOpt.objectToString(entry.getValue());
+            } else {
+                mapJsonObject.put(entry.getKey(),
+                    new ObjectMapper().convertValue(entry.getValue(), DataSet.class).getDataAsList());
+            }
         }
     }
 
@@ -152,7 +168,7 @@ public class JsonAppVo {
             .updateDataCatalog().updateDataDictionaryUseCatalog().updateApplicationDictionary()
             .updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
-            .updateOptInfo().updateOptDef().updateTableRelation().updatePacket().updateOptDefUsePacket().updatePacketParams()
+            .updateOptInfo().updateOptDef().updateTableRelation().uploadFiles().updatePacket().updateOptDefUsePacket().updatePacketParams()
             .updateMetaForm().updateOptInfoUseMetaForm()
             .updateWfOptTeamRole().updateWfOptVariable()
             .updateWfDefine().updateWfNode().updateWfTransition().updatePacketUseWfDefine();
@@ -256,7 +272,7 @@ public class JsonAppVo {
                 .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
             if (oldList != null) {
                 for (ApplicationResources oldMap : oldList) {
-                    if(oldMap.getDataBaseId()!=null) {
+                    if (oldMap.getDataBaseId() != null) {
                         boolean equalsResource = oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
                             (oldMap.getOsId().equals(map.get(OS_ID).toString()) || oldMap.getOsId().equals(osId));
                         if (equalsResource) {
@@ -285,7 +301,7 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATACATALOG.name());
         List<DataCatalog> oldList = convertJavaList(DataCatalog.class, TableName.F_DATACATALOG.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID,map.get(CATALOG_CODE));
+            map.put(SOURCE_ID, map.get(CATALOG_CODE));
             String uuid = "";
             if (oldList != null) {
                 for (DataCatalog oldMap : oldList) {
@@ -560,6 +576,37 @@ public class JsonAppVo {
         return this;
     }
 
+    private JsonAppVo uploadFiles() {
+        if (StringBaseOpt.isNvl(zipFilePath)) {
+            return this;
+        }
+        List<File> files=FileSystemOpt.findFiles(zipFilePath,"file.zip");
+        if(files==null || files.size()==0){
+            return this;
+        }
+        String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
+        ZipCompressor.release(files.get(0), filePath);
+        List<File> zipFiles = FileSystemOpt.findFiles(filePath, "*");
+        zipFiles.forEach(file -> {
+            FileInfo fileInfo = new FileInfo();
+            String fileName = FileSystemOpt.extractFullFileName(file.getPath());
+            fileInfo.setFileName(fileName);
+            fileInfo.setFileShowPath("/-1");
+            String oldFileId = fileName.substring(fileName.indexOf("(") + 1, fileName.indexOf(")"));
+            fileInfo.setLibraryId(osId);
+            String fileId = null;
+            try {
+                fileId = fileInfoOpt.saveFile(fileInfo, -1, new FileInputStream(file.getPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fileInfo.setFileId(fileId);
+            fileMap.put(oldFileId, fileId);
+        });
+        FileSystemOpt.deleteDirect(filePath);
+        return this;
+    }
+
     private JsonAppVo updatePacket() {
         if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
             return this;
@@ -604,6 +651,9 @@ public class JsonAppVo {
             }
             for (String key : dictionaryMap.keySet()) {
                 form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+            }
+            for (String key : fileMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) fileMap.get(key));
             }
             map.put(DATA_OPT_DESC_JSON, form);
         });
@@ -678,6 +728,9 @@ public class JsonAppVo {
                 for (String key : dictionaryMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
                 }
+                for (String key : fileMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) fileMap.get(key));
+                }
                 map.put(FORM_TEMPLATE, form);
             }
             if (map.get(MOBILE_FORM_TEMPLATE) != null) {
@@ -691,6 +744,9 @@ public class JsonAppVo {
                 for (String key : dictionaryMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
                 }
+                for (String key : fileMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) fileMap.get(key));
+                }
                 map.put(MOBILE_FORM_TEMPLATE, form);
             }
             if (map.get(STRUCTURE_FUNCTION) != null) {
@@ -703,6 +759,9 @@ public class JsonAppVo {
                 }
                 for (String key : dictionaryMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+                }
+                for (String key : fileMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) fileMap.get(key));
                 }
                 map.put(STRUCTURE_FUNCTION, form);
             }

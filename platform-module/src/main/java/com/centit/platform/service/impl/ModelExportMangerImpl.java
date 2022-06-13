@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
+import com.centit.fileserver.common.FileInfoOpt;
+import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.dao.ApplicationTemplateDao;
@@ -11,10 +13,7 @@ import com.centit.platform.service.ModelExportManager;
 import com.centit.platform.vo.JsonAppVo;
 import com.centit.platform.vo.TableName;
 import com.centit.product.dbdesign.service.MetaTableManager;
-import com.centit.support.algorithm.DatetimeOpt;
-import com.centit.support.algorithm.GeneralAlgorithm;
-import com.centit.support.algorithm.StringBaseOpt;
-import com.centit.support.algorithm.ZipCompressor;
+import com.centit.support.algorithm.*;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,10 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +39,13 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private ApplicationTemplateDao applicationTemplateDao;
     @Autowired
     private MetaTableManager metaTableManager;
+    @Autowired
+    private FileInfoOpt fileInfoOpt;
     private final Map<String, String> applicationSql = new HashMap<>(16);
     private final Map<String, String> oldApplicationSql = new HashMap<>(16);
     private final Map<String, String> newDatabaseSql = new HashMap<>(4);
     private final Map<String, String> oldDatabaseSql = new HashMap<>(4);
+    private final String fileInfoSql = "select file_id,file_name from file_info where library_id=:osId";
 
     @PostConstruct
     void init() {
@@ -126,6 +125,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         for (Map.Entry<String, String> entry : newDatabaseSql.entrySet()) {
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
         }
+        try {
+            compressFileInfo(osId, filePath);
+        } catch (IOException e) {
+            throw new ObjectException(e.getMessage());
+        }
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
         InputStream in = new FileInputStream(filePath + ".zip");
@@ -133,20 +137,38 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return in;
     }
 
-    private JSONArray createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
-        JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, sql, map);
-        DataSet simpleDataSet = new DataSet();
-        simpleDataSet.setData(jsonArray);
-        CsvDataSet csvDataSet = new CsvDataSet();
+    private void createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
         File file = new File(filePath);
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 throw new SecurityException();
             }
         }
+        JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, sql, map);
+        DataSet simpleDataSet = new DataSet();
+        simpleDataSet.setData(jsonArray);
+        CsvDataSet csvDataSet = new CsvDataSet();
         csvDataSet.setFilePath(filePath + File.separator + fileName + ".csv");
         csvDataSet.save(simpleDataSet);
-        return jsonArray;
+    }
+
+    private void compressFileInfo(String osId, String filePath) throws IOException {
+        List<Object[]> objects = DatabaseOptUtils.listObjectsByNamedSql(applicationTemplateDao, fileInfoSql, CollectionsOpt.createHashMap("osId", osId));
+        String fileInfoPath = filePath + File.separator + "file";
+        File file = new File(fileInfoPath);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                throw new SecurityException();
+            }
+        }
+        for (Object[] object : objects) {
+            String fileId = StringBaseOpt.castObjectToString(object[0]);
+            InputStream inputStream = fileInfoOpt.loadFileStream(fileId);
+            String fileIdPath = fileInfoPath + File.separator + "(" + fileId + ")" + StringBaseOpt.castObjectToString(object[1]);
+            FileSystemOpt.createFile(inputStream, fileIdPath);
+        }
+        ZipCompressor.compress(fileInfoPath + ".zip", fileInfoPath);
+        FileSystemOpt.deleteDirect(fileInfoPath);
     }
 
     @Override
@@ -165,7 +187,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
             csvDataSet.setInputStream(new FileInputStream(file.getPath()));
             jsonObject.put(fileName, csvDataSet.load(null));
         }
-        FileSystemOpt.deleteDirect(filePath);
+        jsonObject.put("file", filePath);
+        FileSystemOpt.deleteFile(zipFile);
         return jsonObject;
     }
 
@@ -173,7 +196,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Transactional(rollbackFor = Exception.class)
     public Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails) {
         try {
-            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails);
+            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt);
             return createApp(jsonAppVo);
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());

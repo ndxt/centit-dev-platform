@@ -146,7 +146,7 @@
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>fileserver-dubbo-client-config</artifactId>
+            <artifactId>fileserver-client</artifactId>
             <version>${centit.fileserver.version}</version>
         </dependency>
         <dependency>

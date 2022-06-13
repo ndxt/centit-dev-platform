@@ -93,5 +93,10 @@
             <version>5.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>fileserver-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
