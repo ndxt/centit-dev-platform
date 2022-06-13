@@ -256,11 +256,13 @@ public class JsonAppVo {
                 .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
             if (oldList != null) {
                 for (ApplicationResources oldMap : oldList) {
-                    boolean equalsResource = oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
-                        (oldMap.getOsId().equals(map.get(OS_ID).toString()) || oldMap.getOsId().equals(osId));
-                    if (equalsResource) {
-                        uuid = oldMap.getId();
-                        break;
+                    if(oldMap.getDataBaseId()!=null) {
+                        boolean equalsResource = oldMap.getDataBaseId().equals(map.get(DATABASE_ID).toString()) &&
+                            (oldMap.getOsId().equals(map.get(OS_ID).toString()) || oldMap.getOsId().equals(osId));
+                        if (equalsResource) {
+                            uuid = oldMap.getId();
+                            break;
+                        }
                     }
                 }
             }
