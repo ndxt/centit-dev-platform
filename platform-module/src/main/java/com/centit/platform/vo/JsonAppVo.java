@@ -604,6 +604,7 @@ public class JsonAppVo {
             fileMap.put(oldFileId, fileId);
         });
         FileSystemOpt.deleteDirect(filePath);
+        FileSystemOpt.deleteDirect(zipFilePath);
         return this;
     }
 

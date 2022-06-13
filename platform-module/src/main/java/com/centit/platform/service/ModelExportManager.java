@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public interface ModelExportManager {
-    InputStream downModel(String osId) throws FileNotFoundException;
+    String downModel(String osId) throws FileNotFoundException;
     JSONObject uploadModel(File zipFile) throws Exception;
     Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails);
 }

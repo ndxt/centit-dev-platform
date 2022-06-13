@@ -23,9 +23,11 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -42,21 +44,35 @@ public class ModelExportController extends BaseController {
     @ApiOperation(value = "导出应用")
     @GetMapping(value = "/downloadModel/{osId}")
     public void downLoadModel(@PathVariable String osId, HttpServletResponse response) throws IOException {
-        InputStream in = modelExportManager.downModel(osId);
-        String fileName = platformEnvironment.getOsInfo(osId).getOsName();
+        String filePath = modelExportManager.downModel(osId);
+        String fileName = FileSystemOpt.extractFileName(filePath);
+        try {
+            fileName = platformEnvironment.getOsInfo(osId).getOsName();
+        } catch (Exception ignored) {
+
+        }
         fileName = URLEncoder.encode(fileName, "UTF-8") +
             ".zip";
         response.setContentType(FileType.mapExtNameToMimeType("zip"));
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
-        IOUtils.copy(in, response.getOutputStream());
+        InputStream in = null;
+        try {
+            in = new FileInputStream(filePath);
+            IOUtils.copy(in, response.getOutputStream());
+        } finally {
+            if (in != null) {
+                in.close();
+                FileSystemOpt.deleteFile(filePath);
+            }
+        }
     }
 
     @ApiOperation(value = "导入zip获取json")
     @RequestMapping(value = "/updateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public JSONObject upLoadModel(HttpServletRequest request)  {
+    public JSONObject upLoadModel(HttpServletRequest request) {
         CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-        if (userDetails==null){
+        if (userDetails == null) {
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
         }
         FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
@@ -66,7 +82,7 @@ public class ModelExportController extends BaseController {
             File file = new File(tempFilePath);
             FileUtils.copyInputStreamToFile(inputStream, file);
             return modelExportManager.uploadModel(file);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ObjectException(e.getMessage());
         }
     }
