@@ -53,4 +53,14 @@ public class ApplicationDictionaryServiceImpl implements ApplicationDictionarySe
         return applicationDictionaryDao.getObjectById(id);
     }
 
+    @Override
+    public void deleteDataDictionary(String dictionaryId) {
+        Map<String, Object> filterMap = new HashMap<>(1);
+        if (StringUtils.isNotBlank(dictionaryId)) {
+            filterMap.put("dictionaryId", dictionaryId);
+        }
+        applicationDictionaryDao.deleteObjectsByProperties(filterMap);
+        platformEnvironment.deleteDataDictionary(dictionaryId);
+    }
+
 }

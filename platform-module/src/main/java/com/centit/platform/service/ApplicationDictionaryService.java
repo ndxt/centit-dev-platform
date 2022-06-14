@@ -18,4 +18,6 @@ public interface ApplicationDictionaryService {
 
     ApplicationDictionary getApplicationDictionary(String id);
 
+    void deleteDataDictionary(String dictionaryId);
+
 }
