@@ -1,7 +1,6 @@
 package com.centit.platform.vo;
 
 import com.alibaba.fastjson.JSONObject;
-
 import com.centit.dde.core.DataSet;
 import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketDraft;
@@ -10,7 +9,6 @@ import com.centit.dde.po.DataPacketParamDraft;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.fileserver.po.FileInfo;
-import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.framework.system.po.*;
 import com.centit.metaform.dubbo.adapter.po.MetaFormModel;
@@ -25,13 +23,11 @@ import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -105,7 +101,7 @@ public class JsonAppVo {
     private static final String OPT_URL = "optUrl";
     private static final String API_ID = "apiId";
     private static final String DDE_RUN = "/dde/run/";
-    public static final String CATALOG_CODE = "catalogCode";
+    private static final String CATALOG_CODE = "catalogCode";
 
 
     private JSONObject oldAppObject;
@@ -137,7 +133,7 @@ public class JsonAppVo {
     private Map<String, Object> fileMap = new HashMap<>();
     private static final String MAP_DATA_CODE = "mapDataCode";
 
-    public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt) throws IOException {
+    public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt) {
         createMapJsonObject(jsonObject);
         this.oldAppObject = oldObject;
         this.userCode = userDetails.getUserCode();
@@ -146,7 +142,7 @@ public class JsonAppVo {
         this.fileInfoOpt = fileInfoOpt;
     }
 
-    private void createMapJsonObject(JSONObject jsonObject) throws IOException {
+    private void createMapJsonObject(JSONObject jsonObject) {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
             if ("file".equals(entry.getKey())) {
                 zipFilePath = StringBaseOpt.objectToString(entry.getValue());
@@ -580,8 +576,8 @@ public class JsonAppVo {
         if (StringBaseOpt.isNvl(zipFilePath)) {
             return this;
         }
-        List<File> files=FileSystemOpt.findFiles(zipFilePath,"file.zip");
-        if(files==null || files.size()==0){
+        List<File> files = FileSystemOpt.findFiles(zipFilePath, "file.zip");
+        if (files == null || files.size() == 0) {
             return this;
         }
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
@@ -604,7 +600,8 @@ public class JsonAppVo {
             fileMap.put(oldFileId, fileId);
         });
         FileSystemOpt.deleteDirect(filePath);
-        FileSystemOpt.deleteDirect(zipFilePath);
+//        对于模板不能删除资源文件
+//        FileSystemOpt.deleteDirect(zipFilePath);
         return this;
     }
 

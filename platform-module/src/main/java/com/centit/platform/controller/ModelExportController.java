@@ -9,21 +9,17 @@ import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.model.CentitUserDetails;
-import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.platform.service.ModelExportManager;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import com.centit.support.file.FileType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jakarta.ws.rs.Path;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -32,6 +28,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 
+/**
+ * @author zhf
+ */
 @RestController
 @RequestMapping(value = "modelExport")
 @Api(value = "应用导入导出", tags = "模板导入导出")
@@ -84,6 +83,8 @@ public class ModelExportController extends BaseController {
             return modelExportManager.uploadModel(file);
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());
+        } finally {
+            FileSystemOpt.deleteFile(tempFilePath);
         }
     }
 }

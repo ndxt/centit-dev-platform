@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.fileserver.common.FileInfoOpt;
-import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.dao.ApplicationTemplateDao;
@@ -45,7 +44,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private final Map<String, String> oldApplicationSql = new HashMap<>(16);
     private final Map<String, String> newDatabaseSql = new HashMap<>(4);
     private final Map<String, String> oldDatabaseSql = new HashMap<>(4);
-    private final String fileInfoSql = "select file_id,file_name from file_info where library_id=:osId";
 
     @PostConstruct
     void init() {
@@ -151,6 +149,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     private void compressFileInfo(String osId, String filePath) throws IOException {
+        String fileInfoSql = "select file_id,file_name from file_info where library_id=:osId";
         List<Object[]> objects = DatabaseOptUtils.listObjectsByNamedSql(applicationTemplateDao, fileInfoSql, CollectionsOpt.createHashMap("osId", osId));
         String fileInfoPath = filePath + File.separator + "file";
         File file = new File(fileInfoPath);
@@ -171,10 +170,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     public JSONObject uploadModel(File zipFile) throws Exception {
-        return getFileContent(zipFile);
-    }
-
-    private JSONObject getFileContent(File zipFile) throws Exception {
         JSONObject jsonObject = new JSONObject();
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         ZipCompressor.release(zipFile, filePath);
@@ -186,7 +181,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
             jsonObject.put(fileName, csvDataSet.load(null));
         }
         jsonObject.put("file", filePath);
-        FileSystemOpt.deleteFile(zipFile);
         return jsonObject;
     }
 
