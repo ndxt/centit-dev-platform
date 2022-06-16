@@ -114,7 +114,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     public String downModel(String osId) throws FileNotFoundException {
-        String filePath = appHome + File.separator + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
+        String fileId=DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
+        String filePath = appHome + File.separator + fileId;
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
@@ -130,7 +131,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
-        return filePath + ".zip";
+        return fileId;
     }
 
     private void createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
