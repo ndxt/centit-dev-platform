@@ -1,6 +1,8 @@
 package com.centit.platform.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centit.fileserver.common.FileBaseInfo;
+import com.centit.fileserver.po.FileInfo;
 import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.fileserver.utils.UploadDownloadUtils;
 import com.centit.framework.common.ResponseData;
@@ -40,9 +42,9 @@ public class ModelExportController extends BaseController {
     @Autowired
     private PlatformEnvironment platformEnvironment;
 
-    @ApiOperation(value = "导出应用")
+    @ApiOperation(value = "导出应用路径")
     @GetMapping(value = "/downloadModel/{osId}")
-    public void downLoadModel(@PathVariable String osId, HttpServletResponse response) throws IOException {
+    public FileInfo downLoadModel(@PathVariable String osId) throws IOException {
         String filePath = modelExportManager.downModel(osId);
         String fileName = FileSystemOpt.extractFileName(filePath);
         try {
@@ -50,18 +52,27 @@ public class ModelExportController extends BaseController {
         } catch (Exception ignored) {
 
         }
-        fileName = URLEncoder.encode(fileName, "UTF-8") +
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileName(fileName);
+        fileInfo.setFileId(filePath);
+        return fileInfo;
+    }
+
+    @ApiOperation(value = "导出应用文件")
+    @PostMapping(value = "/downloadModelFile")
+    public void downLoadModel(@RequestBody FileInfo fileInfo, HttpServletResponse response) throws IOException {
+        String fileName = URLEncoder.encode(fileInfo.getFileName(), "UTF-8") +
             ".zip";
         response.setContentType(FileType.mapExtNameToMimeType("zip"));
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
         InputStream in = null;
         try {
-            in = new FileInputStream(filePath);
+            in = new FileInputStream(fileInfo.getFileId());
             IOUtils.copy(in, response.getOutputStream());
         } finally {
             if (in != null) {
                 in.close();
-                FileSystemOpt.deleteFile(filePath);
+                FileSystemOpt.deleteFile(fileInfo.getFileId());
             }
         }
     }
