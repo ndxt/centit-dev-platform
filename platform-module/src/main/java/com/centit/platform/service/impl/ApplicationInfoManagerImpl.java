@@ -9,6 +9,7 @@ import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.filter.RequestThreadLocal;
+import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.IOptInfo;
 import com.centit.framework.model.basedata.IOsInfo;
@@ -17,6 +18,8 @@ import com.centit.framework.system.po.OptInfo;
 import com.centit.framework.system.po.OsInfo;
 import com.centit.framework.system.po.WorkGroup;
 import com.centit.framework.system.po.WorkGroupParameter;
+import com.centit.platform.dao.ApplicationDictionaryDao;
+import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.product.adapter.api.MetadataManageService;
 import com.centit.support.algorithm.BooleanBaseOpt;
@@ -57,6 +60,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private FileLibraryInfo fileLibrary;
     private List<IOptInfo> optInfos = new ArrayList<>();
     private List<IWorkGroup> workGroup = new ArrayList<>();
+    @Autowired
+    private ApplicationDictionaryDao applicationDictionaryDao;
 
     @Override
     public JSONObject createApplicationInfo(OsInfo osInfo) {
@@ -144,7 +149,54 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
+    @Transactional
     public IOsInfo deleteApplicationInfo(String applicationId) {
+        Object[] params= {applicationId};
+        String sql;
+        sql="delete from q_data_packet_param_draft where packet_id in (" +
+            "select packet_id from q_data_packet_draft where OS_ID=?)";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from q_data_packet_draft where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from q_data_packet_param where packet_id in (" +
+            "select packet_id from q_data_packet where OS_ID=?)";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from q_data_packet where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from f_optinfo where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from m_meta_form_model_draft where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from m_meta_form_model where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from f_optdef where opt_id in (select opt_id from f_optinfo where os_id=?)";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from wf_opt_team_role where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=?)";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from wf_opt_variable_define where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=?)";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from f_optinfo where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from wf_node where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=? )";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from wf_transition where flow_code in(" +
+            "select flow_code from wf_flow_define where OS_ID=? )";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from wf_flow_define where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from m_application_dictionary where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from m_application_dictionary where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from m_application_resources where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from f_table_opt_relation where os_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from file_library_info where library_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
         return platformEnvironment.deleteOsInfo(applicationId);
     }
 
