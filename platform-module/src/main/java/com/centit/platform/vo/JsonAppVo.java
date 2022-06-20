@@ -102,6 +102,7 @@ public class JsonAppVo {
     private static final String API_ID = "apiId";
     private static final String DDE_RUN = "/dde/run/";
     private static final String CATALOG_CODE = "catalogCode";
+    private static final String FIRST_NODE_ID = "firstNodeId";
 
 
     private JSONObject oldAppObject;
@@ -167,7 +168,7 @@ public class JsonAppVo {
             .updateOptInfo().updateOptDef().updateTableRelation().uploadFiles().updatePacket().updateOptDefUsePacket().updatePacketParams()
             .updateMetaForm().updateOptInfoUseMetaForm()
             .updateWfOptTeamRole().updateWfOptVariable()
-            .updateWfDefine().updateWfNode().updateWfTransition().updatePacketUseWfDefine();
+            .updateWfDefine().updateWfNode().updateWfDefineUseWfNode().updateWfTransition().updatePacketUseWfDefine().updateMetaFormUseWfDefine();
     }
 
     private void createAppObject() {
@@ -908,6 +909,16 @@ public class JsonAppVo {
         return this;
     }
 
+    private JsonAppVo updateWfDefineUseWfNode() {
+        if (mapJsonObject.get(TableName.WF_FLOW_DEFINE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
+        list.forEach(map -> wfNodeMap.keySet().stream().filter(key -> key.equals(map.get(FIRST_NODE_ID)))
+            .findFirst().ifPresent(key -> map.put(FIRST_NODE_ID, wfNodeMap.get(key))));
+        return this;
+    }
+
     private JsonAppVo updateWfTransition() {
         if (mapJsonObject.get(TableName.WF_TRANSITION.name()) == null) {
             return this;
@@ -951,6 +962,21 @@ public class JsonAppVo {
                 form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
             }
             map.put(DATA_OPT_DESC_JSON, form);
+        });
+        return this;
+    }
+
+    private JsonAppVo updateMetaFormUseWfDefine() {
+        if (mapJsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
+        list.forEach(map -> {
+            String form = (String) map.get(STRUCTURE_FUNCTION);
+            for (String key : flowDefineMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+            }
+            map.put(STRUCTURE_FUNCTION, form);
         });
         return this;
     }
