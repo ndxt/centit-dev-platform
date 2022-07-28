@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import redis.clients.jedis.JedisPool;
 
 /**
  * Created by codefan on 17-7-18.
@@ -64,6 +65,13 @@ public class ServiceConfig {
 
     @Value("${app.home:./}")
     private String appHome;
+    @Value("${redis.default.host}")
+    private String redisHost;
+
+    @Bean
+    public JedisPool jedisPool() {
+        return new JedisPool(redisHost);
+    }
 
     @Bean
     public FileStore fileStore() {
