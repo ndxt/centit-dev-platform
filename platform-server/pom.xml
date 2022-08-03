@@ -43,6 +43,7 @@
             </resource>
         </resources>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -59,14 +60,17 @@
                </exclusions>-->
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-config</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-session-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc-config</artifactId>
@@ -96,27 +100,28 @@
             <artifactId>optflow-serial-number</artifactId>
             <version>${centit.oa.modules.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>communion-module</artifactId>
-            <version>${centit.oa.modules.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.8.2</version>
         </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -144,21 +149,25 @@
             <artifactId>centit-workflow-dubbo-client-config</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-client</artifactId>
             <version>${centit.fileserver.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-dubbo-client-config</artifactId>
             <version>${centit.fileserver.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
         </dependency>
     </dependencies>
+
     <profiles>
         <profile>
             <id>test</id>
