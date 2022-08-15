@@ -307,7 +307,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         fileLibrary.setLibraryName(iOsInfo.getOsName());
         fileLibrary.setLibraryType(FILE_TYPE_ITEM);
         fileLibrary.setCreateUser(iOsInfo.getCreated());
-        fileLibrary.setOwnUnit(iOsInfo.getTopUnit());
+        String topUnit = WebOptUtils.getCurrentTopUnit(
+            RequestThreadLocal.getLocalThreadWrapperRequest());
+        fileLibrary.setOwnUnit(topUnit);
         return fileLibrary;
     }
 
