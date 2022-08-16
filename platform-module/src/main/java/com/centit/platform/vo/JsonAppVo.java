@@ -1,6 +1,7 @@
 package com.centit.platform.vo;
 
 import com.alibaba.fastjson.JSONObject;
+import com.centit.dde.adapter.DdeDubboTaskRun;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketDraft;
@@ -143,6 +144,20 @@ public class JsonAppVo {
         this.fileInfoOpt = fileInfoOpt;
     }
 
+    public void prepareApp() {
+        updatePrimary();
+        createAppObject();
+        setDatabaseName();
+    }
+
+    public void refreshCache(DdeDubboTaskRun ddeDubboTaskRun) {
+        for (Object object : appList) {
+            if (object instanceof DataPacket) {
+                ddeDubboTaskRun.refreshCache(((DataPacket) object).getPacketId());
+            }
+        }
+    }
+
     private void createMapJsonObject(JSONObject jsonObject) {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
             if ("file".equals(entry.getKey())) {
@@ -152,12 +167,6 @@ public class JsonAppVo {
                     new ObjectMapper().convertValue(entry.getValue(), DataSet.class).getDataAsList());
             }
         }
-    }
-
-    public void prepareApp() {
-        updatePrimary();
-        createAppObject();
-        setDatabaseName();
     }
 
     private void updatePrimary() {

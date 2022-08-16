@@ -2,6 +2,7 @@ package com.centit.platform.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.centit.dde.adapter.DdeDubboTaskRun;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.fileserver.common.FileInfoOpt;
@@ -40,6 +41,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private MetaTableManager metaTableManager;
     @Autowired
     private FileInfoOpt fileInfoOpt;
+    @Autowired
+    private DdeDubboTaskRun ddeDubboTaskRun;
     private final Map<String, String> applicationSql = new HashMap<>(16);
     private final Map<String, String> oldApplicationSql = new HashMap<>(16);
     private final Map<String, String> newDatabaseSql = new HashMap<>(4);
@@ -114,7 +117,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     public String downModel(String osId) throws FileNotFoundException {
-        String fileId=DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
+        String fileId = DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         String filePath = appHome + File.separator + fileId;
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
@@ -152,7 +155,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private void compressFileInfo(String osId, String filePath) throws IOException {
         String fileInfoSql = "select file_id,file_name from file_info where library_id=:osId and file_catalog in ('A','B')";
         List<Object[]> objects = DatabaseOptUtils.listObjectsByNamedSql(applicationTemplateDao, fileInfoSql, CollectionsOpt.createHashMap("osId", osId));
-        if(objects==null){
+        if (objects == null) {
             return;
         }
         String fileInfoPath = filePath + File.separator + "file";
@@ -237,6 +240,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (jsonAppVo.getMetaObject().size() > 0) {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
             }
+            jsonAppVo.refreshCache(ddeDubboTaskRun);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
