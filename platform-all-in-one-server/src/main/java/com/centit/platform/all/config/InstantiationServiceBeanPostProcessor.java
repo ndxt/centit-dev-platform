@@ -8,9 +8,8 @@ import com.centit.framework.components.CodeRepositoryCache;
 import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.model.adapter.MessageSender;
 import com.centit.framework.model.adapter.NotificationCenter;
-import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.system.service.OptLogManager;
+import com.centit.framework.system.service.OperationLogManager;
 import com.centit.framework.system.service.impl.DBPlatformEnvironment;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.quartz.JavaBeanJob;
@@ -26,6 +25,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -36,8 +36,8 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     @Autowired
     protected NotificationCenter notificationCenter;
 
-    @Autowired
-    private OperationLogWriter optLogManager;
+    @Resource
+    private OperationLogManager operationLogManager;
 
     @Autowired(required = false)
     private MessageSender innerMessageManager;
@@ -77,8 +77,8 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
             notificationCenter.registerMessageSender("innerMsg", innerMessageManager);
             notificationCenter.appointDefaultSendType("innerMsg");
         }
-        if (optLogManager != null) {
-            OperationLogCenter.registerOperationLogWriter(optLogManager);
+        if (operationLogManager != null) {
+            OperationLogCenter.registerOperationLogWriter(operationLogManager);
         }
         // 创建定时任务
         try {
