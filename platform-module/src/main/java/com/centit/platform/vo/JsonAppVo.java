@@ -311,10 +311,12 @@ public class JsonAppVo {
             String uuid = "";
             if (oldList != null) {
                 for (DataCatalog oldMap : oldList) {
-                    boolean equalsResource = oldMap.getSourceId().equals(map.get(SOURCE_ID).toString());
-                    if (equalsResource) {
-                        uuid = oldMap.getSourceId();
-                        break;
+                    if(oldMap.getSourceId()!=null) {
+                        boolean equalsResource = oldMap.getSourceId().equals(map.get(SOURCE_ID).toString());
+                        if (equalsResource) {
+                            uuid = oldMap.getSourceId();
+                            break;
+                        }
                     }
                 }
             }
