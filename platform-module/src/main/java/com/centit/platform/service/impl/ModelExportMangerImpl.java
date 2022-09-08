@@ -16,7 +16,9 @@ import com.centit.product.dbdesign.service.MetaTableManager;
 import com.centit.support.algorithm.*;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
+import com.sun.media.jfxmedia.logging.Logger;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ import java.util.Map;
 public class ModelExportMangerImpl implements ModelExportManager {
     @Value("${app.home:./}")
     private String appHome;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ModelExportMangerImpl.class);
     @Autowired
     private ApplicationTemplateDao applicationTemplateDao;
     @Autowired
@@ -233,7 +236,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
                     Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
                     if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {
-                        throw new Exception(pair.getRight());
+                        logger.error(pair.getRight());
                     }
                 }
             }
