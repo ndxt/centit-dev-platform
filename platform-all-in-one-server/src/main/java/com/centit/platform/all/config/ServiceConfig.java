@@ -6,14 +6,12 @@ import com.centit.fileserver.task.*;
 import com.centit.fileserver.utils.OsFileStore;
 import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
-import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityCasConfig;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.core.service.DataScopePowerManager;
 import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
-import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
@@ -31,6 +29,7 @@ import com.centit.search.service.Searcher;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
+import io.lettuce.core.RedisClient;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +40,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
-import redis.clients.jedis.JedisPool;
 
 /**
  * Created by codefan on 17-7-18.
@@ -69,8 +67,8 @@ public class ServiceConfig {
     private String redisHost;
 
     @Bean
-    public JedisPool jedisPool() {
-        return new JedisPool(redisHost);
+    public RedisClient redisClient() {
+        return RedisClient.create(redisHost);
     }
 
     @Bean
