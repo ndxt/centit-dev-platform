@@ -40,7 +40,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     @Override
     public void onApplicationEvent(@Nullable ContextRefreshedEvent event)
     {
-        MvcConfigUtil.fastjsonGlobalConfig();;
+        MvcConfigUtil.fastjsonGlobalConfig();
         CodeRepositoryCache.setPlatformEnvironment(platformEnvironment);
         if(innerMessageManager!=null) {
             notificationCenter.registerMessageSender("innerMsg", innerMessageManager);
