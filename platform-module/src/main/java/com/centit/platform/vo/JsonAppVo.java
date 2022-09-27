@@ -7,6 +7,7 @@ import com.centit.dde.po.DataPacket;
 import com.centit.dde.po.DataPacketDraft;
 import com.centit.dde.po.DataPacketParam;
 import com.centit.dde.po.DataPacketParamDraft;
+import com.centit.dde.utils.ConstantValue;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.fileserver.po.FileInfo;
@@ -104,6 +105,8 @@ public class JsonAppVo {
     private static final String DDE_RUN = "/dde/run/";
     private static final String CATALOG_CODE = "catalogCode";
     private static final String FIRST_NODE_ID = "firstNodeId";
+    private static final String TASK_TYPE = "taskType";
+    private static final String IS_VALID = "isValid";
 
 
     private JSONObject oldAppObject;
@@ -311,7 +314,7 @@ public class JsonAppVo {
             String uuid = "";
             if (oldList != null) {
                 for (DataCatalog oldMap : oldList) {
-                    if(oldMap.getSourceId()!=null) {
+                    if (oldMap.getSourceId() != null) {
                         boolean equalsResource = oldMap.getSourceId().equals(map.get(SOURCE_ID).toString());
                         if (equalsResource) {
                             uuid = oldMap.getSourceId();
@@ -636,6 +639,9 @@ public class JsonAppVo {
             }
             if (StringBaseOpt.isNvl(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
+                if (ConstantValue.TASK_TYPE_AGENT.equals(map.get(TASK_TYPE).toString())) {
+                    map.put(IS_VALID, false);
+                }
             }
             dataPacketMap.put((String) map.get(PACKET_ID), uuid);
             map.put(PACKET_ID, uuid);
