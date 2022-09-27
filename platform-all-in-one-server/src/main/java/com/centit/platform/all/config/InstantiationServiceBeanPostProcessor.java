@@ -66,6 +66,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        MvcConfigUtil.fastjsonGlobalConfig();
         SystemTempFileUtils.setTempFileDirectory(
             SysParametersUtils.getTempHome() + File.separatorChar);
         DBPlatformEnvironment dbPlatformEnvironment = applicationContext.getBean("dbPlatformEnvironment", DBPlatformEnvironment.class);
