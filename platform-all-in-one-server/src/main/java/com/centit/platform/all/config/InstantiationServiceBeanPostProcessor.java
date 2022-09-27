@@ -6,10 +6,11 @@ import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryCache;
 import com.centit.framework.components.OperationLogCenter;
+import com.centit.framework.core.controller.MvcConfigUtil;
 import com.centit.framework.model.adapter.MessageSender;
 import com.centit.framework.model.adapter.NotificationCenter;
+import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.system.service.OperationLogManager;
 import com.centit.framework.system.service.impl.DBPlatformEnvironment;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.quartz.JavaBeanJob;
@@ -37,7 +38,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     protected NotificationCenter notificationCenter;
 
     @Resource
-    private OperationLogManager operationLogManager;
+    private OperationLogWriter operationLogManager;
 
     @Autowired(required = false)
     private MessageSender innerMessageManager;
@@ -93,6 +94,8 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+
+        MvcConfigUtil.fastjsonGlobalConfig();
 /*
         CodeRepositoryCache.setPlatformEnvironment(platformEnvironment);
         if(innerMessageManager!=null)
