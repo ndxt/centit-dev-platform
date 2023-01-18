@@ -103,7 +103,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         oldApplicationSql.put(TableName.M_APPLICATION_RESOURCES.name(), "select id,os_id,database_id from m_application_resources where os_id=:osId");
         oldApplicationSql.put(TableName.F_TABLE_OPT_RELATION.name(), "select table_id,opt_id,id from f_table_opt_relation where OS_ID=:osId");
         oldApplicationSql.put(TableName.M_META_FORM_MODEL.name(), "select source_id,MODEL_ID from m_meta_form_model where OS_ID=:osId and is_valid='F'");
-        oldApplicationSql.put(TableName.Q_DATA_PACKET.name(), "select source_id,packet_id from q_data_packet where OS_ID=:osId and is_disable='F'");
+        oldApplicationSql.put(TableName.Q_DATA_PACKET.name(), "select source_id,packet_id,os_id from q_data_packet where is_disable='F'");
         oldApplicationSql.put(TableName.WF_FLOW_DEFINE.name(), "select SOURCE_ID,FLOW_CODE from wf_flow_define where OS_ID=:osId and flow_state<>'D'");
         oldApplicationSql.put(TableName.WF_NODE.name(), "select SOURCE_ID,NODE_ID from wf_node where flow_code in(" +
             "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");

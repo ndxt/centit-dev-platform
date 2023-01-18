@@ -631,14 +631,25 @@ public class JsonAppVo {
             String uuid = "";
             if (finalOldList != null) {
                 for (DataPacket oldMap : finalOldList) {
-                    if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId())) {
+                    boolean samePacketId = map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId());
+                    if (samePacketId) {
                         uuid = oldMap.getPacketId();
                         break;
                     }
                 }
+                if(StringBaseOpt.isNvl(uuid)){
+                    for(DataPacket oldMap:finalOldList){
+                        boolean findRepeatPacketId= map.get(PACKET_ID).toString().equals(oldMap.getPacketId())
+                            && !osId.equals(oldMap.getOsId());
+                        if(findRepeatPacketId){
+                            uuid = UuidOpt.getUuidAsString();
+                            break;
+                        }
+                    }
+                }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid= map.get(PACKET_ID).toString();
                 if (ConstantValue.TASK_TYPE_AGENT.equals(map.get(TASK_TYPE).toString())) {
                     map.put(IS_VALID, false);
                 }
