@@ -322,9 +322,19 @@ public class JsonAppVo {
                         }
                     }
                 }
+                if (StringBaseOpt.isNvl(uuid)) {
+                    for (DataCatalog oldMap : oldList) {
+                        boolean findRepeatCatalog= map.get(CATALOG_CODE).toString().equals(oldMap.getCatalogCode())
+                            && !osId.equals(oldMap.getOsId());
+                        if(findRepeatCatalog){
+                            uuid = UuidOpt.getUuidAsString();
+                            break;
+                        }
+                    }
+                }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid = map.get(CATALOG_CODE).toString();
             }
             dictionaryMap.put(map.get(CATALOG_CODE).toString(), uuid);
             map.put(CATALOG_CODE, uuid);

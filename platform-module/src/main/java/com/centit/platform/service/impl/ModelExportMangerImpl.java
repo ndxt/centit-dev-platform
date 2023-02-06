@@ -113,8 +113,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
         oldApplicationSql.put(TableName.WF_OPT_VARIABLE_DEFINE.name(), "select VARIABLE_NAME,OPT_ID,OPT_VARIABLE_ID from wf_opt_variable_define where opt_id in " +
             "(select opt_id from f_optinfo where top_opt_id=:osId)");
-        oldApplicationSql.put(TableName.F_DATACATALOG.name(), "select catalog_code,source_id from f_datacatalog where CATALOG_CODE in " +
-            "(select dictionary_id from m_application_dictionary where os_id=:osId)");
+        oldApplicationSql.put(TableName.F_DATACATALOG.name(), "select a.catalog_code,a.source_id,b.os_id from f_datacatalog a join m_application_dictionary b on a.CATALOG_CODE=b.dictionary_id");
         oldApplicationSql.put(TableName.M_APPLICATION_DICTIONARY.name(), "select id,os_id,dictionary_id from m_application_dictionary where os_id=:osId");
     }
 
