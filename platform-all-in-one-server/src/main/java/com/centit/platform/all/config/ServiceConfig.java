@@ -213,9 +213,8 @@ public class ServiceConfig {
         messageManager.setEmailServerPort(25);
         messageManager.setEmailServerUser("alertmail2@centit.com");
         messageManager.setEmailServerPwd(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
-        //messageManager.setTopUnit(dataOptContext.getTopUnit());
-        messageManager.setUserEmailSupport(new SystemUserEmailSupport());
 
+        messageManager.setUserEmailSupport(new SystemUserEmailSupport());
 
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //notificationCenter.initDummyMsgSenders();
