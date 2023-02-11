@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.product</groupId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -170,12 +170,6 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>optflow-serial-number</artifactId>
-            <version>${centit.oa.modules.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>message-sender-utils</artifactId>
             <version>${centit.oa.modules.version}</version>
         </dependency>
 

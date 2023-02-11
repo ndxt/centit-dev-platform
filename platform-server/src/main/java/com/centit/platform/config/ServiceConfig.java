@@ -19,7 +19,8 @@ import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.model.StandardPasswordEncoderImpl;
-import com.centit.product.oa.EmailMessageSenderImpl;
+import com.centit.msgpusher.plugins.EMailMsgPusher;
+import com.centit.msgpusher.plugins.SystemUserEmailSupport;
 import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.Impl.ESIndexer;
@@ -71,12 +72,13 @@ public class ServiceConfig {
 
     @Bean
     public NotificationCenter notificationCenter(@Autowired PlatformEnvironment platformEnvironment) {
-        EmailMessageSenderImpl messageManager = new EmailMessageSenderImpl();
-        messageManager.setHostName("mail.centit.com");
-        messageManager.setSmtpPort(25);
-        messageManager.setUserName("alertmail2@centit.com");
-        messageManager.setUserPassword(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
-        messageManager.setServerEmail("alertmail2@centit.com");
+        EMailMsgPusher messageManager = new EMailMsgPusher();
+        messageManager.setEmailServerHost("mail.centit.com");
+        messageManager.setEmailServerPort(25);
+        messageManager.setEmailServerUser("alertmail2@centit.com");
+        messageManager.setEmailServerPwd(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
+        //messageManager.setTopUnit(dataOptContext.getTopUnit());
+        messageManager.setUserEmailSupport(new SystemUserEmailSupport());
 
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         notificationCenter.setPlatformEnvironment(platformEnvironment);

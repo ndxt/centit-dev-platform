@@ -5,12 +5,12 @@
     <parent>
         <artifactId>framework-snapshot-dependencies</artifactId>
         <groupId>com.centit.framework</groupId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.centit.product</groupId>
     <artifactId>centit-dev-platform</artifactId>
-    <version>5.2-SNAPSHOT</version>
+    <version>5.3-SNAPSHOT</version>
 
     <modules>
         <module>platform-module</module>
@@ -21,11 +21,11 @@
     <description>南大先腾云研发平台</description>
 
     <properties>
-        <workflow.version>5.2-SNAPSHOT</workflow.version>
-        <metadata.commons.version>5.2-SNAPSHOT</metadata.commons.version>
-        <centit.fileserver.version>5.2-SNAPSHOT</centit.fileserver.version>
-        <centit.dde.version>5.2-SNAPSHOT</centit.dde.version>
-        <centit.metaform.version>5.2-SNAPSHOT</centit.metaform.version>
+        <workflow.version>5.3-SNAPSHOT</workflow.version>
+        <metadata.commons.version>5.3-SNAPSHOT</metadata.commons.version>
+        <centit.fileserver.version>5.3-SNAPSHOT</centit.fileserver.version>
+        <centit.dde.version>5.3-SNAPSHOT</centit.dde.version>
+        <centit.metaform.version>5.3-SNAPSHOT</centit.metaform.version>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
 
