@@ -44,7 +44,7 @@ public class ApplicationRuleServiceImpl implements ApplicationRuleService {
 
     @Override
     public List<ApplicationRule> listApplicationRule(Map<String, Object> params, PageDesc pageDesc) {
-        return applicationRuleDao.listObjects(params, pageDesc);
+        return applicationRuleDao.listObjectsByProperties(params, pageDesc);
     }
 
     @Override

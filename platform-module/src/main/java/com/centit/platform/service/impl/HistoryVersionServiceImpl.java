@@ -35,7 +35,7 @@ public class HistoryVersionServiceImpl implements HistoryVersionService {
 
     @Override
     public List<HistoryVersion> listHistoryVersion(Map<String, Object> params, PageDesc pageDesc) {
-        return historyVersionDao.listObjects(params,pageDesc);
+        return historyVersionDao.listObjectsByProperties(params,pageDesc);
     }
 
     @Override

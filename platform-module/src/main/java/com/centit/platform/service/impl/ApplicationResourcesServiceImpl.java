@@ -44,7 +44,7 @@ public class ApplicationResourcesServiceImpl implements ApplicationResourcesServ
 
     @Override
     public List<ApplicationResources> listApplicationResources(Map<String, Object> params, PageDesc pageDesc) {
-        return applicationResourcesDao.listObjects(params,pageDesc);
+        return applicationResourcesDao.listObjectsByProperties(params,pageDesc);
     }
 
     @Override

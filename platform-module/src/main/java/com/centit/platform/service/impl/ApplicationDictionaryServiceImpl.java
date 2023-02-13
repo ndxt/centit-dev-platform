@@ -45,7 +45,7 @@ public class ApplicationDictionaryServiceImpl implements ApplicationDictionarySe
 
     @Override
     public List<ApplicationDictionary> listApplicationDictionary(Map<String, Object> params, PageDesc pageDesc) {
-        return applicationDictionaryDao.listObjects(params,pageDesc);
+        return applicationDictionaryDao.listObjectsByProperties(params,pageDesc);
     }
 
     @Override
