@@ -192,19 +192,19 @@ public class JsonAppVo {
     }
 
     private void setDatabaseName() {
-        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name()) == null) {
             return;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name());
         list.stream().map(s -> (String) s.get(DATABASE_CODE)).forEach(listDatabaseName::add);
     }
 
     private JsonAppVo updateOsInfo() {
-        if (mapJsonObject.get(TableName.F_OS_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OS_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OS_INFO.name());
-        List<OsInfo> oldList = convertJavaList(OsInfo.class, TableName.F_OS_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
+        List<OsInfo> oldList = convertJavaList(OsInfo.class, AppTableNames.F_OS_INFO.name());
         list.forEach(map -> {
             if (oldList != null) {
                 osId = oldList.get(0).getOsId();
@@ -224,11 +224,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateLibraryInfo() {
-        if (mapJsonObject.get(TableName.FILE_LIBRARY_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.FILE_LIBRARY_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.FILE_LIBRARY_INFO.name());
-        List<FileLibraryInfo> oldList = convertJavaList(FileLibraryInfo.class, TableName.FILE_LIBRARY_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.FILE_LIBRARY_INFO.name());
+        List<FileLibraryInfo> oldList = convertJavaList(FileLibraryInfo.class, AppTableNames.FILE_LIBRARY_INFO.name());
         list.forEach(map -> {
             if (oldList != null) {
                 map.put(LIBRARY_NAME, oldList.get(0).getLibraryName());
@@ -243,11 +243,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateDatabase() {
-        if (mapJsonObject.get(TableName.F_DATABASE_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATABASE_INFO.name());
-        List<SourceInfo> oldList = convertJavaList(SourceInfo.class, TableName.F_DATABASE_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name());
+        List<SourceInfo> oldList = convertJavaList(SourceInfo.class, AppTableNames.F_DATABASE_INFO.name());
         list.forEach(map -> {
             String uuid;
             if (map.get(MAP_DATA_CODE) != null && !StringBaseOpt.isNvl((String) map.get(MAP_DATA_CODE))) {
@@ -270,11 +270,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateApplicationResource() {
-        if (mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_APPLICATION_RESOURCES.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name());
-        List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, TableName.M_APPLICATION_RESOURCES.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_APPLICATION_RESOURCES.name());
+        List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, AppTableNames.M_APPLICATION_RESOURCES.name());
         list.forEach(map -> {
             String uuid = "";
             databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_ID)))
@@ -304,11 +304,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateDataCatalog() {
-        if (mapJsonObject.get(TableName.F_DATACATALOG.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATACATALOG.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATACATALOG.name());
-        List<DataCatalog> oldList = convertJavaList(DataCatalog.class, TableName.F_DATACATALOG.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATACATALOG.name());
+        List<DataCatalog> oldList = convertJavaList(DataCatalog.class, AppTableNames.F_DATACATALOG.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(CATALOG_CODE));
             String uuid = "";
@@ -349,21 +349,21 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateDataDictionaryUseCatalog() {
-        if (mapJsonObject.get(TableName.F_DATADICTIONARY.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATADICTIONARY.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name());
         list.forEach(map -> dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(CATALOG_CODE)))
             .findFirst().ifPresent(key -> map.put(CATALOG_CODE, dictionaryMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateApplicationDictionary() {
-        if (mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name());
-        List<ApplicationDictionary> oldList = convertJavaList(ApplicationDictionary.class, TableName.M_APPLICATION_DICTIONARY.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name());
+        List<ApplicationDictionary> oldList = convertJavaList(ApplicationDictionary.class, AppTableNames.M_APPLICATION_DICTIONARY.name());
         list.forEach(map -> {
             String uuid = "";
             dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(DICTIONARY_ID)))
@@ -391,21 +391,21 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateOsInfoUseDatabase() {
-        if (mapJsonObject.get(TableName.F_OS_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OS_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OS_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
         list.forEach(map -> databaseMap.keySet().stream().filter(key -> key.equals(map.get(DEFAULT_DATABASE)))
             .findFirst().ifPresent(key -> map.put(DEFAULT_DATABASE, databaseMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateMdTable() {
-        if (mapJsonObject.get(TableName.F_MD_TABLE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_TABLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_TABLE.name());
-        List<MetaTable> finalOldList = convertJavaList(MetaTable.class, TableName.F_MD_TABLE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_TABLE.name());
+        List<MetaTable> finalOldList = convertJavaList(MetaTable.class, AppTableNames.F_MD_TABLE.name());
         list.forEach(map -> {
             String uuid = "";
             map.put(RECORDER, userCode);
@@ -432,10 +432,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateMdColumn() {
-        if (mapJsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_COLUMN.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_COLUMN.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_COLUMN.name());
         list.forEach(map -> {
             map.put(RECORDER, userCode);
             map.put(LAST_MODIFY_DATE, new Date());
@@ -448,11 +448,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateMdRelation() {
-        if (mapJsonObject.get(TableName.F_MD_RELATION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_RELATION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_RELATION.name());
-        List<MetaRelation> finalOldList = convertJavaList(MetaRelation.class, TableName.F_MD_RELATION.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_RELATION.name());
+        List<MetaRelation> finalOldList = convertJavaList(MetaRelation.class, AppTableNames.F_MD_RELATION.name());
         list.forEach(map -> {
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get(PARENT_TABLE_ID)))
                 .findFirst().ifPresent(key -> map.put(PARENT_TABLE_ID, mdTableMap.get(key)));
@@ -481,21 +481,21 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateRelationDetail() {
-        if (mapJsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_REL_DETAIL.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_REL_DETAIL.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_REL_DETAIL.name());
         list.forEach(map -> relationMap.keySet().stream().filter(key -> key.equals(map.get(RELATION_ID)))
             .findFirst().ifPresent(key -> map.put(RELATION_ID, relationMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateOptInfo() {
-        if (mapJsonObject.get(TableName.F_OPTINFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OPTINFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTINFO.name());
-        List<OptInfo> finalOldList = convertJavaList(OptInfo.class, TableName.F_OPTINFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTINFO.name());
+        List<OptInfo> finalOldList = convertJavaList(OptInfo.class, AppTableNames.F_OPTINFO.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(OPT_ID));
             map.put(DOC_ID, "");
@@ -536,11 +536,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateOptDef() {
-        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OPTDEF.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
-        List<OptMethod> finalOldList = convertJavaList(OptMethod.class, TableName.F_OPTDEF.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTDEF.name());
+        List<OptMethod> finalOldList = convertJavaList(OptMethod.class, AppTableNames.F_OPTDEF.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(OPT_CODE));
             String uuid = "";
@@ -567,11 +567,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateTableRelation() {
-        if (mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name());
-        List<MetaOptRelation> finalOldList = convertJavaList(MetaOptRelation.class, TableName.F_TABLE_OPT_RELATION.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name());
+        List<MetaOptRelation> finalOldList = convertJavaList(MetaOptRelation.class, AppTableNames.F_TABLE_OPT_RELATION.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(ID));
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
@@ -631,11 +631,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updatePacket() {
-        if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET.name());
-        List<DataPacket> finalOldList = convertJavaList(DataPacket.class, TableName.Q_DATA_PACKET.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name());
+        List<DataPacket> finalOldList = convertJavaList(DataPacket.class, AppTableNames.Q_DATA_PACKET.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(PACKET_ID));
             String uuid = "";
@@ -698,10 +698,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateOptDefUsePacket() {
-        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OPTDEF.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTDEF.name());
         list.forEach(map -> {
             if (map.get(API_ID) != null) {
                 dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(API_ID)))
@@ -714,21 +714,21 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updatePacketParams() {
-        if (mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.Q_DATA_PACKET_PARAM.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET_PARAM.name());
         list.forEach(map -> dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(PACKET_ID)))
             .findFirst().ifPresent(key -> map.put(PACKET_ID, dataPacketMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateMetaForm() {
-        if (mapJsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
-        List<MetaFormModel> finalOldList = convertJavaList(MetaFormModel.class, TableName.M_META_FORM_MODEL.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name());
+        List<MetaFormModel> finalOldList = convertJavaList(MetaFormModel.class, AppTableNames.M_META_FORM_MODEL.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(MODEL_ID));
             String uuid = "";
@@ -807,10 +807,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateOptInfoUseMetaForm() {
-        if (mapJsonObject.get(TableName.F_OPTINFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OPTINFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTINFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTINFO.name());
         list.forEach(map -> {
             metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ROUTE)))
                 .findFirst().ifPresent(key -> map.put(OPT_ROUTE, metaFormMap.get(key)));
@@ -826,11 +826,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateWfOptTeamRole() {
-        if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_OPT_TEAM_ROLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name());
-        List<OptTeamRole> finalOldList = convertJavaList(OptTeamRole.class, TableName.WF_OPT_TEAM_ROLE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_OPT_TEAM_ROLE.name());
+        List<OptTeamRole> finalOldList = convertJavaList(OptTeamRole.class, AppTableNames.WF_OPT_TEAM_ROLE.name());
         list.forEach(map -> {
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
@@ -854,11 +854,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateWfOptVariable() {
-        if (mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_OPT_VARIABLE_DEFINE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name());
-        List<OptVariableDefine> finalOldList = convertJavaList(OptVariableDefine.class, TableName.WF_OPT_VARIABLE_DEFINE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_OPT_VARIABLE_DEFINE.name());
+        List<OptVariableDefine> finalOldList = convertJavaList(OptVariableDefine.class, AppTableNames.WF_OPT_VARIABLE_DEFINE.name());
         list.forEach(map -> {
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
                 .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
@@ -882,12 +882,12 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateWfDefine() {
-        if (mapJsonObject.get(TableName.WF_FLOW_DEFINE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name());
         list.sort((o1, o2) -> GeneralAlgorithm.compareTwoObject(o1.get(VERSION), o2.get(VERSION)));
-        List<FlowInfo> finalOldList = convertJavaList(FlowInfo.class, TableName.WF_FLOW_DEFINE.name());
+        List<FlowInfo> finalOldList = convertJavaList(FlowInfo.class, AppTableNames.WF_FLOW_DEFINE.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(FLOW_CODE));
             if (NumberBaseOpt.castObjectToInteger(map.get(VERSION), -1) == 0) {
@@ -917,11 +917,11 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateWfNode() {
-        if (mapJsonObject.get(TableName.WF_NODE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_NODE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_NODE.name());
-        List<NodeInfo> finalOldList = convertJavaList(NodeInfo.class, TableName.WF_NODE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_NODE.name());
+        List<NodeInfo> finalOldList = convertJavaList(NodeInfo.class, AppTableNames.WF_NODE.name());
         list.forEach(map -> {
             map.put(SOURCE_ID, map.get(NODE_ID));
             String uuid = "";
@@ -948,21 +948,21 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateWfDefineUseWfNode() {
-        if (mapJsonObject.get(TableName.WF_FLOW_DEFINE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name());
         list.forEach(map -> wfNodeMap.keySet().stream().filter(key -> key.equals(map.get(FIRST_NODE_ID)))
             .findFirst().ifPresent(key -> map.put(FIRST_NODE_ID, wfNodeMap.get(key))));
         return this;
     }
 
     private JsonAppVo updateWfTransition() {
-        if (mapJsonObject.get(TableName.WF_TRANSITION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_TRANSITION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_TRANSITION.name());
-        List<FlowTransition> finalOldList = convertJavaList(FlowTransition.class, TableName.WF_TRANSITION.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_TRANSITION.name());
+        List<FlowTransition> finalOldList = convertJavaList(FlowTransition.class, AppTableNames.WF_TRANSITION.name());
         list.forEach(map -> {
             flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
                 .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key)));
@@ -990,10 +990,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updatePacketUseWfDefine() {
-        if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name());
         list.forEach(map -> {
             String form = (String) map.get(DATA_OPT_DESC_JSON);
             for (String key : flowDefineMap.keySet()) {
@@ -1005,10 +1005,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo updateMetaFormUseWfDefine() {
-        if (mapJsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name());
         list.forEach(map -> {
             String form = (String) map.get(STRUCTURE_FUNCTION);
             for (String key : flowDefineMap.keySet()) {
@@ -1031,10 +1031,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createOsInfo() {
-        if (mapJsonObject.get(TableName.F_OS_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OS_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OS_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
         if (oldAppObject.size() == 0) {
             list.forEach(map -> map.put(TOP_UNIT, topUnit));
             appList.addAll(convertMap(OsInfo.class, list));
@@ -1056,10 +1056,10 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createLibraryInfo() {
-        if (mapJsonObject.get(TableName.FILE_LIBRARY_INFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.FILE_LIBRARY_INFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.FILE_LIBRARY_INFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.FILE_LIBRARY_INFO.name());
         if (oldAppObject.size() == 0) {
             appList.addAll(convertMap(FileLibraryInfo.class, list));
         }
@@ -1067,46 +1067,46 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createApplicationResource() {
-        if (mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_APPLICATION_RESOURCES.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_RESOURCES.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_APPLICATION_RESOURCES.name());
         appList.addAll(convertMap(ApplicationResources.class, list));
         return this;
     }
 
     private JsonAppVo createDataCatalog() {
-        if (mapJsonObject.get(TableName.F_DATACATALOG.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATACATALOG.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATACATALOG.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATACATALOG.name());
         appList.addAll(convertMap(DataCatalog.class, list));
         return this;
     }
 
     private JsonAppVo createDataDictionary() {
-        if (mapJsonObject.get(TableName.F_DATADICTIONARY.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_DATADICTIONARY.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name());
         appList.addAll(convertMap(DataDictionary.class, list));
         return this;
     }
 
     private JsonAppVo createApplicationDictionary() {
-        if (mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_APPLICATION_DICTIONARY.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name());
         appList.addAll(convertMap(ApplicationDictionary.class, list));
         return this;
     }
 
     private JsonAppVo createMdTableWithColumnObject() {
-        if (mapJsonObject.get(TableName.F_MD_TABLE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_TABLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_TABLE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_TABLE.name());
         metaObject.addAll(convertMap(MetaTable.class, list));
         List<Object> objectList = convertMap(PendingMetaTable.class, list);
         objectList.forEach(map -> {
@@ -1115,10 +1115,10 @@ public class JsonAppVo {
                 appList.add(map);
             }
         });
-        if (mapJsonObject.get(TableName.F_MD_COLUMN.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_COLUMN.name()) == null) {
             return this;
         }
-        list = mapJsonObject.get(TableName.F_MD_COLUMN.name());
+        list = mapJsonObject.get(AppTableNames.F_MD_COLUMN.name());
         metaObject.addAll(convertMap(MetaColumn.class, list));
         list.forEach(map -> map.put(MAX_LENGTH, map.get(COLUMN_LENGTH)));
         appList.addAll(convertMap(PendingMetaColumn.class, list));
@@ -1126,40 +1126,40 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createMdRelationWithDetailObject() {
-        if (mapJsonObject.get(TableName.F_MD_RELATION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_RELATION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_MD_RELATION.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_RELATION.name());
         metaObject.addAll(convertMap(MetaRelation.class, list));
-        if (mapJsonObject.get(TableName.F_MD_REL_DETAIL.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_REL_DETAIL.name()) == null) {
             return this;
         }
-        list = mapJsonObject.get(TableName.F_MD_REL_DETAIL.name());
+        list = mapJsonObject.get(AppTableNames.F_MD_REL_DETAIL.name());
         appList.addAll(convertMap(MetaRelDetail.class, list));
         return this;
     }
 
     private JsonAppVo createMetaFormObject() {
-        if (mapJsonObject.get(TableName.M_META_FORM_MODEL.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.M_META_FORM_MODEL.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name());
         appList.addAll(convertMap(MetaFormModel.class, list));
         appList.addAll(convertMap(MetaFormModelDraft.class, list));
         return this;
     }
 
     private JsonAppVo createDataPacketAndParamsObject() {
-        if (mapJsonObject.get(TableName.Q_DATA_PACKET.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.Q_DATA_PACKET.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name());
         appList.addAll(convertMap(DataPacket.class, list));
         appList.addAll(convertMap(DataPacketDraft.class, list));
-        if (mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.Q_DATA_PACKET_PARAM.name()) == null) {
             return this;
         }
-        list = mapJsonObject.get(TableName.Q_DATA_PACKET_PARAM.name());
+        list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET_PARAM.name());
         appList.addAll(convertMap(DataPacketParam.class, list));
         appList.addAll(convertMap(DataPacketParamDraft.class, list));
         return this;
@@ -1167,73 +1167,73 @@ public class JsonAppVo {
 
 
     private JsonAppVo createWfOptTeamRole() {
-        if (mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_OPT_TEAM_ROLE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_TEAM_ROLE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_OPT_TEAM_ROLE.name());
         appList.addAll(convertMap(OptTeamRole.class, list));
         return this;
     }
 
     private JsonAppVo createWfOptVariable() {
-        if (mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_OPT_VARIABLE_DEFINE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_OPT_VARIABLE_DEFINE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_OPT_VARIABLE_DEFINE.name());
         appList.addAll(convertMap(OptVariableDefine.class, list));
         return this;
     }
 
     private JsonAppVo createOptInfo() {
-        if (mapJsonObject.get(TableName.F_OPTINFO.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OPTINFO.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTINFO.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTINFO.name());
         appList.addAll(convertMap(OptInfo.class, list));
         return this;
     }
 
     private JsonAppVo createOptDef() {
-        if (mapJsonObject.get(TableName.F_OPTDEF.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_OPTDEF.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_OPTDEF.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTDEF.name());
         appList.addAll(convertMap(OptMethod.class, list));
         return this;
     }
 
     private JsonAppVo createWfDefine() {
-        if (mapJsonObject.get(TableName.WF_FLOW_DEFINE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_FLOW_DEFINE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name());
         appList.addAll(convertMap(FlowInfo.class, list));
         return this;
     }
 
     private JsonAppVo createWfNode() {
-        if (mapJsonObject.get(TableName.WF_NODE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_NODE.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_NODE.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_NODE.name());
         appList.addAll(convertMap(NodeInfo.class, list));
         return this;
     }
 
     private JsonAppVo createWfTransition() {
-        if (mapJsonObject.get(TableName.WF_TRANSITION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.WF_TRANSITION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.WF_TRANSITION.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_TRANSITION.name());
         appList.addAll(convertMap(FlowTransition.class, list));
         return this;
     }
 
     private JsonAppVo createTableRelation() {
-        if (mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name()) == null) {
             return this;
         }
-        List<Map<String, Object>> list = mapJsonObject.get(TableName.F_TABLE_OPT_RELATION.name());
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name());
         appList.addAll(convertMap(MetaOptRelation.class, list));
         return this;
     }

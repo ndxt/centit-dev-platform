@@ -4,7 +4,7 @@ package com.centit.platform.vo;
  * @author zhf
  */
 
-public enum TableName {
+public enum AppTableNames {
     F_OS_INFO,F_OPTINFO,F_OPTDEF,F_DATABASE_INFO, M_APPLICATION_RESOURCES,F_TABLE_OPT_RELATION,
     M_META_FORM_MODEL, Q_DATA_PACKET,Q_DATA_PACKET_PARAM,
     F_MD_TABLE,F_MD_COLUMN, F_MD_RELATION,F_MD_REL_DETAIL,
