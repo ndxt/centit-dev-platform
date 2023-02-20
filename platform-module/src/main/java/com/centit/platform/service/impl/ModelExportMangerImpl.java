@@ -94,18 +94,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         oldApplicationSql.put(AppTableNames.F_OS_INFO.name(), "select os_id,os_name,default_database from f_os_info where os_id=:osId");
         oldApplicationSql.put(AppTableNames.FILE_LIBRARY_INFO.name(), "select library_name from file_library_info where library_id=:osId");
-        oldApplicationSql.put(AppTableNames.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID from f_optinfo where top_opt_id=:osId");
-        oldApplicationSql.put(AppTableNames.F_OPTDEF.name(), "select SOURCE_ID,OPT_CODE from f_optdef where opt_id in " +
-            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+        oldApplicationSql.put(AppTableNames.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID,top_opt_id from f_optinfo");
+        oldApplicationSql.put(AppTableNames.F_OPTDEF.name(), "select a.SOURCE_ID,a.OPT_CODE,b.top_opt_id from f_optdef a join f_optinfo b on a.opt_id=b.opt_id");
         oldApplicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code " +
             "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
         oldApplicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select id,os_id,database_id from m_application_resources where os_id=:osId");
         oldApplicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select table_id,opt_id,id from f_table_opt_relation where OS_ID=:osId");
-        oldApplicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select source_id,MODEL_ID from m_meta_form_model where OS_ID=:osId and is_valid='F'");
-        oldApplicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select source_id,packet_id,os_id from q_data_packet where is_disable='F'");
-        oldApplicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select SOURCE_ID,FLOW_CODE from wf_flow_define where OS_ID=:osId and flow_state<>'D'");
-        oldApplicationSql.put(AppTableNames.WF_NODE.name(), "select SOURCE_ID,NODE_ID from wf_node where flow_code in(" +
-            "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
+        oldApplicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select source_id,MODEL_ID,os_id from m_meta_form_model");
+        oldApplicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select source_id,packet_id,os_id from q_data_packet");
+        oldApplicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select SOURCE_ID,FLOW_CODE,os_id from wf_flow_define");
+        oldApplicationSql.put(AppTableNames.WF_NODE.name(), "select SOURCE_ID,NODE_ID,os_id from wf_node");
         oldApplicationSql.put(AppTableNames.WF_TRANSITION.name(), "select FLOW_CODE,START_NODE_ID,END_NODE_ID,TRANS_ID from wf_transition where flow_code in(" +
             "select flow_code from wf_flow_define where OS_ID=:osId and flow_state<>'D')");
         oldApplicationSql.put(AppTableNames.WF_OPT_TEAM_ROLE.name(), "select OPT_TEAM_ROLE_ID,OPT_ID,ROLE_CODE from wf_opt_team_role where opt_id in " +
@@ -122,6 +120,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         String filePath = appHome + File.separator + fileId;
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
+        updateSourceId(mapApplication);
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
         }
@@ -136,6 +135,21 @@ public class ModelExportMangerImpl implements ModelExportManager {
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
         return fileId;
+    }
+
+    private void updateSourceId(Map<String, Object> map) {
+        String updateOptInfo="update f_optinfo set source_id=opt_id where top_opt_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateOptInfo,map);
+        String updateOptDef="update f_optdef set source_id=opt_code where opt_id in (select opt_id from f_optinfo where top_opt_id=:osId) and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateOptDef,map);
+        String updateMetaForm="update m_meta_form_model set source_id=model_id where os_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateMetaForm,map);
+        String updateDataPacket="update q_data_packet set source_id=packet_id where os_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateDataPacket,map);
+        String updateFlowDefine="update wf_flow_define set source_id=flow_code where os_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateFlowDefine,map);
+        String updateFlowNode="update wf_node set source_id=node_id where (flow_code,version) in (select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B') and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateFlowNode,map);
     }
 
     private void createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {

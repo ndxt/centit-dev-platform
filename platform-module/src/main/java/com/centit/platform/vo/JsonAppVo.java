@@ -324,9 +324,9 @@ public class JsonAppVo {
                 }
                 if (StringBaseOpt.isNvl(uuid)) {
                     for (DataCatalog oldMap : oldList) {
-                        boolean findRepeatCatalog= map.get(CATALOG_CODE).toString().equals(oldMap.getCatalogCode())
+                        boolean findRepeatCatalog = map.get(CATALOG_CODE).toString().equals(oldMap.getCatalogCode())
                             && !osId.equals(oldMap.getOsId());
-                        if(findRepeatCatalog){
+                        if (findRepeatCatalog) {
                             uuid = UuidOpt.getUuidAsString();
                             break;
                         }
@@ -497,16 +497,16 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTINFO.name());
         List<OptInfo> finalOldList = convertJavaList(OptInfo.class, AppTableNames.F_OPTINFO.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(OPT_ID));
             map.put(DOC_ID, "");
             String uuid;
             if (map.get(OPT_ID).equals(map.get(TOP_OPT_ID))) {
                 uuid = osId;
             } else {
                 uuid = UuidOpt.getUuidAsString();
+                boolean canChangDocId = false;
                 if (finalOldList != null) {
                     for (OptInfo oldMap : finalOldList) {
-                        boolean canChangDocId = map.get(OPT_ID).toString().equals(oldMap.getSourceId())
+                        canChangDocId = map.get(OPT_ID).toString().equals(oldMap.getSourceId())
                             || (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
                             && OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
                             || (OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(oldMap.getFormCode())
@@ -515,6 +515,19 @@ public class JsonAppVo {
                             uuid = oldMap.getOptId();
                             map.put(DOC_ID, oldMap.getDocId());
                             break;
+                        }
+                    }
+                    if (!canChangDocId) {
+                        boolean findRepeatOptId = false;
+                        for (OptInfo oldMap : finalOldList) {
+                            findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
+                                && !osId.equals(oldMap.getTopOptId());
+                            if (findRepeatOptId) {
+                                break;
+                            }
+                        }
+                        if (!findRepeatOptId) {
+                            uuid = map.get(OPT_ID).toString();
                         }
                     }
                 }
@@ -542,7 +555,6 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTDEF.name());
         List<OptMethod> finalOldList = convertJavaList(OptMethod.class, AppTableNames.F_OPTDEF.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(OPT_CODE));
             String uuid = "";
             if (finalOldList != null) {
                 for (OptMethod oldMap : finalOldList) {
@@ -551,9 +563,19 @@ public class JsonAppVo {
                         break;
                     }
                 }
+                if (StringBaseOpt.isNvl(uuid)) {
+                    for (OptMethod oldMap : finalOldList) {
+                        boolean findRepeatOptCode = map.get(OPT_CODE).toString().equals(oldMap.getOptCode())
+                            && !osId.equals(oldMap.getTopOptId());
+                        if (findRepeatOptCode) {
+                            uuid = UuidOpt.getUuidAsString();
+                            break;
+                        }
+                    }
+                }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid = map.get(OPT_CODE).toString();
             }
             map.put(OPT_CODE, uuid);
             map.put(UPDATOR, userCode);
@@ -637,7 +659,6 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name());
         List<DataPacket> finalOldList = convertJavaList(DataPacket.class, AppTableNames.Q_DATA_PACKET.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(PACKET_ID));
             String uuid = "";
             if (finalOldList != null) {
                 for (DataPacket oldMap : finalOldList) {
@@ -647,11 +668,11 @@ public class JsonAppVo {
                         break;
                     }
                 }
-                if(StringBaseOpt.isNvl(uuid)){
-                    for(DataPacket oldMap:finalOldList){
-                        boolean findRepeatPacketId= map.get(PACKET_ID).toString().equals(oldMap.getPacketId())
+                if (StringBaseOpt.isNvl(uuid)) {
+                    for (DataPacket oldMap : finalOldList) {
+                        boolean findRepeatPacketId = map.get(PACKET_ID).toString().equals(oldMap.getPacketId())
                             && !osId.equals(oldMap.getOsId());
-                        if(findRepeatPacketId){
+                        if (findRepeatPacketId) {
                             uuid = UuidOpt.getUuidAsString();
                             break;
                         }
@@ -659,7 +680,7 @@ public class JsonAppVo {
                 }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid= map.get(PACKET_ID).toString();
+                uuid = map.get(PACKET_ID).toString();
                 if (ConstantValue.TASK_TYPE_AGENT.equals(map.get(TASK_TYPE).toString())) {
                     map.put(IS_VALID, false);
                 }
@@ -730,7 +751,6 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name());
         List<MetaFormModel> finalOldList = convertJavaList(MetaFormModel.class, AppTableNames.M_META_FORM_MODEL.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(MODEL_ID));
             String uuid = "";
             if (finalOldList != null) {
                 for (MetaFormModel oldMap : finalOldList) {
@@ -739,9 +759,19 @@ public class JsonAppVo {
                         break;
                     }
                 }
+                if (StringBaseOpt.isNvl(uuid)) {
+                    for (MetaFormModel oldMap : finalOldList) {
+                        boolean findRepeatModelId = map.get(MODEL_ID).toString().equals(oldMap.getModelId())
+                            && !osId.equals(oldMap.getOsId());
+                        if (findRepeatModelId) {
+                            uuid = UuidOpt.getUuidAsString();
+                            break;
+                        }
+                    }
+                }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid = map.get(MODEL_ID).toString();
             }
             metaFormMap.put((String) map.get(MODEL_ID), uuid);
             map.put(MODEL_ID, uuid);
@@ -889,19 +919,27 @@ public class JsonAppVo {
         list.sort((o1, o2) -> GeneralAlgorithm.compareTwoObject(o1.get(VERSION), o2.get(VERSION)));
         List<FlowInfo> finalOldList = convertJavaList(FlowInfo.class, AppTableNames.WF_FLOW_DEFINE.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(FLOW_CODE));
             if (NumberBaseOpt.castObjectToInteger(map.get(VERSION), -1) == 0) {
                 String uuid = "";
                 if (finalOldList != null) {
                     for (FlowInfo oldMap : finalOldList) {
-                        if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId())) {
+                        if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId())){
                             uuid = oldMap.getFlowCode();
                             break;
                         }
                     }
+                    if (StringBaseOpt.isNvl(uuid)) {
+                        for (FlowInfo oldMap : finalOldList) {
+                            if (map.get(FLOW_CODE).toString().equals(oldMap.getFlowCode())
+                                && !osId.equals(oldMap.getOsId())) {
+                                uuid = UuidOpt.getUuidAsString();
+                                break;
+                            }
+                        }
+                    }
                 }
                 if (StringBaseOpt.isNvl(uuid)) {
-                    uuid = UuidOpt.getUuidAsString();
+                    uuid = map.get(FLOW_CODE).toString();
                 }
                 flowDefineMap.put((String) map.get(FLOW_CODE), uuid);
             }
@@ -923,18 +961,26 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_NODE.name());
         List<NodeInfo> finalOldList = convertJavaList(NodeInfo.class, AppTableNames.WF_NODE.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(NODE_ID));
             String uuid = "";
             if (finalOldList != null) {
                 for (NodeInfo oldMap : finalOldList) {
-                    if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId())) {
+                    if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId())) {
                         uuid = oldMap.getNodeId();
                         break;
                     }
                 }
+                if (StringBaseOpt.isNvl(uuid)) {
+                    for (NodeInfo oldMap : finalOldList) {
+                        if (map.get(NODE_ID).toString().equals(oldMap.getNodeId())
+                            && !osId.equals(oldMap.getOsId())) {
+                            uuid = UuidOpt.getUuidAsString();
+                            break;
+                        }
+                    }
+                }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid = map.get(NODE_ID).toString();
             }
             wfNodeMap.put((String) map.get(NODE_ID), uuid);
             map.put(NODE_ID, uuid);
