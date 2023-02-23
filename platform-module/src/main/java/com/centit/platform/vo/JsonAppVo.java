@@ -498,39 +498,57 @@ public class JsonAppVo {
         List<OptInfo> finalOldList = convertJavaList(OptInfo.class, AppTableNames.F_OPTINFO.name());
         list.forEach(map -> {
             map.put(DOC_ID, "");
-            String uuid;
+            String uuid = "";
             if (map.get(OPT_ID).equals(map.get(TOP_OPT_ID))) {
                 uuid = osId;
-            } else {
-                uuid = UuidOpt.getUuidAsString();
-                boolean canChangDocId = false;
+                boolean findRepeatOptId = false;
+                for (OptInfo oldMap : finalOldList) {
+                    findRepeatOptId = uuid.equals(oldMap.getOptId())
+                        && uuid.equals(oldMap.getTopOptId());
+                    if (findRepeatOptId) {
+                        map.put("optName", oldMap.getOptName());
+                        break;
+                    }
+                }
+            } else if (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)) ||
+                OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE))) {
                 if (finalOldList != null) {
                     for (OptInfo oldMap : finalOldList) {
-                        canChangDocId = map.get(OPT_ID).toString().equals(oldMap.getSourceId())
-                            || (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(oldMap.getFormCode())
-                            && OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)))
-                            || (OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(oldMap.getFormCode())
-                            && OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE)));
+                        boolean findSameCode = osId.equals(oldMap.getTopOptId())&&
+                            ( map.get(FORM_CODE).equals(oldMap.getFormCode())
+                                || map.get(FORM_CODE).equals(oldMap.getFormCode()));
+                        if(findSameCode){
+                            uuid = oldMap.getOptId();
+                            map.put(DOC_ID, oldMap.getDocId());
+                            break;
+                        }
+                    }
+                }
+            } else {
+                if (finalOldList != null) {
+                    for (OptInfo oldMap : finalOldList) {
+                        boolean canChangDocId = map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getTopOptId());
                         if (canChangDocId) {
                             uuid = oldMap.getOptId();
                             map.put(DOC_ID, oldMap.getDocId());
                             break;
                         }
                     }
-                    if (!canChangDocId) {
-                        boolean findRepeatOptId = false;
-                        for (OptInfo oldMap : finalOldList) {
-                            findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
+                    if (StringBaseOpt.isNvl(uuid)) {
+                       for (OptInfo oldMap : finalOldList) {
+                           boolean findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
                                 && !osId.equals(oldMap.getTopOptId());
-                            if (findRepeatOptId) {
-                                break;
+                           if (findRepeatOptId) {
+                               uuid = oldMap.getOptId();
+                               map.put(DOC_ID, oldMap.getDocId());
+                               break;
                             }
                         }
-                        if (!findRepeatOptId) {
-                            uuid = map.get(OPT_ID).toString();
-                        }
-                    }
+                   }
                 }
+            }
+            if (StringBaseOpt.isNvl(uuid)) {
+                uuid = UuidOpt.getUuidAsString();
             }
             optInfoMap.put((String) map.get(OPT_ID), uuid);
             map.put(OPT_ID, uuid);
@@ -558,7 +576,7 @@ public class JsonAppVo {
             String uuid = "";
             if (finalOldList != null) {
                 for (OptMethod oldMap : finalOldList) {
-                    if (map.get(OPT_CODE).toString().equals(oldMap.getSourceId())) {
+                    if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getTopOptId())) {
                         uuid = oldMap.getOptCode();
                         break;
                     }
@@ -754,7 +772,7 @@ public class JsonAppVo {
             String uuid = "";
             if (finalOldList != null) {
                 for (MetaFormModel oldMap : finalOldList) {
-                    if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId())) {
+                    if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId())) {
                         uuid = oldMap.getModelId();
                         break;
                     }
@@ -923,7 +941,7 @@ public class JsonAppVo {
                 String uuid = "";
                 if (finalOldList != null) {
                     for (FlowInfo oldMap : finalOldList) {
-                        if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId())){
+                        if (map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId())) {
                             uuid = oldMap.getFlowCode();
                             break;
                         }

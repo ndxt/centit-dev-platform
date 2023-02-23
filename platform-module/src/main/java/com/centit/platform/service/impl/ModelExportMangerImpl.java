@@ -94,7 +94,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         oldApplicationSql.put(AppTableNames.F_OS_INFO.name(), "select os_id,os_name,default_database from f_os_info where os_id=:osId");
         oldApplicationSql.put(AppTableNames.FILE_LIBRARY_INFO.name(), "select library_name from file_library_info where library_id=:osId");
-        oldApplicationSql.put(AppTableNames.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID,top_opt_id from f_optinfo");
+        oldApplicationSql.put(AppTableNames.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID,top_opt_id,opt_name from f_optinfo");
         oldApplicationSql.put(AppTableNames.F_OPTDEF.name(), "select a.SOURCE_ID,a.OPT_CODE,b.top_opt_id from f_optdef a join f_optinfo b on a.opt_id=b.opt_id");
         oldApplicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code " +
             "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
