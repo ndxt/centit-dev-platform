@@ -1,8 +1,8 @@
 package com.centit.platform.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.fileserver.common.OperateFileLibrary;
 import com.centit.framework.common.ResponseData;
@@ -93,7 +93,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
         JSONArray jsonArray = new JSONArray();
         for (IOsInfo osInfo : osInfos) {
-            JSONObject jsonObject = JSON.parseObject(JSON.toJSONStringWithDateFormat(osInfo,JSON.DEFFAULT_DATE_FORMAT), JSONObject.class);
+            JSONObject jsonObject = JSONObject.from(osInfo);
+                //JSON.parseObject(JSON.toJSONStringWithDateFormat(osInfo,JSON.DEFFAULT_DATE_FORMAT), JSONObject.class);
             Map map = new HashMap();
             map.put("groupId",osInfo.getOsId());
             map.put("roleCode","组长");
@@ -109,7 +110,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public JSONObject getApplicationInfo(String applicationId,String topUnit,boolean checkAuth) {
+    public JSONObject getApplicationInfo(String applicationId, String topUnit, boolean checkAuth) {
         iOsInfo = platformEnvironment.getOsInfo(applicationId);
         if(iOsInfo==null){
             return null;

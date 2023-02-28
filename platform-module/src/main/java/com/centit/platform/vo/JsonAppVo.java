@@ -1,6 +1,6 @@
 package com.centit.platform.vo;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.centit.dde.adapter.DdeDubboTaskRun;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.po.DataPacket;
