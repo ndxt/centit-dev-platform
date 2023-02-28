@@ -1,5 +1,6 @@
 package com.centit.platform.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.centit.dde.adapter.DdeDubboTaskRun;
@@ -12,8 +13,12 @@ import com.centit.platform.dao.ApplicationTemplateDao;
 import com.centit.platform.service.ModelExportManager;
 import com.centit.platform.vo.JsonAppVo;
 import com.centit.platform.vo.AppTableNames;
+import com.centit.product.adapter.po.PendingMetaColumn;
+import com.centit.product.adapter.po.PendingMetaTable;
+import com.centit.product.adapter.po.SourceInfo;
 import com.centit.product.dbdesign.service.MetaTableManager;
 import com.centit.support.algorithm.*;
+import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,7 +29,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.xml.ws.FaultAction;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +103,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         oldApplicationSql.put(AppTableNames.FILE_LIBRARY_INFO.name(), "select library_name from file_library_info where library_id=:osId");
         oldApplicationSql.put(AppTableNames.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID,top_opt_id,opt_name from f_optinfo");
         oldApplicationSql.put(AppTableNames.F_OPTDEF.name(), "select a.SOURCE_ID,a.OPT_CODE,b.top_opt_id from f_optdef a join f_optinfo b on a.opt_id=b.opt_id");
-        oldApplicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code " +
+        oldApplicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,database_name " +
             "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
         oldApplicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select id,os_id,database_id from m_application_resources where os_id=:osId");
         oldApplicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select table_id,opt_id,id from f_table_opt_relation where OS_ID=:osId");
@@ -215,6 +222,102 @@ public class ModelExportMangerImpl implements ModelExportManager {
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());
         }
+    }
+
+    @Override
+    public JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails) {
+        try {
+            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
+            jsonAppVo.updatePrimary();
+            JSONObject returnJson=new JSONObject();
+            returnJson.put("jsonAppVo",jsonAppVo);
+            List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
+            List<Map<String, Object>> pendingColumnsList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_COLUMN.name());
+            List<Map<String,Object>> databaseList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_DATABASE_INFO.name());
+            Map<String,List<String>> appSqls=new HashMap<>(2);
+            JavaBeanMetaData javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(PendingMetaTable.class);
+            JavaBeanMetaData javaBeanMetaData2 = JavaBeanMetaData.createBeanMetaDataFromType(PendingMetaColumn.class);
+            for (Map<String, Object> map : pendingTableList) {
+                PendingMetaTable pendingMetaTable= (PendingMetaTable) javaBeanMetaData.createBeanObjectFromMap(map);
+                List<PendingMetaColumn> pendingMetaColumns=new ArrayList<>();
+                for(Map<String, Object> mapPendingColumn:pendingColumnsList){
+                    PendingMetaColumn pendingMetaColumn=(PendingMetaColumn)javaBeanMetaData2.createBeanObjectFromMap(mapPendingColumn);
+                    if(pendingMetaColumn.getTableId().equals(pendingMetaTable.getTableId())){
+                        pendingMetaColumns.add(pendingMetaColumn);
+                    }
+                }
+                pendingMetaTable.setMdColumns(pendingMetaColumns);
+                List<String> sqls=metaTableManager.makeAlterTableSqlList(pendingMetaTable);
+                boolean findDatabase= false;
+                for(String databaseCode:appSqls.keySet()){
+                    if(databaseCode.equals(pendingMetaTable.getDatabaseCode())){
+                        findDatabase=true;
+                        appSqls.get(databaseCode).addAll(sqls);
+                    }
+                }
+                if(!findDatabase){
+                    appSqls.put(pendingMetaTable.getDatabaseCode(),sqls);
+                }
+            }
+            javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(SourceInfo.class);
+            Map<String,List<String>> DDLs=new HashMap<>(2);
+            for (Map<String, Object> map : databaseList) {
+                SourceInfo sourceInfo=(SourceInfo) javaBeanMetaData.createBeanObjectFromMap(map);
+                for(String databaseCode:appSqls.keySet()){
+                    if(sourceInfo.getDatabaseCode().equals(databaseCode)){
+                        DDLs.put(sourceInfo.getDatabaseName()+"("+databaseCode+")",appSqls.get(databaseCode));
+                    }
+                }
+            }
+            returnJson.put("DDL",DDLs);
+            returnJson.put("runDDL",true);
+            return returnJson;
+        } catch (Exception e) {
+            throw new ObjectException(e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer importApp(JSONObject jsonObject) throws Exception {
+        if (!jsonObject.containsKey("jsonAppVo")){
+            throw new Exception("没有需要导入的属性");
+        }
+        JsonAppVo jsonAppVo= JSON.parseObject(jsonObject.getString("jsonAppVo"),JsonAppVo.class);
+        if(jsonAppVo==null){
+            throw new Exception("导入属性内容为空");
+        }
+        jsonAppVo.createAppObject();
+        jsonAppVo.setDatabaseName();
+        boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"),true);
+        int result = 0;
+        try {
+            if (jsonAppVo.getAppList().size() > 0) {
+                if(!runDDL){
+                    for(Object object:jsonAppVo.getAppList()){
+                        if(object instanceof PendingMetaTable){
+                            ((PendingMetaTable)object).setTableState("S");
+                        }
+                    }
+                }
+                result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
+                if(runDDL) {
+                    for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
+                        Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
+                        if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {
+                            logger.error(pair.getRight());
+                        }
+                    }
+                }
+            }
+            if (jsonAppVo.getMetaObject().size() > 0) {
+                result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
+            }
+            jsonAppVo.refreshCache(ddeDubboTaskRun);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return result;
     }
 
     private JSONObject getOldApplication(String osId) {

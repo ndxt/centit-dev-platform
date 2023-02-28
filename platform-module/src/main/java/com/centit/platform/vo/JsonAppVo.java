@@ -108,8 +108,9 @@ public class JsonAppVo {
     private static final String TASK_TYPE = "taskType";
     private static final String IS_VALID = "isValid";
 
-
+    @Getter
     private JSONObject oldAppObject;
+    @Getter
     private Map<String, List<Map<String, Object>>> mapJsonObject = new HashMap<>();
     private String zipFilePath;
     private String appHome;
@@ -138,11 +139,14 @@ public class JsonAppVo {
     private Map<String, Object> fileMap = new HashMap<>();
     private static final String MAP_DATA_CODE = "mapDataCode";
 
+    public JsonAppVo() {
+    }
+
     public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt) {
         createMapJsonObject(jsonObject);
         this.oldAppObject = oldObject;
-        this.userCode = userDetails.getUserCode();
-        this.topUnit = userDetails.getTopUnitCode();
+        this.userCode = userDetails == null ? "" : userDetails.getUserCode();
+        this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
         this.appHome = appHome;
         this.fileInfoOpt = fileInfoOpt;
     }
@@ -172,7 +176,7 @@ public class JsonAppVo {
         }
     }
 
-    private void updatePrimary() {
+    public void updatePrimary() {
         this.updateOsInfo().updateLibraryInfo().updateDatabase().updateApplicationResource()
             .updateDataCatalog().updateDataDictionaryUseCatalog().updateApplicationDictionary()
             .updateOsInfoUseDatabase()
@@ -183,7 +187,8 @@ public class JsonAppVo {
             .updateWfDefine().updateWfNode().updateWfDefineUseWfNode().updateWfTransition().updatePacketUseWfDefine().updateMetaFormUseWfDefine();
     }
 
-    private void createAppObject() {
+    public void createAppObject() {
+        appList.clear();
         this.createOsInfo().createLibraryInfo().createApplicationResource().createDataCatalog().createDataDictionary().createApplicationDictionary()
             .createMdTableWithColumnObject().createMdRelationWithDetailObject()
             .createMetaFormObject().createDataPacketAndParamsObject()
@@ -191,7 +196,7 @@ public class JsonAppVo {
             .createWfDefine().createWfNode().createWfTransition().createTableRelation();
     }
 
-    private void setDatabaseName() {
+    public void setDatabaseName() {
         if (mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name()) == null) {
             return;
         }
@@ -258,6 +263,11 @@ public class JsonAppVo {
                 uuid = oldList.get(0).getDatabaseCode();
             } else {
                 throw new ObjectException(ObjectException.DATA_NOT_INTEGRATED, map.get("databaseName") + ":没有指定数据库");
+            }
+            for (SourceInfo sourceInfo : oldList) {
+                if (uuid.equals(sourceInfo.getDatabaseCode())) {
+                    map.put("databaseName", sourceInfo.getDatabaseName());
+                }
             }
             databaseMap.put(map.get(DATABASE_CODE).toString(), uuid);
             map.put(DATABASE_CODE, uuid);
@@ -514,10 +524,10 @@ public class JsonAppVo {
                 OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(map.get(FORM_CODE))) {
                 if (finalOldList != null) {
                     for (OptInfo oldMap : finalOldList) {
-                        boolean findSameCode = osId.equals(oldMap.getTopOptId())&&
-                            ( map.get(FORM_CODE).equals(oldMap.getFormCode())
+                        boolean findSameCode = osId.equals(oldMap.getTopOptId()) &&
+                            (map.get(FORM_CODE).equals(oldMap.getFormCode())
                                 || map.get(FORM_CODE).equals(oldMap.getFormCode()));
-                        if(findSameCode){
+                        if (findSameCode) {
                             uuid = oldMap.getOptId();
                             map.put(DOC_ID, oldMap.getDocId());
                             break;
@@ -535,16 +545,16 @@ public class JsonAppVo {
                         }
                     }
                     if (StringBaseOpt.isNvl(uuid)) {
-                       for (OptInfo oldMap : finalOldList) {
-                           boolean findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
+                        for (OptInfo oldMap : finalOldList) {
+                            boolean findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
                                 && !osId.equals(oldMap.getTopOptId());
-                           if (findRepeatOptId) {
-                               uuid = oldMap.getOptId();
-                               map.put(DOC_ID, oldMap.getDocId());
-                               break;
+                            if (findRepeatOptId) {
+                                uuid = oldMap.getOptId();
+                                map.put(DOC_ID, oldMap.getDocId());
+                                break;
                             }
                         }
-                   }
+                    }
                 }
             }
             if (StringBaseOpt.isNvl(uuid)) {

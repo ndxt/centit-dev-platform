@@ -11,4 +11,8 @@ public interface ModelExportManager {
     String downModel(String osId) throws FileNotFoundException;
     JSONObject uploadModel(File zipFile) throws Exception;
     Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails);
+
+    JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails);
+
+    Integer importApp(JSONObject jsonObject) throws Exception;
 }
