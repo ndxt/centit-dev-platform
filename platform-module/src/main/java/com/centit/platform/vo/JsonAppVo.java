@@ -549,8 +549,8 @@ public class JsonAppVo {
                             boolean findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
                                 && !osId.equals(oldMap.getTopOptId());
                             if (findRepeatOptId) {
-                                uuid = oldMap.getOptId();
-                                map.put(DOC_ID, oldMap.getDocId());
+                                uuid = UuidOpt.getUuidAsString();
+                                map.put(DOC_ID, uuid);
                                 break;
                             }
                         }
@@ -558,7 +558,7 @@ public class JsonAppVo {
                 }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid = map.get(OPT_ID).toString();
             }
             optInfoMap.put((String) map.get(OPT_ID), uuid);
             map.put(OPT_ID, uuid);
