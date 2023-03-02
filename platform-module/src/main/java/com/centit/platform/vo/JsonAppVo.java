@@ -623,7 +623,6 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name());
         List<MetaOptRelation> finalOldList = convertJavaList(MetaOptRelation.class, AppTableNames.F_TABLE_OPT_RELATION.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(ID));
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
                 .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableMap.get(key)));
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
