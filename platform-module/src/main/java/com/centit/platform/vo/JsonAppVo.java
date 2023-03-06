@@ -25,6 +25,7 @@ import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -109,6 +110,7 @@ public class JsonAppVo {
     private static final String IS_VALID = "isValid";
 
     @Getter
+    @Setter
     private JSONObject oldAppObject;
     @Getter
     private Map<String, List<Map<String, Object>>> mapJsonObject = new HashMap<>();
@@ -149,6 +151,10 @@ public class JsonAppVo {
         this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
         this.appHome = appHome;
         this.fileInfoOpt = fileInfoOpt;
+    }
+
+    public void setTopUnit(CentitUserDetails userDetails) {
+        this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
     }
 
     public void prepareApp() {
@@ -1108,7 +1114,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
-        if (oldAppObject.size() == 0) {
+        List<OsInfo> oldList = convertJavaList(OsInfo.class, AppTableNames.F_OS_INFO.name());
+        if (oldList==null) {
             list.forEach(map -> map.put(TOP_UNIT, topUnit));
             appList.addAll(convertMap(OsInfo.class, list));
             WorkGroup teamUser = assembleWorkGroup((String) list.get(0).get(OS_ID));
@@ -1133,7 +1140,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.FILE_LIBRARY_INFO.name());
-        if (oldAppObject.size() == 0) {
+        List<FileLibraryInfo> oldList = convertJavaList(FileLibraryInfo.class, AppTableNames.FILE_LIBRARY_INFO.name());
+        if (oldList == null) {
             appList.addAll(convertMap(FileLibraryInfo.class, list));
         }
         return this;

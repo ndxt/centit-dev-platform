@@ -285,7 +285,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer importApp(JSONObject jsonObject) throws Exception {
+    public Integer importApp(JSONObject jsonObject,CentitUserDetails userDetails) throws Exception {
         if (!jsonObject.containsKey("jsonAppVo")) {
             throw new Exception("没有需要导入的属性");
         }
@@ -293,6 +293,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         if (jsonAppVo == null) {
             throw new Exception("导入属性内容为空");
         }
+        jsonAppVo.setTopUnit(userDetails);
         jsonAppVo.createAppObject();
         jsonAppVo.setDatabaseName();
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
