@@ -179,13 +179,13 @@ public class ApplicationTemplateController extends BaseController {
     @RequestMapping(value = "/importApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public Integer importApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) throws Exception {
-//        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-//        if (userDetails==null){
-//            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
-//        }
+        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
+        if (userDetails==null){
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
+        }
         if(jsonObject==null){
             throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
         }
-        return modelExportManager.importApp(jsonObject,null);
+        return modelExportManager.importApp(jsonObject,userDetails);
     }
 }
