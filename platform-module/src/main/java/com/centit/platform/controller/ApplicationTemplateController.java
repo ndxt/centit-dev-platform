@@ -165,10 +165,10 @@ public class ApplicationTemplateController extends BaseController {
     @WrapUpResponseBody
     public JSONObject prepareApp(@RequestBody JSONObject jsonObject, HttpServletRequest request,
                              @PathVariable String osId)  {
-//        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-//        if (userDetails==null){
-//            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
-//        }
+        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
+        if (userDetails==null){
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
+        }
         if(jsonObject==null){
             throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
         }
