@@ -14,5 +14,5 @@ public interface ModelExportManager {
 
     JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails);
 
-    Integer importApp(JSONObject jsonObject) throws Exception;
+    Integer importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception;
 }

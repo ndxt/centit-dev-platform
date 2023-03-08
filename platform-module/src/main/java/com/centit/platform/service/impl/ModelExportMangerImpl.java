@@ -7,7 +7,9 @@ import com.centit.dde.adapter.DdeDubboTaskRun;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.fileserver.common.FileInfoOpt;
+import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
+import com.centit.framework.model.basedata.OperationLog;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.dao.ApplicationTemplateDao;
 import com.centit.platform.service.ModelExportManager;
@@ -31,10 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.xml.ws.FaultAction;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zhf
@@ -145,18 +144,18 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     private void updateSourceId(Map<String, Object> map) {
-        String updateOptInfo="update f_optinfo set source_id=opt_id where top_opt_id=:osId and source_id is null";
-        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateOptInfo,map);
-        String updateOptDef="update f_optdef set source_id=opt_code where opt_id in (select opt_id from f_optinfo where top_opt_id=:osId) and source_id is null";
-        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateOptDef,map);
-        String updateMetaForm="update m_meta_form_model set source_id=model_id where os_id=:osId and source_id is null";
-        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateMetaForm,map);
-        String updateDataPacket="update q_data_packet set source_id=packet_id where os_id=:osId and source_id is null";
-        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateDataPacket,map);
-        String updateFlowDefine="update wf_flow_define set source_id=flow_code where os_id=:osId and source_id is null";
-        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateFlowDefine,map);
-        String updateFlowNode="update wf_node set source_id=node_id where (flow_code,version) in (select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B') and source_id is null";
-        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao,updateFlowNode,map);
+        String updateOptInfo = "update f_optinfo set source_id=opt_id where top_opt_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao, updateOptInfo, map);
+        String updateOptDef = "update f_optdef set source_id=opt_code where opt_id in (select opt_id from f_optinfo where top_opt_id=:osId) and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao, updateOptDef, map);
+        String updateMetaForm = "update m_meta_form_model set source_id=model_id where os_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao, updateMetaForm, map);
+        String updateDataPacket = "update q_data_packet set source_id=packet_id where os_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao, updateDataPacket, map);
+        String updateFlowDefine = "update wf_flow_define set source_id=flow_code where os_id=:osId and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao, updateFlowDefine, map);
+        String updateFlowNode = "update wf_node set source_id=node_id where (flow_code,version) in (select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B') and source_id is null";
+        DatabaseOptUtils.doExecuteNamedSql(applicationTemplateDao, updateFlowNode, map);
     }
 
     private void createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws FileNotFoundException {
@@ -218,8 +217,15 @@ public class ModelExportMangerImpl implements ModelExportManager {
     public Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails) {
         try {
             JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt);
-            return createApp(jsonAppVo);
+            int result = createApp(jsonAppVo);
+            OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用成功").user(userDetails.getUserCode())
+                .topUnit(userDetails.getTopUnitCode()).unit(userDetails.getCurrentUnitCode()).
+                    loginIp(userDetails.getLoginIp()).time(new Date()).tag(String.valueOf(result)));
+            return result;
         } catch (Exception e) {
+            OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用失败").user(userDetails.getUserCode())
+                .topUnit(userDetails.getTopUnitCode()).unit(userDetails.getCurrentUnitCode()).
+                    loginIp(userDetails.getLoginIp()).time(new Date()).newObject(e.getMessage()));
             throw new ObjectException(e.getMessage());
         }
     }
@@ -229,48 +235,48 @@ public class ModelExportMangerImpl implements ModelExportManager {
         try {
             JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
             jsonAppVo.updatePrimary();
-            JSONObject returnJson=new JSONObject();
-            returnJson.put("jsonAppVo",jsonAppVo);
+            JSONObject returnJson = new JSONObject();
+            returnJson.put("jsonAppVo", jsonAppVo);
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
             List<Map<String, Object>> pendingColumnsList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_COLUMN.name());
-            List<Map<String,Object>> databaseList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_DATABASE_INFO.name());
-            Map<String,List<String>> appSqls=new HashMap<>(2);
+            List<Map<String, Object>> databaseList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_DATABASE_INFO.name());
+            Map<String, List<String>> appSqls = new HashMap<>(2);
             JavaBeanMetaData javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(PendingMetaTable.class);
             JavaBeanMetaData javaBeanMetaData2 = JavaBeanMetaData.createBeanMetaDataFromType(PendingMetaColumn.class);
             for (Map<String, Object> map : pendingTableList) {
-                PendingMetaTable pendingMetaTable= (PendingMetaTable) javaBeanMetaData.createBeanObjectFromMap(map);
-                List<PendingMetaColumn> pendingMetaColumns=new ArrayList<>();
-                for(Map<String, Object> mapPendingColumn:pendingColumnsList){
-                    PendingMetaColumn pendingMetaColumn=(PendingMetaColumn)javaBeanMetaData2.createBeanObjectFromMap(mapPendingColumn);
-                    if(pendingMetaColumn.getTableId().equals(pendingMetaTable.getTableId())){
+                PendingMetaTable pendingMetaTable = (PendingMetaTable) javaBeanMetaData.createBeanObjectFromMap(map);
+                List<PendingMetaColumn> pendingMetaColumns = new ArrayList<>();
+                for (Map<String, Object> mapPendingColumn : pendingColumnsList) {
+                    PendingMetaColumn pendingMetaColumn = (PendingMetaColumn) javaBeanMetaData2.createBeanObjectFromMap(mapPendingColumn);
+                    if (pendingMetaColumn.getTableId().equals(pendingMetaTable.getTableId())) {
                         pendingMetaColumns.add(pendingMetaColumn);
                     }
                 }
                 pendingMetaTable.setMdColumns(pendingMetaColumns);
-                List<String> sqls=metaTableManager.makeAlterTableSqlList(pendingMetaTable);
-                boolean findDatabase= false;
-                for(String databaseCode:appSqls.keySet()){
-                    if(databaseCode.equals(pendingMetaTable.getDatabaseCode())){
-                        findDatabase=true;
+                List<String> sqls = metaTableManager.makeAlterTableSqlList(pendingMetaTable);
+                boolean findDatabase = false;
+                for (String databaseCode : appSqls.keySet()) {
+                    if (databaseCode.equals(pendingMetaTable.getDatabaseCode())) {
+                        findDatabase = true;
                         appSqls.get(databaseCode).addAll(sqls);
                     }
                 }
-                if(!findDatabase){
-                    appSqls.put(pendingMetaTable.getDatabaseCode(),sqls);
+                if (!findDatabase) {
+                    appSqls.put(pendingMetaTable.getDatabaseCode(), sqls);
                 }
             }
             javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(SourceInfo.class);
-            Map<String,List<String>> DDLs=new HashMap<>(2);
+            Map<String, List<String>> DDLs = new HashMap<>(2);
             for (Map<String, Object> map : databaseList) {
-                SourceInfo sourceInfo=(SourceInfo) javaBeanMetaData.createBeanObjectFromMap(map);
-                for(String databaseCode:appSqls.keySet()){
-                    if(sourceInfo.getDatabaseCode().equals(databaseCode)){
-                        DDLs.put(sourceInfo.getDatabaseName()+"("+databaseCode+")",appSqls.get(databaseCode));
+                SourceInfo sourceInfo = (SourceInfo) javaBeanMetaData.createBeanObjectFromMap(map);
+                for (String databaseCode : appSqls.keySet()) {
+                    if (sourceInfo.getDatabaseCode().equals(databaseCode)) {
+                        DDLs.put(sourceInfo.getDatabaseName() + "(" + databaseCode + ")", appSqls.get(databaseCode));
                     }
                 }
             }
-            returnJson.put("DDL",DDLs);
-            returnJson.put("runDDL",true);
+            returnJson.put("DDL", DDLs);
+            returnJson.put("runDDL", true);
             return returnJson;
         } catch (Exception e) {
             throw new ObjectException(e.getMessage());
@@ -279,29 +285,30 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer importApp(JSONObject jsonObject) throws Exception {
-        if (!jsonObject.containsKey("jsonAppVo")){
+    public Integer importApp(JSONObject jsonObject,CentitUserDetails userDetails) throws Exception {
+        if (!jsonObject.containsKey("jsonAppVo")) {
             throw new Exception("没有需要导入的属性");
         }
-        JsonAppVo jsonAppVo= JSON.parseObject(jsonObject.getString("jsonAppVo"),JsonAppVo.class);
-        if(jsonAppVo==null){
+        JsonAppVo jsonAppVo = JSON.parseObject(jsonObject.getString("jsonAppVo"), JsonAppVo.class);
+        if (jsonAppVo == null) {
             throw new Exception("导入属性内容为空");
         }
+        jsonAppVo.setTopUnit(userDetails);
         jsonAppVo.createAppObject();
         jsonAppVo.setDatabaseName();
-        boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"),true);
+        boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
         int result = 0;
         try {
             if (jsonAppVo.getAppList().size() > 0) {
-                if(!runDDL){
-                    for(Object object:jsonAppVo.getAppList()){
-                        if(object instanceof PendingMetaTable){
-                            ((PendingMetaTable)object).setTableState("S");
+                if (!runDDL) {
+                    for (Object object : jsonAppVo.getAppList()) {
+                        if (object instanceof PendingMetaTable) {
+                            ((PendingMetaTable) object).setTableState("S");
                         }
                     }
                 }
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
-                if(runDDL) {
+                if (runDDL) {
                     for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
                         Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
                         if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {

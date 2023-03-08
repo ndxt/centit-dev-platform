@@ -25,6 +25,7 @@ import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -109,6 +110,7 @@ public class JsonAppVo {
     private static final String IS_VALID = "isValid";
 
     @Getter
+    @Setter
     private JSONObject oldAppObject;
     @Getter
     private Map<String, List<Map<String, Object>>> mapJsonObject = new HashMap<>();
@@ -149,6 +151,10 @@ public class JsonAppVo {
         this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
         this.appHome = appHome;
         this.fileInfoOpt = fileInfoOpt;
+    }
+
+    public void setTopUnit(CentitUserDetails userDetails) {
+        this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
     }
 
     public void prepareApp() {
@@ -549,8 +555,8 @@ public class JsonAppVo {
                             boolean findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
                                 && !osId.equals(oldMap.getTopOptId());
                             if (findRepeatOptId) {
-                                uuid = oldMap.getOptId();
-                                map.put(DOC_ID, oldMap.getDocId());
+                                uuid = UuidOpt.getUuidAsString();
+                                map.put(DOC_ID, uuid);
                                 break;
                             }
                         }
@@ -558,7 +564,7 @@ public class JsonAppVo {
                 }
             }
             if (StringBaseOpt.isNvl(uuid)) {
-                uuid = UuidOpt.getUuidAsString();
+                uuid = map.get(OPT_ID).toString();
             }
             optInfoMap.put((String) map.get(OPT_ID), uuid);
             map.put(OPT_ID, uuid);
@@ -623,7 +629,6 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name());
         List<MetaOptRelation> finalOldList = convertJavaList(MetaOptRelation.class, AppTableNames.F_TABLE_OPT_RELATION.name());
         list.forEach(map -> {
-            map.put(SOURCE_ID, map.get(ID));
             mdTableMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
                 .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableMap.get(key)));
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
@@ -1109,7 +1114,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
-        if (oldAppObject.size() == 0) {
+        List<OsInfo> oldList = convertJavaList(OsInfo.class, AppTableNames.F_OS_INFO.name());
+        if (oldList==null) {
             list.forEach(map -> map.put(TOP_UNIT, topUnit));
             appList.addAll(convertMap(OsInfo.class, list));
             WorkGroup teamUser = assembleWorkGroup((String) list.get(0).get(OS_ID));
@@ -1134,7 +1140,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.FILE_LIBRARY_INFO.name());
-        if (oldAppObject.size() == 0) {
+        List<FileLibraryInfo> oldList = convertJavaList(FileLibraryInfo.class, AppTableNames.FILE_LIBRARY_INFO.name());
+        if (oldList == null) {
             appList.addAll(convertMap(FileLibraryInfo.class, list));
         }
         return this;
