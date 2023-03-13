@@ -670,6 +670,7 @@ public class JsonAppVo {
             fileInfo.setFileShowPath("/-1");
             String oldFileId = fileName.substring(fileName.indexOf("(") + 1, fileName.indexOf(")"));
             fileInfo.setLibraryId(osId);
+            fileInfo.setFileCatalog("A");
             String fileId = null;
             try {
                 fileId = fileInfoOpt.saveFile(fileInfo, -1, new FileInputStream(file.getPath()));
