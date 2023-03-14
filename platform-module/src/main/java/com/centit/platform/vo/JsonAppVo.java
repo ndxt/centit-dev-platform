@@ -699,6 +699,7 @@ public class JsonAppVo {
                     boolean samePacketId = map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId());
                     if (samePacketId) {
                         uuid = oldMap.getPacketId();
+                        map.put(IS_VALID,oldMap.getIsValid());
                         break;
                     }
                 }
@@ -708,6 +709,7 @@ public class JsonAppVo {
                             && !osId.equals(oldMap.getOsId());
                         if (findRepeatPacketId) {
                             uuid = UuidOpt.getUuidAsString();
+                            map.put(IS_VALID, false);
                             break;
                         }
                     }
