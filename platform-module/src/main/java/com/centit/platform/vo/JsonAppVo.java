@@ -670,6 +670,7 @@ public class JsonAppVo {
             fileInfo.setFileShowPath("/-1");
             String oldFileId = fileName.substring(fileName.indexOf("(") + 1, fileName.indexOf(")"));
             fileInfo.setLibraryId(osId);
+            fileInfo.setFileCatalog("A");
             String fileId = null;
             try {
                 fileId = fileInfoOpt.saveFile(fileInfo, -1, new FileInputStream(file.getPath()));
@@ -698,6 +699,7 @@ public class JsonAppVo {
                     boolean samePacketId = map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId());
                     if (samePacketId) {
                         uuid = oldMap.getPacketId();
+                        map.put(IS_VALID,oldMap.getIsValid());
                         break;
                     }
                 }
@@ -707,6 +709,7 @@ public class JsonAppVo {
                             && !osId.equals(oldMap.getOsId());
                         if (findRepeatPacketId) {
                             uuid = UuidOpt.getUuidAsString();
+                            map.put(IS_VALID, false);
                             break;
                         }
                     }
