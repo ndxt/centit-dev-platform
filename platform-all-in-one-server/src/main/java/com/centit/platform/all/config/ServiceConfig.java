@@ -27,6 +27,7 @@ import com.centit.search.service.Impl.ESIndexer;
 import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.service.Searcher;
+import com.centit.search.utils.ImagePdfTextExtractor;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
@@ -61,7 +62,6 @@ public class ServiceConfig {
 
     @Autowired
     private Environment env;
-
     @Value("${app.home:./}")
     private String appHome;
     @Value("${redis.default.host}")
@@ -103,7 +103,6 @@ public class ServiceConfig {
         return intelligentRobotFactory;
     }
 
-
     /* 这个定时任务 不能用run来做，应该用一个 定时任务容器
      */
     @Bean
@@ -127,6 +126,28 @@ public class ServiceConfig {
         fileOptTaskExecutor.addFileOperator(encryptFileWithAesOpt);
         fileOptTaskExecutor.addFileOperator(documentIndexOpt);
         return fileOptTaskExecutor;
+    }
+
+    @Bean
+    public ImagePdfTextExtractor.OcrServerHost ocrServerHost() {
+        ImagePdfTextExtractor.OcrServerHost ocrServer = ImagePdfTextExtractor.fetchDefaultOrrServer();
+        String stemp = env.getProperty("ocr.server.author.url");
+        if(StringUtils.isNotBlank(stemp)){
+            ocrServer.setAuthorUrl(stemp);
+        }
+        stemp = env.getProperty("ocr.server.recognition.url");
+        if(StringUtils.isNotBlank(stemp)){
+            ocrServer.setOrcUrl(stemp);
+        }
+        stemp = env.getProperty("ocr.server.author.username");
+        if(StringUtils.isNotBlank(stemp)){
+            ocrServer.setUserName(stemp);
+        }
+        stemp = env.getProperty("ocr.server.author.password");
+        if(StringUtils.isNotBlank(stemp)){
+            ocrServer.setPassword(stemp);
+        }
+        return ocrServer;
     }
 
     @Bean
