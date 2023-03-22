@@ -248,6 +248,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 List<PendingMetaColumn> pendingMetaColumns = new ArrayList<>();
                 for (Map<String, Object> mapPendingColumn : pendingColumnsList) {
                     PendingMetaColumn pendingMetaColumn = (PendingMetaColumn) javaBeanMetaData2.createBeanObjectFromMap(mapPendingColumn);
+                    pendingMetaColumn.setMaxLength(NumberBaseOpt.castObjectToInteger(mapPendingColumn.get("columnLength")));
                     if (pendingMetaColumn.getTableId().equals(pendingMetaTable.getTableId())) {
                         pendingMetaColumns.add(pendingMetaColumn);
                     }
