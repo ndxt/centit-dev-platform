@@ -84,7 +84,7 @@ public class HistoryVersionController extends BaseController {
         if(historyVersion==null || historyVersion.getContent() == null || currentVersion.getContent()==null){
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "版本信息有误，请检查输入参数");
         }
-        JsonDifferent jsonDiff = JSONOpt.diff(currentVersion.getContent(), historyVersion.getContent());
+        JsonDifferent jsonDiff = JSONOpt.diff(currentVersion.getContent(), historyVersion.getContent(), "id");
         if("tree".equals(jsonType)){
             return JSONObject.from(jsonDiff);
         }
@@ -112,7 +112,7 @@ public class HistoryVersionController extends BaseController {
         if(historyVersion.getContent() == null || currentVersion.getContent()==null){
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "版本信息有误，请检查输入参数");
         }
-        JsonDifferent jsonDiff = JSONOpt.diff(currentVersion.getContent(), historyVersion.getContent());
+        JsonDifferent jsonDiff = JSONOpt.diff(currentVersion.getContent(), historyVersion.getContent(), "id");
         if("tree".equals(jsonType)){
             return JSONObject.from(jsonDiff);
         }
