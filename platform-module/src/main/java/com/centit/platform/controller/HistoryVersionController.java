@@ -96,7 +96,7 @@ public class HistoryVersionController extends BaseController {
         @ApiImplicitParam(),
         @ApiImplicitParam(name = "jsonType", type = "param", paramType = "String", value = "返回结果机构 tree / object"),
         @ApiImplicitParam(name = "versionInfo", type="body", value="两个历史版本信息，{'version1':'v1', 'version2':'v2'}")})
-    @PostMapping("/compareHistory}")
+    @PostMapping("/compareHistory")
     @WrapUpResponseBody
     public JSONObject compareHistoryVersion(@RequestBody String versionInfo,
                                             String jsonType) {
