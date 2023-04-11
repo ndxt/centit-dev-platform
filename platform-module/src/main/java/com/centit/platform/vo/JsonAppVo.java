@@ -155,6 +155,7 @@ public class JsonAppVo {
 
     public void setTopUnit(CentitUserDetails userDetails) {
         this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
+        this.userCode = userDetails.getUserCode();
     }
 
     public void prepareApp() {
