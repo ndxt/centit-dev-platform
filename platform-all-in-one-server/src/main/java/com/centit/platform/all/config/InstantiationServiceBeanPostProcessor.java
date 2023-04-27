@@ -55,10 +55,10 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     @Autowired
     protected CodeRepositoryCache.EvictCacheExtOpt osInfoManager;
 
-    @Value("${http.exception.notAsHttpError:false}")
+    @Value("${http.exception.notAsHttpError:true}")
     protected boolean httpExceptionNotAsHttpError;
 
-    @Value("${app.support.tenant:false}")
+    @Value("${app.support.tenant:true}")
     protected boolean supportTenant;
 
     private ApplicationContext applicationContext;
