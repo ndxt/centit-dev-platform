@@ -88,7 +88,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
             "(select dictionary_id from m_application_dictionary where os_id=:osId)");
         applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where os_id=:osId");
 
-        newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)" +
+            " and database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
         newDatabaseSql.put(AppTableNames.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
         newDatabaseSql.put(AppTableNames.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
         newDatabaseSql.put(AppTableNames.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
