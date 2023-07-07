@@ -2,7 +2,6 @@ package com.centit.platform.all.config;
 
 import com.centit.framework.config.BaseSpringMvcConfig;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 /**
@@ -11,6 +10,6 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan(basePackages = {"com.centit.im.controller"},
     includeFilters = {@ComponentScan.Filter(type= FilterType.ANNOTATION,value= org.springframework.stereotype.Controller.class)},
     useDefaultFilters = false)
-public class NormalSpringMvcConfig extends BaseSpringMvcConfig {
+public class IMSpringMvcConfig extends BaseSpringMvcConfig {
 
 }

@@ -22,7 +22,7 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);
         WebConfig.registerServletConfig(servletContext, "system",
                 "/system/*",
-                SystemSpringMvcConfig.class, SwaggerConfig.class);
+                FrameworkSpringMvcConfig.class, SwaggerConfig.class);
 
         WebConfig.registerServletConfig(servletContext, "metadata",
                 "/metadata/*",
@@ -61,7 +61,7 @@ public class WebInitializer implements WebApplicationInitializer {
             TaskSpringMvcConfig.class, SwaggerConfig.class);
         WebConfig.registerServletConfig(servletContext, "im",
             "/im/*",
-            NormalSpringMvcConfig.class,SwaggerConfig.class);
+            IMSpringMvcConfig.class,SwaggerConfig.class);
 
 
         //dubbo hessian协议使用
