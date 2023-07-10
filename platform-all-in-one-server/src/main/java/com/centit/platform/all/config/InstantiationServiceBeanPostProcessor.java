@@ -20,6 +20,7 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -41,6 +42,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     private OperationLogWriter operationLogManager;
 
     @Autowired(required = false)
+    @Qualifier("innerMessageManager")
     private MessageSender innerMessageManager;
 
     @Autowired
