@@ -180,47 +180,6 @@ public class ServiceConfig {
             esServerConfig, ObjectDocument.class);
     }
 
-
-   /* @Bean
-    public FileClientImpl fileClient() {
-        FileClientImpl fileClient = new FileClientImpl();
-        fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
-        return fileClient;
-    }
-
-    @Bean
-    public ClientAsFileStore fileStore(@Autowired FileClientImpl fileClient) {
-        ClientAsFileStore fileStoreBean = new ClientAsFileStore();
-        fileStoreBean.setFileClient(fileClient);
-        return fileStoreBean;
-    }*/
-
-//    @Bean
-//    public FileStore fileStore(){
-//        String baseHome = env.getProperty("os.file.base.dir");
-//        if(StringUtils.isBlank(baseHome)) {
-//            baseHome = appHome + "/upload";
-//        }
-//        return new OsFileStore(baseHome);
-//    }
-//    @Bean
-//    @Lazy(value = false)
-//    public IntegrationEnvironment integrationEnvironment() {
-//        OsInfo thisOsInfo = new OsInfo();
-//        DatabaseInfo thisDatabaseInfo = new DatabaseInfo();
-//        thisOsInfo.setOsId("case-tracking");
-//        thisOsInfo.setOsName("案件跟踪");
-//
-//        thisDatabaseInfo.setOsId("case-tracking");
-//        thisDatabaseInfo.setDatabaseCode(env.getProperty("ip.jdbc.databasename"));
-//        thisDatabaseInfo.setDatabaseName(env.getProperty("ip.jdbc.name"));
-//        thisDatabaseInfo.setDatabaseUrl(env.getProperty("ip.jdbc.url"));
-//        thisDatabaseInfo.setUsername(env.getProperty("ip.jdbc.user"));
-//        thisDatabaseInfo.setPassword(env.getProperty("ip.jdbc.password"));
-//        thisDatabaseInfo.setDatabaseDesc("当前系统数据库，不能修改系统相关的表");
-//        return new DummyIntegrationEnvironment(thisOsInfo, thisDatabaseInfo);
-//    }
-
     @Bean
     public SchedulerFactory schedulerFactory() {
         return new StdSchedulerFactory();
@@ -245,15 +204,6 @@ public class ServiceConfig {
         return notificationCenter;
     }
 
-//    @Bean
-//    @Lazy(value = false)
-//    public OperationLogWriter operationLogWriter() {
-//        TextOperationLogWriterImpl operationLog = new TextOperationLogWriterImpl();
-//        operationLog.setOptLogHomePath(appHome + "/logs");
-//        operationLog.init();
-//        return operationLog;
-//    }
-
     @Bean
     public UserUnitFilterCalcContextFactory userUnitFilterFactory() {
         return new SystemUserUnitCalcContextFactoryImpl();
@@ -269,15 +219,5 @@ public class ServiceConfig {
         return new WxMpServiceImpl();
     }
 
-    /*@Bean
-    public FindByIndexNameSessionRepository sessionRepository() {
-        return new SimpleMapSessionRepository();
-    }
-
-    @Bean
-    public SessionRegistry sessionRegistry(
-        @Autowired FindByIndexNameSessionRepository sessionRepository){
-        return new SpringSessionBackedSessionRegistry(sessionRepository);
-    }*/
 }
 
