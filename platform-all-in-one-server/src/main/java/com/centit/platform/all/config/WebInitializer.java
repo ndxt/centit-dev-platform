@@ -1,6 +1,5 @@
 package com.centit.platform.all.config;
 
-import com.centit.framework.config.SystemSpringMvcConfig;
 import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
 import org.springframework.web.WebApplicationInitializer;
