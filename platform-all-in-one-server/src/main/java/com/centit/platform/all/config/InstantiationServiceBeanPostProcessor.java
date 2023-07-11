@@ -7,7 +7,6 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryCache;
 import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.core.controller.MvcConfigUtil;
-import com.centit.framework.model.adapter.MessageSender;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
@@ -20,7 +19,6 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -39,10 +37,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
     @Autowired
     private OperationLogWriter operationLogManager;
-
-    @Autowired(required = false)
-    @Qualifier("innerMessageManager")
-    private MessageSender innerMessageManager;
 
     @Autowired
     protected PlatformEnvironment platformEnvironment;
@@ -76,10 +70,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         CodeRepositoryCache.setAllCacheFreshPeriod(CodeRepositoryCache.CACHE_FRESH_PERIOD_SECONDS);
         WebOptUtils.setExceptionNotAsHttpError(httpExceptionNotAsHttpError);
         WebOptUtils.setIsTenant(supportTenant);
-        if (innerMessageManager != null) {
-            notificationCenter.registerMessageSender("innerMsg", innerMessageManager);
-            notificationCenter.appointDefaultSendType("innerMsg");
-        }
+
         if (operationLogManager != null) {
             OperationLogCenter.registerOperationLogWriter(operationLogManager);
         }
