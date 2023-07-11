@@ -27,7 +27,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
-import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -38,7 +37,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     @Autowired
     protected NotificationCenter notificationCenter;
 
-    @Resource
+    @Autowired
     private OperationLogWriter operationLogManager;
 
     @Autowired(required = false)
