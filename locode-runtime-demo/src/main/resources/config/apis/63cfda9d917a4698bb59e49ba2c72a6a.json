@@ -1,0 +1,377 @@
+{
+  "packetId": "63cfda9d917a4698bb59e49ba2c72a6a",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "请假，加班，早退等统计",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 220,
+        "y": 100,
+        "id": "startGmlGskmuDG",
+        "text": {
+          "x": 220,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "startGmlGskmuDG",
+          "type": "start"
+        }
+      },
+      {
+        "x": 220,
+        "y": 460,
+        "id": "results3MQE10kuwz",
+        "text": {
+          "x": 220,
+          "y": 460,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "isBranch": false,
+          "resultOptions": "3",
+          "Sourcefield": [],
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": false,
+          "isSelected": false,
+          "id": "results3MQE10kuwz",
+          "source": "databaseJbIKn5Z752",
+          "type": "results"
+        }
+      },
+      {
+        "x": 220,
+        "y": 260,
+        "id": "databaseJbIKn5Z752",
+        "text": {
+          "x": 220,
+          "y": 260,
+          "value": "读取关系数据库"
+        },
+        "type": "database",
+        "properties": {
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "读取关系数据库",
+          "source": "pathData",
+          "type": "database",
+          "querySQL": "SELECT `month`,overtimelength,overtimes,latetimes,lateduration,leavetimes,leavetduration,absencetimes * 2 AS absencetimes,(SELECT COUNT(1) FROM v_leaveinfo WHERE flowResult='通过' [:usercode | AND usercode =:usercode][:month | AND date_format(recorddate, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]) as count,(SELECT SUM(leaveDays) FROM v_leaveinfo WHERE timeType='D' AND flowResult='通过' [:usercode | AND usercode =:usercode]  [:month | AND date_format(recorddate, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]) as  day,(SELECT SUM(leaveDays) FROM v_leaveinfo WHERE timeType='H' AND flowResult='通过' [:usercode | AND usercode =:usercode] [:month | AND date_format(recorddate, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]) as hours FROM v_attendance_month WHERE 1 = 1 [:usercode | AND usercode =:usercode] [:month | AND date_format(month, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]",
+          "isBranch": false,
+          "processName": "读取关系数据库",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "isSelected": false,
+          "x": 220,
+          "parameterList": [
+            {
+              "unique": 0,
+              "value": "",
+              "key": "month"
+            },
+            {
+              "unique": 1,
+              "value": "",
+              "key": "usercode"
+            }
+          ],
+          "y": 260,
+          "id": "databaseJbIKn5Z752",
+          "text": {
+            "x": 220,
+            "y": 260,
+            "value": "读取关系数据库"
+          },
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "month",
+              "dataType": "string",
+              "columnCode": "month",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimes",
+              "dataType": "string",
+              "columnCode": "overtimes",
+              "columnName": "overtimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "latetimes",
+              "dataType": "string",
+              "columnCode": "latetimes",
+              "columnName": "latetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "lateduration",
+              "dataType": "string",
+              "columnCode": "lateduration",
+              "columnName": "lateduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leavetimes",
+              "dataType": "string",
+              "columnCode": "leavetimes",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leavetduration",
+              "dataType": "string",
+              "columnCode": "leavetduration",
+              "columnName": "leavetduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "absencetimes",
+              "dataType": "string",
+              "columnCode": "absencetimes",
+              "columnName": "absencetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "count",
+              "dataType": "string",
+              "columnCode": "count",
+              "columnName": "count"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "day",
+              "dataType": "string",
+              "columnCode": "day",
+              "columnName": "day"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "hours",
+              "dataType": "string",
+              "columnCode": "hours",
+              "columnName": "hours"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "properties": {
+            "querySQL": "SELECT `month`,overtimelength,overtimes,latetimes,lateduration,leavetimes,leavetduration,absencetimes * 2 AS absencetimes,(SELECT COUNT(1) FROM v_leaveinfo WHERE flowResult='通过' [:usercode | AND usercode =:usercode][:month | AND date_format(recorddate, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]) as count,(SELECT SUM(leaveDays) FROM v_leaveinfo WHERE timeType='D' AND flowResult='通过' [:usercode | AND usercode =:usercode]  [:month | AND date_format(recorddate, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]) as  day,(SELECT SUM(leaveDays) FROM v_leaveinfo WHERE timeType='H' AND flowResult='通过' [:usercode | AND usercode =:usercode] [:month | AND date_format(recorddate, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]) as hours FROM v_attendance_month WHERE 1 = 1 [:usercode | AND usercode =:usercode] [:month | AND date_format(month, '%Y %m')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y %m')]",
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "processName": "读取关系数据库",
+            "typeName": "读取关系数据库",
+            "isSource": true,
+            "isSelected": false,
+            "parameterList": [
+              {
+                "unique": 0,
+                "value": "",
+                "key": "month"
+              },
+              {
+                "unique": 1,
+                "value": "",
+                "key": "usercode"
+              }
+            ],
+            "id": "databaseJbIKn5Z752",
+            "type": "database",
+            "config": [
+              {
+                "isStatData": "F",
+                "propertyName": "month",
+                "dataType": "string",
+                "columnCode": "month",
+                "columnName": "month"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "overtimelength",
+                "dataType": "string",
+                "columnCode": "overtimelength",
+                "columnName": "overtimelength"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "overtimes",
+                "dataType": "string",
+                "columnCode": "overtimes",
+                "columnName": "overtimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "latetimes",
+                "dataType": "string",
+                "columnCode": "latetimes",
+                "columnName": "latetimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "lateduration",
+                "dataType": "string",
+                "columnCode": "lateduration",
+                "columnName": "lateduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "leavetimes",
+                "dataType": "string",
+                "columnCode": "leavetimes",
+                "columnName": "leavetimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "leavetduration",
+                "dataType": "string",
+                "columnCode": "leavetduration",
+                "columnName": "leavetduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "absencetimes",
+                "dataType": "string",
+                "columnCode": "absencetimes",
+                "columnName": "absencetimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "count",
+                "dataType": "string",
+                "columnCode": "count",
+                "columnName": "count"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "day",
+                "dataType": "string",
+                "columnCode": "day",
+                "columnName": "day"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "hours",
+                "dataType": "string",
+                "columnCode": "hours",
+                "columnName": "hours"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 220,
+            "y": 133
+          },
+          {
+            "x": 220,
+            "y": 227
+          }
+        ],
+        "endPoint": {
+          "x": 220,
+          "y": 227
+        },
+        "sourceNodeId": "startGmlGskmuDG",
+        "startPoint": {
+          "x": 220,
+          "y": 133
+        },
+        "id": "be20144d-2746-4be0-a5d9-4daf5fbee55e",
+        "type": "PlineEdge",
+        "targetNodeId": "databaseJbIKn5Z752",
+        "properties": {
+          "sourceId": "startGmlGskmuDG",
+          "targetId": "databaseJbIKn5Z752",
+          "processName": "",
+          "typeName": "连线",
+          "id": "be20144d-2746-4be0-a5d9-4daf5fbee55e",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 220,
+            "y": 293
+          },
+          {
+            "x": 220,
+            "y": 427
+          }
+        ],
+        "endPoint": {
+          "x": 220,
+          "y": 427
+        },
+        "sourceNodeId": "databaseJbIKn5Z752",
+        "startPoint": {
+          "x": 220,
+          "y": 293
+        },
+        "id": "622f7d83-1a2a-4c33-b87e-568c8604b0bd",
+        "type": "PlineEdge",
+        "targetNodeId": "results3MQE10kuwz",
+        "properties": {
+          "sourceId": "databaseJbIKn5Z752",
+          "targetId": "results3MQE10kuwz",
+          "processName": "",
+          "typeName": "连线",
+          "id": "622f7d83-1a2a-4c33-b87e-568c8604b0bd",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-07-13 16:16:20",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-07-13 10:30:17",
+  "publishDate": "2022-04-18 17:37:14",
+  "needRollback": "F",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "optCode": "63cfda9d917a4698bb59e49ba2c72a6a",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "6b4c371531e3482b829ac3aa635271cc",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

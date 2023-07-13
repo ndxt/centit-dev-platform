@@ -1,0 +1,971 @@
+{
+  "modelId": "2e7b624807464e48a2a1cb8fc2e0e14f",
+  "modelName": "每月考勤统计",
+  "optId": "6797f2e963c4457b808a14478418e03c",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-09 13:37:58",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1646124030791": {
+        "code": "{}",
+        "children": [],
+        "dataType": "array",
+        "name": "list",
+        "id": "Data_1646124030791",
+        "title": "list",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646124030791"
+      },
+      "Data_1646122139960": {
+        "code": "{}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "month",
+            "id": "Data_1646122139960_month",
+            "label": "month",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitcode",
+            "id": "Data_1646122139960_unitcode",
+            "label": "unitcode",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "schemas": {
+          "unitcode": {
+            "recorder": "u0000000",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "机构代码",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "unitcode",
+            "fieldLabelName": "unitCode",
+            "tableId": "sR2C5zgxQbmQOvIJM7Xc-w",
+            "fieldType": "string",
+            "lastModifyDate": "2022-02-21 16:11:02",
+            "columnName": "unitCode",
+            "primaryKey": false
+          },
+          "month": {
+            "recorder": "u0000000",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "考勤月份",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "month",
+            "fieldLabelName": "month",
+            "tableId": "sR2C5zgxQbmQOvIJM7Xc-w",
+            "fieldType": "string",
+            "lastModifyDate": "2022-02-21 16:11:02",
+            "columnName": "month",
+            "primaryKey": false
+          }
+        },
+        "name": "filters",
+        "id": "Data_1646122139960",
+        "label": "filters",
+        "type": "data"
+      }
+    },
+    "fit": true,
+    "children": [
+      {
+        "form": {
+          "children": [
+            {
+              "notShowItem": false,
+              "inline": true,
+              "options": [
+                {
+                  "label": "选项1",
+                  "value": "1"
+                },
+                {
+                  "label": "选项2",
+                  "value": "2"
+                },
+                {
+                  "label": "选项3",
+                  "value": "3"
+                },
+                {
+                  "label": "选项4",
+                  "value": "4"
+                }
+              ],
+              "showArrow": true,
+              "$key": "unitcode",
+              "$item": {
+                "name": "Select",
+                "label": "下拉框",
+                "id": "Select_1646116127867_0.4033879477863782"
+              },
+              "label": "部门",
+              "bordered": true
+            },
+            {
+              "notShowItem": false,
+              "inline": true,
+              "options": [
+                {
+                  "label": "选项1",
+                  "value": "1"
+                },
+                {
+                  "label": "选项2",
+                  "value": "2"
+                },
+                {
+                  "label": "选项3",
+                  "value": "3"
+                },
+                {
+                  "label": "选项4",
+                  "value": "4"
+                }
+              ],
+              "showArrow": true,
+              "$key": "month",
+              "$item": {
+                "name": "Select",
+                "label": "下拉框",
+                "id": "Select_1646116295322_0.3300291073543722"
+              },
+              "label": "月份",
+              "bordered": true
+            }
+          ],
+          "$parent": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646103430742_0.16987020632115213"
+          },
+          "$key": "filters",
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1646103430742_0.8128953857466605"
+          }
+        },
+        "useResetCode": true,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639637841446"
+        },
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch() {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $data.page.pageNo = 1\n  $run('query')\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1646103430742_0.13965022529252957"
+        },
+        "list": {
+          "children": [
+            {
+              "$data": {
+                "Data_1646103430742_0.77912172844362": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646103430742_0.77912172844362",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1646103430742_0.18157519758398144": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "async function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selectedRows = []\n  this.query()\n}",
+                  "name": "onChange",
+                  "id": "Method_1646103430742_0.18157519758398144",
+                  "label": "change事件",
+                  "type": "method"
+                },
+                "Method_1646103430742_0.615337708633634": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "async function onChange (selectedRowKeys, selectedRows) {  \n    this.selected.keys = selectedRowKeys\n    this.selected.rows = selectedRows\n}",
+                  "name": "onSelectChange",
+                  "id": "Method_1646103430742_0.615337708633634",
+                  "label": "selectChange事件",
+                  "type": "method"
+                },
+                "Data_1646103430742_0.41208824546933687": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "{}",
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1646103430742_0.41208824546933687",
+                  "label": "排序",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646103430742_0.9821029031742541": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "[]",
+                  "children": [],
+                  "isMain": true,
+                  "dataType": "array",
+                  "name": "value",
+                  "id": "Data_1646103430742_0.9821029031742541",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Data_1646103430742_0.43224910946218476": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "{ pageSize: 20, pageNo: 1 }",
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1646103430742_0.43224910946218476",
+                  "label": "分页",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1646103430742_0.37775473642607027": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const params = Object.assign({}, pagination, sorter)\n  try {\n    const { objList, pageDesc } = {} // 调用查询接口\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1646103430742_0.37775473642607027",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1646103430742_0.99898948385604": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646103430742_0.5922766284728702",
+                  "code": "{ rows: [], keys: [] }",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1646103430742_0.99898948385604",
+                  "label": "选中数据",
+                  "type": "data"
+                }
+              },
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1646103430742_0.16987020632115213"
+              },
+              "columns": [
+                {
+                  "children": [],
+                  "dataIndex": "month",
+                  "columnId": "HeaderCell_1646103430742_0.1632749536944451",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646103430742_0.1632749536944451"
+                  },
+                  "title": "考勤月份",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "unitCode",
+                  "columnId": "HeaderCell_1646104210233_0.9984149536783564",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104210233_0.9984149536783564"
+                  },
+                  "title": "部门",
+                  "$cell": []
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "username",
+                  "columnId": "HeaderCell_1646104209995_0.11900859003524933",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209995_0.11900859003524933"
+                  },
+                  "title": "用户名",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "workdays",
+                  "columnId": "HeaderCell_1646104209769_0.29342700455962256",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209769_0.29342700455962256"
+                  },
+                  "title": "实到天数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "latetimes",
+                  "columnId": "HeaderCell_1646104209274_0.23625317998510642",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209274_0.23625317998510642"
+                  },
+                  "title": "迟到次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "overtimes",
+                  "columnId": "HeaderCell_1646104209068_0.41127494759113015",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209068_0.41127494759113015"
+                  },
+                  "title": "加班次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "leavetimes",
+                  "columnId": "HeaderCell_1646104208859_0.02337881337990666",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104208859_0.02337881337990666"
+                  },
+                  "title": "早退次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "absencetimes",
+                  "columnId": "HeaderCell_1646104208657_0.23629569075913603",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104208657_0.23629569075913603"
+                  },
+                  "title": "旷工次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "restduration",
+                  "columnId": "HeaderCell_1646104208425_0.5427367677335617",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104208425_0.5427367677335617"
+                  },
+                  "title": "调休时长",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "leaveduration",
+                  "columnId": "HeaderCell_1646104207876_0.36503576235214097",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104207876_0.36503576235214097"
+                  },
+                  "title": "请假时长",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "plan_workdays",
+                  "columnId": "HeaderCell_1646104624492_0.09920067335374494",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104624492_0.09920067335374494"
+                  },
+                  "title": "应到天数",
+                  "$cell": []
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "$key": "list",
+              "bordered": true,
+              "usePaginationCode": true,
+              "fit": true,
+              "size": "small",
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1646103430742_0.5922766284728702"
+              },
+              "$columns": [
+                {
+                  "children": [],
+                  "dataIndex": "month",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646103430742_0.1632749536944451"
+                  },
+                  "title": "考勤月份",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "unitCode",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104210233_0.9984149536783564"
+                  },
+                  "title": "部门",
+                  "$cell": []
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "username",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209995_0.11900859003524933"
+                  },
+                  "title": "用户名",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "workdays",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209769_0.29342700455962256"
+                  },
+                  "title": "实到天数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "latetimes",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209274_0.23625317998510642"
+                  },
+                  "title": "迟到次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "overtimes",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104209068_0.41127494759113015"
+                  },
+                  "title": "加班次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "leavetimes",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104208859_0.02337881337990666"
+                  },
+                  "title": "早退次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "absencetimes",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104208657_0.23629569075913603"
+                  },
+                  "title": "旷工次数",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "restduration",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104208425_0.5427367677335617"
+                  },
+                  "title": "调休时长",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "leaveduration",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104207876_0.36503576235214097"
+                  },
+                  "title": "请假时长",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "plan_workdays",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646104624492_0.09920067335374494"
+                  },
+                  "title": "应到天数",
+                  "$cell": []
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": true,
+              "dataSource": [],
+              "actions": {
+                "children": [],
+                "$parent": {
+                  "name": "SearchList",
+                  "label": "列表插槽",
+                  "id": "SearchList_1646103430742_0.16987020632115213"
+                },
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1646103431033_0.1655619859801547"
+                }
+              },
+              "rowKey": "id"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646103430742_0.16987020632115213"
+          }
+        },
+        "onResetCode": "function onReset() {\n  // 在下面开始编写点击重置按钮时触发事件\n  $data.filters = {}\n  $data.page.pageNo = 1\n  $run('query')\n}"
+      }
+    ],
+    "root": true,
+    "componentData": {
+      "DataList_1646103430742_0.5922766284728702": {
+        "$data": {
+          "Data_1646103430742_0.77912172844362": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646103430742_0.77912172844362",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646103430742_0.18157519758398144": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "async function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selectedRows = []\n  this.query()\n}",
+            "name": "onChange",
+            "id": "Method_1646103430742_0.18157519758398144",
+            "label": "change事件",
+            "type": "method"
+          },
+          "Method_1646103430742_0.615337708633634": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "async function onChange (selectedRowKeys, selectedRows) {  \n    this.selected.keys = selectedRowKeys\n    this.selected.rows = selectedRows\n}",
+            "name": "onSelectChange",
+            "id": "Method_1646103430742_0.615337708633634",
+            "label": "selectChange事件",
+            "type": "method"
+          },
+          "Data_1646103430742_0.41208824546933687": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "{}",
+            "dataType": "object",
+            "name": "sorter",
+            "id": "Data_1646103430742_0.41208824546933687",
+            "label": "排序",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646103430742_0.9821029031742541": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "[]",
+            "children": [],
+            "isMain": true,
+            "dataType": "array",
+            "name": "value",
+            "id": "Data_1646103430742_0.9821029031742541",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646103430742_0.43224910946218476": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "{ pageSize: 20, pageNo: 1 }",
+            "dataType": "object",
+            "name": "pagination",
+            "id": "Data_1646103430742_0.43224910946218476",
+            "label": "分页",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646103430742_0.37775473642607027": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const params = Object.assign({}, pagination, sorter)\n  try {\n    const { objList, pageDesc } = {} // 调用查询接口\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "query",
+            "id": "Method_1646103430742_0.37775473642607027",
+            "label": "查询",
+            "type": "method"
+          },
+          "Data_1646103430742_0.99898948385604": {
+            "isDefault": true,
+            "componentId": "DataList_1646103430742_0.5922766284728702",
+            "code": "{ rows: [], keys: [] }",
+            "dataType": "object",
+            "name": "selected",
+            "id": "Data_1646103430742_0.99898948385604",
+            "label": "选中数据",
+            "type": "data"
+          }
+        },
+        "$parent": {
+          "name": "SearchList",
+          "label": "列表插槽",
+          "id": "SearchList_1646103430742_0.16987020632115213"
+        },
+        "columns": [
+          {
+            "children": [],
+            "dataIndex": "month",
+            "columnId": "HeaderCell_1646103430742_0.1632749536944451",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646103430742_0.1632749536944451"
+            },
+            "title": "考勤月份",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "unitCode",
+            "columnId": "HeaderCell_1646104210233_0.9984149536783564",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104210233_0.9984149536783564"
+            },
+            "title": "部门",
+            "$cell": []
+          },
+          {
+            "sorter": true,
+            "children": [],
+            "dataIndex": "username",
+            "columnId": "HeaderCell_1646104209995_0.11900859003524933",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209995_0.11900859003524933"
+            },
+            "title": "用户名",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "workdays",
+            "columnId": "HeaderCell_1646104209769_0.29342700455962256",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209769_0.29342700455962256"
+            },
+            "title": "实到天数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "latetimes",
+            "columnId": "HeaderCell_1646104209274_0.23625317998510642",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209274_0.23625317998510642"
+            },
+            "title": "迟到次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "overtimes",
+            "columnId": "HeaderCell_1646104209068_0.41127494759113015",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209068_0.41127494759113015"
+            },
+            "title": "加班次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leavetimes",
+            "columnId": "HeaderCell_1646104208859_0.02337881337990666",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104208859_0.02337881337990666"
+            },
+            "title": "早退次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "absencetimes",
+            "columnId": "HeaderCell_1646104208657_0.23629569075913603",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104208657_0.23629569075913603"
+            },
+            "title": "旷工次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "restduration",
+            "columnId": "HeaderCell_1646104208425_0.5427367677335617",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104208425_0.5427367677335617"
+            },
+            "title": "调休时长",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leaveduration",
+            "columnId": "HeaderCell_1646104207876_0.36503576235214097",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104207876_0.36503576235214097"
+            },
+            "title": "请假时长",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "plan_workdays",
+            "columnId": "HeaderCell_1646104624492_0.09920067335374494",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104624492_0.09920067335374494"
+            },
+            "title": "应到天数",
+            "$cell": []
+          }
+        ],
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+        "$key": "list",
+        "bordered": true,
+        "usePaginationCode": true,
+        "fit": true,
+        "size": "small",
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1646103430742_0.5922766284728702"
+        },
+        "$columns": [
+          {
+            "children": [],
+            "dataIndex": "month",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646103430742_0.1632749536944451"
+            },
+            "title": "考勤月份",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "unitCode",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104210233_0.9984149536783564"
+            },
+            "title": "部门",
+            "$cell": []
+          },
+          {
+            "sorter": true,
+            "children": [],
+            "dataIndex": "username",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209995_0.11900859003524933"
+            },
+            "title": "用户名",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "workdays",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209769_0.29342700455962256"
+            },
+            "title": "实到天数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "latetimes",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209274_0.23625317998510642"
+            },
+            "title": "迟到次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "overtimes",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104209068_0.41127494759113015"
+            },
+            "title": "加班次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leavetimes",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104208859_0.02337881337990666"
+            },
+            "title": "早退次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "absencetimes",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104208657_0.23629569075913603"
+            },
+            "title": "旷工次数",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "restduration",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104208425_0.5427367677335617"
+            },
+            "title": "调休时长",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leaveduration",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104207876_0.36503576235214097"
+            },
+            "title": "请假时长",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "plan_workdays",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646104624492_0.09920067335374494"
+            },
+            "title": "应到天数",
+            "$cell": []
+          }
+        ],
+        "useLoadingCode": true,
+        "useSelectedRowKeysCode": true,
+        "dataSource": [],
+        "actions": {
+          "children": [],
+          "$parent": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646103430742_0.16987020632115213"
+          },
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1646103431033_0.1655619859801547"
+          }
+        },
+        "rowKey": "id"
+      }
+    },
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639637841446"
+    }
+  },
+  "publishDate": "2022-03-09 13:37:58",
+  "sourceId": "SZKxHhwXTriLXBaLsBMBRA",
+  "modelTag": "统计",
+  "isValid": "T"
+}

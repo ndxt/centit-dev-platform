@@ -1,0 +1,306 @@
+{
+  "modelId": "bb8fbb0fecbe49d297adb3772ee3e87f",
+  "modelName": "日历首页",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2022-08-19 14:14:00",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640771021118": {
+        "code": "$info.userInfo.userCode",
+        "children": [],
+        "name": "userCode",
+        "id": "Data_1640771021118",
+        "title": "userCode",
+        "type": "s",
+        "key": "Data_1640771021118"
+      },
+      "Data_1640771042030": {
+        "code": "$dayjs()",
+        "children": [],
+        "name": "current",
+        "id": "Data_1640771042030",
+        "title": "current",
+        "type": "o",
+        "key": "Data_1640771042030"
+      }
+    },
+    "children": [
+      {
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639705956410"
+        },
+        "$layout": {
+          "$top": {
+            "useStyleText": true,
+            "styleText": "flex: 0 0 80px;\npadding: 0 8px 0 0;\nbackground: transparent;",
+            "children": [
+              {
+                "$params": {
+                  "useUserCodeCode": true,
+                  "setUserCodeCode": "function setUserCode() {\n  // 在下面开始编写userCode事件\n  return $data.userCode\n}",
+                  "useCurrentCode": true,
+                  "setCurrentCode": "function setCurrent() {\n  // 在下面开始编写current事件\n  return $data.current\n}"
+                },
+                "$parent": {
+                  "name": "LayoutHeader",
+                  "label": "顶部布局",
+                  "id": "LayoutHeader_1639706024551"
+                },
+                "customEvents": [
+                  {
+                    "name": "change",
+                    "label": "change",
+                    "props": []
+                  }
+                ],
+                "customParams": [
+                  {
+                    "name": "current",
+                    "label": "current",
+                    "props": []
+                  },
+                  {
+                    "name": "userCode",
+                    "label": "userCode",
+                    "props": []
+                  }
+                ],
+                "modelId": "",
+                "templateStyle": {
+                  "styleText": "display: flex;\nflex: 1 1 auto;\nheight: 100%;\nbackground: transparent;\noverflow: hidden;",
+                  "useStyleText": true
+                },
+                "modelName": "个人月度考勤统计",
+                "slots": {},
+                "children": [],
+                "$events": {
+                  "useChangeCode": true,
+                  "onChangeCode": "function onChange(userCode, current) {\n  console.log('上', { userCode, current })\n  // 在下面开始编写change事件\n  $data.current = current\n  $data.userCode = userCode\n}"
+                },
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1639707715264"
+                },
+                "id": "cf36c5ec0177406cb4be7e99252af3b7",
+                "_loading": false
+              }
+            ],
+            "$parent": {
+              "name": "Layout",
+              "label": "布局",
+              "id": "Layout_1639705990849"
+            },
+            "$item": {
+              "name": "LayoutHeader",
+              "label": "顶部布局",
+              "id": "LayoutHeader_1639706024551"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "children": [],
+          "$parent": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1639705972588"
+          },
+          "$center": {
+            "useStyleText": true,
+            "styleText": "padding: 8px 8px 0 0;\noverflow: auto;",
+            "children": [
+              {
+                "$params": {
+                  "useUserCodeCode": true,
+                  "setUserCodeCode": "function setUserCode() {\n  // 在下面开始编写userCode事件\n  return $data.userCode\n}",
+                  "useCurrentCode": true,
+                  "setCurrentCode": "function setCurrent() {\n  // 在下面开始编写current事件\n  return $data.current\n}"
+                },
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1639706038903"
+                },
+                "useChangeCode": true,
+                "customEvents": [
+                  {
+                    "name": "change",
+                    "label": "change",
+                    "props": []
+                  }
+                ],
+                "customParams": [
+                  {
+                    "name": "current",
+                    "label": "current",
+                    "props": []
+                  },
+                  {
+                    "name": "userCode",
+                    "label": "userCode",
+                    "props": []
+                  }
+                ],
+                "modelId": "",
+                "templateStyle": {
+                  "styleText": "flex: 1 1 auto;\nheight: 100%;\nborder: 1px solid #ccc;\npadding: 8px;\noverflow: auto;"
+                },
+                "modelName": "个人月度日历",
+                "slots": {},
+                "children": [],
+                "$events": {
+                  "useChangeCode": true,
+                  "onChangeCode": "function onChange(current) {\n  console.log('下', { current })\n  // 在下面开始编写change事件\n  $data.current = current\n}"
+                },
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1639706133880"
+                },
+                "id": "2a2fb98dec29480386f20d967e63090d",
+                "_loading": false,
+                "events": [
+                  "change"
+                ],
+                "onChangeCode": "function onChange(current, mode) {\n  // 在下面开始编写change事件\n  debugger\n}"
+              }
+            ],
+            "$parent": {
+              "name": "Layout",
+              "label": "布局",
+              "id": "Layout_1639705990849"
+            },
+            "$item": {
+              "name": "LayoutContent",
+              "label": "内容",
+              "id": "LayoutContent_1639706038903"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "$item": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1639705990849"
+          },
+          "dir": "tb",
+          "items": [
+            "t",
+            "c"
+          ]
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1639705972588"
+        },
+        "dir": "lr",
+        "items": [
+          "r"
+        ],
+        "$right": {
+          "useStyleText": true,
+          "styleText": "flex: 0 0 480px;",
+          "children": [
+            {
+              "$params": {
+                "useUserCodeCode": true,
+                "setUserCodeCode": "function setUserCode() {\n  // 在下面开始编写userCode事件\n  return $data.userCode\n}",
+                "useCurrentCode": true,
+                "setCurrentCode": "function setCurrent() {\n  // 在下面开始编写current事件\n  return $data.current\n}"
+              },
+              "slots": {},
+              "children": [],
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1639705979711"
+              },
+              "customEvents": [],
+              "$events": {},
+              "customParams": [
+                {
+                  "name": "userCode",
+                  "label": "userCode",
+                  "props": []
+                },
+                {
+                  "name": "current",
+                  "label": "current",
+                  "props": []
+                }
+              ],
+              "$item": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1639707731198"
+              },
+              "id": "c8c1b8237cc24445888362aba1c6cc84",
+              "templateStyle": {
+                "styleText": "flex: 1 1 auto;\nheight: 100%;\nborder: 1px solid #ccc;\npadding: 8px;\noverflow: auto;"
+              }
+            }
+          ],
+          "$parent": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1639705972588"
+          },
+          "width": 360,
+          "theme": "light",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1639705979711"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+          "collapsedWidth": 80
+        },
+        "hasLayout": true
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639705956410"
+    }
+  },
+  "publishDate": "2022-08-19 14:14:00",
+  "sourceId": "2e4VGH9RSXOvJ_Wo4klEzg",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640771021118": {
+        "code": "$info.userInfo.userCode",
+        "children": [],
+        "name": "userCode",
+        "id": "Data_1640771021118",
+        "title": "userCode",
+        "type": "s",
+        "key": "Data_1640771021118"
+      },
+      "Data_1640771042030": {
+        "code": "$dayjs()",
+        "children": [],
+        "name": "current",
+        "id": "Data_1640771042030",
+        "title": "current",
+        "type": "o",
+        "key": "Data_1640771042030"
+      }
+    },
+    "methodsConfigs": {},
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "首页",
+  "isValid": "F"
+}

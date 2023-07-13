@@ -1,0 +1,230 @@
+{
+  "packetId": "0ffdd3032975432eabb575e6f732bba1",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "大屏---年度加班统计",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 160,
+        "y": 100,
+        "id": "startfPvqbuYjke",
+        "text": {
+          "x": 160,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "startfPvqbuYjke",
+          "type": "start"
+        }
+      },
+      {
+        "x": 160,
+        "y": 260,
+        "id": "databasenJm93ZLLGO",
+        "text": {
+          "x": 160,
+          "y": 260,
+          "value": "读取关系数据库"
+        },
+        "type": "database",
+        "properties": {
+          "querySQL": "\tSELECT\n\tdate_format(month, '%Y') AS year,\n\tdate_format(month, '%m') AS `month`,\n\tSUM(overtimelength) as overtimelength\nFROM\n\tv_attendance_month \nWHERE \n\t1=1\n    [:unitCode | AND unitCode =:unitCode]\n    [:month | AND date_format(month, '%Y')=date_format(DATE_SUB(:month, INTERVAL 0 MONTH),'%Y')]\n\tGROUP BY `month`",
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "processName": "读取关系数据库",
+          "typeName": "读取关系数据库",
+          "isSource": true,
+          "isSelected": true,
+          "parameterList": [
+            {
+              "unique": 0,
+              "value": "",
+              "key": "month"
+            },
+            {
+              "unique": 1,
+              "value": "",
+              "key": "unitCode"
+            }
+          ],
+          "id": "databasenJm93ZLLGO",
+          "type": "database",
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "year",
+              "dataType": "string",
+              "columnCode": "year",
+              "columnName": "year"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "month",
+              "dataType": "string",
+              "columnCode": "month",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ]
+        }
+      },
+      {
+        "x": 160,
+        "y": 460,
+        "id": "results9kjrmYcpwi",
+        "text": {
+          "x": 160,
+          "y": 460,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "resultOptions": "3",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "year",
+              "dataType": "string",
+              "columnCode": "year",
+              "columnName": "year"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "month",
+              "dataType": "string",
+              "columnCode": "month",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": false,
+          "isSelected": true,
+          "id": "results9kjrmYcpwi",
+          "source": "databasenJm93ZLLGO",
+          "type": "results"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 133
+          },
+          {
+            "x": 160,
+            "y": 227
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 227
+        },
+        "sourceNodeId": "startfPvqbuYjke",
+        "startPoint": {
+          "x": 160,
+          "y": 133
+        },
+        "id": "41ac82e0-d4d2-4a93-a458-1586f0d324c5",
+        "type": "PlineEdge",
+        "targetNodeId": "databasenJm93ZLLGO",
+        "properties": {
+          "sourceId": "startfPvqbuYjke",
+          "targetId": "databasenJm93ZLLGO",
+          "processName": "",
+          "typeName": "连线",
+          "id": "41ac82e0-d4d2-4a93-a458-1586f0d324c5",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 293
+          },
+          {
+            "x": 160,
+            "y": 427
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 427
+        },
+        "sourceNodeId": "databasenJm93ZLLGO",
+        "startPoint": {
+          "x": 160,
+          "y": 293
+        },
+        "id": "0c0db74a-a2e6-4d04-86b2-14295509467a",
+        "type": "PlineEdge",
+        "targetNodeId": "results9kjrmYcpwi",
+        "properties": {
+          "sourceId": "databasenJm93ZLLGO",
+          "targetId": "results9kjrmYcpwi",
+          "processName": "",
+          "typeName": "连线",
+          "id": "0c0db74a-a2e6-4d04-86b2-14295509467a",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-02-13 18:09:59",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-06-23 09:32:44",
+  "publishDate": "2022-03-09 13:45:38",
+  "needRollback": "F",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "optCode": "0ffdd3032975432eabb575e6f732bba1",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "d049fd49641e45aca0846923ee654c82",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

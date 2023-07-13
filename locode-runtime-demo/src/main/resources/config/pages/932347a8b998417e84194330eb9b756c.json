@@ -1,0 +1,59 @@
+{
+  "modelId": "932347a8b998417e84194330eb9b756c",
+  "modelName": "地图模块",
+  "optId": "6ca65ab404db442e961ea372b76da705",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1641521010642": {
+        "code": "[{\n\tname:'徐州市',\n  \tvalue:18,\n},{\n\tname:'宿迁市',\n  \tvalue:20,\n},{\n\tname:'连云港市',\n  \tvalue:19,\n},{\n\tname:'淮安市',\n  \tvalue:24,\n},{\n\tname:'盐城市',\n  \tvalue:21,\n},{\n\tname:'扬州市',\n  \tvalue:30,\n},{\n\tname:'南京市',\n  \tvalue:12,\n},{\n\tname:'镇江市',\n  \tvalue:20,\n}]",
+        "name": "data",
+        "id": "Data_1641521010642",
+        "title": "data",
+        "type": "a",
+        "key": "Data_1641521010642"
+      }
+    },
+    "children": [
+      {
+        "formatter": "{b}<br/>{c}°C",
+        "borderColor": "#00ffff",
+        "adcode": 320000,
+        "areaColor": "#09295b",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1641451172915_0.668651931517239"
+        },
+        "borderWidth": 1,
+        "mapdown": true,
+        "tooltip": true,
+        "$key": "data",
+        "$item": {
+          "name": "ChartMap",
+          "label": "地图",
+          "id": "ChartMap_1641542539183_0.7925655969968148"
+        },
+        "areaColorHover": "#3066ba",
+        "textColor": "#fff"
+      }
+    ],
+    "root": true,
+    "positionLayout": true,
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1641451172915_0.668651931517239"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "UDbxXSRMSKGG08Q1Fe2cmw",
+  "modelTag": "空白",
+  "isValid": "F"
+}

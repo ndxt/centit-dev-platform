@@ -1,0 +1,631 @@
+{
+  "modelId": "ed34994affb3479fa644ca3b1a9bb828",
+  "modelName": "编辑人员信息",
+  "optId": "7ee8549cd38b4e2d926ae9623542553e",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2022-06-08 09:49:04",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1646183783029": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "units",
+        "id": "Data_1646183783029",
+        "title": "units",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646183783029"
+      },
+      "Data_1646049611073": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "userinfo",
+        "id": "Data_1646049611073",
+        "title": "userinfo",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646049611073"
+      },
+      "Data_1646121145761": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "name": "info",
+        "id": "Data_1646121145761",
+        "title": "info",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646121145761"
+      },
+      "Data_1646123784856": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1646123784856",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1646123784856"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1646183756097": {
+        "code": "async function getUserInfo() {\n  const units = await $dde.get('b6efb14b99a8475d80db2ef83ede3282')\n  $data.units = units.map(item=>(\n     {label:item.unitName,value:item.unitCode}\n     ))\n}",
+        "name": "getUnitInfos",
+        "id": "Method_1646183756097",
+        "title": "getUnitInfos",
+        "key": "Method_1646183756097"
+      },
+      "Method_1646122041308": {
+        "code": "async function load(rowData) {\n  $data.loading = true;\n  $data.info = rowData;\n  $data.loading = false;\t\n}",
+        "name": "load",
+        "id": "Method_1646122041308",
+        "title": "load",
+        "key": "Method_1646122041308"
+      },
+      "Method_1646049559157": {
+        "code": "function save() {\n    const {info} =$data;\n    info.isvalid=info.isvalid?'T':'F';\n    return $dde.put('b0c09dd655e14b39b4550e31a2273fa4',info);\n}",
+        "name": "save",
+        "id": "Method_1646049559157",
+        "title": "save",
+        "key": "Method_1646049559157"
+      }
+    },
+    "styleText": "",
+    "children": [
+      {
+        "layout": "vertical",
+        "$data": {
+          "Data_1646037304898_0.42520389489488886": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646037304898_0.42520389489488886",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646037304898_0.3549669598136236": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    // 根据id改变value值  \n    this.value = {}\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1646037304898_0.3549669598136236",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1646037304898_0.9264147110164658": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1646037304898_0.9264147110164658",
+            "label": "校验",
+            "type": "method"
+          },
+          "Data_1646037304898_0.6084441730047903": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "{}",
+            "children": [],
+            "componentSchemas": {},
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646037304898_0.6084441730047903",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646037304898_0.5899487887220929": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "async function load () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n}",
+            "name": "submit",
+            "id": "Method_1646037304898_0.5899487887220929",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "children": [
+          {
+            "gutter": 20,
+            "children": [
+              {
+                "useStyleText": false,
+                "styleText": "width: 50%",
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "readonly": true,
+                    "rulesConfig": [],
+                    "disabled": false,
+                    "$key": "usercode",
+                    "$item": {
+                      "name": "InputText",
+                      "label": "输入框",
+                      "id": "InputText_1646039330906_0.982326290585994"
+                    },
+                    "label": "用户代码",
+                    "allowClear": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646037652426_0.6118075571381205"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "span": 12
+              },
+              {
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "readonly": true,
+                    "rulesConfig": [],
+                    "disabled": false,
+                    "$key": "loginname",
+                    "$item": {
+                      "name": "InputText",
+                      "label": "输入框",
+                      "id": "InputText_1646039426477_0.7171161256759269"
+                    },
+                    "label": "登录名",
+                    "allowClear": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646037654492_0.7373604506414395"
+                },
+                "span": 12
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1646037304897_0.061515976621498325"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1646037649573_0.8992274086803065"
+            }
+          },
+          {
+            "gutter": 20,
+            "children": [
+              {
+                "useStyleText": false,
+                "styleText": "width:50%",
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "readonly": false,
+                    "rulesConfig": [],
+                    "disabled": false,
+                    "$key": "username",
+                    "$item": {
+                      "name": "InputText",
+                      "label": "输入框",
+                      "id": "InputText_1646038636256_0.5018181484280462"
+                    },
+                    "label": "用户名",
+                    "allowClear": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646038595611_0.2676880354175235"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "span": 12
+              },
+              {
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "readonly": false,
+                    "rulesConfig": [],
+                    "disabled": false,
+                    "$key": "cardno",
+                    "$item": {
+                      "name": "InputText",
+                      "label": "输入框",
+                      "id": "InputText_1646038682235_0.695387787329182"
+                    },
+                    "label": "门禁卡号",
+                    "allowClear": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646038603339_0.30008094801151075"
+                },
+                "span": 12
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1646037304897_0.061515976621498325"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1646038477047_0.9450007371743985"
+            }
+          },
+          {
+            "gutter": 20,
+            "children": [
+              {
+                "useStyleText": false,
+                "styleText": "width:50%",
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "readonly": false,
+                    "rulesConfig": [],
+                    "disabled": false,
+                    "$key": "facecard",
+                    "$item": {
+                      "name": "InputText",
+                      "label": "输入框",
+                      "id": "InputText_1646038701005_0.5254334501688207"
+                    },
+                    "label": "人脸标识",
+                    "allowClear": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646038625212_0.9881285391394814"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "useClickCode": false,
+                "span": 12
+              },
+              {
+                "useStyleText": false,
+                "styleText": "width:50%",
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "useStyleText": false,
+                    "styleText": "",
+                    "setOptionsCode": "function setOptions() {\n  // 在下面返回Options的值\n  return $$data.units;\n}",
+                    "showArrow": true,
+                    "$key": "unitcode",
+                    "label": "所属部门",
+                    "bordered": true,
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return \n}",
+                    "options": [
+                      {
+                        "label": "选项1",
+                        "value": "1"
+                      },
+                      {
+                        "label": "选项2",
+                        "value": "2"
+                      },
+                      {
+                        "label": "选项3",
+                        "value": "3"
+                      },
+                      {
+                        "label": "选项4",
+                        "value": "4"
+                      }
+                    ],
+                    "$item": {
+                      "name": "Select",
+                      "label": "下拉框",
+                      "id": "Select_1646038727149_0.5400087913246086"
+                    },
+                    "useOptionsCode": true,
+                    "useStyleCode": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646038695785_0.6114546438338273"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "span": 12
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1646037304897_0.061515976621498325"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1646038620107_0.28044823539376096"
+            }
+          },
+          {
+            "gutter": 20,
+            "$name": "行",
+            "children": [
+              {
+                "useStyleText": false,
+                "styleText": "width:50%",
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "readonly": false,
+                    "rulesConfig": [],
+                    "disabled": false,
+                    "$key": "userno",
+                    "$item": {
+                      "name": "InputText",
+                      "label": "输入框",
+                      "id": "InputText_1646038701005_0.5254334501688207"
+                    },
+                    "label": "员工编号",
+                    "allowClear": false
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646038625212_0.9881285391394814"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "useClickCode": false,
+                "span": 12
+              },
+              {
+                "useStyleText": false,
+                "styleText": "width:50%",
+                "children": [
+                  {
+                    "$name": "Switch",
+                    "rulesConfig": [],
+                    "$key": "isvalid",
+                    "$item": {
+                      "name": "Switch",
+                      "label": "开关",
+                      "id": "Switch_1646721838358_0.15775475220746316"
+                    },
+                    "label": "是否在职"
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1646038695785_0.6114546438338273"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "span": 12
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1646037304897_0.061515976621498325"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1648540642314_0.5789413899101026"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646037300522_0.4044191423704635"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$key": "info",
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1646037304897_0.061515976621498325"
+        },
+        "useLoadingCode": true
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "Form_1646037304897_0.061515976621498325": {
+        "layout": "vertical",
+        "$data": {
+          "Data_1646037304898_0.42520389489488886": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646037304898_0.42520389489488886",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646037304898_0.3549669598136236": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    // 根据id改变value值  \n    this.value = {}\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1646037304898_0.3549669598136236",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1646037304898_0.9264147110164658": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1646037304898_0.9264147110164658",
+            "label": "校验",
+            "type": "method"
+          },
+          "Data_1646037304898_0.6084441730047903": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "{}",
+            "children": [],
+            "componentSchemas": {},
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646037304898_0.6084441730047903",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646037304898_0.5899487887220929": {
+            "isDefault": true,
+            "componentId": "Form_1646037304897_0.061515976621498325",
+            "code": "async function load () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n}",
+            "name": "submit",
+            "id": "Method_1646037304898_0.5899487887220929",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646037300522_0.4044191423704635"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$key": "info",
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1646037304897_0.061515976621498325"
+        },
+        "useLoadingCode": true
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('getUnitInfos')\n}",
+    "paramsConfigs": {
+      "Param_1646726819528": {
+        "code": "function watchRowData(rowData, oldRowData) {\n  // 在下面开始编写rowData监听\n  $data.oldInfo=Object.assign({},rowData);\n $data.info=rowData;\n}",
+        "immediate": true,
+        "name": "rowData",
+        "id": "Param_1646726819528"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1646037300522_0.4044191423704635"
+    }
+  },
+  "publishDate": "2022-06-08 09:49:04",
+  "sourceId": "6tR9lidoST6MtLMrC9cplw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1646183783029": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "units",
+        "id": "Data_1646183783029",
+        "title": "units",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646183783029"
+      },
+      "Data_1646049611073": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "userinfo",
+        "id": "Data_1646049611073",
+        "title": "userinfo",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646049611073"
+      },
+      "Data_1646121145761": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "object",
+        "name": "info",
+        "id": "Data_1646121145761",
+        "label": "info",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1646123784856": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1646123784856",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1646123784856"
+      },
+      "Data_1652258735448": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "oldInfo",
+        "id": "Data_1652258735448",
+        "label": "oldInfo",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1646183756097": {
+        "code": "async function getUserInfo() {\n  const units = await $api.queryUnits();\n  $data.units = units.map(item=>(\n     {label:item.unitName,value:item.unitCode}\n     ))\n}",
+        "name": "getUnitInfos",
+        "id": "Method_1646183756097",
+        "label": "getUnitInfos",
+        "type": "method"
+      },
+      "Method_1646122041308": {
+        "code": "async function load(rowData) {\n  $data.loading = true;\n  $data.info = rowData;\n  $data.loading = false;\t\n}",
+        "name": "load",
+        "id": "Method_1646122041308",
+        "title": "load",
+        "key": "Method_1646122041308"
+      },
+      "Method_1646049559157": {
+        "code": "function save() {\n    const {info} =$data;\n    info.isvalid=info.isvalid?'T':'F';\n    info.oldCardNo=$data.oldInfo.cardno;\n    return $dde.put('b0c09dd655e14b39b4550e31a2273fa4',info);\n}",
+        "name": "save",
+        "id": "Method_1646049559157",
+        "label": "save",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1646726819528": {
+        "code": "function watchRowData(rowData, oldRowData) {\n  // 在下面开始编写rowData监听\n  $data.oldInfo=Object.assign({},rowData);\n $data.info=rowData;\n}",
+        "immediate": true,
+        "name": "rowData",
+        "id": "Param_1646726819528"
+      }
+    }
+  },
+  "modelTag": "表单",
+  "isValid": "F"
+}

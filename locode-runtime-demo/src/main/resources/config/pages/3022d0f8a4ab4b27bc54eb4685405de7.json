@@ -1,0 +1,112 @@
+{
+  "modelId": "3022d0f8a4ab4b27bc54eb4685405de7",
+  "modelName": "编辑模块",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "Y",
+  "lastModifyDate": "2022-03-05 14:38:05",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {},
+    "children": [
+      {
+        "useStyleText": true,
+        "styleText": "margin: -24px;\npadding: 8px;",
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640075871055"
+        },
+        "$left": {
+          "children": [
+            {
+              "children": [],
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1640078029467"
+              },
+              "useParamsCode": true,
+              "$item": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1640078083621"
+              },
+              "id": "7c01dee117034e89b0e0df20f444c50e",
+              "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return $params.leave\n}"
+            }
+          ],
+          "width": 320,
+          "theme": "light",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1640078029467"
+          },
+          "collapsedWidth": 80
+        },
+        "$center": {
+          "useStyleText": true,
+          "styleText": "padding: 16px;\nbackground: #fff;\nborder-left: 1px solid #e5e5e5;",
+          "children": [
+            {
+              "ref": "LeaveModel",
+              "children": [],
+              "$parent": {
+                "name": "LayoutContent",
+                "label": "内容",
+                "id": "LayoutContent_1640078030710"
+              },
+              "useParamsCode": true,
+              "$item": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1640078093919"
+              },
+              "id": "8943ad4401ce4924b190bf0b59afd9e5",
+              "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n  \tid: $params.leave.flowOptTag || $params.leave.leaveno,\n  }\n}"
+            }
+          ],
+          "$item": {
+            "name": "LayoutContent",
+            "label": "内容",
+            "id": "LayoutContent_1640078030710"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1640077096294"
+        },
+        "dir": "lr",
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+        "items": [
+          "c",
+          "l"
+        ]
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "style": {},
+    "paramsConfigs": {
+      "Param_1640150989386": {
+        "name": "leave",
+        "id": "Param_1640150989386"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640075871055"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "nmFoBrB1RK2Wr-xxZnQyaw",
+  "modelTag": "模块",
+  "isValid": "F"
+}

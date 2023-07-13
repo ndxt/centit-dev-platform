@@ -1,0 +1,635 @@
+{
+  "modelId": "2a2fb98dec29480386f20d967e63090d",
+  "modelName": "个人月度日历",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-11-21 15:03:10",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1640862493333": {
+        "code": "false",
+        "children": [],
+        "name": "isViewOpen",
+        "id": "Data_1640862493333",
+        "title": "isViewOpen",
+        "type": "b",
+        "key": "Data_1640862493333"
+      },
+      "Data_1640846075774": {
+        "code": "\"\"",
+        "children": [],
+        "name": "month",
+        "id": "Data_1640846075774",
+        "title": "month",
+        "type": "s",
+        "key": "Data_1640846075774"
+      },
+      "Data_1640845426203": {
+        "code": "{}",
+        "children": [],
+        "name": "attendances",
+        "id": "Data_1640845426203",
+        "title": "attendances",
+        "type": "o",
+        "key": "Data_1640845426203"
+      },
+      "Data_1640845475801": {
+        "code": "false",
+        "children": [],
+        "name": "isLoading",
+        "id": "Data_1640845475801",
+        "title": "isLoading",
+        "type": "b",
+        "key": "Data_1640845475801"
+      },
+      "Data_1640845502680": {
+        "code": "[]",
+        "children": [],
+        "name": "list",
+        "id": "Data_1640845502680",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1640845502680"
+      },
+      "Data_1640846667793": {
+        "code": "\"\"",
+        "children": [],
+        "name": "userCode",
+        "id": "Data_1640846667793",
+        "title": "userCode",
+        "type": "s",
+        "key": "Data_1640846667793"
+      },
+      "Data_1640862467742": {
+        "code": "false",
+        "children": [],
+        "name": "isNewOpen",
+        "id": "Data_1640862467742",
+        "title": "isNewOpen",
+        "type": "b",
+        "key": "Data_1640862467742"
+      },
+      "Data_1640862579046": {
+        "code": "$dayjs()",
+        "children": [],
+        "name": "current",
+        "id": "Data_1640862579046",
+        "title": "current",
+        "type": "o",
+        "key": "Data_1640862579046"
+      },
+      "Data_1640862965179": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmiting",
+        "id": "Data_1640862965179",
+        "title": "isSubmiting",
+        "type": "b",
+        "key": "Data_1640862965179"
+      },
+      "Data_1640845458401": {
+        "code": "[]",
+        "children": [],
+        "name": "leaves",
+        "id": "Data_1640845458401",
+        "title": "leaves",
+        "type": "a",
+        "key": "Data_1640845458401"
+      },
+      "Data_1640865768329": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1640865768329",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1640865768329"
+      }
+    },
+    "styleText": "flex: 1 1 auto;\nheight: 100%;\nborder: 1px solid #ccc;\npadding: 8px;\noverflow: auto;",
+    "customEvents": [
+      "change"
+    ],
+    "componentData": {},
+    "paramsConfigs": {
+      "Param_1639724815481": {
+        "code": "function watchCurrent(current, oldCurrent) {\n  // 在下面开始编写current监听\n  $run('query', false, $params.userCode, current)\n}",
+        "immediate": true,
+        "name": "current",
+        "id": "Param_1639724815481"
+      },
+      "Param_1639724487589": {
+        "code": "function watchUserCode(userCode, oldUserCode) {\n  // 在下面开始编写userCode监听\n  $run('query', false, userCode, $params.current)\n}",
+        "immediate": true,
+        "name": "userCode",
+        "id": "Param_1639724487589"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640862533398": {
+        "code": "function closeView() {\n  $data.info = {}\n  $data.isViewOpen = false\n}",
+        "name": "closeView",
+        "id": "Method_1640862533398",
+        "title": "closeView",
+        "key": "Method_1640862533398"
+      },
+      "Method_1640862527246": {
+        "code": "function openView(info) {\n  $data.info = info\n  $data.isViewOpen = true\n}",
+        "name": "openView",
+        "id": "Method_1640862527246",
+        "title": "openView",
+        "key": "Method_1640862527246"
+      },
+      "Method_1640845518577": {
+        "code": "async function queryLeaves(usercode, begin, end) {\n  const params = {\n    usercode,\n    flowresult_ne: '已撤销',\n    begintime_ge: begin,\n    begintime_lt: end,\n    sort: 'begintime',\n    order: 'asc',\n    pageSize: -1,\n  }\n  \n  const id = '82403e4f9efd411db1f9675ad842d96e'\n  $data.leaves = []\n  const {\n  \tobjList = []\n  } = await $dde.get(id, { params })\n  \n  $data.leaves = objList.map(o => ({\n  \t...o,\n    current: $dayjs(o.begintime),\n  }))\n}",
+        "name": "queryLeaves",
+        "id": "Method_1640845518577",
+        "title": "queryLeaves",
+        "key": "Method_1640845518577"
+      },
+      "Method_1640862517878": {
+        "code": "function openNew() {\n  $data.isNewOpen = true\n}",
+        "name": "openNew",
+        "id": "Method_1640862517878",
+        "title": "openNew",
+        "key": "Method_1640862517878"
+      },
+      "Method_1640846126350": {
+        "code": "function query(force, userCode = $data.userCode, current = $data.current) {\n  if ($data.isLoading) return\n  if (!userCode || !current) return\n  $data.current = current\n  const month = current.format('YYYY-MM')\n  if (!force \n      && $data.month === month \n      && $data.userCode === userCode) return\n  const begin = `${month}-01 00:00:00`\n  const end = `${month}-31 23:59:59`\n  $data.isLoading = true\n  \n  return Promise.all([\n  \t$run('queryLeaves', userCode, begin, end),\n    $run('queryAttendances', userCode, begin, end),\n  ])\n  .then(() => {\n\t$data.isLoading = false\t\n    $data.month = month\n    $data.userCode = userCode\n  })\n  .catch(e => {\n    $data.isLoading = false\n  })\n}",
+        "name": "query",
+        "id": "Method_1640846126350",
+        "title": "query",
+        "key": "Method_1640846126350"
+      },
+      "Method_1640862913956": {
+        "code": "async function okNew() {\n  const { LeaveModel } = $refs\n  $data.isSubmiting = true\n  try {\n    await LeaveModel.run('validate')\n    await LeaveModel.run('openConfirm')\n  \tconst { flowInstId } = await LeaveModel.run('save')\n    $run('closeNew')\n  \t$run('query', true)\n    if (flowInstId) {\n    \t// $run('openFlow', flowInstId)\n    }\n  } finally {\n   \t$data.isSubmiting = false\n  }\n}",
+        "name": "okNew",
+        "id": "Method_1640862913956",
+        "title": "okNew",
+        "key": "Method_1640862913956"
+      },
+      "Method_1640845902688": {
+        "code": "async function queryAttendances(usercode, begin, end) {\n  const params = {\n    usercode,\n    attdate_ge: begin,\n    attdate_lt: end,\n    sort: 'attdate',\n    order: 'asc',\n    pageSize: -1,\n  }\n  \n  const id = '0589d47b350c45c6a9fb07bb618b8070'\n  $data.attendances = {}\n  const {\n  \tobjList\n  } = await $dde.get(id, { params })\n  \n  $data.attendances = objList.reduce(function(prev, curr) {\n  \tprev[curr.attdate.slice(0, 10)] = curr\n    return prev\n  }, {})\n  \n  console.log($data.attendances)\n}",
+        "name": "queryAttendances",
+        "id": "Method_1640845902688",
+        "title": "queryAttendances",
+        "key": "Method_1640845902688"
+      },
+      "Method_1640862523270": {
+        "code": "function closeNew() {\n  $data.isNewOpen = false\n}",
+        "name": "closeNew",
+        "id": "Method_1640862523270",
+        "title": "closeNew",
+        "key": "Method_1640862523270"
+      }
+    },
+    "modelStyleText": ".ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date {\n  margin: 0;\n  padding: 2px 4px 0;\n  overflow: visible;\n}\n\n.MyEvent {\n  position: absolute;\n  left: -5px;\n  right: -5px;\n  bottom: 10px;\n  height: 8px;\n  background: purple;\n  transition: all .2s ease-in;\n  cursor: pointer;\n  border: 1px solid transparent;\n}\n\n.MyEvent:hover {\n  border-radius: 0 0 2px 2px;\n}\n",
+    "children": [
+      {
+        "noHeader": true,
+        "headerRender": "renderHeader",
+        "useAdjustCode": true,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639563053667"
+        },
+        "useChangeCode": true,
+        "useEventsCode": true,
+        "onSelectCode": "function onSelect(current) {\n  // 在下面开始编写点击日期事件\n  $emit('change', current)\n}",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.current\n}",
+        "contextMenus": [
+          {
+            "icon": "CarOutlined",
+            "label": "外出",
+            "value": "W"
+          },
+          {
+            "icon": "RocketOutlined",
+            "label": "出差",
+            "value": "C"
+          },
+          {
+            "icon": "ReconciliationOutlined",
+            "label": "请假",
+            "value": "Q"
+          },
+          {
+            "icon": "FieldTimeOutlined",
+            "label": "补打卡",
+            "value": "B"
+          }
+        ],
+        "onContextMenuCode": "function onContextMenu(key, current) {\n  // 在下面开始编写鼠标右键事件\n  $emit('change', current)\n  $run('openNew', key)\n}",
+        "cellRender": "renderCell",
+        "useSelectCode": false,
+        "useContextMenu": true,
+        "setAdjustCode": "function setAdjust() {\n  // 在下面返回Adjust的值\n  return $data.adjust;\n}",
+        "useDaysCode": true,
+        "setDaysCode": "function setDays() {\n  // 在下面返回Days的值\n  return $data.attendances\n}",
+        "useValueCode": true,
+        "$item": {
+          "name": "Calendar",
+          "label": "日历",
+          "id": "Calendar_1639641972543"
+        },
+        "setEventsCode": "function setEvents() {\n  // 在下面返回Events的值\n  return $data.leaves\n}",
+        "useContextMenuCode": true,
+        "onChangeCode": "function onChange(current) {\n  // 在下面开始编写改变日期事件\n  $emit('change', current)\n}"
+      },
+      {
+        "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.isLoading\n}",
+        "size": "default",
+        "useStyleText": true,
+        "styleText": "position: absolute;\nleft: 0;\nright: 0;\nbottom: 0;\ntop: 0;\ndisplay: flex;\njustify-content: center;\nalign-items: center;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639563053667"
+        },
+        "use$$ifCode": true,
+        "$item": {
+          "name": "Spin",
+          "label": "加载中",
+          "id": "Spin_1640846901986_0.8856065163436442"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "keyboard": false,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.isNewOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639563053667"
+        },
+        "closable": true,
+        "maskClosable": false,
+        "title": "新增申请",
+        "onOk": "okNew",
+        "fullscreen": false,
+        "children": [
+          {
+            "$params": {
+              "setTypeCode": "function setType() {\n  // 在下面开始编写type事件\n  return $data.newType\n}",
+              "useCurrentCode": true,
+              "useTypeCode": true,
+              "setCurrentCode": "function setCurrent() {\n  // 在下面开始编写current事件\n  return $data.current\n}"
+            },
+            "ref": "LeaveModel",
+            "slots": {},
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "id",
+                "label": "id",
+                "props": []
+              },
+              {
+                "name": "type",
+                "label": "type",
+                "props": []
+              },
+              {
+                "name": "current",
+                "label": "current",
+                "props": []
+              }
+            ],
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1640862752224_0.2626670972047551"
+            },
+            "id": "8943ad4401ce4924b190bf0b59afd9e5",
+            "templateStyle": {
+              "styleText": ""
+            }
+          }
+        ],
+        "onCancel": "closeNew",
+        "useConfirmLoadingCode": true,
+        "footerMode": "default",
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1640862690213_0.04385535588887701"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值\n  return $data.isSubmiting\n}",
+        "mask": true
+      },
+      {
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.isViewOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639563053667"
+        },
+        "closable": true,
+        "maskClosable": true,
+        "title": "查看",
+        "onOk": "closeView",
+        "fullscreen": false,
+        "children": [
+          {
+            "$params": {
+              "useLeaveCode": true,
+              "setLeaveCode": "function setLeave() {\n  // 在下面开始编写leave事件\n  return $data.info\n}"
+            },
+            "slots": {},
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "leave",
+                "label": "leave",
+                "props": []
+              }
+            ],
+            "useParamsCode": false,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1640865964743_0.7802206536322613"
+            },
+            "id": "c2656f06292f44948fcb5bb907c02594",
+            "templateStyle": {},
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n    leave: Object.assign({}, $data.info),\n  }\n}"
+          }
+        ],
+        "onCancel": "closeView",
+        "footerMode": "default",
+        "width": 960,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1640865911184_0.894894332472979"
+        },
+        "mask": true
+      }
+    ],
+    "root": true,
+    "eventsConfigs": [
+      "change"
+    ],
+    "useMountedCode": false,
+    "style": {
+      "border": "1px solid #ccc",
+      "padding": "8px",
+      "overflow": "auto",
+      "flex": "1 1 auto",
+      "height": "100%"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  // alert($params.userCode)\n  // 获取工作日调休数据\n  $run('getAdjust');\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639563053667"
+    },
+    "useModelStyleText": true
+  },
+  "publishDate": "2022-11-21 15:03:10",
+  "sourceId": "FiDmHOY5TAKsnfgpvsGo_g",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640845426203": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "attendances",
+        "id": "Data_1640845426203",
+        "label": "attendances",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1640845475801": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "isLoading",
+        "id": "Data_1640845475801",
+        "label": "isLoading",
+        "type": "data"
+      },
+      "Data_1640845502680": {
+        "code": "[]",
+        "children": [],
+        "name": "list",
+        "id": "Data_1640845502680",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1640845502680"
+      },
+      "Data_1647568175381": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "adjust",
+        "id": "Data_1647568175381",
+        "label": "adjust",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1655716483251": {
+        "code": "undefined",
+        "children": [],
+        "dataType": "undefined",
+        "name": "newType",
+        "id": "Data_1655716483251",
+        "label": "newType",
+        "type": "data"
+      },
+      "Data_1640862965179": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmiting",
+        "id": "Data_1640862965179",
+        "title": "isSubmiting",
+        "type": "b",
+        "key": "Data_1640862965179"
+      },
+      "Data_1640845458401": {
+        "code": "[]",
+        "children": [],
+        "name": "leaves",
+        "id": "Data_1640845458401",
+        "title": "leaves",
+        "type": "a",
+        "key": "Data_1640845458401"
+      },
+      "Data_1640862493333": {
+        "code": "false",
+        "children": [],
+        "name": "isViewOpen",
+        "id": "Data_1640862493333",
+        "title": "isViewOpen",
+        "type": "b",
+        "key": "Data_1640862493333"
+      },
+      "Data_1640846075774": {
+        "code": "\"\"",
+        "children": [],
+        "name": "month",
+        "id": "Data_1640846075774",
+        "title": "month",
+        "type": "s",
+        "key": "Data_1640846075774"
+      },
+      "Data_1640846667793": {
+        "code": "\"\"",
+        "children": [],
+        "name": "userCode",
+        "id": "Data_1640846667793",
+        "title": "userCode",
+        "type": "s",
+        "key": "Data_1640846667793"
+      },
+      "Data_1640862467742": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "isNewOpen",
+        "id": "Data_1640862467742",
+        "label": "isNewOpen",
+        "type": "data"
+      },
+      "Data_1640862579046": {
+        "code": "$dayjs()",
+        "children": [],
+        "name": "current",
+        "id": "Data_1640862579046",
+        "title": "current",
+        "type": "o",
+        "key": "Data_1640862579046"
+      },
+      "Data_1640865768329": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1640865768329",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1640865768329"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640862533398": {
+        "code": "function closeView() {\n  $data.info = {}\n  $data.isViewOpen = false\n}",
+        "name": "closeView",
+        "id": "Method_1640862533398",
+        "title": "closeView",
+        "key": "Method_1640862533398"
+      },
+      "Method_1668761612905": {
+        "code": "function renderCell(current, events = [], dayInfo = {}) {\n    const { h } = $vue\n    const { Row, Col, Avatar, Tag } = $antd\n\n    let subEvents = events, moreEvents = 0\n    if (events.length > 4) {\n        subEvents = events.slice(0, 3)\n        moreEvents = events.length - 3\n    }\n\n    const {\n        offduty,\n        offdutyType,\n        offdutyTypeDesc,\n        onduty,\n        ondutyType,\n        ondutyTypeDesc,\n    } = dayInfo\n\n    // 第一排：刷卡时间\n    function renderDuty(type, time, desc) {\n        const TextColors = {\n            0: '#aaa',  // 出勤\n            1: '#d46b08', // 迟到\n            2: '#d46b08', // 早退\n            3: '#389e0d', // 加班\n            4: '#cf1322', // 未刷卡\n        }\n        const TagColors = {\n            0: 'green',  // 出勤\n            1: 'orange', // 迟到\n            2: 'orange', // 早退\n            3: 'green', // 加班\n            4: 'red', // 未刷卡\n        }\n\n        return h(Col, {\n            style: { fontSize: '10px', color: TextColors[type], flex: '1 1 0', display: 'flex', flexDirection: 'column', alignItems: 'center' },\n        }, () => [\n            time.slice(11, 16),\n            type !== '0' ? h(Tag, {\n                style: { margin: 0, transform: 'scale(.8) translateX(0)' },\n                size: 'small',\n                color: TagColors[type],\n            }, () => desc) : undefined,\n        ])\n    }\n\n    const timeLine = h(Row, {\n        wrap: false,\n        align: 'middle',\n    }, () => [\n        h(Avatar, {\n            size: 'small',\n            style: { flex: 'none', margin: '0 3px', background: '#bb52bb99' },\n        }, () => '刷卡'),\n        h(Row, {\n            style: { flex: 'auto' },\n        }, () => [\n            // onDuty,\n            onduty ? renderDuty(ondutyType, onduty, ondutyTypeDesc) : undefined,\n            // offDuty,\n            offduty ? renderDuty(offdutyType, offduty, offdutyTypeDesc) : undefined,\n        ]),\n    ])\n\n    // 第二排：请假记录\n    const LeaveType = {\n        'B': { text: '补', color: '#ff9900', style: { color: '#ff9900', border: '1px solid #ff9900', background: 'transparent' } },\n        'Q': { text: '假', color: '#2db7f5', style: { color: '#2db7f5', border: '1px solid #2db7f5', background: 'transparent' } },\n        'W': { text: '外', color: '#2d8cf0', style: { color: '#2d8cf0', border: '1px solid #2d8cf0', background: 'transparent' } },\n        'C': { text: '出差', color: '#19be6b', style: { color: '#19be6b', border: '1px solid #19be6b', background: 'transparent' } },\n    }\n    const eventsLine = subEvents.map(event => {\n        const { bigtype, flowresult, leavetypeDesc } = event\n        return h(Avatar, {\n            title: `${leavetypeDesc}, ${flowresult}`,\n            style: { ...LeaveType[bigtype].style, transform: 'scale(.76)' },\n            onClick(e) {\n                e.stopPropagation()\n                console.log('eventsLine', current, event)\n                // $run\n                $ctx.run('openView', event)\n            },\n        }, () => LeaveType[bigtype]?.text)\n    })\n\n    // 更多按钮\n    const moreEventsLine = moreEvents ?\n        h(Avatar, {\n            style: { transform: 'scale(.76)' },\n            title: `还有${moreEvents}条请假信息`,\n            onClick(e) {\n                e.stopPropagation()\n                console.log('moreEventsLine', current, event)\n                // $goto\n                $ctx.$router.push({\n                    name: 'AppPage',\n                    params: { modelId: 'fa8706b496d84ab7b74b46467cca211c' },\n                    query: {\n                        begin: current.format('YYYY-MM-DD'),\n                        end: current.format('YYYY-MM-DD'),\n                    },\n                })\n            },\n        }, () => `+${moreEvents}`) : undefined\n\n    return h(Col, {\n        style: {\n            position: 'absolute',\n            left: 0,\n            right: 0,\n            top: 0,\n            bottom: 0,\n            display: 'flex',\n            flexDirection: 'column',\n            justifyContent: 'space-between',\n        },\n    }, () => [\n        (onduty || offduty) ? timeLine : undefined,\n        h(Row, {}, () => [\n            ...eventsLine,\n            moreEventsLine,\n        ]),\n        // $run('renderEvent'),\n    ])\n}",
+        "name": "renderCell",
+        "id": "Method_1668761612905",
+        "label": "renderCell",
+        "type": "method"
+      },
+      "Method_1647568072873": {
+        "code": "async function getAdjust(begin,end) {\n\n  // const begin = `${$data.month}-01 00:00:00`\n // const end = `${$data.month}-31 23:59:59`\n \nif(begin){\n  var params = {\n    ['(datetime)workDay_ge']: begin,\n    ['(datetime)workDay_le']: end,\n}\n}else{\n   var date=new Date;\n var year = date.getFullYear()\n var month = date.getMonth()+1\n var lastDay = new Date(year, month, 0).getDate()\n const zbegin = `${year}-${month}-01 00:00:00`\n const zend = `${year}-${month}-${lastDay} 23:59:59`\n  var params = {\n    ['(datetime)workDay_ge']: zbegin,\n    ['(datetime)workDay_le']: zend,\n}\n}\n    await $dde.get('6703454f60944018a77fddc55cb247f8',{params}).then(res => {\n      res.objList.forEach(item => {\n          if(item.dayType != undefined) {\n              item.dayType = item.dayType === 'B' ? '班' : '休';\n          }\n      })\n      $data.adjust = res.objList;\n  })\n}",
+        "linePosition": {
+          "column": 15,
+          "lineNumber": ""
+        },
+        "name": "getAdjust",
+        "id": "Method_1647568072873",
+        "label": "getAdjust",
+        "type": "method"
+      },
+      "Method_1640862527246": {
+        "code": "function openView(info) {\n  $data.info = info\n  $data.isViewOpen = true\n}",
+        "name": "openView",
+        "id": "Method_1640862527246",
+        "label": "openView",
+        "type": "method"
+      },
+      "Method_1640845518577": {
+        "code": "async function queryLeaves(usercode, begin, end) {\n  const params = {\n    usercode,\n    flowresult_ne: '已撤销',\n    begintime_ge: begin,\n    begintime_lt: end,\n    sort: 'begintime',\n    order: 'asc',\n    pageSize: -1,\n  }\n  \n  const id = '342f00c20a11484981353a6428eaf516'\n  $data.leaves = []\n  const {\n  \tobjList = []\n  } = await $dde.get(id, { params })\n  \n  $data.leaves = objList.map(o => ({\n  \t...o,\n    current: $dayjs(o.begintime),\n  }))\n}",
+        "name": "queryLeaves",
+        "id": "Method_1640845518577",
+        "label": "queryLeaves",
+        "type": "method"
+      },
+      "Method_1640862517878": {
+        "code": "function openNew(type) {\n  $data.isNewOpen = true\n  $data.newType = type\n}",
+        "name": "openNew",
+        "id": "Method_1640862517878",
+        "label": "openNew",
+        "type": "method"
+      },
+      "Method_1668992433657": {
+        "code": "function renderEvent () {\n    const { h } = $vue\n\n    return h('span', {\n        class: 'MyEvent',\n    })\n}",
+        "name": "renderEvent",
+        "id": "Method_1668992433657",
+        "label": "renderEvent",
+        "type": "method"
+      },
+      "Method_1640846126350": {
+        "code": "function query(force, userCode = $data.userCode, current = $data.current) {\n  if ($data.isLoading) return\n  if (!userCode || !current) return\n  $data.current = current\n  const month = current.format('YYYY-MM')\n  const [y, m] = month.split('-')\n  var lastDay = new Date(y, m, 0).getDate()\n  if (!force\n    && $data.month === month\n    && $data.userCode === userCode) return\n  const begin = `${month}-01 00:00:00`\n  const end = `${month}-${lastDay} 23:59:59`\n  $data.isLoading = true\n\n  return Promise.all([\n    $run('queryLeaves', userCode, begin, end),\n    $run('queryAttendances', userCode, begin, end),\n    // $run('getAdjust',  begin, end)\n  ])\n    .then(() => {\n      $data.isLoading = false\n      $data.month = month\n      $data.userCode = userCode\n    })\n    .catch(e => {\n      $data.isLoading = false\n    })\n}",
+        "name": "query",
+        "id": "Method_1640846126350",
+        "label": "query",
+        "type": "method"
+      },
+      "Method_1640862913956": {
+        "code": "async function okNew() {\n  const { LeaveModel } = $refs\n  $data.isSubmiting = true\n  try {\n    await LeaveModel.run('validate')\n    await LeaveModel.run('openConfirm')\n  \tconst { flowInstId } = await LeaveModel.run('save')\n    $run('closeNew')\n  \t$run('query', true)\n    if (flowInstId) {\n    \t// $run('openFlow', flowInstId)\n    }\n  } finally {\n   \t$data.isSubmiting = false\n  }\n}",
+        "name": "okNew",
+        "id": "Method_1640862913956",
+        "title": "okNew",
+        "key": "Method_1640862913956"
+      },
+      "Method_1668761601632": {
+        "code": "function renderHeader (current, dayInfo = {}) {\n    if (!(current.day instanceof Function)) return\n    const { h } = $vue\n    const { Space, Badge } = $antd\n    const day = current.day()\n    const { dayType, workDayDesc } = dayInfo\n    const isWeekEnd = dayType ? dayType === '休' : ([0, 6].includes(day))\n\n    return h(Space, () => [\n        h(Badge, {\n            size: 'small',\n            style: { fontSize: '10px', marginRight: '4px', transform: 'scale(.8)' },\n            status: isWeekEnd ? 'success' : 'warning',\n            text: (isWeekEnd ? '休' : '班') + (workDayDesc ? `(${workDayDesc})` : ''),\n        }),\n        h('span', {}, current.date())\n    ])\n}",
+        "name": "renderHeader",
+        "id": "Method_1668761601632",
+        "label": "renderHeader",
+        "type": "method"
+      },
+      "Method_1640845902688": {
+        "code": "async function queryAttendances(usercode, begin, end) {\n  const params = {\n    usercode,\n    attdate_ge: begin,\n    attdate_lt: end,\n    sort: 'attdate',\n    order: 'asc',\n    pageSize: -1,\n  }\n\n  const adjustParams = {\n    ['(datetime)workDay_ge']: begin,\n    ['(datetime)workDay_le']: end,\n    sort: 'workDay',\n    order: 'asc',\n    pageSize: -1,\n  }\n\n  Promise.all([\n    // 每日信息\n    $dde.get('0589d47b350c45c6a9fb07bb618b8070', { params }),\n    // 企业日历\n    $dde.get('6703454f60944018a77fddc55cb247f8', { params: adjustParams }),\n  ])\n    .then(([d1, d2]) => {\n      const map = {}\n      try {\n        // 企业日历\n        const adjust = d2.objList || []\n        adjust.forEach(function (curr) {\n          map[curr.workDay.slice(0, 10)] = curr\n        })\n      } catch (e) {\n        console.error(e)\n      }\n\n      // 每日考勤信息\n      const attendances = d1.objList\n      $data.attendances = attendances.reduce(function (prev, curr) {\n        const day = curr.attdate.slice(0, 10)\n        if (map[day]?.dayType) {\n          curr.dayType = map[day]?.dayType\n          curr.workDayDesc = map[day]?.workDayDesc\n        }\n        prev[day] = curr\n        return prev\n      }, {})\n    })\n}",
+        "name": "queryAttendances",
+        "id": "Method_1640845902688",
+        "label": "queryAttendances",
+        "type": "method"
+      },
+      "Method_1640862523270": {
+        "code": "function closeNew() {\n  $data.isNewOpen = false\n}",
+        "name": "closeNew",
+        "id": "Method_1640862523270",
+        "title": "closeNew",
+        "key": "Method_1640862523270"
+      }
+    },
+    "eventsConfigs": [
+      "change"
+    ],
+    "paramsConfigs": {
+      "Param_1639724815481": {
+        "code": "function watchCurrent(current, oldCurrent) {\n  // 在下面开始编写current监听\n  $run('query', false, $params.userCode, current)\n}",
+        "immediate": true,
+        "name": "current",
+        "id": "Param_1639724815481"
+      },
+      "Param_1639724487589": {
+        "code": "function watchUserCode(userCode, oldUserCode) {\n  // 在下面开始编写userCode监听\n  $run('query', false, userCode, $params.current)\n}",
+        "immediate": true,
+        "name": "userCode",
+        "id": "Param_1639724487589"
+      }
+    }
+  },
+  "modelTag": "日历",
+  "isValid": "F"
+}

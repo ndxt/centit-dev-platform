@@ -1,0 +1,1299 @@
+{
+  "modelId": "RnGl6OuxQ7mbtXkxNYn6Fg",
+  "modelName": "员工每月加班明细",
+  "optId": "cT1HtVX-TAW8jSBQX80Asw",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-03-31 16:06:48",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640863245790": {
+        "code": "\"2021-12\"",
+        "children": [],
+        "name": "date",
+        "id": "Data_1640863245790",
+        "title": "date",
+        "type": "s",
+        "key": "Data_1640863245790"
+      },
+      "Data_1640863944464": {
+        "code": "{\n\tdate: '',\n    month: '',\n    unitCode: '',\n    closePage: true,\n    pageSize: -1\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "boolean",
+            "name": "closePage",
+            "id": "Data_1640863944464_closePage",
+            "label": "closePage",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "date",
+            "id": "Data_1640863944464_date",
+            "label": "date",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "month",
+            "id": "Data_1640863944464_month",
+            "label": "month",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1640863944464_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitCode",
+            "id": "Data_1640863944464_unitCode",
+            "label": "unitCode",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "params",
+        "id": "Data_1640863944464",
+        "title": "params",
+        "type": "o",
+        "codeSchemas": {
+          "date": {
+            "isDefault": true,
+            "propertyName": "date",
+            "fieldLabelName": "date",
+            "fieldType": "string"
+          },
+          "month": {
+            "isDefault": true,
+            "propertyName": "month",
+            "fieldLabelName": "month",
+            "fieldType": "string"
+          },
+          "unitCode": {
+            "isDefault": true,
+            "propertyName": "unitCode",
+            "fieldLabelName": "unitCode",
+            "fieldType": "string"
+          },
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          },
+          "closePage": {
+            "isDefault": true,
+            "propertyName": "closePage",
+            "fieldLabelName": "closePage",
+            "fieldType": "boolean"
+          }
+        },
+        "key": "Data_1640863944464"
+      },
+      "Data_1640862930290": {
+        "code": "{}",
+        "children": [],
+        "name": "datalist",
+        "id": "Data_1640862930290",
+        "title": "datalist",
+        "type": "o",
+        "key": "Data_1640862930290"
+      },
+      "Data_1644996188850": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "unit",
+        "id": "Data_1644996188850",
+        "title": "unit",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1644996188850"
+      },
+      "Data_1644996760129": {
+        "code": "''",
+        "children": [],
+        "dataType": "string",
+        "name": "unitValue",
+        "id": "Data_1644996760129",
+        "title": "unitValue",
+        "type": "o",
+        "key": "Data_1644996760129"
+      },
+      "Data_1640863117649": {
+        "code": "0",
+        "children": [],
+        "name": "dateMount",
+        "id": "Data_1640863117649",
+        "title": "dateMount",
+        "type": "n",
+        "key": "Data_1640863117649"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640863047782": {
+        "code": "function setTableHead(date) {\n\tconst { mount, weekMap } = $run('getDate', date)\n\n  const dateRow = new Array(mount).fill({}).reduce((result, item, index) => {\n      return {\n        1: '序号',\n        2: '员工编号',\n        3: '姓名',\n        4: '日期',\n        //5: '部门',\n        ...result,\n        [index+5]: `${index + 1}`,\n        [mount+5]: '实际出勤天数',\n        [mount+6]: '实际刷卡次数',\n        [mount+7]: '忘记刷卡次数',\n        [mount+8]: '迟到次数',\n        [mount+9]: '入/离职缺勤',\n        [mount+10]: '旷工',\n        [mount+11]: '事假',\n        [mount+12]: '备注',\n      };\n    }, {});\n  \n    const weekRow = new Array(mount).fill({}).reduce((result, item, index) => {\n      return {\n        1: '序号',\n        2: '员工编号',\n        3: '姓名',\n        4: '星期',\n        //5: '部门',\n        ...result,\n        [index + 5]: weekMap[(index) % 7],\n        [mount+5]: '实际出勤天数',\n        [mount+6]: '实际刷卡时间',\n        [mount+7]: '忘记刷卡次数',\n        [mount+8]: '迟到次数',\n        [mount+9]: '入/离职缺勤',\n        [mount+10]: '旷工',\n        [mount+11]: '事假',\n        [mount+12]: '备注',\n      };\n    }, {});\n  \n   \t$data.dateMount = mount;\n  \n    return {\n      dateRow,\n      weekRow\n   }\n}",
+        "name": "setTableHead",
+        "id": "Method_1640863047782",
+        "title": "setTableHead",
+        "key": "Method_1640863047782"
+      },
+      "Method_1640863007661": {
+        "code": "function getDate(date) {\n  if (!date && typeof date !== \"string\") return;\n\n  const map = [\"日\", \"一\", \"二\", \"三\", \"四\", \"五\", \"六\"];\n\n  const [year, month] = date.split(\"-\");\n\n  const mount = new Date(year, month, 0).getDate();\n\n  const week = new Date(`${year}-${month}`).getDay();\n\n  const moveWeek = map.splice(0, week);\n\n  const weekMap = [...map, ...moveWeek];\n\n  return { mount, weekMap };\n}",
+        "name": "getDate",
+        "id": "Method_1640863007661",
+        "title": "getDate",
+        "key": "Method_1640863007661"
+      },
+      "Method_1640863219760": {
+        "code": "async function getAsyncData() {\n  const { dateRow, weekRow } = $run(\"setTableHead\", $data.params.date);\n\n  const res = await $dde.get(\"5f3bcd67596f471e9275c5faf9dd65c3\", {\n    params: $data.params,\n    month: $data.params.date\n  });\n\n  const getColsData = (row) => {\n    return Object.entries(row).reduce((result, [key, value]) => {\n      if (new RegExp(/^\\d/).test(key)) {\n        let dateIndex = Number(key.match(/\\d+/g)[0]);\n        return {\n          ...result,\n          [dateIndex]: result[dateIndex] ? `${result[dateIndex]}/${value}` : `${value}`,\n        };\n      }\n      return result;\n    }, {});\n  };\n\n  const rows = res.reduce((result, item, index) => {\n    const colsData = getColsData(item);\n    const cols = new Array($data.dateMount).fill({}).reduce(\n      (result, item, index) => {\n        const week = !colsData[index + 1] && ['六', '日'].includes(weekRow[index + 5]);\n        const c = colsData[index + 1] ?? (week ? \"休\" : '');\n        return {\n          ...result,\n          [index + 5]: c,\n        };\n      },\n      {}\n    );\n    const len = Object.keys(cols)[Object.keys(cols).length - 1];\n    return {\n      ...result,\n      [index + 3]: {\n        1: `${index + 1}`,\n        2: `${item.usercode}`,\n        3: `${item.userName}`,\n        //4: `${item.month}`,\n        4: `${item.unitName}`,\n        ...cols,\n        [Number(len) + 1]: `${item.workdays ?? ''}`,\n        [Number(len) + 2]: \"\",\n        [Number(len) + 3]: \"\",\n        [Number(len) + 4]: `${item.latetimes ?? ''}`,\n        [Number(len) + 5]: \"\",\n        [Number(len) + 6]:  `${item.absencetimes ?? ''}`,\n        [Number(len) + 7]: `${item.leaveduration ?? ''}`,\n        [Number(len) + 8]: `${item.mark ?? ''}`,\n      },\n    };\n  }, {});\n\n  $data.datalist = {\n    1: dateRow,\n    2: weekRow,\n    ...rows,\n  };\n}\n",
+        "name": "getAsyncData",
+        "id": "Method_1640863219760",
+        "title": "getAsyncData",
+        "key": "Method_1640863219760"
+      }
+    },
+    "styleText": "width: auto;\noverflow: auto;",
+    "children": [
+      {
+        "layout": "inline",
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "useChangeCode": true,
+                    "rulesConfig": [],
+                    "format": "YYYY-MM",
+                    "disabled": false,
+                    "$key": "",
+                    "$item": {
+                      "name": "DatePicker",
+                      "label": "日期选择",
+                      "id": "DatePicker_1644977672205_0.12832837743968528"
+                    },
+                    "label": "月份选择",
+                    "onChangeCode": "function onChange(date, dateString) {\n  // 在下面开始编写改变事件\n  $data.params.date = dateString\n}"
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1645064690080_0.3883897956451656"
+                }
+              },
+              {
+                "useStyleText": true,
+                "styleText": "marginLeft: 10px;",
+                "children": [],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1645064704046_0.24019545009182974"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              },
+              {
+                "$name": "Button",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1648177656661_0.2961275754227861": {
+                    "isDefault": true,
+                    "componentId": "Button_1648177656660_0.20995988421210332",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1648177656661_0.2961275754227861",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1648177656661_0.5621696643548604": {
+                    "isDefault": true,
+                    "componentId": "Button_1648177656660_0.20995988421210332",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1648177656661_0.5621696643548604",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "useStyleText": true,
+                "styleText": "",
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return $data.loading\n}",
+                "type": "default",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    marginLeft: '10px'\n  }\n}",
+                "size": "middle",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n $data.params.unitCode  = $data.params.unitCode  || ''\n  $run('getAsyncData')\n}",
+                "text": "查询",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1648177656660_0.20995988421210332"
+                },
+                "useLoadingCode": true,
+                "useStyleCode": true,
+                "useClickCode": true
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1645064681314_0.2470281580880449"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1645064687959_0.33604584791868786"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640861711741_0.6437621443280128"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.loading;\n}",
+        "colon": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1645064681314_0.2470281580880449"
+        },
+        "useLoadingCode": false
+      },
+      {
+        "$name": "Table",
+        "setFileNameCode": "function setFileName() {\n  // 在下面返回FileName的值\n  debugger\n  return $info.userInfo.primaryUnitName+$data.params.date+'月加班明细表'\n}",
+        "children": [
+          {
+            "$name": "TableRow",
+            "useStyleText": true,
+            "styleText": "",
+            "children": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 1,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540096118_0.46986032924861343"
+                },
+                "text": "序号",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: '#ffcc99',\n    minWidth: \"10px\"\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 2,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.45096064641978817"
+                },
+                "text": "员工编号",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: '#ffcc99',\n    minWidth: \"30px\"\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 3,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.7529219011271717"
+                },
+                "text": "姓名",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: '#9cf',\n    minWidth: '50px'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 4,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6762536907699157"
+                },
+                "text": "日期",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: '#9cf',\n    minWidth: '60px'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 5,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.04625954829493839"
+                },
+                "text": "加班时长(小时)",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: '#ffcc99',\n    minWidth: \"30px\"\n  }\n}"
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648540096118_0.11390915567220472"
+            },
+            "useStyleCode": true,
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+          },
+          {
+            "$name": "TableRow",
+            "useStyleText": true,
+            "styleText": "",
+            "children": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 1,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.268865413392529"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 2,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.8825182258110442"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 3,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.39821192658847937"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 4,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.11490304463866785"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 5,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6721514876078121"
+                },
+                "text": ""
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648540104297_0.9164830335657375"
+            },
+            "useStyleCode": true,
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}",
+            "cols": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 1,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540096118_0.46986032924861343"
+                },
+                "text": "序号"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 2,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.45096064641978817"
+                },
+                "text": "员工编号"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 3,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.7529219011271717"
+                },
+                "text": "姓名"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 4,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6762536907699157"
+                },
+                "text": "日期"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "setSourceValueCode": "function setSourceValue() {\n  // 在下面返回SourceValue的值\n  return $data.dateData\n}",
+                "children": [],
+                "rowspan": 1,
+                "useSourceValueCode": true,
+                "positions": {
+                  "col": 5,
+                  "row": 1
+                },
+                "$key": "record.date",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.5676228985794749"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 6,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.04625954829493839"
+                },
+                "text": "实际出勤天数"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 7,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.7029056741921276"
+                },
+                "text": "实际刷卡次数"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 8,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.42006538234853696"
+                },
+                "text": "忘记刷卡次数"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 9,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.7307509646831609"
+                },
+                "text": "迟到次数"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 10,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.7311302924939285"
+                },
+                "text": "入/离职缺勤"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 11,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6294399058021822"
+                },
+                "text": "旷工"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 12,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6949716414674747"
+                },
+                "text": "事假"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 13,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.8428514563203866"
+                },
+                "text": "备注"
+              }
+            ]
+          },
+          {
+            "$name": "TableRow",
+            "useStyleText": true,
+            "styleText": "",
+            "children": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 1,
+                  "row": 3
+                },
+                "$key": "record.order",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.6991661167872552"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 2,
+                  "row": 3
+                },
+                "$key": "record.usercode",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.6457852112074303"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 3,
+                  "row": 3
+                },
+                "$key": "record.username",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.5084870557814145"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 4,
+                  "row": 3
+                },
+                "$key": "record.attdate",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.5151356033200472"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 5,
+                  "row": 3
+                },
+                "$key": "record.overtimetime",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.6396391598613951"
+                },
+                "text": ""
+              }
+            ],
+            "$key": "datalist",
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648540104297_0.4152492592736805"
+            },
+            "useStyleCode": true,
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}",
+            "cols": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 1,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.268865413392529"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 2,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.8825182258110442"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 3,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.39821192658847937"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 4,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.11490304463866785"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "setSourceValueCode": "function setSourceValue() {\n  // 在下面返回SourceValue的值\n  return $data.weekData\n}",
+                "children": [],
+                "rowspan": 1,
+                "useSourceValueCode": true,
+                "positions": {
+                  "col": 5,
+                  "row": 2
+                },
+                "$key": "record.week",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.9136648855614158"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 6,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6721514876078121"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 7,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.9064436769030813"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 8,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.17681961197104834"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 9,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.867304457030436"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 10,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104296_0.6848222446048864"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 11,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.9234911935618242"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 12,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.13168113052338182"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 13,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648540104297_0.13835167079984068"
+                },
+                "text": ""
+              }
+            ]
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640861711741_0.6437621443280128"
+        },
+        "useFileNameCode": true,
+        "$item": {
+          "name": "Table",
+          "label": "表格测试",
+          "id": "Table_1648540096118_0.14172473912354233"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": false,
+    "componentData": {
+      "Button_1648177656660_0.20995988421210332": {
+        "$name": "Button",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1648177656661_0.2961275754227861": {
+            "isDefault": true,
+            "componentId": "Button_1648177656660_0.20995988421210332",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1648177656661_0.2961275754227861",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1648177656661_0.5621696643548604": {
+            "isDefault": true,
+            "componentId": "Button_1648177656660_0.20995988421210332",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1648177656661_0.5621696643548604",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "useStyleText": true,
+        "styleText": "",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return $data.loading\n}",
+        "type": "default",
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    marginLeft: '10px'\n  }\n}",
+        "size": "middle",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n $data.params.unitCode  = $data.params.unitCode  || ''\n  $run('getAsyncData')\n}",
+        "text": "查询",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1648177656660_0.20995988421210332"
+        },
+        "useLoadingCode": true,
+        "useStyleCode": true,
+        "useClickCode": true
+      }
+    },
+    "style": {
+      "overflow": "auto",
+      "width": "auto"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n\n  $dde.get('cd1267703ea84a329c1e6071d4c12de3').then(res => {\n   $data.unit = res.map(item => {\n    return {\n      ...item,\n      label: item.unitName,\n      value: item.unitCode\n    }\n  })\n})\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640861711741_0.6437621443280128"
+    }
+  },
+  "publishDate": "2022-03-31 16:06:48",
+  "sourceId": "RnGl6OuxQ7mbtXkxNYn6Fg",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1648540638661": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "dateData",
+        "id": "Data_1648540638661",
+        "label": "dateData",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1640863944464": {
+        "code": "{\n\tdate: '',\n    month: '',\n    unitCode: '',\n    closePage: true,\n    pageSize: -1,\n    'ORDER_BY':'unitcode,userno'\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "ORDER_BY",
+            "id": "Data_1640863944464_ORDER_BY",
+            "label": "ORDER_BY",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "boolean",
+            "name": "closePage",
+            "id": "Data_1640863944464_closePage",
+            "label": "closePage",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "date",
+            "id": "Data_1640863944464_date",
+            "label": "date",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "month",
+            "id": "Data_1640863944464_month",
+            "label": "month",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1640863944464_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitCode",
+            "id": "Data_1640863944464_unitCode",
+            "label": "unitCode",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "params",
+        "id": "Data_1640863944464",
+        "label": "params",
+        "type": "data",
+        "codeSchemas": {
+          "date": {
+            "isDefault": true,
+            "propertyName": "date",
+            "fieldLabelName": "date",
+            "fieldType": "string"
+          },
+          "ORDER_BY": {
+            "isDefault": true,
+            "propertyName": "ORDER_BY",
+            "fieldLabelName": "ORDER_BY",
+            "fieldType": "string"
+          },
+          "month": {
+            "isDefault": true,
+            "propertyName": "month",
+            "fieldLabelName": "month",
+            "fieldType": "string"
+          },
+          "unitCode": {
+            "isDefault": true,
+            "propertyName": "unitCode",
+            "fieldLabelName": "unitCode",
+            "fieldType": "string"
+          },
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          },
+          "closePage": {
+            "isDefault": true,
+            "propertyName": "closePage",
+            "fieldLabelName": "closePage",
+            "fieldType": "boolean"
+          }
+        }
+      },
+      "Data_1648541597036": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "unit",
+        "id": "Data_1648541597036",
+        "label": "unit",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1648553339967": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1648553339967",
+        "label": "loading",
+        "type": "data"
+      },
+      "Data_1640862930290": {
+        "code": "[]",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "array",
+        "name": "datalist",
+        "id": "Data_1640862930290",
+        "label": "datalist",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1648541129253": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "weekData",
+        "id": "Data_1648541129253",
+        "label": "weekData",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640863219760": {
+        "code": "async function getAsyncData() {\n  try{\n    $data.loading=true;\n\n    $data.params.begin = $data.params.date +`${'-01'}`;\n    $data.params.unitcode=$info.userInfo.primaryUnit;\n\n    const res = await $dde.get(\"3ef2400c3fc647da986c9942c7581\", {\n        params: $data.params\n    });\n\n    const source =res.map((item,order)=>{\n     item.order = order+1\n     if(item.usercode===undefined && item.username===undefined)\n       item.usercode='总计'\n     else if(item.username===undefined)\n       item.usercode='小计'\n     return item\n  })\n\n    $data.datalist = source;\n    $data.loading=false;\n  }catch{\n    $data.loading=false;\n  }\n  \n}",
+        "name": "getAsyncData",
+        "id": "Method_1640863219760",
+        "label": "getAsyncData",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "报表",
+  "isValid": "F"
+}

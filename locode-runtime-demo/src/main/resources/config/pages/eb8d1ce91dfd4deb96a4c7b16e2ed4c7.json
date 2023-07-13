@@ -1,0 +1,22 @@
+{
+  "modelId": "eb8d1ce91dfd4deb96a4c7b16e2ed4c7",
+  "modelName": "表单模块",
+  "optId": "cnTGTWlRRCyWRl_7RGF0lg",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "plugin": {
+      "tag": "Model",
+      "label": "模块",
+      "id": "Model_1637636332272"
+    },
+    "children": []
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "Ypf8U9SFQh-Bmi2d8ZDQTA",
+  "modelTag": "表单",
+  "isValid": "F"
+}

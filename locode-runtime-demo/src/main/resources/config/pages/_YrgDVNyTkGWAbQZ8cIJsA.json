@@ -1,0 +1,869 @@
+{
+  "modelId": "_YrgDVNyTkGWAbQZ8cIJsA",
+  "modelName": "移动端审批",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-07-20 09:27:17",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建空白页面，自由发挥",
+  "mobileFormTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "MobileLayout",
+        "footer": {
+          "$name": "LayoutFooter",
+          "children": [
+            {
+              "$name": "MobileForm",
+              "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.canSubmit\n}",
+              "children": [
+                {
+                  "$name": "MobileRadio",
+                  "$parent": {
+                    "name": "MobileForm",
+                    "label": "表单",
+                    "id": "MobileForm_1650338347821_0.9281973418963692"
+                  },
+                  "rulesConfig": [
+                    {
+                      "isUse": true,
+                      "code": "function generateRule (props) {\n  // 在下面开始编写校验规则\n  return {\n    required: true,\n//    min: 0,\n//    max: 10,\n//    len: 5,\n//    type: 'string',\n//    message: '',\n//    async validator(rule, value) {\n//      return Promise.reject('some error messages')\n//    },\n//    pattern: //,\n//    trigger: ['change'],\n  }\n}",
+                      "name": "必填",
+                      "id": "Rule_1650440822940",
+                      "message": ""
+                    }
+                  ],
+                  "options": [
+                    {
+                      "label": "同意",
+                      "value": "A"
+                    },
+                    {
+                      "label": "驳回",
+                      "value": "B"
+                    }
+                  ],
+                  "$key": "applyType",
+                  "$item": {
+                    "name": "MobileRadio",
+                    "label": "单选框",
+                    "id": "MobileRadio_1650339147441_0.9315651845698798"
+                  },
+                  "label": "审批结果"
+                },
+                {
+                  "$name": "MobileField",
+                  "readonly": false,
+                  "$parent": {
+                    "name": "MobileForm",
+                    "label": "表单",
+                    "id": "MobileForm_1650338347821_0.9281973418963692"
+                  },
+                  "rulesConfig": [
+                    {
+                      "isUse": true,
+                      "code": "function generateRule (props) {\n  // 在下面开始编写校验规则\n  return {\n    required: true,\n//    min: 0,\n//    max: 10,\n//    len: 5,\n//    type: 'string',\n//    message: '',\n//    async validator(rule, value) {\n//      return Promise.reject('some error messages')\n//    },\n//    pattern: //,\n//    trigger: ['change'],\n  }\n}",
+                      "name": "必填",
+                      "id": "Rule_1650440834340",
+                      "message": ""
+                    }
+                  ],
+                  "disabled": false,
+                  "$key": "transContent",
+                  "$item": {
+                    "name": "MobileField",
+                    "label": "输入框",
+                    "id": "MobileField_1650269697622_0.9590268317122448"
+                  },
+                  "label": "审批意见"
+                },
+                {
+                  "$name": "MobileButton",
+                  "nativeTypeFlag": true,
+                  "$parent": {
+                    "name": "MobileForm",
+                    "label": "表单",
+                    "id": "MobileForm_1650338347821_0.9281973418963692"
+                  },
+                  "hairline": false,
+                  "type": "success",
+                  "size": "normal",
+                  "round": false,
+                  "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('submit')\n}",
+                  "plain": false,
+                  "iconPosition": "left",
+                  "block": true,
+                  "disabled": false,
+                  "$item": {
+                    "name": "MobileButton",
+                    "label": "按钮",
+                    "id": "MobileButton_1650269683488_0.4125743062412286"
+                  },
+                  "text": "提交",
+                  "useClickCode": true
+                }
+              ],
+              "$parent": {
+                "name": "LayoutFooter",
+                "label": "移动端底部布局",
+                "id": "LayoutFooter_1649664621682_0.10158772762204293"
+              },
+              "use$$ifCode": true,
+              "$key": "audit",
+              "$item": {
+                "name": "MobileForm",
+                "label": "表单",
+                "id": "MobileForm_1650338347821_0.9281973418963692"
+              }
+            }
+          ],
+          "$item": {
+            "name": "LayoutFooter",
+            "label": "移动端底部布局",
+            "id": "LayoutFooter_1649664621682_0.10158772762204293"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1649664616091_0.11621053050910257"
+        },
+        "showHeader": false,
+        "onClickLeftCode": "function onClickLeft(e) {\n  // 在下面开始编写点击左侧事件\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId:'ab80c37ebfa346cfb82cc144bcbce2c6',\n    }\n  })\n}",
+        "title": "审批",
+        "showFooter": true,
+        "leftArrow": true,
+        "tabList": [
+          {
+            "name": "标签1",
+            "icon": "home-o"
+          }
+        ],
+        "useClickLeftCode": true,
+        "children": [
+          {
+            "$name": "MobileLayoutContent",
+            "children": [
+              {
+                "$name": "MobileTabs",
+                "tabList": [
+                  {
+                    "name": "审批信息"
+                  },
+                  {
+                    "name": "审批过程"
+                  }
+                ],
+                "children": [
+                  {
+                    "$name": "MobileTabsContent",
+                    "children": [
+                      {
+                        "$name": "MobileForm",
+                        "children": [
+                          {
+                            "border": false,
+                            "$name": "MobileCellGroup",
+                            "children": [
+                              {
+                                "$name": "MobilePicker",
+                                "search": false,
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [
+                                  {
+                                    "isUse": true,
+                                    "code": "function generateRule (props) {\n  // 在下面开始编写校验规则\n  return {\n    required: true,\n//    min: 0,\n//    max: 10,\n//    len: 5,\n//    type: 'string',\n    message: '必须填写',\n//    async validator(rule, value) {\n//      return Promise.reject('some error messages')\n//    },\n//    pattern: //,\n//    trigger: ['change'],\n  }\n}",
+                                    "name": " 必填",
+                                    "id": "Rule_1650008813456",
+                                    "message": ""
+                                  }
+                                ],
+                                "options": [
+                                  {
+                                    "label": "请假",
+                                    "value": "Q"
+                                  },
+                                  {
+                                    "label": "外出",
+                                    "value": "W"
+                                  },
+                                  {
+                                    "label": "补打卡",
+                                    "value": "B"
+                                  }
+                                ],
+                                "disabled": false,
+                                "$key": "bigtype",
+                                "$item": {
+                                  "name": "MobilePicker",
+                                  "label": "单项选择",
+                                  "id": "MobilePicker_1649747755993_0.5282670090153896"
+                                },
+                                "label": "类别"
+                              },
+                              {
+                                "$name": "单项选择",
+                                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.bigtype === 'Q'\n}",
+                                "search": false,
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "options": [
+                                  {
+                                    "label": "事假",
+                                    "value": "S"
+                                  },
+                                  {
+                                    "label": "婚假",
+                                    "value": "H"
+                                  },
+                                  {
+                                    "label": "产假",
+                                    "value": "C"
+                                  },
+                                  {
+                                    "label": "年假",
+                                    "value": "N"
+                                  },
+                                  {
+                                    "label": "调休",
+                                    "value": "T"
+                                  },
+                                  {
+                                    "label": "护产假",
+                                    "value": "P"
+                                  },
+                                  {
+                                    "label": "非住院病假",
+                                    "value": "FB"
+                                  },
+                                  {
+                                    "label": "住院病假",
+                                    "value": "ZB"
+                                  },
+                                  {
+                                    "label": "探亲假",
+                                    "value": "TQ"
+                                  },
+                                  {
+                                    "label": "产检假",
+                                    "value": "CJ"
+                                  },
+                                  {
+                                    "label": "丧假",
+                                    "value": "SJ"
+                                  },
+                                  {
+                                    "label": "护理假",
+                                    "value": "HL"
+                                  }
+                                ],
+                                "use$$ifCode": true,
+                                "disabled": false,
+                                "$key": "leavetype",
+                                "$item": {
+                                  "name": "MobilePicker",
+                                  "label": "单项选择",
+                                  "id": "MobilePicker_1649748072933_0.3912848930168922"
+                                },
+                                "label": "请假类型"
+                              },
+                              {
+                                "$name": "单项选择",
+                                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.bigtype === 'W'\n}",
+                                "search": false,
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "options": [
+                                  {
+                                    "label": "市内外出",
+                                    "value": "SN"
+                                  },
+                                  {
+                                    "label": "其他外出",
+                                    "value": "QW"
+                                  },
+                                  {
+                                    "label": "出差",
+                                    "value": "CC"
+                                  },
+                                  {
+                                    "label": "长期驻外",
+                                    "value": "CQ"
+                                  }
+                                ],
+                                "use$$ifCode": true,
+                                "disabled": false,
+                                "$key": "leavetype",
+                                "$item": {
+                                  "name": "MobilePicker",
+                                  "label": "单项选择",
+                                  "id": "MobilePicker_1649748928261_0.390072366552342"
+                                },
+                                "label": "外出类型"
+                              },
+                              {
+                                "$name": "MobileField",
+                                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  const { bigtype: t, leavetype: lt } = $data\n  return t === 'W' &&  (lt === 'CC' || lt === 'CQ')\n}",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "use$$ifCode": true,
+                                "disabled": false,
+                                "$key": "leavecity",
+                                "$item": {
+                                  "name": "MobileField",
+                                  "label": "输入框",
+                                  "id": "MobileField_1649749184832_0.2415024596771107"
+                                },
+                                "label": "外出地"
+                              },
+                              {
+                                "$name": "MobileDatePicker",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "format": "YYYY-MM-DD HH:mm",
+                                "disabled": false,
+                                "$key": "begintime",
+                                "$item": {
+                                  "name": "MobileDatePicker",
+                                  "label": "日期选择",
+                                  "id": "MobileDatePicker_1649841595915_0.5881236356166879"
+                                },
+                                "label": "开始时间"
+                              },
+                              {
+                                "$name": "日期选择",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "format": "YYYY-MM-DD HH:mm",
+                                "disabled": false,
+                                "$key": "endtime",
+                                "$item": {
+                                  "name": "MobileDatePicker",
+                                  "label": "日期选择",
+                                  "id": "MobileDatePicker_1649841638525_0.4909524779797936"
+                                },
+                                "label": "结束时间"
+                              },
+                              {
+                                "$name": "MobileField",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "disabled": false,
+                                "$key": "leavedays",
+                                "$item": {
+                                  "name": "MobileField",
+                                  "label": "输入框",
+                                  "id": "MobileField_1649749410799_0.11506919378607483"
+                                },
+                                "label": "时长"
+                              },
+                              {
+                                "$name": "MobileField",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "disabled": false,
+                                "$key": "leavereason",
+                                "$item": {
+                                  "name": "MobileField",
+                                  "label": "输入框",
+                                  "id": "MobileField_1649725296996_0.6683563083102642"
+                                },
+                                "placeholder": "",
+                                "label": "事由"
+                              },
+                              {
+                                "$name": "MobileField",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "disabled": false,
+                                "$key": "checkuserDesc",
+                                "$item": {
+                                  "name": "MobileField",
+                                  "label": "输入框",
+                                  "id": "MobileField_1650273721720_0.4307927282118873"
+                                },
+                                "label": "预审人"
+                              },
+                              {
+                                "$name": "MobileField",
+                                "readonly": true,
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "rulesConfig": [],
+                                "disabled": false,
+                                "$key": "userNames",
+                                "$item": {
+                                  "name": "MobileField",
+                                  "label": "输入框",
+                                  "id": "MobileField_1650273724601_0.9766841794037127"
+                                },
+                                "label": "抄送人"
+                              },
+                              {
+                                "$name": "MobileUpload",
+                                "$parent": {
+                                  "name": "MobileCellGroup",
+                                  "label": "分组",
+                                  "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                                },
+                                "showUpload": false,
+                                "multiple": false,
+                                "deletable": false,
+                                "$key": "files",
+                                "label": "上传文件",
+                                "customize": false,
+                                "readonly": false,
+                                "children": [],
+                                "disabled": false,
+                                "$item": {
+                                  "name": "MobileUpload",
+                                  "label": "上传图片",
+                                  "id": "MobileUpload_1650274084252_0.5478606031740834"
+                                },
+                                "camera": false
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileForm",
+                              "label": "表单",
+                              "id": "MobileForm_1650351017366_0.9371863983314241"
+                            },
+                            "inset": true,
+                            "$item": {
+                              "name": "MobileCellGroup",
+                              "label": "分组",
+                              "id": "MobileCellGroup_1649725260913_0.882651928280493"
+                            }
+                          }
+                        ],
+                        "$key": "info",
+                        "$item": {
+                          "name": "MobileForm",
+                          "label": "表单",
+                          "id": "MobileForm_1650351017366_0.9371863983314241"
+                        }
+                      }
+                    ],
+                    "$item": {
+                      "name": "MobileTabsContent",
+                      "label": "内容",
+                      "id": "MobileTabsContent_1650350985833_0.23579333731643048"
+                    }
+                  },
+                  {
+                    "$name": "MobileTabsContent",
+                    "children": [
+                      {
+                        "$name": "MobileSteps",
+                        "children": [
+                          {
+                            "$name": "MobileRow",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650354626545_0.19422270505122397"
+                                },
+                                "$key": "node",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650354211590_0.21777490207508943"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650354626545_0.19422270505122397"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "布局行",
+                            "children": [
+                              {
+                                "$name": "文字",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650354632106_0.5075450574931246"
+                                },
+                                "$key": "user",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650354638775_0.7681605168338568"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "文字",
+                                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.time\n}",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650354632106_0.5075450574931246"
+                                },
+                                "use$$ifCode": true,
+                                "$key": "time",
+                                "useValueCode": false,
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650355032721_0.34578151005748126"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "文字",
+                                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.result\n}",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650354632106_0.5075450574931246"
+                                },
+                                "use$$ifCode": true,
+                                "$key": "result",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650355070272_0.4039504616168208"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650354632106_0.5075450574931246"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "MobileRow",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.content\n}",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650355132649_0.9992812859641318"
+                                },
+                                "use$$ifCode": true,
+                                "$key": "content",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650355138016_0.6257188590723082"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650355132649_0.9992812859641318"
+                            },
+                            "height": 3
+                          }
+                        ],
+                        "active": "",
+                        "activeKey": "active",
+                        "$key": "ideas",
+                        "$item": {
+                          "name": "MobileSteps",
+                          "label": "步骤条",
+                          "id": "MobileSteps_1650353412171_0.4926392447192187"
+                        },
+                        "direction": "vertical"
+                      }
+                    ],
+                    "$item": {
+                      "name": "MobileTabsContent",
+                      "label": "内容",
+                      "id": "MobileTabsContent_1650350985833_0.5087382143686683"
+                    }
+                  }
+                ],
+                "shrink": false,
+                "sticky": false,
+                "$item": {
+                  "name": "MobileTabs",
+                  "label": "标签页",
+                  "id": "MobileTabs_1650350985833_0.7894295941473404"
+                },
+                "card": false
+              }
+            ],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1649664621682_0.7295073380032737"
+            }
+          }
+        ],
+        "showTabBar": false,
+        "showNavBar": true,
+        "header": {
+          "$name": "LayoutHeader",
+          "children": [],
+          "$item": {
+            "name": "LayoutHeader",
+            "label": "移动端顶部布局",
+            "id": "LayoutHeader_1649664621682_0.24668839104572915"
+          }
+        },
+        "$item": {
+          "name": "MobileLayout",
+          "label": "布局",
+          "id": "MobileLayout_1649664621682_0.6876537728392984"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "paramsConfigs": {
+      "Param_1650268472714": {
+        "code": "function watchLeaveno(leaveno, oldLeaveno) {\n  // 在下面开始编写leaveno监听\n  $run('load', leaveno)\n}",
+        "immediate": true,
+        "name": "flowOptTag",
+        "id": "Param_1650268472714"
+      },
+      "Param_1650353772900": {
+        "code": "function watchFlowInstId(flowInstId, oldFlowInstId) {\n  // 在下面开始编写flowInstId监听\n  $run('queryIdeas', flowInstId)\n}",
+        "immediate": true,
+        "name": "flowInstId",
+        "id": "Param_1650353772900"
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  // $run('getUserInfo')\n  $data.canSubmit = $route.params.canSubmit\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1649664616091_0.11621053050910257"
+    }
+  },
+  "formTemplate": {
+    "$name": "Model",
+    "children": [],
+    "root": true,
+    "componentData": {},
+    "style": {},
+    "paramsConfigs": {
+      "Param_1650268472714": {
+        "name": "leaveno",
+        "id": "Param_1650268472714"
+      },
+      "Param_1650353772900": {
+        "name": "flowInstId",
+        "id": "Param_1650353772900"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1649664589899_0.8241631733880492"
+    }
+  },
+  "publishDate": "2022-07-20 09:27:17",
+  "sourceId": "_YrgDVNyTkGWAbQZ8cIJsA",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1650353966664": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "dones",
+        "id": "Data_1650353966664"
+      },
+      "Data_1649748755054": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "object",
+        "name": "info",
+        "id": "Data_1649748755054",
+        "label": "info",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1650353988127": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "todos",
+        "id": "Data_1650353988127",
+        "label": "todos",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1650355492976": {
+        "code": "0",
+        "children": [],
+        "dataType": "number",
+        "name": "active",
+        "id": "Data_1650355492976",
+        "label": "active",
+        "type": "data"
+      },
+      "Data_1650353926798": {
+        "code": "[]",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "array",
+        "name": "ideas",
+        "id": "Data_1650353926798",
+        "label": "ideas",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1650424297804": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "canSubmit",
+        "id": "Data_1650424297804",
+        "label": "canSubmit",
+        "type": "data"
+      },
+      "Data_1650338408387": {
+        "code": "[]",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "array",
+        "name": "audit",
+        "id": "Data_1650338408387",
+        "label": "audit",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1650354088712": {
+        "code": "async function queryTodos(flowInstId) {\n  \tif (!flowInstId) return\n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'createTime',\n        order: 'asc',\n    }\n      \n\tlet resultData = await $dde.get('1ec630ae3a3045c0a2818013532987ee', { params })\n\t$data.todos = resultData  \n}",
+        "name": "queryTodos",
+        "id": "Method_1650354088712",
+        "label": "queryTodos",
+        "type": "method"
+      },
+      "Method_1650354118794": {
+        "code": "function createIdeas() {\n\tconst { dones, todos } = $data\n    $data.ideas = dones.map(t => ({\n    \tnode: t.nodeName,\n      \tuser: t.userCodeDesc,\n      \ttime: t.transDate,\n      \tresult: t.transIdea,\n      \tcontent: t.transContent,\n    }))\n  \n  \t$data.ideas = $data.ideas.concat(todos.map(t => ({\n    \tnode: t.nodeName,\n      \tuser: t.userName,\n      \tpendding: true,\n    })))\n}",
+        "name": "createIdeas",
+        "id": "Method_1650354118794",
+        "label": "createIdeas",
+        "type": "method"
+      },
+      "Method_1650338573996": {
+        "code": "async function submit () {\n  const item = JSON.parse($route.params.item)\n  const flow = Object.assign({}, item, $params, $data.audit)\n  await $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {flow})\n\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId:'ab80c37ebfa346cfb82cc144bcbce2c6',\n    }\n  })\n}",
+        "name": "submit",
+        "id": "Method_1650338573996",
+        "label": "submit",
+        "type": "method"
+      },
+      "Method_1650268520764": {
+        "code": "async function load(leaveno) {\nif (!leaveno) return\n  const params = { leaveno }\n  $data.info = await $dde.get('e90824a4d1914eda906d79874182ef89', { params })\n  //转换抄送人姓名\n  if($data.info && $data.info.cc) {\n      $data.info.userNames = $data.info.cc.map(user=>user.usercodeDesc).join(',')\n  }\n}",
+        "name": "load",
+        "id": "Method_1650268520764",
+        "label": "load",
+        "type": "method"
+      },
+      "Method_1650354065958": {
+        "code": "async function queryDones(flowInstId) {\n      \tif (!flowInstId) return\n  \n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'transDate',\n        order: 'asc',\n    }\n    \n    const {\n    \tobjList,\n    } = await $dde.get('8186380be13d401fb3b54a75f8987e8b', { params })\n\n\t$data.dones = objList\n    $data.active = objList.length-1\n}",
+        "name": "queryDones",
+        "id": "Method_1650354065958",
+        "label": "queryDones",
+        "type": "method"
+      },
+      "Method_1650354028999": {
+        "code": "async function queryIdeas (flowInstId) {\n  if (flowInstId) {\n  \t$data.loading = true\n  } else {\n  \treturn\n  }\n  \n  // 在下面开始编写flowInstId监听\n  await Promise.all([\n  \t$run('queryDones', flowInstId),\n    $run('queryTodos', flowInstId),\n  ])\n  \n  $run('createIdeas')\n  $data.loading = false\n}",
+        "name": "queryIdeas",
+        "id": "Method_1650354028999",
+        "label": "queryIdeas",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1650268472714": {
+        "code": "function watchLeaveno(leaveno, oldLeaveno) {\n  // 在下面开始编写leaveno监听\n  $run('load', leaveno)\n}",
+        "immediate": true,
+        "name": "flowOptTag",
+        "id": "Param_1650268472714"
+      },
+      "Param_1650353772900": {
+        "code": "function watchFlowInstId(flowInstId, oldFlowInstId) {\n  // 在下面开始编写flowInstId监听\n  $run('queryIdeas', flowInstId)\n}",
+        "immediate": true,
+        "name": "flowInstId",
+        "id": "Param_1650353772900"
+      }
+    }
+  },
+  "modelTag": "空白",
+  "isValid": "F"
+}

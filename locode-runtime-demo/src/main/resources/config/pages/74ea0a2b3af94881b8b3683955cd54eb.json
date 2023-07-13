@@ -1,0 +1,24 @@
+{
+  "modelId": "74ea0a2b3af94881b8b3683955cd54eb",
+  "modelName": "按部门统计考勤数据",
+  "optId": "2ac2270fa659453f9b3bde78ef9bdbc3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "",
+  "formTemplate": {
+    "children": [],
+    "root": true,
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639118825906"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "RK_mfE8FR2-s8cSdrsTbNw",
+  "modelTag": "",
+  "isValid": "F"
+}

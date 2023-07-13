@@ -1,0 +1,640 @@
+{
+  "modelId": "cf36c5ec0177406cb4be7e99252af3b7",
+  "modelName": "个人月度考勤统计",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-11-21 10:40:27",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1640775036685": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1640775036685",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1640775036685"
+      },
+      "Data_1639708704455": {
+        "code": "$dayjs().month() + 1",
+        "children": [],
+        "name": "month",
+        "id": "Data_1639708704455",
+        "title": "month",
+        "type": "s",
+        "key": "Data_1639708704455"
+      },
+      "Data_1640774242345": {
+        "code": "\"\"",
+        "children": [],
+        "name": "userCode",
+        "id": "Data_1640774242345",
+        "title": "userCode",
+        "type": "s",
+        "key": "Data_1640774242345"
+      },
+      "Data_1639708677735": {
+        "code": "$dayjs().year()",
+        "children": [],
+        "name": "year",
+        "id": "Data_1639708677735",
+        "title": "year",
+        "type": "s",
+        "key": "Data_1639708677735"
+      }
+    },
+    "styleText": "display: flex;\nflex: 1 1 auto;\nheight: 100%;\nbackground: transparent;\noverflow: hidden;",
+    "useStyleText": true,
+    "componentData": {},
+    "paramsConfigs": {
+      "Param_1640771248876": {
+        "code": "function watchCurrent(current, oldCurrent) {\n  // 在下面开始编写current监听\n  $run('change', $params.userCode, current)\n}",
+        "immediate": true,
+        "name": "current",
+        "id": "Param_1640771248876"
+      },
+      "Param_1640771254676": {
+        "code": "function watchUserCode(userCode, oldUserCode) {\n  // 在下面开始编写userCode监听\n  $run('change', userCode, $params.current)\n}",
+        "immediate": true,
+        "name": "userCode",
+        "id": "Param_1640771254676"
+      }
+    },
+    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+    "methodsConfigs": {
+      "Method_1640771345180": {
+        "code": "async function query(userCode, current) {\n  if ($data.isLoading || !userCode || !current) return\n  const month = current.month() + 1\n  const year = current.year()\n  if ($data.month == month \n      && $data.year == year \n      && $data.userCode == userCode) return\n  $data.isLoading = true\n  $data.month = month\n  $data.year = year\n  \n  const params = {\n    usercode: userCode,\n    month: `${year}-${month}-01`,\n  }\n  try {\n    const list = await $dde.get('63cfda9d917a4698bb59e49ba2c72a6a', { params })\n  \t$data.info = list[0] || {}\n  \t$data.userCode = userCode\n  \t$data.current = current\n  } finally {\n  \t$data.isLoading = false\n  }\n}",
+        "name": "change",
+        "id": "Method_1640771345180",
+        "title": "change",
+        "key": "Method_1640771345180"
+      }
+    },
+    "children": [
+      {
+        "$name": "Row",
+        "gutter": 8,
+        "useStyleText": true,
+        "styleText": "align-items: center;\nheight: 70px;\nmargin-right: 100px;\nfont-size: 20px;",
+        "children": [
+          {
+            "$name": "Icon",
+            "useStyleText": true,
+            "styleText": "cursor: pointer;",
+            "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('prevMonth')\n}",
+            "size": 30,
+            "color": "#555555",
+            "$parent": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1648798135700_0.1545628789457163"
+            },
+            "$item": {
+              "name": "Icon",
+              "label": "图标",
+              "id": "Icon_1648798155741_0.79621132265818"
+            },
+            "type": "LeftOutlined",
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+            "useClickCode": true
+          },
+          {
+            "useStyleText": true,
+            "styleText": "font-size: 24px;\nfont-weight: 700;\npadding: 8px;",
+            "$parent": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1648798135700_0.1545628789457163"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { year, month } = $data\n  return `${year}年${month}月`\n}",
+            "useValueCode": true,
+            "$item": {
+              "name": "Html",
+              "label": "文字",
+              "id": "Html_1639708665888"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          {
+            "$name": "图标",
+            "useStyleText": true,
+            "styleText": "cursor: pointer;",
+            "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('nextMonth')\n}",
+            "size": 30,
+            "color": "#42445a",
+            "$parent": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1648798135700_0.1545628789457163"
+            },
+            "$item": {
+              "name": "Icon",
+              "label": "图标",
+              "id": "Icon_1648798159837_0.6463364703592382"
+            },
+            "type": "RightOutlined",
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+            "useClickCode": true
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639707131699"
+        },
+        "$item": {
+          "name": "Row",
+          "label": "行",
+          "id": "Row_1648798135700_0.1545628789457163"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "gutter": 16,
+        "useStyleText": true,
+        "styleText": "flex: auto;",
+        "$group": "Row_1639720490170",
+        "children": [
+          {
+            "children": [
+              {
+                "useValueStyleCode": true,
+                "useStyleText": true,
+                "styleText": "background: #fff;\nborder: 1px solid #ccc;\nborder-radius: 2px;\npadding: 2px 4px;",
+                "$parent": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1639720493762"
+                },
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { \n    count = 0,\n    day = 0,\n    hours = 0,\n  } = $data.info || {}\n  const d = ((day * 24 + hours) / 24).toFixed(1)\n  return `${count}次 ${d}天`\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Statistic",
+                  "label": "统计数据",
+                  "id": "Statistic_1639721123029"
+                },
+                "setValueStyleCode": "function setValueStyle() {\n  // 在下面返回ValueStyle的值\n  return {\n    color: '#00bc6a'\n  }\n}",
+                "title": "请假",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$parent": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1639720490170"
+            },
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1639720493762"
+            },
+            "span": 8
+          },
+          {
+            "children": [
+              {
+                "useValueStyleCode": true,
+                "useStyleText": true,
+                "styleText": "background: #fff;\nborder: 1px solid #ccc;\nborder-radius: 2px;\npadding: 2px 4px;",
+                "$parent": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1639720551586"
+                },
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { \n    lateduration: d1 = 0,\n    latetimes: t1 = 0,\n    leaveduration: d2 = 0,\n    leavetimes: t2 = 0,\n  } = $data.info || {}\n  //return `${t1 + t2}次 ${d1 + d2}分钟`\n  return `${t1 + t2}次`\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Statistic",
+                  "label": "统计数据",
+                  "id": "Statistic_1639721471794"
+                },
+                "setValueStyleCode": "function setValueStyle() {\n  // 在下面返回ValueStyle的值\n  return {\n  \tcolor: '#ff9900'\n  }\n}",
+                "title": "迟到、早退",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$parent": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1639720490170"
+            },
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1639720551586"
+            },
+            "span": 7
+          },
+          {
+            "children": [
+              {
+                "useValueStyleCode": true,
+                "useStyleText": true,
+                "styleText": "background: #fff;\nborder: 1px solid #ccc;\nborder-radius: 2px;\npadding: 2px 4px;",
+                "$parent": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1639720550305"
+                },
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { \n    absencetimes: t = 0,\n  } = $data.info || {}\n  return `${t}次`\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Statistic",
+                  "label": "统计数据",
+                  "id": "Statistic_1639721503032"
+                },
+                "setValueStyleCode": "function setValueStyle() {\n  // 在下面返回ValueStyle的值\n  return {\n  \tcolor: '#ed4014'\n  }\n}",
+                "title": "未刷卡",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$parent": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1639720490170"
+            },
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1639720550305"
+            },
+            "span": 7
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639707131699"
+        },
+        "$item": {
+          "name": "Row",
+          "label": "行",
+          "id": "Row_1639720490170"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "$name": "Row",
+        "gutter": 8,
+        "useStyleText": true,
+        "styleText": "flex: none;\ndisplay: flex;\nalign-items: center;",
+        "children": [
+          {
+            "$name": "Icon",
+            "useStyleText": true,
+            "styleText": "cursor: pointer;\n    margin: 0 8px 15px 0;",
+            "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('changeUser')\n}",
+            "size": 30,
+            "$parent": {
+              "name": "Row",
+              "label": "行容器",
+              "id": "Row_1655363497101_0.7407124421463647"
+            },
+            "$item": {
+              "name": "Icon",
+              "label": "图标",
+              "id": "Icon_1655365442979_0.8126532049097221"
+            },
+            "type": "SyncOutlined",
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+            "useClickCode": true
+          },
+          {
+            "$name": "Select",
+            "notShowItem": false,
+            "isTree": true,
+            "useDisabledCode": true,
+            "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return !$$data.users?.length || !$$data.userCode\n}",
+            "useChangeCode": true,
+            "$parent": {
+              "name": "Row",
+              "label": "行容器",
+              "id": "Row_1655363497101_0.7407124421463647"
+            },
+            "styleConfig": {
+              "layout": {
+                "flex_attrs": {},
+                "box_attrs": {
+                  "margin-right": "8"
+                },
+                "display": "",
+                "width": "160",
+                "height": ""
+              },
+              "border": {
+                "border-top": {},
+                "border-right": {},
+                "borderBottomLeftRadius": "",
+                "border-left": {},
+                "borderBottomRightRadius": "",
+                "borderTopRightRadius": "",
+                "type": "",
+                "radius": 0,
+                "border-bottom": {},
+                "border-outer": {},
+                "borderTopLeftRadius": ""
+              },
+              "background": {
+                "size": "full",
+                "w": 150,
+                "repeat": false,
+                "h": 100,
+                "x": 100,
+                "y": 100,
+                "position": "center",
+                "type": "color"
+              },
+              "text": {
+                "color": "",
+                "textAlign": "",
+                "fontSize": "",
+                "lineHeight": "",
+                "fontWeight": ""
+              },
+              "position": {
+                "top": "",
+                "left": "",
+                "bottom": "",
+                "clear": "",
+                "position": "",
+                "right": "",
+                "float": "",
+                "zIndex": 0
+              }
+            },
+            "setOptionsCode": "function setOptions() {\n  // 在下面返回Options的值\n  return $$data.users\n}",
+            "showArrow": true,
+            "$key": "userCode",
+            "label": "",
+            "bordered": true,
+            "configStyle": {
+              "color": "",
+              "float": "",
+              "borderTop": "undefined undefined undefined",
+              "borderLeft": "undefined undefined undefined",
+              "top": "",
+              "borderBottomRightRadius": "",
+              "borderTopRightRadius": "",
+              "borderBottom": "undefined undefined undefined",
+              "fontWeight": "",
+              "height": "",
+              "zIndex": 0,
+              "textAlign": "",
+              "bottom": "",
+              "display": "",
+              "clear": "",
+              "right": "",
+              "margin-right": "8px",
+              "borderTopLeftRadius": "",
+              "left": "",
+              "borderBottomLeftRadius": "",
+              "borderRight": "undefined undefined undefined",
+              "background": "url(undefined) center / 100% 100% no-repeat",
+              "width": "160px",
+              "fontSize": "",
+              "lineHeight": "",
+              "position": ""
+            },
+            "defaultRules": {
+              "min": {
+                "use": false,
+                "message": "该选项值/长度不能小于{{$1}}",
+                "value": [
+                  16
+                ]
+              },
+              "max": {
+                "use": false,
+                "message": "该选项值/长度不能大于{{$1}}",
+                "value": [
+                  16
+                ]
+              },
+              "phone": {
+                "use": false,
+                "message": "该选项不是一个合法的电话号码"
+              },
+              "ip": {
+                "use": false,
+                "message": "该选项不是一个合法的IP地址"
+              },
+              "length": {
+                "use": false,
+                "message": "该选项值/长度必须等于{{$1}}",
+                "value": [
+                  16
+                ]
+              },
+              "mobile": {
+                "use": false,
+                "message": "该选项不是一个合法的手机号"
+              },
+              "id": {
+                "use": false,
+                "message": "该选项不是一个合法的身份证号码"
+              },
+              "required": {
+                "use": false,
+                "message": "该选项必填"
+              },
+              "email": {
+                "use": false,
+                "message": "该选项不是一个合法的邮箱地址"
+              },
+              "url": {
+                "use": false,
+                "message": "该选项不是一个合法的网址"
+              }
+            },
+            "dropdownMatchSelectWidth": true,
+            "setTreeDataCode": "function setTreeData() {\n  // 在下面返回TreeData的值\n  return $$data.users\n}",
+            "rulesConfig": [],
+            "useTreeDataCode": true,
+            "options": [
+              {
+                "label": "选项1",
+                "value": "1"
+              },
+              {
+                "label": "选项2",
+                "value": "2"
+              },
+              {
+                "label": "选项3",
+                "value": "3"
+              },
+              {
+                "label": "选项4",
+                "value": "4"
+              }
+            ],
+            "$item": {
+              "name": "Select",
+              "label": "下拉框",
+              "id": "Select_1655363522750_0.058477915581002016"
+            },
+            "useOptionsCode": true,
+            "onChangeCode": "function onChange(e) {\n  // 在下面开始编写选择事件\n  debugger\n  $run('changeUser', e)\n}"
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639707131699"
+        },
+        "$item": {
+          "name": "Row",
+          "label": "行容器",
+          "id": "Row_1655363497101_0.7407124421463647"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.isLoading\n}",
+        "size": "default",
+        "useStyleText": true,
+        "styleText": "position: absolute;\nleft: 0;\nright: 0;\ntop: 0;\nbottom: 0;\ndisplay: flex;\njustify-content: center;\nalign-items: center;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639707131699"
+        },
+        "use$$ifCode": true,
+        "$item": {
+          "name": "Spin",
+          "label": "加载中",
+          "id": "Spin_1640775871776_0.10168021710131447"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "style": {
+      "overflow": "hidden",
+      "flex": "1 1 auto",
+      "background": "transparent",
+      "display": "flex",
+      "height": "100%"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('init')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639707131699"
+    }
+  },
+  "publishDate": "2022-11-21 10:40:27",
+  "sourceId": "Q2sV5RBRS_CWRnYE6uOqlw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640775036685": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "info",
+        "id": "Data_1640775036685",
+        "label": "info",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1655363839684": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "users",
+        "id": "Data_1655363839684",
+        "label": "users",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1639708704455": {
+        "code": "$dayjs().month() + 1",
+        "children": [],
+        "dataType": "number",
+        "name": "month",
+        "id": "Data_1639708704455",
+        "label": "month",
+        "type": "data"
+      },
+      "Data_1640774242345": {
+        "code": "\"\"",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "string",
+        "name": "userCode",
+        "id": "Data_1640774242345",
+        "label": "userCode",
+        "type": "data"
+      },
+      "Data_1639708677735": {
+        "code": "$dayjs().year()",
+        "children": [],
+        "dataType": "number",
+        "name": "year",
+        "id": "Data_1639708677735",
+        "label": "year",
+        "type": "data"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1655364083979": {
+        "code": "function changeUser (userCode = $info.userInfo.userCode) {\n  $data.userCode = userCode\n  $data.needChange = true\n  $emit('change', userCode, $params.current)\n}",
+        "name": "changeUser",
+        "id": "Method_1655364083979",
+        "label": "changeUser",
+        "type": "method"
+      },
+      "Method_1648798493663": {
+        "code": "function prevMonth () {\n  console.log($params.current)\n  const m = $params.current.subtract(1, 'month')\n  $emit('change', $data.userCode, m)\n}",
+        "name": "prevMonth",
+        "id": "Method_1648798493663",
+        "label": "prevMonth",
+        "type": "method"
+      },
+      "Method_1640771345180": {
+        "code": "async function query(userCode, current) {\n  if ($data.isLoading || !userCode || !current) return\n  const month = current.month() + 1\n  const year = current.year()\n  if ($data.month == month \n      && $data.year == year \n      && $data.userCode == userCode\n      && !$data.needChange\n  ) return\n  $data.isLoading = true\n  $data.month = month\n  $data.year = year\n  \n  const params = {\n    usercode: userCode,\n    month: `${year}-${month}-01`,\n  }\n  try {\n    const list = await $dde.get('63cfda9d917a4698bb59e49ba2c72a6a', { params })\n  \t$data.info = list[0] || {}\n  \t$data.userCode = userCode\n  \t$data.current = current\n  } finally {\n  \t$data.isLoading = false\n    $data.needChange = false\n  }\n}",
+        "name": "change",
+        "id": "Method_1640771345180",
+        "label": "change",
+        "type": "method"
+      },
+      "Method_1648798501485": {
+        "code": "function nextMonth () {\n  const m = $params.current.add(1, 'month')\n  $emit('change', $data.userCode, m)\n}",
+        "name": "nextMonth",
+        "id": "Method_1648798501485",
+        "label": "nextMonth",
+        "type": "method"
+      },
+      "Method_1655363832300": {
+        "code": "async function init () {\n    const { queryUnitsUsers } = $api\n    $data.users = await queryUnitsUsers(true)    \n}",
+        "name": "init",
+        "id": "Method_1655363832300",
+        "label": "init",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [
+      "change"
+    ],
+    "paramsConfigs": {
+      "Param_1640771248876": {
+        "code": "function watchCurrent(current, oldCurrent) {\n  // 在下面开始编写current监听\n  $run('change', $params.userCode, current)\n}",
+        "immediate": true,
+        "name": "current",
+        "id": "Param_1640771248876"
+      },
+      "Param_1640771254676": {
+        "code": "function watchUserCode(userCode, oldUserCode) {\n  // 在下面开始编写userCode监听\n  $run('change', userCode, $params.current)\n}",
+        "immediate": true,
+        "name": "userCode",
+        "id": "Param_1640771254676"
+      }
+    }
+  },
+  "modelTag": "统计",
+  "isValid": "F"
+}

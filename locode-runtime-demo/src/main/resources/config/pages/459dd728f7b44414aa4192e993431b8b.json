@@ -1,0 +1,155 @@
+{
+  "modelId": "459dd728f7b44414aa4192e993431b8b",
+  "modelName": "申请信息",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2022-10-24 10:47:14",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1639810156800": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1639810156800",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1639810156800"
+      },
+      "Data_1640331881137": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1640331881137",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1640331881137"
+      }
+    },
+    "fit": false,
+    "methodsConfigs": {
+      "Method_1639810183392": {
+        "code": "async function load(leaveno) {\nif (!leaveno) return\n  const params = { leaveno }\n  $data.loading = true\n  $data.info = await $dde.get('e90824a4d1914eda906d79874182ef89', { params })\n  \n  //转换抄送人姓名\n  if($data.info && $data.info.cc)\n      $data.info.userNames = $data.info.cc.map(user=>user.usercodeDesc).join(',')\n\t$data.loading = false\n}",
+        "name": "load",
+        "id": "Method_1639810183392",
+        "title": "load",
+        "key": "Method_1639810183392"
+      }
+    },
+    "styleText": "padding: 8px;",
+    "children": [
+      {
+        "useStyleText": true,
+        "styleText": "display: block;\nfont-size: 16px;\nmargin-bottom: 8px;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639810035820"
+        },
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '申请信息'\n}",
+        "$key": "",
+        "useValueCode": true,
+        "$item": {
+          "name": "Html",
+          "label": "文字",
+          "id": "Html_1639811650925"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "$params": {},
+        "slots": {},
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639810035820"
+        },
+        "customEvents": [],
+        "$events": {},
+        "customParams": [
+          {
+            "name": "leave",
+            "label": "leave",
+            "props": []
+          }
+        ],
+        "useParamsCode": true,
+        "$item": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639810292465"
+        },
+        "id": "2446f9f63ec342a2aa118c3c1d1aab7b",
+        "templateStyle": {},
+        "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n  \tleave: $data.info\n  }\n}"
+      }
+    ],
+    "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.loading\n}",
+    "root": true,
+    "componentData": {},
+    "style": {
+      "padding": "8px"
+    },
+    "paramsConfigs": {
+      "Param_1639810094617": {
+        "code": "function watchLeaveno(leaveno, oldLeaveno) {\n  // 在下面开始编写leaveno监听\n  $run('load', leaveno)\n}",
+        "immediate": true,
+        "name": "leaveno",
+        "id": "Param_1639810094617"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639810035820"
+    },
+    "useLoadingCode": true
+  },
+  "publishDate": "2022-10-24 10:47:14",
+  "sourceId": "bgjWMVZiSiaso6MZPhlVkw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1639810156800": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1639810156800",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1639810156800"
+      },
+      "Data_1640331881137": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1640331881137",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1640331881137"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639810183392": {
+        "code": "async function load(leaveno) {\nif (!leaveno) return\n  const params = { leaveno }\n  $data.loading = true\n  $data.info = await $dde.get('e90824a4d1914eda906d79874182ef89', { params })\n  \n  //转换抄送人姓名\n  if($data.info && $data.info.cc)\n      $data.info.userNames = $data.info.cc.map(user=>user.usercodeDesc).join(',')\n\t$data.loading = false\n}",
+        "name": "load",
+        "id": "Method_1639810183392",
+        "title": "load",
+        "key": "Method_1639810183392"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1639810094617": {
+        "code": "function watchLeaveno(leaveno, oldLeaveno) {\n  // 在下面开始编写leaveno监听\n  $run('load', leaveno)\n}",
+        "immediate": true,
+        "name": "leaveno",
+        "id": "Param_1639810094617"
+      }
+    }
+  },
+  "modelTag": "申请",
+  "isValid": "F"
+}

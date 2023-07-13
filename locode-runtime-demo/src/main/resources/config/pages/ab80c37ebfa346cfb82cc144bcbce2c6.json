@@ -1,0 +1,1690 @@
+{
+  "modelId": "ab80c37ebfa346cfb82cc144bcbce2c6",
+  "modelName": "待办列表",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-12-15 10:33:31",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "mobileFormTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "MobileLayout",
+        "footer": {
+          "$name": "LayoutFooter",
+          "children": [],
+          "$item": {
+            "name": "LayoutFooter",
+            "label": "移动端底部布局",
+            "id": "LayoutFooter_1650266537096_0.7889694892969628"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1650266533262_0.5876850705285652"
+        },
+        "showHeader": false,
+        "onClickLeftCode": "function onClickLeft(e) {\n  // 在下面开始编写点击左侧事件\n    $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId:'fea4162175224bb194cf17476da0f216',\n    }\n  })\n}",
+        "title": "待办列表",
+        "showFooter": false,
+        "leftArrow": true,
+        "tabList": [
+          {
+            "name": "标签1",
+            "icon": "home-o"
+          }
+        ],
+        "useClickLeftCode": true,
+        "children": [
+          {
+            "$name": "MobileLayoutContent",
+            "children": [
+              {
+                "$name": "MobileList",
+                "onClickCode": "function onClick(item, index) {\n  // 在下面开始编写列表点击事件\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId:'_YrgDVNyTkGWAbQZ8cIJsA',\n      item:JSON.stringify(item),\n      canSubmit:true\n    },\n    query:{\n      flowOptTag:item.flowOptTag,\n      flowInstId:item.flowInstId\n    }\n  })\n}",
+                "children": [
+                  {
+                    "$name": "布局行",
+                    "useStyleText": true,
+                    "styleText": "background:#fff;\npadding:0.4rem;\nmargin:0 0.2rem;\nborder-radius: 0.4rem;\nmargin-top:0.1rem;",
+                    "children": [
+                      {
+                        "$name": "MobileCol",
+                        "children": [
+                          {
+                            "$name": "MobileRow",
+                            "children": [
+                              {
+                                "$name": "MobileCol",
+                                "children": [
+                                  {
+                                    "$name": "Html",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.28rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1650267026005_0.6426208777283979"
+                                    },
+                                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '申请人：'\n}",
+                                    "useValueCode": true,
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1650267036366_0.6424817817855764"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  },
+                                  {
+                                    "$name": "文字",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.28rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1650267026005_0.6426208777283979"
+                                    },
+                                    "$key": "creatorName",
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1650267038887_0.4700830963325935"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  }
+                                ],
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267005898_0.066999629065847"
+                                },
+                                "$item": {
+                                  "name": "MobileCol",
+                                  "label": "布局列",
+                                  "id": "MobileCol_1650267026005_0.6426208777283979"
+                                },
+                                "span": "12"
+                              },
+                              {
+                                "$name": "布局列",
+                                "children": [
+                                  {
+                                    "$name": "Html",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.28rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1650267028619_0.9149255126655904"
+                                    },
+                                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '当前节点：'\n}",
+                                    "useValueCode": true,
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1650267080117_0.12565386109831378"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  },
+                                  {
+                                    "$name": "文字",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.28rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1650267028619_0.9149255126655904"
+                                    },
+                                    "$key": "nodeName",
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1650267091093_0.01114253450865621"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  }
+                                ],
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267005898_0.066999629065847"
+                                },
+                                "$item": {
+                                  "name": "MobileCol",
+                                  "label": "布局列",
+                                  "id": "MobileCol_1650267028619_0.9149255126655904"
+                                },
+                                "span": "12"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1650266999886_0.7737420619256055"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650267005898_0.066999629065847"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "布局行",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267009247_0.14623240554790184"
+                                },
+                                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '申请名称：'\n}",
+                                "useValueCode": true,
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650267093485_0.843382830307944"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "文字",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267009247_0.14623240554790184"
+                                },
+                                "$key": "flowOptName",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650267098505_0.850402241831602"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1650266999886_0.7737420619256055"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650267009247_0.14623240554790184"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "布局行",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267008607_0.5447984225777123"
+                                },
+                                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '申请日期：'\n}",
+                                "useValueCode": true,
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650267099683_0.9188203687732619"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "文字",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267008607_0.5447984225777123"
+                                },
+                                "$key": "createTime",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650267104026_0.6215732906044731"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1650266999886_0.7737420619256055"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650267008607_0.5447984225777123"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "布局行",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267007963_0.9907287557527642"
+                                },
+                                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '时间限制：'\n}",
+                                "useValueCode": true,
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650267105070_0.8325730120033787"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "文字",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1650267007963_0.9907287557527642"
+                                },
+                                "$key": "promiseTimeStr",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1650267109347_0.5573674163668494"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1650266999886_0.7737420619256055"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1650267007963_0.9907287557527642"
+                            },
+                            "height": 3
+                          }
+                        ],
+                        "$parent": {
+                          "name": "MobileRow",
+                          "label": "布局行",
+                          "id": "MobileRow_1650266929105_0.8493765833714191"
+                        },
+                        "$item": {
+                          "name": "MobileCol",
+                          "label": "布局列",
+                          "id": "MobileCol_1650266999886_0.7737420619256055"
+                        },
+                        "span": "24"
+                      }
+                    ],
+                    "$item": {
+                      "name": "MobileRow",
+                      "label": "布局行",
+                      "id": "MobileRow_1650266929105_0.8493765833714191"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "height": 3
+                  }
+                ],
+                "$key": "list",
+                "$item": {
+                  "name": "MobileList",
+                  "label": "列表",
+                  "id": "MobileList_1650266561350_0.216094573574088"
+                },
+                "label": "list",
+                "useClickCode": true
+              }
+            ],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1650266537096_0.3494406698567538"
+            }
+          }
+        ],
+        "showTabBar": false,
+        "showNavBar": true,
+        "header": {
+          "$name": "LayoutHeader",
+          "children": [],
+          "$item": {
+            "name": "LayoutHeader",
+            "label": "移动端顶部布局",
+            "id": "LayoutHeader_1650266537096_0.3340501857457683"
+          }
+        },
+        "$item": {
+          "name": "MobileLayout",
+          "label": "布局",
+          "id": "MobileLayout_1650266537096_0.01343671461137097"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "paramsConfigs": {},
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n  $api.queryUnitsUsers(true).then(res => {\n   $data.user = res.map(item => {\n    return {\n      label: item.userName,\n      value: item.userCode\n    }\n  })\n});\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1650266533262_0.5876850705285652"
+    }
+  },
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1639808883049": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1639808883049",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1639808883049"
+      },
+      "Data_1639988532594": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmiting",
+        "id": "Data_1639988532594",
+        "title": "isSubmiting",
+        "type": "b",
+        "key": "Data_1639988532594"
+      },
+      "Data_1639805731611": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1639805731611",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1639805731611"
+      },
+      "Data_1639809000471": {
+        "code": "false",
+        "children": [],
+        "name": "adjustOpen",
+        "id": "Data_1639809000471",
+        "title": "adjustOpen",
+        "type": "b",
+        "key": "Data_1639809000471"
+      },
+      "Data_1639807664392": {
+        "code": "[]",
+        "children": [],
+        "name": "selectedRows",
+        "id": "Data_1639807664392",
+        "title": "selectedRows",
+        "type": "a",
+        "key": "Data_1639807664392"
+      },
+      "Data_1639805807172": {
+        "code": "{}",
+        "children": [],
+        "name": "sort",
+        "id": "Data_1639805807172",
+        "title": "sort",
+        "type": "o",
+        "key": "Data_1639805807172"
+      },
+      "Data_1641294880994": {
+        "code": "false",
+        "children": [],
+        "name": "qrOpen",
+        "id": "Data_1641294880994",
+        "title": "qrOpen",
+        "type": "b",
+        "key": "Data_1641294880994"
+      },
+      "Data_1647064795575": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "user",
+        "id": "Data_1647064795575",
+        "title": "user",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1647064795575"
+      },
+      "Data_1639805832763": {
+        "code": "{}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "creatorCode",
+            "id": "Data_1639805832763_creatorCode",
+            "label": "creatorCode",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "flowOptName",
+            "id": "Data_1639805832763_flowOptName",
+            "label": "flowOptName",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "time",
+            "id": "Data_1639805832763_time",
+            "label": "time",
+            "type": "schema"
+          }
+        ],
+        "name": "filters",
+        "id": "Data_1639805832763",
+        "title": "filters",
+        "type": "o",
+        "key": "Data_1639805832763"
+      },
+      "Data_1639805803659": {
+        "code": "{}",
+        "children": [],
+        "name": "page",
+        "id": "Data_1639805803659",
+        "title": "page",
+        "type": "o",
+        "key": "Data_1639805803659"
+      },
+      "Data_1640329572154": {
+        "code": "false",
+        "children": [],
+        "name": "batchOpen",
+        "id": "Data_1640329572154",
+        "title": "batchOpen",
+        "type": "b",
+        "key": "Data_1640329572154"
+      },
+      "Data_1639805718956": {
+        "code": "[]",
+        "children": [],
+        "name": "list",
+        "id": "Data_1639805718956",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1639805718956"
+      },
+      "Data_1640330871880": {
+        "code": "[]",
+        "children": [],
+        "name": "flows",
+        "id": "Data_1640330871880",
+        "title": "flows",
+        "type": "a",
+        "key": "Data_1640330871880"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639805844076": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data\n  const { time = [] } = filters\n  const begin = time[0] ? `${time[0]}+00:00:00` : undefined\n  const end = time[1] ? `${time[1]}+23:59:59` : undefined\n  const params = Object.assign({ \n  \tflowCode: 'a2f852f6dcca48cfa7826ffb1129d040',\n    userCode: $info.userInfo.userCode,\n    creatorCode: filters.creatorCode,\n    ['beginTime']: begin,\n    ['endTime']: end,\n    flowOptName: filters.flowOptName,\n  }, page, sort)\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params }) \n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1639805844076",
+        "title": "query",
+        "key": "Method_1639805844076"
+      },
+      "Method_1640329586377": {
+        "code": "function openBatch() {\n  $data.batchOpen = true\n  const { selectedRows, list } = $data\n  $data.flows = list.filter(f => selectedRows.includes(f.flowInstId))\n}",
+        "name": "openBatch",
+        "id": "Method_1640329586377",
+        "title": "openBatch",
+        "key": "Method_1640329586377"
+      },
+      "Method_1639809141358": {
+        "code": "function openAdjust(info) {\n\t$data.adjustOpen = true\n  \t$data.info = info\n}",
+        "name": "openAdjust",
+        "id": "Method_1639809141358",
+        "title": "openAdjust",
+        "key": "Method_1639809141358"
+      },
+      "Method_1639988729689": {
+        "code": "async function submit() {\n  const { AdjustInfo } = $refs\n  \n  try {\n    $data.isSubmiting = true\n    await AdjustInfo.run('submit')\n    $antd.message.success('提交成功')\n    $run('closeAdjust')\n    $run('query')\n  } finally {\n    $data.isSubmiting = false\n  }\n\n}",
+        "name": "submit",
+        "id": "Method_1639988729689",
+        "title": "submit",
+        "key": "Method_1639988729689"
+      },
+      "Method_1641294944520": {
+        "code": "function closeQR() {\n  $data.info = {}\n  $data.qrOpen = false\n}",
+        "name": "closeQR",
+        "id": "Method_1641294944520",
+        "title": "closeQR",
+        "key": "Method_1641294944520"
+      },
+      "Method_1639809172607": {
+        "code": "function closeAdjust(refresh) {\n\t$data.adjustOpen = false\n    $data.info = {}\n    if (refresh) {\n    \t$run('query')\n    }\n}",
+        "name": "closeAdjust",
+        "id": "Method_1639809172607",
+        "title": "closeAdjust",
+        "key": "Method_1639809172607"
+      },
+      "Method_1641291726796": {
+        "code": "function openNewWindow(flow) {\n\tconst { nodeInstId } = flow\n    const route = $router.resolve({\n    \tname: 'Page',\n        params: {\n        \tmodelId: '79139c6456924a5ca8a9739dc7dfc063',\n        },\n      \tquery: { nodeInstId },\n    })\n    window.open(route.href)\n}",
+        "name": "openNewWindow",
+        "id": "Method_1641291726796",
+        "title": "openNewWindow",
+        "key": "Method_1641291726796"
+      },
+      "Method_1641294905233": {
+        "code": "function openQR(info) {\n  $data.info = info\n  $data.qrOpen = true\n}",
+        "name": "openQR",
+        "id": "Method_1641294905233",
+        "title": "openQR",
+        "key": "Method_1641294905233"
+      },
+      "Method_1640329724111": {
+        "code": "function closeBatch() {\n\t$data.batchOpen = false\n  $data.flows = []\n}",
+        "name": "closeBatch",
+        "id": "Method_1640329724111",
+        "title": "closeBatch",
+        "key": "Method_1640329724111"
+      },
+      "Method_1640593222472": {
+        "code": "async function submit() {\n  const { Batch } = $refs\n  \n  try {\n    $data.isSubmiting = true\n    await Batch.run('submit')\n    $antd.message.success('提交成功')\n    $run('closeBatch')\n    $run('query')\n  } finally {\n    $data.isSubmiting = false\n  }\n\n}",
+        "name": "submitBatch",
+        "id": "Method_1640593222472",
+        "title": "submitBatch",
+        "key": "Method_1640593222472"
+      }
+    },
+    "children": [
+      {
+        "form": {
+          "children": [
+            {
+              "$name": "Select",
+              "notShowItem": false,
+              "useStyleText": false,
+              "styleText": "width: 180px;",
+              "setOptionsCode": "function setOptions() {\n  // 在下面返回Options的值\n  return $$data.user\n}",
+              "showArrow": true,
+              "$key": "creatorCode",
+              "label": "申请人",
+              "bordered": true,
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+              "inline": true,
+              "rulesConfig": [],
+              "options": [
+                {
+                  "label": "选项1",
+                  "value": "1"
+                },
+                {
+                  "label": "选项2",
+                  "value": "2"
+                },
+                {
+                  "label": "选项3",
+                  "value": "3"
+                },
+                {
+                  "label": "选项4",
+                  "value": "4"
+                }
+              ],
+              "$item": {
+                "name": "Select",
+                "label": "下拉框",
+                "id": "Select_1647064728028_0.2547748979023414"
+              },
+              "useOptionsCode": true,
+              "allowClear": true
+            },
+            {
+              "$name": "RangePicker",
+              "inline": true,
+              "useStyleText": false,
+              "styleText": "width: 220px;",
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "time",
+              "$item": {
+                "name": "RangePicker",
+                "label": "日期范围",
+                "id": "RangePicker_1647064575639_0.320992262802543"
+              },
+              "label": "申请日期",
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            },
+            {
+              "$name": "InputText",
+              "notShowItem": false,
+              "useStyleText": false,
+              "styleText": "width: 280px;",
+              "$key": "flowOptName",
+              "label": "申请名称",
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+              "inline": true,
+              "readonly": false,
+              "rulesConfig": [],
+              "disabled": false,
+              "$item": {
+                "name": "InputText",
+                "label": "输入框",
+                "id": "InputText_1647064636856_0.6728300127168543"
+              },
+              "allowClear": false
+            }
+          ],
+          "$key": "filters",
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1639805693751"
+          }
+        },
+        "useResetCode": true,
+        "useWrapperColCode": true,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639805644756"
+        },
+        "actionsLayout": "normal",
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch() {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $data.page.pageNo = 1\n\t$run('query')\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1639805693751"
+        },
+        "list": {
+          "children": [
+            {
+              "useSorterCode": true,
+              "pagination": "",
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1639805693751"
+              },
+              "useChangeCode": true,
+              "columns": [
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "creatorCode",
+                  "columnId": "HeaderCell_1639805693751",
+                  "width": 200,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639805693751"
+                  },
+                  "title": "申请人",
+                  "align": "left",
+                  "$cell": [
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { creatorName, unitName } = $data.row\n  return `${creatorName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639806460598"
+                      }
+                    },
+                    {
+                      "useStyleText": true,
+                      "styleText": "margin-left: 8px;\nfont-size: 10px;\ncolor: #ccc;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { creatorName, unitName } = $data.row\n  return `${unitName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640137852692"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "createTime",
+                  "columnId": "HeaderCell_1639806298856",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806298856"
+                  },
+                  "title": "申请日期",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "color": "purple",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.createTime?.slice(0, 10) \n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1639806566647"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "flowOptName",
+                  "columnId": "HeaderCell_1639806265001",
+                  "width": 300,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806265001"
+                  },
+                  "title": "申请名称",
+                  "$cell": [
+                    {
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n\t$run('openAdjust', $data.row)\n}",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.flowOptName\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639809057070"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "nodeName",
+                  "columnId": "HeaderCell_1639806281777",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806281777"
+                  },
+                  "title": "当前节点",
+                  "align": "left",
+                  "$cell": [
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { nodeName, userName } = $data.row\n  return `[${nodeName}]`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640137636851"
+                      }
+                    },
+                    {
+                      "useStyleText": true,
+                      "styleText": "margin-left: 8px;\nfont-size: 10px;\ncolor: #ccc;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { nodeName, userName } = $data.row\n  return `${userName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640137716549"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "promiseTimeStr",
+                  "columnId": "HeaderCell_1639807541513",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639807541513"
+                  },
+                  "title": "时间限制",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "columnId": "HeaderCell_1639806393233",
+                  "width": 148,
+                  "fixed": "right",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806393233"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openAdjust', $data.row)\n}",
+                      "className": "success",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1639807008244"
+                      },
+                      "text": "审批",
+                      "type": "default",
+                      "useClickCode": true
+                    },
+                    {
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openQR', $data.row)\n}",
+                      "icon": "QrcodeOutlined",
+                      "className": "success",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1641286892781_0.31109510498237425"
+                      },
+                      "text": "",
+                      "type": "default",
+                      "title": "显示审批二维码",
+                      "useClickCode": true
+                    },
+                    {
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNewWindow', $data.row)\n}",
+                      "icon": "LinkOutlined",
+                      "className": "info",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1641286888558_0.16135241179525628"
+                      },
+                      "text": "",
+                      "type": "default",
+                      "title": "在新窗口审批",
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值\n  return $data.selectedRows\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "fit": true,
+              "useSelectChangeCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1639805693751"
+              },
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": true,
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.loading\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值\n  return $data.page\n}",
+              "$key": "list",
+              "loading": "",
+              "onSelectChangeCode": "function onSelectChange(selectedRowKeys) {\n  // 在下面开始编写选择发生变化事件\n\t$data.selectedRows = selectedRowKeys\n}",
+              "size": "small",
+              "$columns": [
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "creatorCode",
+                  "width": 200,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639805693751"
+                  },
+                  "title": "申请人",
+                  "align": "left",
+                  "$cell": [
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { creatorName, unitName } = $data.row\n  return `${creatorName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639806460598"
+                      }
+                    },
+                    {
+                      "useStyleText": true,
+                      "styleText": "margin-left: 8px;\nfont-size: 10px;\ncolor: #ccc;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { creatorName, unitName } = $data.row\n  return `${unitName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640137852692"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "createTime",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806298856"
+                  },
+                  "title": "申请日期",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "color": "purple",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.createTime?.slice(0, 10) \n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1639806566647"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "flowOptName",
+                  "width": 300,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806265001"
+                  },
+                  "title": "申请名称",
+                  "$cell": [
+                    {
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n\t$run('openAdjust', $data.row)\n}",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.flowOptName\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639809057070"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "nodeName",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806281777"
+                  },
+                  "title": "当前节点",
+                  "align": "left",
+                  "$cell": [
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { nodeName, userName } = $data.row\n  return `[${nodeName}]`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640137636851"
+                      }
+                    },
+                    {
+                      "useStyleText": true,
+                      "styleText": "margin-left: 8px;\nfont-size: 10px;\ncolor: #ccc;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { nodeName, userName } = $data.row\n  return `${userName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640137716549"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "promiseTimeStr",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639807541513"
+                  },
+                  "title": "时间限制",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "width": 148,
+                  "fixed": "right",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1639806393233"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openAdjust', $data.row)\n}",
+                      "className": "success",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1639807008244"
+                      },
+                      "text": "审批",
+                      "type": "default",
+                      "useClickCode": true
+                    },
+                    {
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openQR', $data.row)\n}",
+                      "icon": "QrcodeOutlined",
+                      "className": "success",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1641286892781_0.31109510498237425"
+                      },
+                      "text": "",
+                      "type": "default",
+                      "title": "显示审批二维码",
+                      "useClickCode": true
+                    },
+                    {
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNewWindow', $data.row)\n}",
+                      "icon": "LinkOutlined",
+                      "className": "info",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1641286888558_0.16135241179525628"
+                      },
+                      "text": "",
+                      "type": "default",
+                      "title": "在新窗口审批",
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "dataSource": [],
+              "actions": {
+                "children": [
+                  {
+                    "useDisabledCode": true,
+                    "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return !$data.selectedRows.length \n}",
+                    "size": "middle",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openBatch')\n}",
+                    "className": "primary",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1639807869952"
+                    },
+                    "text": "批量审批",
+                    "type": "default",
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1639805694786"
+                }
+              },
+              "setSorterCode": "function setSorter() {\n  // 在下面返回Sorter的值\n  return $data.sort\n}",
+              "rowKey": "flowInstId",
+              "onChangeCode": "function onChange(pagination, filters, sorter, action) {\n  if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.page = pagination\n  $data.sort = sorter\n  $data.selectedRows = []\n  $run('query')\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1639805693751"
+          }
+        },
+        "collapsedMode": "normal",
+        "onResetCode": "function onReset() {\n  // 在下面开始编写点击重置按钮时触发事件\n$data.filters = {}\n  $data.page.pageNo = 1\n  $run('query')\n}",
+        "setWrapperColCode": "function setWrapperCol() {\n  // 在下面返回WrapperCol的值\n  return { style: { width: '256px' } }\n}"
+      },
+      {
+        "$footer": {
+          "children": [
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('closeAdjust')\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1639984280278"
+              },
+              "use$$ifCode": false,
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1639984782131"
+              },
+              "text": "取消",
+              "type": "default",
+              "useClickCode": true
+            },
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('submit')\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1639984280278"
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.isSubmiting\n}",
+              "className": "primary",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1639984778069"
+              },
+              "text": "提交",
+              "type": "primary",
+              "useLoadingCode": true,
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1639984280278"
+          }
+        },
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.adjustOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639805644756"
+        },
+        "closable": true,
+        "onCloseCode": "function onClose() {\n  // 在下面开始编写关闭事件\n  $run('closeAdjust')\n}",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.adjustOpen\n}",
+        "$key": "",
+        "maskClosable": true,
+        "setTitleCode": "function setTitle() {\n  // 在下面返回Title的值\n  const { flowOptName } = $data.info\n  return `审批 【${flowOptName}】`\n}",
+        "useCloseCode": true,
+        "children": [
+          {
+            "$params": {},
+            "ref": "AdjustInfo",
+            "slots": {},
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "flow",
+                "label": "flow",
+                "props": []
+              }
+            ],
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1639810784529"
+            },
+            "id": "760e92d517a9442ab4e49a81ed67d599",
+            "templateStyle": {},
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n  \tflow: Object.assign({}, $data.info)\n  }\n}"
+          }
+        ],
+        "width": 960,
+        "useValueCode": true,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1639808846528"
+        },
+        "useTitleCode": true,
+        "mask": true
+      },
+      {
+        "$footer": {
+          "children": [
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('closeBatch')\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1640329752423_0.6108714143685723"
+              },
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1640332171162_0.6421021641427593"
+              },
+              "text": "取消",
+              "type": "default",
+              "useClickCode": true
+            },
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('submitBatch')\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1640329752423_0.6108714143685723"
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.isSubmiting\n}",
+              "className": "primary",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1640332174430_0.5546105471579366"
+              },
+              "text": "提交",
+              "type": "default",
+              "useLoadingCode": true,
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1640329752423_0.6108714143685723"
+          }
+        },
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.batchOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639805644756"
+        },
+        "closable": true,
+        "onCloseCode": "function onClose() {\n  // 在下面开始编写关闭事件\n  $run('closeBatch')\n}",
+        "maskClosable": true,
+        "title": "批量审批",
+        "useCloseCode": true,
+        "children": [
+          {
+            "ref": "Batch",
+            "slots": {},
+            "children": [],
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1640329925372_0.8331045038944049"
+            },
+            "id": "3e04380f50b84685bbc418ac7c864abd",
+            "templateStyle": {},
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  debugger\n  return {\n    flows: [...$data.flows]\n  }\n}"
+          }
+        ],
+        "width": 960,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1640329752423_0.6295896832930346"
+        },
+        "mask": true
+      },
+      {
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.qrOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639805644756"
+        },
+        "closable": true,
+        "maskClosable": true,
+        "title": "审批二维码",
+        "onOk": "closeQR",
+        "setTitleCode": "function setTitle() {\n  // 在下面返回Title的值\n  return '审批二维码'\n}",
+        "children": [
+          {
+            "$params": {
+              "useNodeInstIdCode": true,
+              "setNodeInstIdCode": "function setNodeInstId() {\n  // 在下面开始编写nodeInstId事件\n  return $data.info.nodeInstId\n}"
+            },
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "nodeInstId",
+                "label": "nodeInstId",
+                "props": []
+              }
+            ],
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1641295101421_0.00024928322336914555"
+            },
+            "id": "30ffde108e7b462a97158b79fee25aef"
+          }
+        ],
+        "onCancel": "closeQR",
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1641294980337_0.023195528224446926"
+        },
+        "useTitleCode": true,
+        "mask": true
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n  $run('initUsers')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639805644756"
+    }
+  },
+  "publishDate": "2022-12-15 10:33:31",
+  "sourceId": "0fAOOX_3RwmRZS2L8gYcsw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1639808883049": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1639808883049",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1639808883049"
+      },
+      "Data_1639988532594": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmiting",
+        "id": "Data_1639988532594",
+        "title": "isSubmiting",
+        "type": "b",
+        "key": "Data_1639988532594"
+      },
+      "Data_1639805731611": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1639805731611",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1639805731611"
+      },
+      "Data_1639809000471": {
+        "code": "false",
+        "children": [],
+        "name": "adjustOpen",
+        "id": "Data_1639809000471",
+        "title": "adjustOpen",
+        "type": "b",
+        "key": "Data_1639809000471"
+      },
+      "Data_1639807664392": {
+        "code": "[]",
+        "children": [],
+        "name": "selectedRows",
+        "id": "Data_1639807664392",
+        "title": "selectedRows",
+        "type": "a",
+        "key": "Data_1639807664392"
+      },
+      "Data_1639805807172": {
+        "code": "{\r\n    sort: 'createTime',\r\n    order: 'desc',\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "order",
+            "id": "Data_1639805807172_order",
+            "label": "order",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "sort",
+            "id": "Data_1639805807172_sort",
+            "label": "sort",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "sort",
+        "id": "Data_1639805807172",
+        "label": "sort",
+        "type": "data",
+        "codeSchemas": {
+          "sort": {
+            "isDefault": true,
+            "propertyName": "sort",
+            "fieldLabelName": "sort",
+            "fieldType": "string"
+          },
+          "order": {
+            "isDefault": true,
+            "propertyName": "order",
+            "fieldLabelName": "order",
+            "fieldType": "string"
+          }
+        }
+      },
+      "Data_1641294880994": {
+        "code": "false",
+        "children": [],
+        "name": "qrOpen",
+        "id": "Data_1641294880994",
+        "title": "qrOpen",
+        "type": "b",
+        "key": "Data_1641294880994"
+      },
+      "Data_1647064795575": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "user",
+        "id": "Data_1647064795575",
+        "label": "user",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1639805832763": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "name": "filters",
+        "id": "Data_1639805832763",
+        "title": "filters",
+        "type": "o",
+        "key": "Data_1639805832763"
+      },
+      "Data_1639805803659": {
+        "code": "{\r\n    pageSize: 50\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1639805803659_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "page",
+        "id": "Data_1639805803659",
+        "label": "page",
+        "type": "data",
+        "codeSchemas": {
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          }
+        }
+      },
+      "Data_1640329572154": {
+        "code": "false",
+        "children": [],
+        "name": "batchOpen",
+        "id": "Data_1640329572154",
+        "title": "batchOpen",
+        "type": "b",
+        "key": "Data_1640329572154"
+      },
+      "Data_1639805718956": {
+        "code": "[]",
+        "children": [],
+        "componentSchemas": {},
+        "name": "list",
+        "id": "Data_1639805718956",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1639805718956"
+      },
+      "Data_1640330871880": {
+        "code": "[]",
+        "children": [],
+        "name": "flows",
+        "id": "Data_1640330871880",
+        "title": "flows",
+        "type": "a",
+        "key": "Data_1640330871880"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639805844076": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data\n  const { time = [] } = filters\n  const begin = time[0] ? `${time[0]}+00:00:00` : undefined\n  const end = time[1] ? `${time[1]}+23:59:59` : undefined\n  const params = Object.assign({ \n  \tflowCode: 'a2f852f6dcca48cfa7826ffb1129d040',\n    userCode: $info.userInfo.userCode,\n    creatorCode: filters.creatorCode,\n    ['beginTime']: begin,\n    ['endTime']: end,\n    flowOptName: filters.flowOptName,\n  }, page, sort)\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params }) \n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1639805844076",
+        "label": "query",
+        "type": "method"
+      },
+      "Method_1640329586377": {
+        "code": "function openBatch() {\n  $data.batchOpen = true\n  const { selectedRows, list } = $data\n  $data.flows = list.filter(f => selectedRows.includes(f.flowInstId))\n}",
+        "name": "openBatch",
+        "id": "Method_1640329586377",
+        "title": "openBatch",
+        "key": "Method_1640329586377"
+      },
+      "Method_1639809141358": {
+        "code": "function openAdjust(info) {\n\t$data.adjustOpen = true\n  \t$data.info = info\n}",
+        "name": "openAdjust",
+        "id": "Method_1639809141358",
+        "title": "openAdjust",
+        "key": "Method_1639809141358"
+      },
+      "Method_1639988729689": {
+        "code": "async function submit() {\n  const { AdjustInfo } = $refs\n  \n  try {\n    $data.isSubmiting = true\n    await AdjustInfo.run('submit')\n    $antd.message.success('提交成功')\n    $run('closeAdjust')\n    $run('query')\n  } finally {\n    $data.isSubmiting = false\n  }\n\n}",
+        "name": "submit",
+        "id": "Method_1639988729689",
+        "title": "submit",
+        "key": "Method_1639988729689"
+      },
+      "Method_1641294944520": {
+        "code": "function closeQR() {\n  $data.info = {}\n  $data.qrOpen = false\n}",
+        "name": "closeQR",
+        "id": "Method_1641294944520",
+        "title": "closeQR",
+        "key": "Method_1641294944520"
+      },
+      "Method_1639809172607": {
+        "code": "function closeAdjust(refresh) {\n\t$data.adjustOpen = false\n    $data.info = {}\n    if (refresh) {\n    \t$run('query')\n    }\n}",
+        "name": "closeAdjust",
+        "id": "Method_1639809172607",
+        "title": "closeAdjust",
+        "key": "Method_1639809172607"
+      },
+      "Method_1641291726796": {
+        "code": "function openNewWindow(flow) {\n\tconst { nodeInstId } = flow\n    const route = $router.resolve({\n    \tname: 'Page',\n        params: {\n        \tmodelId: '79139c6456924a5ca8a9739dc7dfc063',\n        },\n      \tquery: { nodeInstId },\n    })\n    window.open(route.href)\n}",
+        "name": "openNewWindow",
+        "id": "Method_1641291726796",
+        "title": "openNewWindow",
+        "key": "Method_1641291726796"
+      },
+      "Method_1641294905233": {
+        "code": "function openQR(info) {\n  $data.info = info\n  $data.qrOpen = true\n}",
+        "name": "openQR",
+        "id": "Method_1641294905233",
+        "title": "openQR",
+        "key": "Method_1641294905233"
+      },
+      "Method_1640329724111": {
+        "code": "function closeBatch() {\n\t$data.batchOpen = false\n  $data.flows = []\n}",
+        "name": "closeBatch",
+        "id": "Method_1640329724111",
+        "title": "closeBatch",
+        "key": "Method_1640329724111"
+      },
+      "Method_1653442154159": {
+        "code": "async function initUsers () {\n    const data = await $api.System.get('/platform/allusers/'+$info.topUnitCode);\n  $data.user = data.map(item=>(\n     {label:item.userName,value:item.userCode}\n     ))\n}",
+        "name": "initUsers",
+        "id": "Method_1653442154159",
+        "label": "initUsers",
+        "type": "method"
+      },
+      "Method_1640593222472": {
+        "code": "async function submit() {\n  const { Batch } = $refs\n  \n  try {\n    $data.isSubmiting = true\n    await Batch.run('submit')\n    $antd.message.success('提交成功')\n    $run('closeBatch')\n    $run('query')\n  } finally {\n    $data.isSubmiting = false\n  }\n\n}",
+        "name": "submitBatch",
+        "id": "Method_1640593222472",
+        "label": "submitBatch",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "列表",
+  "isValid": "F"
+}

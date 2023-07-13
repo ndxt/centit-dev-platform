@@ -1,0 +1,231 @@
+{
+  "modelId": "c8c1b8237cc24445888362aba1c6cc84",
+  "modelName": "刷卡明细列表",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1640833081118": {
+        "code": "{\n\tsort: 'recorddate',\n    order: 'asc',  \n}",
+        "name": "sort",
+        "id": "Data_1640833081118",
+        "title": "sort",
+        "type": "o",
+        "key": "Data_1640833081118"
+      },
+      "Data_1639723651180": {
+        "code": "[]",
+        "name": "list",
+        "id": "Data_1639723651180",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1639723651180"
+      },
+      "Data_1640772718540": {
+        "code": "false",
+        "name": "isLoading",
+        "id": "Data_1640772718540",
+        "title": "isLoading",
+        "type": "b",
+        "key": "Data_1640772718540"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640772805155": {
+        "code": "async function query(usercode = $data.userCode, current = $data.current) {\n  if ($data.isLoading || !usercode || !current) return\n  $data.isLoading = true\n  const recordday = current.format('YYYY-MM-DD')\n  const { sort } = $data\n  const params = {\n    usercode,\n    recorddate_ge: `${recordday} 00:00:00`,\n\trecorddate_le: `${recordday} 23:59:59`,\n    ...sort,\n    pageSize: -1,\n  }\n  try {\n    const { \n      objList\n    } = await $dde.get('bfa5e957ca6a477eb12eb8e89085b912', { params })\n  \t$data.list = objList\n  \t$data.userCode = usercode\n  \t$data.current = current\n  } finally {\n  \t$data.isLoading = false\n  }\n}",
+        "name": "query",
+        "id": "Method_1640772805155",
+        "title": "query",
+        "key": "Method_1640772805155"
+      }
+    },
+    "styleText": "flex: 1 1 auto;\nheight: 100%;\nborder: 1px solid #ccc;\npadding: 8px;\noverflow: auto;",
+    "children": [
+      {
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639707185370"
+        },
+        "useChangeCode": true,
+        "columns": [
+          {
+            "children": [],
+            "dataIndex": "username",
+            "columnId": "HeaderCell_1639723437351",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1639723437351"
+            },
+            "title": "用户名",
+            "$cell": []
+          },
+          {
+            "sorter": true,
+            "children": [],
+            "dataIndex": "recorddate",
+            "columnId": "HeaderCell_1639723469975",
+            "width": 180,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1639723469975"
+            },
+            "title": "刷卡时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "sorter": true,
+            "children": [],
+            "dataIndex": "sourcetype",
+            "columnId": "HeaderCell_1639723481631",
+            "width": 100,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1639723481631"
+            },
+            "title": "刷卡类型",
+            "align": "center",
+            "$cell": [
+              {
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return {1: '门禁', 2: '人脸识别'}[$data.row.sourcetype] || '未知'\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640832317884_0.10063862779856292"
+                }
+              }
+            ]
+          }
+        ],
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.isLoading\n}",
+        "$key": "list",
+        "bordered": true,
+        "fit": true,
+        "size": "small",
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1639723437351"
+        },
+        "$columns": [
+          {
+            "children": [],
+            "dataIndex": "username",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1639723437351"
+            },
+            "title": "用户名",
+            "$cell": []
+          },
+          {
+            "sorter": true,
+            "children": [],
+            "dataIndex": "recorddate",
+            "width": 180,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1639723469975"
+            },
+            "title": "刷卡时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "sorter": true,
+            "children": [],
+            "dataIndex": "sourcetype",
+            "width": 100,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1639723481631"
+            },
+            "title": "刷卡类型",
+            "align": "center",
+            "$cell": [
+              {
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return {1: '门禁', 2: '人脸识别'}[$data.row.sourcetype] || '未知'\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640832317884_0.10063862779856292"
+                }
+              }
+            ]
+          }
+        ],
+        "useLoadingCode": true,
+        "dataSource": [],
+        "actions": {
+          "children": [
+            {
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return $data.isLoading\n}",
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  debugger\n  $run('query')\n}",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1639723490395"
+              },
+              "text": "刷新",
+              "type": "default",
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1639723437689"
+          }
+        },
+        "rowKey": "id",
+        "onChangeCode": "function onChange(pagination, filters, sorter, action) {\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.sort = sorter\n  $run('query')\n}"
+      }
+    ],
+    "root": true,
+    "style": {
+      "border": "1px solid #ccc",
+      "padding": "8px",
+      "overflow": "auto",
+      "flex": "1 1 auto",
+      "height": "100%"
+    },
+    "paramsConfigs": {
+      "Param_1640772602820": {
+        "code": "function watchUserCode(userCode, oldUserCode) {\n  // 在下面开始编写userCode监听\n  $run('query', userCode, $params.current)\n}",
+        "immediate": true,
+        "name": "userCode",
+        "id": "Param_1640772602820"
+      },
+      "Param_1640772608244": {
+        "code": "function watchCurrent(current, oldCurrent) {\n  // 在下面开始编写current监听\n  $run('query', $params.userCode, current)\n}",
+        "immediate": true,
+        "name": "current",
+        "id": "Param_1640772608244"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639707185370"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "jRPYFqVbSjWJMWqEXntruw",
+  "modelTag": "列表",
+  "isValid": "F"
+}

@@ -1,0 +1,502 @@
+{
+  "modelId": "fea4162175224bb194cf17476da0f216",
+  "modelName": "首页",
+  "optId": "9b07b2cd543447aaaec37d0167c93724",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-07-26 15:56:48",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "mobileFormTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "border": true,
+        "$name": "MobileGrid",
+        "gutter": 0,
+        "horizontal": false,
+        "square": false,
+        "columnNum": 2,
+        "$group": "MobileGrid_1650011798026_0.2148986262438124",
+        "children": [
+          {
+            "$name": "MobileGridItem",
+            "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $router.push({\n  name:'AppPage',\n    params:{\n     modelId:'fa8706b496d84ab7b74b46467cca211c'\n    }\n  })\n}",
+            "$parent": {
+              "name": "MobileGrid",
+              "label": "宫格",
+              "id": "MobileGrid_1650011798026_0.2148986262438124"
+            },
+            "icon": "photo-o",
+            "text": "请假申请",
+            "$item": {
+              "name": "MobileGridItem",
+              "label": "宫格项",
+              "id": "MobileGridItem_1650011801794_0.4241897752094972"
+            },
+            "useClickCode": true
+          },
+          {
+            "$name": "宫格项",
+            "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $router.push({\n  name:'AppPage',\n    params:{\n     modelId:'ab80c37ebfa346cfb82cc144bcbce2c6'\n    }\n  })\n}",
+            "$parent": {
+              "name": "MobileGrid",
+              "label": "宫格",
+              "id": "MobileGrid_1650011798026_0.2148986262438124"
+            },
+            "icon": "photo-o",
+            "text": "请假审批",
+            "$item": {
+              "name": "MobileGridItem",
+              "label": "宫格项",
+              "id": "MobileGridItem_1650013628022_0.528455349617516"
+            },
+            "useClickCode": true
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1650011791119_0.900344890080863"
+        },
+        "clickable": false,
+        "$item": {
+          "name": "MobileGrid",
+          "label": "宫格",
+          "id": "MobileGrid_1650011798026_0.2148986262438124"
+        }
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "paramsConfigs": {},
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1650011791119_0.900344890080863"
+    }
+  },
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1640326353149": {
+        "code": "$info.userInfo.primaryUnitName",
+        "children": [],
+        "name": "unit",
+        "id": "Data_1640326353149",
+        "title": "unit",
+        "type": "s",
+        "key": "Data_1640326353149"
+      },
+      "Data_1640326451867": {
+        "code": "$info.userInfo.topUnitName",
+        "children": [],
+        "name": "topUnit",
+        "id": "Data_1640326451867",
+        "title": "topUnit",
+        "type": "s",
+        "key": "Data_1640326451867"
+      },
+      "Data_1640586679488": {
+        "children": [],
+        "name": "time",
+        "id": "Data_1640586679488",
+        "title": "time",
+        "type": "s",
+        "key": "Data_1640586679488"
+      },
+      "Data_1640326193821": {
+        "code": "const now = new Date();\nconst h = now.getHours();\nlet hello;\nif (h > 4 && h < 11) {\n  hello = '早上好';\n} else if (h >= 11 && h < 14) {\n  hello = '中午好';\n} else if (h >= 14 && h < 19) {\n  hello = '下午好';\n} else {\n  hello = '晚上好';\n}\nreturn hello;",
+        "children": [],
+        "name": "hello",
+        "id": "Data_1640326193821",
+        "title": "time",
+        "type": "s",
+        "key": "Data_1640326193821"
+      },
+      "Data_1640586661200": {
+        "code": "\"\"",
+        "children": [],
+        "name": "day",
+        "id": "Data_1640586661200",
+        "title": "day",
+        "type": "s",
+        "key": "Data_1640586661200"
+      },
+      "Data_1640588656348": {
+        "code": "\"\"",
+        "children": [],
+        "name": "weather",
+        "id": "Data_1640588656348",
+        "title": "weather",
+        "type": "s",
+        "key": "Data_1640588656348"
+      },
+      "Data_1640326157445": {
+        "code": "$info.userInfo.userName",
+        "children": [],
+        "name": "name",
+        "id": "Data_1640326157445",
+        "title": "name",
+        "type": "s",
+        "key": "Data_1640326157445"
+      }
+    },
+    "styleText": "padding: 16px;",
+    "componentData": {},
+    "fit": true,
+    "methodsConfigs": {
+      "Method_1640588336356": {
+        "code": "async function getWeather() {\n  const api = 'https://api.seniverse.com/v3/weather/now.json'\n  const key = 'S1ZQpzRdTmjTBBb7c'\n  const { location, now } = await $axios.get(api, { params: {\n  \tkey,\n    location: 'nanjing',\n  }}).then(({data}) => data.results[0])\n  const city = location.name\n  const { temperature: t, text } = now\n  $data.weather = `${city}，${text}，${t}℃`\n}",
+        "name": "getWeather",
+        "id": "Method_1640588336356",
+        "title": "getWeather",
+        "key": "Method_1640588336356"
+      },
+      "Method_1640326600571": {
+        "code": "function goPage(modelId) {\n  if (!modelId) return\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId,\n    },\n  })\n}",
+        "name": "goPage",
+        "id": "Method_1640326600571",
+        "title": "goPage",
+        "key": "Method_1640326600571"
+      },
+      "Method_1640586604920": {
+        "code": "function unbindTime() {\n  clearInterval($ctx._timeHandler)\n}",
+        "name": "unbindTime",
+        "id": "Method_1640586604920",
+        "title": "unbindTime",
+        "key": "Method_1640586604920"
+      },
+      "Method_1640586583544": {
+        "code": "function bindTime() {\n  const set = () => {\n  \tconst d = $dayjs()\n    $data.day = d.format('YYYY年MM月DD日')\n    $data.time = d.format('HH点mm分ss秒')\n  }\n  set()\n  $ctx._timeHandler = setInterval(set, 1000)\n}",
+        "name": "bindTime",
+        "id": "Method_1640586583544",
+        "title": "bindTime",
+        "key": "Method_1640586583544"
+      }
+    },
+    "useDestroyedCode": true,
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "padding: 16px;\nheight: 140px;\nbackground: rgb(39, 166, 254);\ncolor: rgb(255, 255, 255);\nborder-radius: 4px;",
+                "children": [
+                  {
+                    "useStyleText": true,
+                    "styleText": "font-size: 24px;\ndisplay: block;\nwidth: 100%;",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { name, hello } = $data\n  return `${hello}，${name}，祝你开心每一天！`\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Html",
+                      "label": "文字",
+                      "id": "Html_1640325671005_0.32185348222326504"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                  },
+                  {
+                    "useStyleText": true,
+                    "styleText": "font-size: 16px;\nmargin: 12px 0;\nwidth: 100%;\ndisplay: block;",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { unit, topUnit } = $data\n  return `${topUnit} - ${unit}`\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Html",
+                      "label": "文字",
+                      "id": "Html_1640325760337_0.07906419786595742"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                  }
+                ],
+                "$item": {
+                  "name": "Row",
+                  "label": "行",
+                  "id": "Row_1640325573838_0.8372498610289094"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1640325404589_0.006306652465916107"
+            },
+            "span": 8
+          },
+          {
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "padding: 16px;\nheight: 140px;\nbackground: #1dcca1;\ncolor: rgb(255, 255, 255);\nborder-radius: 4px;\nmargin: 0 10px;",
+                "children": [
+                  {
+                    "useStyleText": true,
+                    "styleText": "font-size: 24px;\ndisplay: block;\nwidth: 100%;",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return `${$data.day} ${$data.time}`\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Html",
+                      "label": "文字",
+                      "id": "Html_1640334344684_0.5295495077036296"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                  },
+                  {
+                    "useStyleText": true,
+                    "styleText": "font-size: 16px;\nmargin: 12px 0;\nwidth: 100%;\ndisplay: block;",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.weather\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Html",
+                      "label": "文字",
+                      "id": "Html_1640586999499_0.8580751366324308"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                  }
+                ],
+                "$item": {
+                  "name": "Row",
+                  "label": "行",
+                  "id": "Row_1640334234750_0.6783101548849939"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1640334211334_0.08857640099616737"
+            },
+            "span": 8
+          },
+          {
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "padding: 8px;",
+                "children": [
+                  {
+                    "shape": "circle",
+                    "size": "default",
+                    "useStyleText": true,
+                    "styleText": "background: rgb(30, 134, 255);\nwidth: 80px;\nheight: 80px;\nline-height: 80px;\ncursor: pointer;\nfont-size: 20px;\nmargin: 12px;",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('goPage', 'fa8706b496d84ab7b74b46467cca211c')\n}",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '考勤'\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Avatar",
+                      "label": "头像",
+                      "id": "Avatar_1640325849003_0.11586169709391814"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "useClickCode": true
+                  },
+                  {
+                    "shape": "circle",
+                    "size": "default",
+                    "useStyleText": true,
+                    "styleText": "background: #1dcca1;\nwidth: 80px;\nheight: 80px;\nline-height: 80px;\ncursor: pointer;\nfont-size: 20px;\nmargin: 12px;",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '报销'\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Avatar",
+                      "label": "头像",
+                      "id": "Avatar_1640325852004_0.11081481994694853"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "useClickCode": false
+                  },
+                  {
+                    "shape": "circle",
+                    "size": "default",
+                    "useStyleText": true,
+                    "styleText": "background: #fca146;\nwidth: 80px;\nheight: 80px;\nline-height: 80px;\ncursor: pointer;\nfont-size: 20px;\nmargin: 12px;",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\nwindow.open('http://ceshi.centit.com/locode/page/#/apps/LYIGJYvwQIiqzJsY509qdw');\n}",
+                    "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return 'CRM'\n}",
+                    "useValueCode": true,
+                    "$item": {
+                      "name": "Avatar",
+                      "label": "头像",
+                      "id": "Avatar_1640325855070_0.7454160149879179"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "Row",
+                  "label": "行",
+                  "id": "Row_1640326027688_0.28227960076561875"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1640325406770_0.21122516552438975"
+            },
+            "span": 8
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640325398130_0.13323926989117085"
+        },
+        "$item": {
+          "name": "Row",
+          "label": "行",
+          "id": "Row_1640325402939_0.1662275005088878"
+        }
+      },
+      {
+        "children": [
+          {
+            "children": [],
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1641348587969_0.9609622794869694"
+            }
+          },
+          {
+            "children": [],
+            "$item": {
+              "name": "Col",
+              "label": "列",
+              "id": "Col_1641348594047_0.8690269209149444"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640325398130_0.13323926989117085"
+        },
+        "$item": {
+          "name": "Row",
+          "label": "行",
+          "id": "Row_1641348582969_0.024158850785485297"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "onDestroyedCode": "function onDestroyed() {\n  // 在下面开始编写销毁事件\n  $run('unbindTime') \n}",
+    "style": {
+      "padding": "16px"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('bindTime') \n  $run('getWeather')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640325398130_0.13323926989117085"
+    }
+  },
+  "publishDate": "2022-07-26 15:56:48",
+  "sourceId": "ttso3BqhQAawOQvy3HExLw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640326353149": {
+        "code": "$info.userInfo.primaryUnitName",
+        "children": [],
+        "name": "unit",
+        "id": "Data_1640326353149",
+        "title": "unit",
+        "type": "s",
+        "key": "Data_1640326353149"
+      },
+      "Data_1640326451867": {
+        "code": "$info.userInfo.topUnitName",
+        "children": [],
+        "name": "topUnit",
+        "id": "Data_1640326451867",
+        "title": "topUnit",
+        "type": "s",
+        "key": "Data_1640326451867"
+      },
+      "Data_1640586679488": {
+        "children": [],
+        "name": "time",
+        "id": "Data_1640586679488",
+        "title": "time",
+        "type": "s",
+        "key": "Data_1640586679488"
+      },
+      "Data_1640326193821": {
+        "code": "const now = new Date();\nconst h = now.getHours();\nlet hello;\nif (h > 4 && h < 11) {\n  hello = '早上好';\n} else if (h >= 11 && h < 14) {\n  hello = '中午好';\n} else if (h >= 14 && h < 19) {\n  hello = '下午好';\n} else {\n  hello = '晚上好';\n}\nreturn hello;",
+        "children": [],
+        "name": "hello",
+        "id": "Data_1640326193821",
+        "title": "time",
+        "type": "s",
+        "key": "Data_1640326193821"
+      },
+      "Data_1640586661200": {
+        "code": "\"\"",
+        "children": [],
+        "name": "day",
+        "id": "Data_1640586661200",
+        "title": "day",
+        "type": "s",
+        "key": "Data_1640586661200"
+      },
+      "Data_1640588656348": {
+        "code": "\"\"",
+        "children": [],
+        "name": "weather",
+        "id": "Data_1640588656348",
+        "title": "weather",
+        "type": "s",
+        "key": "Data_1640588656348"
+      },
+      "Data_1640326157445": {
+        "code": "$info.userInfo.userName",
+        "children": [],
+        "name": "name",
+        "id": "Data_1640326157445",
+        "title": "name",
+        "type": "s",
+        "key": "Data_1640326157445"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640588336356": {
+        "code": "async function getWeather() {\n  const api = 'https://api.seniverse.com/v3/weather/now.json'\n  const key = 'S1ZQpzRdTmjTBBb7c'\n  const { location, now } = await $axios.get(api, { params: {\n  \tkey,\n    location: 'nanjing',\n  }}).then(({data}) => data.results[0])\n  const city = location.name\n  const { temperature: t, text } = now\n  $data.weather = `${city}，${text}，${t}℃`\n}",
+        "name": "getWeather",
+        "id": "Method_1640588336356",
+        "title": "getWeather",
+        "key": "Method_1640588336356"
+      },
+      "Method_1640326600571": {
+        "code": "function goPage(modelId) {\n  if (!modelId) return\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId,\n    },\n  })\n}",
+        "name": "goPage",
+        "id": "Method_1640326600571",
+        "title": "goPage",
+        "key": "Method_1640326600571"
+      },
+      "Method_1640586604920": {
+        "code": "function unbindTime() {\n  clearInterval($ctx._timeHandler)\n}",
+        "name": "unbindTime",
+        "id": "Method_1640586604920",
+        "title": "unbindTime",
+        "key": "Method_1640586604920"
+      },
+      "Method_1640586583544": {
+        "code": "function bindTime() {\n  const set = () => {\n  \tconst d = $dayjs()\n    $data.day = d.format('YYYY年MM月DD日')\n    $data.time = d.format('HH点mm分ss秒')\n  }\n  set()\n  $ctx._timeHandler = setInterval(set, 1000)\n}",
+        "name": "bindTime",
+        "id": "Method_1640586583544",
+        "title": "bindTime",
+        "key": "Method_1640586583544"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "首页",
+  "isValid": "F"
+}

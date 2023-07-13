@@ -1,0 +1,205 @@
+{
+  "packetId": "4ec1db479cf346a1b3080f492cc83d36",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "大屏---机构查询列表",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 160,
+        "y": 100,
+        "id": "startuPOmez7BCI",
+        "text": {
+          "x": 160,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "startuPOmez7BCI",
+          "type": "start"
+        }
+      },
+      {
+        "x": 160,
+        "y": 280,
+        "id": "databasezVZAPEGECJ",
+        "text": {
+          "x": 160,
+          "y": 280,
+          "value": "读取关系数据库"
+        },
+        "type": "database",
+        "properties": {
+          "querySQL": "SELECT UNIT_CODE,UNIT_NAME FROM f_unitinfo WHERE UNIT_CODE !='DxxkJ664' AND UNIT_PATH like \"/DxxkJ664%\"",
+          "databaseName": "DqJnlv9TQKCoeNfHJgd7Cg",
+          "processName": "读取关系数据库",
+          "typeName": "读取关系数据库",
+          "isSource": true,
+          "isSelected": true,
+          "parameterList": [],
+          "id": "databasezVZAPEGECJ",
+          "type": "database",
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "unitCode",
+              "dataType": "string",
+              "columnCode": "UNIT_CODE",
+              "columnName": "unitCode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "unitName",
+              "dataType": "string",
+              "columnCode": "UNIT_NAME",
+              "columnName": "unitName"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ]
+        }
+      },
+      {
+        "x": 160,
+        "y": 480,
+        "id": "resultsmXYNP8RAIz",
+        "text": {
+          "x": 160,
+          "y": 480,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "resultOptions": "3",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "unitCode",
+              "dataType": "string",
+              "columnCode": "UNIT_CODE",
+              "columnName": "unitCode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "unitName",
+              "dataType": "string",
+              "columnCode": "UNIT_NAME",
+              "columnName": "unitName"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": false,
+          "isSelected": true,
+          "id": "resultsmXYNP8RAIz",
+          "source": "databasezVZAPEGECJ",
+          "type": "results"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 133
+          },
+          {
+            "x": 160,
+            "y": 247
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 247
+        },
+        "sourceNodeId": "startuPOmez7BCI",
+        "startPoint": {
+          "x": 160,
+          "y": 133
+        },
+        "id": "19686c02-bddd-4e8f-80b4-ee8b6afc6eb8",
+        "type": "PlineEdge",
+        "targetNodeId": "databasezVZAPEGECJ",
+        "properties": {
+          "sourceId": "startuPOmez7BCI",
+          "targetId": "databasezVZAPEGECJ",
+          "processName": "",
+          "typeName": "连线",
+          "id": "19686c02-bddd-4e8f-80b4-ee8b6afc6eb8",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 313
+          },
+          {
+            "x": 160,
+            "y": 447
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 447
+        },
+        "sourceNodeId": "databasezVZAPEGECJ",
+        "startPoint": {
+          "x": 160,
+          "y": 313
+        },
+        "id": "dd2c0bac-bb89-4cc3-9ad8-77803864dbe5",
+        "type": "PlineEdge",
+        "targetNodeId": "resultsmXYNP8RAIz",
+        "properties": {
+          "sourceId": "databasezVZAPEGECJ",
+          "targetId": "resultsmXYNP8RAIz",
+          "processName": "",
+          "typeName": "连线",
+          "id": "dd2c0bac-bb89-4cc3-9ad8-77803864dbe5",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2022-02-18 16:23:30",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-03-05 14:38:10",
+  "publishDate": "2022-03-05 14:38:09",
+  "needRollback": "F",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "optCode": "4ec1db479cf346a1b3080f492cc83d36",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "21d430469c5345a682fe83ca6779961d",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

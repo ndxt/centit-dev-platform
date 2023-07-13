@@ -1,0 +1,115 @@
+{
+  "modelId": "51d6030244e94f6d9f5ce33a689b49e9",
+  "modelName": "申请列表",
+  "optId": "pYrzzpp2R_qzhpz9_Q2msA",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "P",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "查看请假、补卡、出差等申请的列表页面",
+  "formTemplate": {
+    "fit": true,
+    "modelName": "测试页面",
+    "plugin": {
+      "tag": "FormModal",
+      "id": "FormModal_1"
+    },
+    "styleText": "",
+    "modelId": "6af2026fc9b645d8bc5b5d929f641931",
+    "children": [
+      {
+        "plugin": {
+          "tag": "Search",
+          "label": "搜索页面",
+          "id": "Search_1637138509933"
+        },
+        "form": {
+          "plugin": {
+            "tag": "SearchForm",
+            "label": "搜索表单",
+            "id": "SearchForm_1637138509933"
+          },
+          "children": [
+            {
+              "plugin": {
+                "tag": "InputText",
+                "label": "输入框",
+                "id": "InputText_1637138509933"
+              },
+              "style": {
+                "flex": "none",
+                "marginTop": "15px"
+              },
+              "label": "姓名"
+            }
+          ]
+        },
+        "list": {
+          "plugin": {
+            "tag": "SearchList",
+            "label": "搜索列表",
+            "id": "SearchList_1637138509933"
+          },
+          "children": [
+            {
+              "plugin": {
+                "tag": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1637138509933"
+              },
+              "size": "small",
+              "columns": [
+                {
+                  "dataIndex": "name",
+                  "title": "姓名"
+                },
+                {
+                  "dataIndex": "sex",
+                  "title": "性别"
+                },
+                {
+                  "dataIndex": "age",
+                  "title": "年龄"
+                },
+                {
+                  "dataIndex": "address",
+                  "title": "地址"
+                }
+              ],
+              "bordered": true,
+              "dataSource": [
+                {
+                  "address": "New York No. 1 Lake Park",
+                  "sex": "Male",
+                  "name": "John Brown",
+                  "id": 1,
+                  "age": 32
+                },
+                {
+                  "address": "London. 1 Lake Park",
+                  "sex": "Female",
+                  "name": "Jim Green",
+                  "id": 2,
+                  "age": 42
+                },
+                {
+                  "address": "Sidney No. 1 Lake Park",
+                  "sex": "Male",
+                  "name": "Joe Black",
+                  "id": 3,
+                  "age": 21
+                }
+              ],
+              "rowKey": "id"
+            }
+          ]
+        }
+      }
+    ],
+    "style": {}
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "F3ly26TrQQiMhivrair-0B",
+  "modelTag": "申请1",
+  "isValid": "F"
+}

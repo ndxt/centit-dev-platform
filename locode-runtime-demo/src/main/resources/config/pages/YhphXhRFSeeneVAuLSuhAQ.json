@@ -1,0 +1,520 @@
+{
+  "modelId": "YhphXhRFSeeneVAuLSuhAQ",
+  "modelName": "新增",
+  "optId": "dDf2E-F1RyaQwhpNYXZDPw",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2022-11-21 14:49:50",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "$name": "Model",
+    "children": [
+      {
+        "layout": "vertical",
+        "$name": "Form",
+        "$data": {
+          "Data_1647414528275_0.060284955181288735": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "{}",
+            "componentSchemas": {
+              "workDayDesc": {
+                "isDefault": true,
+                "propertyName": "workDayDesc",
+                "fieldLabelName": "备注",
+                "$key": "workDayDesc",
+                "fieldType": "string"
+              }
+            },
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "workDayDesc",
+                "id": "Data_1647414528275_0.060284955181288735_workDayDesc",
+                "label": "备注",
+                "type": "schema"
+              },
+              {
+                "dataType": "date",
+                "name": "workDay",
+                "id": "Data_1647414528275_0.060284955181288735_workDay",
+                "label": "日期",
+                "type": "schema",
+                "cid": "Form_1647414528275_0.8408264439567756"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "schemas": {
+              "workDay": {
+                "recorder": "UzC4T6h3",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "日期",
+                "referenceType": "",
+                "scale": 0,
+                "autoCreateParam": "",
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATE",
+                "propertyName": "workDay",
+                "fieldLabelName": "日期",
+                "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                "fieldType": "date",
+                "lastModifyDate": "2022-03-14 17:03:51",
+                "columnName": "WORK_DAY",
+                "primaryKey": true,
+                "cid": "Form_1647414528275_0.8408264439567756"
+              }
+            },
+            "name": "value",
+            "id": "Data_1647414528275_0.060284955181288735",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1647414528275_0.17795540358223505": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1647414528275_0.17795540358223505",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1647414528275_0.6178986495438135": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1647414528275_0.6178986495438135",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1647414528275_0.17607922791508135": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1647414528275_0.17607922791508135",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1647414528275_0.24079408571606598": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1647414528275_0.24079408571606598",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "children": [
+          {
+            "$name": "Row",
+            "gutter": 20,
+            "children": [
+              {
+                "$name": "Col",
+                "children": [
+                  {
+                    "$name": "Select",
+                    "notShowItem": false,
+                    "useStyleText": false,
+                    "styleText": "width: 200px;",
+                    "$parent": {
+                      "name": "Col",
+                      "label": "列",
+                      "id": "Col_1647483973640_0.3881838803510085"
+                    },
+                    "showArrow": true,
+                    "$key": "dayType",
+                    "label": "日期类型",
+                    "bordered": true,
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "options": [
+                      {
+                        "label": "班",
+                        "value": "B"
+                      },
+                      {
+                        "label": "休",
+                        "value": "X"
+                      }
+                    ],
+                    "$item": {
+                      "name": "Select",
+                      "label": "下拉框",
+                      "id": "Select_1647420107723_0.9504565201382906"
+                    },
+                    "useStyleCode": false
+                  }
+                ],
+                "$parent": {
+                  "name": "Row",
+                  "label": "行",
+                  "id": "Row_1647483971101_0.17068671426914195"
+                },
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1647483973640_0.3881838803510085"
+                },
+                "span": 12
+              },
+              {
+                "$name": "列",
+                "children": [
+                  {
+                    "setShowTimeCode": "function setShowTime() {\n  // 在下面返回ShowTime的值\n  return {format: 'HH:mm'};\n}",
+                    "$name": "DatePicker",
+                    "$parent": {
+                      "name": "Col",
+                      "label": "列",
+                      "id": "Col_1647484000083_0.7877541405995676"
+                    },
+                    "useChangeCode": false,
+                    "rulesConfig": [
+                      {
+                        "isUse": false,
+                        "name": "必填",
+                        "id": "Rule_1647417133659",
+                        "message": ""
+                      }
+                    ],
+                    "format": "YYYY-MM-DD",
+                    "disabled": false,
+                    "$key": "workDay",
+                    "useShowTimeCode": false,
+                    "$item": {
+                      "name": "DatePicker",
+                      "label": "日期选择",
+                      "id": "DatePicker_1647414554744_0.8142757878106681"
+                    },
+                    "label": "日期",
+                    "required": false
+                  }
+                ],
+                "$parent": {
+                  "name": "Row",
+                  "label": "行",
+                  "id": "Row_1647483971101_0.17068671426914195"
+                },
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1647484000083_0.7877541405995676"
+                },
+                "span": 12
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1647414528275_0.8408264439567756"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1647483971101_0.17068671426914195"
+            }
+          },
+          {
+            "$name": "Textarea",
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1647414528275_0.8408264439567756"
+            },
+            "rulesConfig": [],
+            "$key": "workDayDesc",
+            "$item": {
+              "name": "Textarea",
+              "label": "文本域",
+              "id": "Textarea_1647420041606_0.5203738327915333"
+            },
+            "label": "备注"
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1647414495664_0.41546335550766544"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$key": "info",
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1647414528275_0.8408264439567756"
+        },
+        "label": "info",
+        "useLoadingCode": true
+      }
+    ],
+    "root": true,
+    "componentData": {
+      "Form_1647414528275_0.8408264439567756": {
+        "layout": "vertical",
+        "$name": "Form",
+        "$data": {
+          "Data_1647414528275_0.060284955181288735": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "{}",
+            "componentSchemas": {
+              "workDayDesc": {
+                "isDefault": true,
+                "propertyName": "workDayDesc",
+                "fieldLabelName": "备注",
+                "$key": "workDayDesc",
+                "fieldType": "string"
+              }
+            },
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "workDayDesc",
+                "id": "Data_1647414528275_0.060284955181288735_workDayDesc",
+                "label": "备注",
+                "type": "schema"
+              },
+              {
+                "dataType": "date",
+                "name": "workDay",
+                "id": "Data_1647414528275_0.060284955181288735_workDay",
+                "label": "日期",
+                "type": "schema",
+                "cid": "Form_1647414528275_0.8408264439567756"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "schemas": {
+              "workDay": {
+                "recorder": "UzC4T6h3",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "日期",
+                "referenceType": "",
+                "scale": 0,
+                "autoCreateParam": "",
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATE",
+                "propertyName": "workDay",
+                "fieldLabelName": "日期",
+                "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                "fieldType": "date",
+                "lastModifyDate": "2022-03-14 17:03:51",
+                "columnName": "WORK_DAY",
+                "primaryKey": true,
+                "cid": "Form_1647414528275_0.8408264439567756"
+              }
+            },
+            "name": "value",
+            "id": "Data_1647414528275_0.060284955181288735",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1647414528275_0.17795540358223505": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1647414528275_0.17795540358223505",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1647414528275_0.6178986495438135": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1647414528275_0.6178986495438135",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1647414528275_0.17607922791508135": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1647414528275_0.17607922791508135",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1647414528275_0.24079408571606598": {
+            "isDefault": true,
+            "componentId": "Form_1647414528275_0.8408264439567756",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1647414528275_0.24079408571606598",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1647414495664_0.41546335550766544"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$key": "info",
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1647414528275_0.8408264439567756"
+        },
+        "label": "info",
+        "useLoadingCode": true
+      }
+    },
+    "style": {},
+    "paramsConfigs": {
+      "Param_1669012066208": {
+        "code": "function watchInfo(info, oldInfo) {\n// 在下面开始编写info监听\n    if (info) {\n        $data.info = Object.assign({}, info)\n    }\n}",
+        "immediate": true,
+        "name": "info",
+        "id": "Param_1669012066208"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1647414495664_0.41546335550766544"
+    }
+  },
+  "publishDate": "2022-11-21 14:49:50",
+  "sourceId": "YhphXhRFSeeneVAuLSuhAQ",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1647415375167": {
+        "code": "{}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "workDayDesc",
+            "id": "Data_1647415375167_workDayDesc",
+            "label": "备注",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "dayType",
+            "id": "Data_1647415375167_dayType",
+            "label": "日期类型",
+            "type": "schema"
+          }
+        ],
+        "componentSchemas": {
+          "workDayDesc": {
+            "isDefault": true,
+            "propertyName": "workDayDesc",
+            "fieldLabelName": "备注",
+            "$key": "workDayDesc",
+            "fieldType": "string"
+          }
+        },
+        "dataType": "object",
+        "schemas": {
+          "dayType": {
+            "recorder": "UzC4T6h3",
+            "columnLength": 2,
+            "columnOrder": 99,
+            "autoCreateRule": "",
+            "precision": 2,
+            "columnComment": "日期类型",
+            "referenceType": "",
+            "scale": 0,
+            "autoCreateParam": "",
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "",
+            "columnType": "VARCHAR",
+            "propertyName": "dayType",
+            "fieldLabelName": "日期类型",
+            "tableId": "6U1OixW1ShSKhrcNRBzaog",
+            "fieldType": "string",
+            "lastModifyDate": "2022-03-14 17:03:51",
+            "columnName": "DAY_TYPE",
+            "primaryKey": false
+          },
+          "workDayDesc": {
+            "recorder": "UzC4T6h3",
+            "columnLength": 128,
+            "columnOrder": 99,
+            "autoCreateRule": "",
+            "precision": 128,
+            "columnComment": "备注",
+            "referenceType": "",
+            "scale": 0,
+            "autoCreateParam": "",
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "",
+            "columnType": "VARCHAR",
+            "propertyName": "workDayDesc",
+            "fieldLabelName": "备注",
+            "tableId": "6U1OixW1ShSKhrcNRBzaog",
+            "fieldType": "string",
+            "lastModifyDate": "2022-03-14 17:03:51",
+            "columnName": "WORK_DAY_DESC",
+            "primaryKey": false
+          }
+        },
+        "name": "info",
+        "id": "Data_1647415375167",
+        "label": "info",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1647414816352": {
+        "code": "function save() {\n  const { info } = $data;\n  return $dde.post('91c9828c33c845539c87a8fb912e80b8', info);\n}",
+        "name": "save",
+        "id": "Method_1647414816352",
+        "label": "save",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1669012066208": {
+        "code": "function watchInfo(info, oldInfo) {\n// 在下面开始编写info监听\n    if (info) {\n        $data.info = Object.assign({}, info)\n    }\n}",
+        "immediate": true,
+        "name": "info",
+        "id": "Param_1669012066208"
+      }
+    }
+  },
+  "modelTag": "表单",
+  "isValid": "F"
+}

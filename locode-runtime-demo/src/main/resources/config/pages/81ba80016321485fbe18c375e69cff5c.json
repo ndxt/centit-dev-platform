@@ -1,0 +1,14 @@
+{
+  "modelId": "81ba80016321485fbe18c375e69cff5c",
+  "modelName": "通用审批页面",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "页面包括：是否通过 和 一个模块引用指向对应的审批内容",
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "PVaaVyXzQy2s-2IakUjoPQ",
+  "modelTag": "",
+  "isValid": "F"
+}

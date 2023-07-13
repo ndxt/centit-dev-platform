@@ -1,0 +1,315 @@
+{
+  "packetId": "03c00739e2764e73b0a1721ebd5430b7",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "部门每月考勤统计",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 200,
+        "y": 100,
+        "id": "startahd4dIqmPO",
+        "text": {
+          "x": 200,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "startahd4dIqmPO",
+          "type": "start"
+        }
+      },
+      {
+        "x": 200,
+        "y": 280,
+        "id": "databaselboiuaGax9",
+        "text": {
+          "x": 200,
+          "y": 280,
+          "value": "读取关系数据库"
+        },
+        "type": "database",
+        "properties": {
+          "querySQL": "SELECT\n\tCOUNT( DISTINCT usercode ) AS userCount,\n\tSUM( overtimelength ) AS overtimelength,\n\tunitCode\nFROM\n\tv_attendance_month \n\tWHERE 1=1 \n\t[:month |and DATE_FORMAT(`month`,'%Y-%m')=:month]\nGROUP BY\n\tunitCode\nORDER BY overtimelength DESC",
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "processName": "读取关系数据库",
+          "typeName": "读取关系数据库",
+          "isSource": true,
+          "isSelected": true,
+          "parameterList": [
+            {
+              "unique": 0,
+              "value": "",
+              "key": "month"
+            }
+          ],
+          "id": "databaselboiuaGax9",
+          "type": "database",
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "usercount",
+              "dataType": "string",
+              "columnCode": "userCount",
+              "columnName": "usercount"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "unitcode",
+              "dataType": "string",
+              "columnCode": "unitCode",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ]
+        }
+      },
+      {
+        "x": 200,
+        "y": 600,
+        "id": "resultsVI8mbTjQvy",
+        "text": {
+          "x": 200,
+          "y": 600,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "resultOptions": "3",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "usercount",
+              "dataType": "string",
+              "columnCode": "userCount",
+              "columnName": "usercount"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "unitcode",
+              "dataType": "string",
+              "columnCode": "unitCode",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": false,
+          "isSelected": true,
+          "id": "resultsVI8mbTjQvy",
+          "source": "databaselboiuaGax9",
+          "type": "results"
+        }
+      },
+      {
+        "x": 200,
+        "y": 440,
+        "id": "appendIyrqmwVtZb",
+        "text": {
+          "x": 200,
+          "y": 440,
+          "value": "添加派生字段"
+        },
+        "type": "append",
+        "properties": {
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "usercount",
+              "dataType": "string",
+              "columnCode": "userCount",
+              "columnName": "usercount"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "unitcode",
+              "dataType": "string",
+              "columnCode": "unitCode",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "processName": "添加派生字段",
+          "typeName": "添加派生字段",
+          "isSource": false,
+          "isSelected": true,
+          "id": "appendIyrqmwVtZb",
+          "source": "databaselboiuaGax9",
+          "type": "append",
+          "config": [
+            {
+              "expression": "dict('unitCode',unitcode)",
+              "cName": "部门名称",
+              "unique": 0,
+              "columnName": "unitName"
+            }
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 200,
+            "y": 133
+          },
+          {
+            "x": 200,
+            "y": 247
+          }
+        ],
+        "endPoint": {
+          "x": 200,
+          "y": 247
+        },
+        "sourceNodeId": "startahd4dIqmPO",
+        "startPoint": {
+          "x": 200,
+          "y": 133
+        },
+        "id": "517b5363-36a0-4b54-a1a2-c5cbd211f1e6",
+        "type": "PlineEdge",
+        "targetNodeId": "databaselboiuaGax9",
+        "properties": {
+          "sourceId": "startahd4dIqmPO",
+          "targetId": "databaselboiuaGax9",
+          "processName": "",
+          "typeName": "连线",
+          "id": "517b5363-36a0-4b54-a1a2-c5cbd211f1e6",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 200,
+            "y": 473
+          },
+          {
+            "x": 200,
+            "y": 567
+          }
+        ],
+        "endPoint": {
+          "x": 200,
+          "y": 567
+        },
+        "sourceNodeId": "appendIyrqmwVtZb",
+        "startPoint": {
+          "x": 200,
+          "y": 473
+        },
+        "id": "d7dc5544-a117-4174-b9e5-8163b05d627d",
+        "type": "PlineEdge",
+        "targetNodeId": "resultsVI8mbTjQvy",
+        "properties": {
+          "sourceId": "appendIyrqmwVtZb",
+          "targetId": "resultsVI8mbTjQvy",
+          "processName": "",
+          "typeName": "连线",
+          "id": "d7dc5544-a117-4174-b9e5-8163b05d627d",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 200,
+            "y": 313
+          },
+          {
+            "x": 200,
+            "y": 407
+          }
+        ],
+        "endPoint": {
+          "x": 200,
+          "y": 407
+        },
+        "sourceNodeId": "databaselboiuaGax9",
+        "startPoint": {
+          "x": 200,
+          "y": 313
+        },
+        "id": "12fab9ce-0820-479b-a544-684a5cd97319",
+        "type": "PlineEdge",
+        "targetNodeId": "appendIyrqmwVtZb",
+        "properties": {
+          "sourceId": "databaselboiuaGax9",
+          "targetId": "appendIyrqmwVtZb",
+          "processName": "",
+          "typeName": "连线",
+          "id": "12fab9ce-0820-479b-a544-684a5cd97319",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-07-13 10:35:05",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-07-04 16:50:26",
+  "publishDate": "2022-03-14 15:14:04",
+  "needRollback": "F",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "optCode": "03c00739e2764e73b0a1721ebd5430b7",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "7435d29e910e4a9682bf26000f631edb",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

@@ -1,0 +1,2542 @@
+{
+  "modelId": "QRy41rd3TEO8fnYGa4oAig",
+  "modelName": "抄送列表",
+  "optId": "409d5fa4f20440b8a0c969256d7ef3b1",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-22 16:38:01",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1646911216536": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "drawerOpen",
+        "id": "Data_1646911216536",
+        "label": "drawerOpen",
+        "type": "data"
+      }
+    },
+    "fit": true,
+    "$name": "Model",
+    "methodsConfigs": {
+      "Method_1646910649251": {
+        "code": "function openDrawer(info) {\n  $data.drawerOpen = true\n  $data.info = info\n}",
+        "name": "openDrawer",
+        "id": "Method_1646910649251",
+        "label": "openDrawer",
+        "type": "method"
+      }
+    },
+    "styleText": "background: transparent;",
+    "children": [
+      {
+        "$name": "Search",
+        "form": {
+          "$name": "SearchForm",
+          "children": [
+            {
+              "$name": "InputText",
+              "notShowItem": false,
+              "inline": true,
+              "readonly": false,
+              "rulesConfig": [],
+              "disabled": false,
+              "$key": "username",
+              "$item": {
+                "name": "InputText",
+                "label": "输入框",
+                "id": "InputText_1646890408651_0.44579752232968284"
+              },
+              "label": "申请人",
+              "allowClear": false
+            },
+            {
+              "$name": "RangePicker",
+              "inline": true,
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "time",
+              "$item": {
+                "name": "RangePicker",
+                "label": "日期范围",
+                "id": "RangePicker_1646810258663_0.7753315662366653"
+              },
+              "label": "申请日期"
+            }
+          ],
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1646809210965_0.14899119852924048"
+          }
+        },
+        "useResetCode": true,
+        "$data": {
+          "Data_1646809210965_0.6093219589494188": {
+            "isDefault": true,
+            "componentId": "Search_1646809210965_0.22428377714034342",
+            "code": "{}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "time",
+                "id": "Data_1646809210965_0.6093219589494188_time",
+                "label": "申请日期",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "username",
+                "id": "Data_1646809210965_0.6093219589494188_username",
+                "label": "申请人",
+                "type": "schema"
+              }
+            ],
+            "componentSchemas": {
+              "time": {
+                "isDefault": true,
+                "propertyName": "time",
+                "fieldLabelName": "申请日期",
+                "$key": "time",
+                "fieldType": "string"
+              },
+              "username": {
+                "isDefault": true,
+                "propertyName": "username",
+                "fieldLabelName": "申请人",
+                "$key": "username",
+                "fieldType": "string"
+              }
+            },
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646809210965_0.6093219589494188",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646809204455_0.8663180973628621"
+        },
+        "useModelCode": true,
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $comp['DataList'].pagination.pageNo = 1\n  $comp['DataList'].query()\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1646809210965_0.22428377714034342"
+        },
+        "list": {
+          "$name": "SearchList",
+          "children": [
+            {
+              "$name": "DataList",
+              "$data": {
+                "Data_1646809210965_0.4100813187290848": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1646809210965_0.4100813187290848",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Data_1646809210965_0.7907803590809133": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "[]",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "begintime",
+                      "id": "Data_1646809210965_0.7907803590809133_begintime",
+                      "label": "开始时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "endtime",
+                      "id": "Data_1646809210965_0.7907803590809133_endtime",
+                      "label": "结束时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "flowresult",
+                      "id": "Data_1646809210965_0.7907803590809133_flowresult",
+                      "label": "审批状态",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "leavereason",
+                      "id": "Data_1646809210965_0.7907803590809133_leavereason",
+                      "label": "申请理由",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "leavetype",
+                      "id": "Data_1646809210965_0.7907803590809133_leavetype",
+                      "label": "请假类型",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "recorddate",
+                      "id": "Data_1646809210965_0.7907803590809133_recorddate",
+                      "label": "申请时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "username",
+                      "id": "Data_1646809210965_0.7907803590809133_username",
+                      "label": "申请人",
+                      "type": "schema"
+                    }
+                  ],
+                  "componentSchemas": {
+                    "leavetype": {
+                      "isDefault": true,
+                      "propertyName": "leavetype",
+                      "fieldLabelName": "请假类型",
+                      "$key": "leavetype",
+                      "fieldType": "string"
+                    },
+                    "leavereason": {
+                      "isDefault": true,
+                      "propertyName": "leavereason",
+                      "fieldLabelName": "申请理由",
+                      "$key": "leavereason",
+                      "fieldType": "string"
+                    },
+                    "endtime": {
+                      "isDefault": true,
+                      "propertyName": "endtime",
+                      "fieldLabelName": "结束时间",
+                      "$key": "endtime",
+                      "fieldType": "string"
+                    },
+                    "begintime": {
+                      "isDefault": true,
+                      "propertyName": "begintime",
+                      "fieldLabelName": "开始时间",
+                      "$key": "begintime",
+                      "fieldType": "string"
+                    },
+                    "recorddate": {
+                      "isDefault": true,
+                      "propertyName": "recorddate",
+                      "fieldLabelName": "申请时间",
+                      "$key": "recorddate",
+                      "fieldType": "string"
+                    },
+                    "flowresult": {
+                      "isDefault": true,
+                      "propertyName": "flowresult",
+                      "fieldLabelName": "审批状态",
+                      "$key": "flowresult",
+                      "fieldType": "string"
+                    },
+                    "username": {
+                      "isDefault": true,
+                      "propertyName": "username",
+                      "fieldLabelName": "申请人",
+                      "$key": "username",
+                      "fieldType": "string"
+                    }
+                  },
+                  "isMain": true,
+                  "dataType": "array",
+                  "name": "value",
+                  "id": "Data_1646809210965_0.7907803590809133",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Method_1646809210965_0.011202805191822707": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "async function query() {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['Search']\n  const { userInfo: $u } = $info;\n  if (value.time) {\n    const begin = value.time[0] ? `${value.time[0]} 00:00:00` : undefined\n    const end = value.time[1] ? `${value.time[1]} 23:59:59` : undefined\n    value.begintime_ge = begin\n    value.begintime_le = end\n  }\n  const params = Object.assign({\n    ccusercode : $u.userCode,\n    ['(like)username_lk'] : value.username,\n    ['(datetime)begintime_ge']: value.begintime_ge,\n    ['(datetime)begintime_le']: value.begintime_le\n  }, pagination, sorter)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('9b2e4252eeae4a4a917d4e30020d0c51', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1646809210965_0.011202805191822707",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1646809210965_0.586257153654087": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "{\r\n    sort: 'recorddate',\r\n    order: 'desc',  \r\n}",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "order",
+                      "id": "Data_1646809210965_0.586257153654087_order",
+                      "label": "order",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "sort",
+                      "id": "Data_1646809210965_0.586257153654087_sort",
+                      "label": "sort",
+                      "type": "schema"
+                    }
+                  ],
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1646809210965_0.586257153654087",
+                  "label": "排序",
+                  "type": "data",
+                  "codeSchemas": {
+                    "sort": {
+                      "isDefault": true,
+                      "propertyName": "sort",
+                      "fieldLabelName": "sort",
+                      "fieldType": "string"
+                    },
+                    "order": {
+                      "isDefault": true,
+                      "propertyName": "order",
+                      "fieldLabelName": "order",
+                      "fieldType": "string"
+                    }
+                  },
+                  "isFixed": true
+                },
+                "Data_1646809210965_0.5032792251390328": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646809210965_0.5032792251390328",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646809210965_0.3915507253571042": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "{ \n  pageSize: 50, \n  pageNo: 1,\n}",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "number",
+                      "name": "pageNo",
+                      "id": "Data_1646809210965_0.3915507253571042_pageNo",
+                      "label": "pageNo",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "number",
+                      "name": "pageSize",
+                      "id": "Data_1646809210965_0.3915507253571042_pageSize",
+                      "label": "pageSize",
+                      "type": "schema"
+                    }
+                  ],
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1646809210965_0.3915507253571042",
+                  "label": "分页",
+                  "type": "data",
+                  "codeSchemas": {
+                    "pageNo": {
+                      "isDefault": true,
+                      "propertyName": "pageNo",
+                      "fieldLabelName": "pageNo",
+                      "fieldType": "number"
+                    },
+                    "pageSize": {
+                      "isDefault": true,
+                      "propertyName": "pageSize",
+                      "fieldLabelName": "pageSize",
+                      "fieldType": "number"
+                    }
+                  },
+                  "isFixed": true
+                }
+              },
+              "useChangeCode": true,
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1646809210965_0.01749328627642255"
+              },
+              "columns": [
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "username",
+                  "columnId": "HeaderCell_1646909582497_0.901370570986761",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646909582497_0.901370570986761"
+                  },
+                  "title": "申请人",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  $run('openDrawer', info)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n   return $data.row.username\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646910599454_0.40942484421538095"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "recorddate",
+                  "columnId": "HeaderCell_1646809210965_0.800196496892881",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809210965_0.800196496892881"
+                  },
+                  "title": "申请时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "begintime",
+                  "columnId": "HeaderCell_1646809479885_0.9209559589371987",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809479885_0.9209559589371987"
+                  },
+                  "title": "开始时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "endtime",
+                  "columnId": "HeaderCell_1646810039354_0.9934573231394939",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810039354_0.9934573231394939"
+                  },
+                  "title": "结束时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "leavetype",
+                  "columnId": "HeaderCell_1646810062738_0.013330827920652988",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810062738_0.013330827920652988"
+                  },
+                  "title": "请假类型",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646882589595_0.8194542066217121"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "flowresult",
+                  "columnId": "HeaderCell_1646810097463_0.8219130259567815",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810097463_0.8219130259567815"
+                  },
+                  "title": "审批状态",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "leavereason",
+                  "columnId": "HeaderCell_1646810123941_0.5012447020575932",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810123941_0.5012447020575932"
+                  },
+                  "title": "申请理由",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "columnId": "HeaderCell_1646911088327_0.6668966796525564",
+                  "width": 120,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646911088327_0.6668966796525564"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Button",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646911132403_0.028661664354535654": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646911132403_0.028661664354535654",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646911132403_0.212788445135075": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646911132403_0.212788445135075",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "info",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+                      "text": "查看",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646911132403_0.27602720068589703"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+              "fit": true,
+              "size": "small",
+              "useSelectChangeCode": true,
+              "useValueCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1646809210965_0.4565473547818699"
+              },
+              "$columns": [
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "username",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646909582497_0.901370570986761"
+                  },
+                  "title": "申请人",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  $run('openDrawer', info)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n   return $data.row.username\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646910599454_0.40942484421538095"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "recorddate",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809210965_0.800196496892881"
+                  },
+                  "title": "申请时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "begintime",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809479885_0.9209559589371987"
+                  },
+                  "title": "开始时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "endtime",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810039354_0.9934573231394939"
+                  },
+                  "title": "结束时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "leavetype",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810062738_0.013330827920652988"
+                  },
+                  "title": "请假类型",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646882589595_0.8194542066217121"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "flowresult",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810097463_0.8219130259567815"
+                  },
+                  "title": "审批状态",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "leavereason",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810123941_0.5012447020575932"
+                  },
+                  "title": "申请理由",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "width": 120,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646911088327_0.6668966796525564"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Button",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646911132403_0.028661664354535654": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646911132403_0.028661664354535654",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646911132403_0.212788445135075": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646911132403_0.212788445135075",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "info",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+                      "text": "查看",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646911132403_0.27602720068589703"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": false,
+              "dataSource": [],
+              "actions": {
+                "$name": "DataActions",
+                "children": [],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1646809211592_0.45468865952827686"
+                }
+              },
+              "rowKey": "leaveno",
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646809210965_0.01749328627642255"
+          }
+        },
+        "onResetCode": "function onReset () {\n  // 在下面开始编写点击重置按钮时触发事件\n  this.value = {}\n  $comp['DataList'].pagination.pageNo = 1\n  $comp['DataList'].query()\n}"
+      },
+      {
+        "$footer": {
+          "$name": "DrawerFooter",
+          "children": [],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1646910816394_0.6601413237756544"
+          }
+        },
+        "$name": "Drawer",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return $data.drawerOpen\n}",
+        "keyboard": true,
+        "$data": {
+          "Method_1646910816395_0.9862641793065619": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646910816395_0.9862641793065619",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646910816395_0.21732205380130254": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "async function close (isOk) {  \n  this.visible = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "close",
+            "id": "Method_1646910816395_0.21732205380130254",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1646910816395_0.30948862140816846": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646910816395_0.30948862140816846",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646910816395_0.15200977102374646": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "{}",
+            "children": [],
+            "componentSchemas": {},
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646910816395_0.15200977102374646",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646910816395_0.745981628601663": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "async function ok () {  \n  try {\n    // 提交接口，修改接口id\n    await $dde.get('submitApiTestID', {})\n    this.close(true)\n    $antd.message.success('ok')\n  } finally { }      \n}",
+            "name": "ok",
+            "id": "Method_1646910816395_0.745981628601663",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646809204455_0.8663180973628621"
+        },
+        "onCloseCode": "function onClose() {\n  // 在下面开始编写关闭事件\n  $data.drawerOpen = false\n  $data.info = {}\n}",
+        "closable": true,
+        "maskClosable": true,
+        "title": "详情",
+        "useCloseCode": true,
+        "children": [
+          {
+            "$name": "Model",
+            "$params": {},
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "leave",
+                "label": "leave",
+                "props": []
+              }
+            ],
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1646910921718_0.09350740327648621"
+            },
+            "id": "c2656f06292f44948fcb5bb907c02594",
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n    leave: Object.assign({}, $data.info),\n  }\n}"
+          }
+        ],
+        "width": 960,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1646910816394_0.03909725140358811"
+        },
+        "mask": true
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "Drawer_1646910816394_0.03909725140358811": {
+        "$footer": {
+          "$name": "DrawerFooter",
+          "children": [],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1646910816394_0.6601413237756544"
+          }
+        },
+        "$name": "Drawer",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return $data.drawerOpen\n}",
+        "keyboard": true,
+        "$data": {
+          "Method_1646910816395_0.9862641793065619": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646910816395_0.9862641793065619",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646910816395_0.21732205380130254": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "async function close (isOk) {  \n  this.visible = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "close",
+            "id": "Method_1646910816395_0.21732205380130254",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1646910816395_0.30948862140816846": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646910816395_0.30948862140816846",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646910816395_0.15200977102374646": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "{}",
+            "children": [],
+            "componentSchemas": {},
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646910816395_0.15200977102374646",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646910816395_0.745981628601663": {
+            "isDefault": true,
+            "componentId": "Drawer_1646910816394_0.03909725140358811",
+            "code": "async function ok () {  \n  try {\n    // 提交接口，修改接口id\n    await $dde.get('submitApiTestID', {})\n    this.close(true)\n    $antd.message.success('ok')\n  } finally { }      \n}",
+            "name": "ok",
+            "id": "Method_1646910816395_0.745981628601663",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646809204455_0.8663180973628621"
+        },
+        "onCloseCode": "function onClose() {\n  // 在下面开始编写关闭事件\n  $data.drawerOpen = false\n  $data.info = {}\n}",
+        "closable": true,
+        "maskClosable": true,
+        "title": "详情",
+        "useCloseCode": true,
+        "width": 960,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1646910816394_0.03909725140358811"
+        },
+        "mask": true
+      },
+      "DataList_1646809210965_0.4565473547818699": {
+        "$name": "DataList",
+        "$data": {
+          "Data_1646809210965_0.4100813187290848": {
+            "isDefault": true,
+            "componentId": "DataList_1646809210965_0.4565473547818699",
+            "code": "{ \n  rows: [], \n  keys: [],\n}",
+            "dataType": "object",
+            "name": "selected",
+            "id": "Data_1646809210965_0.4100813187290848",
+            "label": "选中数据",
+            "type": "data"
+          },
+          "Data_1646809210965_0.7907803590809133": {
+            "isDefault": true,
+            "componentId": "DataList_1646809210965_0.4565473547818699",
+            "code": "[]",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "begintime",
+                "id": "Data_1646809210965_0.7907803590809133_begintime",
+                "label": "开始时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "endtime",
+                "id": "Data_1646809210965_0.7907803590809133_endtime",
+                "label": "结束时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "flowresult",
+                "id": "Data_1646809210965_0.7907803590809133_flowresult",
+                "label": "审批状态",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "leavereason",
+                "id": "Data_1646809210965_0.7907803590809133_leavereason",
+                "label": "申请理由",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "leavetype",
+                "id": "Data_1646809210965_0.7907803590809133_leavetype",
+                "label": "请假类型",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "recorddate",
+                "id": "Data_1646809210965_0.7907803590809133_recorddate",
+                "label": "申请时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "username",
+                "id": "Data_1646809210965_0.7907803590809133_username",
+                "label": "申请人",
+                "type": "schema"
+              }
+            ],
+            "componentSchemas": {
+              "leavetype": {
+                "isDefault": true,
+                "propertyName": "leavetype",
+                "fieldLabelName": "请假类型",
+                "$key": "leavetype",
+                "fieldType": "string"
+              },
+              "leavereason": {
+                "isDefault": true,
+                "propertyName": "leavereason",
+                "fieldLabelName": "申请理由",
+                "$key": "leavereason",
+                "fieldType": "string"
+              },
+              "endtime": {
+                "isDefault": true,
+                "propertyName": "endtime",
+                "fieldLabelName": "结束时间",
+                "$key": "endtime",
+                "fieldType": "string"
+              },
+              "begintime": {
+                "isDefault": true,
+                "propertyName": "begintime",
+                "fieldLabelName": "开始时间",
+                "$key": "begintime",
+                "fieldType": "string"
+              },
+              "recorddate": {
+                "isDefault": true,
+                "propertyName": "recorddate",
+                "fieldLabelName": "申请时间",
+                "$key": "recorddate",
+                "fieldType": "string"
+              },
+              "flowresult": {
+                "isDefault": true,
+                "propertyName": "flowresult",
+                "fieldLabelName": "审批状态",
+                "$key": "flowresult",
+                "fieldType": "string"
+              },
+              "username": {
+                "isDefault": true,
+                "propertyName": "username",
+                "fieldLabelName": "申请人",
+                "$key": "username",
+                "fieldType": "string"
+              }
+            },
+            "isMain": true,
+            "dataType": "array",
+            "name": "value",
+            "id": "Data_1646809210965_0.7907803590809133",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646809210965_0.011202805191822707": {
+            "isDefault": true,
+            "componentId": "DataList_1646809210965_0.4565473547818699",
+            "code": "async function query() {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['Search']\n  const { userInfo: $u } = $info;\n  if (value.time) {\n    const begin = value.time[0] ? `${value.time[0]} 00:00:00` : undefined\n    const end = value.time[1] ? `${value.time[1]} 23:59:59` : undefined\n    value.begintime_ge = begin\n    value.begintime_le = end\n  }\n  const params = Object.assign({\n    ccusercode : $u.userCode,\n    ['(like)username_lk'] : value.username,\n    ['(datetime)begintime_ge']: value.begintime_ge,\n    ['(datetime)begintime_le']: value.begintime_le\n  }, pagination, sorter)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('9b2e4252eeae4a4a917d4e30020d0c51', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "query",
+            "id": "Method_1646809210965_0.011202805191822707",
+            "label": "查询",
+            "type": "method"
+          },
+          "Data_1646809210965_0.586257153654087": {
+            "isDefault": true,
+            "componentId": "DataList_1646809210965_0.4565473547818699",
+            "code": "{\r\n    sort: 'recorddate',\r\n    order: 'desc',  \r\n}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "order",
+                "id": "Data_1646809210965_0.586257153654087_order",
+                "label": "order",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "sort",
+                "id": "Data_1646809210965_0.586257153654087_sort",
+                "label": "sort",
+                "type": "schema"
+              }
+            ],
+            "dataType": "object",
+            "name": "sorter",
+            "id": "Data_1646809210965_0.586257153654087",
+            "label": "排序",
+            "type": "data",
+            "codeSchemas": {
+              "sort": {
+                "isDefault": true,
+                "propertyName": "sort",
+                "fieldLabelName": "sort",
+                "fieldType": "string"
+              },
+              "order": {
+                "isDefault": true,
+                "propertyName": "order",
+                "fieldLabelName": "order",
+                "fieldType": "string"
+              }
+            },
+            "isFixed": true
+          },
+          "Data_1646809210965_0.5032792251390328": {
+            "isDefault": true,
+            "componentId": "DataList_1646809210965_0.4565473547818699",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646809210965_0.5032792251390328",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646809210965_0.3915507253571042": {
+            "isDefault": true,
+            "componentId": "DataList_1646809210965_0.4565473547818699",
+            "code": "{ \n  pageSize: 50, \n  pageNo: 1,\n}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "number",
+                "name": "pageNo",
+                "id": "Data_1646809210965_0.3915507253571042_pageNo",
+                "label": "pageNo",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "number",
+                "name": "pageSize",
+                "id": "Data_1646809210965_0.3915507253571042_pageSize",
+                "label": "pageSize",
+                "type": "schema"
+              }
+            ],
+            "dataType": "object",
+            "name": "pagination",
+            "id": "Data_1646809210965_0.3915507253571042",
+            "label": "分页",
+            "type": "data",
+            "codeSchemas": {
+              "pageNo": {
+                "isDefault": true,
+                "propertyName": "pageNo",
+                "fieldLabelName": "pageNo",
+                "fieldType": "number"
+              },
+              "pageSize": {
+                "isDefault": true,
+                "propertyName": "pageSize",
+                "fieldLabelName": "pageSize",
+                "fieldType": "number"
+              }
+            },
+            "isFixed": true
+          }
+        },
+        "useChangeCode": true,
+        "$parent": {
+          "name": "SearchList",
+          "label": "列表插槽",
+          "id": "SearchList_1646809210965_0.01749328627642255"
+        },
+        "columns": [
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "username",
+            "columnId": "HeaderCell_1646909582497_0.901370570986761",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646909582497_0.901370570986761"
+            },
+            "title": "申请人",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "Html",
+                "useStyleText": true,
+                "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  $run('openDrawer', info)\n}",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n   return $data.row.username\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646910599454_0.40942484421538095"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "useClickCode": true
+              }
+            ]
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "recorddate",
+            "columnId": "HeaderCell_1646809210965_0.800196496892881",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646809210965_0.800196496892881"
+            },
+            "title": "申请时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "begintime",
+            "columnId": "HeaderCell_1646809479885_0.9209559589371987",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646809479885_0.9209559589371987"
+            },
+            "title": "开始时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "endtime",
+            "columnId": "HeaderCell_1646810039354_0.9934573231394939",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810039354_0.9934573231394939"
+            },
+            "title": "结束时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "leavetype",
+            "columnId": "HeaderCell_1646810062738_0.013330827920652988",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810062738_0.013330827920652988"
+            },
+            "title": "请假类型",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "Html",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646882589595_0.8194542066217121"
+                }
+              }
+            ]
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "flowresult",
+            "columnId": "HeaderCell_1646810097463_0.8219130259567815",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810097463_0.8219130259567815"
+            },
+            "title": "审批状态",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "leavereason",
+            "columnId": "HeaderCell_1646810123941_0.5012447020575932",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810123941_0.5012447020575932"
+            },
+            "title": "申请理由",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "columnId": "HeaderCell_1646911088327_0.6668966796525564",
+            "width": 120,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646911088327_0.6668966796525564"
+            },
+            "title": "操作",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "Button",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1646911132403_0.028661664354535654": {
+                    "isDefault": true,
+                    "componentId": "Button_1646911132403_0.27602720068589703",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1646911132403_0.028661664354535654",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1646911132403_0.212788445135075": {
+                    "isDefault": true,
+                    "componentId": "Button_1646911132403_0.27602720068589703",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1646911132403_0.212788445135075",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "info",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+                "text": "查看",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1646911132403_0.27602720068589703"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              }
+            ]
+          }
+        ],
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+        "bordered": true,
+        "usePaginationCode": true,
+        "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+        "fit": true,
+        "size": "small",
+        "useSelectChangeCode": true,
+        "useValueCode": true,
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1646809210965_0.4565473547818699"
+        },
+        "$columns": [
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "username",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646909582497_0.901370570986761"
+            },
+            "title": "申请人",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "Html",
+                "useStyleText": true,
+                "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  $run('openDrawer', info)\n}",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n   return $data.row.username\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646910599454_0.40942484421538095"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "useClickCode": true
+              }
+            ]
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "recorddate",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646809210965_0.800196496892881"
+            },
+            "title": "申请时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "begintime",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646809479885_0.9209559589371987"
+            },
+            "title": "开始时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "endtime",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810039354_0.9934573231394939"
+            },
+            "title": "结束时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "leavetype",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810062738_0.013330827920652988"
+            },
+            "title": "请假类型",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "Html",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646882589595_0.8194542066217121"
+                }
+              }
+            ]
+          },
+          {
+            "$name": "HeaderCell",
+            "sorter": true,
+            "children": [],
+            "dataIndex": "flowresult",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810097463_0.8219130259567815"
+            },
+            "title": "审批状态",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "leavereason",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646810123941_0.5012447020575932"
+            },
+            "title": "申请理由",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "width": 120,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646911088327_0.6668966796525564"
+            },
+            "title": "操作",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "Button",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1646911132403_0.028661664354535654": {
+                    "isDefault": true,
+                    "componentId": "Button_1646911132403_0.27602720068589703",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1646911132403_0.028661664354535654",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1646911132403_0.212788445135075": {
+                    "isDefault": true,
+                    "componentId": "Button_1646911132403_0.27602720068589703",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1646911132403_0.212788445135075",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "info",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+                "text": "查看",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1646911132403_0.27602720068589703"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              }
+            ]
+          }
+        ],
+        "useLoadingCode": true,
+        "useSelectedRowKeysCode": false,
+        "dataSource": [],
+        "actions": {
+          "$name": "DataActions",
+          "children": [],
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1646809211592_0.45468865952827686"
+          }
+        },
+        "rowKey": "leaveno",
+        "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}"
+      },
+      "Button_1646911132403_0.27602720068589703": {
+        "$name": "Button",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1646911132403_0.028661664354535654": {
+            "isDefault": true,
+            "componentId": "Button_1646911132403_0.27602720068589703",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1646911132403_0.028661664354535654",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646911132403_0.212788445135075": {
+            "isDefault": true,
+            "componentId": "Button_1646911132403_0.27602720068589703",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646911132403_0.212788445135075",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "info",
+        "type": "default",
+        "ghost": true,
+        "size": "small",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+        "text": "查看",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1646911132403_0.27602720068589703"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Search_1646809210965_0.22428377714034342": {
+        "$name": "Search",
+        "form": {
+          "$name": "SearchForm",
+          "children": [
+            {
+              "$name": "InputText",
+              "notShowItem": false,
+              "inline": true,
+              "readonly": false,
+              "rulesConfig": [],
+              "disabled": false,
+              "$key": "username",
+              "$item": {
+                "name": "InputText",
+                "label": "输入框",
+                "id": "InputText_1646890408651_0.44579752232968284"
+              },
+              "label": "申请人",
+              "allowClear": false
+            },
+            {
+              "$name": "RangePicker",
+              "inline": true,
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "time",
+              "$item": {
+                "name": "RangePicker",
+                "label": "日期范围",
+                "id": "RangePicker_1646810258663_0.7753315662366653"
+              },
+              "label": "申请日期"
+            }
+          ],
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1646809210965_0.14899119852924048"
+          }
+        },
+        "useResetCode": true,
+        "$data": {
+          "Data_1646809210965_0.6093219589494188": {
+            "isDefault": true,
+            "componentId": "Search_1646809210965_0.22428377714034342",
+            "code": "{}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "time",
+                "id": "Data_1646809210965_0.6093219589494188_time",
+                "label": "申请日期",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "username",
+                "id": "Data_1646809210965_0.6093219589494188_username",
+                "label": "申请人",
+                "type": "schema"
+              }
+            ],
+            "componentSchemas": {
+              "time": {
+                "isDefault": true,
+                "propertyName": "time",
+                "fieldLabelName": "申请日期",
+                "$key": "time",
+                "fieldType": "string"
+              },
+              "username": {
+                "isDefault": true,
+                "propertyName": "username",
+                "fieldLabelName": "申请人",
+                "$key": "username",
+                "fieldType": "string"
+              }
+            },
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646809210965_0.6093219589494188",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646809204455_0.8663180973628621"
+        },
+        "useModelCode": true,
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $comp['DataList'].pagination.pageNo = 1\n  $comp['DataList'].query()\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1646809210965_0.22428377714034342"
+        },
+        "list": {
+          "$name": "SearchList",
+          "children": [
+            {
+              "$name": "DataList",
+              "$data": {
+                "Data_1646809210965_0.4100813187290848": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1646809210965_0.4100813187290848",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Data_1646809210965_0.7907803590809133": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "[]",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "begintime",
+                      "id": "Data_1646809210965_0.7907803590809133_begintime",
+                      "label": "开始时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "endtime",
+                      "id": "Data_1646809210965_0.7907803590809133_endtime",
+                      "label": "结束时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "flowresult",
+                      "id": "Data_1646809210965_0.7907803590809133_flowresult",
+                      "label": "审批状态",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "leavereason",
+                      "id": "Data_1646809210965_0.7907803590809133_leavereason",
+                      "label": "申请理由",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "leavetype",
+                      "id": "Data_1646809210965_0.7907803590809133_leavetype",
+                      "label": "请假类型",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "recorddate",
+                      "id": "Data_1646809210965_0.7907803590809133_recorddate",
+                      "label": "申请时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "username",
+                      "id": "Data_1646809210965_0.7907803590809133_username",
+                      "label": "申请人",
+                      "type": "schema"
+                    }
+                  ],
+                  "componentSchemas": {
+                    "leavetype": {
+                      "isDefault": true,
+                      "propertyName": "leavetype",
+                      "fieldLabelName": "请假类型",
+                      "$key": "leavetype",
+                      "fieldType": "string"
+                    },
+                    "leavereason": {
+                      "isDefault": true,
+                      "propertyName": "leavereason",
+                      "fieldLabelName": "申请理由",
+                      "$key": "leavereason",
+                      "fieldType": "string"
+                    },
+                    "endtime": {
+                      "isDefault": true,
+                      "propertyName": "endtime",
+                      "fieldLabelName": "结束时间",
+                      "$key": "endtime",
+                      "fieldType": "string"
+                    },
+                    "begintime": {
+                      "isDefault": true,
+                      "propertyName": "begintime",
+                      "fieldLabelName": "开始时间",
+                      "$key": "begintime",
+                      "fieldType": "string"
+                    },
+                    "recorddate": {
+                      "isDefault": true,
+                      "propertyName": "recorddate",
+                      "fieldLabelName": "申请时间",
+                      "$key": "recorddate",
+                      "fieldType": "string"
+                    },
+                    "flowresult": {
+                      "isDefault": true,
+                      "propertyName": "flowresult",
+                      "fieldLabelName": "审批状态",
+                      "$key": "flowresult",
+                      "fieldType": "string"
+                    },
+                    "username": {
+                      "isDefault": true,
+                      "propertyName": "username",
+                      "fieldLabelName": "申请人",
+                      "$key": "username",
+                      "fieldType": "string"
+                    }
+                  },
+                  "isMain": true,
+                  "dataType": "array",
+                  "name": "value",
+                  "id": "Data_1646809210965_0.7907803590809133",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Method_1646809210965_0.011202805191822707": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "async function query() {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['Search']\n  const { userInfo: $u } = $info;\n  if (value.time) {\n    const begin = value.time[0] ? `${value.time[0]} 00:00:00` : undefined\n    const end = value.time[1] ? `${value.time[1]} 23:59:59` : undefined\n    value.begintime_ge = begin\n    value.begintime_le = end\n  }\n  const params = Object.assign({\n    ccusercode : $u.userCode,\n    ['(like)username_lk'] : value.username,\n    ['(datetime)begintime_ge']: value.begintime_ge,\n    ['(datetime)begintime_le']: value.begintime_le\n  }, pagination, sorter)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('9b2e4252eeae4a4a917d4e30020d0c51', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1646809210965_0.011202805191822707",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1646809210965_0.586257153654087": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "{\r\n    sort: 'recorddate',\r\n    order: 'desc',  \r\n}",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "order",
+                      "id": "Data_1646809210965_0.586257153654087_order",
+                      "label": "order",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "sort",
+                      "id": "Data_1646809210965_0.586257153654087_sort",
+                      "label": "sort",
+                      "type": "schema"
+                    }
+                  ],
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1646809210965_0.586257153654087",
+                  "label": "排序",
+                  "type": "data",
+                  "codeSchemas": {
+                    "sort": {
+                      "isDefault": true,
+                      "propertyName": "sort",
+                      "fieldLabelName": "sort",
+                      "fieldType": "string"
+                    },
+                    "order": {
+                      "isDefault": true,
+                      "propertyName": "order",
+                      "fieldLabelName": "order",
+                      "fieldType": "string"
+                    }
+                  },
+                  "isFixed": true
+                },
+                "Data_1646809210965_0.5032792251390328": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646809210965_0.5032792251390328",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646809210965_0.3915507253571042": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646809210965_0.4565473547818699",
+                  "code": "{ \n  pageSize: 50, \n  pageNo: 1,\n}",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "number",
+                      "name": "pageNo",
+                      "id": "Data_1646809210965_0.3915507253571042_pageNo",
+                      "label": "pageNo",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "number",
+                      "name": "pageSize",
+                      "id": "Data_1646809210965_0.3915507253571042_pageSize",
+                      "label": "pageSize",
+                      "type": "schema"
+                    }
+                  ],
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1646809210965_0.3915507253571042",
+                  "label": "分页",
+                  "type": "data",
+                  "codeSchemas": {
+                    "pageNo": {
+                      "isDefault": true,
+                      "propertyName": "pageNo",
+                      "fieldLabelName": "pageNo",
+                      "fieldType": "number"
+                    },
+                    "pageSize": {
+                      "isDefault": true,
+                      "propertyName": "pageSize",
+                      "fieldLabelName": "pageSize",
+                      "fieldType": "number"
+                    }
+                  },
+                  "isFixed": true
+                }
+              },
+              "useChangeCode": true,
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1646809210965_0.01749328627642255"
+              },
+              "columns": [
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "username",
+                  "columnId": "HeaderCell_1646909582497_0.901370570986761",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646909582497_0.901370570986761"
+                  },
+                  "title": "申请人",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  $run('openDrawer', info)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n   return $data.row.username\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646910599454_0.40942484421538095"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "recorddate",
+                  "columnId": "HeaderCell_1646809210965_0.800196496892881",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809210965_0.800196496892881"
+                  },
+                  "title": "申请时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "begintime",
+                  "columnId": "HeaderCell_1646809479885_0.9209559589371987",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809479885_0.9209559589371987"
+                  },
+                  "title": "开始时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "endtime",
+                  "columnId": "HeaderCell_1646810039354_0.9934573231394939",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810039354_0.9934573231394939"
+                  },
+                  "title": "结束时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "leavetype",
+                  "columnId": "HeaderCell_1646810062738_0.013330827920652988",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810062738_0.013330827920652988"
+                  },
+                  "title": "请假类型",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646882589595_0.8194542066217121"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "flowresult",
+                  "columnId": "HeaderCell_1646810097463_0.8219130259567815",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810097463_0.8219130259567815"
+                  },
+                  "title": "审批状态",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "leavereason",
+                  "columnId": "HeaderCell_1646810123941_0.5012447020575932",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810123941_0.5012447020575932"
+                  },
+                  "title": "申请理由",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "columnId": "HeaderCell_1646911088327_0.6668966796525564",
+                  "width": 120,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646911088327_0.6668966796525564"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Button",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646911132403_0.028661664354535654": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646911132403_0.028661664354535654",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646911132403_0.212788445135075": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646911132403_0.212788445135075",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "info",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+                      "text": "查看",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646911132403_0.27602720068589703"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+              "fit": true,
+              "size": "small",
+              "useSelectChangeCode": true,
+              "useValueCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1646809210965_0.4565473547818699"
+              },
+              "$columns": [
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "username",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646909582497_0.901370570986761"
+                  },
+                  "title": "申请人",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  $run('openDrawer', info)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n   return $data.row.username\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646910599454_0.40942484421538095"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "recorddate",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809210965_0.800196496892881"
+                  },
+                  "title": "申请时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "begintime",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646809479885_0.9209559589371987"
+                  },
+                  "title": "开始时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "endtime",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810039354_0.9934573231394939"
+                  },
+                  "title": "结束时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "leavetype",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810062738_0.013330827920652988"
+                  },
+                  "title": "请假类型",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Html",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646882589595_0.8194542066217121"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$name": "HeaderCell",
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "flowresult",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810097463_0.8219130259567815"
+                  },
+                  "title": "审批状态",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "leavereason",
+                  "width": 150,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646810123941_0.5012447020575932"
+                  },
+                  "title": "申请理由",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "width": 120,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646911088327_0.6668966796525564"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "Button",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646911132403_0.028661664354535654": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646911132403_0.028661664354535654",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646911132403_0.212788445135075": {
+                          "isDefault": true,
+                          "componentId": "Button_1646911132403_0.27602720068589703",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646911132403_0.212788445135075",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "info",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n   $run('openDrawer', $data.row)\n}",
+                      "text": "查看",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646911132403_0.27602720068589703"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": false,
+              "dataSource": [],
+              "actions": {
+                "$name": "DataActions",
+                "children": [],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1646809211592_0.45468865952827686"
+                }
+              },
+              "rowKey": "leaveno",
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646809210965_0.01749328627642255"
+          }
+        },
+        "onResetCode": "function onReset () {\n  // 在下面开始编写点击重置按钮时触发事件\n  this.value = {}\n  $comp['DataList'].pagination.pageNo = 1\n  $comp['DataList'].query()\n}"
+      }
+    },
+    "style": {
+      "background": "transparent"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $comp['DataList'].query()\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1646809204455_0.8663180973628621"
+    }
+  },
+  "publishDate": "2022-03-22 16:38:01",
+  "sourceId": "QRy41rd3TEO8fnYGa4oAig",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1646911216536": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "drawerOpen",
+        "id": "Data_1646911216536",
+        "label": "drawerOpen",
+        "type": "data"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1646910649251": {
+        "code": "function openDrawer(info) {\n  $data.drawerOpen = true\n  $data.info = info\n}",
+        "name": "openDrawer",
+        "id": "Method_1646910649251",
+        "label": "openDrawer",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "列表",
+  "isValid": "F"
+}

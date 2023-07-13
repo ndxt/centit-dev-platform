@@ -1,0 +1,735 @@
+{
+  "modelId": "2fb2ca0cd8fa4189ba1c2fdf163f97ad",
+  "modelName": "抄送列表",
+  "optId": "409d5fa4f20440b8a0c969256d7ef3b1",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-05 14:38:05",
+  "recorder": "U22AJpoL",
+  "modelComment": "抄送列表",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1645427606864": {
+        "code": "{\r\n    pageSize: 10,\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1645427606864_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          }
+        ],
+        "name": "page",
+        "id": "Data_1645427606864",
+        "title": "page",
+        "type": "o",
+        "codeSchemas": {
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          }
+        },
+        "key": "Data_1645427606864"
+      },
+      "Data_1645427676595": {
+        "code": "{\r\n    sort: 'updatedate',\r\n    order: 'desc',  \r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "order",
+            "id": "Data_1645427676595_order",
+            "label": "order",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "sort",
+            "id": "Data_1645427676595_sort",
+            "label": "sort",
+            "type": "schema"
+          }
+        ],
+        "name": "sort",
+        "id": "Data_1645427676595",
+        "title": "sort",
+        "type": "o",
+        "codeSchemas": {
+          "sort": {
+            "isDefault": true,
+            "propertyName": "sort",
+            "fieldLabelName": "sort",
+            "fieldType": "string"
+          },
+          "order": {
+            "isDefault": true,
+            "propertyName": "order",
+            "fieldLabelName": "order",
+            "fieldType": "string"
+          }
+        },
+        "key": "Data_1645427676595"
+      },
+      "Data_1645427946302": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1645427946302",
+        "title": "",
+        "type": "o",
+        "key": "Data_1645427946302"
+      },
+      "Data_1645427621221": {
+        "code": "{}",
+        "children": [],
+        "name": "filters",
+        "id": "Data_1645427621221",
+        "title": "filters",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1645427621221"
+      },
+      "Data_1645427885266": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1645427885266",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1645427885266"
+      },
+      "Data_1645428063957": {
+        "code": "{}",
+        "children": [],
+        "columns": [
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "结束时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "endtime",
+            "fieldLabelName": "endTime",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "endTime",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "流水号",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leaveno",
+            "fieldLabelName": "leaveNo",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveNo",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "所属部门",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "ownunit",
+            "fieldLabelName": "ownunit",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "ownunit",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 1,
+            "columnOrder": 99,
+            "precision": 1,
+            "columnComment": "时间单位",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "CHAR",
+            "propertyName": "timetype",
+            "fieldLabelName": "timeType",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "timeType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "用户号",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "usercode",
+            "fieldLabelName": "usercode",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "usercode",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "开始时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "begintime",
+            "fieldLabelName": "beginTime",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "beginTime",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 22,
+            "columnOrder": 99,
+            "precision": 22,
+            "columnComment": "请假时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Double",
+            "accessType": "N",
+            "columnType": "DOUBLE",
+            "propertyName": "leavedays",
+            "fieldLabelName": "leaveDays",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "double",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveDays",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 2,
+            "columnOrder": 99,
+            "precision": 2,
+            "columnComment": "请假类型",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavetype",
+            "fieldLabelName": "leaveType",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "登录名",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "loginname",
+            "fieldLabelName": "loginName",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "loginName",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "用户号",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "ccusercode",
+            "fieldLabelName": "ccusercode",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "ccusercode",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 8,
+            "columnOrder": 99,
+            "precision": 8,
+            "columnComment": "批准状态",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "flowresult",
+            "fieldLabelName": "flowResult",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "flowResult",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "请假录入时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "recorddate",
+            "fieldLabelName": "recorddate",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "recorddate",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "更新时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "updatedate",
+            "fieldLabelName": "updatedate",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "updatedate",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 1024,
+            "columnOrder": 99,
+            "precision": 1024,
+            "columnComment": "请假原因",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavereason",
+            "fieldLabelName": "leaveReason",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveReason",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "流程实例ID",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "flowInstId",
+            "fieldLabelName": "FLOW_INST_ID",
+            "tableId": "L14Pg21vToyXvov6QWbQWQ",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "FLOW_INST_ID",
+            "primaryKey": false
+          }
+        ],
+        "dataType": "array",
+        "name": "list",
+        "hasSchema": true,
+        "id": "Data_1645428063957",
+        "title": "list",
+        "type": "a",
+        "codeSchemas": {},
+        "key": "Data_1645428063957",
+        "table": [
+          "qCkELaoFSTm2_AoREWrYGg",
+          "L14Pg21vToyXvov6QWbQWQ"
+        ]
+      },
+      "Data_1645579791343": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "selectedRows",
+        "id": "Data_1645579791343",
+        "title": "selectedRows",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1645579791343"
+      }
+    },
+    "fit": true,
+    "methodsConfigs": {
+      "Method_1645427555228": {
+        "code": "async function query() {\n  const { page, sort} = $data\n  const { userInfo: $u } = $info;\n  const params = Object.assign({\n  \tccusercode: $u.userCode\n  }, page, sort)\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('9b2e4252eeae4a4a917d4e30020d0c51', { params }) \n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1645427555228",
+        "title": "query",
+        "key": "Method_1645427555228"
+      }
+    },
+    "children": [
+      {
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1644992642187_0.43429424292535823"
+        },
+        "useChangeCode": true,
+        "columns": [
+          {
+            "children": [],
+            "dataIndex": "recorddate",
+            "columnId": "HeaderCell_1644992728485_0.10069891573010592",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992728485_0.10069891573010592"
+            },
+            "title": "申请时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "usercode",
+            "columnId": "HeaderCell_1644992779463_0.2810512187930623",
+            "width": 100,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992779463_0.2810512187930623"
+            },
+            "title": "请假人",
+            "align": "center",
+            "$cell": [
+              {
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.usercodeDesc\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646016286908_0.1323514159889616"
+                }
+              }
+            ]
+          },
+          {
+            "children": [],
+            "dataIndex": "begintime",
+            "columnId": "HeaderCell_1644992895395_0.12435716694992105",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992895395_0.12435716694992105"
+            },
+            "title": "开始时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "endtime",
+            "columnId": "HeaderCell_1644992912271_0.04831508755417735",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992912271_0.04831508755417735"
+            },
+            "title": "结束时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leavetype",
+            "columnId": "HeaderCell_1644993050019_0.10086942200929938",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644993050019_0.10086942200929938"
+            },
+            "title": "请假类型",
+            "align": "center",
+            "$cell": [
+              {
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1645578675020_0.6142102949128341"
+                }
+              }
+            ]
+          },
+          {
+            "children": [],
+            "dataIndex": "flowresult",
+            "columnId": "HeaderCell_1644993064650_0.5004841785762815",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644993064650_0.5004841785762815"
+            },
+            "title": "审批状态",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leavereason",
+            "columnId": "HeaderCell_1644993075923_0.3898361893392208",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644993075923_0.3898361893392208"
+            },
+            "title": "申请理由",
+            "align": "center",
+            "$cell": []
+          }
+        ],
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n return $data.loading \n}",
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值\n  return $data.selectedRows\n}",
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值\n  return $data.page\n}",
+        "$key": "list",
+        "useRowSelectionCode": false,
+        "bordered": true,
+        "usePaginationCode": true,
+        "fit": true,
+        "setRowSelectionCode": "function setRowSelection() {\n  // 在下面返回RowSelection的值\n}",
+        "onSelectChangeCode": "function onSelectChange(selectedRowKeys) {\n  // 在下面开始编写选择发生变化事件\n  $data.selectedRows = selectedRowKeys\n}",
+        "size": "small",
+        "useSelectChangeCode": true,
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1644992728485_0.57101591140194"
+        },
+        "$columns": [
+          {
+            "children": [],
+            "dataIndex": "recorddate",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992728485_0.10069891573010592"
+            },
+            "title": "申请时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "usercode",
+            "width": 100,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992779463_0.2810512187930623"
+            },
+            "title": "请假人",
+            "align": "center",
+            "$cell": [
+              {
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.usercodeDesc\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646016286908_0.1323514159889616"
+                }
+              }
+            ]
+          },
+          {
+            "children": [],
+            "dataIndex": "begintime",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992895395_0.12435716694992105"
+            },
+            "title": "开始时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "endtime",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644992912271_0.04831508755417735"
+            },
+            "title": "结束时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leavetype",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644993050019_0.10086942200929938"
+            },
+            "title": "请假类型",
+            "align": "center",
+            "$cell": [
+              {
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1645578675020_0.6142102949128341"
+                }
+              }
+            ]
+          },
+          {
+            "children": [],
+            "dataIndex": "flowresult",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644993064650_0.5004841785762815"
+            },
+            "title": "审批状态",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leavereason",
+            "width": 150,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1644993075923_0.3898361893392208"
+            },
+            "title": "申请理由",
+            "align": "center",
+            "$cell": []
+          }
+        ],
+        "useLoadingCode": true,
+        "useSelectedRowKeysCode": false,
+        "dataSource": [],
+        "actions": {
+          "children": [],
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1644992728865_0.8698457876581456"
+          }
+        },
+        "rowKey": "leaveno",
+        "onChangeCode": "function onChange(pagination, filters, sorter, action) {\n  if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.page = pagination\n  $data.sort = sorter\n  $data.selectedRows = []\n  $run('query')\n}"
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1644992642187_0.43429424292535823"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "0xYXg0E_SMKjH_iSQPjhjw",
+  "modelTag": "列表",
+  "isValid": "F"
+}

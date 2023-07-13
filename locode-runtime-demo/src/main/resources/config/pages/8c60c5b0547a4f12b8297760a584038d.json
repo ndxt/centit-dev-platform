@@ -1,0 +1,24 @@
+{
+  "modelId": "8c60c5b0547a4f12b8297760a584038d",
+  "modelName": "登录页面",
+  "optId": "3s8TTmGPTpOV7_fMk3vtRQ",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "Y",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "个性化登录页面",
+  "formTemplate": {
+    "children": [],
+    "root": true,
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639123232716"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "JD7V0sqSSDCcYS0YkUMSxg",
+  "modelTag": "登录",
+  "isValid": "F"
+}

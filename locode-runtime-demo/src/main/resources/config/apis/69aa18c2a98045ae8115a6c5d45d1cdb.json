@@ -1,0 +1,255 @@
+{
+  "packetId": "69aa18c2a98045ae8115a6c5d45d1cdb",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "定时任务测试1",
+  "packetDesc": "",
+  "recorder": "UkBTbun7",
+  "recordDate": "2022-07-04 08:57:31",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 400,
+        "y": 100,
+        "id": "start",
+        "text": {
+          "x": 400,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "id": "start",
+          "type": "start"
+        }
+      },
+      {
+        "x": 400,
+        "y": 400,
+        "id": "resultsYr7Pr7zK",
+        "text": {
+          "x": 400,
+          "y": 400,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "fileName": "",
+          "resultOptions": "3",
+          "typeName": "返回结果",
+          "source": "metadataQueryybgEy49F",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "isSource": true,
+          "x": 400,
+          "y": 400,
+          "id": "resultsYr7Pr7zK",
+          "text": {
+            "x": 400,
+            "y": 400,
+            "value": "返回结果"
+          },
+          "fileContent": "",
+          "properties": {
+            "isBranch": false,
+            "fileName": "",
+            "resultOptions": "3",
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": true,
+            "id": "resultsYr7Pr7zK",
+            "type": "results",
+            "fileContent": ""
+          }
+        }
+      },
+      {
+        "x": 400,
+        "y": 260,
+        "id": "metadataQueryybgEy49F",
+        "text": {
+          "x": 400,
+          "y": 260,
+          "value": "元数据查询"
+        },
+        "type": "metadataQuery",
+        "properties": {
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "isReturnPageInfo": true,
+          "typeName": "元数据查询",
+          "source": "__request_params",
+          "type": "metadataQuery",
+          "queryType": 1,
+          "isBranch": false,
+          "processName": "元数据查询",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 400,
+          "y": 260,
+          "tableId": "-vO0ALmdQM65yuO06tbhTw",
+          "id": "metadataQueryybgEy49F",
+          "text": {
+            "x": 400,
+            "y": 260,
+            "value": "元数据查询"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "元数据查询",
+            "isReturnPageInfo": true,
+            "typeName": "元数据查询",
+            "isSource": true,
+            "id": "metadataQueryybgEy49F",
+            "type": "metadataQuery"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 400,
+            "y": 121
+          },
+          {
+            "x": 400,
+            "y": 239
+          }
+        ],
+        "endPoint": {
+          "x": 400,
+          "y": 239
+        },
+        "sourceNodeId": "start",
+        "startPoint": {
+          "x": 400,
+          "y": 121
+        },
+        "id": "edgeBZprbBkh",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataQueryybgEy49F",
+        "properties": {
+          "sourceId": "start",
+          "targetId": "metadataQueryybgEy49F",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeBZprbBkh",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 400,
+            "y": 281
+          },
+          {
+            "x": 400,
+            "y": 379
+          }
+        ],
+        "endPoint": {
+          "x": 400,
+          "y": 379
+        },
+        "sourceNodeId": "metadataQueryybgEy49F",
+        "startPoint": {
+          "x": 400,
+          "y": 281
+        },
+        "id": "edgeNb4ybGPD",
+        "type": "PlineEdge",
+        "targetNodeId": "resultsYr7Pr7zK",
+        "properties": {
+          "sourceId": "metadataQueryybgEy49F",
+          "targetId": "resultsYr7Pr7zK",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeNb4ybGPD",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "2",
+  "taskCron": "0 0-1 7-21 * * ? *",
+  "lastRunTime": "2022-07-04 10:01:21",
+  "nextRunTime": "2022-07-04 10:01:21",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-07-04 10:01:21",
+  "publishDate": "2022-07-04 09:04:14",
+  "needRollback": "T",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "optCode": "69aa18c2a98045ae8115a6c5d45d1cdb",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "69aa18c2a98045ae8115a6c5d45d1cdb",
+  "logLevel": 1,
+  "isDisable": "T",
+  "schemaProps": {
+    "69aa18c2a98045ae8115a6c5d45d1cdb": {
+      "flag": "_api",
+      "children": [
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "code",
+              "id": "code",
+              "title": "code",
+              "key": "69aa18c2a98045ae8115a6c5d45d1cdb/__last_error/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "data",
+              "id": "data",
+              "title": "data",
+              "key": "69aa18c2a98045ae8115a6c5d45d1cdb/__last_error/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "message",
+              "id": "message",
+              "title": "message",
+              "key": "69aa18c2a98045ae8115a6c5d45d1cdb/__last_error/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新执行结果",
+          "id": "__last_error",
+          "title": "__last_error",
+          "key": "69aa18c2a98045ae8115a6c5d45d1cdb/__last_error",
+          "attrType": ""
+        }
+      ],
+      "helpField": "定时任务测试1",
+      "id": "69aa18c2a98045ae8115a6c5d45d1cdb",
+      "title": "定时任务",
+      "key": "api",
+      "attrType": ""
+    }
+  },
+  "params": [
+    {
+      "packetId": "69aa18c2a98045ae8115a6c5d45d1cdb",
+      "paramName": "taxNo",
+      "paramDefaultValue": "914200007146661114",
+      "paramOrder": 0
+    }
+  ]
+}

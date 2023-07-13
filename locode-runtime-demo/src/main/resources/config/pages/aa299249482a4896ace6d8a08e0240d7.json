@@ -1,0 +1,150 @@
+{
+  "modelId": "aa299249482a4896ace6d8a08e0240d7",
+  "modelName": "加班情况统计表",
+  "optId": "immyfCL5RTC7vFECnQ8qhw",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "D",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640865446673": {
+        "name": "datalist",
+        "id": "Data_1640865446673",
+        "title": "",
+        "type": "o",
+        "key": "Data_1640865446673"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640865458061": {
+        "code": "function setTableHead() {\n\treturn {\n    \t1: {\n        \t1: '部门',\n            2: '考勤折算人数',\n            3: '实际加班时间（H）',\n            4: '加班率（加班时间/应出勤时间）',\n            5: '按照“996”应加班时间（H）,\n            6: '“996”加班达成率（加班时间/“996”应加班时间）',\n            7: '加班排名',\n        }\n    }\n}",
+        "name": "setTableHead",
+        "id": "Method_1640865458061",
+        "title": "setTableHead",
+        "key": "Method_1640865458061"
+      },
+      "Method_1640865669581": {
+        "code": "async function asyncData() {\n  \tconst res = await $dde.get('03c00739e2764e73b0a1721ebd5430b7')\n\n    \n    \n    const rows = res.reduce((result, item, index) => {\n      return {\n      \t...result,\n        [index + 3]: {\n        \t1: `${item.unitName}`,\n          \t2: `${item.usercount}`,\n            3: `${item.overtimelength}`,\n            4: `${(item.overtimelength / (21 * 8 * item.usercount) * 100).toFixed(2)}%`,\n            5: `${25 * 10 * item.usercount}`,\n            6: `${(item.overtimelength / (25 * 10 * item.usercount) * 100).toFixed(2)}%`,\n            7: ''\n        }\n      }\n    }, {})\n\n    $data.datalist = {\n    \t1: {\n              1: '部门',\n              2: '考勤折算人数',\n              3: '加班情况统计',\n              4: '加班情况统计',\n              5: '加班情况统计',\n              6: '加班情况统计',\n              7: '加班排名',\n        },\n        2: {\n              1: '部门',\n              2: '考勤折算人数',\n              3: '实际加班时间（H）',\n              4: '加班率（加班时间/应出勤时间）',\n              5: '按照“996”应加班时间（H）',\n              6: '“996”加班达成率（加班时间/“996”应加班时间）',\n              7: '加班排名',\n        },\n       ...rows,\n    }\n}",
+        "name": "asyncData",
+        "id": "Method_1640865669581",
+        "title": "asyncData",
+        "key": "Method_1640865669581"
+      }
+    },
+    "styleText": "width: auto;\noverflow: auto;",
+    "children": [
+      {
+        "isDynamic": false,
+        "children": [
+          {
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "",
+                "useColspanCode": true,
+                "useRowspanCode": true,
+                "cellValue": "",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  const { col } = $data\n  const map = {\n  \t2: 'yellow',\n    3: '#46d246',\n    4: '#44a0ff',\n    5: '#46d246',\n    6: 'pink',\n    7: 'orange'\n  }\n  \n  return {\n  \tbackground: map[col],\n    textAlign: 'center'\n  }\n}",
+                "useHideCode": true,
+                "setColspanCode": "function setColspan() {\n  // 在下面返回Colspan的值\n  const col = [3,4,5,6].includes($data.col)\n  return $data.row === 1 && col ? '4' : '1'\n}",
+                "colspan": "1",
+                "hide": false,
+                "children": [],
+                "rowspan": "1",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640865415928_0.10719461158809374"
+                },
+                "useStyleCode": true,
+                "setHideCode": "function setHide() {\n  // 在下面返回Hide的值\n  return $data.row === 2 && [1,2,7].includes($data.col) || $data.row === 1 && [4,5,6].includes($data.col)\n}",
+                "setRowspanCode": "function setRowspan() {\n  // 在下面返回Rowspan的值\n  const row = [1,2].includes($data.row)\n  const col = [1,2, 7].includes($data.col)\n  return row && col ? '2' : '1'\n}"
+              },
+              {
+                "colspan": "1",
+                "hide": false,
+                "children": [],
+                "rowspan": "1",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640865415928_0.798435589815985"
+                },
+                "cellValue": ""
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1640865415928_0.976734363658057"
+            }
+          },
+          {
+            "children": [
+              {
+                "colspan": "1",
+                "hide": false,
+                "children": [],
+                "rowspan": "1",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640865415928_0.12058714392653336"
+                },
+                "cellValue": ""
+              },
+              {
+                "colspan": "1",
+                "hide": false,
+                "children": [],
+                "rowspan": "1",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640865415928_0.822183412327727"
+                },
+                "cellValue": ""
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1640865415928_0.5821135351767612"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640865408587_0.22897771298095027"
+        },
+        "$key": "datalist",
+        "$item": {
+          "name": "Table",
+          "label": "表格",
+          "id": "Table_1640865415927_0.4489761152595029"
+        },
+        "dataSource": {}
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "style": {
+      "overflow": "auto",
+      "width": "auto"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件 \n  $run('asyncData')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640865408587_0.22897771298095027"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "F7VflcgFRSmb8hXcKP74jQ",
+  "modelTag": "加班",
+  "isValid": "F"
+}

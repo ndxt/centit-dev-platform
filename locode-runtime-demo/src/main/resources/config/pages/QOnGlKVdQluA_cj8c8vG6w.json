@@ -1,0 +1,1196 @@
+{
+  "modelId": "QOnGlKVdQluA_cj8c8vG6w",
+  "modelName": "加班情况统计表_复制",
+  "optId": "20ae298d3708454b84e15c4a49878747",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "D",
+  "lastModifyDate": "2023-03-10 14:21:10",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640865446673": {
+        "componentSchemas": {},
+        "children": [],
+        "name": "datalist",
+        "id": "Data_1640865446673",
+        "title": "",
+        "type": "o",
+        "key": "Data_1640865446673"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640865458061": {
+        "code": "function setTableHead() {\n\treturn {\n    \t1: {\n        \t1: '部门',\n            2: '考勤折算人数',\n            3: '实际加班时间（H）',\n            4: '加班率（加班时间/应出勤时间）',\n            5: '按照“996”应加班时间（H）,\n            6: '“996”加班达成率（加班时间/“996”应加班时间）',\n            7: '加班排名',\n        }\n    }\n}",
+        "name": "setTableHead",
+        "id": "Method_1640865458061",
+        "title": "setTableHead",
+        "key": "Method_1640865458061"
+      },
+      "Method_1640865669581": {
+        "code": "async function asyncData() {\n  \tconst res = await $dde.get('03c00739e2764e73b0a1721ebd5430b7')\n\n    const source = res.reduce((result, item) => {\n      result.push({\n        ...item,\n        a: `${(item.overtimelength / (21 * 8 * item.usercount) * 100).toFixed(2)}%`,\n        b: `${25 * 10 * item.usercount}`,\n        c: `${(item.overtimelength / (25 * 10 * item.usercount) * 100).toFixed(2)}%`,\n        other: \"\"\n      })\n    return result\n    }, [])\n\n  $data.datalist = source\n}",
+        "name": "asyncData",
+        "id": "Method_1640865669581",
+        "label": "asyncData",
+        "type": "method"
+      }
+    },
+    "styleText": "width: auto;\noverflow: auto;",
+    "children": [
+      {
+        "$name": "Table",
+        "children": [
+          {
+            "$name": "TableRow",
+            "children": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "row": 1,
+                  "col": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543525217_0.18338250191630823"
+                },
+                "text": "部门",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "row": 1,
+                  "col": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.9389753061646939"
+                },
+                "text": "考勤折算人数",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: 'yellow'\n  }\n}"
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 1,
+                  "col": 3
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7480575231305986"
+                },
+                "text": "加班情况统计",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}"
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 1,
+                  "col": 4
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7487665341742733"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 1,
+                  "col": 5
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.0012668373467297211"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 1,
+                  "col": 6
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.1635757191623468"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "row": 1,
+                  "col": 7
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.5189516159753724"
+                },
+                "text": "加班排名",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: 'orange'\n  }\n}"
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648543525217_0.11450002627236677"
+            }
+          },
+          {
+            "$name": "TableRow",
+            "children": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "row": 2,
+                  "col": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.41162297332325615"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "row": 2,
+                  "col": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.3010859045491352"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 2,
+                  "col": 3
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.2539207215650674"
+                },
+                "text": "实际加班时间（H）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 2,
+                  "col": 4
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.10126758646162926"
+                },
+                "text": "加班率（加班时间/应出勤时间）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#44a0ff'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 2,
+                  "col": 5
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.19339590213728464"
+                },
+                "text": "按照“996”应加班时间（H）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 2,
+                  "col": 6
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7378364301039675"
+                },
+                "text": "“996”加班达成率（加班时间/“996”应加班时间）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#44a0ff'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "row": 2,
+                  "col": 7
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.9132830373347478"
+                },
+                "text": ""
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648543529779_0.8579790063860906"
+            },
+            "cols": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 1,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543525217_0.18338250191630823"
+                },
+                "text": "部门",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 2,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.9389753061646939"
+                },
+                "text": "考勤折算人数",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 3,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7480575231305986"
+                },
+                "text": "加班情况统计",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 4,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7487665341742733"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 5,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.0012668373467297211"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 4,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 6,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.1635757191623468"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 7,
+                  "row": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.5189516159753724"
+                },
+                "text": "加班排名",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              }
+            ]
+          },
+          {
+            "$name": "TableRow",
+            "children": [
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 1
+                },
+                "$key": "record.unitName",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.27156632762704347"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 2
+                },
+                "$key": "record.usercount",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: 'yellow'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.3171568881091631"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 3
+                },
+                "$key": "record.overtimelength",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7819443776277559"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 4
+                },
+                "$key": "record.a",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#44a0ff'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.33667645564958804"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 5
+                },
+                "$key": "record.b",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.6202709678759051"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 6
+                },
+                "$key": "record.c",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#44a0ff'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.8723721614402813"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 3,
+                  "col": 7
+                },
+                "$key": "record.other",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: 'orange'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.4708949593285654"
+                },
+                "text": "",
+                "useStyleCode": true
+              }
+            ],
+            "$key": "datalist",
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648543529779_0.42066643221143485"
+            },
+            "cols": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 1,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.41162297332325615"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 2,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.3010859045491352"
+                },
+                "text": ""
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 3,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.2539207215650674"
+                },
+                "text": "实际加班时间（H）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 4,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.10126758646162926"
+                },
+                "text": "加班率（加班时间/应出勤时间）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 5,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.19339590213728464"
+                },
+                "text": "按照“996”应加班时间（H）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "col": 6,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7378364301039675"
+                },
+                "text": "“996”加班达成率（加班时间/“996”应加班时间）",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": true,
+                "children": [],
+                "rowspan": 2,
+                "positions": {
+                  "col": 7,
+                  "row": 2
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.9132830373347478"
+                },
+                "text": ""
+              }
+            ]
+          },
+          {
+            "$name": "TableRow",
+            "useStyleText": true,
+            "styleText": "",
+            "children": [
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 4,
+                  "col": 1
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.6282828381215184"
+                },
+                "text": "合计",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}"
+              },
+              {
+                "$name": "TableCell",
+                "setSourceValueCode": "function setSourceValue() {\n  // 在下面返回SourceValue的值\n  return \n}",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 4,
+                  "col": 2
+                },
+                "$key": "record.mp",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "useSourceValueCode": false,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.4743110756095732"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 4,
+                  "col": 3
+                },
+                "$key": "record.mt",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.7386801711420481"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 4,
+                  "col": 4
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.23713087698466806"
+                },
+                "text": "",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}"
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "row": 4,
+                  "col": 5
+                },
+                "$key": "record.m9",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.2438109814040288"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 4,
+                  "col": 6
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.03268790734139748"
+                },
+                "text": "",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}"
+              },
+              {
+                "colspan": 1,
+                "$name": "TableCell",
+                "hide": false,
+                "useStyleText": true,
+                "styleText": "",
+                "children": [],
+                "rowspan": 1,
+                "positions": {
+                  "row": 4,
+                  "col": 7
+                },
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648605292158_0.1699485917151995"
+                },
+                "text": "",
+                "useStyleCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    background: 'orange'\n  }\n}"
+              }
+            ],
+            "$key": "total",
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1648605292158_0.45036927637655855"
+            },
+            "useStyleCode": true,
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n   textAlign: 'center',\n  }\n}",
+            "cols": [
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 1,
+                  "row": 3
+                },
+                "$key": "record.unitName",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.27156632762704347"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 2,
+                  "row": 3
+                },
+                "$key": "record.usercount",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: 'yellow'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.3171568881091631"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 3,
+                  "row": 3
+                },
+                "$key": "record.overtimelength",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.7819443776277559"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 4,
+                  "row": 3
+                },
+                "$key": "record.a",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#44a0ff'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.33667645564958804"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 5,
+                  "row": 3
+                },
+                "$key": "record.b",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#46d246'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.6202709678759051"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 6,
+                  "row": 3
+                },
+                "$key": "record.c",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: '#44a0ff'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.8723721614402813"
+                },
+                "text": "",
+                "useStyleCode": true
+              },
+              {
+                "$name": "TableCell",
+                "useStyleText": true,
+                "styleText": "",
+                "positions": {
+                  "col": 7,
+                  "row": 3
+                },
+                "$key": "record.other",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n    textAlign: 'center',\n    background: 'orange'\n  }\n}",
+                "colspan": 1,
+                "hide": false,
+                "children": [],
+                "rowspan": 1,
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1648543529779_0.4708949593285654"
+                },
+                "text": "",
+                "useStyleCode": true
+              }
+            ]
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640865408587_0.22897771298095027"
+        },
+        "$item": {
+          "name": "Table",
+          "label": "表格测试",
+          "id": "Table_1648543525217_0.8969737401981703"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "style": {
+      "width": "auto",
+      "overflow": "auto"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件 \n  $run('asyncData')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640865408587_0.22897771298095027"
+    }
+  },
+  "publishDate": "2023-03-10 14:21:10",
+  "sourceId": "QOnGlKVdQluA_cj8c8vG6w",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1648605470401": {
+        "code": "[]",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "array",
+        "name": "total",
+        "id": "Data_1648605470401",
+        "label": "total",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1648608610570": {
+        "code": "{\r\n    loading: false,\r\n}",
+        "children": [
+          {
+            "id": "Data_1648608610570_loading",
+            "name": "loading",
+            "label": "loading",
+            "type": "schema",
+            "dataType": "boolean",
+            "isDefault": true
+          }
+        ],
+        "dataType": "object",
+        "name": "status",
+        "id": "Data_1648608610570",
+        "label": "status",
+        "type": "data",
+        "codeSchemas": {
+          "loading": {
+            "isDefault": true,
+            "propertyName": "loading",
+            "fieldLabelName": "loading",
+            "fieldType": "boolean"
+          }
+        }
+      },
+      "Data_1640865446673": {
+        "code": "",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "undefined",
+        "name": "datalist",
+        "id": "Data_1640865446673",
+        "label": "datalist",
+        "type": "data"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1648605542236": {
+        "code": "function useTotal(data) {\n    const total = data.reduce((result, item) => {\n        result.mp += item.usercount\n        result.mt += item.overtimelength ?? 0\n        result.m9 += Number(item.b)\n        return result\n    }, {\n        mp: 0,\n        mt: 0,\n        m9: 0\n    })\n    $data.total = [total]\n}",
+        "name": "useTotal",
+        "id": "Method_1648605542236",
+        "label": "useTotal",
+        "type": "method"
+      },
+      "Method_1640865669581": {
+        "code": "async function asyncData() {\n  \tconst res = await $dde.get('03c00739e2764e73b0a1721ebd5430b7')\n    $data.status.loading = true\n    const source = res.reduce((result, item) => {\n      result.push({\n        ...item,\n        a: `${(item.overtimelength/ (21 * 8 * item.usercount) * 100).toFixed(2)}%`,\n        b: `${25 * 2 * item.usercount}`,\n        c: `${(item.overtimelength / (25 * 2 * item.usercount) * 100).toFixed(2)}%`,\n        other: \"\"\n      })\n    return result\n    }, [])\n    $run('useTotal', source)\n    $data.status.loading = false\n    $data.datalist = source\n}",
+        "name": "asyncData",
+        "id": "Method_1640865669581",
+        "label": "asyncData",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "加班",
+  "isValid": "F"
+}

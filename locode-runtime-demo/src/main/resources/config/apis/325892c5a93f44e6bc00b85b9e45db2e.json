@@ -1,0 +1,110 @@
+{
+  "packetId": "325892c5a93f44e6bc00b85b9e45db2e",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "测试F",
+  "packetDesc": "hahahahahahahah",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "linkList": [
+      {
+        "sourceId": "startAa20422",
+        "expression": "",
+        "targetId": "sqlSA2a2400a2",
+        "id": "linkA4a02",
+        "label": "",
+        "cls": {
+          "linkThickness": 2,
+          "linkType": "Flowchart",
+          "linkColor": "#2a2929"
+        },
+        "type": "link"
+      }
+    ],
+    "documentList": [],
+    "setlist": [],
+    "attr": {
+      "id": "flowA4a20"
+    },
+    "nodeList": [
+      {
+        "nodeName": "开始",
+        "processName": "开始",
+        "icon": "",
+        "width": 50,
+        "x": 3580,
+        "y": 3060,
+        "documentName": "开始1",
+        "id": "startAa20422",
+        "type": "start",
+        "SetsName": "开始1",
+        "height": 50,
+        "target": "开始1"
+      },
+      {
+        "nodeName": "执行sqlS",
+        "fieldAttributeInfos": [],
+        "databaseName": "",
+        "sortconifg": [],
+        "SetsCname": "",
+        "typeName": "执行sqlS",
+        "source": "",
+        "type": "sqlS",
+        "configfield": [],
+        "ico": "el-icon-help",
+        "tableLabelList": [],
+        "processName": "执行sqlS3",
+        "id": "sqlSA2a2400a2",
+        "queryParameter": [],
+        "SetsName": "执行sqlS3",
+        "height": 50,
+        "Sourcefield": [],
+        "ColumnField": [],
+        "querySQ": "",
+        "documentName": "执行sqlS3",
+        "target": "执行sqlS3",
+        "RowField": [],
+        "exconfig": [],
+        "x": 3580,
+        "width": 120,
+        "y": 3195,
+        "step": "",
+        "config": [
+          {
+            "databaseName": "Grc214NyTJKkUHtW2iUoHg",
+            "cName": "测试",
+            "index": 0,
+            "sql": "insert INTO  q_data_packet_copy  SELECT * FROM q_data_packet WHERE PACKET_ID='159cbd136539491a83b320e232340688'"
+          }
+        ]
+      }
+    ],
+    "config": {
+      "showGridIcon": "eye",
+      "showGrid": true,
+      "showGridText": "隐藏网格"
+    },
+    "remarks": [],
+    "status": "2"
+  },
+  "taskType": "4",
+  "taskCron": "3/3 * * * * ? *",
+  "lastRunTime": "2020-10-15 10:12:14",
+  "nextRunTime": "2021-10-14 09:07:48",
+  "isValid": "F",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-03-05 14:38:10",
+  "publishDate": "2022-03-05 14:38:09",
+  "needRollback": "N",
+  "optId": "",
+  "optCode": "325892c5a93f44e6bc00b85b9e45db2e",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "704fb2a780b14c069400f48ab2ee9db5",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

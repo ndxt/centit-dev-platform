@@ -1,0 +1,1046 @@
+{
+  "packetId": "caf45808270e412c904f46f97ffd9a63",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "导出审批列表",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2023-06-30 16:47:15",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "id": "startVdS4r5ds74",
+        "type": "start",
+        "x": 480,
+        "y": 100,
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": false,
+          "id": "startVdS4r5ds74",
+          "type": "start"
+        },
+        "text": {
+          "x": 480,
+          "y": 100,
+          "value": "开始"
+        }
+      },
+      {
+        "id": "resultsPOuBcki8vy",
+        "type": "results",
+        "x": 480,
+        "y": 520,
+        "properties": {
+          "fileName": "",
+          "resultOptions": "3",
+          "code": 0,
+          "typeName": "返回结果",
+          "source": "generateExcelpesJvGHU",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "sourceType": "file",
+          "isSource": true,
+          "isSelected": true,
+          "x": 480,
+          "y": 420,
+          "id": "resultsPOuBcki8vy",
+          "text": {
+            "x": 480,
+            "y": 420,
+            "value": "返回结果"
+          },
+          "properties": {
+            "isBranch": false,
+            "resultOptions": "3",
+            "code": 0,
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": true,
+            "isSelected": true,
+            "id": "resultsPOuBcki8vy",
+            "source": "metadataTjHnCazXoz",
+            "type": "results"
+          },
+          "fileContent": ""
+        },
+        "text": {
+          "x": 480,
+          "y": 520,
+          "value": "返回结果"
+        }
+      },
+      {
+        "id": "metadataQuery3KwUuFVE",
+        "type": "metadataQuery",
+        "x": 480,
+        "y": 260,
+        "properties": {
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "isReturnPageInfo": true,
+          "typeName": "元数据查询",
+          "source": "__request_params",
+          "type": "metadataQuery",
+          "queryType": 1,
+          "isBranch": false,
+          "processName": "元数据查询",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 480,
+          "y": 260,
+          "tableId": "9e7627a4985c4b73a4198f983ca1109b",
+          "id": "metadataQuery3KwUuFVE",
+          "text": {
+            "x": 480,
+            "y": 260,
+            "value": "元数据查询"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "元数据查询",
+            "isReturnPageInfo": true,
+            "typeName": "元数据查询",
+            "isSource": true,
+            "id": "metadataQuery3KwUuFVE",
+            "type": "metadataQuery"
+          },
+          "withChildrenDeep": 1
+        },
+        "text": {
+          "x": 480,
+          "y": 260,
+          "value": "元数据查询"
+        }
+      },
+      {
+        "id": "generateExcelpesJvGHU",
+        "type": "generateExcel",
+        "x": 480,
+        "y": 420,
+        "properties": {
+          "id": "generateExcelpesJvGHU",
+          "type": "generateExcel",
+          "typeName": "生成excel文件",
+          "isSource": true,
+          "isBranch": false,
+          "processName": "生成excel文件",
+          "x": 480,
+          "y": 420,
+          "properties": {
+            "id": "generateExcelpesJvGHU",
+            "type": "generateExcel",
+            "typeName": "生成excel文件",
+            "isSource": true,
+            "isBranch": false,
+            "processName": "生成excel文件"
+          },
+          "text": {
+            "x": 480,
+            "y": 420,
+            "value": "生成excel文件"
+          },
+          "source": "defineJsonDatagjoN1L81",
+          "fileType": "none",
+          "config": [
+            {
+              "columnName": "申请人",
+              "expression": "username"
+            },
+            {
+              "columnName": "审批时间",
+              "expression": "transDate"
+            },
+            {
+              "columnName": "审批结果",
+              "expression": "if(ideaCode=='A','通过','驳回')"
+            },
+            {
+              "columnName": "审批内容",
+              "expression": "transContent"
+            },
+            {
+              "columnName": "开始时间",
+              "expression": "begintime"
+            },
+            {
+              "columnName": "结束时间",
+              "expression": "endtime"
+            },
+            {
+              "columnName": "请假类型",
+              "expression": "leavetypeDesc"
+            },
+            {
+              "columnName": "请假原因",
+              "expression": "leavereason"
+            }
+          ]
+        },
+        "text": {
+          "x": 480,
+          "y": 420,
+          "value": "生成excel文件"
+        }
+      },
+      {
+        "id": "defineJsonDatagjoN1L81",
+        "type": "defineJsonData",
+        "x": 480,
+        "y": 340,
+        "properties": {
+          "id": "defineJsonDatagjoN1L81",
+          "type": "defineJsonData",
+          "typeName": "创建对象",
+          "isSource": true,
+          "isBranch": false,
+          "processName": "创建对象",
+          "x": 480,
+          "y": 340,
+          "properties": {
+            "id": "defineJsonDatagjoN1L81",
+            "type": "defineJsonData",
+            "typeName": "创建对象",
+            "isSource": true,
+            "isBranch": false,
+            "processName": "创建对象"
+          },
+          "text": {
+            "x": 480,
+            "y": 340,
+            "value": "创建对象"
+          },
+          "jsonValue": "metadataQuery3KwUuFVE.objList"
+        },
+        "text": {
+          "x": 480,
+          "y": 340,
+          "value": "创建对象"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edgevnj3hyLW",
+        "type": "PlineEdge",
+        "sourceNodeId": "startVdS4r5ds74",
+        "targetNodeId": "metadataQuery3KwUuFVE",
+        "startPoint": {
+          "x": 480,
+          "y": 133
+        },
+        "endPoint": {
+          "x": 480,
+          "y": 227
+        },
+        "properties": {
+          "sourceId": "startVdS4r5ds74",
+          "targetId": "metadataQuery3KwUuFVE",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgevnj3hyLW",
+          "type": "PlineEdge"
+        },
+        "pointsList": [
+          {
+            "x": 480,
+            "y": 133
+          },
+          {
+            "x": 480,
+            "y": 227
+          }
+        ]
+      },
+      {
+        "id": "edge3QP3mOvw",
+        "type": "PlineEdge",
+        "sourceNodeId": "generateExcelpesJvGHU",
+        "targetNodeId": "resultsPOuBcki8vy",
+        "startPoint": {
+          "x": 480,
+          "y": 441
+        },
+        "endPoint": {
+          "x": 480,
+          "y": 499
+        },
+        "properties": {
+          "id": "edge3QP3mOvw",
+          "type": "PlineEdge",
+          "typeName": "连线",
+          "sourceId": "generateExcelpesJvGHU",
+          "targetId": "resultsPOuBcki8vy",
+          "processName": ""
+        },
+        "pointsList": [
+          {
+            "x": 480,
+            "y": 441
+          },
+          {
+            "x": 480,
+            "y": 471
+          },
+          {
+            "x": 480,
+            "y": 471
+          },
+          {
+            "x": 480,
+            "y": 469
+          },
+          {
+            "x": 480,
+            "y": 469
+          },
+          {
+            "x": 480,
+            "y": 499
+          }
+        ]
+      },
+      {
+        "id": "edgeozCRRm80",
+        "type": "PlineEdge",
+        "sourceNodeId": "metadataQuery3KwUuFVE",
+        "targetNodeId": "defineJsonDatagjoN1L81",
+        "startPoint": {
+          "x": 480,
+          "y": 281
+        },
+        "endPoint": {
+          "x": 480,
+          "y": 319
+        },
+        "properties": {
+          "id": "edgeozCRRm80",
+          "type": "PlineEdge",
+          "typeName": "连线",
+          "sourceId": "metadataQuery3KwUuFVE",
+          "targetId": "defineJsonDatagjoN1L81",
+          "processName": ""
+        },
+        "pointsList": [
+          {
+            "x": 480,
+            "y": 281
+          },
+          {
+            "x": 480,
+            "y": 319
+          }
+        ]
+      },
+      {
+        "id": "edgeBwZQlun3",
+        "type": "PlineEdge",
+        "sourceNodeId": "defineJsonDatagjoN1L81",
+        "targetNodeId": "generateExcelpesJvGHU",
+        "startPoint": {
+          "x": 480,
+          "y": 361
+        },
+        "endPoint": {
+          "x": 480,
+          "y": 399
+        },
+        "properties": {
+          "id": "edgeBwZQlun3",
+          "type": "PlineEdge",
+          "typeName": "连线",
+          "sourceId": "defineJsonDatagjoN1L81",
+          "targetId": "generateExcelpesJvGHU",
+          "processName": ""
+        },
+        "pointsList": [
+          {
+            "x": 480,
+            "y": 361
+          },
+          {
+            "x": 480,
+            "y": 391
+          },
+          {
+            "x": 480,
+            "y": 391
+          },
+          {
+            "x": 480,
+            "y": 369
+          },
+          {
+            "x": 480,
+            "y": 369
+          },
+          {
+            "x": 480,
+            "y": 399
+          }
+        ]
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-06-30 15:33:19",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2023-06-30 17:08:55",
+  "publishDate": "2023-06-30 17:08:54",
+  "needRollback": "F",
+  "optId": "40bdea7fec734883949a99a851116d66",
+  "optCode": "caf45808270e412c904f46f97ffd9a63",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "caf45808270e412c904f46f97ffd9a63": {
+      "id": "caf45808270e412c904f46f97ffd9a63",
+      "key": "api",
+      "flag": "_api",
+      "attrType": "",
+      "title": "GET 请求",
+      "helpField": "导出审批列表",
+      "children": [
+        {
+          "id": "__session_data",
+          "key": "caf45808270e412c904f46f97ffd9a63/__session_data",
+          "flag": "_inner",
+          "attrType": "",
+          "title": "__session_data",
+          "helpField": "Session数据",
+          "children": [
+            {
+              "id": "userRoles",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles",
+              "flag": "_static",
+              "attrType": "list",
+              "title": "userRoles",
+              "helpField": "用户角色信息",
+              "children": [
+                {
+                  "id": "rolePowers",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/rolePowers",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "rolePowers",
+                  "helpField": "系统角色操作权限对象",
+                  "children": []
+                },
+                {
+                  "id": "roleType",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/roleType",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "roleType",
+                  "helpField": "角色的类别",
+                  "children": []
+                },
+                {
+                  "id": "roleDesc",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/roleDesc",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "roleDesc",
+                  "helpField": "角色描述",
+                  "children": []
+                },
+                {
+                  "id": "roleCode",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/roleCode",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "roleCode",
+                  "helpField": "角色代码",
+                  "children": []
+                },
+                {
+                  "id": "unitCode",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/unitCode",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "unitCode",
+                  "helpField": "角色所属机构",
+                  "children": []
+                },
+                {
+                  "id": "roleName",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/roleName",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "roleName",
+                  "helpField": "角色名称",
+                  "children": []
+                },
+                {
+                  "id": "roleOwner",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userRoles/roleOwner",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "roleOwner",
+                  "helpField": "角色所属机构",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "loginIp",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/loginIp",
+              "flag": "_static",
+              "attrType": "",
+              "title": "loginIp",
+              "helpField": "登录 IP",
+              "children": []
+            },
+            {
+              "id": "userSettings",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userSettings",
+              "flag": "_static",
+              "attrType": "object",
+              "title": "userSettings",
+              "helpField": "系统用户设置信息",
+              "children": []
+            },
+            {
+              "id": "userOptList",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userOptList",
+              "flag": "_static",
+              "attrType": "object",
+              "title": "userOptList",
+              "helpField": "用户菜单集合",
+              "children": []
+            },
+            {
+              "id": "userInfo",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo",
+              "flag": "_static",
+              "attrType": "object",
+              "title": "userInfo",
+              "helpField": "用户信息",
+              "children": [
+                {
+                  "id": "englishName",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/englishName",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "englishName",
+                  "helpField": "英文名称",
+                  "children": []
+                },
+                {
+                  "id": "idCardNo",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/idCardNo",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "idCardNo",
+                  "helpField": "身份证号码",
+                  "children": []
+                },
+                {
+                  "id": "userCode",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userCode",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userCode",
+                  "helpField": "用户代码",
+                  "children": []
+                },
+                {
+                  "id": "userNamePinyin",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userNamePinyin",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userNamePinyin",
+                  "helpField": "用户名拼音",
+                  "children": []
+                },
+                {
+                  "id": "loginName",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/loginName",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "loginName",
+                  "helpField": "登录名",
+                  "children": []
+                },
+                {
+                  "id": "userOrder",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userOrder",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userOrder",
+                  "helpField": "用户排序",
+                  "children": []
+                },
+                {
+                  "id": "regCellPhone",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/regCellPhone",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "regCellPhone",
+                  "helpField": "注册电话",
+                  "children": []
+                },
+                {
+                  "id": "currentStationId",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/currentStationId",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "currentStationId",
+                  "helpField": "当前职务代码",
+                  "children": []
+                },
+                {
+                  "id": "activeTime",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/activeTime",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "activeTime",
+                  "helpField": "最后一次登录时间",
+                  "children": []
+                },
+                {
+                  "id": "loginTimes",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/loginTimes",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "loginTimes",
+                  "helpField": "登录时间",
+                  "children": []
+                },
+                {
+                  "id": "userDesc",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userDesc",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userDesc",
+                  "helpField": "用户描述",
+                  "children": []
+                },
+                {
+                  "id": "userWord",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userWord",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userWord",
+                  "helpField": "工牌代码",
+                  "children": []
+                },
+                {
+                  "id": "topUnitName",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/topUnitName",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "topUnitName",
+                  "helpField": "顶级机构名称",
+                  "children": []
+                },
+                {
+                  "id": "primaryUnit",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/primaryUnit",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "primaryUnit",
+                  "helpField": "主机构",
+                  "children": []
+                },
+                {
+                  "id": "userName",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userName",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userName",
+                  "helpField": "用户名",
+                  "children": []
+                },
+                {
+                  "id": "primaryUnitName",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/primaryUnitName",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "primaryUnitName",
+                  "helpField": "主机构名称",
+                  "children": []
+                },
+                {
+                  "id": "regEmail",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/regEmail",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "regEmail",
+                  "helpField": "用户邮箱",
+                  "children": []
+                },
+                {
+                  "id": "userTag",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userTag",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userTag",
+                  "helpField": "用户标签",
+                  "children": []
+                },
+                {
+                  "id": "topUnit",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/topUnit",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "topUnit",
+                  "helpField": "顶级机构",
+                  "children": []
+                },
+                {
+                  "id": "userType",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userInfo/userType",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userType",
+                  "helpField": "用户类别",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "userUnits",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits",
+              "flag": "_static",
+              "attrType": "list",
+              "title": "userUnits",
+              "helpField": "用户机构信息",
+              "children": [
+                {
+                  "id": "updateDate",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/updateDate",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "updateDate",
+                  "helpField": "更新时间",
+                  "children": []
+                },
+                {
+                  "id": "userStation",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/userStation",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userStation",
+                  "helpField": "岗位",
+                  "children": []
+                },
+                {
+                  "id": "relType",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/relType",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "relType",
+                  "helpField": "是否为主",
+                  "children": []
+                },
+                {
+                  "id": "userRank",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/userRank",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userRank",
+                  "helpField": "用户职务",
+                  "children": []
+                },
+                {
+                  "id": "xzRank",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/xzRank",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "xzRank",
+                  "helpField": "协助职务",
+                  "children": []
+                },
+                {
+                  "id": "userCode",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/userCode",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userCode",
+                  "helpField": "用户代码",
+                  "children": []
+                },
+                {
+                  "id": "postRank",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/postRank",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "postRank",
+                  "helpField": "职务等级",
+                  "children": []
+                },
+                {
+                  "id": "topUnit",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/topUnit",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "topUnit",
+                  "helpField": "顶级机构",
+                  "children": []
+                },
+                {
+                  "id": "unitCode",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/unitCode",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "unitCode",
+                  "helpField": "机构代码",
+                  "children": []
+                },
+                {
+                  "id": "rankMemo",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/rankMemo",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "rankMemo",
+                  "helpField": "备注",
+                  "children": []
+                },
+                {
+                  "id": "userOrder",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/userOrder",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userOrder",
+                  "helpField": "用户排序号",
+                  "children": []
+                },
+                {
+                  "id": "userUnitId",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__session_data/userUnits/userUnitId",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "userUnitId",
+                  "helpField": "用户机构ID",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "topUnitCode",
+              "key": "caf45808270e412c904f46f97ffd9a63/__session_data/topUnitCode",
+              "flag": "_static",
+              "attrType": "",
+              "title": "topUnitCode",
+              "helpField": "租户code",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "__request_params",
+          "key": "caf45808270e412c904f46f97ffd9a63/__request_params",
+          "flag": "_inner",
+          "attrType": "",
+          "title": "__request_params",
+          "helpField": "请求参数",
+          "children": []
+        },
+        {
+          "id": "__last_error",
+          "key": "caf45808270e412c904f46f97ffd9a63/__last_error",
+          "flag": "_inner",
+          "attrType": "",
+          "title": "__last_error",
+          "helpField": "最新错误信息",
+          "children": [
+            {
+              "id": "code",
+              "key": "caf45808270e412c904f46f97ffd9a63/__last_error/code",
+              "flag": "_static",
+              "attrType": "",
+              "title": "code",
+              "helpField": "code",
+              "children": []
+            },
+            {
+              "id": "data",
+              "key": "caf45808270e412c904f46f97ffd9a63/__last_error/data",
+              "flag": "_static",
+              "attrType": "",
+              "title": "data",
+              "helpField": "data",
+              "children": []
+            },
+            {
+              "id": "message",
+              "key": "caf45808270e412c904f46f97ffd9a63/__last_error/message",
+              "flag": "_static",
+              "attrType": "",
+              "title": "message",
+              "helpField": "message",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "__last_return",
+          "key": "caf45808270e412c904f46f97ffd9a63/__last_return",
+          "flag": "_inner",
+          "attrType": "",
+          "title": "__last_return",
+          "helpField": "最新执行结果",
+          "children": [
+            {
+              "id": "code",
+              "key": "caf45808270e412c904f46f97ffd9a63/__last_return/code",
+              "flag": "_static",
+              "attrType": "",
+              "title": "code",
+              "helpField": "code",
+              "children": []
+            },
+            {
+              "id": "data",
+              "key": "caf45808270e412c904f46f97ffd9a63/__last_return/data",
+              "flag": "_static",
+              "attrType": "",
+              "title": "data",
+              "helpField": "data",
+              "children": [
+                {
+                  "id": "success",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__last_return/success/success",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "success",
+                  "helpField": "success",
+                  "children": []
+                },
+                {
+                  "id": "error",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__last_return/error/error",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "error",
+                  "helpField": "error",
+                  "children": []
+                },
+                {
+                  "id": "info",
+                  "key": "caf45808270e412c904f46f97ffd9a63/__last_return/info/info",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "info",
+                  "helpField": "info",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "message",
+              "key": "caf45808270e412c904f46f97ffd9a63/__last_return/message",
+              "flag": "_static",
+              "attrType": "",
+              "title": "message",
+              "helpField": "message",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "metadataQuery3KwUuFVE": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "元数据查询",
+      "isSource": true,
+      "id": "metadataQuery3KwUuFVE",
+      "title": "元数据查询",
+      "key": "metadataQuery3KwUuFVE"
+    },
+    "resultsPOuBcki8vy": {
+      "flag": "_source",
+      "children": [
+        {
+          "id": "fileName",
+          "key": "resultsPOuBcki8vy/fileName",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fileName",
+          "helpField": "文件名",
+          "children": []
+        },
+        {
+          "id": "fileSize",
+          "key": "resultsPOuBcki8vy/fileSize",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fileSize",
+          "helpField": "文件大小",
+          "children": []
+        },
+        {
+          "id": "fileContent",
+          "key": "resultsPOuBcki8vy/fileContent",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fileContent",
+          "helpField": "文件内容",
+          "children": []
+        }
+      ],
+      "helpField": "返回结果",
+      "isSource": true,
+      "id": "resultsPOuBcki8vy",
+      "title": "返回结果",
+      "key": "resultsPOuBcki8vy"
+    },
+    "generateExcelpesJvGHU": {
+      "id": "generateExcelpesJvGHU",
+      "key": "generateExcelpesJvGHU",
+      "flag": "_source",
+      "attrType": "",
+      "title": "生成excel文件",
+      "helpField": "生成excel文件",
+      "children": [
+        {
+          "id": "fileName",
+          "key": "generateExcelpesJvGHU/fileName",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fileName",
+          "helpField": "文件名",
+          "children": []
+        },
+        {
+          "id": "fileSize",
+          "key": "generateExcelpesJvGHU/fileSize",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fileSize",
+          "helpField": "文件大小",
+          "children": []
+        },
+        {
+          "id": "fileContent",
+          "key": "generateExcelpesJvGHU/fileContent",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fileContent",
+          "helpField": "文件内容",
+          "children": []
+        }
+      ]
+    },
+    "defineJsonDatagjoN1L81": {
+      "id": "defineJsonDatagjoN1L81",
+      "key": "defineJsonDatagjoN1L81",
+      "flag": "_source",
+      "attrType": "",
+      "title": "创建对象",
+      "helpField": "创建对象",
+      "children": []
+    }
+  },
+  "params": []
+}

@@ -1,0 +1,317 @@
+{
+  "modelId": "7c01dee117034e89b0e0df20f444c50e",
+  "modelName": "审批过程",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2023-06-06 15:33:05",
+  "recorder": "DAXX_Cbg",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1640154115271": {
+        "code": "[]",
+        "children": [],
+        "name": "dones",
+        "id": "Data_1640154115271",
+        "title": "dones",
+        "type": "a",
+        "key": "Data_1640154115271"
+      },
+      "Data_1640165759214": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1640165759214",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1640165759214"
+      },
+      "Data_1640070117400": {
+        "code": "/**[\n  {\n  \ttime: '2021-12-12 11:21:42',\n    node: '创建',\n    user: '上官惊鸿',\n    result: '提交申请',\n    content: '出去办理暂住证',\n  },\n  {\n  \ttime: '2021-12-12 13:21:42',\n    node: '预审',\n    user: '陶荣',\n    result: '通过',\n    content: '情况属实，同意申请。情况属实，同意申请情况属实，同意申请',\n  },\n  {\n    node: '部门审批',\n    user: '杨淮生',\n    pendding: true,\n  },\n]**/\n\n[]",
+        "componentSchemas": {},
+        "children": [],
+        "name": "ideas",
+        "id": "Data_1640070117400",
+        "title": "ideas",
+        "type": "a",
+        "key": "Data_1640070117400"
+      },
+      "Data_1640154137407": {
+        "code": "[]",
+        "children": [],
+        "name": "todos",
+        "id": "Data_1640154137407",
+        "title": "todos",
+        "type": "a",
+        "key": "Data_1640154137407"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640165975116": {
+        "code": "async function query(flowInstId) {\n  if (flowInstId) {\n  \t$data.loading = true\n  } else {\n  \treturn\n  }\n  \n  // 在下面开始编写flowInstId监听\n  await Promise.all([\n  \t$run('queryDones', flowInstId),\n    $run('queryTodos', flowInstId),\n  ])\n  \n  $run('createIdeas')\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1640165975116",
+        "title": "query",
+        "key": "Method_1640165975116"
+      },
+      "Method_1640155190304": {
+        "code": "function createIdeas() {\n\tconst { dones, todos } = $data\n    $data.ideas = dones.map(t => ({\n    \tnode: t.nodeName,\n      \tuser: t.userCodeDesc,\n      \ttime: t.transDate,\n      \tresult: t.transIdea,\n      \tcontent: t.transContent,\n    }))\n  \n  \t$data.ideas = $data.ideas.concat(todos.map(t => ({\n    \tnode: t.nodeName,\n      \tuser: t.userName,\n      \tpendding: true,\n    })))\n}",
+        "name": "createIdeas",
+        "id": "Method_1640155190304",
+        "title": "createIdeas",
+        "key": "Method_1640155190304"
+      },
+      "Method_1640154153383": {
+        "code": "async function queryDones(flowInstId) {\n  \tif (!flowInstId) return\n  \n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'transDate',\n        order: 'asc',\n    }\n    \n    const {\n    \tobjList,\n    } = await $dde.get('8186380be13d401fb3b54a75f8987e8b', { params })\n\n\t$data.dones = objList  \n}",
+        "name": "queryDones",
+        "id": "Method_1640154153383",
+        "title": "queryDones",
+        "key": "Method_1640154153383"
+      },
+      "Method_1640154913698": {
+        "code": "async function queryTodos(flowInstId) {\n  \tif (!flowInstId) return\n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'createTime',\n        order: 'asc',\n    }\n    \n    //const {\n    //\tobjList,\n    //} = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params })\n\n\t//$data.todos = objList  \n\tlet resultData = await $dde.get('1ec630ae3a3045c0a2818013532987ee', { params })\n\t$data.todos = resultData  \n}",
+        "name": "queryTodos",
+        "id": "Method_1640154913698",
+        "label": "queryTodos",
+        "type": "method"
+      }
+    },
+    "styleText": "padding: 0 8px;",
+    "children": [
+      {
+        "useStyleText": true,
+        "styleText": "font-size: 16px;\nmargin: 8px 0 16px 0;\ndisplay: block;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639814619983"
+        },
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '审批过程'\n}",
+        "useValueCode": true,
+        "$item": {
+          "name": "Html",
+          "label": "文字",
+          "id": "Html_1640076673710"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.loading\n}",
+        "size": "default",
+        "useStyleText": true,
+        "styleText": "width: 100%;\ndisplay: flex;\njustify-content: center;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639814619983"
+        },
+        "use$$ifCode": true,
+        "$item": {
+          "name": "Spin",
+          "label": "加载中",
+          "id": "Spin_1640165495597"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      },
+      {
+        "mode": "left",
+        "useStyleText": true,
+        "styleText": "margin-left: -128px;",
+        "children": [
+          {
+            "use$forCode": true,
+            "setColorCode": "function setColor() {\n  // 在下面返回Color的值\n  const { time } = $data\n  return !!time ? undefined : 'gray'\n}",
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "display: block;\nfont-size: 12px;",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { user, time } = $data\n  if (!time) return `等待 [${user}] 审批`\n  \n  return `[${user}] 于 ${time}`\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640070107240"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "$parent": {
+                  "name": "TimelineItem",
+                  "label": "时间轴项",
+                  "id": "TimelineItem_1640070098673"
+                }
+              },
+              {
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.result\n}",
+                "useStyleText": true,
+                "styleText": "display: block;\nfont-weight: 700;",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.result\n}",
+                "use$$ifCode": true,
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640070110257"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "$parent": {
+                  "name": "TimelineItem",
+                  "label": "时间轴项",
+                  "id": "TimelineItem_1640070098673"
+                }
+              },
+              {
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.content\n}",
+                "useStyleText": true,
+                "styleText": "color: #ccc;\nfont-size: 12px;\nfont-style: italic;",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.content\n  // return `审批意见：${$data.content}`\n}",
+                "use$$ifCode": true,
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640070109760"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "$parent": {
+                  "name": "TimelineItem",
+                  "label": "时间轴项",
+                  "id": "TimelineItem_1640070098673"
+                }
+              }
+            ],
+            "set$forCode": "function set() {\n  return $data || []\n}",
+            "useColorCode": true,
+            "$item": {
+              "name": "TimelineItem",
+              "label": "时间轴项",
+              "id": "TimelineItem_1640070098673"
+            },
+            "useLabelCode": true,
+            "setLabelCode": "function setLabel() {\n  // 在下面返回Label的值\n  return $data.node\n}",
+            "$parent": {
+              "name": "Timeline",
+              "label": "时间轴",
+              "id": "Timeline_1640070098673"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639814619983"
+        },
+        "$key": "ideas",
+        "$item": {
+          "name": "Timeline",
+          "label": "时间轴",
+          "id": "Timeline_1640070098673"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      }
+    ],
+    "root": true,
+    "useMountedCode": false,
+    "componentData": {},
+    "style": {
+      "padding": "0 8px"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n}",
+    "paramsConfigs": {
+      "Param_1640154778419": {
+        "code": "function watchFlowInstId(flowInstId, oldFlowInstId) {\n\t$run('query', flowInstId)\n}",
+        "immediate": true,
+        "name": "flowInstId",
+        "id": "Param_1640154778419"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639814619983"
+    }
+  },
+  "publishDate": "2023-06-06 15:33:05",
+  "sourceId": "ofckRPazSKqb3DGikZDFlw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640154115271": {
+        "code": "[]",
+        "children": [],
+        "name": "dones",
+        "id": "Data_1640154115271",
+        "title": "dones",
+        "type": "a",
+        "key": "Data_1640154115271"
+      },
+      "Data_1640165759214": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1640165759214",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1640165759214"
+      },
+      "Data_1640070117400": {
+        "code": "/**[\n  {\n  \ttime: '2021-12-12 11:21:42',\n    node: '创建',\n    user: '上官惊鸿',\n    result: '提交申请',\n    content: '出去办理暂住证',\n  },\n  {\n  \ttime: '2021-12-12 13:21:42',\n    node: '预审',\n    user: '陶荣',\n    result: '通过',\n    content: '情况属实，同意申请。情况属实，同意申请情况属实，同意申请',\n  },\n  {\n    node: '部门审批',\n    user: '杨淮生',\n    pendding: true,\n  },\n]**/\n\n[]",
+        "componentSchemas": {},
+        "children": [],
+        "name": "ideas",
+        "id": "Data_1640070117400",
+        "title": "ideas",
+        "type": "a",
+        "key": "Data_1640070117400"
+      },
+      "Data_1640154137407": {
+        "code": "[]",
+        "children": [],
+        "name": "todos",
+        "id": "Data_1640154137407",
+        "title": "todos",
+        "type": "a",
+        "key": "Data_1640154137407"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640165975116": {
+        "code": "async function query(flowInstId) {\n  if (flowInstId) {\n  \t$data.loading = true\n  } else {\n  \treturn\n  }\n  \n  // 在下面开始编写flowInstId监听\n  await Promise.all([\n  \t$run('queryDones', flowInstId),\n    $run('queryTodos', flowInstId),\n  ])\n  \n  $run('createIdeas')\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1640165975116",
+        "title": "query",
+        "key": "Method_1640165975116"
+      },
+      "Method_1640155190304": {
+        "code": "function createIdeas() {\n\tconst { dones, todos } = $data\n    $data.ideas = dones.map(t => ({\n    \tnode: t.nodeName,\n      \tuser: t.userCodeDesc,\n      \ttime: t.transDate,\n      \tresult: t.transIdea,\n      \tcontent: t.transContent,\n    }))\n  \n  \t$data.ideas = $data.ideas.concat(todos.map(t => ({\n    \tnode: t.nodeName,\n      \tuser: t.userName,\n      \tpendding: true,\n    })))\n}",
+        "name": "createIdeas",
+        "id": "Method_1640155190304",
+        "title": "createIdeas",
+        "key": "Method_1640155190304"
+      },
+      "Method_1640154153383": {
+        "code": "async function queryDones(flowInstId) {\n  \tif (!flowInstId) return\n  \n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'transDate',\n        order: 'asc',\n    }\n    \n    const {\n    \tobjList,\n    } = await $dde.get('8186380be13d401fb3b54a75f8987e8b', { params })\n\n\t$data.dones = objList  \n}",
+        "name": "queryDones",
+        "id": "Method_1640154153383",
+        "title": "queryDones",
+        "key": "Method_1640154153383"
+      },
+      "Method_1640154913698": {
+        "code": "async function queryTodos(flowInstId) {\n  \tif (!flowInstId) return\n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'createTime',\n        order: 'asc',\n    }\n    \n    //const {\n    //\tobjList,\n    //} = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params })\n\n\t//$data.todos = objList  \n\tlet resultData = await $dde.get('1ec630ae3a3045c0a2818013532987ee', { params })\n\t$data.todos = resultData  \n}",
+        "name": "queryTodos",
+        "id": "Method_1640154913698",
+        "label": "queryTodos",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1640154778419": {
+        "code": "function watchFlowInstId(flowInstId, oldFlowInstId) {\n\t$run('query', flowInstId)\n}",
+        "immediate": true,
+        "name": "flowInstId",
+        "id": "Param_1640154778419"
+      }
+    }
+  },
+  "modelTag": "审批",
+  "isValid": "F"
+}

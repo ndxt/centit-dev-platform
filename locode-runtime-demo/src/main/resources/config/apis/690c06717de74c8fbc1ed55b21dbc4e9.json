@@ -1,0 +1,230 @@
+{
+  "packetId": "690c06717de74c8fbc1ed55b21dbc4e9",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "大屏---迟到，早退统计",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 160,
+        "y": 100,
+        "id": "starteQxRQtOKxI",
+        "text": {
+          "x": 160,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "starteQxRQtOKxI",
+          "type": "start"
+        }
+      },
+      {
+        "x": 160,
+        "y": 260,
+        "id": "databasecVyorRfqsS",
+        "text": {
+          "x": 160,
+          "y": 260,
+          "value": "读取关系数据库"
+        },
+        "type": "database",
+        "properties": {
+          "querySQL": "SELECT\n\tleavetimes,\n\tleavetduration,\n\tusername\nFROM\n\tv_attendance_month \nWHERE\n\t1 = 1\n\t[:unitCode | AND unitCode =:unitCode]\n   [:month | and date_format(month, '%Y-%m')=:month]\n\tORDER BY  leavetimes DESC\n",
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "processName": "读取关系数据库",
+          "typeName": "读取关系数据库",
+          "isSource": true,
+          "isSelected": true,
+          "parameterList": [
+            {
+              "unique": 0,
+              "value": "",
+              "key": "month"
+            },
+            {
+              "unique": 1,
+              "value": "",
+              "key": "unitCode"
+            }
+          ],
+          "id": "databasecVyorRfqsS",
+          "type": "database",
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "leavetimes",
+              "dataType": "string",
+              "columnCode": "leavetimes",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leavetduration",
+              "dataType": "string",
+              "columnCode": "leavetduration",
+              "columnName": "leavetduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "username",
+              "dataType": "string",
+              "columnCode": "username",
+              "columnName": "username"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ]
+        }
+      },
+      {
+        "x": 160,
+        "y": 460,
+        "id": "resultstf3hcK8gNb",
+        "text": {
+          "x": 160,
+          "y": 460,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "resultOptions": "3",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "leavetimes",
+              "dataType": "string",
+              "columnCode": "leavetimes",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leavetduration",
+              "dataType": "string",
+              "columnCode": "leavetduration",
+              "columnName": "leavetduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "username",
+              "dataType": "string",
+              "columnCode": "username",
+              "columnName": "username"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": false,
+          "isSelected": true,
+          "id": "resultstf3hcK8gNb",
+          "source": "databasecVyorRfqsS",
+          "type": "results"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 133
+          },
+          {
+            "x": 160,
+            "y": 227
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 227
+        },
+        "sourceNodeId": "starteQxRQtOKxI",
+        "startPoint": {
+          "x": 160,
+          "y": 133
+        },
+        "id": "76a6c1cd-01c5-4782-a3a7-ac7acc4e2d51",
+        "type": "PlineEdge",
+        "targetNodeId": "databasecVyorRfqsS",
+        "properties": {
+          "sourceId": "starteQxRQtOKxI",
+          "targetId": "databasecVyorRfqsS",
+          "processName": "",
+          "typeName": "连线",
+          "id": "76a6c1cd-01c5-4782-a3a7-ac7acc4e2d51",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 293
+          },
+          {
+            "x": 160,
+            "y": 427
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 427
+        },
+        "sourceNodeId": "databasecVyorRfqsS",
+        "startPoint": {
+          "x": 160,
+          "y": 293
+        },
+        "id": "acb7080b-9d79-41cb-ba12-1466ca82acb8",
+        "type": "PlineEdge",
+        "targetNodeId": "resultstf3hcK8gNb",
+        "properties": {
+          "sourceId": "databasecVyorRfqsS",
+          "targetId": "resultstf3hcK8gNb",
+          "processName": "",
+          "typeName": "连线",
+          "id": "acb7080b-9d79-41cb-ba12-1466ca82acb8",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-02-13 18:09:59",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-06-23 09:32:44",
+  "publishDate": "2022-03-09 13:45:38",
+  "needRollback": "F",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "optCode": "690c06717de74c8fbc1ed55b21dbc4e9",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "686bf04886b14b4db4b394002b712cf4",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

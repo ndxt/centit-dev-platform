@@ -1,0 +1,2564 @@
+{
+  "modelId": "6af2026fc9b645d8bc5b5d929f641931",
+  "modelName": "申请列表",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "Y",
+  "lastModifyDate": "2022-03-05 14:38:05",
+  "recorder": "U22AJpoL",
+  "modelComment": "查看请假、补卡、出差等申请的列表页面",
+  "formTemplate": {
+    "dataConfigs": {},
+    "styleText": "",
+    "modelId": "6af2026fc9b645d8bc5b5d929f641931",
+    "componentData": {
+      "Modal_1646135345179_0.9617028349844616": {
+        "$name": "模态框",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "keyboard": true,
+        "$data": {
+          "Method_1646135345179_0.9766796689981427": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "async function ok () {  \n  try {\n    this.confirmLoading = true \n    // 提交接口，修改接口id\n    await $refs.FormNew.componentData['表单'].submit()\n    this.cancel(true)\n    $comp['数据表格'].query()\n    $antd.message.success('ok')\n  } finally {\n    this.confirmLoading = false        \n  }      \n}",
+            "name": "ok",
+            "id": "Method_1646135345179_0.9766796689981427",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1646135345179_0.5981838946712903": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646135345179_0.5981838946712903",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646135345179_0.506421711640308": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "async function cancel (isOk) {  \n  this.visible = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1646135345179_0.506421711640308",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1646135345179_0.5520664601612324": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646135345179_0.5520664601612324",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646135345179_0.39319513746266765": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "{}",
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646135345179_0.39319513746266765",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646135345179_0.12590489246836034": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "confirmLoading",
+            "id": "Data_1646135345179_0.12590489246836034",
+            "label": "提交中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "useOkCode": true,
+        "closable": true,
+        "useCancelCode": true,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "title": "新增",
+        "maskClosable": true,
+        "useConfirmLoadingCode": true,
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1646135345179_0.9617028349844616"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值  \n  return this.confirmLoading\n}",
+        "mask": true
+      },
+      "Button_1646307634383_0.9308314670027231": {
+        "$name": "按钮3",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1646307634383_0.1994214905928895": {
+            "isDefault": true,
+            "componentId": "Button_1646307634383_0.9308314670027231",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646307634383_0.1994214905928895",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646307634383_0.19338428078934933": {
+            "isDefault": true,
+            "componentId": "Button_1646307634383_0.9308314670027231",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1646307634383_0.19338428078934933",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "DrawerFooter",
+          "label": "抽屉底部",
+          "id": "DrawerFooter_1646185256607_0.83225053989991"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "type": "primary",
+        "size": "middle",
+        "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  this.loading = true\n  try {\n    await $comp['抽屉'].ok()\n  } finally {\n    this.loading = false\n  }\n}",
+        "text": "提交",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1646307634383_0.9308314670027231"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Drawer_1646185256607_0.8447431458088228": {
+        "$footer": {
+          "$name": "抽屉底部",
+          "children": [
+            {
+              "$name": "按钮4",
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+              "$data": {
+                "Data_1646307666078_0.6735576280254443": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307666078_0.16116680754717305",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "disabled",
+                  "id": "Data_1646307666078_0.6735576280254443",
+                  "label": "禁用",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646307666078_0.425899798873296": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307666078_0.16116680754717305",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646307666078_0.425899798873296",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1646185256607_0.83225053989991"
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "type": "default",
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp['抽屉'].close()\n}",
+              "text": "取消",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1646307666078_0.16116680754717305"
+              },
+              "useLoadingCode": true,
+              "useClickCode": true
+            },
+            {
+              "$name": "按钮3",
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+              "$data": {
+                "Data_1646307634383_0.1994214905928895": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307634383_0.9308314670027231",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646307634383_0.1994214905928895",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646307634383_0.19338428078934933": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307634383_0.9308314670027231",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "disabled",
+                  "id": "Data_1646307634383_0.19338428078934933",
+                  "label": "禁用",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1646185256607_0.83225053989991"
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "type": "primary",
+              "size": "middle",
+              "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  this.loading = true\n  try {\n    await $comp['抽屉'].ok()\n  } finally {\n    this.loading = false\n  }\n}",
+              "text": "提交",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1646307634383_0.9308314670027231"
+              },
+              "useLoadingCode": true,
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1646185256607_0.83225053989991"
+          }
+        },
+        "$name": "抽屉",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "keyboard": true,
+        "$data": {
+          "Method_1646185256608_0.3745674232861591": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "async function close (isOk) {  \n  this.visible = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "close",
+            "id": "Method_1646185256608_0.3745674232861591",
+            "label": "取消",
+            "type": "method"
+          },
+          "Method_1646185256608_0.18287962181161044": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646185256608_0.18287962181161044",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646185256608_0.40534843083565053": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "async function ok () {  \n  try {\n    // 提交接口，修改接口id\n    await $refs.FormEdit.componentData['表单'].submit()\n    this.close(true)\n    $comp['数据表格'].query()\n    $antd.message.success('ok')\n  } finally {\n            \n  }      \n}",
+            "name": "ok",
+            "id": "Method_1646185256608_0.40534843083565053",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1646185256608_0.38311098064641924": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "{}",
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646185256608_0.38311098064641924",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646185256608_0.22518937414644502": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646185256608_0.22518937414644502",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "onCloseCode": "function onClose() {\n  // 取消时执行  \n  return this.close()\n}",
+        "closable": true,
+        "title": "编辑",
+        "maskClosable": true,
+        "useCloseCode": true,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1646185256607_0.8447431458088228"
+        },
+        "mask": true
+      },
+      "Search_1646116545807_0.5623337405388653": {
+        "$name": "搜索页面",
+        "form": {
+          "$name": "表单插槽",
+          "children": [
+            {
+              "$name": "输入框",
+              "notShowItem": false,
+              "inline": true,
+              "readonly": false,
+              "rulesConfig": [],
+              "$key": "id",
+              "disabled": false,
+              "$item": {
+                "name": "InputText",
+                "label": "输入框",
+                "id": "InputText_1646116545808_0.3358964402154174"
+              },
+              "label": "编码",
+              "allowClear": false
+            }
+          ],
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1646116545808_0.689662632919009"
+          }
+        },
+        "useResetCode": true,
+        "$data": {
+          "Data_1646116545809_0.7020793001173764": {
+            "isDefault": true,
+            "componentId": "Search_1646116545807_0.5623337405388653",
+            "code": "{}",
+            "children": [
+              {
+                "dataType": "string",
+                "name": "id",
+                "id": "Data_1646116545809_0.7020793001173764_id",
+                "label": "编码",
+                "type": "schema"
+              },
+              {
+                "dataType": "string",
+                "name": "name",
+                "id": "Data_1646116545809_0.7020793001173764_name",
+                "label": "名称",
+                "type": "schema"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "schemas": {
+              "name": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "名称",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "name",
+                "fieldLabelName": "名称",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "name",
+                "primaryKey": false
+              },
+              "id": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "编码",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "id",
+                "fieldLabelName": "编码",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "id",
+                "primaryKey": true
+              }
+            },
+            "name": "value",
+            "id": "Data_1646116545809_0.7020793001173764",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "useModelCode": true,
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n  // 在下面开始编写点击搜索按钮时触发事件\n  console.log(this)\n  $comp['数据表格'].query()\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1646116545807_0.5623337405388653"
+        },
+        "list": {
+          "$name": "列表插槽",
+          "children": [
+            {
+              "$name": "数据表格",
+              "$data": {
+                "Data_1646116545808_0.8099975051504336": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "[]",
+                  "children": [],
+                  "isMain": true,
+                  "dataType": "array",
+                  "name": "value",
+                  "id": "Data_1646116545808_0.8099975051504336",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Data_1646116545808_0.3374543106389136": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "{}",
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1646116545808_0.3374543106389136",
+                  "label": "排序",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1646116545808_0.9267835913092952": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['搜索页面']\n  const params = Object.assign({}, pagination, sorter, value)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('b8de06704dbc4d29a585e55e11b94052', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1646116545808_0.9267835913092952",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1646116545808_0.342467574765128": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1646116545808_0.342467574765128",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Data_1646116545808_0.5183253212666539": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}",
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1646116545808_0.5183253212666539",
+                  "label": "分页",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646116545808_0.23767872348392594": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646116545808_0.23767872348392594",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "useChangeCode": true,
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1646116545808_0.3887532114711252"
+              },
+              "columns": [
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "id",
+                  "columnId": "HeaderCell_1646116545808_0.6414717593687673",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646116545808_0.6414717593687673"
+                  },
+                  "label": "编码",
+                  "title": "编码",
+                  "$cell": [
+                    {
+                      "$name": "文字",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #1890ff;\ntext-decoration: underline;\n",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const { row } = $data\n  $comp['抽屉'].open(row)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.text\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646209565841_0.0002494783013078372"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "name",
+                  "columnId": "HeaderCell_1646118129590_0.7383649698264236",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646118129590_0.7383649698264236"
+                  },
+                  "label": "名称",
+                  "title": "名称",
+                  "$cell": []
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "columnId": "HeaderCell_1646205597537_0.23256116899471024",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646205597537_0.23256116899471024"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "按钮1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646135804226_0.8950100770857645": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646135804226_0.8950100770857645",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646135804226_0.5904319120874595": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646135804226_0.5904319120874595",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "size": "small",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646135804225_0.6808906597681523"
+                      },
+                      "text": "编辑",
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮2",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646188404644_0.4049202874394733": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646188404644_0.4049202874394733",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646188404644_0.43518773086508844": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646188404644_0.43518773086508844",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646188404643_0.5967690096949345"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+              "size": "small",
+              "useSelectChangeCode": true,
+              "useValueCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1646116545808_0.8997741714985723"
+              },
+              "$columns": [
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "id",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646116545808_0.6414717593687673"
+                  },
+                  "label": "编码",
+                  "title": "编码",
+                  "$cell": [
+                    {
+                      "$name": "文字",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #1890ff;\ntext-decoration: underline;\n",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const { row } = $data\n  $comp['抽屉'].open(row)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.text\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646209565841_0.0002494783013078372"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "name",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646118129590_0.7383649698264236"
+                  },
+                  "label": "名称",
+                  "title": "名称",
+                  "$cell": []
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646205597537_0.23256116899471024"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "按钮1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646135804226_0.8950100770857645": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646135804226_0.8950100770857645",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646135804226_0.5904319120874595": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646135804226_0.5904319120874595",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "size": "small",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646135804225_0.6808906597681523"
+                      },
+                      "text": "编辑",
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮2",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646188404644_0.4049202874394733": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646188404644_0.4049202874394733",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646188404644_0.43518773086508844": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646188404644_0.43518773086508844",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646188404643_0.5967690096949345"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": true,
+              "dataSource": [],
+              "actions": {
+                "$name": "操作栏",
+                "children": [
+                  {
+                    "$name": "按钮",
+                    "useDisabledCode": true,
+                    "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                    "$data": {
+                      "Data_1646120267934_0.8120144937348948": {
+                        "isDefault": true,
+                        "componentId": "Button_1646120267934_0.6732101318282935",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "loading",
+                        "id": "Data_1646120267934_0.8120144937348948",
+                        "label": "加载中",
+                        "type": "data",
+                        "isFixed": true
+                      },
+                      "Data_1646120267934_0.8992645170098088": {
+                        "isDefault": true,
+                        "componentId": "Button_1646120267934_0.6732101318282935",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "disabled",
+                        "id": "Data_1646120267934_0.8992645170098088",
+                        "label": "禁用",
+                        "type": "data",
+                        "isFixed": true
+                      }
+                    },
+                    "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    this.loading = true\n    await $comp['模态框'].open()\n  } finally {\n    this.loading = false\n  }\n}",
+                    "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                    "className": "primary",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1646120267934_0.6732101318282935"
+                    },
+                    "text": "新增",
+                    "useLoadingCode": true,
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1646116546485_0.238418387223845"
+                }
+              },
+              "rowKey": "id",
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646116545808_0.3887532114711252"
+          }
+        },
+        "onResetCode": "function onReset () {\n  // 在下面开始编写点击重置按钮时触发事件\n  this.value = {}\n  $comp['数据表格'].query()\n}"
+      },
+      "Button_1646135804225_0.6808906597681523": {
+        "$name": "按钮1",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1646135804226_0.8950100770857645": {
+            "isDefault": true,
+            "componentId": "Button_1646135804225_0.6808906597681523",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646135804226_0.8950100770857645",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646135804226_0.5904319120874595": {
+            "isDefault": true,
+            "componentId": "Button_1646135804225_0.6808906597681523",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1646135804226_0.5904319120874595",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "success",
+        "type": "default",
+        "ghost": true,
+        "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+        "size": "small",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1646135804225_0.6808906597681523"
+        },
+        "text": "编辑",
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Button_1646307666078_0.16116680754717305": {
+        "$name": "按钮4",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1646307666078_0.6735576280254443": {
+            "isDefault": true,
+            "componentId": "Button_1646307666078_0.16116680754717305",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1646307666078_0.6735576280254443",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646307666078_0.425899798873296": {
+            "isDefault": true,
+            "componentId": "Button_1646307666078_0.16116680754717305",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646307666078_0.425899798873296",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "DrawerFooter",
+          "label": "抽屉底部",
+          "id": "DrawerFooter_1646185256607_0.83225053989991"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "type": "default",
+        "size": "middle",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp['抽屉'].close()\n}",
+        "text": "取消",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1646307666078_0.16116680754717305"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Button_1646188404643_0.5967690096949345": {
+        "$name": "按钮2",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1646188404644_0.4049202874394733": {
+            "isDefault": true,
+            "componentId": "Button_1646188404643_0.5967690096949345",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1646188404644_0.4049202874394733",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646188404644_0.43518773086508844": {
+            "isDefault": true,
+            "componentId": "Button_1646188404643_0.5967690096949345",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646188404644_0.43518773086508844",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "error",
+        "type": "default",
+        "ghost": true,
+        "size": "small",
+        "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+        "text": "删除",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1646188404643_0.5967690096949345"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "DataList_1646116545808_0.8997741714985723": {
+        "$name": "数据表格",
+        "$data": {
+          "Data_1646116545808_0.8099975051504336": {
+            "isDefault": true,
+            "componentId": "DataList_1646116545808_0.8997741714985723",
+            "code": "[]",
+            "children": [],
+            "isMain": true,
+            "dataType": "array",
+            "name": "value",
+            "id": "Data_1646116545808_0.8099975051504336",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646116545808_0.3374543106389136": {
+            "isDefault": true,
+            "componentId": "DataList_1646116545808_0.8997741714985723",
+            "code": "{}",
+            "dataType": "object",
+            "name": "sorter",
+            "id": "Data_1646116545808_0.3374543106389136",
+            "label": "排序",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646116545808_0.9267835913092952": {
+            "isDefault": true,
+            "componentId": "DataList_1646116545808_0.8997741714985723",
+            "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['搜索页面']\n  const params = Object.assign({}, pagination, sorter, value)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('b8de06704dbc4d29a585e55e11b94052', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "query",
+            "id": "Method_1646116545808_0.9267835913092952",
+            "label": "查询",
+            "type": "method"
+          },
+          "Data_1646116545808_0.342467574765128": {
+            "isDefault": true,
+            "componentId": "DataList_1646116545808_0.8997741714985723",
+            "code": "{ \n  rows: [], \n  keys: [],\n}",
+            "dataType": "object",
+            "name": "selected",
+            "id": "Data_1646116545808_0.342467574765128",
+            "label": "选中数据",
+            "type": "data"
+          },
+          "Data_1646116545808_0.5183253212666539": {
+            "isDefault": true,
+            "componentId": "DataList_1646116545808_0.8997741714985723",
+            "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}",
+            "dataType": "object",
+            "name": "pagination",
+            "id": "Data_1646116545808_0.5183253212666539",
+            "label": "分页",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646116545808_0.23767872348392594": {
+            "isDefault": true,
+            "componentId": "DataList_1646116545808_0.8997741714985723",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646116545808_0.23767872348392594",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "useChangeCode": true,
+        "$parent": {
+          "name": "SearchList",
+          "label": "列表插槽",
+          "id": "SearchList_1646116545808_0.3887532114711252"
+        },
+        "columns": [
+          {
+            "$name": "表头",
+            "children": [],
+            "dataIndex": "id",
+            "columnId": "HeaderCell_1646116545808_0.6414717593687673",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646116545808_0.6414717593687673"
+            },
+            "label": "编码",
+            "title": "编码",
+            "$cell": [
+              {
+                "$name": "文字",
+                "useStyleText": true,
+                "styleText": "cursor: pointer;\ncolor: #1890ff;\ntext-decoration: underline;\n",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const { row } = $data\n  $comp['抽屉'].open(row)\n}",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.text\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646209565841_0.0002494783013078372"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "useClickCode": true
+              }
+            ]
+          },
+          {
+            "$name": "表头",
+            "children": [],
+            "dataIndex": "name",
+            "columnId": "HeaderCell_1646118129590_0.7383649698264236",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646118129590_0.7383649698264236"
+            },
+            "label": "名称",
+            "title": "名称",
+            "$cell": []
+          },
+          {
+            "$name": "表头",
+            "children": [],
+            "columnId": "HeaderCell_1646205597537_0.23256116899471024",
+            "width": 160,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646205597537_0.23256116899471024"
+            },
+            "title": "操作",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "按钮1",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1646135804226_0.8950100770857645": {
+                    "isDefault": true,
+                    "componentId": "Button_1646135804225_0.6808906597681523",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1646135804226_0.8950100770857645",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1646135804226_0.5904319120874595": {
+                    "isDefault": true,
+                    "componentId": "Button_1646135804225_0.6808906597681523",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1646135804226_0.5904319120874595",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "success",
+                "type": "default",
+                "ghost": true,
+                "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                "size": "small",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1646135804225_0.6808906597681523"
+                },
+                "text": "编辑",
+                "useLoadingCode": true,
+                "useClickCode": true
+              },
+              {
+                "$name": "按钮2",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1646188404644_0.4049202874394733": {
+                    "isDefault": true,
+                    "componentId": "Button_1646188404643_0.5967690096949345",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1646188404644_0.4049202874394733",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1646188404644_0.43518773086508844": {
+                    "isDefault": true,
+                    "componentId": "Button_1646188404643_0.5967690096949345",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1646188404644_0.43518773086508844",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "error",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                "text": "删除",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1646188404643_0.5967690096949345"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              }
+            ]
+          }
+        ],
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+        "bordered": true,
+        "usePaginationCode": true,
+        "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+        "size": "small",
+        "useSelectChangeCode": true,
+        "useValueCode": true,
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1646116545808_0.8997741714985723"
+        },
+        "$columns": [
+          {
+            "$name": "表头",
+            "children": [],
+            "dataIndex": "id",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646116545808_0.6414717593687673"
+            },
+            "label": "编码",
+            "title": "编码",
+            "$cell": [
+              {
+                "$name": "文字",
+                "useStyleText": true,
+                "styleText": "cursor: pointer;\ncolor: #1890ff;\ntext-decoration: underline;\n",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const { row } = $data\n  $comp['抽屉'].open(row)\n}",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.text\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1646209565841_0.0002494783013078372"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "useClickCode": true
+              }
+            ]
+          },
+          {
+            "$name": "表头",
+            "children": [],
+            "dataIndex": "name",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646118129590_0.7383649698264236"
+            },
+            "label": "名称",
+            "title": "名称",
+            "$cell": []
+          },
+          {
+            "$name": "表头",
+            "children": [],
+            "width": 160,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646205597537_0.23256116899471024"
+            },
+            "title": "操作",
+            "align": "center",
+            "$cell": [
+              {
+                "$name": "按钮1",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1646135804226_0.8950100770857645": {
+                    "isDefault": true,
+                    "componentId": "Button_1646135804225_0.6808906597681523",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1646135804226_0.8950100770857645",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1646135804226_0.5904319120874595": {
+                    "isDefault": true,
+                    "componentId": "Button_1646135804225_0.6808906597681523",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1646135804226_0.5904319120874595",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "success",
+                "type": "default",
+                "ghost": true,
+                "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                "size": "small",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1646135804225_0.6808906597681523"
+                },
+                "text": "编辑",
+                "useLoadingCode": true,
+                "useClickCode": true
+              },
+              {
+                "$name": "按钮2",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1646188404644_0.4049202874394733": {
+                    "isDefault": true,
+                    "componentId": "Button_1646188404643_0.5967690096949345",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1646188404644_0.4049202874394733",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1646188404644_0.43518773086508844": {
+                    "isDefault": true,
+                    "componentId": "Button_1646188404643_0.5967690096949345",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1646188404644_0.43518773086508844",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "error",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                "text": "删除",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1646188404643_0.5967690096949345"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              }
+            ]
+          }
+        ],
+        "useLoadingCode": true,
+        "useSelectedRowKeysCode": true,
+        "dataSource": [],
+        "actions": {
+          "$name": "操作栏",
+          "children": [
+            {
+              "$name": "按钮",
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+              "$data": {
+                "Data_1646120267934_0.8120144937348948": {
+                  "isDefault": true,
+                  "componentId": "Button_1646120267934_0.6732101318282935",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646120267934_0.8120144937348948",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646120267934_0.8992645170098088": {
+                  "isDefault": true,
+                  "componentId": "Button_1646120267934_0.6732101318282935",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "disabled",
+                  "id": "Data_1646120267934_0.8992645170098088",
+                  "label": "禁用",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    this.loading = true\n    await $comp['模态框'].open()\n  } finally {\n    this.loading = false\n  }\n}",
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "className": "primary",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1646120267934_0.6732101318282935"
+              },
+              "text": "新增",
+              "useLoadingCode": true,
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1646116546485_0.238418387223845"
+          }
+        },
+        "rowKey": "id",
+        "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}"
+      },
+      "Button_1646120267934_0.6732101318282935": {
+        "$name": "按钮",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1646120267934_0.8120144937348948": {
+            "isDefault": true,
+            "componentId": "Button_1646120267934_0.6732101318282935",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646120267934_0.8120144937348948",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646120267934_0.8992645170098088": {
+            "isDefault": true,
+            "componentId": "Button_1646120267934_0.6732101318282935",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1646120267934_0.8992645170098088",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    this.loading = true\n    await $comp['模态框'].open()\n  } finally {\n    this.loading = false\n  }\n}",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "primary",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1646120267934_0.6732101318282935"
+        },
+        "text": "新增",
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Confirm_1646204703753_0.7665215721190581": {
+        "useContentCode": true,
+        "$name": "确认框",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "$data": {
+          "Method_1646204703754_0.8872649806212995": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "async function ok () {  \n  try {\n    // 提交接口，修改接口id\n    const params = { id: this.value.id }\n    await $dde.delete('d75a4537a25a480f89f5cd6c03aa442f', { params })\n    $antd.message.success('ok')\n    // 非必须，响应异步\n    $comp['数据表格'].query()\n    this.visible = false  \n    if (this.$resolve instanceof Function) this.$resolve()\n  } finally {}    \n}",
+            "name": "ok",
+            "id": "Method_1646204703754_0.8872649806212995",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1646204703754_0.8093226454702993": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "{}",
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646204703754_0.8093226454702993",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646204703754_0.5007333476413749": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646204703754_0.5007333476413749",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646204703754_0.49317103135199036": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "async function cancel () {  \n  this.visible = false      \n  // 非必须，响应异步\n  if (this.$reject instanceof Function) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1646204703754_0.49317103135199036",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1646204703754_0.5431916118170332": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646204703754_0.5431916118170332",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "useOkCode": true,
+        "setContentCode": "function setContent() {\n  // 在下面返回Content的值\n  return `是否确认删除 [${this.value.name}] ？`\n}",
+        "useCancelCode": true,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "title": "确认删除",
+        "$item": {
+          "name": "Confirm",
+          "label": "确认框",
+          "id": "Confirm_1646204703753_0.7665215721190581"
+        },
+        "useTitleCode": false
+      }
+    },
+    "fit": true,
+    "modelName": "测试页面",
+    "methodsConfigs": {},
+    "children": [
+      {
+        "$name": "用户信息",
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "$item": {
+          "name": "UserInfo",
+          "label": "用户信息",
+          "id": "UserInfo_1646212631910_0.18046110590071684"
+        }
+      },
+      {
+        "$name": "搜索页面",
+        "form": {
+          "$name": "表单插槽",
+          "children": [
+            {
+              "$name": "输入框",
+              "notShowItem": false,
+              "inline": true,
+              "readonly": false,
+              "rulesConfig": [],
+              "$key": "id",
+              "disabled": false,
+              "$item": {
+                "name": "InputText",
+                "label": "输入框",
+                "id": "InputText_1646116545808_0.3358964402154174"
+              },
+              "label": "编码",
+              "allowClear": false
+            }
+          ],
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1646116545808_0.689662632919009"
+          }
+        },
+        "useResetCode": true,
+        "$data": {
+          "Data_1646116545809_0.7020793001173764": {
+            "isDefault": true,
+            "componentId": "Search_1646116545807_0.5623337405388653",
+            "code": "{}",
+            "children": [
+              {
+                "dataType": "string",
+                "name": "id",
+                "id": "Data_1646116545809_0.7020793001173764_id",
+                "label": "编码",
+                "type": "schema"
+              },
+              {
+                "dataType": "string",
+                "name": "name",
+                "id": "Data_1646116545809_0.7020793001173764_name",
+                "label": "名称",
+                "type": "schema"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "schemas": {
+              "name": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "名称",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "name",
+                "fieldLabelName": "名称",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "name",
+                "primaryKey": false
+              },
+              "id": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "编码",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "id",
+                "fieldLabelName": "编码",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "id",
+                "primaryKey": true
+              }
+            },
+            "name": "value",
+            "id": "Data_1646116545809_0.7020793001173764",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "useModelCode": true,
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n  // 在下面开始编写点击搜索按钮时触发事件\n  console.log(this)\n  $comp['数据表格'].query()\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1646116545807_0.5623337405388653"
+        },
+        "list": {
+          "$name": "列表插槽",
+          "children": [
+            {
+              "$name": "数据表格",
+              "$data": {
+                "Data_1646116545808_0.8099975051504336": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "[]",
+                  "children": [],
+                  "isMain": true,
+                  "dataType": "array",
+                  "name": "value",
+                  "id": "Data_1646116545808_0.8099975051504336",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Data_1646116545808_0.3374543106389136": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "{}",
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1646116545808_0.3374543106389136",
+                  "label": "排序",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1646116545808_0.9267835913092952": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['搜索页面']\n  const params = Object.assign({}, pagination, sorter, value)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('b8de06704dbc4d29a585e55e11b94052', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1646116545808_0.9267835913092952",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1646116545808_0.342467574765128": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1646116545808_0.342467574765128",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Data_1646116545808_0.5183253212666539": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}",
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1646116545808_0.5183253212666539",
+                  "label": "分页",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646116545808_0.23767872348392594": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646116545808_0.8997741714985723",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646116545808_0.23767872348392594",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "useChangeCode": true,
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1646116545808_0.3887532114711252"
+              },
+              "columns": [
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "id",
+                  "columnId": "HeaderCell_1646116545808_0.6414717593687673",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646116545808_0.6414717593687673"
+                  },
+                  "label": "编码",
+                  "title": "编码",
+                  "$cell": [
+                    {
+                      "$name": "文字",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #1890ff;\ntext-decoration: underline;\n",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const { row } = $data\n  $comp['抽屉'].open(row)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.text\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646209565841_0.0002494783013078372"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "name",
+                  "columnId": "HeaderCell_1646118129590_0.7383649698264236",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646118129590_0.7383649698264236"
+                  },
+                  "label": "名称",
+                  "title": "名称",
+                  "$cell": []
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "columnId": "HeaderCell_1646205597537_0.23256116899471024",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646205597537_0.23256116899471024"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "按钮1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646135804226_0.8950100770857645": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646135804226_0.8950100770857645",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646135804226_0.5904319120874595": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646135804226_0.5904319120874595",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "size": "small",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646135804225_0.6808906597681523"
+                      },
+                      "text": "编辑",
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮2",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646188404644_0.4049202874394733": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646188404644_0.4049202874394733",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646188404644_0.43518773086508844": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646188404644_0.43518773086508844",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646188404643_0.5967690096949345"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+              "size": "small",
+              "useSelectChangeCode": true,
+              "useValueCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1646116545808_0.8997741714985723"
+              },
+              "$columns": [
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "id",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646116545808_0.6414717593687673"
+                  },
+                  "label": "编码",
+                  "title": "编码",
+                  "$cell": [
+                    {
+                      "$name": "文字",
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #1890ff;\ntext-decoration: underline;\n",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const { row } = $data\n  $comp['抽屉'].open(row)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.text\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1646209565841_0.0002494783013078372"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "dataIndex": "name",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646118129590_0.7383649698264236"
+                  },
+                  "label": "名称",
+                  "title": "名称",
+                  "$cell": []
+                },
+                {
+                  "$name": "表头",
+                  "children": [],
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646205597537_0.23256116899471024"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "$name": "按钮1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646135804226_0.8950100770857645": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646135804226_0.8950100770857645",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646135804226_0.5904319120874595": {
+                          "isDefault": true,
+                          "componentId": "Button_1646135804225_0.6808906597681523",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646135804226_0.5904319120874595",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['抽屉'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "size": "small",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646135804225_0.6808906597681523"
+                      },
+                      "text": "编辑",
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮2",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1646188404644_0.4049202874394733": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1646188404644_0.4049202874394733",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1646188404644_0.43518773086508844": {
+                          "isDefault": true,
+                          "componentId": "Button_1646188404643_0.5967690096949345",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1646188404644_0.43518773086508844",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    const { row } = $data\n    this.loading = true\n    await $comp['确认框'].open(row)\n  } finally {\n    this.loading = false\n  }\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1646188404643_0.5967690096949345"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": true,
+              "dataSource": [],
+              "actions": {
+                "$name": "操作栏",
+                "children": [
+                  {
+                    "$name": "按钮",
+                    "useDisabledCode": true,
+                    "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                    "$data": {
+                      "Data_1646120267934_0.8120144937348948": {
+                        "isDefault": true,
+                        "componentId": "Button_1646120267934_0.6732101318282935",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "loading",
+                        "id": "Data_1646120267934_0.8120144937348948",
+                        "label": "加载中",
+                        "type": "data",
+                        "isFixed": true
+                      },
+                      "Data_1646120267934_0.8992645170098088": {
+                        "isDefault": true,
+                        "componentId": "Button_1646120267934_0.6732101318282935",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "disabled",
+                        "id": "Data_1646120267934_0.8992645170098088",
+                        "label": "禁用",
+                        "type": "data",
+                        "isFixed": true
+                      }
+                    },
+                    "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  try {\n    this.loading = true\n    await $comp['模态框'].open()\n  } finally {\n    this.loading = false\n  }\n}",
+                    "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                    "className": "primary",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1646120267934_0.6732101318282935"
+                    },
+                    "text": "新增",
+                    "useLoadingCode": true,
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1646116546485_0.238418387223845"
+                }
+              },
+              "rowKey": "id",
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646116545808_0.3887532114711252"
+          }
+        },
+        "onResetCode": "function onReset () {\n  // 在下面开始编写点击重置按钮时触发事件\n  this.value = {}\n  $comp['数据表格'].query()\n}"
+      },
+      {
+        "$name": "模态框",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "keyboard": true,
+        "$data": {
+          "Method_1646135345179_0.9766796689981427": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "async function ok () {  \n  try {\n    this.confirmLoading = true \n    // 提交接口，修改接口id\n    await $refs.FormNew.componentData['表单'].submit()\n    this.cancel(true)\n    $comp['数据表格'].query()\n    $antd.message.success('ok')\n  } finally {\n    this.confirmLoading = false        \n  }      \n}",
+            "name": "ok",
+            "id": "Method_1646135345179_0.9766796689981427",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1646135345179_0.5981838946712903": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646135345179_0.5981838946712903",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646135345179_0.506421711640308": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "async function cancel (isOk) {  \n  this.visible = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1646135345179_0.506421711640308",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1646135345179_0.5520664601612324": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646135345179_0.5520664601612324",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646135345179_0.39319513746266765": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "{}",
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646135345179_0.39319513746266765",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646135345179_0.12590489246836034": {
+            "isDefault": true,
+            "componentId": "Modal_1646135345179_0.9617028349844616",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "confirmLoading",
+            "id": "Data_1646135345179_0.12590489246836034",
+            "label": "提交中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "useOkCode": true,
+        "closable": true,
+        "useCancelCode": true,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "title": "新增",
+        "maskClosable": true,
+        "children": [
+          {
+            "$name": "模块",
+            "$params": {
+              "setIdCode": "function setId() {\n  // 在下面开始编写id事件\n  \n}",
+              "useIsEditCode": true,
+              "setIsEditCode": "function setIsEdit() {\n  // 在下面开始编写isEdit事件\n  return false\n}",
+              "useIdCode": true
+            },
+            "ref": "FormNew",
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "id",
+                "label": "id",
+                "props": []
+              },
+              {
+                "name": "isEdit",
+                "label": "isEdit",
+                "props": []
+              }
+            ],
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1646207701234_0.2416403741811124"
+            },
+            "id": "ec6e79a7ead2444fa59fe504eff796af-0w"
+          }
+        ],
+        "useConfirmLoadingCode": true,
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1646135345179_0.9617028349844616"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值  \n  return this.confirmLoading\n}",
+        "mask": true
+      },
+      {
+        "$footer": {
+          "$name": "抽屉底部",
+          "children": [
+            {
+              "$name": "按钮4",
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+              "$data": {
+                "Data_1646307666078_0.6735576280254443": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307666078_0.16116680754717305",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "disabled",
+                  "id": "Data_1646307666078_0.6735576280254443",
+                  "label": "禁用",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646307666078_0.425899798873296": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307666078_0.16116680754717305",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646307666078_0.425899798873296",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1646185256607_0.83225053989991"
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "type": "default",
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp['抽屉'].close()\n}",
+              "text": "取消",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1646307666078_0.16116680754717305"
+              },
+              "useLoadingCode": true,
+              "useClickCode": true
+            },
+            {
+              "$name": "按钮3",
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+              "$data": {
+                "Data_1646307634383_0.1994214905928895": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307634383_0.9308314670027231",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646307634383_0.1994214905928895",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646307634383_0.19338428078934933": {
+                  "isDefault": true,
+                  "componentId": "Button_1646307634383_0.9308314670027231",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "disabled",
+                  "id": "Data_1646307634383_0.19338428078934933",
+                  "label": "禁用",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1646185256607_0.83225053989991"
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "type": "primary",
+              "size": "middle",
+              "onClickCode": "async function onClick(e) {\n  // 在下面开始编写点击事件\n  this.loading = true\n  try {\n    await $comp['抽屉'].ok()\n  } finally {\n    this.loading = false\n  }\n}",
+              "text": "提交",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1646307634383_0.9308314670027231"
+              },
+              "useLoadingCode": true,
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1646185256607_0.83225053989991"
+          }
+        },
+        "$name": "抽屉",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "keyboard": true,
+        "$data": {
+          "Method_1646185256608_0.3745674232861591": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "async function close (isOk) {  \n  this.visible = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "close",
+            "id": "Method_1646185256608_0.3745674232861591",
+            "label": "取消",
+            "type": "method"
+          },
+          "Method_1646185256608_0.18287962181161044": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646185256608_0.18287962181161044",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646185256608_0.40534843083565053": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "async function ok () {  \n  try {\n    // 提交接口，修改接口id\n    await $refs.FormEdit.componentData['表单'].submit()\n    this.close(true)\n    $comp['数据表格'].query()\n    $antd.message.success('ok')\n  } finally {\n            \n  }      \n}",
+            "name": "ok",
+            "id": "Method_1646185256608_0.40534843083565053",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1646185256608_0.38311098064641924": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "{}",
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646185256608_0.38311098064641924",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646185256608_0.22518937414644502": {
+            "isDefault": true,
+            "componentId": "Drawer_1646185256607_0.8447431458088228",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646185256608_0.22518937414644502",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "onCloseCode": "function onClose() {\n  // 取消时执行  \n  return this.close()\n}",
+        "closable": true,
+        "title": "编辑",
+        "maskClosable": true,
+        "useCloseCode": true,
+        "children": [
+          {
+            "$name": "模块",
+            "$params": {
+              "setIdCode": "function setId() {\n  // 在下面开始编写id事件\n  return $comp['抽屉'].value.id\n}",
+              "useIsEditCode": true,
+              "setIsEditCode": "function setIsEdit() {\n  // 在下面开始编写isEdit事件\n  return true\n}",
+              "useIdCode": true
+            },
+            "ref": "FormEdit",
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "id",
+                "label": "id",
+                "props": []
+              },
+              {
+                "name": "isEdit",
+                "label": "isEdit",
+                "props": []
+              }
+            ],
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1646209321723_0.03423006567683662"
+            },
+            "id": "ec6e79a7ead2444fa59fe504eff796af-0w"
+          }
+        ],
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1646185256607_0.8447431458088228"
+        },
+        "mask": true
+      },
+      {
+        "useContentCode": true,
+        "$name": "确认框",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "$data": {
+          "Method_1646204703754_0.8872649806212995": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "async function ok () {  \n  try {\n    // 提交接口，修改接口id\n    const params = { id: this.value.id }\n    await $dde.delete('d75a4537a25a480f89f5cd6c03aa442f', { params })\n    $antd.message.success('ok')\n    // 非必须，响应异步\n    $comp['数据表格'].query()\n    this.visible = false  \n    if (this.$resolve instanceof Function) this.$resolve()\n  } finally {}    \n}",
+            "name": "ok",
+            "id": "Method_1646204703754_0.8872649806212995",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1646204703754_0.8093226454702993": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "{}",
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1646204703754_0.8093226454702993",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1646204703754_0.5007333476413749": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "async function open (value) {  \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1646204703754_0.5007333476413749",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1646204703754_0.49317103135199036": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "async function cancel () {  \n  this.visible = false      \n  // 非必须，响应异步\n  if (this.$reject instanceof Function) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1646204703754_0.49317103135199036",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1646204703754_0.5431916118170332": {
+            "isDefault": true,
+            "componentId": "Confirm_1646204703753_0.7665215721190581",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1646204703754_0.5431916118170332",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "id": "FormModal_1"
+        },
+        "useOkCode": true,
+        "setContentCode": "function setContent() {\n  // 在下面返回Content的值\n  return `是否确认删除 [${this.value.name}] ？`\n}",
+        "useCancelCode": true,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "title": "确认删除",
+        "$item": {
+          "name": "Confirm",
+          "label": "确认框",
+          "id": "Confirm_1646204703753_0.7665215721190581"
+        },
+        "useTitleCode": false
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  // $$数据表格.query()\n  $comp['数据表格'].query()\n}",
+    "$item": {
+      "name": "Model",
+      "id": "FormModal_1"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "DemoInfoModel",
+  "modelTag": "申请",
+  "isValid": "F"
+}

@@ -1,0 +1,615 @@
+{
+  "modelId": "lTDWrp7RQsy3ZdFBguCh8Q",
+  "modelName": "审核审批",
+  "optId": "c0456a0fe7624d1e84f11aab0abab399",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "lastModifyDate": "2022-07-08 09:52:46",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "Layout",
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1657087200680_0.18479473824735915"
+        },
+        "$left": {
+          "$name": "LayoutSider",
+          "children": [
+            {
+              "$name": "Html",
+              "useStyleText": true,
+              "styleText": "font-size: 16px;\nmargin: 8px 0 16px 0;\ndisplay: block;",
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1657087442359_0.7492948157760015"
+              },
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n return '审批过程'\n}",
+              "useValueCode": true,
+              "$item": {
+                "name": "Html",
+                "label": "文字",
+                "id": "Html_1657091201216_0.8054001590376114"
+              },
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            },
+            {
+              "mode": "left",
+              "$name": "Timeline",
+              "useStyleText": true,
+              "styleText": "margin-left: -128px;",
+              "children": [
+                {
+                  "$name": "Spin",
+                  "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $$data.loading\n}",
+                  "size": "default",
+                  "useStyleText": true,
+                  "styleText": "display: flex;\njustify-content: center;",
+                  "$parent": {
+                    "name": "Timeline",
+                    "label": "时间轴",
+                    "id": "Timeline_1657090136433_0.41651196763550336"
+                  },
+                  "use$$ifCode": true,
+                  "$item": {
+                    "name": "Spin",
+                    "label": "加载中",
+                    "id": "Spin_1657092862310_0.8020642520498926"
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                },
+                {
+                  "use$forCode": true,
+                  "$name": "TimelineItem",
+                  "children": [
+                    {
+                      "$name": "Html",
+                      "useStyleText": true,
+                      "styleText": "display: block;\nfont-size: 12px;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { user, time } = $data\n  if (!time) return `等待 [${user}] 审批`\n  \n  return `[${user}] 于 ${time}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1657091158083_0.6035764902761991"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    },
+                    {
+                      "$name": "文字",
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n    return $data.result\n}",
+                      "useStyleText": true,
+                      "styleText": "display: block;\nfont-weight: 700;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.result\n}",
+                      "use$$ifCode": false,
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1657091268626_0.7480233813750414"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    },
+                    {
+                      "$name": "文字",
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.content\n}",
+                      "useStyleText": true,
+                      "styleText": "display: block;\nfont-size: 12px;",
+                      "setValueCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.content\n}",
+                      "use$$ifCode": false,
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1657091303885_0.6951228085152417"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ],
+                  "$parent": {
+                    "name": "Timeline",
+                    "label": "时间轴",
+                    "id": "Timeline_1657090136433_0.41651196763550336"
+                  },
+                  "set$forCode": "function set() {\n  return $data || []\n}",
+                  "$item": {
+                    "name": "TimelineItem",
+                    "label": "时间轴项",
+                    "id": "TimelineItem_1657090136433_0.3869024829112151"
+                  },
+                  "useLabelCode": true,
+                  "setLabelCode": "function setLabel() {\n  // 在下面返回Label的值\n  return $data.user\n}"
+                }
+              ],
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1657087442359_0.7492948157760015"
+              },
+              "$key": "list",
+              "$item": {
+                "name": "Timeline",
+                "label": "时间轴",
+                "id": "Timeline_1657090136433_0.41651196763550336"
+              },
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            }
+          ],
+          "width": 320,
+          "theme": "light",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1657087442359_0.7492948157760015"
+          },
+          "collapsedWidth": 80
+        },
+        "$center": {
+          "$name": "LayoutContent",
+          "useStyleText": true,
+          "styleText": "display: flex;\nflex-direction: column;",
+          "children": [
+            {
+              "$name": "Model",
+              "$params": {},
+              "useStyleText": true,
+              "styleText": "margin:10px;\npadding:10px",
+              "children": [],
+              "$parent": {
+                "name": "LayoutContent",
+                "label": "内容",
+                "id": "LayoutContent_1657087438332_0.42738210268659516"
+              },
+              "customEvents": [],
+              "$events": {},
+              "customParams": [
+                {
+                  "name": "id",
+                  "label": "id",
+                  "props": []
+                },
+                {
+                  "name": "type",
+                  "label": "type",
+                  "props": []
+                },
+                {
+                  "name": "current",
+                  "label": "current",
+                  "props": []
+                }
+              ],
+              "$item": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1657090114964_0.29200322575696713"
+              },
+              "id": "8943ad4401ce4924b190bf0b59afd9e5",
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            },
+            {
+              "$name": "Row",
+              "gutter": 8,
+              "useStyleText": true,
+              "styleText": "    padding: 8px 16px 16px;\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n    background: white;\n    height: 200px;\n    margin-left: 10px;",
+              "children": [
+                {
+                  "$name": "Html",
+                  "useStyleText": true,
+                  "styleText": "font-size: 16px;\ndisplay: block;\nmargin-bottom: 12px;",
+                  "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '审批信息'\n}",
+                  "useValueCode": true,
+                  "$item": {
+                    "name": "Html",
+                    "label": "文字",
+                    "id": "Html_1657094759416_0.3837373486749207"
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                },
+                {
+                  "$name": "Form",
+                  "$data": {
+                    "Method_1657094806783_0.6593774364183842": {
+                      "isDefault": true,
+                      "componentId": "Form_1657094806783_0.9524448748459677",
+                      "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+                      "name": "load",
+                      "id": "Method_1657094806783_0.6593774364183842",
+                      "label": "获取数据",
+                      "type": "method"
+                    },
+                    "Method_1657094806783_0.5480854946642144": {
+                      "isDefault": true,
+                      "componentId": "Form_1657094806783_0.9524448748459677",
+                      "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+                      "name": "submit",
+                      "id": "Method_1657094806783_0.5480854946642144",
+                      "label": "提交",
+                      "type": "method"
+                    },
+                    "Data_1657094806783_0.9239971060502092": {
+                      "isDefault": true,
+                      "componentId": "Form_1657094806783_0.9524448748459677",
+                      "code": "{}",
+                      "componentSchemas": {
+                        "applyType": {
+                          "isDefault": true,
+                          "propertyName": "applyType",
+                          "fieldLabelName": "审批结果",
+                          "$key": "applyType",
+                          "fieldType": "string"
+                        },
+                        "transContent": {
+                          "isDefault": true,
+                          "propertyName": "transContent",
+                          "fieldLabelName": "审批意见",
+                          "$key": "transContent",
+                          "fieldType": "string"
+                        }
+                      },
+                      "children": [
+                        {
+                          "isDefault": true,
+                          "dataType": "string",
+                          "name": "applyType",
+                          "id": "Data_1657094806783_0.9239971060502092_applyType",
+                          "label": "审批结果",
+                          "type": "schema"
+                        },
+                        {
+                          "isDefault": true,
+                          "dataType": "string",
+                          "name": "transContent",
+                          "id": "Data_1657094806783_0.9239971060502092_transContent",
+                          "label": "审批意见",
+                          "type": "schema"
+                        }
+                      ],
+                      "isMain": true,
+                      "dataType": "object",
+                      "name": "value",
+                      "id": "Data_1657094806783_0.9239971060502092",
+                      "label": "数据",
+                      "type": "data"
+                    },
+                    "Method_1657094806783_0.47651079478646174": {
+                      "isDefault": true,
+                      "componentId": "Form_1657094806783_0.9524448748459677",
+                      "code": "async function load () {\n  return this.$ref.validate()       \n}",
+                      "name": "validate",
+                      "id": "Method_1657094806783_0.47651079478646174",
+                      "label": "校验",
+                      "type": "method"
+                    },
+                    "Data_1657094806783_0.573582398268421": {
+                      "isDefault": true,
+                      "componentId": "Form_1657094806783_0.9524448748459677",
+                      "code": "false",
+                      "dataType": "boolean",
+                      "name": "loading",
+                      "id": "Data_1657094806783_0.573582398268421",
+                      "label": "加载中",
+                      "type": "data",
+                      "isFixed": true
+                    }
+                  },
+                  "legend": "",
+                  "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                  "$key": "",
+                  "layout": "horizontal",
+                  "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+                  "children": [
+                    {
+                      "$name": "RadioGroup",
+                      "notShowItem": false,
+                      "size": "default",
+                      "$parent": {
+                        "name": "Form",
+                        "label": "表单",
+                        "id": "Form_1657094806783_0.9524448748459677"
+                      },
+                      "rulesConfig": [
+                        {
+                          "isUse": true,
+                          "code": "function generateRule (props) {\n  // 在下面开始编写校验规则\n  return {\n    required: true,\n//    min: 0,\n//    max: 10,\n//    len: 5,\n//    type: 'string',\n    message: '审批结果为必填项',\n//    async validator(rule, value) {\n//      return Promise.reject('some error messages')\n//    },\n//    pattern: //,\n//    trigger: ['change'],\n  }\n}",
+                          "name": "必填",
+                          "id": "Rule_1657094901301",
+                          "message": ""
+                        }
+                      ],
+                      "options": [
+                        {
+                          "label": "同意",
+                          "value": "A"
+                        },
+                        {
+                          "label": "驳回",
+                          "value": "B"
+                        }
+                      ],
+                      "$key": "applyType",
+                      "$item": {
+                        "name": "RadioGroup",
+                        "label": "单选框",
+                        "id": "RadioGroup_1657094829232_0.2893373666478405"
+                      },
+                      "label": "审批结果"
+                    },
+                    {
+                      "$name": "InputText",
+                      "notShowItem": false,
+                      "password": false,
+                      "$parent": {
+                        "name": "Form",
+                        "label": "表单",
+                        "id": "Form_1657094806783_0.9524448748459677"
+                      },
+                      "rulesConfig": [
+                        {
+                          "isUse": true,
+                          "code": "function generateRule (props) {\n  // 在下面开始编写校验规则\n  return {\n//    required: true,\n//    min: 0,\n    max: 64,\n//    len: 5,\n//    type: 'string',\n    message: '审批意见过长',\n//    async validator(rule, value) {\n//      return Promise.reject('some error messages')\n//    },\n//    pattern: //,\n//    trigger: ['change'],\n  }\n}",
+                          "name": "最大",
+                          "id": "Rule_1657094930359",
+                          "message": ""
+                        },
+                        {
+                          "isUse": true,
+                          "code": "function generateRule (props) {\n  // 在下面开始编写校验规则\n  return {\n//    required: true,\n//    min: 0,\n//    max: 10,\n//    len: 5,\n//    type: 'string',\nmessage: '请填写审批意见',\nasync validator(rule, value) {\n     if ($data.applyType === 'B' && !value) return Promise.reject();\n     return Promise.resolve()\n},\n//    pattern: //,\n//    trigger: ['change'],\n  }\n}",
+                          "name": "必填",
+                          "id": "Rule_1657094945815",
+                          "message": ""
+                        }
+                      ],
+                      "$key": "transContent",
+                      "$item": {
+                        "name": "InputText",
+                        "label": "输入框",
+                        "id": "InputText_1657094806783_0.6067276050984691"
+                      },
+                      "label": "审批意见",
+                      "allowClear": false
+                    }
+                  ],
+                  "labelAlign": "right",
+                  "useModelCode": true,
+                  "colon": true,
+                  "$item": {
+                    "name": "Form",
+                    "label": "表单",
+                    "id": "Form_1657094806783_0.9524448748459677"
+                  },
+                  "useLoadingCode": true
+                }
+              ],
+              "$parent": {
+                "name": "LayoutContent",
+                "label": "内容",
+                "id": "LayoutContent_1657087438332_0.42738210268659516"
+              },
+              "$item": {
+                "name": "Row",
+                "label": "行容器",
+                "id": "Row_1657094747684_0.13949155125172075"
+              },
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            }
+          ],
+          "$item": {
+            "name": "LayoutContent",
+            "label": "内容",
+            "id": "LayoutContent_1657087438332_0.42738210268659516"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1657087435204_0.6828879292426457"
+        },
+        "dir": "lr",
+        "items": [
+          "c",
+          "l"
+        ]
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "Form_1657094806783_0.9524448748459677": {
+        "layout": "horizontal",
+        "$name": "Form",
+        "$data": {
+          "Method_1657094806783_0.6593774364183842": {
+            "isDefault": true,
+            "componentId": "Form_1657094806783_0.9524448748459677",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1657094806783_0.6593774364183842",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1657094806783_0.5480854946642144": {
+            "isDefault": true,
+            "componentId": "Form_1657094806783_0.9524448748459677",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1657094806783_0.5480854946642144",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1657094806783_0.9239971060502092": {
+            "isDefault": true,
+            "componentId": "Form_1657094806783_0.9524448748459677",
+            "code": "{}",
+            "componentSchemas": {
+              "applyType": {
+                "isDefault": true,
+                "propertyName": "applyType",
+                "fieldLabelName": "审批结果",
+                "$key": "applyType",
+                "fieldType": "string"
+              },
+              "transContent": {
+                "isDefault": true,
+                "propertyName": "transContent",
+                "fieldLabelName": "审批意见",
+                "$key": "transContent",
+                "fieldType": "string"
+              }
+            },
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "applyType",
+                "id": "Data_1657094806783_0.9239971060502092_applyType",
+                "label": "审批结果",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "transContent",
+                "id": "Data_1657094806783_0.9239971060502092_transContent",
+                "label": "审批意见",
+                "type": "schema"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1657094806783_0.9239971060502092",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1657094806783_0.47651079478646174": {
+            "isDefault": true,
+            "componentId": "Form_1657094806783_0.9524448748459677",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1657094806783_0.47651079478646174",
+            "label": "校验",
+            "type": "method"
+          },
+          "Data_1657094806783_0.573582398268421": {
+            "isDefault": true,
+            "componentId": "Form_1657094806783_0.9524448748459677",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1657094806783_0.573582398268421",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "labelAlign": "right",
+        "legend": "",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "colon": true,
+        "$key": "",
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1657094806783_0.9524448748459677"
+        },
+        "useLoadingCode": true
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n$run('getList')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1657087200680_0.18479473824735915"
+    }
+  },
+  "publishDate": "2022-07-08 09:52:46",
+  "sourceId": "lTDWrp7RQsy3ZdFBguCh8Q",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1657092628302": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1657092628302",
+        "label": "loading",
+        "type": "data"
+      },
+      "Data_1657091373107": {
+        "code": "// [\r\n//     { user: '张三', time: '2022-07-06', content: 'desc', result: 'result' },\r\n//     { user: '张三', time: '2022-07-06', content: 'desc', result: 'result' },\r\n//     { user: '张三', time: '2022-07-06', content: 'desc', result: 'result' }\r\n// ]\r\n[]",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "array",
+        "name": "list",
+        "id": "Data_1657091373107",
+        "label": "list",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1657092274680": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "dones",
+        "id": "Data_1657092274680",
+        "label": "dones",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1657092266507": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "todos",
+        "id": "Data_1657092266507",
+        "label": "todos",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1657092464668": {
+        "code": "function getList() {\n\t// const { dones, todos } = $data\n\t// $data.ideas = dones.map(t => ({\n\t//     node: t.nodeName,\n\t//     user: t.userCodeDesc,\n\t//     time: t.transDate,\n\t//     result: t.transIdea,\n\t//     content: t.transContent,\n\t// }))\n\n\t// $data.list = $data.list.concat(todos.map(t => ({\n\t//     node: t.nodeName,\n\t//     user: t.userName,\n\t//     pendding: true,\n\t// })))\n\t$data.loading = true\n\tsetTimeout(() => {\n\t\t$data.list = [\n\t\t\t{ user: '张三', time: '2022-07-06', content: 'descdescdescdescdescdesc', result: 'result' },\n\t\t\t{ user: '张三', time: '2022-07-06', content: 'descdescdescdesc', result: 'result' },\n\t\t\t{ user: '张三', time: '2022-07-06', content: 'desc', result: 'result' }\n\t\t]\n\t$data.loading = false\n\t}, 1000)\n\n}",
+        "name": "getList",
+        "id": "Method_1657092464668",
+        "label": "getList",
+        "type": "method"
+      },
+      "Method_1657092588638": {
+        "code": "\nasync function query(flowInstId) {\n    if (flowInstId) {\n        $data.loading = true\n    } else {\n        return\n    }\n\n    // 在下面开始编写flowInstId监听\n    await Promise.all([\n        $run('queryDones', flowInstId),\n        $run('queryTodos', flowInstId),\n    ])\n\n    $run('getList')\n    $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1657092588638",
+        "label": "query",
+        "type": "method"
+      },
+      "Method_1657092386923": {
+        "code": "async function queryTodos(flowInstId) {\n  \tif (!flowInstId) return\n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'createTime',\n        order: 'asc',\n    }\n\tlet resultData = await $dde.get('ApiID', { params })\n\t$data.todos = resultData  \n}",
+        "name": "queryTodos",
+        "id": "Method_1657092386923",
+        "label": "queryTodos",
+        "type": "method"
+      },
+      "Method_1657092363959": {
+        "code": "async function queryDones(flowInstId) {\n  \tif (!flowInstId) return\n  \n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'transDate',\n        order: 'asc',\n    }\n    \n    const {\n    \tobjList,\n    } = await $dde.get('ApiID', { params })\n\n\t$data.dones = objList  \n}",
+        "name": "queryDones",
+        "id": "Method_1657092363959",
+        "label": "queryDones",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "isValid": "T"
+}

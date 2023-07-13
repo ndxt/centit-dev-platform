@@ -1,0 +1,204 @@
+{
+  "modelId": "760e92d517a9442ab4e49a81ed67d599",
+  "modelName": "审批模块",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-07-18 14:38:22",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "fit": true,
+    "methodsConfigs": {
+      "Method_1640227607587": {
+        "code": "function changeIdea(value) {\n  $data.info.transIdea = {\n  \tA: '同意',\n    B: '驳回',\n  }[value]\n}",
+        "name": "changeIdea",
+        "id": "Method_1640227607587",
+        "title": "changeIdea",
+        "key": "Method_1640227607587"
+      },
+      "Method_1639987629632": {
+        "name": "test",
+        "id": "Method_1639987629632",
+        "title": "submit",
+        "key": "Method_1639987629632"
+      },
+      "Method_1639987607776": {
+        "code": "async function () {\n  const { AdjustInfo,ApplyForm } = $refs\n  await AdjustInfo.run('validate')\n  await AdjustInfo.run('openConfirm')\n  \n  const flow = Object.assign(\n    {'checkuser':ApplyForm.data.info.checkuser,\n    'leavetype':ApplyForm.data.info.leavetype}, $params.flow, AdjustInfo.data.info)\n  return $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {\n  \tflow,\n  })\n}",
+        "name": "submit",
+        "id": "Method_1639987607776",
+        "label": "submit",
+        "type": "method"
+      }
+    },
+    "children": [
+      {
+        "useStyleText": true,
+        "styleText": "margin: -24px;\npadding: 8px;",
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639810475267"
+        },
+        "$layout": {
+          "useStyleText": true,
+          "styleText": "padding-left: 8px;",
+          "children": [],
+          "$center": {
+            "useStyleText": true,
+            "styleText": "display: flex;\nflex-direction: column;",
+            "children": [
+              {
+                "$params": {},
+                "ref": "ApplyForm",
+                "children": [],
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1639811066930"
+                },
+                "customEvents": [],
+                "$events": {},
+                "customParams": [
+                  {
+                    "name": "leaveno",
+                    "label": "leaveno",
+                    "props": []
+                  }
+                ],
+                "useParamsCode": true,
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1639811073928"
+                },
+                "id": "459dd728f7b44414aa4192e993431b8b",
+                "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n  \tleaveno: $params.flow.flowOptTag,\n  }\n}"
+              },
+              {
+                "ref": "AdjustInfo",
+                "children": [],
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1639811066930"
+                },
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1639813743400"
+                },
+                "id": "21fb1dbba0594fed8f3b2fd88f041780"
+              }
+            ],
+            "$item": {
+              "name": "LayoutContent",
+              "label": "内容",
+              "id": "LayoutContent_1639811066930"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "$item": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1639811037672"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+          "items": [
+            "c"
+          ]
+        },
+        "$left": {
+          "children": [
+            {
+              "children": [],
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1639811036739"
+              },
+              "useParamsCode": true,
+              "$item": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1640070324755"
+              },
+              "id": "7c01dee117034e89b0e0df20f444c50e",
+              "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return $params.flow\n}"
+            }
+          ],
+          "width": 320,
+          "theme": "light",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1639811036739"
+          },
+          "collapsedWidth": 80
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1639811033911"
+        },
+        "dir": "lr",
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+        "items": [
+          "l"
+        ],
+        "hasLayout": true
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "style": {},
+    "paramsConfigs": {
+      "Param_1640142301641": {
+        "name": "flow",
+        "id": "Param_1640142301641"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639810475267"
+    }
+  },
+  "publishDate": "2022-07-18 14:38:22",
+  "sourceId": "PWzvxOgiTuyscwITBpXg5w",
+  "structureFunction": {
+    "dataConfigs": {},
+    "methodsConfigs": {
+      "Method_1640227607587": {
+        "code": "function changeIdea(value) {\n  $data.info.transIdea = {\n  \tA: '同意',\n    B: '驳回',\n  }[value]\n}",
+        "name": "changeIdea",
+        "id": "Method_1640227607587",
+        "title": "changeIdea",
+        "key": "Method_1640227607587"
+      },
+      "Method_1639987629632": {
+        "name": "test",
+        "id": "Method_1639987629632",
+        "title": "submit",
+        "key": "Method_1639987629632"
+      },
+      "Method_1639987607776": {
+        "code": "async function () {\n  const { AdjustInfo,ApplyForm } = $refs\n  await AdjustInfo.run('validate')\n  await AdjustInfo.run('openConfirm')\n  const flow = Object.assign(\n    {'checkuser':ApplyForm.data.info.checkuser,\n    'leavetype':ApplyForm.data.info.leavetype}, $params.flow, AdjustInfo.data.info)\n  return $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {\n  \tflow,\n  })\n}",
+        "name": "submit",
+        "id": "Method_1639987607776",
+        "label": "submit",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1640142301641": {
+        "name": "flow",
+        "id": "Param_1640142301641"
+      }
+    }
+  },
+  "modelTag": "审批",
+  "isValid": "F"
+}

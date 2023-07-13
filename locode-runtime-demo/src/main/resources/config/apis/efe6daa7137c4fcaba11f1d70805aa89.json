@@ -1,0 +1,1143 @@
+{
+  "packetId": "efe6daa7137c4fcaba11f1d70805aa89",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "opt_idea_info---提交流程",
+  "packetDesc": "opt_idea_info---提交流程",
+  "recorder": "U5iJtAdt",
+  "recordDate": "2023-02-03 10:30:55",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 240,
+        "y": 60,
+        "id": "startRcnZd5Qhmt",
+        "text": {
+          "x": 240,
+          "y": 60,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": false,
+          "x": 240,
+          "y": 60,
+          "id": "startRcnZd5Qhmt",
+          "text": {
+            "x": 240,
+            "y": 60,
+            "value": "开始"
+          },
+          "type": "start",
+          "properties": {
+            "isBranch": false,
+            "processName": "开始",
+            "typeName": "开始",
+            "isSource": false,
+            "isSelected": false,
+            "id": "startRcnZd5Qhmt",
+            "type": "start"
+          }
+        }
+      },
+      {
+        "x": 240,
+        "y": 200,
+        "id": "submitWorkflowqjYOYdO4cl",
+        "text": {
+          "x": 240,
+          "y": 200,
+          "value": "提交工作流"
+        },
+        "type": "submitWorkflow",
+        "properties": {
+          "role": [],
+          "typeName": "提交工作流",
+          "source": "postDataRo58mhbwdh",
+          "type": "submitWorkflow",
+          "userCode": "__request_body.flow.userCode",
+          "isBranch": false,
+          "flowVariables": [],
+          "processName": "提交工作流",
+          "unitCode": "__request_body.flow.unitCode",
+          "isSource": true,
+          "isSelected": false,
+          "nodeInstId": "__request_body.flow.nodeInstId",
+          "x": 240,
+          "y": 400,
+          "id": "submitWorkflowqjYOYdO4cl",
+          "text": {
+            "x": 240,
+            "y": 400,
+            "value": "提交工作流"
+          },
+          "config": [
+            {
+              "expression": "",
+              "cName": "授权用户，在作为被授权人时需要",
+              "unique": 0,
+              "columnName": "grantorCode"
+            },
+            {
+              "expression": "",
+              "cName": "提交后的节点强行指定用户",
+              "unique": 1,
+              "columnName": "lockOptUser"
+            },
+            {
+              "expression": "",
+              "cName": "传递的用户code",
+              "unique": 2,
+              "columnName": "workUserCode"
+            },
+            {
+              "expression": "",
+              "cName": "流程办件机构",
+              "unique": 3,
+              "columnName": "flowOrganizes"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点机构",
+              "unique": 4,
+              "columnName": "nodeUnits"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点操作人员",
+              "unique": 5,
+              "columnName": "nodeOptUsers"
+            }
+          ],
+          "properties": {
+            "role": [
+              {
+                "modifyTime": "2021-12-13 16:53:03",
+                "optTeamRoleId": "c76a7a7b3fa24951be7a31df4fbea6de",
+                "roleCode": "request",
+                "unique": 0,
+                "roleName": "申请人",
+                "optId": "TpKfue78R4-a-fUFeRhszA"
+              },
+              {
+                "modifyTime": "2021-12-21 14:37:07",
+                "optTeamRoleId": "f9d58889d5f04e71b9da37f7b3323d45",
+                "roleCode": "ysr",
+                "unique": 1,
+                "roleName": "预审人",
+                "optId": "TpKfue78R4-a-fUFeRhszA"
+              }
+            ],
+            "typeName": "提交工作流",
+            "source": "postDataRo58mhbwdh",
+            "type": "submitWorkflow",
+            "userCode": "postDataRo58mhbwdh.flow.userCode",
+            "flowVariables": [
+              {
+                "variableDesc": "请假类型",
+                "modifyTime": "2021-12-09 17:46:01",
+                "variableName": "leavetype",
+                "expression": "postDataRo58mhbwdh.info.leavetype",
+                "unique": 0,
+                "isGlobal": true,
+                "optId": "TpKfue78R4-a-fUFeRhszA",
+                "optVariableId": "3636c628343a431d9d1b7882da381260"
+              },
+              {
+                "variableDesc": "是否预审",
+                "modifyTime": "2021-12-21 14:37:32",
+                "variableName": "checkUser",
+                "expression": "postDataRo58mhbwdh.info.checkUser",
+                "unique": 1,
+                "isGlobal": true,
+                "optId": "TpKfue78R4-a-fUFeRhszA",
+                "optVariableId": "4c326230ab77446796874277b7aa53cd"
+              },
+              {
+                "variableDesc": "是否通过",
+                "modifyTime": "2021-12-21 11:15:51",
+                "variableName": "applyType",
+                "expression": "postDataRo58mhbwdh.flow.applyType",
+                "defaultValue": "A",
+                "unique": 2,
+                "optId": "TpKfue78R4-a-fUFeRhszA",
+                "optVariableId": "a2c9861791d446c1b495c2ea7f6a02bf"
+              }
+            ],
+            "processName": "提交工作流",
+            "unitCode": "postDataRo58mhbwdh.flow.unitCode",
+            "isSource": true,
+            "isSelected": false,
+            "nodeInstId": "postDataRo58mhbwdh.flow.nodeInstId",
+            "id": "submitWorkflowqjYOYdO4cl",
+            "config": [
+              {
+                "expression": "",
+                "cName": "授权用户，在作为被授权人时需要",
+                "unique": 0,
+                "columnName": "grantorCode"
+              },
+              {
+                "expression": "",
+                "cName": "提交后的节点强行指定用户",
+                "unique": 1,
+                "columnName": "lockOptUser"
+              },
+              {
+                "expression": "",
+                "cName": "传递的用户code",
+                "unique": 2,
+                "columnName": "workUserCode"
+              },
+              {
+                "expression": "",
+                "cName": "流程办件机构",
+                "unique": 3,
+                "columnName": "flowOrganizes"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点机构",
+                "unique": 4,
+                "columnName": "nodeUnits"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点操作人员",
+                "unique": 5,
+                "columnName": "nodeOptUsers"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "x": 240,
+        "y": 620,
+        "id": "results0Cq3jMG6Fo",
+        "text": {
+          "x": 240,
+          "y": 620,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "resultOptions": "3",
+          "code": 0,
+          "Sourcefield": [
+            {
+              "expression": "",
+              "cName": "授权用户，在作为被授权人时需要",
+              "unique": 0,
+              "columnName": "grantorCode"
+            },
+            {
+              "expression": "",
+              "cName": "提交后的节点强行指定用户",
+              "unique": 1,
+              "columnName": "lockOptUser"
+            },
+            {
+              "expression": "",
+              "cName": "传递的用户code",
+              "unique": 2,
+              "columnName": "workUserCode"
+            },
+            {
+              "expression": "",
+              "cName": "流程办件机构",
+              "unique": 3,
+              "columnName": "flowOrganizes"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点机构",
+              "unique": 4,
+              "columnName": "nodeUnits"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点操作人员",
+              "unique": 5,
+              "columnName": "nodeOptUsers"
+            }
+          ],
+          "typeName": "返回结果",
+          "source": "submitWorkflowqjYOYdO4cl",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "isSource": false,
+          "isSelected": false,
+          "x": 240,
+          "y": 620,
+          "id": "results0Cq3jMG6Fo",
+          "text": {
+            "x": 240,
+            "y": 620,
+            "value": "返回结果"
+          },
+          "properties": {
+            "isBranch": false,
+            "resultOptions": "3",
+            "code": 0,
+            "Sourcefield": [
+              {
+                "expression": "",
+                "cName": "授权用户，在作为被授权人时需要",
+                "unique": 0,
+                "columnName": "grantorCode"
+              },
+              {
+                "expression": "",
+                "cName": "提交后的节点强行指定用户",
+                "unique": 1,
+                "columnName": "lockOptUser"
+              },
+              {
+                "expression": "",
+                "cName": "传递的用户code",
+                "unique": 2,
+                "columnName": "workUserCode"
+              },
+              {
+                "expression": "",
+                "cName": "流程办件机构",
+                "unique": 3,
+                "columnName": "flowOrganizes"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点机构",
+                "unique": 4,
+                "columnName": "nodeUnits"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点操作人员",
+                "unique": 5,
+                "columnName": "nodeOptUsers"
+              }
+            ],
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": false,
+            "isSelected": false,
+            "id": "results0Cq3jMG6Fo",
+            "source": "submitWorkflowqjYOYdO4cl",
+            "type": "results"
+          }
+        }
+      },
+      {
+        "x": 240,
+        "y": 480,
+        "id": "metadataKnyDOf6Law",
+        "text": {
+          "x": 240,
+          "y": 480,
+          "value": "写入过程信息"
+        },
+        "type": "metadata",
+        "properties": {
+          "tableLabelName": "kfm04P1aR4ejRt2lxM2KrQ",
+          "templateType": 1,
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "元数据CRUD",
+          "source": "defineJsonDataHntaSkr6Xw",
+          "type": "metadata",
+          "isBranch": false,
+          "processName": "写入过程信息",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "isSelected": false,
+          "x": 240,
+          "y": 480,
+          "tableId": "69ae09194a174c1eb00dc36cd822a0fd",
+          "id": "metadataKnyDOf6Law",
+          "text": {
+            "x": 240,
+            "y": 480,
+            "value": "写入过程信息"
+          },
+          "tablefield": [
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "grantor",
+              "fieldLabelName": "GRANTOR",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "GRANTOR",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 32,
+              "columnOrder": 99,
+              "precision": 32,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "leaveNo",
+              "fieldLabelName": "LEAVE_NO",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "LEAVE_NO",
+              "primaryKey": true
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "ideaCode",
+              "fieldLabelName": "IDEA_CODE",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "IDEA_CODE",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "nodeCode",
+              "fieldLabelName": "NODE_CODE",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "NODE_CODE",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "nodeName",
+              "fieldLabelName": "NODE_NAME",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "NODE_NAME",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "unitCode",
+              "fieldLabelName": "UNIT_CODE",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "UNIT_CODE",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "unitName",
+              "fieldLabelName": "UNIT_NAME",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "UNIT_NAME",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "userCode",
+              "fieldLabelName": "USER_CODE",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "USER_CODE",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "userName",
+              "fieldLabelName": "USER_NAME",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "USER_NAME",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "flowPhase",
+              "fieldLabelName": "FLOW_PHASE",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "FLOW_PHASE",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 0,
+              "columnOrder": 99,
+              "precision": 0,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.sql.Date",
+              "accessType": "N",
+              "columnType": "DATETIME",
+              "propertyName": "transDate",
+              "fieldLabelName": "TRANS_DATE",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "datetime",
+              "columnName": "TRANS_DATE",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "transIdea",
+              "fieldLabelName": "TRANS_IDEA",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "TRANS_IDEA",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 100,
+              "columnOrder": 99,
+              "precision": 100,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "flowInstId",
+              "fieldLabelName": "FLOW_INST_ID",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "FLOW_INST_ID",
+              "primaryKey": false
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 32,
+              "columnOrder": 99,
+              "precision": 32,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "nodeInstId",
+              "fieldLabelName": "NODE_INST_ID",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "NODE_INST_ID",
+              "primaryKey": true
+            },
+            {
+              "recorder": "u0000000",
+              "columnLength": 2000,
+              "columnOrder": 99,
+              "precision": 2000,
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "columnType": "VARCHAR",
+              "propertyName": "transContent",
+              "fieldLabelName": "TRANS_CONTENT",
+              "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+              "lastModifyDate": "2021-11-29 10:49:01",
+              "fieldType": "string",
+              "columnName": "TRANS_CONTENT",
+              "primaryKey": false
+            }
+          ],
+          "properties": {
+            "tableLabelName": "kfm04P1aR4ejRt2lxM2KrQ",
+            "templateType": 1,
+            "isBranch": false,
+            "databaseName": "qCkELaoFSTm2_AoREWrYGg",
+            "processName": "写入过程信息",
+            "typeName": "元数据CRUD",
+            "isSource": true,
+            "isSelected": false,
+            "id": "metadataKnyDOf6Law",
+            "source": "defineJsonDataHntaSkr6Xw",
+            "type": "metadata",
+            "tablefield": [
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "grantor",
+                "fieldLabelName": "GRANTOR",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "GRANTOR",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 32,
+                "columnOrder": 99,
+                "precision": 32,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "leaveNo",
+                "fieldLabelName": "LEAVE_NO",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "LEAVE_NO",
+                "primaryKey": true
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "ideaCode",
+                "fieldLabelName": "IDEA_CODE",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "IDEA_CODE",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "nodeCode",
+                "fieldLabelName": "NODE_CODE",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "NODE_CODE",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "nodeName",
+                "fieldLabelName": "NODE_NAME",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "NODE_NAME",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "unitCode",
+                "fieldLabelName": "UNIT_CODE",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "UNIT_CODE",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "unitName",
+                "fieldLabelName": "UNIT_NAME",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "UNIT_NAME",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "userCode",
+                "fieldLabelName": "USER_CODE",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "USER_CODE",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "userName",
+                "fieldLabelName": "USER_NAME",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "USER_NAME",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "flowPhase",
+                "fieldLabelName": "FLOW_PHASE",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "FLOW_PHASE",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "precision": 0,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "columnType": "DATETIME",
+                "propertyName": "transDate",
+                "fieldLabelName": "TRANS_DATE",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "datetime",
+                "columnName": "TRANS_DATE",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "transIdea",
+                "fieldLabelName": "TRANS_IDEA",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "TRANS_IDEA",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 100,
+                "columnOrder": 99,
+                "precision": 100,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "flowInstId",
+                "fieldLabelName": "FLOW_INST_ID",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "FLOW_INST_ID",
+                "primaryKey": false
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 32,
+                "columnOrder": 99,
+                "precision": 32,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "nodeInstId",
+                "fieldLabelName": "NODE_INST_ID",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "NODE_INST_ID",
+                "primaryKey": true
+              },
+              {
+                "recorder": "u0000000",
+                "columnLength": 2000,
+                "columnOrder": 99,
+                "precision": 2000,
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "transContent",
+                "fieldLabelName": "TRANS_CONTENT",
+                "tableId": "kfm04P1aR4ejRt2lxM2KrQ",
+                "lastModifyDate": "2021-11-29 10:49:01",
+                "fieldType": "string",
+                "columnName": "TRANS_CONTENT",
+                "primaryKey": false
+              }
+            ]
+          }
+        }
+      },
+      {
+        "x": 240,
+        "y": 340,
+        "id": "defineJsonDataHntaSkr6Xw",
+        "text": {
+          "x": 240,
+          "y": 340,
+          "value": "组装过程信息对象"
+        },
+        "type": "defineJsonData",
+        "properties": {
+          "jsonValue": "{\n  \"ideaCode\":\"__request_body.flow.applyType\",\n  \"transIdea\":\"__request_body.flow.transIdea\",\n  \"transContent\":\"__request_body.flow.transContent\",\n  \"unitCode\":\"__request_body.flow.unitCode\",\n  \"unitName\":\"__request_body.flow.unitName\",\n  \"userCode\":\"__request_body.flow.userCode\",\n  \"userName\":\"__request_body.flow.userName\",\n  \"flowInstId\":\"__request_body.flow.flowInstId\",\n  \"nodeInstId\":\"__request_body.flow.nodeInstId\",\n  \"nodeCode\":\"__request_body.flow.nodeCode\",\n  \"nodeName\":\"__request_body.flow.nodeName\",\n  \"grantor\":\"__request_body.flow.grantor\",\n  \"flowOptTag\":\"__request_body.flow.flowOptTag\"\n}",
+          "typeName": "创建对象",
+          "source": "postDataRo58mhbwdh",
+          "type": "defineJsonData",
+          "isBranch": false,
+          "processName": "组装过程信息对象",
+          "isSource": true,
+          "isSelected": true,
+          "x": 240,
+          "y": 340,
+          "id": "defineJsonDataHntaSkr6Xw",
+          "text": {
+            "x": 240,
+            "y": 340,
+            "value": "组装过程信息对象"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "组装过程信息对象",
+            "jsonValue": "{\n  \"ideaCode\":\"postDataRo58mhbwdh.flow.applyType\",\n  \"transIdea\":\"postDataRo58mhbwdh.flow.transIdea\",\n  \"transContent\":\"postDataRo58mhbwdh.flow.transContent\",\n  \"unitCode\":\"postDataRo58mhbwdh.flow.unitCode\",\n  \"unitName\":\"postDataRo58mhbwdh.flow.unitName\",\n  \"userCode\":\"postDataRo58mhbwdh.flow.userCode\",\n  \"userName\":\"postDataRo58mhbwdh.flow.userName\",\n  \"flowInstId\":\"postDataRo58mhbwdh.flow.flowInstId\",\n  \"nodeInstId\":\"postDataRo58mhbwdh.flow.nodeInstId\",\n  \"nodeCode\":\"postDataRo58mhbwdh.flow.nodeCode\",\n  \"nodeName\":\"postDataRo58mhbwdh.flow.nodeName\",\n  \"grantor\":\"postDataRo58mhbwdh.flow.grantor\",\n  \"flowOptTag\":\"postDataRo58mhbwdh.flow.flowOptTag\"\n}",
+            "typeName": "创建对象",
+            "isSource": true,
+            "isSelected": true,
+            "id": "defineJsonDataHntaSkr6Xw",
+            "source": "postDataRo58mhbwdh",
+            "type": "defineJsonData"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 513
+          },
+          {
+            "x": 240,
+            "y": 587
+          }
+        ],
+        "endPoint": {
+          "x": 240,
+          "y": 587
+        },
+        "sourceNodeId": "metadataKnyDOf6Law",
+        "startPoint": {
+          "x": 240,
+          "y": 513
+        },
+        "id": "315d8a45-70ce-4340-b861-f8a206c5d460",
+        "type": "PlineEdge",
+        "targetNodeId": "results0Cq3jMG6Fo",
+        "properties": {
+          "sourceId": "metadataKnyDOf6Law",
+          "targetId": "results0Cq3jMG6Fo",
+          "processName": "",
+          "typeName": "连线",
+          "id": "315d8a45-70ce-4340-b861-f8a206c5d460",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 233
+          },
+          {
+            "x": 240,
+            "y": 307
+          }
+        ],
+        "endPoint": {
+          "x": 240,
+          "y": 307
+        },
+        "sourceNodeId": "submitWorkflowqjYOYdO4cl",
+        "startPoint": {
+          "x": 240,
+          "y": 233
+        },
+        "id": "e2c13204-236a-4d5f-ae0d-c0b74a2325e6",
+        "type": "PlineEdge",
+        "targetNodeId": "defineJsonDataHntaSkr6Xw",
+        "properties": {
+          "sourceId": "submitWorkflowqjYOYdO4cl",
+          "targetId": "defineJsonDataHntaSkr6Xw",
+          "processName": "",
+          "typeName": "连线",
+          "id": "e2c13204-236a-4d5f-ae0d-c0b74a2325e6",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 373
+          },
+          {
+            "x": 240,
+            "y": 447
+          }
+        ],
+        "endPoint": {
+          "x": 240,
+          "y": 447
+        },
+        "sourceNodeId": "defineJsonDataHntaSkr6Xw",
+        "startPoint": {
+          "x": 240,
+          "y": 373
+        },
+        "id": "9bb6c85a-68d5-4c0b-804a-cd0cf05f906a",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataKnyDOf6Law",
+        "properties": {
+          "sourceId": "defineJsonDataHntaSkr6Xw",
+          "targetId": "metadataKnyDOf6Law",
+          "processName": "",
+          "typeName": "连线",
+          "id": "9bb6c85a-68d5-4c0b-804a-cd0cf05f906a",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 93
+          },
+          {
+            "x": 240,
+            "y": 167
+          }
+        ],
+        "endPoint": {
+          "x": 240,
+          "y": 167
+        },
+        "sourceNodeId": "startRcnZd5Qhmt",
+        "startPoint": {
+          "x": 240,
+          "y": 93
+        },
+        "id": "edgeKxRru2He",
+        "type": "PlineEdge",
+        "targetNodeId": "submitWorkflowqjYOYdO4cl",
+        "properties": {
+          "sourceId": "startRcnZd5Qhmt",
+          "targetId": "submitWorkflowqjYOYdO4cl",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeKxRru2He",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "3",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2023-02-03 10:30:55",
+  "publishDate": "2023-02-03 10:30:54",
+  "needRollback": "T",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "optCode": "efe6daa7137c4fcaba11f1d70805aa89",
+  "bufferFreshPeriod": -1,
+  "sourceId": "efe6daa7137c4fcaba11f1d70805aa89",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

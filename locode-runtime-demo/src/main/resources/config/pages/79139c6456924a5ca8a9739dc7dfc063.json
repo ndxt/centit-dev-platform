@@ -1,0 +1,476 @@
+{
+  "modelId": "79139c6456924a5ca8a9739dc7dfc063",
+  "modelName": "移动端审批",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-04-18 16:57:46",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建空白页面，自由发挥",
+  "mobileFormTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "MobileLayout",
+        "tabList": [
+          {
+            "name": "标签1",
+            "icon": "home-o"
+          }
+        ],
+        "children": [
+          {
+            "$name": "MobileLayoutContent",
+            "children": [],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1650267565100_0.8341490416178534"
+            }
+          }
+        ],
+        "footer": {
+          "$name": "LayoutFooter",
+          "children": [],
+          "$item": {
+            "name": "LayoutFooter",
+            "label": "移动端底部布局",
+            "id": "LayoutFooter_1650267565100_0.7483072353012878"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1650267561066_0.018232101068074158"
+        },
+        "showTabBar": false,
+        "showHeader": false,
+        "showNavBar": false,
+        "header": {
+          "$name": "LayoutHeader",
+          "children": [],
+          "$item": {
+            "name": "LayoutHeader",
+            "label": "移动端顶部布局",
+            "id": "LayoutHeader_1650267565100_0.39610030645215244"
+          }
+        },
+        "$item": {
+          "name": "MobileLayout",
+          "label": "布局",
+          "id": "MobileLayout_1650267565100_0.5156072601804231"
+        },
+        "showFooter": false
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "paramsConfigs": {
+      "Param_1641261471690": {
+        "code": "function watchNodeInstId(nodeInstId, oldNodeInstId) {\n  // 在下面开始编写nodeInstId监听\n  $run('load', nodeInstId)\n}",
+        "immediate": true,
+        "name": "nodeInstId",
+        "id": "Param_1641261471690"
+      }
+    },
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1650267561066_0.018232101068074158"
+    }
+  },
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1641265346930": {
+        "code": "false",
+        "children": [],
+        "name": "isLoading",
+        "id": "Data_1641265346930",
+        "title": "isLoading",
+        "type": "b",
+        "key": "Data_1641265346930"
+      },
+      "Data_1641265331218": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1641265331218",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1641265331218"
+      },
+      "Data_1641275900023": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmitting",
+        "id": "Data_1641275900023",
+        "title": "isSubmitting",
+        "type": "b",
+        "key": "Data_1641275900023"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1641283041483": {
+        "code": "function canSubmit() {\n  return $run('isNow') && $run('isMine')\n}",
+        "name": "canSubmit",
+        "id": "Method_1641283041483",
+        "title": "canSubmit",
+        "key": "Method_1641283041483"
+      },
+      "Method_1641284196452": {
+        "code": "function isOver() {\n  return $data.info.nodeState === 'C'\n}",
+        "name": "isOver",
+        "id": "Method_1641284196452",
+        "title": "isOver",
+        "key": "Method_1641284196452"
+      },
+      "Method_1641275937848": {
+        "code": "async function () {\n  const { AdjustInfo } = $refs\n  await AdjustInfo.run('validate')\n  await AdjustInfo.run('openConfirm')\n  const flow = Object.assign(\n    {}, $data.info, AdjustInfo.data.info)\n  \n  $data.isSubmitting = true\n  \n  try {\n  \tawait $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {\n      flow,\n    })\n    return $run('load', $params.nodeInstId)\n  } finally {\n    $data.isSubmitting = false\n  }\n}",
+        "name": "submit",
+        "id": "Method_1641275937848",
+        "title": "submit",
+        "key": "Method_1641275937848"
+      },
+      "Method_1641265379234": {
+        "code": "async function load(nodeInstId) {\n  if ($data.isLoading || !nodeInstId) return\n  $data.isLoading = true\n  try {\n  \tconst params = { nodeInstId, pageSize: 1 }\n    const id2 = '394b57591fd646bdb96d0e41dc665981'\n    const id3 = 'ac0484706eef40a0bcf69bd722385774'\n    const node = await $dde.get(id2, { params })\n    const flow = await $dde.get(id3, { params: {\n      flowInstId: node.flowInstId,\t\t\n    }})\n    $data.info = {\n      flowCode: flow.flowCode,\t\n      flowInstId: flow.flowInstId,\n      flowOptTag: flow.flowOptTag,\n      nodeState: node.nodeState,\n      nodeCode: node.nodeCode,\n      nodeInstId: node.nodeInstId,\n      nodeName: node.nodeName,\n      unitCode: node.unitCode,\n      userCode: node.userCode,\n    }\n  } finally {\n  \tsetTimeout(() => $data.isLoading = false, 100)\n  }  \n}",
+        "name": "load",
+        "id": "Method_1641265379234",
+        "title": "load",
+        "key": "Method_1641265379234"
+      },
+      "Method_1641283440649": {
+        "code": "function isNow() {\n\treturn $data.info.nodeState === 'N'\n}",
+        "name": "isNow",
+        "id": "Method_1641283440649",
+        "title": "isNow",
+        "key": "Method_1641283440649"
+      },
+      "Method_1641283459136": {
+        "code": "function isMine() {\n  return $data.info.userCode === $info.userInfo.userCode\n}",
+        "name": "isMine",
+        "id": "Method_1641283459136",
+        "title": "isMine",
+        "key": "Method_1641283459136"
+      }
+    },
+    "styleText": "overflow-y: auto;",
+    "children": [
+      {
+        "useStyleText": false,
+        "styleText": "padding: 8px;",
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1641261444463_0.6740672608994174"
+        },
+        "$layout": {
+          "useStyleText": false,
+          "styleText": "padding-left: 8px;",
+          "children": [],
+          "$center": {
+            "useStyleText": true,
+            "styleText": "display: flex;\nflex-direction: column;",
+            "children": [
+              {
+                "$params": {
+                  "useLeavenoCode": true,
+                  "setLeavenoCode": "function setLeaveno() {\n  // 在下面开始编写leaveno事件\n  return $data.info.flowOptTag\n}"
+                },
+                "children": [],
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1641264162697_0.7235097835493727"
+                },
+                "customEvents": [],
+                "$events": {},
+                "customParams": [
+                  {
+                    "name": "leaveno",
+                    "label": "leaveno",
+                    "props": []
+                  }
+                ],
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1641264176843_0.11924007527526892"
+                },
+                "id": "459dd728f7b44414aa4192e993431b8b"
+              },
+              {
+                "$params": {},
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $run('canSubmit')\n}",
+                "ref": "AdjustInfo",
+                "children": [],
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1641264162697_0.7235097835493727"
+                },
+                "customEvents": [],
+                "$events": {},
+                "customParams": [],
+                "use$$ifCode": true,
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1641264236677_0.5750104433443122"
+                },
+                "id": "21fb1dbba0594fed8f3b2fd88f041780"
+              },
+              {
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $run('canSubmit') && !$data.isLoading\n}",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return $data.isSubmitting\n}",
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1641264162697_0.7235097835493727"
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.isSubmitting\n}",
+                "use$$ifCode": true,
+                "className": "primary",
+                "type": "default",
+                "size": "large",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('submit')\n}",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1641275879192_0.677992471287393"
+                },
+                "text": "提交",
+                "useLoadingCode": true,
+                "useClickCode": true
+              },
+              {
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !$data.isLoading && !$run('canSubmit')\n}",
+                "setStatusCode": "function setStatus() {\n  // 在下面返回Status的值\n  if ($run('isOver')) return 'success'\n  if (!$run('isMine')) return 'error'\n}",
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1641264162697_0.7235097835493727"
+                },
+                "use$$ifCode": true,
+                "$extra": {
+                  "children": [],
+                  "$item": {
+                    "name": "ResultExtra",
+                    "label": "结果操作区",
+                    "id": "ResultExtra_1641283150710_0.03522330525271422"
+                  }
+                },
+                "useStatusCode": true,
+                "$item": {
+                  "name": "Result",
+                  "label": "结果",
+                  "id": "Result_1641283150710_0.29931414531985046"
+                },
+                "useTitleCode": true,
+                "status": "success",
+                "setTitleCode": "function setTitle() {\n  // 在下面返回Title的值\n  if ($run('isOver')) return '该申请节点已审核！' \n  if (!$run('isMine')) return '您没有权限审批此申请节点！'\n}"
+              }
+            ],
+            "$item": {
+              "name": "LayoutContent",
+              "label": "内容",
+              "id": "LayoutContent_1641264162697_0.7235097835493727"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "$item": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1641264145551_0.5953139383393364"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+          "items": [
+            "c"
+          ]
+        },
+        "$left": {
+          "useStyleText": true,
+          "styleText": "border-right: 1px solid #001529;",
+          "children": [
+            {
+              "$params": {
+                "setFlowInstIdCode": "function setFlowInstId() {\n  // 在下面开始编写flowInstId事件\n  return $data.info.flowInstId\n}",
+                "useFlowInstIdCode": true
+              },
+              "children": [],
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1641264142745_0.8282267332280788"
+              },
+              "customEvents": [],
+              "$events": {},
+              "customParams": [
+                {
+                  "name": "flowInstId",
+                  "label": "flowInstId",
+                  "props": []
+                }
+              ],
+              "$item": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1641264296342_0.11671025321557082"
+              },
+              "id": "7c01dee117034e89b0e0df20f444c50e"
+            }
+          ],
+          "width": 320,
+          "theme": "dark",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1641264142745_0.8282267332280788"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+          "collapsedWidth": 0,
+          "breakpoint": "md"
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1641264140643_0.032747660968228454"
+        },
+        "dir": "lr",
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+        "items": [
+          "l"
+        ],
+        "hasLayout": true
+      },
+      {
+        "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.isLoading\n}",
+        "size": "default",
+        "useStyleText": true,
+        "styleText": "position: absolute;\nleft: 0;\nright: 0;\ntop: 0;\nbottom: 0;\ndisplay: flex;\njustify-content: center;\nalign-items: center;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1641261444463_0.6740672608994174"
+        },
+        "use$$ifCode": true,
+        "$item": {
+          "name": "Spin",
+          "label": "加载中",
+          "id": "Spin_1641276445357_0.5841950481949509"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "style": {
+      "overflowY": "auto"
+    },
+    "paramsConfigs": {
+      "Param_1641261471690": {
+        "code": "function watchNodeInstId(nodeInstId, oldNodeInstId) {\n  // 在下面开始编写nodeInstId监听\n  $run('load', nodeInstId)\n}",
+        "immediate": true,
+        "name": "nodeInstId",
+        "id": "Param_1641261471690"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1641261444463_0.6740672608994174"
+    }
+  },
+  "publishDate": "2022-04-18 16:57:46",
+  "sourceId": "TlPmuX9nQH-ZXrwq16cWUg",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1641265346930": {
+        "code": "false",
+        "children": [],
+        "name": "isLoading",
+        "id": "Data_1641265346930",
+        "title": "isLoading",
+        "type": "b",
+        "key": "Data_1641265346930"
+      },
+      "Data_1641265331218": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1641265331218",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1641265331218"
+      },
+      "Data_1641275900023": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmitting",
+        "id": "Data_1641275900023",
+        "title": "isSubmitting",
+        "type": "b",
+        "key": "Data_1641275900023"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1641283041483": {
+        "code": "function canSubmit() {\n  return $run('isNow') && $run('isMine')\n}",
+        "name": "canSubmit",
+        "id": "Method_1641283041483",
+        "label": "canSubmit",
+        "type": "method"
+      },
+      "Method_1641284196452": {
+        "code": "function isOver() {\n  return $data.info.nodeState === 'C'\n}",
+        "name": "isOver",
+        "id": "Method_1641284196452",
+        "title": "isOver",
+        "key": "Method_1641284196452"
+      },
+      "Method_1641275937848": {
+        "code": "async function () {\n  const { AdjustInfo } = $refs\n  await AdjustInfo.run('validate')\n  await AdjustInfo.run('openConfirm')\n  const flow = Object.assign(\n    {}, $data.info, AdjustInfo.data.info)\n  \n  $data.isSubmitting = true\n  \n  try {\n  \tawait $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {\n      flow,\n    })\n    return $run('load', $params.nodeInstId)\n  } finally {\n    $data.isSubmitting = false\n  }\n}",
+        "name": "submit",
+        "id": "Method_1641275937848",
+        "title": "submit",
+        "key": "Method_1641275937848"
+      },
+      "Method_1641265379234": {
+        "code": "async function load(nodeInstId) {\n  if ($data.isLoading || !nodeInstId) return\n  $data.isLoading = true\n  try {\n  \tconst params = { nodeInstId, pageSize: 1 }\n    const id2 = '394b57591fd646bdb96d0e41dc665981'\n    const id3 = 'ac0484706eef40a0bcf69bd722385774'\n    const node = await $dde.get(id2, { params })\n    const flow = await $dde.get(id3, { params: {\n      flowInstId: node.flowInstId,\t\t\n    }})\n    $data.info = {\n      flowCode: flow.flowCode,\t\n      flowInstId: flow.flowInstId,\n      flowOptTag: flow.flowOptTag,\n      nodeState: node.nodeState,\n      nodeCode: node.nodeCode,\n      nodeInstId: node.nodeInstId,\n      nodeName: node.nodeName,\n      unitCode: node.unitCode,\n      userCode: node.userCode,\n    }\n  } finally {\n  \tsetTimeout(() => $data.isLoading = false, 100)\n  }  \n}",
+        "name": "load",
+        "id": "Method_1641265379234",
+        "title": "load",
+        "key": "Method_1641265379234"
+      },
+      "Method_1641283440649": {
+        "code": "function isNow() {\n\treturn $data.info.nodeState === 'N'\n}",
+        "name": "isNow",
+        "id": "Method_1641283440649",
+        "title": "isNow",
+        "key": "Method_1641283440649"
+      },
+      "Method_1641283459136": {
+        "code": "function isMine() {\n  return $data.info.userCode === $info.userInfo.userCode\n}",
+        "name": "isMine",
+        "id": "Method_1641283459136",
+        "title": "isMine",
+        "key": "Method_1641283459136"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1641261471690": {
+        "code": "function watchNodeInstId(nodeInstId, oldNodeInstId) {\n  // 在下面开始编写nodeInstId监听\n  $run('load', nodeInstId)\n}",
+        "immediate": true,
+        "name": "nodeInstId",
+        "id": "Param_1641261471690"
+      }
+    }
+  },
+  "modelTag": "审批",
+  "isValid": "F"
+}

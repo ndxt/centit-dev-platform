@@ -1,0 +1,285 @@
+{
+  "packetId": "5bf620a4e579437a869a089e48fba0f9",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "调度每月考勤",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 160,
+        "y": 100,
+        "id": "start4wznfL17Q0",
+        "text": {
+          "x": 160,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "start4wznfL17Q0",
+          "type": "start"
+        }
+      },
+      {
+        "x": 160,
+        "y": 240,
+        "id": "schedule2S0ZxUOpt5",
+        "text": {
+          "x": 160,
+          "y": 240,
+          "value": "每月请假信息同步"
+        },
+        "type": "schedule",
+        "properties": {
+          "processName": "每月请假信息同步",
+          "typeName": "模块调度",
+          "isSource": true,
+          "isSelected": true,
+          "id": "schedule2S0ZxUOpt5",
+          "type": "schedule",
+          "packetName": "fc72349d5d3849ef835a3600f7a1d0c2"
+        }
+      },
+      {
+        "x": 160,
+        "y": 420,
+        "id": "scheduleDXZsKRRYMt",
+        "text": {
+          "x": 160,
+          "y": 420,
+          "value": "每月考勤明细"
+        },
+        "type": "schedule",
+        "properties": {
+          "processName": "每月考勤明细",
+          "typeName": "模块调度",
+          "isSource": true,
+          "isSelected": true,
+          "id": "scheduleDXZsKRRYMt",
+          "type": "schedule",
+          "packetName": "6df8f3267a2d45fb87afcfc3c6758028"
+        }
+      },
+      {
+        "x": 160,
+        "y": 620,
+        "id": "scheduleqbVKr7qGXz",
+        "text": {
+          "x": 160,
+          "y": 620,
+          "value": "每月考勤统计"
+        },
+        "type": "schedule",
+        "properties": {
+          "processName": "每月考勤统计",
+          "typeName": "模块调度",
+          "isSource": true,
+          "isSelected": false,
+          "id": "scheduleqbVKr7qGXz",
+          "type": "schedule",
+          "packetName": "528d15950c1645838e9a79c38862c45d"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 133
+          },
+          {
+            "x": 160,
+            "y": 207
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 207
+        },
+        "sourceNodeId": "start4wznfL17Q0",
+        "startPoint": {
+          "x": 160,
+          "y": 133
+        },
+        "id": "d7bcb199-2e1c-4cbe-b9cf-50bdd23daccc",
+        "type": "PlineEdge",
+        "targetNodeId": "schedule2S0ZxUOpt5",
+        "properties": {
+          "sourceId": "start4wznfL17Q0",
+          "targetId": "schedule2S0ZxUOpt5",
+          "processName": "",
+          "typeName": "连线",
+          "id": "d7bcb199-2e1c-4cbe-b9cf-50bdd23daccc",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 273
+          },
+          {
+            "x": 160,
+            "y": 387
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 387
+        },
+        "sourceNodeId": "schedule2S0ZxUOpt5",
+        "startPoint": {
+          "x": 160,
+          "y": 273
+        },
+        "id": "67d8db65-e242-452d-9f37-4143503ba9f6",
+        "type": "PlineEdge",
+        "targetNodeId": "scheduleDXZsKRRYMt",
+        "properties": {
+          "sourceId": "schedule2S0ZxUOpt5",
+          "targetId": "scheduleDXZsKRRYMt",
+          "processName": "",
+          "typeName": "连线",
+          "id": "67d8db65-e242-452d-9f37-4143503ba9f6",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 453
+          },
+          {
+            "x": 160,
+            "y": 587
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 587
+        },
+        "sourceNodeId": "scheduleDXZsKRRYMt",
+        "startPoint": {
+          "x": 160,
+          "y": 453
+        },
+        "id": "fd06fb39-87de-4e70-a8da-192d8e234d22",
+        "type": "PlineEdge",
+        "targetNodeId": "scheduleqbVKr7qGXz",
+        "properties": {
+          "sourceId": "scheduleDXZsKRRYMt",
+          "targetId": "scheduleqbVKr7qGXz",
+          "processName": "",
+          "typeName": "连线",
+          "id": "fd06fb39-87de-4e70-a8da-192d8e234d22",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "2",
+  "taskCron": "59 3 23 * * ? *",
+  "lastRunTime": "2023-07-12 23:04:06",
+  "nextRunTime": "2023-07-13 23:03:59",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-09-29 10:53:03",
+  "publishDate": "2022-09-29 10:53:02",
+  "needRollback": "F",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "optCode": "5bf620a4e579437a869a089e48fba0f9",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "1599bc20a7d94a1285fce603f013b332",
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "5bf620a4e579437a869a089e48fba0f9": {
+      "flag": "_api",
+      "children": [
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "code",
+              "id": "code",
+              "title": "code",
+              "key": "5bf620a4e579437a869a089e48fba0f9/__last_error/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "data",
+              "id": "data",
+              "title": "data",
+              "key": "5bf620a4e579437a869a089e48fba0f9/__last_error/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "message",
+              "id": "message",
+              "title": "message",
+              "key": "5bf620a4e579437a869a089e48fba0f9/__last_error/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新执行结果",
+          "id": "__last_error",
+          "title": "__last_error",
+          "key": "5bf620a4e579437a869a089e48fba0f9/__last_error",
+          "attrType": ""
+        }
+      ],
+      "helpField": "调度每月考勤",
+      "id": "5bf620a4e579437a869a089e48fba0f9",
+      "title": "定时任务",
+      "key": "api",
+      "attrType": ""
+    },
+    "schedule2S0ZxUOpt5": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "每月请假信息同步",
+      "isSource": true,
+      "id": "schedule2S0ZxUOpt5",
+      "title": "模块调度",
+      "key": "schedule2S0ZxUOpt5"
+    },
+    "scheduleDXZsKRRYMt": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "每月考勤明细",
+      "isSource": true,
+      "id": "scheduleDXZsKRRYMt",
+      "title": "模块调度",
+      "key": "scheduleDXZsKRRYMt"
+    },
+    "scheduleqbVKr7qGXz": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "每月考勤统计",
+      "isSource": true,
+      "id": "scheduleqbVKr7qGXz",
+      "title": "模块调度",
+      "key": "scheduleqbVKr7qGXz"
+    }
+  },
+  "params": []
+}

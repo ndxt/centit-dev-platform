@@ -1,0 +1,1023 @@
+{
+  "packetId": "e90824a4d1914eda906d79874182ef89",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "leaveinfo---查看",
+  "packetDesc": "leaveinfo---查看",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 160,
+        "y": 100,
+        "id": "584d309c-6360-485f-a680-536d25907e61",
+        "text": {
+          "x": 160,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "584d309c-6360-485f-a680-536d25907e61",
+          "type": "start"
+        }
+      },
+      {
+        "x": 160,
+        "y": 380,
+        "id": "11746b77-7332-48c0-8c19-bb842990c9c4",
+        "text": {
+          "x": 160,
+          "y": 380,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "resultOptions": "3",
+          "typeName": "返回结果",
+          "source": "metadataQuerycGMclGdL",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "isSource": true,
+          "isSelected": false,
+          "x": 160,
+          "y": 380,
+          "id": "11746b77-7332-48c0-8c19-bb842990c9c4",
+          "text": {
+            "x": 160,
+            "y": 380,
+            "value": "返回结果"
+          },
+          "properties": {
+            "isBranch": false,
+            "resultOptions": "3",
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": true,
+            "isSelected": false,
+            "id": "11746b77-7332-48c0-8c19-bb842990c9c4",
+            "source": "b63fefd1-7b02-479f-8664-b9c90df6046f",
+            "type": "results"
+          }
+        }
+      },
+      {
+        "x": 280,
+        "y": 220,
+        "id": "metadataQuerycGMclGdL",
+        "text": {
+          "x": 280,
+          "y": 220,
+          "value": "元数据查询"
+        },
+        "type": "metadataQuery",
+        "properties": {
+          "tableLabelName": [],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "isReturnPageInfo": true,
+          "typeName": "元数据查询",
+          "source": "__request_params",
+          "type": "metadataQuery",
+          "queryType": 2,
+          "isBranch": false,
+          "processName": "元数据查询",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 280,
+          "y": 220,
+          "tableId": "160b00bf1dbf4f02860ee354cf013f3c",
+          "id": "metadataQuerycGMclGdL",
+          "text": {
+            "x": 280,
+            "y": 220,
+            "value": "元数据查询"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "元数据查询",
+            "isReturnPageInfo": true,
+            "typeName": "元数据查询",
+            "isSource": true,
+            "id": "metadataQuerycGMclGdL",
+            "type": "metadataQuery"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 133
+          },
+          {
+            "x": 160,
+            "y": 163
+          },
+          {
+            "x": 220,
+            "y": 163
+          },
+          {
+            "x": 220,
+            "y": 157
+          },
+          {
+            "x": 280,
+            "y": 157
+          },
+          {
+            "x": 280,
+            "y": 187
+          }
+        ],
+        "endPoint": {
+          "x": 280,
+          "y": 187
+        },
+        "sourceNodeId": "584d309c-6360-485f-a680-536d25907e61",
+        "startPoint": {
+          "x": 160,
+          "y": 133
+        },
+        "id": "a9040a8b-3bce-4bde-a1aa-02cf74f8bb16",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataQuerycGMclGdL",
+        "properties": {
+          "sourceId": "584d309c-6360-485f-a680-536d25907e61",
+          "pointsList": [
+            {
+              "x": 160,
+              "y": 133
+            },
+            {
+              "x": 160,
+              "y": 163
+            },
+            {
+              "x": 160,
+              "y": 163
+            },
+            {
+              "x": 160,
+              "y": 157
+            },
+            {
+              "x": 160,
+              "y": 157
+            },
+            {
+              "x": 160,
+              "y": 187
+            }
+          ],
+          "endPoint": {
+            "x": 160,
+            "y": 187
+          },
+          "targetId": "metadataQuerycGMclGdL",
+          "processName": "",
+          "sourceNodeId": "584d309c-6360-485f-a680-536d25907e61",
+          "typeName": "连线",
+          "startPoint": {
+            "x": 160,
+            "y": 133
+          },
+          "id": "a9040a8b-3bce-4bde-a1aa-02cf74f8bb16",
+          "type": "PlineEdge",
+          "targetNodeId": "b63fefd1-7b02-479f-8664-b9c90df6046f",
+          "properties": {
+            "sourceId": "584d309c-6360-485f-a680-536d25907e61",
+            "targetId": "b63fefd1-7b02-479f-8664-b9c90df6046f",
+            "processName": "",
+            "typeName": "连线",
+            "id": "a9040a8b-3bce-4bde-a1aa-02cf74f8bb16",
+            "type": "PlineEdge"
+          }
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 280,
+            "y": 253
+          },
+          {
+            "x": 280,
+            "y": 317
+          },
+          {
+            "x": 160,
+            "y": 317
+          },
+          {
+            "x": 160,
+            "y": 347
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 347
+        },
+        "sourceNodeId": "metadataQuerycGMclGdL",
+        "startPoint": {
+          "x": 280,
+          "y": 253
+        },
+        "id": "03e179ea-f97a-44d9-969b-60d3d33744c3",
+        "type": "PlineEdge",
+        "targetNodeId": "11746b77-7332-48c0-8c19-bb842990c9c4",
+        "properties": {
+          "sourceId": "metadataQuerycGMclGdL",
+          "pointsList": [
+            {
+              "x": 160,
+              "y": 253
+            },
+            {
+              "x": 160,
+              "y": 347
+            }
+          ],
+          "endPoint": {
+            "x": 160,
+            "y": 347
+          },
+          "targetId": "11746b77-7332-48c0-8c19-bb842990c9c4",
+          "processName": "",
+          "sourceNodeId": "b63fefd1-7b02-479f-8664-b9c90df6046f",
+          "typeName": "连线",
+          "startPoint": {
+            "x": 160,
+            "y": 253
+          },
+          "id": "03e179ea-f97a-44d9-969b-60d3d33744c3",
+          "type": "PlineEdge",
+          "targetNodeId": "11746b77-7332-48c0-8c19-bb842990c9c4",
+          "properties": {
+            "sourceId": "b63fefd1-7b02-479f-8664-b9c90df6046f",
+            "targetId": "11746b77-7332-48c0-8c19-bb842990c9c4",
+            "processName": "",
+            "typeName": "连线",
+            "id": "03e179ea-f97a-44d9-969b-60d3d33744c3",
+            "type": "PlineEdge"
+          }
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-07-13 16:16:41",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-07-13 10:30:22",
+  "publishDate": "2022-05-10 16:42:28",
+  "needRollback": "",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "optCode": "e90824a4d1914eda906d79874182ef89",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "4ad22a4d303240a8889e2f5f66eb49ac",
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "e90824a4d1914eda906d79874182ef89": {
+      "children": [
+        {
+          "flag": "_source",
+          "children": [
+            {
+              "flag": "_self",
+              "children": [
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "系统角色操作权限对象",
+                  "id": "rolePowers",
+                  "title": "rolePowers",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/rolePowers"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色的类别",
+                  "id": "roleType",
+                  "title": "roleType",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/roleType"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色描述",
+                  "id": "roleDesc",
+                  "title": "roleDesc",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/roleDesc"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色代码",
+                  "id": "roleCode",
+                  "title": "roleCode",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/roleCode"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色所属机构",
+                  "id": "unitCode",
+                  "title": "unitCode",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/unitCode"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色名称",
+                  "id": "roleName",
+                  "title": "roleName",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/roleName"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色所属机构",
+                  "id": "roleOwner",
+                  "title": "roleOwner",
+                  "key": "e90824a4d1914eda906d79874182ef89/userRoles/roleOwner"
+                }
+              ],
+              "helpField": "用户角色信息",
+              "id": "userRoles",
+              "title": "userRoles",
+              "key": "e90824a4d1914eda906d79874182ef89/userRoles",
+              "attrType": "list"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "登录 IP",
+              "id": "loginIp",
+              "title": "loginIp",
+              "key": "e90824a4d1914eda906d79874182ef89/loginIp"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "系统用户设置信息",
+              "id": "userSettings",
+              "title": "userSettings",
+              "key": "e90824a4d1914eda906d79874182ef89/userSettings",
+              "attrType": "object"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "用户菜单集合",
+              "id": "userOptList",
+              "title": "userOptList",
+              "key": "e90824a4d1914eda906d79874182ef89/userOptList",
+              "attrType": "object"
+            },
+            {
+              "flag": "_self",
+              "children": [
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "英文名称",
+                  "id": "englishName",
+                  "title": "englishName",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/englishName"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "身份证号码",
+                  "id": "idCardNo",
+                  "title": "idCardNo",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/idCardNo"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户代码",
+                  "id": "userCode",
+                  "title": "userCode",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userCode"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户名拼音",
+                  "id": "userNamePinyin",
+                  "title": "userNamePinyin",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userNamePinyin"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "登录名",
+                  "id": "loginName",
+                  "title": "loginName",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/loginName"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户排序",
+                  "id": "userOrder",
+                  "title": "userOrder",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userOrder"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "注册电话",
+                  "id": "regCellPhone",
+                  "title": "regCellPhone",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/regCellPhone"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "当前职务代码",
+                  "id": "currentStationId",
+                  "title": "currentStationId",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/currentStationId"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "最后一次登录时间",
+                  "id": "activeTime",
+                  "title": "activeTime",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/activeTime"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "登录时间",
+                  "id": "loginTimes",
+                  "title": "loginTimes",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/loginTimes"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户描述",
+                  "id": "userDesc",
+                  "title": "userDesc",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userDesc"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "工牌代码",
+                  "id": "userWord",
+                  "title": "userWord",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userWord"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "顶级机构名称",
+                  "id": "topUnitName",
+                  "title": "topUnitName",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/topUnitName"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "主机构",
+                  "id": "primaryUnit",
+                  "title": "primaryUnit",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/primaryUnit"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户名",
+                  "id": "userName",
+                  "title": "userName",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userName"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "主机构名称",
+                  "id": "primaryUnitName",
+                  "title": "primaryUnitName",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/primaryUnitName"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户邮箱",
+                  "id": "regEmail",
+                  "title": "regEmail",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/regEmail"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户标签",
+                  "id": "userTag",
+                  "title": "userTag",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userTag"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "顶级机构",
+                  "id": "topUnit",
+                  "title": "topUnit",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/topUnit"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户类别",
+                  "id": "userType",
+                  "title": "userType",
+                  "key": "e90824a4d1914eda906d79874182ef89/userInfo/userType"
+                }
+              ],
+              "helpField": "用户信息",
+              "id": "userInfo",
+              "title": "userInfo",
+              "key": "e90824a4d1914eda906d79874182ef89/userInfo",
+              "attrType": "object"
+            },
+            {
+              "flag": "_self",
+              "children": [
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "更新时间",
+                  "id": "updateDate",
+                  "title": "updateDate",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/updateDate"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "岗位",
+                  "id": "userStation",
+                  "title": "userStation",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/userStation"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "是否为主",
+                  "id": "relType",
+                  "title": "relType",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/relType"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户职务",
+                  "id": "userRank",
+                  "title": "userRank",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/userRank"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "协助职务",
+                  "id": "xzRank",
+                  "title": "xzRank",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/xzRank"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户代码",
+                  "id": "userCode",
+                  "title": "userCode",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/userCode"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "职务等级",
+                  "id": "postRank",
+                  "title": "postRank",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/postRank"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "顶级机构",
+                  "id": "topUnit",
+                  "title": "topUnit",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/topUnit"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "机构代码",
+                  "id": "unitCode",
+                  "title": "unitCode",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/unitCode"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "备注",
+                  "id": "rankMemo",
+                  "title": "rankMemo",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/rankMemo"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户排序号",
+                  "id": "userOrder",
+                  "title": "userOrder",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/userOrder"
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户机构ID",
+                  "id": "userUnitId",
+                  "title": "userUnitId",
+                  "key": "e90824a4d1914eda906d79874182ef89/userUnits/userUnitId"
+                }
+              ],
+              "helpField": "用户机构信息",
+              "id": "userUnits",
+              "title": "userUnits",
+              "key": "e90824a4d1914eda906d79874182ef89/userUnits",
+              "attrType": "list"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "租户code",
+              "id": "topUnitCode",
+              "title": "topUnitCode",
+              "key": "e90824a4d1914eda906d79874182ef89/topUnitCode"
+            }
+          ],
+          "helpField": "Session数据",
+          "isSource": true,
+          "id": "__session_data",
+          "title": "__session_data",
+          "key": "e90824a4d1914eda906d79874182ef89/__session_data"
+        },
+        {
+          "flag": "_source",
+          "children": [],
+          "helpField": "请求参数",
+          "isSource": true,
+          "id": "__request_params",
+          "title": "__request_params",
+          "key": "e90824a4d1914eda906d79874182ef89/__request_params"
+        }
+      ],
+      "helpField": "leaveinfo---查看",
+      "title": "GET 请求",
+      "key": "api"
+    },
+    "metadataQuerycGMclGdL": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "bigType",
+          "id": "bigtype",
+          "title": "bigtype",
+          "key": "bigtype"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "endTime",
+          "id": "endtime",
+          "title": "endtime",
+          "key": "endtime"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveNo",
+          "id": "leaveno",
+          "title": "leaveno",
+          "key": "leaveno"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "ownunit",
+          "id": "ownunit",
+          "title": "ownunit",
+          "key": "ownunit"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "isDanger",
+          "id": "isdanger",
+          "title": "isdanger",
+          "key": "isdanger"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "timeType",
+          "id": "timetype",
+          "title": "timetype",
+          "key": "timetype"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "usercode",
+          "id": "usercode",
+          "title": "usercode",
+          "key": "usercode"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "beginTime",
+          "id": "begintime",
+          "title": "begintime",
+          "key": "begintime"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "checkUser",
+          "id": "checkuser",
+          "title": "checkuser",
+          "key": "checkuser"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveCity",
+          "id": "leavecity",
+          "title": "leavecity",
+          "key": "leavecity"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveDays",
+          "id": "leavedays",
+          "title": "leavedays",
+          "key": "leavedays"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveType",
+          "id": "leavetype",
+          "title": "leavetype",
+          "key": "leavetype"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "loginName",
+          "id": "loginname",
+          "title": "loginname",
+          "key": "loginname"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "transport",
+          "id": "transport",
+          "title": "transport",
+          "key": "transport"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "flowResult",
+          "id": "flowresult",
+          "title": "flowresult",
+          "key": "flowresult"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "recorddate",
+          "id": "recorddate",
+          "title": "recorddate",
+          "key": "recorddate"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "updatedate",
+          "id": "updatedate",
+          "title": "updatedate",
+          "key": "updatedate"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveReason",
+          "id": "leavereason",
+          "title": "leavereason",
+          "key": "leavereason"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "FLOW_INST_ID",
+          "id": "flowInstId",
+          "title": "flowInstId",
+          "key": "flowInstId"
+        }
+      ],
+      "helpField": "元数据查询",
+      "isSource": true,
+      "id": "metadataQuerycGMclGdL",
+      "title": "元数据查询",
+      "key": "metadataQuerycGMclGdL"
+    },
+    "11746b77-7332-48c0-8c19-bb842990c9c4": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "bigType",
+          "id": "bigtype",
+          "title": "bigtype",
+          "key": "bigtype"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "endTime",
+          "id": "endtime",
+          "title": "endtime",
+          "key": "endtime"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveNo",
+          "id": "leaveno",
+          "title": "leaveno",
+          "key": "leaveno"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "ownunit",
+          "id": "ownunit",
+          "title": "ownunit",
+          "key": "ownunit"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "isDanger",
+          "id": "isdanger",
+          "title": "isdanger",
+          "key": "isdanger"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "timeType",
+          "id": "timetype",
+          "title": "timetype",
+          "key": "timetype"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "usercode",
+          "id": "usercode",
+          "title": "usercode",
+          "key": "usercode"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "beginTime",
+          "id": "begintime",
+          "title": "begintime",
+          "key": "begintime"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "checkUser",
+          "id": "checkuser",
+          "title": "checkuser",
+          "key": "checkuser"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveCity",
+          "id": "leavecity",
+          "title": "leavecity",
+          "key": "leavecity"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveDays",
+          "id": "leavedays",
+          "title": "leavedays",
+          "key": "leavedays"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveType",
+          "id": "leavetype",
+          "title": "leavetype",
+          "key": "leavetype"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "loginName",
+          "id": "loginname",
+          "title": "loginname",
+          "key": "loginname"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "transport",
+          "id": "transport",
+          "title": "transport",
+          "key": "transport"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "flowResult",
+          "id": "flowresult",
+          "title": "flowresult",
+          "key": "flowresult"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "recorddate",
+          "id": "recorddate",
+          "title": "recorddate",
+          "key": "recorddate"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "updatedate",
+          "id": "updatedate",
+          "title": "updatedate",
+          "key": "updatedate"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveReason",
+          "id": "leavereason",
+          "title": "leavereason",
+          "key": "leavereason"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "FLOW_INST_ID",
+          "id": "flowInstId",
+          "title": "flowInstId",
+          "key": "flowInstId"
+        }
+      ],
+      "helpField": "返回结果",
+      "isSource": true,
+      "id": "11746b77-7332-48c0-8c19-bb842990c9c4",
+      "title": "返回结果",
+      "key": "11746b77-7332-48c0-8c19-bb842990c9c4"
+    }
+  },
+  "params": []
+}

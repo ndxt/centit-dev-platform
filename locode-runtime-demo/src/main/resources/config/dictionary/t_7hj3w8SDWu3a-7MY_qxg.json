@@ -1,0 +1,68 @@
+{
+  "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+  "catalogName": "合同附件类型",
+  "catalogStyle": "U",
+  "catalogType": "L",
+  "catalogDesc": "",
+  "fieldDesc": "{\"dataCode\":{\"isUse\":\"T\",\"value\":\"编码\"},\"dataOrder\":{\"isUse\":\"T\",\"value\":\"排序\"},\"dataValue\":{\"isUse\":\"T\",\"value\":\"名称\"},\"dataTag\":{\"isUse\":\"T\",\"value\":\"启用\"},\"dataDesc\":{\"isUse\":\"T\",\"value\":\"描述\"},\"extraCode\":{\"isUse\":\"F\",\"value\":\"扩展编码\"}}",
+  "updateDate": "2022-07-11 10:52:52",
+  "optId": "h6THeP1rSruaBmoVo41eYQ",
+  "needCache": "1",
+  "topUnit": "DxxkJ664",
+  "details": [
+    {
+      "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+      "dataCode": "001",
+      "dataTag": "T",
+      "dataValue": "验收文档",
+      "dataStyle": "U",
+      "lastModifyDate": "2022-07-14 15:15:24"
+    },
+    {
+      "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+      "dataCode": "1",
+      "dataTag": "T",
+      "dataValue": "1",
+      "dataStyle": "U",
+      "lastModifyDate": "2022-07-11 17:41:25"
+    },
+    {
+      "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+      "dataCode": "3",
+      "dataTag": "T",
+      "dataValue": "3",
+      "dataStyle": "U",
+      "lastModifyDate": "2022-07-14 16:26:08"
+    },
+    {
+      "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+      "dataCode": "a",
+      "extraCode": "",
+      "dataTag": "T",
+      "dataValue": "申请书",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2022-07-11 10:52:52"
+    },
+    {
+      "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+      "dataCode": "doc",
+      "extraCode": "",
+      "dataTag": "T",
+      "dataValue": "文档",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2022-07-11 10:52:52"
+    },
+    {
+      "catalogCode": "t_7hj3w8SDWu3a-7MY_qxg",
+      "dataCode": "png",
+      "extraCode": "",
+      "dataTag": "T",
+      "dataValue": "图片",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2022-07-11 10:52:52"
+    }
+  ]
+}

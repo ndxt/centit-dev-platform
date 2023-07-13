@@ -1,0 +1,4971 @@
+{
+  "modelId": "fa8706b496d84ab7b74b46467cca211c",
+  "modelName": "申请列表",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-08-30 10:16:32",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "mobileFormTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "MobileLayout",
+        "footer": {
+          "$name": "LayoutFooter",
+          "children": [
+            {
+              "$name": "MobileButton",
+              "nativeTypeFlag": false,
+              "$parent": {
+                "name": "LayoutFooter",
+                "label": "移动端底部布局",
+                "id": "LayoutFooter_1648724639705_0.8980921770011085"
+              },
+              "hairline": false,
+              "type": "primary",
+              "size": "normal",
+              "round": true,
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('goPage', '9FhqRmtPTge92W1CcbssXA')\n}",
+              "plain": false,
+              "iconPosition": "left",
+              "block": true,
+              "disabled": false,
+              "$item": {
+                "name": "MobileButton",
+                "label": "按钮",
+                "id": "MobileButton_1648724961608_0.4962589190490212"
+              },
+              "text": "申请",
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "LayoutFooter",
+            "label": "移动端底部布局",
+            "id": "LayoutFooter_1648724639705_0.8980921770011085"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1648724615485_0.27183143523900255"
+        },
+        "showHeader": false,
+        "onClickLeftCode": "function onClickLeft(e) {\n  // 在下面开始编写点击左侧事件\n  $run('goPage', 'fea4162175224bb194cf17476da0f216')\n}",
+        "title": "申请列表",
+        "showFooter": true,
+        "leftArrow": true,
+        "rightText": "",
+        "tabList": [
+          {
+            "name": "标签1",
+            "icon": "home-o"
+          }
+        ],
+        "useClickLeftCode": true,
+        "children": [
+          {
+            "$name": "MobileLayoutContent",
+            "children": [
+              {
+                "$name": "MobileDropDown",
+                "children": [
+                  {
+                    "$name": "MobileDropDownItem",
+                    "children": [],
+                    "$parent": {
+                      "name": "MobileDropDown",
+                      "label": "下拉菜单",
+                      "id": "MobileDropDown_1648726404931_0.36357916311233285"
+                    },
+                    "useChangeCode": true,
+                    "options": [
+                      {
+                        "label": "补打卡",
+                        "value": "B"
+                      },
+                      {
+                        "label": "请假",
+                        "value": "Q"
+                      },
+                      {
+                        "label": "外出",
+                        "value": "W"
+                      }
+                    ],
+                    "disabled": false,
+                    "$key": "bigType",
+                    "$item": {
+                      "name": "MobileDropDownItem",
+                      "label": "下拉菜单项",
+                      "id": "MobileDropDownItem_1648726434385_0.22876723357057394"
+                    },
+                    "title": "请假类型",
+                    "customize": false,
+                    "onChangeCode": "function onChange(e) {\n  // 在下面开始编写改变事件\n\n  $run('query')\n}"
+                  },
+                  {
+                    "$name": "下拉菜单项",
+                    "children": [
+                      {
+                        "$name": "MobileCheckbox",
+                        "$parent": {
+                          "name": "MobileDropDownItem",
+                          "label": "下拉菜单项",
+                          "id": "MobileDropDownItem_1648726436947_0.4961023960956621"
+                        },
+                        "options": [
+                          {
+                            "label": "审批中",
+                            "value": "审批中"
+                          },
+                          {
+                            "label": "驳回",
+                            "value": "驳回"
+                          },
+                          {
+                            "label": "通过",
+                            "value": "通过"
+                          }
+                        ],
+                        "$key": "flowresult",
+                        "$item": {
+                          "name": "MobileCheckbox",
+                          "label": "多选框",
+                          "id": "MobileCheckbox_1648794720306_0.8461184484636586"
+                        }
+                      }
+                    ],
+                    "$parent": {
+                      "name": "MobileDropDown",
+                      "label": "下拉菜单",
+                      "id": "MobileDropDown_1648726404931_0.36357916311233285"
+                    },
+                    "options": [
+                      {
+                        "label": "选项1",
+                        "value": "1"
+                      },
+                      {
+                        "label": "选项2",
+                        "value": "2"
+                      },
+                      {
+                        "label": "选项3",
+                        "value": "3"
+                      },
+                      {
+                        "label": "选项4",
+                        "value": "4"
+                      }
+                    ],
+                    "disabled": false,
+                    "$item": {
+                      "name": "MobileDropDownItem",
+                      "label": "下拉菜单项",
+                      "id": "MobileDropDownItem_1648726436947_0.4961023960956621"
+                    },
+                    "title": "筛选",
+                    "customize": true
+                  }
+                ],
+                "disabled": false,
+                "$key": "filters",
+                "$item": {
+                  "name": "MobileDropDown",
+                  "label": "下拉菜单",
+                  "id": "MobileDropDown_1648726404931_0.36357916311233285"
+                },
+                "label": "filters"
+              },
+              {
+                "$name": "MobileList",
+                "onClickCode": "function onClick(item, index) {\n  // 在下面开始编写列表点击事件\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId:'_YrgDVNyTkGWAbQZ8cIJsA',\n      item:JSON.stringify(item),\n    },\n    query:{\n      flowOptTag:item.leaveno,\n      flowInstId:item.flowInstId\n    }\n  })\n}",
+                "children": [
+                  {
+                    "$name": "布局行",
+                    "useStyleText": true,
+                    "styleText": "background:#fff;\npadding:0.4rem;\nmargin:0 0.2rem;\nborder-radius: 0.4rem;",
+                    "children": [
+                      {
+                        "$name": "MobileCol",
+                        "useStyleText": true,
+                        "children": [
+                          {
+                            "$name": "MobileRow",
+                            "children": [
+                              {
+                                "$name": "MobileCol",
+                                "children": [
+                                  {
+                                    "$name": "Html",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.28rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1648796022428_0.10777563599601336"
+                                    },
+                                    "$key": "usercodeDesc",
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1648795200257_0.12290915444708195"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  }
+                                ],
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648796007779_0.5484930892454798"
+                                },
+                                "$item": {
+                                  "name": "MobileCol",
+                                  "label": "布局列",
+                                  "id": "MobileCol_1648796022428_0.10777563599601336"
+                                },
+                                "span": "8"
+                              },
+                              {
+                                "$name": "布局列",
+                                "useStyleText": true,
+                                "styleText": "text-align:center;",
+                                "children": [
+                                  {
+                                    "$name": "Html",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.24rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1648796024833_0.2225081537313529"
+                                    },
+                                    "$key": "leavetypeDesc",
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1648795202091_0.5268662723687267"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  }
+                                ],
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648796007779_0.5484930892454798"
+                                },
+                                "$item": {
+                                  "name": "MobileCol",
+                                  "label": "布局列",
+                                  "id": "MobileCol_1648796024833_0.2225081537313529"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                                "span": "8"
+                              },
+                              {
+                                "$name": "布局列",
+                                "useStyleText": true,
+                                "styleText": "text-align:right;",
+                                "children": [
+                                  {
+                                    "$name": "Html",
+                                    "useStyleText": true,
+                                    "styleText": "font-size:0.24rem;",
+                                    "$parent": {
+                                      "name": "MobileCol",
+                                      "label": "布局列",
+                                      "id": "MobileCol_1648796024316_0.557836836815887"
+                                    },
+                                    "$key": "flowresult",
+                                    "$item": {
+                                      "name": "Html",
+                                      "label": "文字",
+                                      "id": "Html_1648795203974_0.8594057883965738"
+                                    },
+                                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                                  }
+                                ],
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648796007779_0.5484930892454798"
+                                },
+                                "$item": {
+                                  "name": "MobileCol",
+                                  "label": "布局列",
+                                  "id": "MobileCol_1648796024316_0.557836836815887"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                                "span": "8"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1648795346043_0.15862073706585478"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1648796007779_0.5484930892454798"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "MobileRow",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648795811976_0.3867286728652215"
+                                },
+                                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '请假日期：'\n}",
+                                "useValueCode": true,
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1648795713614_0.43359580786317653"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648795811976_0.3867286728652215"
+                                },
+                                "$key": "begintime",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1648795366876_0.3577922986829589"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1648795346043_0.15862073706585478"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1648795811976_0.3867286728652215"
+                            },
+                            "height": 3
+                          },
+                          {
+                            "$name": "布局行",
+                            "children": [
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.28rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648795840581_0.6724592000951732"
+                                },
+                                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '填写时间：'\n}",
+                                "useValueCode": true,
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1648795866578_0.798723182368758"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              },
+                              {
+                                "$name": "Html",
+                                "useStyleText": true,
+                                "styleText": "font-size:0.24rem;",
+                                "$parent": {
+                                  "name": "MobileRow",
+                                  "label": "布局行",
+                                  "id": "MobileRow_1648795840581_0.6724592000951732"
+                                },
+                                "$key": "recorddate",
+                                "$item": {
+                                  "name": "Html",
+                                  "label": "文字",
+                                  "id": "Html_1648795904232_0.7007318367327682"
+                                },
+                                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                              }
+                            ],
+                            "$parent": {
+                              "name": "MobileCol",
+                              "label": "布局列",
+                              "id": "MobileCol_1648795346043_0.15862073706585478"
+                            },
+                            "$item": {
+                              "name": "MobileRow",
+                              "label": "布局行",
+                              "id": "MobileRow_1648795840581_0.6724592000951732"
+                            },
+                            "height": 3
+                          }
+                        ],
+                        "$parent": {
+                          "name": "MobileRow",
+                          "label": "布局行",
+                          "id": "MobileRow_1648794952574_0.6988194882362306"
+                        },
+                        "$item": {
+                          "name": "MobileCol",
+                          "label": "布局列",
+                          "id": "MobileCol_1648795346043_0.15862073706585478"
+                        },
+                        "span": "24"
+                      }
+                    ],
+                    "$item": {
+                      "name": "MobileRow",
+                      "label": "布局行",
+                      "id": "MobileRow_1648794952574_0.6988194882362306"
+                    },
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "height": 3
+                  }
+                ],
+                "$key": "list",
+                "$item": {
+                  "name": "MobileList",
+                  "label": "列表",
+                  "id": "MobileList_1648781104610_0.7970642014436917"
+                },
+                "useClickCode": true
+              }
+            ],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1648724639705_0.9654127956149876"
+            }
+          }
+        ],
+        "showTabBar": false,
+        "showNavBar": true,
+        "header": {
+          "$name": "LayoutHeader",
+          "children": [],
+          "$item": {
+            "name": "LayoutHeader",
+            "label": "移动端顶部布局",
+            "id": "LayoutHeader_1648724639705_0.16524955529311836"
+          }
+        },
+        "$item": {
+          "name": "MobileLayout",
+          "label": "布局",
+          "id": "MobileLayout_1648724639705_0.3778691248687016"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "paramsConfigs": {
+      "Param_1640936905037": {
+        "name": "begin",
+        "id": "Param_1640936905037"
+      },
+      "Param_1640936914525": {
+        "name": "end",
+        "id": "Param_1640936914525"
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1648724615485_0.27183143523900255"
+    }
+  },
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1639036947563": {
+        "code": "[]",
+        "children": [],
+        "name": "selectedRows",
+        "id": "Data_1639036947563",
+        "title": "selectedRows",
+        "type": "a",
+        "key": "Data_1639036947563"
+      },
+      "Data_1638962090165": {
+        "children": [],
+        "name": "confirmLoading",
+        "id": "Data_1638962090165",
+        "title": "confirmLoading",
+        "type": "b",
+        "key": "Data_1638962090165"
+      },
+      "Data_1638852941652": {
+        "code": "{\n  time: [$params.begin, $params.end]\n}",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "object",
+        "name": "filters",
+        "id": "Data_1638852941652",
+        "label": "filters",
+        "type": "data"
+      },
+      "Data_1638861473629": {
+        "code": "false",
+        "children": [],
+        "name": "editOpen",
+        "id": "Data_1638861473629",
+        "title": "editOpen",
+        "type": "b",
+        "key": "Data_1638861473629"
+      },
+      "Data_1638852911948": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1638852911948",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1638852911948"
+      },
+      "Data_1638852894652": {
+        "code": "[]",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "begintime",
+            "id": "Data_1638852894652_begintime",
+            "label": "请假日期",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "flowresult",
+            "id": "Data_1638852894652_flowresult",
+            "label": "申请状态",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "leavetypeDesc",
+            "id": "Data_1638852894652_leavetypeDesc",
+            "label": "请假类型",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "recorddate",
+            "id": "Data_1638852894652_recorddate",
+            "label": "填写时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "usercodeDesc",
+            "id": "Data_1638852894652_usercodeDesc",
+            "label": "申请人",
+            "type": "schema"
+          }
+        ],
+        "componentSchemas": {
+          "usercodeDesc": {
+            "isDefault": true,
+            "propertyName": "usercodeDesc",
+            "fieldLabelName": "申请人",
+            "$key": "usercodeDesc",
+            "fieldType": "string"
+          },
+          "leavetypeDesc": {
+            "isDefault": true,
+            "propertyName": "leavetypeDesc",
+            "fieldLabelName": "请假类型",
+            "$key": "leavetypeDesc",
+            "fieldType": "string"
+          },
+          "begintime": {
+            "isDefault": true,
+            "propertyName": "begintime",
+            "fieldLabelName": "请假日期",
+            "$key": "begintime",
+            "fieldType": "string"
+          },
+          "recorddate": {
+            "isDefault": true,
+            "propertyName": "recorddate",
+            "fieldLabelName": "填写时间",
+            "$key": "recorddate",
+            "fieldType": "string"
+          },
+          "flowresult": {
+            "isDefault": true,
+            "propertyName": "flowresult",
+            "fieldLabelName": "申请状态",
+            "$key": "flowresult",
+            "fieldType": "string"
+          }
+        },
+        "columns": [
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 255,
+            "columnOrder": 99,
+            "precision": 255,
+            "columnComment": "大类型：QJ 请假 BK 补卡 CC 外出",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "bigtype",
+            "fieldLabelName": "bigType",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "bigType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "autoCreateRule": "W",
+            "precision": 0,
+            "columnComment": "结束时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "endtime",
+            "fieldLabelName": "endTime",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-10 09:52:40",
+            "columnName": "endTime",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "autoCreateRule": "U",
+            "precision": 32,
+            "columnComment": "流水号",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leaveno",
+            "fieldLabelName": "leaveNo",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveNo",
+            "primaryKey": true
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "所属部门",
+            "referenceType": "1",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "unitCode",
+            "columnType": "VARCHAR",
+            "propertyName": "ownunit",
+            "fieldLabelName": "ownunit",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "ownunit",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 8,
+            "columnOrder": 99,
+            "precision": 8,
+            "columnComment": "是否中高风险",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "isdanger",
+            "fieldLabelName": "isDanger",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "isDanger",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 1,
+            "columnOrder": 99,
+            "precision": 1,
+            "columnComment": "时间单位",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "CHAR",
+            "propertyName": "timetype",
+            "fieldLabelName": "timeType",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "timeType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "用户号",
+            "referenceType": "1",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "userCode",
+            "columnType": "VARCHAR",
+            "propertyName": "usercode",
+            "fieldLabelName": "usercode",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "usercode",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "开始时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "begintime",
+            "fieldLabelName": "beginTime",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "beginTime",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "预审人",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "checkuser",
+            "fieldLabelName": "checkUser",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "checkUser",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 255,
+            "columnOrder": 99,
+            "precision": 255,
+            "columnComment": "出差地",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavecity",
+            "fieldLabelName": "leaveCity",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveCity",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 22,
+            "columnOrder": 99,
+            "precision": 22,
+            "columnComment": "请假时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Double",
+            "accessType": "N",
+            "columnType": "DOUBLE",
+            "propertyName": "leavedays",
+            "fieldLabelName": "leaveDays",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "double",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveDays",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 2,
+            "columnOrder": 99,
+            "precision": 2,
+            "columnComment": "请假类型",
+            "referenceType": "1",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "gaVXuauTSiO1quaguCpAOA",
+            "columnType": "VARCHAR",
+            "propertyName": "leavetype",
+            "fieldLabelName": "leaveType",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "登录名",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "loginname",
+            "fieldLabelName": "loginName",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "loginName",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "交通方式",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "transport",
+            "fieldLabelName": "transport",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "transport",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 8,
+            "columnOrder": 99,
+            "precision": 8,
+            "columnComment": "批准状态",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "flowresult",
+            "fieldLabelName": "flowResult",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "flowResult",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "请假录入时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "recorddate",
+            "fieldLabelName": "recorddate",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "recorddate",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "更新时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "updatedate",
+            "fieldLabelName": "updatedate",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "updatedate",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 1024,
+            "columnOrder": 99,
+            "precision": 1024,
+            "columnComment": "请假原因",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavereason",
+            "fieldLabelName": "leaveReason",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveReason",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "流程实例ID",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "flowInstId",
+            "fieldLabelName": "FLOW_INST_ID",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "FLOW_INST_ID",
+            "primaryKey": false
+          }
+        ],
+        "name": "list",
+        "hasSchema": true,
+        "id": "Data_1638852894652",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1638852894652",
+        "table": [
+          "qCkELaoFSTm2_AoREWrYGg",
+          "aJLrc1TqT7as0NMu1vn41Q"
+        ]
+      },
+      "Data_1638852937292": {
+        "code": "{\n  sort: 'recorddate',\n  order: 'desc',  \n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "order",
+            "id": "Data_1638852937292_order",
+            "label": "order",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "sort",
+            "id": "Data_1638852937292_sort",
+            "label": "sort",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "sort",
+        "id": "Data_1638852937292",
+        "label": "sort",
+        "type": "data",
+        "codeSchemas": {
+          "sort": {
+            "isDefault": true,
+            "propertyName": "sort",
+            "fieldLabelName": "sort",
+            "fieldType": "string"
+          },
+          "order": {
+            "isDefault": true,
+            "propertyName": "order",
+            "fieldLabelName": "order",
+            "fieldType": "string"
+          }
+        }
+      },
+      "Data_1638861479365": {
+        "code": "false",
+        "children": [],
+        "name": "newOpen",
+        "id": "Data_1638861479365",
+        "title": "newOpen",
+        "type": "b",
+        "key": "Data_1638861479365"
+      },
+      "Data_1639104424577": {
+        "code": "false",
+        "children": [],
+        "name": "drawerOpen",
+        "id": "Data_1639104424577",
+        "title": "drawerOpen",
+        "type": "b",
+        "key": "Data_1639104424577"
+      },
+      "Data_1638852930764": {
+        "code": "{\n  pageSize: 10,\n}",
+        "children": [],
+        "name": "page",
+        "id": "Data_1638852930764",
+        "title": "page",
+        "type": "o",
+        "key": "Data_1638852930764"
+      },
+      "Data_1640323983739": {
+        "code": "false",
+        "children": [],
+        "name": "flowInstId",
+        "id": "Data_1640323983739",
+        "title": "flowInstId",
+        "type": "s",
+        "key": "Data_1640323983739"
+      },
+      "Data_1638859469408": {
+        "code": "{}",
+        "children": [
+          {
+            "dataType": "string",
+            "name": "addr",
+            "id": "Data_1638859469408_addr",
+            "label": "f_Addr",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "attendenabled",
+            "id": "Data_1638859469408_attendenabled",
+            "label": "f_AttendEnabled",
+            "type": "schema"
+          },
+          {
+            "dataType": "datetime",
+            "name": "beginymd",
+            "id": "Data_1638859469408_beginymd",
+            "label": "f_BeginYMD",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "birthday",
+            "id": "Data_1638859469408_birthday",
+            "label": "f_Birthday",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "bshift",
+            "id": "Data_1638859469408_bshift",
+            "label": "f_bShift",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "certificateid",
+            "id": "Data_1638859469408_certificateid",
+            "label": "f_CertificateID",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "certificatetype",
+            "id": "Data_1638859469408_certificatetype",
+            "label": "f_CertificateType",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "consumergrade",
+            "id": "Data_1638859469408_consumergrade",
+            "label": "f_ConsumerGrade",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "consumerid",
+            "id": "Data_1638859469408_consumerid",
+            "label": "f_ConsumerID",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "consumername",
+            "id": "Data_1638859469408_consumername",
+            "label": "f_ConsumerName",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "consumerno",
+            "id": "Data_1638859469408_consumerno",
+            "label": "f_ConsumerNO",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "corporationname",
+            "id": "Data_1638859469408_corporationname",
+            "label": "f_CorporationName",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "culture",
+            "id": "Data_1638859469408_culture",
+            "label": "f_Culture",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "doorenabled",
+            "id": "Data_1638859469408_doorenabled",
+            "label": "f_DoorEnabled",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "email",
+            "id": "Data_1638859469408_email",
+            "label": "f_Email",
+            "type": "schema"
+          },
+          {
+            "dataType": "datetime",
+            "name": "endymd",
+            "id": "Data_1638859469408_endymd",
+            "label": "f_EndYMD",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "englishname",
+            "id": "Data_1638859469408_englishname",
+            "label": "f_EnglishName",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "groupid",
+            "id": "Data_1638859469408_groupid",
+            "label": "f_GroupID",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "homephone",
+            "id": "Data_1638859469408_homephone",
+            "label": "f_HomePhone",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "hometown",
+            "id": "Data_1638859469408_hometown",
+            "label": "f_Hometown",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "joindate",
+            "id": "Data_1638859469408_joindate",
+            "label": "f_JoinDate",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "leavedate",
+            "id": "Data_1638859469408_leavedate",
+            "label": "f_LeaveDate",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "marriage",
+            "id": "Data_1638859469408_marriage",
+            "label": "f_Marriage",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "mobile",
+            "id": "Data_1638859469408_mobile",
+            "label": "f_Mobile",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "nationality",
+            "id": "Data_1638859469408_nationality",
+            "label": "f_Nationality",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "note",
+            "id": "Data_1638859469408_note",
+            "label": "f_Note",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "password",
+            "id": "Data_1638859469408_password",
+            "label": "f_Password",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "patrolenabled",
+            "id": "Data_1638859469408_patrolenabled",
+            "label": "f_PatrolEnabled",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "photopath",
+            "id": "Data_1638859469408_photopath",
+            "label": "f_PhotoPath",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "political",
+            "id": "Data_1638859469408_political",
+            "label": "f_Political",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "postcode",
+            "id": "Data_1638859469408_postcode",
+            "label": "f_Postcode",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "religion",
+            "id": "Data_1638859469408_religion",
+            "label": "f_Religion",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "sex",
+            "id": "Data_1638859469408_sex",
+            "label": "f_Sex",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "socialinsuranceno",
+            "id": "Data_1638859469408_socialinsuranceno",
+            "label": "f_SocialInsuranceNo",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "techgrade",
+            "id": "Data_1638859469408_techgrade",
+            "label": "f_TechGrade",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "telephone",
+            "id": "Data_1638859469408_telephone",
+            "label": "f_Telephone",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "title",
+            "id": "Data_1638859469408_title",
+            "label": "f_Title",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "workno",
+            "id": "Data_1638859469408_workno",
+            "label": "f_WorkNo",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "schemas": {
+          "beginymd": {
+            "recorder": "u0000000",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "beginymd",
+            "fieldLabelName": "f_BeginYMD",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "datetime",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_BeginYMD",
+            "primaryKey": false
+          },
+          "birthday": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "birthday",
+            "fieldLabelName": "f_Birthday",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Birthday",
+            "primaryKey": false
+          },
+          "note": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "note",
+            "fieldLabelName": "f_Note",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Note",
+            "primaryKey": false
+          },
+          "endymd": {
+            "recorder": "u0000000",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "endymd",
+            "fieldLabelName": "f_EndYMD",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "datetime",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_EndYMD",
+            "primaryKey": false
+          },
+          "homephone": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "homephone",
+            "fieldLabelName": "f_HomePhone",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_HomePhone",
+            "primaryKey": false
+          },
+          "consumerid": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "consumerid",
+            "fieldLabelName": "f_ConsumerID",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerID",
+            "primaryKey": false
+          },
+          "patrolenabled": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "patrolenabled",
+            "fieldLabelName": "f_PatrolEnabled",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_PatrolEnabled",
+            "primaryKey": false
+          },
+          "political": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "political",
+            "fieldLabelName": "f_Political",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Political",
+            "primaryKey": false
+          },
+          "title": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "title",
+            "fieldLabelName": "f_Title",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Title",
+            "primaryKey": false
+          },
+          "attendenabled": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "attendenabled",
+            "fieldLabelName": "f_AttendEnabled",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_AttendEnabled",
+            "primaryKey": false
+          },
+          "certificatetype": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "certificatetype",
+            "fieldLabelName": "f_CertificateType",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_CertificateType",
+            "primaryKey": false
+          },
+          "socialinsuranceno": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "socialinsuranceno",
+            "fieldLabelName": "f_SocialInsuranceNo",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_SocialInsuranceNo",
+            "primaryKey": false
+          },
+          "corporationname": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "corporationname",
+            "fieldLabelName": "f_CorporationName",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_CorporationName",
+            "primaryKey": false
+          },
+          "password": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "password",
+            "fieldLabelName": "f_Password",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Password",
+            "primaryKey": false
+          },
+          "englishname": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "englishname",
+            "fieldLabelName": "f_EnglishName",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_EnglishName",
+            "primaryKey": false
+          },
+          "marriage": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "marriage",
+            "fieldLabelName": "f_Marriage",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Marriage",
+            "primaryKey": false
+          },
+          "photopath": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "photopath",
+            "fieldLabelName": "f_PhotoPath",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_PhotoPath",
+            "primaryKey": false
+          },
+          "addr": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "addr",
+            "fieldLabelName": "f_Addr",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Addr",
+            "primaryKey": false
+          },
+          "email": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "email",
+            "fieldLabelName": "f_Email",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Email",
+            "primaryKey": false
+          },
+          "bshift": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "bshift",
+            "fieldLabelName": "f_bShift",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:35",
+            "columnName": "f_bShift",
+            "primaryKey": false
+          },
+          "consumerno": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "consumerno",
+            "fieldLabelName": "f_ConsumerNO",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerNO",
+            "primaryKey": false
+          },
+          "hometown": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "hometown",
+            "fieldLabelName": "f_Hometown",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Hometown",
+            "primaryKey": false
+          },
+          "joindate": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "joindate",
+            "fieldLabelName": "f_JoinDate",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_JoinDate",
+            "primaryKey": false
+          },
+          "sex": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "sex",
+            "fieldLabelName": "f_Sex",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Sex",
+            "primaryKey": false
+          },
+          "groupid": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "groupid",
+            "fieldLabelName": "f_GroupID",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_GroupID",
+            "primaryKey": false
+          },
+          "certificateid": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "certificateid",
+            "fieldLabelName": "f_CertificateID",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_CertificateID",
+            "primaryKey": false
+          },
+          "mobile": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "mobile",
+            "fieldLabelName": "f_Mobile",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Mobile",
+            "primaryKey": false
+          },
+          "postcode": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "postcode",
+            "fieldLabelName": "f_Postcode",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Postcode",
+            "primaryKey": false
+          },
+          "leavedate": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavedate",
+            "fieldLabelName": "f_LeaveDate",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_LeaveDate",
+            "primaryKey": false
+          },
+          "telephone": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "telephone",
+            "fieldLabelName": "f_Telephone",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Telephone",
+            "primaryKey": false
+          },
+          "consumername": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "consumername",
+            "fieldLabelName": "f_ConsumerName",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerName",
+            "primaryKey": false
+          },
+          "religion": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "religion",
+            "fieldLabelName": "f_Religion",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Religion",
+            "primaryKey": false
+          },
+          "workno": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "workno",
+            "fieldLabelName": "f_WorkNo",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_WorkNo",
+            "primaryKey": false
+          },
+          "nationality": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "nationality",
+            "fieldLabelName": "f_Nationality",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Nationality",
+            "primaryKey": false
+          },
+          "culture": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "culture",
+            "fieldLabelName": "f_Culture",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Culture",
+            "primaryKey": false
+          },
+          "techgrade": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "techgrade",
+            "fieldLabelName": "f_TechGrade",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_TechGrade",
+            "primaryKey": false
+          },
+          "consumergrade": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "consumergrade",
+            "fieldLabelName": "f_ConsumerGrade",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerGrade",
+            "primaryKey": false
+          },
+          "doorenabled": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "doorenabled",
+            "fieldLabelName": "f_DoorEnabled",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_DoorEnabled",
+            "primaryKey": false
+          }
+        },
+        "name": "info",
+        "id": "Data_1638859469408",
+        "label": "info",
+        "type": "data"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1638862716769": {
+        "code": "function closeNew(refresh) {\n  $data.newOpen = false\n  if (refresh) {\n    $run('query')\n  }\n}",
+        "name": "closeNew",
+        "id": "Method_1638862716769",
+        "title": "closeNew",
+        "key": "Method_1638862716769"
+      },
+      "Method_1639104478488": {
+        "code": "function openDrawer(info) {\n  $data.drawerOpen = true\n  $data.info = info\n}",
+        "name": "openDrawer",
+        "id": "Method_1639104478488",
+        "title": "openDrawer",
+        "key": "Method_1639104478488"
+      },
+      "Method_1638852962668": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data\n  const { time = [] } = filters\n  const begin = time[0] ? `${time[0]} 00:00:00` : undefined\n  const end = time[1] ? `${time[1]} 23:59:59` : undefined\n  const { userInfo: $u } = $info;\n  const params = Object.assign({\n  \tusercode: $u.userCode,\n    bigType: filters.bigType,\n    ['(datetime)begintime_ge']: begin,\n    ['(datetime)begintime_le']: end,\n    ['(splitforin)flowresult_in']: filters.flowresult?.join(',')\n  }, page, sort)\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('342f00c20a11484981353a6428eaf516', { params }) \n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1638852962668",
+        "title": "query",
+        "key": "Method_1638852962668"
+      },
+      "Method_1646794999000": {
+        "code": "function backFlow(info) {\n  $data.info = info\n  const { Modal, message } = $antd\n  const { createVNode } = $vue\n  const { ExclamationCircleOutlined } = $icons\n   const params = {\n      flowResult: '已撤销',\n      optTag: info.leaveno,\n      flowInstId: info.flowInstId\n   }\n   //console.log(params)\n  const onOk = async function() {\n      await $dde.get('ab14ac36ad8248698b7636dbfdab5f8c', {params})\n      message.success(`已撤销`)\n      $run('query')\n    }\n\n  Modal.confirm({\n      title: '撤销',\n      icon: createVNode(ExclamationCircleOutlined),\n      content: `是否确认撤销申请 ？`,\n      onOk,\n    })\n}",
+        "name": "backFlow",
+        "id": "Method_1646794999000",
+        "title": "backFlow",
+        "key": "Method_1646794999000"
+      },
+      "Method_1638862740065": {
+        "code": "function closeEdit(refresh) {\n\t$data.editOpen = false\n    $data.info = {}\n    if (refresh) {\n    \t$run('query')\n    }\n}",
+        "name": "closeEdit",
+        "id": "Method_1638862740065",
+        "title": "closeEdit",
+        "key": "Method_1638862740065"
+      },
+      "Method_1640324165594": {
+        "code": "function closeFlow() {\n  $data.flowInstId = false\n}",
+        "name": "closeFlow",
+        "id": "Method_1640324165594",
+        "title": "closeFlow",
+        "key": "Method_1640324165594"
+      },
+      "Method_1638960783840": {
+        "code": "async function okNew() {\n  const { LeaveModel } = $refs\n  $data.confirmLoading = true\n  try {\n    await LeaveModel.run('validate')\n    await LeaveModel.run('openConfirm')\n  \tconst { flowInstId } = await LeaveModel.run('save')\n    $run('closeNew')\n  \t$run('query')\n    if (flowInstId) {\n    \t$run('openFlow', flowInstId)\n    }\n  } finally {\n   \t$data.confirmLoading = false\n  }\n}",
+        "name": "okNew",
+        "id": "Method_1638960783840",
+        "title": "okNew",
+        "key": "Method_1638960783840"
+      },
+      "Method_1638861412325": {
+        "code": "function openEdit(info) {\n  //$data.editOpen = true\n  console.log(info)\n  $data.info = info\n}",
+        "name": "openEdit",
+        "id": "Method_1638861412325",
+        "title": "openEdit",
+        "key": "Method_1638861412325"
+      },
+      "Method_1638853124459": {
+        "code": "function reset() {\n  $data.filters = {}\n  $run('query')\n}",
+        "name": "reset",
+        "id": "Method_1638853124459",
+        "title": "reset",
+        "key": "Method_1638853124459"
+      },
+      "Method_1640324185482": {
+        "code": "function openFlow(id) {\n  $data.flowInstId = id\n}",
+        "name": "openFlow",
+        "id": "Method_1640324185482",
+        "title": "openFlow",
+        "key": "Method_1640324185482"
+      },
+      "Method_1638960798081": {
+        "code": "async function okEdit() {\n  const { LeaveModel } = $refs\n    $data.confirmLoading = true\n  try {\n    await LeaveModel.run('validate')\n  \tawait LeaveModel.run('save')\n    $antd.message.success('修改成功')\n    $run('closeEdit')\n  \t$run('query')\n  } finally {\n   \t$data.confirmLoading = false\n  }\n}",
+        "name": "okEdit",
+        "id": "Method_1638960798081",
+        "title": "okEdit",
+        "key": "Method_1638960798081"
+      },
+      "Method_1639639285942": {
+        "code": "function removeBatch() {\n\tconst { selectedRows = [] } = $data\n    const rows = selectedRows.map(function(leaveno) {\n      return {\n      \tleaveno,\n      }\n    })\n    const { Modal, message } = $antd\n    const { createVNode } = $vue\n    const { ExclamationCircleOutlined } = $icons\n    console.log(\"rows\",rows)\n    const onOk = async function() {\n      await $dde.post('f8ea9a51b05b4a049eb97c938a91fe6e', rows)\n      selectedRows.length = 0\n      message.success(`成功删除 ${ rows.length } 条数据`)\n      $run('query')\n    }\n    \n    if (!rows.length) return\n    \n    Modal.confirm({\n      title: '删除',\n      icon: createVNode(ExclamationCircleOutlined),\n      content: `是否确认删除 ${ rows.length } 条数据 ？`,\n      onOk,\n    })\n}",
+        "name": "removeBatch",
+        "id": "Method_1639639285942",
+        "title": "removeBatch",
+        "key": "Method_1639639285942"
+      },
+      "Method_1638859498743": {
+        "code": "function openNew() {\n\t$data.newOpen = true\n}",
+        "name": "openNew",
+        "id": "Method_1638859498743",
+        "title": "openNew",
+        "key": "Method_1638859498743"
+      },
+      "Method_1639027568818": {
+        "code": "function remove(info) {\n\tconst { leaveno } = info\n    const params = { leaveno }\n    const { Modal, message } = $antd\n    const { createVNode } = $vue\n    const { ExclamationCircleOutlined } = $icons\n    \n    const onOk = async function() {\n      await $dde.delete('0c2247ef70f341b2b8f604dea0d31a98', {params})\n      message.success(`成功删除 [${ leaveno }]`)\n      $run('closeEdit')\n      $run('query')\n    }\n    \n    Modal.confirm({\n      title: '删除',\n      icon: createVNode(ExclamationCircleOutlined),\n      content: `是否确认删除 [${ leaveno }] ？`,\n      onOk,\n    })\n}",
+        "name": "remove",
+        "id": "Method_1639027568818",
+        "title": "remove",
+        "key": "Method_1639027568818"
+      },
+      "Method_1640084787684": {
+        "code": "function canEdit(info) {\n  const { flowresult: r } = info\n  return r === '审批中'\n}",
+        "name": "canEdit",
+        "id": "Method_1640084787684",
+        "title": "canEdit",
+        "key": "Method_1640084787684"
+      }
+    },
+    "styleText": "background: transparent;",
+    "children": [
+      {
+        "form": {
+          "children": [
+            {
+              "inline": true,
+              "useStyleText": false,
+              "styleText": "width: 220px;",
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "time",
+              "$item": {
+                "name": "RangePicker",
+                "label": "日期范围",
+                "id": "RangePicker_1640932416560_0.5870400481064679"
+              },
+              "label": "请假日期",
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            },
+            {
+              "notShowItem": false,
+              "useStyleText": false,
+              "styleText": "width: 180px;",
+              "showArrow": true,
+              "$key": "bigType",
+              "bordered": true,
+              "label": "请假类型",
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+              "inline": true,
+              "dropdownMatchSelectWidth": true,
+              "rulesConfig": [],
+              "options": [
+                {
+                  "label": "补打卡",
+                  "value": "B"
+                },
+                {
+                  "label": "请假",
+                  "value": "Q"
+                },
+                {
+                  "label": "外出",
+                  "value": "W"
+                },
+                {
+                  "label": "出差",
+                  "value": "C"
+                }
+              ],
+              "$item": {
+                "name": "Select",
+                "label": "下拉框",
+                "id": "Select_1640918854231_0.9014321796899964"
+              },
+              "allowClear": true
+            },
+            {
+              "notShowItem": false,
+              "inline": true,
+              "rulesConfig": [],
+              "options": [
+                {
+                  "label": "审批中",
+                  "value": "审批中"
+                },
+                {
+                  "label": "驳回",
+                  "value": "驳回"
+                },
+                {
+                  "label": "通过",
+                  "value": "通过"
+                }
+              ],
+              "$key": "flowresult",
+              "$item": {
+                "name": "CheckboxGroup",
+                "label": "多选框",
+                "id": "CheckboxGroup_1640918898847_0.18278231205402107"
+              },
+              "label": "申请状态"
+            }
+          ],
+          "$key": "filters",
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1638847185256"
+          }
+        },
+        "useResetCode": true,
+        "useWrapperColCode": true,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1638847179261"
+        },
+        "actionsLayout": "normal",
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch() {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $data.page.pageNo = 1\n  $run('query')\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1638847185256"
+        },
+        "list": {
+          "children": [
+            {
+              "useSorterCode": true,
+              "pagination": "",
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1638847185256"
+              },
+              "useChangeCode": true,
+              "columns": [
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "usercodeDesc",
+                  "showHeader": "true",
+                  "columnId": "HeaderCell_1638853485904",
+                  "width": 200,
+                  "fixed": "left",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853485904"
+                  },
+                  "title": "申请人",
+                  "$cell": [
+                    {
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  /*\n  if (!$run('canEdit', info)) {\n    $run('openDrawer', info)\n  } else {\n    $run('openEdit', info)\n  }\n  */\n  $run('openDrawer', info)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { usercodeDesc, ownunitDesc } = $data.row\n  return `${usercodeDesc} (${ownunitDesc})`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639029774368"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "leavetypeDesc",
+                  "columnId": "HeaderCell_1638847185256",
+                  "width": 180,
+                  "fixed": "",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638847185256"
+                  },
+                  "title": "请假类型",
+                  "align": "left",
+                  "$cell": [
+                    {
+                      "shape": "circle",
+                      "size": "default",
+                      "useStyleText": true,
+                      "styleText": "margin-right: 8px;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { bigtype: t } = $data.row\n  if (t === 'B') return '补' \n  if (t === 'W') return '外' \n  if (t === 'Q') return '假'\n  if (t === 'C') return '出差'\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Avatar",
+                        "label": "头像",
+                        "id": "Avatar_1639033160753"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  const { bigtype: t } = $data.row\n  let bg\n  if (t === 'B') bg = 'rgb(229 131 109)' \n  if (t === 'W') bg = '#87d068' \n  if (t === 'Q') bg = '#2db7f5' \n  if (t === 'C') bg = 'purple'\n  return { background: bg }\n}",
+                      "useStyleCode": true
+                    },
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639033170071"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "flowresult",
+                  "columnId": "HeaderCell_1638853687278",
+                  "width": 180,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853687278"
+                  },
+                  "title": "申请状态",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "begintime",
+                  "columnId": "HeaderCell_1638853596485",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853596485"
+                  },
+                  "title": "请假日期",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "setColorCode": "function setColor() {\n  // 在下面返回Color的值\n  return\n}",
+                      "color": "purple",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.begintime?.slice(0, 10)\n}",
+                      "useValueCode": true,
+                      "useColorCode": false,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1638855322752"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "",
+                  "columnId": "HeaderCell_1638855608897",
+                  "width": 120,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638855608897"
+                  },
+                  "title": "请假时长",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !!$data.row.leavedays\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavedays\n}",
+                      "use$$ifCode": true,
+                      "$key": "",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1638855882514"
+                      }
+                    },
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !!$data.row.leavedays \n}",
+                      "setColorCode": "function setColor() {\n  // 在下面返回Color的值\n  const { timetype: t } = $data.row\n  if (t === 'H') return '#2db7f5'\n  if (t === 'D') return '#87d068'\n}",
+                      "color": "#87d068",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { timetype: t } = $data.row\n  if (t === 'H') return '小时'\n  if (t === 'D') return '天'\n}",
+                      "use$$ifCode": true,
+                      "$key": "",
+                      "useValueCode": true,
+                      "useColorCode": true,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1638855734183"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "recorddate",
+                  "columnId": "HeaderCell_1638853673022",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853673022"
+                  },
+                  "title": "填写时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "columnId": "HeaderCell_1638853696374",
+                  "width": 130,
+                  "fixed": "right",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853696374"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  //return !$run('canEdit', $data.row)\n}",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openDrawer', $data.row)\n}",
+                      "use$$ifCode": false,
+                      "className": "info",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1640084283674"
+                      },
+                      "text": "查看",
+                      "type": "default",
+                      "useClickCode": true
+                    },
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $run('canEdit', $data.row)\n}",
+                      "useDisabledCode": true,
+                      "ghost": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return !$run('canEdit', $data.row)\n}",
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  //$run('openEdit', $data.row)\n  $run('backFlow', $data.row)\n}",
+                      "use$$ifCode": false,
+                      "className": "success",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1638853744747"
+                      },
+                      "text": "撤销",
+                      "type": "default",
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值\n  return $data.selectedRows\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "fit": true,
+              "useSelectChangeCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1638847185256"
+              },
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": true,
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.loading\n}",
+              "showHeader": "true",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值\n  return $data.page\n}",
+              "$key": "list",
+              "useRowSelectionCode": true,
+              "loading": "",
+              "onSelectChangeCode": "function onSelectChange(selectedRowKeys) {\n  // 在下面开始编写选择发生变化事件\n  debugger\n  $data.selectedRows = selectedRowKeys\n}",
+              "setRowSelectionCode": "function setRowSelection() {\n  // 在下面返回RowSelection的值\n  return {\n  \tgetCheckboxProps: row => ({\n      //disabled: !$run('canEdit', row),\n      disabled: row.flowresult&&(row.flowresult !== '驳回')&&(row.flowresult !== '已撤销'),\n    })\n  }\n}",
+              "size": "small",
+              "$columns": [
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "usercodeDesc",
+                  "showHeader": "true",
+                  "width": 200,
+                  "fixed": "left",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853485904"
+                  },
+                  "title": "申请人",
+                  "$cell": [
+                    {
+                      "useStyleText": true,
+                      "styleText": "cursor: pointer;\ncolor: #2db7f5;\ntext-decoration: underline;",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  const info = $data.row\n  /*\n  if (!$run('canEdit', info)) {\n    $run('openDrawer', info)\n  } else {\n    $run('openEdit', info)\n  }\n  */\n  $run('openDrawer', info)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { usercodeDesc, ownunitDesc } = $data.row\n  return `${usercodeDesc} (${ownunitDesc})`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639029774368"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "leavetypeDesc",
+                  "width": 180,
+                  "fixed": "",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638847185256"
+                  },
+                  "title": "请假类型",
+                  "align": "left",
+                  "$cell": [
+                    {
+                      "shape": "circle",
+                      "size": "default",
+                      "useStyleText": true,
+                      "styleText": "margin-right: 8px;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { bigtype: t } = $data.row\n  if (t === 'B') return '补' \n  if (t === 'W') return '外' \n  if (t === 'Q') return '假'\n  if (t === 'C') return '出差'\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Avatar",
+                        "label": "头像",
+                        "id": "Avatar_1639033160753"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  const { bigtype: t } = $data.row\n  let bg\n  if (t === 'B') bg = 'rgb(229 131 109)' \n  if (t === 'W') bg = '#87d068' \n  if (t === 'Q') bg = '#2db7f5' \n  if (t === 'C') bg = 'purple'\n  return { background: bg }\n}",
+                      "useStyleCode": true
+                    },
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavetypeDesc\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1639033170071"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "flowresult",
+                  "width": 180,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853687278"
+                  },
+                  "title": "申请状态",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "begintime",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853596485"
+                  },
+                  "title": "请假日期",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "setColorCode": "function setColor() {\n  // 在下面返回Color的值\n  return\n}",
+                      "color": "purple",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.begintime?.slice(0, 10)\n}",
+                      "useValueCode": true,
+                      "useColorCode": false,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1638855322752"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "",
+                  "width": 120,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638855608897"
+                  },
+                  "title": "请假时长",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !!$data.row.leavedays\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.leavedays\n}",
+                      "use$$ifCode": true,
+                      "$key": "",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1638855882514"
+                      }
+                    },
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !!$data.row.leavedays \n}",
+                      "setColorCode": "function setColor() {\n  // 在下面返回Color的值\n  const { timetype: t } = $data.row\n  if (t === 'H') return '#2db7f5'\n  if (t === 'D') return '#87d068'\n}",
+                      "color": "#87d068",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { timetype: t } = $data.row\n  if (t === 'H') return '小时'\n  if (t === 'D') return '天'\n}",
+                      "use$$ifCode": true,
+                      "$key": "",
+                      "useValueCode": true,
+                      "useColorCode": true,
+                      "$item": {
+                        "name": "Tag",
+                        "label": "标签",
+                        "id": "Tag_1638855734183"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "sorter": true,
+                  "children": [],
+                  "dataIndex": "recorddate",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853673022"
+                  },
+                  "title": "填写时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "width": 130,
+                  "fixed": "right",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1638853696374"
+                  },
+                  "title": "操作",
+                  "align": "center",
+                  "$cell": [
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  //return !$run('canEdit', $data.row)\n}",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openDrawer', $data.row)\n}",
+                      "use$$ifCode": false,
+                      "className": "info",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1640084283674"
+                      },
+                      "text": "查看",
+                      "type": "default",
+                      "useClickCode": true
+                    },
+                    {
+                      "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $run('canEdit', $data.row)\n}",
+                      "useDisabledCode": true,
+                      "ghost": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return !$run('canEdit', $data.row)\n}",
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  //$run('openEdit', $data.row)\n  $run('backFlow', $data.row)\n}",
+                      "use$$ifCode": false,
+                      "className": "success",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1638853744747"
+                      },
+                      "text": "撤销",
+                      "type": "default",
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "dataSource": [],
+              "actions": {
+                "children": [
+                  {
+                    "isDropDown": true,
+                    "size": "middle",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNew')\n}",
+                    "onClickItemCode": "function onClickItem({key}) {\n  // 在下面开始编写点击菜单事件\n  $run('openNew', key)\n}",
+                    "useClickItemCode": true,
+                    "className": "primary",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1638857800640"
+                    },
+                    "text": "申请",
+                    "type": "primary",
+                    "items": [
+                      {
+                        "icon": "CarOutlined",
+                        "label": "外出",
+                        "value": "W"
+                      },
+                      {
+                        "icon": "RocketOutlined",
+                        "label": "出差",
+                        "value": "C"
+                      },
+                      {
+                        "icon": "ContainerOutlined",
+                        "label": "请假",
+                        "value": "Q"
+                      },
+                      {
+                        "icon": "FieldTimeOutlined",
+                        "label": "补打卡",
+                        "value": "B"
+                      }
+                    ],
+                    "useClickCode": true
+                  },
+                  {
+                    "useDisabledCode": true,
+                    "useTextCode": true,
+                    "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值\n  return !$data.selectedRows.length\n}",
+                    "setTextCode": "function setText() {\n  // 在下面返回Text的值\n  const len = $data.selectedRows.length\n  \n  if (!len) return '批量删除'\n  return `批量删除（选中${len}条记录）`\n}",
+                    "className": "error",
+                    "type": "default",
+                    "danger": true,
+                    "ghost": false,
+                    "size": "middle",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('removeBatch')\n}",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1639031332915"
+                    },
+                    "text": "批量删除",
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1638857797038"
+                }
+              },
+              "setSorterCode": "function setSorter() {\n  // 在下面返回Sorter的值\n  return $data.sort\n}",
+              "rowKey": "leaveno",
+              "onChangeCode": "function onChange(pagination, filters, sorter, action) {\n  if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.page = pagination\n  $data.sort = sorter\n  $data.selectedRows = []\n  $run('query')\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1638847185256"
+          }
+        },
+        "collapsedMode": "normal",
+        "onResetCode": "function onReset() {\n  // 在下面开始编写点击重置按钮时触发事件\n  $data.filters = {}\n  $data.page.pageNo = 1\n  $run('query')\n}",
+        "setWrapperColCode": "function setWrapperCol() {\n  // 在下面返回WrapperCol的值\n  return { style: { width: '256px' } }\n}"
+      },
+      {
+        "useOnCancelCode": true,
+        "keyboard": false,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.newOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1638847179261"
+        },
+        "closable": true,
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.newOpen\n}",
+        "$key": "",
+        "setOnCancelCode": "function setOnCancel() {\n  // 在下面返回OnCancel的值\n  return '新增申请'\n}",
+        "maskClosable": false,
+        "title": "新增",
+        "useOnOkCode": false,
+        "onOk": "okNew",
+        "fullscreen": false,
+        "children": [
+          {
+            "$params": {
+              "setTypeCode": "function setType() {\n  // 在下面开始编写type事件\n  return $data.newType\n}",
+              "useTypeCode": true
+            },
+            "ref": "LeaveModel",
+            "slots": {},
+            "children": [],
+            "customEvents": [],
+            "$events": {},
+            "customParams": [
+              {
+                "name": "id",
+                "label": "id",
+                "props": []
+              },
+              {
+                "name": "type",
+                "label": "type",
+                "props": []
+              },
+              {
+                "name": "current",
+                "label": "current",
+                "props": []
+              }
+            ],
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1638862471931"
+            },
+            "id": "8943ad4401ce4924b190bf0b59afd9e5",
+            "templateStyle": {
+              "styleText": ""
+            }
+          }
+        ],
+        "useConfirmLoadingCode": true,
+        "onCancel": "closeNew",
+        "footerMode": "default",
+        "width": 640,
+        "useValueCode": true,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1638862320220"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值\n  return $data.confirmLoading\n}",
+        "mask": true,
+        "setOnOkCode": "function setOnOk() {\n  // 在下面返回OnOk的值\n  return function () {\n  \tdebugger\n  }\n}"
+      },
+      {
+        "keyboard": false,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  // return $data.editOpen\n  return false\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1638847179261"
+        },
+        "closable": true,
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.editOpen\n}",
+        "$key": "",
+        "maskClosable": false,
+        "title": "编辑",
+        "onOk": "okEdit",
+        "fullscreen": false,
+        "children": [
+          {
+            "ref": "LeaveModel",
+            "slots": {},
+            "children": [],
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1638862597230"
+            },
+            "id": "8943ad4401ce4924b190bf0b59afd9e5",
+            "templateStyle": {
+              "styleText": ""
+            },
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n    leave: Object.assign({}, $data.info),\n  }\n}"
+          }
+        ],
+        "useConfirmLoadingCode": true,
+        "onCancel": "closeEdit",
+        "footerMode": "default",
+        "width": 640,
+        "useValueCode": true,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1638862590251"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值\n  return $data.confirmLoading\n}",
+        "mask": true
+      },
+      {
+        "$footer": {
+          "children": [],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1640074052261"
+          }
+        },
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.drawerOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1638847179261"
+        },
+        "closable": true,
+        "onCloseCode": "function onClose() {\n  // 在下面开始编写关闭事件\n  $data.drawerOpen = false\n  $data.info = {}\n}",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.drawerOpen\n}",
+        "maskClosable": true,
+        "setTitleCode": "function setTitle() {\n  // 在下面返回Title的值\n  const { bigtype } = $data.info\n  const map = {\n  \tW: '外出',\n    Q: '请假',\n    B: '补打卡',\n    C:'出差'\n  } \t\n  if (!bigtype) return ''\n  return `查看${map[bigtype]}申请`\n}",
+        "useCloseCode": true,
+        "children": [
+          {
+            "slots": {},
+            "children": [],
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1639100353352"
+            },
+            "id": "c2656f06292f44948fcb5bb907c02594",
+            "templateStyle": {},
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n    leave: Object.assign({}, $data.info),\n  }\n}"
+          }
+        ],
+        "width": 960,
+        "useValueCode": true,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1639051404557"
+        },
+        "useTitleCode": true,
+        "mask": true
+      },
+      {
+        "$footer": {
+          "children": [
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('closeEdit')\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1640078688857"
+              },
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1640078751403"
+              },
+              "text": "取消",
+              "type": "default",
+              "useClickCode": true
+            },
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('remove', $data.info)\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1640078688857"
+              },
+              "className": "error",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1640085040471"
+              },
+              "text": "删除",
+              "type": "default",
+              "useClickCode": true
+            },
+            {
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('okEdit')\n}",
+              "$parent": {
+                "name": "DrawerFooter",
+                "label": "抽屉底部",
+                "id": "DrawerFooter_1640078688857"
+              },
+              "className": "primary",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1640078755849"
+              },
+              "text": "提交",
+              "type": "primary",
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DrawerFooter",
+            "label": "抽屉底部",
+            "id": "DrawerFooter_1640078688857"
+          }
+        },
+        "keyboard": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.editOpen\n}",
+        "useVisibleCode": true,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1638847179261"
+        },
+        "closable": true,
+        "onCloseCode": "function onClose() {\n  // 在下面开始编写关闭事件\n  $run('closeEdit')\n}",
+        "maskClosable": true,
+        "setTitleCode": "function setTitle() {\n  // 在下面返回Title的值\n  const { bigtype } = $data.info\n  const map = {\n  \tW: '外出',\n    Q: '请假',\n    B: '补打卡',\n  } \t\n  if (!bigtype) return ''\n  return `修改${map[bigtype]}申请`\n}",
+        "useCloseCode": true,
+        "children": [
+          {
+            "$params": {},
+            "slots": {},
+            "children": [],
+            "$events": {},
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1640083757460"
+            },
+            "id": "3022d0f8a4ab4b27bc54eb4685405de7",
+            "templateStyle": {},
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n    leave: Object.assign({}, $data.info)\n  }\n}"
+          }
+        ],
+        "width": 960,
+        "$item": {
+          "name": "Drawer",
+          "label": "抽屉",
+          "id": "Drawer_1640078688857"
+        },
+        "useTitleCode": true,
+        "mask": true
+      },
+      {
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.flowInstId\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1638847179261"
+        },
+        "closable": true,
+        "maskClosable": true,
+        "title": "成功",
+        "onOk": "closeFlow",
+        "fullscreen": false,
+        "children": [
+          {
+            "$params": {},
+            "slots": {},
+            "children": [],
+            "$events": {},
+            "useParamsCode": true,
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1640324103444_0.5543802994535232"
+            },
+            "id": "9a66d8103f254e42963d03e1db5ba82e",
+            "templateStyle": {
+              "styleText": "width: 100%;"
+            },
+            "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return {\n  \tflowInstId: $data.flowInstId\n  }\n}"
+          }
+        ],
+        "onCancel": "closeFlow",
+        "footerMode": "default",
+        "width": 1024,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1640324031626_0.5695165056169558"
+        },
+        "mask": true
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "style": {
+      "background": "transparent"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n}",
+    "paramsConfigs": {
+      "Param_1640936905037": {
+        "name": "begin",
+        "id": "Param_1640936905037"
+      },
+      "Param_1640936914525": {
+        "name": "end",
+        "id": "Param_1640936914525"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1638847179261"
+    }
+  },
+  "publishDate": "2022-08-30 10:16:32",
+  "sourceId": "B4L4Kp9wR9CFDOdsOoAR6Q",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1638852941652": {
+        "code": "{\n  time: [$params.begin, $params.end]\n}",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "undefined",
+        "name": "filters",
+        "id": "Data_1638852941652",
+        "label": "filters",
+        "type": "data"
+      },
+      "Data_1638852911948": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1638852911948",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1638852911948"
+      },
+      "Data_1638852937292": {
+        "code": "{\n  sort: 'begintime',\n  order: 'desc',  \n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "order",
+            "id": "Data_1638852937292_order",
+            "label": "order",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "sort",
+            "id": "Data_1638852937292_sort",
+            "label": "sort",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "sort",
+        "id": "Data_1638852937292",
+        "label": "sort",
+        "type": "data",
+        "codeSchemas": {
+          "sort": {
+            "isDefault": true,
+            "propertyName": "sort",
+            "fieldLabelName": "sort",
+            "fieldType": "string"
+          },
+          "order": {
+            "isDefault": true,
+            "propertyName": "order",
+            "fieldLabelName": "order",
+            "fieldType": "string"
+          }
+        }
+      },
+      "Data_1638861479365": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "newOpen",
+        "id": "Data_1638861479365",
+        "label": "newOpen",
+        "type": "data"
+      },
+      "Data_1639036947563": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "selectedRows",
+        "id": "Data_1639036947563",
+        "label": "selectedRows",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1638962090165": {
+        "children": [],
+        "name": "confirmLoading",
+        "id": "Data_1638962090165",
+        "title": "confirmLoading",
+        "type": "b",
+        "key": "Data_1638962090165"
+      },
+      "Data_1655793804637": {
+        "code": "undefined",
+        "children": [],
+        "dataType": "undefined",
+        "name": "newType",
+        "id": "Data_1655793804637",
+        "label": "newType",
+        "type": "data"
+      },
+      "Data_1638861473629": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "editOpen",
+        "id": "Data_1638861473629",
+        "label": "editOpen",
+        "type": "data"
+      },
+      "Data_1638852894652": {
+        "code": "[]",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "begintime",
+            "id": "Data_1638852894652_begintime",
+            "label": "请假日期",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "flowresult",
+            "id": "Data_1638852894652_flowresult",
+            "label": "申请状态",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "leavetypeDesc",
+            "id": "Data_1638852894652_leavetypeDesc",
+            "label": "请假类型",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "recorddate",
+            "id": "Data_1638852894652_recorddate",
+            "label": "填写时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "usercodeDesc",
+            "id": "Data_1638852894652_usercodeDesc",
+            "label": "申请人",
+            "type": "schema"
+          }
+        ],
+        "componentSchemas": {
+          "usercodeDesc": {
+            "isDefault": true,
+            "propertyName": "usercodeDesc",
+            "fieldLabelName": "申请人",
+            "$key": "usercodeDesc",
+            "fieldType": "string"
+          },
+          "leavetypeDesc": {
+            "isDefault": true,
+            "propertyName": "leavetypeDesc",
+            "fieldLabelName": "请假类型",
+            "$key": "leavetypeDesc",
+            "fieldType": "string"
+          },
+          "begintime": {
+            "isDefault": true,
+            "propertyName": "begintime",
+            "fieldLabelName": "请假日期",
+            "$key": "begintime",
+            "fieldType": "string"
+          },
+          "recorddate": {
+            "isDefault": true,
+            "propertyName": "recorddate",
+            "fieldLabelName": "填写时间",
+            "$key": "recorddate",
+            "fieldType": "string"
+          },
+          "flowresult": {
+            "isDefault": true,
+            "propertyName": "flowresult",
+            "fieldLabelName": "申请状态",
+            "$key": "flowresult",
+            "fieldType": "string"
+          }
+        },
+        "columns": [
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 255,
+            "columnOrder": 99,
+            "precision": 255,
+            "columnComment": "大类型：QJ 请假 BK 补卡 CC 外出",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "bigtype",
+            "fieldLabelName": "bigType",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "bigType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "autoCreateRule": "W",
+            "precision": 0,
+            "columnComment": "结束时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "endtime",
+            "fieldLabelName": "endTime",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-10 09:52:40",
+            "columnName": "endTime",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "autoCreateRule": "U",
+            "precision": 32,
+            "columnComment": "流水号",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leaveno",
+            "fieldLabelName": "leaveNo",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveNo",
+            "primaryKey": true
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "所属部门",
+            "referenceType": "1",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "unitCode",
+            "columnType": "VARCHAR",
+            "propertyName": "ownunit",
+            "fieldLabelName": "ownunit",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "ownunit",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 8,
+            "columnOrder": 99,
+            "precision": 8,
+            "columnComment": "是否中高风险",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "isdanger",
+            "fieldLabelName": "isDanger",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "isDanger",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 1,
+            "columnOrder": 99,
+            "precision": 1,
+            "columnComment": "时间单位",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "CHAR",
+            "propertyName": "timetype",
+            "fieldLabelName": "timeType",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "timeType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "用户号",
+            "referenceType": "1",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "userCode",
+            "columnType": "VARCHAR",
+            "propertyName": "usercode",
+            "fieldLabelName": "usercode",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "usercode",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "开始时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "begintime",
+            "fieldLabelName": "beginTime",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "beginTime",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "预审人",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "checkuser",
+            "fieldLabelName": "checkUser",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "checkUser",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 255,
+            "columnOrder": 99,
+            "precision": 255,
+            "columnComment": "出差地",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavecity",
+            "fieldLabelName": "leaveCity",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveCity",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 22,
+            "columnOrder": 99,
+            "precision": 22,
+            "columnComment": "请假时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Double",
+            "accessType": "N",
+            "columnType": "DOUBLE",
+            "propertyName": "leavedays",
+            "fieldLabelName": "leaveDays",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "double",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveDays",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 2,
+            "columnOrder": 99,
+            "precision": 2,
+            "columnComment": "请假类型",
+            "referenceType": "1",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "gaVXuauTSiO1quaguCpAOA",
+            "columnType": "VARCHAR",
+            "propertyName": "leavetype",
+            "fieldLabelName": "leaveType",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveType",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "登录名",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "loginname",
+            "fieldLabelName": "loginName",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "loginName",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "交通方式",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "transport",
+            "fieldLabelName": "transport",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "transport",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 8,
+            "columnOrder": 99,
+            "precision": 8,
+            "columnComment": "批准状态",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "flowresult",
+            "fieldLabelName": "flowResult",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "flowResult",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "请假录入时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "recorddate",
+            "fieldLabelName": "recorddate",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "recorddate",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "columnComment": "更新时间",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "updatedate",
+            "fieldLabelName": "updatedate",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "datetime",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "updatedate",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 1024,
+            "columnOrder": 99,
+            "precision": 1024,
+            "columnComment": "请假原因",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavereason",
+            "fieldLabelName": "leaveReason",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "leaveReason",
+            "primaryKey": false
+          },
+          {
+            "recorder": "UkBTbun7",
+            "columnLength": 32,
+            "columnOrder": 99,
+            "precision": 32,
+            "columnComment": "流程实例ID",
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "flowInstId",
+            "fieldLabelName": "FLOW_INST_ID",
+            "tableId": "aJLrc1TqT7as0NMu1vn41Q",
+            "fieldType": "string",
+            "lastModifyDate": "2022-01-06 19:13:41",
+            "columnName": "FLOW_INST_ID",
+            "primaryKey": false
+          }
+        ],
+        "name": "list",
+        "hasSchema": true,
+        "id": "Data_1638852894652",
+        "title": "list",
+        "type": "a",
+        "key": "Data_1638852894652",
+        "table": [
+          "qCkELaoFSTm2_AoREWrYGg",
+          "aJLrc1TqT7as0NMu1vn41Q"
+        ]
+      },
+      "Data_1639104424577": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "drawerOpen",
+        "id": "Data_1639104424577",
+        "label": "drawerOpen",
+        "type": "data"
+      },
+      "Data_1638852930764": {
+        "code": "{\n  pageSize: 50,\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1638852930764_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "page",
+        "id": "Data_1638852930764",
+        "label": "page",
+        "type": "data",
+        "codeSchemas": {
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          }
+        }
+      },
+      "Data_1640323983739": {
+        "code": "false",
+        "children": [],
+        "name": "flowInstId",
+        "id": "Data_1640323983739",
+        "title": "flowInstId",
+        "type": "s",
+        "key": "Data_1640323983739"
+      },
+      "Data_1638859469408": {
+        "code": "{}",
+        "children": [
+          {
+            "dataType": "string",
+            "name": "addr",
+            "id": "Data_1638859469408_addr",
+            "label": "f_Addr",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "attendenabled",
+            "id": "Data_1638859469408_attendenabled",
+            "label": "f_AttendEnabled",
+            "type": "schema"
+          },
+          {
+            "dataType": "datetime",
+            "name": "beginymd",
+            "id": "Data_1638859469408_beginymd",
+            "label": "f_BeginYMD",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "birthday",
+            "id": "Data_1638859469408_birthday",
+            "label": "f_Birthday",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "bshift",
+            "id": "Data_1638859469408_bshift",
+            "label": "f_bShift",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "certificateid",
+            "id": "Data_1638859469408_certificateid",
+            "label": "f_CertificateID",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "certificatetype",
+            "id": "Data_1638859469408_certificatetype",
+            "label": "f_CertificateType",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "consumergrade",
+            "id": "Data_1638859469408_consumergrade",
+            "label": "f_ConsumerGrade",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "consumerid",
+            "id": "Data_1638859469408_consumerid",
+            "label": "f_ConsumerID",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "consumername",
+            "id": "Data_1638859469408_consumername",
+            "label": "f_ConsumerName",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "consumerno",
+            "id": "Data_1638859469408_consumerno",
+            "label": "f_ConsumerNO",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "corporationname",
+            "id": "Data_1638859469408_corporationname",
+            "label": "f_CorporationName",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "culture",
+            "id": "Data_1638859469408_culture",
+            "label": "f_Culture",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "doorenabled",
+            "id": "Data_1638859469408_doorenabled",
+            "label": "f_DoorEnabled",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "email",
+            "id": "Data_1638859469408_email",
+            "label": "f_Email",
+            "type": "schema"
+          },
+          {
+            "dataType": "datetime",
+            "name": "endymd",
+            "id": "Data_1638859469408_endymd",
+            "label": "f_EndYMD",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "englishname",
+            "id": "Data_1638859469408_englishname",
+            "label": "f_EnglishName",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "groupid",
+            "id": "Data_1638859469408_groupid",
+            "label": "f_GroupID",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "homephone",
+            "id": "Data_1638859469408_homephone",
+            "label": "f_HomePhone",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "hometown",
+            "id": "Data_1638859469408_hometown",
+            "label": "f_Hometown",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "joindate",
+            "id": "Data_1638859469408_joindate",
+            "label": "f_JoinDate",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "leavedate",
+            "id": "Data_1638859469408_leavedate",
+            "label": "f_LeaveDate",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "marriage",
+            "id": "Data_1638859469408_marriage",
+            "label": "f_Marriage",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "mobile",
+            "id": "Data_1638859469408_mobile",
+            "label": "f_Mobile",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "nationality",
+            "id": "Data_1638859469408_nationality",
+            "label": "f_Nationality",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "note",
+            "id": "Data_1638859469408_note",
+            "label": "f_Note",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "password",
+            "id": "Data_1638859469408_password",
+            "label": "f_Password",
+            "type": "schema"
+          },
+          {
+            "dataType": "integer",
+            "name": "patrolenabled",
+            "id": "Data_1638859469408_patrolenabled",
+            "label": "f_PatrolEnabled",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "photopath",
+            "id": "Data_1638859469408_photopath",
+            "label": "f_PhotoPath",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "political",
+            "id": "Data_1638859469408_political",
+            "label": "f_Political",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "postcode",
+            "id": "Data_1638859469408_postcode",
+            "label": "f_Postcode",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "religion",
+            "id": "Data_1638859469408_religion",
+            "label": "f_Religion",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "sex",
+            "id": "Data_1638859469408_sex",
+            "label": "f_Sex",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "socialinsuranceno",
+            "id": "Data_1638859469408_socialinsuranceno",
+            "label": "f_SocialInsuranceNo",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "techgrade",
+            "id": "Data_1638859469408_techgrade",
+            "label": "f_TechGrade",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "telephone",
+            "id": "Data_1638859469408_telephone",
+            "label": "f_Telephone",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "title",
+            "id": "Data_1638859469408_title",
+            "label": "f_Title",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "workno",
+            "id": "Data_1638859469408_workno",
+            "label": "f_WorkNo",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "schemas": {
+          "beginymd": {
+            "recorder": "u0000000",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "beginymd",
+            "fieldLabelName": "f_BeginYMD",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "datetime",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_BeginYMD",
+            "primaryKey": false
+          },
+          "birthday": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "birthday",
+            "fieldLabelName": "f_Birthday",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Birthday",
+            "primaryKey": false
+          },
+          "note": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "note",
+            "fieldLabelName": "f_Note",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Note",
+            "primaryKey": false
+          },
+          "endymd": {
+            "recorder": "u0000000",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "precision": 0,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "columnType": "DATETIME",
+            "propertyName": "endymd",
+            "fieldLabelName": "f_EndYMD",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "datetime",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_EndYMD",
+            "primaryKey": false
+          },
+          "homephone": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "homephone",
+            "fieldLabelName": "f_HomePhone",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_HomePhone",
+            "primaryKey": false
+          },
+          "consumerid": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "consumerid",
+            "fieldLabelName": "f_ConsumerID",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerID",
+            "primaryKey": false
+          },
+          "patrolenabled": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "patrolenabled",
+            "fieldLabelName": "f_PatrolEnabled",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_PatrolEnabled",
+            "primaryKey": false
+          },
+          "political": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "political",
+            "fieldLabelName": "f_Political",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Political",
+            "primaryKey": false
+          },
+          "title": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "title",
+            "fieldLabelName": "f_Title",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Title",
+            "primaryKey": false
+          },
+          "attendenabled": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "attendenabled",
+            "fieldLabelName": "f_AttendEnabled",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_AttendEnabled",
+            "primaryKey": false
+          },
+          "certificatetype": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "certificatetype",
+            "fieldLabelName": "f_CertificateType",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_CertificateType",
+            "primaryKey": false
+          },
+          "socialinsuranceno": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "socialinsuranceno",
+            "fieldLabelName": "f_SocialInsuranceNo",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_SocialInsuranceNo",
+            "primaryKey": false
+          },
+          "corporationname": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "corporationname",
+            "fieldLabelName": "f_CorporationName",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_CorporationName",
+            "primaryKey": false
+          },
+          "password": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "password",
+            "fieldLabelName": "f_Password",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Password",
+            "primaryKey": false
+          },
+          "englishname": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "englishname",
+            "fieldLabelName": "f_EnglishName",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_EnglishName",
+            "primaryKey": false
+          },
+          "marriage": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "marriage",
+            "fieldLabelName": "f_Marriage",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Marriage",
+            "primaryKey": false
+          },
+          "photopath": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "photopath",
+            "fieldLabelName": "f_PhotoPath",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_PhotoPath",
+            "primaryKey": false
+          },
+          "addr": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "addr",
+            "fieldLabelName": "f_Addr",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Addr",
+            "primaryKey": false
+          },
+          "email": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "email",
+            "fieldLabelName": "f_Email",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Email",
+            "primaryKey": false
+          },
+          "bshift": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "bshift",
+            "fieldLabelName": "f_bShift",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:35",
+            "columnName": "f_bShift",
+            "primaryKey": false
+          },
+          "consumerno": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "consumerno",
+            "fieldLabelName": "f_ConsumerNO",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerNO",
+            "primaryKey": false
+          },
+          "hometown": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "hometown",
+            "fieldLabelName": "f_Hometown",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Hometown",
+            "primaryKey": false
+          },
+          "joindate": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "joindate",
+            "fieldLabelName": "f_JoinDate",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_JoinDate",
+            "primaryKey": false
+          },
+          "sex": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "sex",
+            "fieldLabelName": "f_Sex",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Sex",
+            "primaryKey": false
+          },
+          "groupid": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "groupid",
+            "fieldLabelName": "f_GroupID",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_GroupID",
+            "primaryKey": false
+          },
+          "certificateid": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "certificateid",
+            "fieldLabelName": "f_CertificateID",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_CertificateID",
+            "primaryKey": false
+          },
+          "mobile": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "mobile",
+            "fieldLabelName": "f_Mobile",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Mobile",
+            "primaryKey": false
+          },
+          "postcode": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "postcode",
+            "fieldLabelName": "f_Postcode",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Postcode",
+            "primaryKey": false
+          },
+          "leavedate": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "leavedate",
+            "fieldLabelName": "f_LeaveDate",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_LeaveDate",
+            "primaryKey": false
+          },
+          "telephone": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "telephone",
+            "fieldLabelName": "f_Telephone",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Telephone",
+            "primaryKey": false
+          },
+          "consumername": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "consumername",
+            "fieldLabelName": "f_ConsumerName",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerName",
+            "primaryKey": false
+          },
+          "religion": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "religion",
+            "fieldLabelName": "f_Religion",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Religion",
+            "primaryKey": false
+          },
+          "workno": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "workno",
+            "fieldLabelName": "f_WorkNo",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_WorkNo",
+            "primaryKey": false
+          },
+          "nationality": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "nationality",
+            "fieldLabelName": "f_Nationality",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Nationality",
+            "primaryKey": false
+          },
+          "culture": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "culture",
+            "fieldLabelName": "f_Culture",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_Culture",
+            "primaryKey": false
+          },
+          "techgrade": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "techgrade",
+            "fieldLabelName": "f_TechGrade",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_TechGrade",
+            "primaryKey": false
+          },
+          "consumergrade": {
+            "recorder": "u0000000",
+            "columnLength": 100,
+            "columnOrder": 99,
+            "precision": 100,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "columnType": "VARCHAR",
+            "propertyName": "consumergrade",
+            "fieldLabelName": "f_ConsumerGrade",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "string",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_ConsumerGrade",
+            "primaryKey": false
+          },
+          "doorenabled": {
+            "recorder": "u0000000",
+            "columnLength": 10,
+            "columnOrder": 99,
+            "precision": 10,
+            "scale": 0,
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.Integer",
+            "accessType": "N",
+            "columnType": "INT",
+            "propertyName": "doorenabled",
+            "fieldLabelName": "f_DoorEnabled",
+            "tableId": "M_LdTKVyQD6LkUisypHHJw",
+            "fieldType": "integer",
+            "lastModifyDate": "2021-11-24 10:01:34",
+            "columnName": "f_DoorEnabled",
+            "primaryKey": false
+          }
+        },
+        "name": "info",
+        "id": "Data_1638859469408",
+        "label": "info",
+        "type": "data"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1638862716769": {
+        "code": "function closeNew(refresh) {\n  $data.newOpen = false\n  if (refresh) {\n    $run('query')\n  }\n}",
+        "name": "closeNew",
+        "id": "Method_1638862716769",
+        "title": "closeNew",
+        "key": "Method_1638862716769"
+      },
+      "Method_1639104478488": {
+        "code": "function openDrawer(info) {\n  $data.drawerOpen = true\n  $data.info = info\n}",
+        "name": "openDrawer",
+        "id": "Method_1639104478488",
+        "title": "openDrawer",
+        "key": "Method_1639104478488"
+      },
+      "Method_1638852962668": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data\n  const { time = [] } = filters\n  const begin = time[0] ? `${time[0]} 00:00:00` : undefined\n  const end = time[1] ? `${time[1]} 23:59:59` : undefined\n  const { userInfo: $u } = $info;\n  const params = Object.assign({\n  \tusercode: $u.userCode,\n    bigType: filters.bigType,\n    ['(datetime)begintime_ge']: begin,\n    ['(datetime)begintime_le']: end,\n    ['(splitforin)flowresult_in']: filters.flowresult?.join(',')\n  }, page, sort)\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('342f00c20a11484981353a6428eaf516', { params }) \n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1638852962668",
+        "label": "query",
+        "type": "method"
+      },
+      "Method_1646794999000": {
+        "code": "function backFlow(info) {\n  $data.info = info\n  const { Modal, message } = $antd\n  const { createVNode } = $vue\n  const { ExclamationCircleOutlined } = $icons\n   const params = {\n      flowResult: '已撤销',\n      optTag: info.leaveno,\n      flowInstId: info.flowInstId\n   }\n   //console.log(params)\n  const onOk = async function() {\n      await $dde.get('ab14ac36ad8248698b7636dbfdab5f8c', {params})\n      message.success(`已撤销`)\n      $run('query')\n    }\n\n  Modal.confirm({\n      title: '撤销',\n      icon: createVNode(ExclamationCircleOutlined),\n      content: `是否确认撤销申请 ？`,\n      onOk,\n    })\n}",
+        "name": "backFlow",
+        "id": "Method_1646794999000",
+        "title": "backFlow",
+        "key": "Method_1646794999000"
+      },
+      "Method_1638862740065": {
+        "code": "function closeEdit(refresh) {\n\t$data.editOpen = false\n    $data.info = {}\n    if (refresh) {\n    \t$run('query')\n    }\n}",
+        "name": "closeEdit",
+        "id": "Method_1638862740065",
+        "title": "closeEdit",
+        "key": "Method_1638862740065"
+      },
+      "Method_1640324165594": {
+        "code": "function closeFlow() {\n  $data.flowInstId = false\n}",
+        "name": "closeFlow",
+        "id": "Method_1640324165594",
+        "title": "closeFlow",
+        "key": "Method_1640324165594"
+      },
+      "Method_1638960783840": {
+        "code": "async function okNew() {\n  const { LeaveModel } = $refs\n  $data.confirmLoading = true\n  try {\n    await LeaveModel.run('validate')\n    await LeaveModel.run('openConfirm')\n  \tconst { flowInstId } = await LeaveModel.run('save')\n    $run('closeNew')\n  \t$run('query')\n    if (flowInstId) {\n    \t$run('openFlow', flowInstId)\n    }\n  } finally {\n   \t$data.confirmLoading = false\n  }\n}",
+        "name": "okNew",
+        "id": "Method_1638960783840",
+        "label": "okNew",
+        "type": "method"
+      },
+      "Method_1638861412325": {
+        "code": "function openEdit(info) {\n  //$data.editOpen = true\n  console.log(info)\n  $data.info = info\n}",
+        "name": "openEdit",
+        "id": "Method_1638861412325",
+        "title": "openEdit",
+        "key": "Method_1638861412325"
+      },
+      "Method_1638853124459": {
+        "code": "function reset() {\n  $data.filters = {}\n  $run('query')\n}",
+        "name": "reset",
+        "id": "Method_1638853124459",
+        "title": "reset",
+        "key": "Method_1638853124459"
+      },
+      "Method_1640324185482": {
+        "code": "function openFlow(id) {\n  $data.flowInstId = id\n}",
+        "name": "openFlow",
+        "id": "Method_1640324185482",
+        "title": "openFlow",
+        "key": "Method_1640324185482"
+      },
+      "Method_1638960798081": {
+        "code": "async function okEdit() {\n  const { LeaveModel } = $refs\n    $data.confirmLoading = true\n  try {\n    await LeaveModel.run('validate')\n  \tawait LeaveModel.run('save')\n    $antd.message.success('修改成功')\n    $run('closeEdit')\n  \t$run('query')\n  } finally {\n   \t$data.confirmLoading = false\n  }\n}",
+        "name": "okEdit",
+        "id": "Method_1638960798081",
+        "title": "okEdit",
+        "key": "Method_1638960798081"
+      },
+      "Method_1639639285942": {
+        "code": "function removeBatch() {\n\tconst { selectedRows = [] } = $data\n    const rows = selectedRows.map(function(leaveno) {\n      return {\n      \tleaveno,\n      }\n    })\n    const { Modal, message } = $antd\n    const { createVNode } = $vue\n    const { ExclamationCircleOutlined } = $icons\n    console.log(\"rows\",rows)\n    const onOk = async function() {\n      await $dde.post('f8ea9a51b05b4a049eb97c938a91fe6e', rows)\n      selectedRows.length = 0\n      message.success(`成功删除 ${ rows.length } 条数据`)\n      $run('query')\n    }\n    \n    if (!rows.length) return\n    \n    Modal.confirm({\n      title: '删除',\n      icon: createVNode(ExclamationCircleOutlined),\n      content: `是否确认删除 ${ rows.length } 条数据 ？`,\n      onOk,\n    })\n}",
+        "name": "removeBatch",
+        "id": "Method_1639639285942",
+        "title": "removeBatch",
+        "key": "Method_1639639285942"
+      },
+      "Method_1638859498743": {
+        "code": "function openNew(type) {\n\t$data.newOpen = true\n\t$data.newType = type\n}",
+        "name": "openNew",
+        "id": "Method_1638859498743",
+        "label": "openNew",
+        "type": "method"
+      },
+      "Method_1639027568818": {
+        "code": "function remove(info) {\n\tconst { leaveno } = info\n    const params = { leaveno }\n    const { Modal, message } = $antd\n    const { createVNode } = $vue\n    const { ExclamationCircleOutlined } = $icons\n    \n    const onOk = async function() {\n      await $dde.delete('0c2247ef70f341b2b8f604dea0d31a98', {params})\n      message.success(`成功删除 [${ leaveno }]`)\n      $run('closeEdit')\n      $run('query')\n    }\n    \n    Modal.confirm({\n      title: '删除',\n      icon: createVNode(ExclamationCircleOutlined),\n      content: `是否确认删除 [${ leaveno }] ？`,\n      onOk,\n    })\n}",
+        "name": "remove",
+        "id": "Method_1639027568818",
+        "title": "remove",
+        "key": "Method_1639027568818"
+      },
+      "Method_1640084787684": {
+        "code": "function canEdit(info) {\n  const { flowresult: r } = info\n  return r === '审批中'\n}",
+        "name": "canEdit",
+        "id": "Method_1640084787684",
+        "title": "canEdit",
+        "key": "Method_1640084787684"
+      },
+      "Method_1650008379730": {
+        "code": "function goPage(modelId) {\n  if (!modelId) return\n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId,\n    },\n  })\n}",
+        "name": "goPage",
+        "id": "Method_1650008379730",
+        "label": "goPage",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1640936905037": {
+        "name": "begin",
+        "id": "Param_1640936905037"
+      },
+      "Param_1640936914525": {
+        "name": "end",
+        "id": "Param_1640936914525"
+      }
+    }
+  },
+  "modelTag": "列表",
+  "isValid": "F"
+}

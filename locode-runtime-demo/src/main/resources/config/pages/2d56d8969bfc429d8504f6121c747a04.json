@@ -1,0 +1,2174 @@
+{
+  "modelId": "2d56d8969bfc429d8504f6121c747a04",
+  "modelName": "每日考勤统计表",
+  "optId": "0c7aec407c06481aab9d9f27b91a43b2",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "",
+  "lastModifyDate": "2022-12-29 09:58:33",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1646049036522": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "units",
+        "id": "Data_1646049036522",
+        "title": "units",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646049036522"
+      },
+      "Data_1646035838188": {
+        "code": "{\r\n  pageSize: 10,\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1646035838188_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          }
+        ],
+        "name": "page",
+        "id": "Data_1646035838188",
+        "title": "page",
+        "type": "o",
+        "codeSchemas": {
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          }
+        },
+        "key": "Data_1646035838188"
+      },
+      "Data_1646035781492": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1646035781492",
+        "title": "info",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646035781492"
+      },
+      "Data_1646035817156": {
+        "code": "{\r\n  sort: 'attdate',\r\n  order: 'desc',  \r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "order",
+            "id": "Data_1646035817156_order",
+            "label": "order",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "sort",
+            "id": "Data_1646035817156_sort",
+            "label": "sort",
+            "type": "schema"
+          }
+        ],
+        "name": "sort",
+        "id": "Data_1646035817156",
+        "title": "sort",
+        "type": "o",
+        "codeSchemas": {
+          "sort": {
+            "isDefault": true,
+            "propertyName": "sort",
+            "fieldLabelName": "sort",
+            "fieldType": "string"
+          },
+          "order": {
+            "isDefault": true,
+            "propertyName": "order",
+            "fieldLabelName": "order",
+            "fieldType": "string"
+          }
+        },
+        "key": "Data_1646035817156"
+      },
+      "Data_1646123825000": {
+        "code": "{}",
+        "children": [],
+        "dataType": "array",
+        "name": "list",
+        "id": "Data_1646123825000",
+        "title": "list",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646123825000"
+      },
+      "Data_1646035795821": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1646035795821",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1646035795821"
+      },
+      "Data_1646035766980": {
+        "code": "{}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "begin",
+            "id": "Data_1646035766980_begin",
+            "label": "begin",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "end",
+            "id": "Data_1646035766980_end",
+            "label": "end",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "loginname",
+            "id": "Data_1646035766980_loginname",
+            "label": "loginname",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitCode",
+            "id": "Data_1646035766980_unitCode",
+            "label": "unitCode",
+            "type": "schema"
+          }
+        ],
+        "name": "filters",
+        "id": "Data_1646035766980",
+        "title": "filters",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646035766980"
+      }
+    },
+    "fit": true,
+    "methodsConfigs": {
+      "Method_1646037694572": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data\n  const { begin,end,unitCode} = filters\n  const beginDay = begin?begin.split(' ')[0]:undefined;\n  const endDay = end?end.split(' ')[0]:undefined;\n  const params = Object.assign({\n  \t'(like)loginname_lk': filters.loginname,\n    'unitCode':unitCode,\n    ['(datetime)attdate_ge']: beginDay ? `${beginDay} 00:00:00`:undefined,\n    ['(datetime)attdate_le']: endDay ? `${endDay} 23:59:59`:undefined\n  }, page, sort)\n\n  $data.loading = true\n  const { objList, pageDesc } = await $dde.get('3ef2400c3fc647da986c9942c758164c', { params })\n  console.info(objList)\n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1646037694572",
+        "title": "query",
+        "key": "Method_1646037694572"
+      },
+      "Method_1646103844028": {
+        "code": "async function getUserInfo() {\n  const units = await $dde.get('b6efb14b99a8475d80db2ef83ede3282')\n  $data.units = units.map(item=>(\n     {label:item.unitName,value:item.unitCode}\n     ))\n}",
+        "name": "getUnitInfos",
+        "id": "Method_1646103844028",
+        "title": "getUnitInfos",
+        "key": "Method_1646103844028"
+      },
+      "Method_1646123221650": {
+        "code": "async function () {\n    const res = await $dde.get('3ef2400c3fc647da986c9942c758164c', {  })\n    setTimeout(function(){  }, 3000);\n    debugger;\n    console.info(res);\n}",
+        "name": "getInfos",
+        "id": "Method_1646123221650",
+        "title": "getInfos",
+        "key": "Method_1646123221650"
+      }
+    },
+    "children": [
+      {
+        "useExportCode": true,
+        "useResetCode": true,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646027575728_0.28259461598918323"
+        },
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch() {\n  // 在下面开始编写点击搜索按钮时触发事件\n   $data.page.pageNo = 1\n  $run('query')\n}",
+        "useReset": true,
+        "useExport": true,
+        "$filterMode": [],
+        "list": {
+          "children": [
+            {
+              "$data": {
+                "Data_1646035345104_0.20242159968027473": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "{}",
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1646035345104_0.20242159968027473",
+                  "label": "排序",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1646035345104_0.1541354659205929": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const params = Object.assign({}, pagination, sorter)\n  try {\n    const { objList, pageDesc } = {} // 调用查询接口\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1646035345104_0.1541354659205929",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Method_1646035345104_0.010439710943979552": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "async function onChange (selectedRowKeys, selectedRows) {  \n    this.selected.keys = selectedRowKeys\n    this.selected.rows = selectedRows\n}",
+                  "name": "onSelectChange",
+                  "id": "Method_1646035345104_0.010439710943979552",
+                  "label": "selectChange事件",
+                  "type": "method"
+                },
+                "Data_1646035345104_0.5029925304752074": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "{ rows: [], keys: [] }",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1646035345104_0.5029925304752074",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Method_1646035345104_0.5051851970917025": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "async function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selectedRows = []\n  this.query()\n}",
+                  "name": "onChange",
+                  "id": "Method_1646035345104_0.5051851970917025",
+                  "label": "change事件",
+                  "type": "method"
+                },
+                "Data_1646035345104_0.5048855486931179": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "[]",
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "absenceday",
+                      "id": "Data_1646035345104_0.5048855486931179_absenceday",
+                      "label": "旷工天数",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "attformatdate",
+                      "id": "Data_1646035345104_0.5048855486931179_attformatdate",
+                      "label": "考勤日期",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "cardno",
+                      "id": "Data_1646035345104_0.5048855486931179_cardno",
+                      "label": "卡号",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "facecard",
+                      "id": "Data_1646035345104_0.5048855486931179_facecard",
+                      "label": "人脸识别标识",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "latetime",
+                      "id": "Data_1646035345104_0.5048855486931179_latetime",
+                      "label": "迟到时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "leaveearlytime",
+                      "id": "Data_1646035345104_0.5048855486931179_leaveearlytime",
+                      "label": "早退时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "loginname",
+                      "id": "Data_1646035345104_0.5048855486931179_loginname",
+                      "label": "登录名",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "offduty",
+                      "id": "Data_1646035345104_0.5048855486931179_offduty",
+                      "label": "下班打卡时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "offdutyTypeDesc",
+                      "id": "Data_1646035345104_0.5048855486931179_offdutyTypeDesc",
+                      "label": "下班考勤类型",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "onduty",
+                      "id": "Data_1646035345104_0.5048855486931179_onduty",
+                      "label": "上班打卡时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "ondutyTypeDesc",
+                      "id": "Data_1646035345104_0.5048855486931179_ondutyTypeDesc",
+                      "label": "上班考勤类型",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "overtimetime",
+                      "id": "Data_1646035345104_0.5048855486931179_overtimetime",
+                      "label": "加班时间",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "unitcodeDesc",
+                      "id": "Data_1646035345104_0.5048855486931179_unitcodeDesc",
+                      "label": "机构名",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "usercode",
+                      "id": "Data_1646035345104_0.5048855486931179_usercode",
+                      "label": "用户号",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "username",
+                      "id": "Data_1646035345104_0.5048855486931179_username",
+                      "label": "用户名",
+                      "type": "schema"
+                    }
+                  ],
+                  "componentSchemas": {
+                    "latetime": {
+                      "isDefault": true,
+                      "propertyName": "latetime",
+                      "fieldLabelName": "迟到时间",
+                      "$key": "latetime",
+                      "fieldType": "string"
+                    },
+                    "leaveearlytime": {
+                      "isDefault": true,
+                      "propertyName": "leaveearlytime",
+                      "fieldLabelName": "早退时间",
+                      "$key": "leaveearlytime",
+                      "fieldType": "string"
+                    },
+                    "ondutyTypeDesc": {
+                      "isDefault": true,
+                      "propertyName": "ondutyTypeDesc",
+                      "fieldLabelName": "上班考勤类型",
+                      "$key": "ondutyTypeDesc",
+                      "fieldType": "string"
+                    },
+                    "loginname": {
+                      "isDefault": true,
+                      "propertyName": "loginname",
+                      "fieldLabelName": "登录名",
+                      "$key": "loginname",
+                      "fieldType": "string"
+                    },
+                    "absenceday": {
+                      "isDefault": true,
+                      "propertyName": "absenceday",
+                      "fieldLabelName": "旷工天数",
+                      "$key": "absenceday",
+                      "fieldType": "string"
+                    },
+                    "offduty": {
+                      "isDefault": true,
+                      "propertyName": "offduty",
+                      "fieldLabelName": "下班打卡时间",
+                      "$key": "offduty",
+                      "fieldType": "string"
+                    },
+                    "facecard": {
+                      "isDefault": true,
+                      "propertyName": "facecard",
+                      "fieldLabelName": "人脸识别标识",
+                      "$key": "facecard",
+                      "fieldType": "string"
+                    },
+                    "cardno": {
+                      "isDefault": true,
+                      "propertyName": "cardno",
+                      "fieldLabelName": "卡号",
+                      "$key": "cardno",
+                      "fieldType": "string"
+                    },
+                    "overtimetime": {
+                      "isDefault": true,
+                      "propertyName": "overtimetime",
+                      "fieldLabelName": "加班时间",
+                      "$key": "overtimetime",
+                      "fieldType": "string"
+                    },
+                    "unitcodeDesc": {
+                      "isDefault": true,
+                      "propertyName": "unitcodeDesc",
+                      "fieldLabelName": "机构名",
+                      "$key": "unitcodeDesc",
+                      "fieldType": "string"
+                    },
+                    "onduty": {
+                      "isDefault": true,
+                      "propertyName": "onduty",
+                      "fieldLabelName": "上班打卡时间",
+                      "$key": "onduty",
+                      "fieldType": "string"
+                    },
+                    "offdutyTypeDesc": {
+                      "isDefault": true,
+                      "propertyName": "offdutyTypeDesc",
+                      "fieldLabelName": "下班考勤类型",
+                      "$key": "offdutyTypeDesc",
+                      "fieldType": "string"
+                    },
+                    "usercode": {
+                      "isDefault": true,
+                      "propertyName": "usercode",
+                      "fieldLabelName": "用户号",
+                      "$key": "usercode",
+                      "fieldType": "string"
+                    },
+                    "username": {
+                      "isDefault": true,
+                      "propertyName": "username",
+                      "fieldLabelName": "用户名",
+                      "$key": "username",
+                      "fieldType": "string"
+                    },
+                    "attformatdate": {
+                      "isDefault": true,
+                      "propertyName": "attformatdate",
+                      "fieldLabelName": "考勤日期",
+                      "$key": "attformatdate",
+                      "fieldType": "string"
+                    }
+                  },
+                  "isMain": true,
+                  "dataType": "array",
+                  "name": "value",
+                  "id": "Data_1646035345104_0.5048855486931179",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Data_1646035345104_0.07813593757793513": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "{ pageSize: 20, pageNo: 1 }",
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1646035345104_0.07813593757793513",
+                  "label": "分页",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1646035345104_0.3301055827287198": {
+                  "isDefault": true,
+                  "componentId": "DataList_1646035345103_0.3492523450369929",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1646035345104_0.3301055827287198",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1646035345103_0.6531047055533261"
+              },
+              "useChangeCode": true,
+              "columns": [
+                {
+                  "children": [],
+                  "dataIndex": "unitcodeDesc",
+                  "columnId": "HeaderCell_1646035345103_0.17099938803521386",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035345103_0.17099938803521386"
+                  },
+                  "title": "机构名",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "usercode",
+                  "columnId": "HeaderCell_1646035913488_0.3545860320039682",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035913488_0.3545860320039682"
+                  },
+                  "title": "用户号",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "username",
+                  "columnId": "HeaderCell_1646035944668_0.5592745459131743",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035944668_0.5592745459131743"
+                  },
+                  "title": "用户名",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "loginname",
+                  "columnId": "HeaderCell_1646035943876_0.7021459935421259",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035943876_0.7021459935421259"
+                  },
+                  "title": "登录名",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "cardno",
+                  "columnId": "HeaderCell_1646035942725_0.8223293530068623",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035942725_0.8223293530068623"
+                  },
+                  "title": "卡号",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "facecard",
+                  "columnId": "HeaderCell_1646035941404_0.1195134377635747",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035941404_0.1195134377635747"
+                  },
+                  "title": "人脸识别标识",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "attformatdate",
+                  "columnId": "HeaderCell_1646036361220_0.1486958351261396",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036361220_0.1486958351261396"
+                  },
+                  "title": "考勤日期",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "onduty",
+                  "columnId": "HeaderCell_1646036360060_0.6642340869673111",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036360060_0.6642340869673111"
+                  },
+                  "title": "上班打卡时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "ondutyTypeDesc",
+                  "columnId": "HeaderCell_1646036359331_0.6188705053500867",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036359331_0.6188705053500867"
+                  },
+                  "title": "上班考勤类型",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "offduty",
+                  "columnId": "HeaderCell_1646036358268_0.3293730154907655",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036358268_0.3293730154907655"
+                  },
+                  "title": "下班打卡时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "offdutyTypeDesc",
+                  "columnId": "HeaderCell_1646036357500_0.844845044828836",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036357500_0.844845044828836"
+                  },
+                  "title": "下班考勤类型",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "latetime",
+                  "columnId": "HeaderCell_1646036356043_0.5656425588355136",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036356043_0.5656425588355136"
+                  },
+                  "title": "迟到时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "absenceday",
+                  "columnId": "HeaderCell_1646036354727_0.68101794401517",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036354727_0.68101794401517"
+                  },
+                  "title": "旷工天数",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "overtimetime",
+                  "columnId": "HeaderCell_1646036510796_0.48031018349530097",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036510796_0.48031018349530097"
+                  },
+                  "title": "加班时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "leaveearlytime",
+                  "columnId": "HeaderCell_1646036509620_0.23046142137056802",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036509620_0.23046142137056802"
+                  },
+                  "title": "早退时间",
+                  "align": "center",
+                  "$cell": []
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return $data.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return \n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return $data.page\n}",
+              "$key": "list",
+              "useRowSelectionCode": false,
+              "bordered": true,
+              "usePaginationCode": true,
+              "fit": true,
+              "setRowSelectionCode": "function setRowSelection() {\n  // 在下面返回RowSelection的值\n  return {\n  \tgetCheckboxProps: row => ({\n      disabled: !$run('canEdit', row),\n    })\n  }\n}",
+              "onSelectChangeCode": "function onSelectChange(selectedRowKeys) {\n  // 在下面开始编写选择发生变化事件\n  $data.selectedRows = selectedRowKeys\n}",
+              "size": "small",
+              "useSelectChangeCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1646035345103_0.3492523450369929"
+              },
+              "$columns": [
+                {
+                  "children": [],
+                  "dataIndex": "unitcodeDesc",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035345103_0.17099938803521386"
+                  },
+                  "title": "机构名",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "usercode",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035913488_0.3545860320039682"
+                  },
+                  "title": "用户号",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "username",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035944668_0.5592745459131743"
+                  },
+                  "title": "用户名",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "loginname",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035943876_0.7021459935421259"
+                  },
+                  "title": "登录名",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "cardno",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035942725_0.8223293530068623"
+                  },
+                  "title": "卡号",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "facecard",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646035941404_0.1195134377635747"
+                  },
+                  "title": "人脸识别标识",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "attformatdate",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036361220_0.1486958351261396"
+                  },
+                  "title": "考勤日期",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "onduty",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036360060_0.6642340869673111"
+                  },
+                  "title": "上班打卡时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "ondutyTypeDesc",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036359331_0.6188705053500867"
+                  },
+                  "title": "上班考勤类型",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "offduty",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036358268_0.3293730154907655"
+                  },
+                  "title": "下班打卡时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "offdutyTypeDesc",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036357500_0.844845044828836"
+                  },
+                  "title": "下班考勤类型",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "latetime",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036356043_0.5656425588355136"
+                  },
+                  "title": "迟到时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "absenceday",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036354727_0.68101794401517"
+                  },
+                  "title": "旷工天数",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "overtimetime",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036510796_0.48031018349530097"
+                  },
+                  "title": "加班时间",
+                  "align": "center",
+                  "$cell": []
+                },
+                {
+                  "children": [],
+                  "dataIndex": "leaveearlytime",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1646036509620_0.23046142137056802"
+                  },
+                  "title": "早退时间",
+                  "align": "center",
+                  "$cell": []
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": false,
+              "dataSource": [],
+              "actions": {
+                "children": [],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1646035345872_0.29663929718515214"
+                }
+              },
+              "rowKey": "id",
+              "onChangeCode": "function onChange(pagination, filters, sorter, action) {\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n    if (!action) return\n   // 在下面开始编写分页、排序、筛选变化时触发事件\n    $data.page = pagination\n    $data.sort = sorter\n    $data.selectedRows = []\n    $run('query')\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1646035345103_0.6531047055533261"
+          }
+        },
+        "onExportCode": "function onExport() {\n  // 在下面开始编写点击导出按钮时触发事件\n  $data.filters.closePage = true;\n  $data.filters.isExport = true;\n  $run('exportt');\n}",
+        "useSearch": true,
+        "form": {
+          "children": [
+            {
+              "notShowItem": false,
+              "inline": true,
+              "readonly": false,
+              "$group": "a",
+              "rulesConfig": [],
+              "disabled": false,
+              "$key": "username",
+              "$item": {
+                "name": "InputText",
+                "label": "输入框",
+                "id": "InputText_1646035345103_0.004110272463747844"
+              },
+              "label": "申请人",
+              "allowClear": false
+            },
+            {
+              "notShowItem": false,
+              "useStyleText": true,
+              "styleText": "",
+              "setOptionsCode": "function setOptions() {\n  // 在下面返回Options的值\n  return  $$data.units\n}",
+              "showArrow": true,
+              "$key": "unitCode",
+              "label": "部门",
+              "bordered": true,
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {width:'180px'}\n}",
+              "inline": true,
+              "$group": "a",
+              "rulesConfig": [],
+              "options": [
+                {
+                  "label": "选项1",
+                  "value": "1"
+                },
+                {
+                  "label": "选项2",
+                  "value": "2"
+                },
+                {
+                  "label": "选项3",
+                  "value": "3"
+                },
+                {
+                  "label": "选项4",
+                  "value": "4"
+                }
+              ],
+              "$item": {
+                "name": "Select",
+                "label": "下拉框",
+                "id": "Select_1646048983364_0.4527621368177812"
+              },
+              "useOptionsCode": true,
+              "useStyleCode": false
+            },
+            {
+              "$name": "CheckboxGroup",
+              "notShowItem": false,
+              "inline": true,
+              "$group": "a",
+              "rulesConfig": [],
+              "options": [
+                {
+                  "label": "加班",
+                  "value": "3"
+                }
+              ],
+              "colon": false,
+              "$key": "checkJb",
+              "$item": {
+                "name": "CheckboxGroup",
+                "label": "多选框",
+                "id": "CheckboxGroup_1648619778368_0.9627761868206342"
+              },
+              "label": ""
+            },
+            {
+              "inline": true,
+              "$group": "b",
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "begin",
+              "$item": {
+                "name": "DatePicker",
+                "label": "日期选择",
+                "id": "DatePicker_1646037764864_0.7737329698331272"
+              },
+              "label": "起始考勤时间"
+            },
+            {
+              "inline": true,
+              "$group": "b",
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "end",
+              "$item": {
+                "name": "DatePicker",
+                "label": "日期选择",
+                "id": "DatePicker_1646037769258_0.4789543695910241"
+              },
+              "label": "结束考勤时间"
+            }
+          ],
+          "$key": "filters",
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1646035345103_0.4431082306887748"
+          }
+        },
+        "actionsLayout": "normal",
+        "$filterModeMap": {},
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1646035345103_0.02547386539284635"
+        },
+        "collapsedMode": "normal",
+        "onResetCode": "function onReset() {\n  // 在下面开始编写点击重置按钮时触发事件\n  $data.filters = {}\n  $data.page.pageNo = 1\n  $run('query')\n}"
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "DataList_1646035345103_0.3492523450369929": {
+        "$data": {
+          "Data_1646035345104_0.20242159968027473": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "{}",
+            "dataType": "object",
+            "name": "sorter",
+            "id": "Data_1646035345104_0.20242159968027473",
+            "label": "排序",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646035345104_0.1541354659205929": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const params = Object.assign({}, pagination, sorter)\n  try {\n    const { objList, pageDesc } = {} // 调用查询接口\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "query",
+            "id": "Method_1646035345104_0.1541354659205929",
+            "label": "查询",
+            "type": "method"
+          },
+          "Method_1646035345104_0.010439710943979552": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "async function onChange (selectedRowKeys, selectedRows) {  \n    this.selected.keys = selectedRowKeys\n    this.selected.rows = selectedRows\n}",
+            "name": "onSelectChange",
+            "id": "Method_1646035345104_0.010439710943979552",
+            "label": "selectChange事件",
+            "type": "method"
+          },
+          "Data_1646035345104_0.5029925304752074": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "{ rows: [], keys: [] }",
+            "dataType": "object",
+            "name": "selected",
+            "id": "Data_1646035345104_0.5029925304752074",
+            "label": "选中数据",
+            "type": "data"
+          },
+          "Method_1646035345104_0.5051851970917025": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "async function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selectedRows = []\n  this.query()\n}",
+            "name": "onChange",
+            "id": "Method_1646035345104_0.5051851970917025",
+            "label": "change事件",
+            "type": "method"
+          },
+          "Data_1646035345104_0.5048855486931179": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "[]",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "absenceday",
+                "id": "Data_1646035345104_0.5048855486931179_absenceday",
+                "label": "旷工天数",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "attformatdate",
+                "id": "Data_1646035345104_0.5048855486931179_attformatdate",
+                "label": "考勤日期",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "cardno",
+                "id": "Data_1646035345104_0.5048855486931179_cardno",
+                "label": "卡号",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "facecard",
+                "id": "Data_1646035345104_0.5048855486931179_facecard",
+                "label": "人脸识别标识",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "latetime",
+                "id": "Data_1646035345104_0.5048855486931179_latetime",
+                "label": "迟到时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "leaveearlytime",
+                "id": "Data_1646035345104_0.5048855486931179_leaveearlytime",
+                "label": "早退时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "loginname",
+                "id": "Data_1646035345104_0.5048855486931179_loginname",
+                "label": "登录名",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "offduty",
+                "id": "Data_1646035345104_0.5048855486931179_offduty",
+                "label": "下班打卡时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "offdutyTypeDesc",
+                "id": "Data_1646035345104_0.5048855486931179_offdutyTypeDesc",
+                "label": "下班考勤类型",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "onduty",
+                "id": "Data_1646035345104_0.5048855486931179_onduty",
+                "label": "上班打卡时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "ondutyTypeDesc",
+                "id": "Data_1646035345104_0.5048855486931179_ondutyTypeDesc",
+                "label": "上班考勤类型",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "overtimetime",
+                "id": "Data_1646035345104_0.5048855486931179_overtimetime",
+                "label": "加班时间",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "unitcodeDesc",
+                "id": "Data_1646035345104_0.5048855486931179_unitcodeDesc",
+                "label": "机构名",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "usercode",
+                "id": "Data_1646035345104_0.5048855486931179_usercode",
+                "label": "用户号",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "username",
+                "id": "Data_1646035345104_0.5048855486931179_username",
+                "label": "用户名",
+                "type": "schema"
+              }
+            ],
+            "componentSchemas": {
+              "latetime": {
+                "isDefault": true,
+                "propertyName": "latetime",
+                "fieldLabelName": "迟到时间",
+                "$key": "latetime",
+                "fieldType": "string"
+              },
+              "leaveearlytime": {
+                "isDefault": true,
+                "propertyName": "leaveearlytime",
+                "fieldLabelName": "早退时间",
+                "$key": "leaveearlytime",
+                "fieldType": "string"
+              },
+              "ondutyTypeDesc": {
+                "isDefault": true,
+                "propertyName": "ondutyTypeDesc",
+                "fieldLabelName": "上班考勤类型",
+                "$key": "ondutyTypeDesc",
+                "fieldType": "string"
+              },
+              "loginname": {
+                "isDefault": true,
+                "propertyName": "loginname",
+                "fieldLabelName": "登录名",
+                "$key": "loginname",
+                "fieldType": "string"
+              },
+              "absenceday": {
+                "isDefault": true,
+                "propertyName": "absenceday",
+                "fieldLabelName": "旷工天数",
+                "$key": "absenceday",
+                "fieldType": "string"
+              },
+              "offduty": {
+                "isDefault": true,
+                "propertyName": "offduty",
+                "fieldLabelName": "下班打卡时间",
+                "$key": "offduty",
+                "fieldType": "string"
+              },
+              "facecard": {
+                "isDefault": true,
+                "propertyName": "facecard",
+                "fieldLabelName": "人脸识别标识",
+                "$key": "facecard",
+                "fieldType": "string"
+              },
+              "cardno": {
+                "isDefault": true,
+                "propertyName": "cardno",
+                "fieldLabelName": "卡号",
+                "$key": "cardno",
+                "fieldType": "string"
+              },
+              "overtimetime": {
+                "isDefault": true,
+                "propertyName": "overtimetime",
+                "fieldLabelName": "加班时间",
+                "$key": "overtimetime",
+                "fieldType": "string"
+              },
+              "unitcodeDesc": {
+                "isDefault": true,
+                "propertyName": "unitcodeDesc",
+                "fieldLabelName": "机构名",
+                "$key": "unitcodeDesc",
+                "fieldType": "string"
+              },
+              "onduty": {
+                "isDefault": true,
+                "propertyName": "onduty",
+                "fieldLabelName": "上班打卡时间",
+                "$key": "onduty",
+                "fieldType": "string"
+              },
+              "offdutyTypeDesc": {
+                "isDefault": true,
+                "propertyName": "offdutyTypeDesc",
+                "fieldLabelName": "下班考勤类型",
+                "$key": "offdutyTypeDesc",
+                "fieldType": "string"
+              },
+              "usercode": {
+                "isDefault": true,
+                "propertyName": "usercode",
+                "fieldLabelName": "用户号",
+                "$key": "usercode",
+                "fieldType": "string"
+              },
+              "username": {
+                "isDefault": true,
+                "propertyName": "username",
+                "fieldLabelName": "用户名",
+                "$key": "username",
+                "fieldType": "string"
+              },
+              "attformatdate": {
+                "isDefault": true,
+                "propertyName": "attformatdate",
+                "fieldLabelName": "考勤日期",
+                "$key": "attformatdate",
+                "fieldType": "string"
+              }
+            },
+            "isMain": true,
+            "dataType": "array",
+            "name": "value",
+            "id": "Data_1646035345104_0.5048855486931179",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646035345104_0.07813593757793513": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "{ pageSize: 20, pageNo: 1 }",
+            "dataType": "object",
+            "name": "pagination",
+            "id": "Data_1646035345104_0.07813593757793513",
+            "label": "分页",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1646035345104_0.3301055827287198": {
+            "isDefault": true,
+            "componentId": "DataList_1646035345103_0.3492523450369929",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646035345104_0.3301055827287198",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "SearchList",
+          "label": "列表插槽",
+          "id": "SearchList_1646035345103_0.6531047055533261"
+        },
+        "useChangeCode": true,
+        "columns": [
+          {
+            "children": [],
+            "dataIndex": "unitcodeDesc",
+            "columnId": "HeaderCell_1646035345103_0.17099938803521386",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035345103_0.17099938803521386"
+            },
+            "title": "机构名",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "usercode",
+            "columnId": "HeaderCell_1646035913488_0.3545860320039682",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035913488_0.3545860320039682"
+            },
+            "title": "用户号",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "username",
+            "columnId": "HeaderCell_1646035944668_0.5592745459131743",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035944668_0.5592745459131743"
+            },
+            "title": "用户名",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "loginname",
+            "columnId": "HeaderCell_1646035943876_0.7021459935421259",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035943876_0.7021459935421259"
+            },
+            "title": "登录名",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "cardno",
+            "columnId": "HeaderCell_1646035942725_0.8223293530068623",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035942725_0.8223293530068623"
+            },
+            "title": "卡号",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "facecard",
+            "columnId": "HeaderCell_1646035941404_0.1195134377635747",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035941404_0.1195134377635747"
+            },
+            "title": "人脸识别标识",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "attformatdate",
+            "columnId": "HeaderCell_1646036361220_0.1486958351261396",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036361220_0.1486958351261396"
+            },
+            "title": "考勤日期",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "onduty",
+            "columnId": "HeaderCell_1646036360060_0.6642340869673111",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036360060_0.6642340869673111"
+            },
+            "title": "上班打卡时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "ondutyTypeDesc",
+            "columnId": "HeaderCell_1646036359331_0.6188705053500867",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036359331_0.6188705053500867"
+            },
+            "title": "上班考勤类型",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "offduty",
+            "columnId": "HeaderCell_1646036358268_0.3293730154907655",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036358268_0.3293730154907655"
+            },
+            "title": "下班打卡时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "offdutyTypeDesc",
+            "columnId": "HeaderCell_1646036357500_0.844845044828836",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036357500_0.844845044828836"
+            },
+            "title": "下班考勤类型",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "latetime",
+            "columnId": "HeaderCell_1646036356043_0.5656425588355136",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036356043_0.5656425588355136"
+            },
+            "title": "迟到时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "absenceday",
+            "columnId": "HeaderCell_1646036354727_0.68101794401517",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036354727_0.68101794401517"
+            },
+            "title": "旷工天数",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "overtimetime",
+            "columnId": "HeaderCell_1646036510796_0.48031018349530097",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036510796_0.48031018349530097"
+            },
+            "title": "加班时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leaveearlytime",
+            "columnId": "HeaderCell_1646036509620_0.23046142137056802",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036509620_0.23046142137056802"
+            },
+            "title": "早退时间",
+            "align": "center",
+            "$cell": []
+          }
+        ],
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return $data.loading\n}",
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return \n}",
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return $data.page\n}",
+        "$key": "list",
+        "useRowSelectionCode": false,
+        "bordered": true,
+        "usePaginationCode": true,
+        "fit": true,
+        "setRowSelectionCode": "function setRowSelection() {\n  // 在下面返回RowSelection的值\n  return {\n  \tgetCheckboxProps: row => ({\n      disabled: !$run('canEdit', row),\n    })\n  }\n}",
+        "onSelectChangeCode": "function onSelectChange(selectedRowKeys) {\n  // 在下面开始编写选择发生变化事件\n  $data.selectedRows = selectedRowKeys\n}",
+        "size": "small",
+        "useSelectChangeCode": true,
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1646035345103_0.3492523450369929"
+        },
+        "$columns": [
+          {
+            "children": [],
+            "dataIndex": "unitcodeDesc",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035345103_0.17099938803521386"
+            },
+            "title": "机构名",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "usercode",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035913488_0.3545860320039682"
+            },
+            "title": "用户号",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "username",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035944668_0.5592745459131743"
+            },
+            "title": "用户名",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "loginname",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035943876_0.7021459935421259"
+            },
+            "title": "登录名",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "cardno",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035942725_0.8223293530068623"
+            },
+            "title": "卡号",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "facecard",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646035941404_0.1195134377635747"
+            },
+            "title": "人脸识别标识",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "attformatdate",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036361220_0.1486958351261396"
+            },
+            "title": "考勤日期",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "onduty",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036360060_0.6642340869673111"
+            },
+            "title": "上班打卡时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "ondutyTypeDesc",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036359331_0.6188705053500867"
+            },
+            "title": "上班考勤类型",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "offduty",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036358268_0.3293730154907655"
+            },
+            "title": "下班打卡时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "offdutyTypeDesc",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036357500_0.844845044828836"
+            },
+            "title": "下班考勤类型",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "latetime",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036356043_0.5656425588355136"
+            },
+            "title": "迟到时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "absenceday",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036354727_0.68101794401517"
+            },
+            "title": "旷工天数",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "overtimetime",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036510796_0.48031018349530097"
+            },
+            "title": "加班时间",
+            "align": "center",
+            "$cell": []
+          },
+          {
+            "children": [],
+            "dataIndex": "leaveearlytime",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1646036509620_0.23046142137056802"
+            },
+            "title": "早退时间",
+            "align": "center",
+            "$cell": []
+          }
+        ],
+        "useLoadingCode": true,
+        "useSelectedRowKeysCode": false,
+        "dataSource": [],
+        "actions": {
+          "children": [],
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1646035345872_0.29663929718515214"
+          }
+        },
+        "rowKey": "id",
+        "onChangeCode": "function onChange(pagination, filters, sorter, action) {\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n    if (!action) return\n   // 在下面开始编写分页、排序、筛选变化时触发事件\n    $data.page = pagination\n    $data.sort = sorter\n    $data.selectedRows = []\n    $run('query')\n}"
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n  $run('getUnitInfos')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1646027575728_0.28259461598918323"
+    }
+  },
+  "publishDate": "2022-12-29 09:58:33",
+  "sourceId": "BxqDBRD6Qsm53KK65YLX5A",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1646049036522": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "units",
+        "id": "Data_1646049036522",
+        "title": "units",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646049036522"
+      },
+      "Data_1646035838188": {
+        "code": "{\r\n  pageSize: 10,\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1646035838188_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          }
+        ],
+        "name": "page",
+        "id": "Data_1646035838188",
+        "title": "page",
+        "type": "o",
+        "codeSchemas": {
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          }
+        },
+        "key": "Data_1646035838188"
+      },
+      "Data_1646035781492": {
+        "code": "{}",
+        "children": [],
+        "name": "info",
+        "id": "Data_1646035781492",
+        "title": "info",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646035781492"
+      },
+      "Data_1646035817156": {
+        "code": "{\r\n  'ORDER_BY':' unitcode,loginname,attdate'  \r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "ORDER_BY",
+            "id": "Data_1646035817156_ORDER_BY",
+            "label": "ORDER_BY",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "sort",
+        "id": "Data_1646035817156",
+        "label": "sort",
+        "type": "data",
+        "codeSchemas": {
+          "ORDER_BY": {
+            "isDefault": true,
+            "propertyName": "ORDER_BY",
+            "fieldLabelName": "ORDER_BY",
+            "fieldType": "string"
+          }
+        }
+      },
+      "Data_1646123825000": {
+        "code": "{}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "absenceday",
+            "id": "Data_1646123825000_absenceday",
+            "label": "旷工天数",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "attformatdate",
+            "id": "Data_1646123825000_attformatdate",
+            "label": "考勤日期",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "cardno",
+            "id": "Data_1646123825000_cardno",
+            "label": "卡号",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "facecard",
+            "id": "Data_1646123825000_facecard",
+            "label": "人脸识别标识",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "latetime",
+            "id": "Data_1646123825000_latetime",
+            "label": "迟到时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "leaveearlytime",
+            "id": "Data_1646123825000_leaveearlytime",
+            "label": "早退时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "loginname",
+            "id": "Data_1646123825000_loginname",
+            "label": "登录名",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "offduty",
+            "id": "Data_1646123825000_offduty",
+            "label": "下班打卡时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "offdutyTypeDesc",
+            "id": "Data_1646123825000_offdutyTypeDesc",
+            "label": "下班考勤类型",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "onduty",
+            "id": "Data_1646123825000_onduty",
+            "label": "上班打卡时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "ondutyTypeDesc",
+            "id": "Data_1646123825000_ondutyTypeDesc",
+            "label": "上班考勤类型",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "overtimetime",
+            "id": "Data_1646123825000_overtimetime",
+            "label": "加班时间",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitcodeDesc",
+            "id": "Data_1646123825000_unitcodeDesc",
+            "label": "机构名",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "usercode",
+            "id": "Data_1646123825000_usercode",
+            "label": "用户号",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "username",
+            "id": "Data_1646123825000_username",
+            "label": "用户名",
+            "type": "schema"
+          }
+        ],
+        "componentSchemas": {
+          "latetime": {
+            "isDefault": true,
+            "propertyName": "latetime",
+            "fieldLabelName": "迟到时间",
+            "$key": "latetime",
+            "fieldType": "string"
+          },
+          "leaveearlytime": {
+            "isDefault": true,
+            "propertyName": "leaveearlytime",
+            "fieldLabelName": "早退时间",
+            "$key": "leaveearlytime",
+            "fieldType": "string"
+          },
+          "ondutyTypeDesc": {
+            "isDefault": true,
+            "propertyName": "ondutyTypeDesc",
+            "fieldLabelName": "上班考勤类型",
+            "$key": "ondutyTypeDesc",
+            "fieldType": "string"
+          },
+          "loginname": {
+            "isDefault": true,
+            "propertyName": "loginname",
+            "fieldLabelName": "登录名",
+            "$key": "loginname",
+            "fieldType": "string"
+          },
+          "absenceday": {
+            "isDefault": true,
+            "propertyName": "absenceday",
+            "fieldLabelName": "旷工天数",
+            "$key": "absenceday",
+            "fieldType": "string"
+          },
+          "offduty": {
+            "isDefault": true,
+            "propertyName": "offduty",
+            "fieldLabelName": "下班打卡时间",
+            "$key": "offduty",
+            "fieldType": "string"
+          },
+          "facecard": {
+            "isDefault": true,
+            "propertyName": "facecard",
+            "fieldLabelName": "人脸识别标识",
+            "$key": "facecard",
+            "fieldType": "string"
+          },
+          "cardno": {
+            "isDefault": true,
+            "propertyName": "cardno",
+            "fieldLabelName": "卡号",
+            "$key": "cardno",
+            "fieldType": "string"
+          },
+          "overtimetime": {
+            "isDefault": true,
+            "propertyName": "overtimetime",
+            "fieldLabelName": "加班时间",
+            "$key": "overtimetime",
+            "fieldType": "string"
+          },
+          "unitcodeDesc": {
+            "isDefault": true,
+            "propertyName": "unitcodeDesc",
+            "fieldLabelName": "机构名",
+            "$key": "unitcodeDesc",
+            "fieldType": "string"
+          },
+          "onduty": {
+            "isDefault": true,
+            "propertyName": "onduty",
+            "fieldLabelName": "上班打卡时间",
+            "$key": "onduty",
+            "fieldType": "string"
+          },
+          "offdutyTypeDesc": {
+            "isDefault": true,
+            "propertyName": "offdutyTypeDesc",
+            "fieldLabelName": "下班考勤类型",
+            "$key": "offdutyTypeDesc",
+            "fieldType": "string"
+          },
+          "usercode": {
+            "isDefault": true,
+            "propertyName": "usercode",
+            "fieldLabelName": "用户号",
+            "$key": "usercode",
+            "fieldType": "string"
+          },
+          "username": {
+            "isDefault": true,
+            "propertyName": "username",
+            "fieldLabelName": "用户名",
+            "$key": "username",
+            "fieldType": "string"
+          },
+          "attformatdate": {
+            "isDefault": true,
+            "propertyName": "attformatdate",
+            "fieldLabelName": "考勤日期",
+            "$key": "attformatdate",
+            "fieldType": "string"
+          }
+        },
+        "dataType": "array",
+        "name": "list",
+        "id": "Data_1646123825000",
+        "title": "list",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646123825000"
+      },
+      "Data_1646035795821": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "loading",
+        "id": "Data_1646035795821",
+        "title": "loading",
+        "type": "o",
+        "key": "Data_1646035795821"
+      },
+      "Data_1646035766980": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "name": "filters",
+        "id": "Data_1646035766980",
+        "title": "filters",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1646035766980"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1646037694572": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data\n  const { begin,end,unitCode,closePage,isExport,checkJb } = filters\n  const beginDay = begin?begin.split(' ')[0]:undefined;\n  const endDay = end?end.split(' ')[0]:undefined;\n  const check=checkJb?checkJb[0]:false;\n  const jb={};\n  if (check){\n    jb['g0_ondutyType']='3';\n    jb['g0_offdutyType']='3';\n  }\n  const params = Object.assign({\n  \t'(like)username_lk': filters.username,\n    'unitCode':unitCode,\n    ['(datetime)attdate_ge']: beginDay ? `${beginDay} 00:00:00`:undefined,\n    ['(datetime)attdate_le']: endDay ? `${endDay} 23:59:59`:undefined\n  },jb, page, sort)\n  \n  $data.loading = true\n  const { objList, pageDesc } = await $dde.get('1b29e70ac98648f69d6cf84760b55c39', { params })\n  $data.page = pageDesc\n  $data.list = objList\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1646037694572",
+        "label": "query",
+        "type": "method"
+      },
+      "Method_1646103844028": {
+        "code": "async function getUnitInfos() {\n  const units = await $api.queryUnits();\n  $data.units = units.map(item=>(\n     {label:item.unitName,value:item.unitCode}\n     ))\n}",
+        "name": "getUnitInfos",
+        "id": "Method_1646103844028",
+        "label": "getUnitInfos",
+        "type": "method"
+      },
+      "Method_1648103023514": {
+        "code": "async function exportt() {\n    const { page, sort, filters } = $data\n    const { begin,end,unitCode,closePage,isExport } = filters\n    const beginDay = begin?begin.split(' ')[0]:undefined;\n    const endDay = end?end.split(' ')[0]:undefined;\n    const bDay = beginDay ? `${beginDay} 00:00:00`:undefined;\n    const eDay = endDay ? `${endDay} 23:59:59`:undefined;\n    let pageTemp=Object.assign({},page);\n    pageTemp.pageSize=-1;\n    const params = Object.assign({\n        '(like)username_lk': filters.username == undefined ? '' : filters.username,\n        'unitCode':unitCode== undefined?'':unitCode,\n        ['(datetime)attdate_ge']: beginDay ? `${beginDay} 00:00:00`:'',\n        ['(datetime)attdate_le']: endDay ? `${endDay} 23:59:59`:'',\n        'closePage': true,\n        'isExport': true,\n    }, pageTemp, sort)\n    console.log('params',params)\n  $dde.open('1b29e70ac98648f69d6cf84760b55c39', params)\n   // window.open(url);\n}",
+        "name": "exportt",
+        "id": "Method_1648103023514",
+        "label": "exportt",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "",
+  "isValid": "F"
+}

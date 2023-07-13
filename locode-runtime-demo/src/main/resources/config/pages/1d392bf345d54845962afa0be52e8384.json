@@ -1,0 +1,200 @@
+{
+  "modelId": "1d392bf345d54845962afa0be52e8384",
+  "modelName": "测试背景素材",
+  "optId": "6ca65ab404db442e961ea372b76da705",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "children": [
+      {
+        "bgIndex": "10",
+        "children": [
+          {
+            "bgIndex": "21",
+            "children": [],
+            "bgSrc": "/2-大标题背景图/2.png",
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641886739849_0.8563386358700578"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 1,
+              "left": 1,
+              "wType": "%",
+              "width": 100,
+              "leftType": "px",
+              "height": 71
+            }
+          },
+          {
+            "bgIndex": "332",
+            "children": [],
+            "bgSrc": "/3-组件背景图/29.png",
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641886856640_0.8510479907024702"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 103,
+              "left": 40,
+              "wType": "px",
+              "width": "300",
+              "leftType": "px",
+              "height": 265
+            }
+          },
+          {
+            "bgIndex": "339",
+            "children": [],
+            "bgSrc": "/3-组件背景图/3-框.png",
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641886861943_0.9515267336270219"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 387,
+              "left": 40,
+              "wType": "px",
+              "width": "300",
+              "leftType": "px",
+              "height": 314
+            }
+          },
+          {
+            "bgIndex": "329",
+            "children": [],
+            "bgSrc": "/3-组件背景图/26.png",
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641886866968_0.5001037313719503"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 107,
+              "left": 875,
+              "wType": "px",
+              "width": 301,
+              "leftType": "px",
+              "height": 269
+            }
+          },
+          {
+            "bgIndex": "334",
+            "children": [],
+            "bgSrc": "/3-组件背景图/2模块边框2.png",
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641886874938_0.18630146139966208"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 394,
+              "left": 873,
+              "wType": "px",
+              "width": "300",
+              "leftType": "px",
+              "height": "300"
+            }
+          },
+          {
+            "bgIndex": "39",
+            "children": [],
+            "bgSrc": "/3-组件背景图/12.png",
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641886976301_0.3635816663650606"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 104,
+              "left": 352,
+              "wType": "px",
+              "width": 505,
+              "leftType": "px",
+              "height": 596
+            }
+          },
+          {
+            "children": [
+              {
+                "formatter": "{b}<br/>{c}",
+                "borderColor": "#00ffff",
+                "draggable": false,
+                "useStyleText": true,
+                "styleText": "width:100%;\nheight:100%;",
+                "adcode": 320000,
+                "areaColor": "#09295b",
+                "borderWidth": 1,
+                "$item": {
+                  "name": "ChartMap",
+                  "label": "地图",
+                  "id": "ChartMap_1641887028590_0.5537432391723576"
+                },
+                "areaColorHover": "#3066ba",
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                "textColor": "#fff"
+              }
+            ],
+            "$item": {
+              "name": "ChartLayoutCell",
+              "label": "布局内容单元",
+              "id": "ChartLayoutCell_1641887006977_0.21396557800728933"
+            },
+            "params": {
+              "topType": "px",
+              "hType": "px",
+              "top": 172,
+              "left": 367,
+              "wType": "px",
+              "width": 474,
+              "leftType": "px",
+              "height": 511
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1641884604030_0.871168763125052"
+        },
+        "bgSrc": "/1-模板背景图/1.png",
+        "$item": {
+          "name": "ChartLayout",
+          "label": "图表布局",
+          "id": "ChartLayout_1641885742683_0.5760144528000859"
+        }
+      }
+    ],
+    "root": true,
+    "positionLayout": true,
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1641884604030_0.871168763125052"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "NwmrK_j3Q3uj0lCAQllFTw",
+  "modelTag": "空白",
+  "isValid": "F"
+}

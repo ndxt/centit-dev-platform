@@ -1,0 +1,279 @@
+{
+  "modelId": "ab6b31762b9e4f9aa44f52211d6a44a3",
+  "modelName": "手机端测试",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-06-22 09:27:34",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1646376072695": {
+        "code": "[\r\n      {\r\n        text: '浙江省',\r\n        value: '330000',\r\n        children: [{ text: '杭州市', value: '330100' }],\r\n      },\r\n      {\r\n        text: '江苏省',\r\n        value: '320000',\r\n        children: [{ text: '南京市', value: '320100' }],\r\n      },\r\n    ];",
+        "children": [],
+        "dataType": "array",
+        "name": "option",
+        "id": "Data_1646376072695",
+        "title": "option",
+        "type": "o",
+        "key": "Data_1646376072695"
+      }
+    },
+    "fit": true,
+    "children": [
+      {
+        "tabList": [
+          {
+            "name": "标签1",
+            "icon": "home-o"
+          },
+          {
+            "name": "1231",
+            "icon": "123123"
+          }
+        ],
+        "children": [
+          {
+            "children": [
+              {
+                "readonly": false,
+                "disabled": false,
+                "$item": {
+                  "name": "MobileSearch",
+                  "label": "搜索输入框",
+                  "id": "MobileSearch_1646294080869_0.1535921989768647"
+                }
+              },
+              {
+                "border": false,
+                "gutter": 13,
+                "square": true,
+                "horizontal": false,
+                "columnNum": 4,
+                "clickable": false,
+                "$item": {
+                  "name": "MobileGrid",
+                  "label": "宫格",
+                  "id": "MobileGrid_1646293244339_0.9137025014393483"
+                },
+                "cellList": [
+                  {
+                    "icon": "photo-o",
+                    "text": "文字"
+                  },
+                  {
+                    "icon": "photo-o",
+                    "text": "1111"
+                  },
+                  {
+                    "icon": "photo-o",
+                    "text": "123123"
+                  },
+                  {
+                    "icon": "photo-o",
+                    "text": "123123"
+                  }
+                ]
+              },
+              {
+                "border": false,
+                "$name": "分组",
+                "children": [
+                  {
+                    "$name": "级联选择",
+                    "readonly": false,
+                    "optionKey": "option",
+                    "$parent": {
+                      "name": "MobileCellGroup",
+                      "label": "分组",
+                      "id": "MobileCellGroup_1646295375061_0.9184625403018833"
+                    },
+                    "disabled": false,
+                    "$key": "dq",
+                    "$item": {
+                      "name": "MobileCascader",
+                      "label": "级联选择",
+                      "id": "MobileCascader_1646307578782_0.3194419359733873"
+                    }
+                  },
+                  {
+                    "$name": "输入框",
+                    "readonly": false,
+                    "$parent": {
+                      "name": "MobileCellGroup",
+                      "label": "分组",
+                      "id": "MobileCellGroup_1646295375061_0.9184625403018833"
+                    },
+                    "disabled": false,
+                    "$key": "name",
+                    "$item": {
+                      "name": "MobileField",
+                      "label": "输入框",
+                      "id": "MobileField_1646307801639_0.2504147765478286"
+                    },
+                    "label": "姓名"
+                  },
+                  {
+                    "$name": "拍照栏",
+                    "$parent": {
+                      "name": "MobileCellGroup",
+                      "label": "分组",
+                      "id": "MobileCellGroup_1646295375061_0.9184625403018833"
+                    },
+                    "disabled": false,
+                    "$item": {
+                      "name": "MobileCamera",
+                      "label": "拍照栏",
+                      "id": "MobileCamera_1646376727326_0.7300367734613906"
+                    }
+                  }
+                ],
+                "inset": true,
+                "$item": {
+                  "name": "MobileCellGroup",
+                  "label": "分组",
+                  "id": "MobileCellGroup_1646295375061_0.9184625403018833"
+                }
+              },
+              {
+                "$name": "标签页",
+                "tabList": [
+                  {
+                    "name": "标签1"
+                  },
+                  {
+                    "name": "标签2"
+                  }
+                ],
+                "children": [
+                  {
+                    "$name": "内容",
+                    "children": [
+                      {
+                        "border": false,
+                        "$name": "分组",
+                        "children": [],
+                        "inset": true,
+                        "$item": {
+                          "name": "MobileCellGroup",
+                          "label": "分组",
+                          "id": "MobileCellGroup_1646379940168_0.5638295201172117"
+                        }
+                      }
+                    ],
+                    "$item": {
+                      "name": "MobileTabsContent",
+                      "label": "内容",
+                      "id": "MobileTabsContent_1646379696279_0.29826082467139425"
+                    }
+                  },
+                  {
+                    "$name": "内容",
+                    "children": [],
+                    "$item": {
+                      "name": "MobileTabsContent",
+                      "label": "内容",
+                      "id": "MobileTabsContent_1646379696279_0.5014568567749633"
+                    }
+                  }
+                ],
+                "$item": {
+                  "name": "MobileTabs",
+                  "label": "标签页",
+                  "id": "MobileTabs_1646379696279_0.7973614776056033"
+                },
+                "card": true
+              }
+            ],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1646030452030_0.32303604468365155"
+            }
+          },
+          {
+            "children": [
+              {
+                "disabled": false,
+                "$item": {
+                  "name": "MobileButton",
+                  "label": "按钮",
+                  "id": "MobileButton_1646034873775_0.3447873012723419"
+                }
+              },
+              {
+                "readonly": false,
+                "disabled": false,
+                "$item": {
+                  "name": "MobileField",
+                  "label": "输入框",
+                  "id": "MobileField_1646034875359_0.527338567482353"
+                }
+              }
+            ],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1646030452030_0.42631909699632775"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1645772197566_0.2357567590343319"
+        },
+        "showTabBar": true,
+        "showNavBar": true,
+        "leftText": "返回",
+        "$item": {
+          "name": "MobileLayout",
+          "label": "布局",
+          "id": "MobileLayout_1646030452030_0.9616721938797113"
+        },
+        "title": "标题",
+        "leftArrow": false
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1645772197566_0.2357567590343319"
+    }
+  },
+  "publishDate": "2022-06-22 09:27:34",
+  "sourceId": "qxvlGX-oTMma3QW9Pkf3Qw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1646376072695": {
+        "code": "[\r\n      {\r\n        text: '浙江省',\r\n        value: '330000',\r\n        children: [{ text: '杭州市', value: '330100' }],\r\n      },\r\n      {\r\n        text: '江苏省',\r\n        value: '320000',\r\n        children: [{ text: '南京市', value: '320100' }],\r\n      },\r\n    ];",
+        "children": [],
+        "dataType": "array",
+        "name": "option",
+        "id": "Data_1646376072695",
+        "title": "option",
+        "type": "o",
+        "key": "Data_1646376072695"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1655861217118": {
+        "code": "function query () {\n    $api.queryUnits()\n    $api.queryUsers()\n}",
+        "name": "query",
+        "id": "Method_1655861217118",
+        "label": "query",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "空白",
+  "isValid": "F"
+}

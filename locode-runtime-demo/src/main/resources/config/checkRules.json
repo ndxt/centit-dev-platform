@@ -1,0 +1,24 @@
+[
+  {
+    "ruleId": "56OXSdzqQu2yf84Tgbp-_A",
+    "topUnit": "DxxkJ664",
+    "ruleType": "qt",
+    "ruleName": "时间范围",
+    "ruleFormula": "checkValue >param1 and checkValue < param2",
+    "ruleParamSum": 2,
+    "ruleParamDesc": "{\"param1\":{\"name\":\"开始时间\",\"type\":\"date\"},\"param2\":{\"name\":\"结束时间\",\"type\":\"date\"}}",
+    "faultMessage": "时间{checkValue}介于{param1}和{param2}之间",
+    "ruleDesc": ""
+  },
+  {
+    "ruleId": "C59wRaGzSTKG6mO56Qp_HA",
+    "topUnit": "DxxkJ664",
+    "ruleType": "sc",
+    "ruleName": "值不能为空",
+    "ruleFormula": "isEmpty(checkValue)",
+    "ruleParamSum": 1,
+    "ruleParamDesc": "{}",
+    "faultMessage": "{checkValue}不能为空！",
+    "ruleDesc": ""
+  }
+]

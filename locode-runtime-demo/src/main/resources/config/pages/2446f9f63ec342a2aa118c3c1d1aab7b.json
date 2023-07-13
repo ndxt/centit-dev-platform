@@ -1,0 +1,358 @@
+{
+  "modelId": "2446f9f63ec342a2aa118c3c1d1aab7b",
+  "modelName": "展示申请信息",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2023-01-17 11:11:31",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建一个填写表单页面",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1639105956209": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "name": "info",
+        "id": "Data_1639105956209",
+        "title": "info",
+        "type": "o",
+        "key": "Data_1639105956209"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639105626636": {
+        "code": "function load(info) {\n  $data.info = info;\n  console.log(info);\n}",
+        "name": "load",
+        "id": "Method_1639105626636",
+        "label": "load",
+        "type": "method"
+      }
+    },
+    "children": [
+      {
+        "useStyleText": false,
+        "styleText": "margin-bottom: 20px;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639105208237"
+        },
+        "column": 2,
+        "$key": "info",
+        "bordered": true,
+        "title": "",
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+        "layout": "horizontal",
+        "size": "default",
+        "children": [
+          {
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.usercodeDesc || $data.usercode\n}",
+            "$key": "usercode",
+            "useValueCode": true,
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639114258881"
+            },
+            "label": "申请人",
+            "text": "无",
+            "span": 1
+          },
+          {
+            "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.ownunitDesc || $data.ownunit\n}",
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.ownunitDesc\n}",
+            "$key": "ownunit",
+            "useValueCode": true,
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639114549118"
+            },
+            "label": "申请部门",
+            "text": "无",
+            "span": 1
+          },
+          {
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.leavetypeDesc || $data.leavetype\n}",
+            "$key": "leavetype",
+            "useValueCode": true,
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639114548456"
+            },
+            "label": "申请类型",
+            "text": "无",
+            "span": 1
+          },
+          {
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.recorddate?.slice(0, 10)\n}",
+            "$key": "recorddate",
+            "useValueCode": true,
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639114547239"
+            },
+            "label": "申请日期",
+            "text": "无",
+            "span": 1
+          },
+          {
+            "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $$data.info.bigtype === 'C' || $$data.info.bigtype === 'W'\n}",
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "use$$ifCode": true,
+            "$key": "leavecity",
+            "defaultText": "空",
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639114545683"
+            },
+            "label": "外出地",
+            "text": "无",
+            "span": 2
+          },
+          {
+            "$name": "描述项",
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "$key": "begintime",
+            "defaultText": "空",
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1655721119174_0.5097000302004113"
+            },
+            "label": "开始时间",
+            "text": "无",
+            "span": 2
+          },
+          {
+            "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $$data.info.leavetype != 'BD'\n}",
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.endtime || ''\n}",
+            "use$$ifCode": true,
+            "$key": "endtime",
+            "useValueCode": true,
+            "defaultText": "空",
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639116058998"
+            },
+            "label": "结束时间",
+            "text": "无",
+            "span": 2
+          },
+          {
+            "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $$data.info.leavetype != 'BD'\n}",
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { leavedays: d, timetype: t } = $data\n  return `${d} ${{D: '天', H: '小时'}[t]}`\n}",
+            "use$$ifCode": true,
+            "$key": "leavedays",
+            "useValueCode": true,
+            "defaultText": "空",
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639116076207"
+            },
+            "label": "请假时长",
+            "text": "无",
+            "span": 2
+          },
+          {
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n\treturn $data.leavereason || ''\n}",
+            "$key": "leavereson",
+            "useValueCode": true,
+            "defaultText": "空",
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1639116236132"
+            },
+            "label": "事由",
+            "text": "无",
+            "span": 2
+          },
+          {
+            "$name": "描述项",
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  return $data.checkuserDesc || $data.checkuser\n}",
+            "$key": "checkuser",
+            "useValueCode": true,
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1646357785784_0.5625008034178189"
+            },
+            "label": "预审核人",
+            "text": "空",
+            "span": 1
+          },
+          {
+            "children": [],
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "setValueCode": "function setValue() {\n  const { cc } = $data\n  return cc ? cc.map(c => c.usercodeDesc).join(',') : '无'\n}",
+            "$key": "cc",
+            "useValueCode": true,
+            "defaultText": "空",
+            "$item": {
+              "name": "DescriptionsItem",
+              "label": "描述项",
+              "id": "DescriptionsItem_1644831388600_0.4563350042730203"
+            },
+            "label": "抄送人",
+            "text": "无",
+            "span": 2
+          },
+          {
+            "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return \n}",
+            "$parent": {
+              "name": "Descriptions",
+              "label": "描述列表",
+              "id": "Descriptions_1639112920343"
+            },
+            "max": 10,
+            "multiple": false,
+            "use$$ifCode": false,
+            "disabled": true,
+            "$key": "files",
+            "$item": {
+              "name": "Upload",
+              "label": "上传文件",
+              "id": "Upload_1644831560199_0.5120278681828432"
+            },
+            "label": "下载文件",
+            "uploadText": "",
+            "listType": "picture-card",
+            "showUploadList": true
+          }
+        ],
+        "colon": false,
+        "$item": {
+          "name": "Descriptions",
+          "label": "描述列表",
+          "id": "Descriptions_1639112920343"
+        },
+        "setColumnCode": "function setColumn() {\n  // 在下面返回Column的值\n  return {\n  \txs: 1,\n    sm: 1,\n    md: 2,\n  }\n}",
+        "useColumnCode": true
+      }
+    ],
+    "root": true,
+    "useMountedCode": false,
+    "componentData": {},
+    "style": {},
+    "paramsConfigs": {
+      "Param_1639105241033": {
+        "code": "function watchLeave(leave, oldLeave) {\n  // 在下面开始编写leave监听\n  $run('load', leave)\n}",
+        "immediate": true,
+        "name": "leave",
+        "id": "Param_1639105241033"
+      }
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639105208237"
+    }
+  },
+  "publishDate": "2023-01-17 11:11:31",
+  "sourceId": "__M91fcDSTOCB6sifpkXgg",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1639105956209": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "object",
+        "name": "info",
+        "id": "Data_1639105956209",
+        "label": "info",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639105626636": {
+        "code": "function load(info) {\n  $data.info = info;\n}",
+        "name": "load",
+        "id": "Method_1639105626636",
+        "label": "load",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1639105241033": {
+        "code": "function watchLeave(leave, oldLeave) {\n  // 在下面开始编写leave监听\n  $run('load', leave)\n}",
+        "immediate": true,
+        "name": "leave",
+        "id": "Param_1639105241033"
+      }
+    }
+  },
+  "modelTag": "表单",
+  "isValid": "F"
+}

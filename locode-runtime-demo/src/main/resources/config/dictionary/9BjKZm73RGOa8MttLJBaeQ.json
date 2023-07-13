@@ -1,0 +1,49 @@
+{
+  "catalogCode": "9BjKZm73RGOa8MttLJBaeQ",
+  "catalogName": "变更类型",
+  "catalogStyle": "U",
+  "catalogType": "L",
+  "catalogDesc": "",
+  "fieldDesc": "{\"dataCode\":{\"isUse\":\"T\",\"value\":\"编码\"},\"dataOrder\":{\"isUse\":\"T\",\"value\":\"排序\"},\"dataValue\":{\"isUse\":\"T\",\"value\":\"名称\"},\"dataTag\":{\"isUse\":\"T\",\"value\":\"启用\"},\"dataDesc\":{\"isUse\":\"T\",\"value\":\"描述\"},\"extraCode\":{\"isUse\":\"F\",\"value\":\"扩展编码\"}}",
+  "updateDate": "2023-03-09 10:00:16",
+  "createDate": "2023-03-09 09:59:53",
+  "optId": "h6THeP1rSruaBmoVo41eYQ",
+  "needCache": "1",
+  "creator": "UkBTbun7",
+  "updator": "UkBTbun7",
+  "topUnit": "DxxkJ664",
+  "osId": "dk1c_PAuQ8ie2bcFtS4o-w",
+  "sourceId": "9BjKZm73RGOa8MttLJBaeQ",
+  "details": [
+    {
+      "catalogCode": "9BjKZm73RGOa8MttLJBaeQ",
+      "dataCode": "all",
+      "extraCode": "",
+      "dataTag": "T",
+      "dataValue": "全部",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2023-03-09 10:00:16"
+    },
+    {
+      "catalogCode": "9BjKZm73RGOa8MttLJBaeQ",
+      "dataCode": "wkpsr",
+      "extraCode": "",
+      "dataTag": "T",
+      "dataValue": "未开票确认收入",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2023-03-09 10:00:16"
+    },
+    {
+      "catalogCode": "9BjKZm73RGOa8MttLJBaeQ",
+      "dataCode": "ykpbsr",
+      "extraCode": "",
+      "dataTag": "T",
+      "dataValue": "已开票不确认收入",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2023-03-09 10:00:16"
+    }
+  ]
+}

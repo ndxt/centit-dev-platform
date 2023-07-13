@@ -1,0 +1,22 @@
+{
+  "modelId": "7f4dddf0d46e4ccfa5630bdaa18a5fae",
+  "modelName": "补卡申请（提交）1_复制",
+  "optId": "cnTGTWlRRCyWRl_7RGF0lg",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "展示补卡信息页面123",
+  "formTemplate": {
+    "plugin": {
+      "tag": "Model",
+      "label": "模块",
+      "id": "Model_1637636350811"
+    },
+    "children": []
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "jpfaU2g1Qd2WRIs5l_SiLA",
+  "modelTag": "补卡",
+  "isValid": "F"
+}

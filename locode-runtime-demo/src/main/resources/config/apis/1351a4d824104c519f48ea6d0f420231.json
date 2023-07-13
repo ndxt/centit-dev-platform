@@ -1,0 +1,242 @@
+{
+  "packetId": "1351a4d824104c519f48ea6d0f420231",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "定时任务测试1",
+  "packetDesc": "",
+  "recorder": "UkBTbun7",
+  "recordDate": "2022-07-04 13:41:54",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 340,
+        "y": 100,
+        "id": "start",
+        "text": {
+          "x": 340,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "id": "start",
+          "type": "start"
+        }
+      },
+      {
+        "x": 340,
+        "y": 240,
+        "id": "defineJsonDatabgfp4bsL",
+        "text": {
+          "x": 340,
+          "y": 240,
+          "value": "创建对象"
+        },
+        "type": "defineJsonData",
+        "properties": {
+          "isBranch": false,
+          "processName": "创建对象",
+          "jsonValue": "{\r\n    \"userCode\":\"__session_data.userInfo.userCode\"\r\n}",
+          "typeName": "创建对象",
+          "isSource": true,
+          "x": 340,
+          "y": 240,
+          "id": "defineJsonDatabgfp4bsL",
+          "text": {
+            "x": 340,
+            "y": 240,
+            "value": "创建对象"
+          },
+          "type": "defineJsonData",
+          "properties": {
+            "isBranch": false,
+            "processName": "创建对象",
+            "typeName": "创建对象",
+            "isSource": true,
+            "id": "defineJsonDatabgfp4bsL",
+            "type": "defineJsonData"
+          }
+        }
+      },
+      {
+        "x": 340,
+        "y": 380,
+        "id": "resultsQu6disSN",
+        "text": {
+          "x": 340,
+          "y": 380,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "fileName": "",
+          "resultOptions": "3",
+          "typeName": "返回结果",
+          "source": "defineJsonDatabgfp4bsL",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "isSource": true,
+          "x": 340,
+          "y": 380,
+          "id": "resultsQu6disSN",
+          "text": {
+            "x": 340,
+            "y": 380,
+            "value": "返回结果"
+          },
+          "fileContent": "",
+          "properties": {
+            "isBranch": false,
+            "fileName": "",
+            "resultOptions": "1",
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": true,
+            "id": "resultsQu6disSN",
+            "type": "results",
+            "fileContent": ""
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 340,
+            "y": 121
+          },
+          {
+            "x": 340,
+            "y": 219
+          }
+        ],
+        "endPoint": {
+          "x": 340,
+          "y": 219
+        },
+        "sourceNodeId": "start",
+        "startPoint": {
+          "x": 340,
+          "y": 121
+        },
+        "id": "edgejK1LttUm",
+        "type": "PlineEdge",
+        "targetNodeId": "defineJsonDatabgfp4bsL",
+        "properties": {
+          "sourceId": "start",
+          "targetId": "defineJsonDatabgfp4bsL",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgejK1LttUm",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 340,
+            "y": 261
+          },
+          {
+            "x": 340,
+            "y": 359
+          }
+        ],
+        "endPoint": {
+          "x": 340,
+          "y": 359
+        },
+        "sourceNodeId": "defineJsonDatabgfp4bsL",
+        "startPoint": {
+          "x": 340,
+          "y": 261
+        },
+        "id": "edgeSaDjBDds",
+        "type": "PlineEdge",
+        "targetNodeId": "resultsQu6disSN",
+        "properties": {
+          "sourceId": "defineJsonDatabgfp4bsL",
+          "targetId": "resultsQu6disSN",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeSaDjBDds",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "2",
+  "taskCron": "0 0/1 7-21 * * ? *",
+  "lastRunTime": "2022-07-04 14:53:00",
+  "nextRunTime": "2022-07-04 14:53:00",
+  "isValid": "F",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-07-04 14:53:25",
+  "publishDate": "2022-07-04 14:53:24",
+  "needRollback": "T",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "optCode": "1351a4d824104c519f48ea6d0f420231",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "1351a4d824104c519f48ea6d0f420231",
+  "logLevel": 1,
+  "isDisable": "T",
+  "schemaProps": {
+    "1351a4d824104c519f48ea6d0f420231": {
+      "flag": "_api",
+      "children": [
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "code",
+              "id": "code",
+              "title": "code",
+              "key": "1351a4d824104c519f48ea6d0f420231/__last_error/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "data",
+              "id": "data",
+              "title": "data",
+              "key": "1351a4d824104c519f48ea6d0f420231/__last_error/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "message",
+              "id": "message",
+              "title": "message",
+              "key": "1351a4d824104c519f48ea6d0f420231/__last_error/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新执行结果",
+          "id": "__last_error",
+          "title": "__last_error",
+          "key": "1351a4d824104c519f48ea6d0f420231/__last_error",
+          "attrType": ""
+        }
+      ],
+      "helpField": "定时任务测试1",
+      "id": "1351a4d824104c519f48ea6d0f420231",
+      "title": "定时任务",
+      "key": "api",
+      "attrType": ""
+    }
+  },
+  "params": []
+}

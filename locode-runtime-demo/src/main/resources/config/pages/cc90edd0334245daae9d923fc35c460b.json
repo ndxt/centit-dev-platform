@@ -1,0 +1,106 @@
+{
+  "modelId": "cc90edd0334245daae9d923fc35c460b",
+  "modelName": "zk测试",
+  "optId": "CF13_POSTbK4-mlb01rb0w",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1639999952035": {
+        "code": "[\n  {\n  \ttime: '2021-12-12 11:21:42',\n    node: '创建',\n    user: '张凯',\n    result: '提交了请假申请',\n  },\n  {\n  \ttime: '2021-12-12 13:21:42',\n    node: '预审',\n    user: '陶荣',\n    result: '通过',\n    content: '同意',\n  },\n  {\n    node: '部门长审批',\n    user: '杨淮生',\n    pendding: true,\n  },\n]",
+        "name": "times",
+        "id": "Data_1639999952035",
+        "title": "times",
+        "type": "a",
+        "key": "Data_1639999952035"
+      }
+    },
+    "children": [
+      {
+        "mode": "left",
+        "children": [
+          {
+            "use$forCode": true,
+            "useTextCode": true,
+            "setTextCode": "function setText() {\n  // 在下面返回Text的值\n  const { user, time, result, content } = $data\n  return `${user} 于 ${time}\n${result}\n${content}\n  `\n}",
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "display: block;",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { user, time } = $data\n  if (!time) return `等待 [${user}] 审批`\n  \n  return `[${user}] 于 ${time}`\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640069151126"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              },
+              {
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.result\n}",
+                "useStyleText": true,
+                "styleText": "display: block;\nfont-weight: 700;",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.result\n}",
+                "use$$ifCode": true,
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640069216534"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              },
+              {
+                "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.content\n}",
+                "useStyleText": true,
+                "styleText": "display: block;",
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return `审批意见：${$data.content}`\n}",
+                "use$$ifCode": true,
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1640069267067"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "set$forCode": "function set() {\n  return $data || []\n}",
+            "$item": {
+              "name": "TimelineItem",
+              "label": "时间轴项",
+              "id": "TimelineItem_1640056765585"
+            },
+            "useLabelCode": true,
+            "setLabelCode": "function setLabel() {\n  // 在下面返回Label的值\n  return $data.node\n}"
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639996215143"
+        },
+        "$key": "times",
+        "$item": {
+          "name": "Timeline",
+          "label": "时间轴",
+          "id": "Timeline_1640056765585"
+        }
+      }
+    ],
+    "root": true,
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639996215143"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "wgq4NAeqSKu_JjVFyXTfDA",
+  "modelTag": "zk",
+  "isValid": "F"
+}

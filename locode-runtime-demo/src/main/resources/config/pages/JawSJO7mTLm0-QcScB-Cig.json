@@ -1,0 +1,67 @@
+{
+  "modelId": "JawSJO7mTLm0-QcScB-Cig",
+  "modelName": "测试页面",
+  "optId": "dDf2E-F1RyaQwhpNYXZDPw",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "lastModifyDate": "2022-03-23 16:52:33",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "Calendar",
+        "useAdjustCode": true,
+        "setAdjustCode": "function setAdjust() {\n  // 在下面返回Adjust的值\n  return $data.adjust;\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1648016739858_0.2429056950188513"
+        },
+        "$item": {
+          "name": "Calendar",
+          "label": "日历",
+          "id": "Calendar_1648016741729_0.07621319445104069"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {},
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('getAdjust');\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1648016739858_0.2429056950188513"
+    }
+  },
+  "publishDate": "2022-03-23 16:52:33",
+  "sourceId": "JawSJO7mTLm0-QcScB-Cig",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1648016755047": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "adjust",
+        "id": "Data_1648016755047",
+        "label": "adjust",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1648016773662": {
+        "code": "async function queryAdjust() {\n    await $dde.get('6703454f60944018a77fddc55cb247f8').then(res => {\n      res.objList.forEach(item => {\n          if(item.dayType != undefined) {\n              item.workDay = item.workDay.split(' ')[0];\n              item.bgColor = item.dayType === 'B' ? '#f8f8f9' : '#dcdee2';\n              item.dayType = item.dayType === 'B' ? '班' : '休';\n              \n          }\n      })\n      $data.adjust = res.objList;\n  })\n}",
+        "name": "getAdjust",
+        "id": "Method_1648016773662",
+        "label": "getAdjust",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "isValid": "F"
+}

@@ -1,0 +1,1270 @@
+{
+  "packetId": "b2f49cbd9583419588ace10ff7e62eed",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "实时获取考勤数据",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "id": "startUoWVzfKWk7",
+        "type": "start",
+        "x": 240,
+        "y": 100,
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "id": "startUoWVzfKWk7",
+          "type": "start"
+        },
+        "text": {
+          "x": 240,
+          "y": 100,
+          "value": "开始"
+        }
+      },
+      {
+        "id": "databasepgB1j1fl8p",
+        "type": "database",
+        "x": 240,
+        "y": 200,
+        "properties": {
+          "databaseName": "as1tbQH_TsKztvEVP1hyhw",
+          "typeName": "读取关系数据库",
+          "type": "database",
+          "querySQL": "\r\nselect distinct f_cardno,f_readdate from t_d_cardrecord where f_readdate>=GETDATE()-10",
+          "isBranch": false,
+          "processName": "门禁刷卡数据",
+          "isSource": true,
+          "isSelected": true,
+          "x": 240,
+          "parameterList": [],
+          "y": 200,
+          "id": "databasepgB1j1fl8p",
+          "text": {
+            "x": 240,
+            "y": 200,
+            "value": "门禁刷卡数据"
+          },
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "cardno",
+              "dataType": "string",
+              "columnCode": "f_cardno",
+              "columnName": "cardno"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "readdate",
+              "dataType": "string",
+              "columnCode": "f_readdate",
+              "columnName": "readdate"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "properties": {
+            "querySQL": "select f_cardno,f_readdate from t_d_cardrecord where f_readdate>=GETDATE()-10",
+            "isBranch": false,
+            "databaseName": "as1tbQH_TsKztvEVP1hyhw",
+            "processName": "门禁刷卡数据",
+            "typeName": "读取关系数据库",
+            "isSource": true,
+            "isSelected": true,
+            "parameterList": [],
+            "id": "databasepgB1j1fl8p",
+            "type": "database",
+            "config": [
+              {
+                "isStatData": "F",
+                "propertyName": "cardno",
+                "dataType": "string",
+                "columnCode": "f_cardno",
+                "columnName": "cardno"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "readdate",
+                "dataType": "string",
+                "columnCode": "f_readdate",
+                "columnName": "readdate"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ]
+          }
+        },
+        "text": {
+          "x": 240,
+          "y": 200,
+          "value": "门禁刷卡数据"
+        }
+      },
+      {
+        "id": "persistenceTKBFAQ10F4",
+        "type": "persistence",
+        "x": 240,
+        "y": 300,
+        "properties": {
+          "tableLabelName": "20c41818e2d74ef0bbc2049c1f95c442",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "cardno",
+              "dataType": "string",
+              "columnCode": "f_cardno",
+              "columnName": "cardno"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "readdate",
+              "dataType": "string",
+              "columnCode": "f_readdate",
+              "columnName": "readdate"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "写入关系数据库",
+          "source": "databasepgB1j1fl8p",
+          "type": "persistence",
+          "resultMsg": "__rmdb_writer_result_msg",
+          "isBranch": false,
+          "result": "__rmdb_writer_result",
+          "processName": "写入关系数据库",
+          "saveAsWhole": false,
+          "isSource": false,
+          "isSelected": true,
+          "x": 300,
+          "y": 340,
+          "id": "persistenceTKBFAQ10F4",
+          "text": {
+            "x": 300,
+            "y": 340,
+            "value": "写入关系数据库"
+          },
+          "isRun": true,
+          "tablefield": [
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 128,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 128,
+              "columnComment": "???",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "cardname",
+              "fieldLabelName": "cardName",
+              "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "cardName",
+              "primaryKey": true
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 0,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 0,
+              "columnComment": "????",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.sql.Date",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DATETIME",
+              "propertyName": "recorddate",
+              "fieldLabelName": "recordDate",
+              "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "datetime",
+              "columnName": "recordDate",
+              "primaryKey": true
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 1,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 1,
+              "columnComment": "????",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "sourcetype",
+              "fieldLabelName": "sourceType",
+              "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "sourceType",
+              "primaryKey": false
+            }
+          ],
+          "config": [
+            {
+              "primaryKey1": "cardno",
+              "propertyName": "fCardno",
+              "unique": 0,
+              "columnName": "cardName"
+            },
+            {
+              "primaryKey1": "readdate",
+              "propertyName": "fReaddate",
+              "unique": 1,
+              "columnName": "recordDate"
+            }
+          ],
+          "writerType": "merge",
+          "properties": {
+            "tableLabelName": "20c41818e2d74ef0bbc2049c1f95c442",
+            "Sourcefield": [
+              {
+                "isStatData": "F",
+                "propertyName": "cardno",
+                "dataType": "string",
+                "columnCode": "f_cardno",
+                "columnName": "cardno"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "readdate",
+                "dataType": "string",
+                "columnCode": "f_readdate",
+                "columnName": "readdate"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ],
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "typeName": "写入关系数据库",
+            "source": "databasepgB1j1fl8p",
+            "type": "persistence",
+            "isBranch": false,
+            "processName": "写入关系数据库",
+            "saveAsWhole": false,
+            "isSource": false,
+            "isSelected": true,
+            "id": "persistenceTKBFAQ10F4",
+            "isRun": true,
+            "tablefield": [
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 128,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 128,
+                "columnComment": "???",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "cardname",
+                "fieldLabelName": "cardName",
+                "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "cardName",
+                "primaryKey": true
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "????",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATETIME",
+                "propertyName": "recorddate",
+                "fieldLabelName": "recordDate",
+                "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "datetime",
+                "columnName": "recordDate",
+                "primaryKey": true
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 1,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 1,
+                "columnComment": "????",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "sourcetype",
+                "fieldLabelName": "sourceType",
+                "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "sourceType",
+                "primaryKey": false
+              }
+            ],
+            "config": [
+              {
+                "primaryKey1": "cardno",
+                "propertyName": "cardname",
+                "unique": 0
+              },
+              {
+                "primaryKey1": "readdate",
+                "propertyName": "recorddate",
+                "unique": 1
+              }
+            ],
+            "writerType": "merge"
+          }
+        },
+        "text": {
+          "x": 240,
+          "y": 300,
+          "value": "写入关系数据库"
+        }
+      },
+      {
+        "id": "persistenceR9issFhVZL",
+        "type": "persistence",
+        "x": 420,
+        "y": 620,
+        "properties": {
+          "tableLabelName": "20c41818e2d74ef0bbc2049c1f95c442",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "username",
+              "dataType": "string",
+              "columnCode": "username",
+              "columnName": "username"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "recodertime",
+              "dataType": "string",
+              "columnCode": "recodertime",
+              "columnName": "recodertime"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "写入关系数据库",
+          "source": "databaseqoY0XeKF",
+          "type": "persistence",
+          "resultMsg": "__rmdb_writer_result_msg",
+          "isBranch": false,
+          "result": "__rmdb_writer_result",
+          "processName": "写入关系数据库",
+          "isSource": false,
+          "isSelected": true,
+          "x": 340,
+          "y": 580,
+          "id": "persistenceR9issFhVZL",
+          "text": {
+            "x": 340,
+            "y": 580,
+            "value": "写入关系数据库"
+          },
+          "isRun": true,
+          "tablefield": [
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 128,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 128,
+              "columnComment": "???",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "cardname",
+              "fieldLabelName": "cardName",
+              "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "cardName",
+              "primaryKey": true
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 0,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 0,
+              "columnComment": "????",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.sql.Date",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DATETIME",
+              "propertyName": "recorddate",
+              "fieldLabelName": "recordDate",
+              "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "datetime",
+              "columnName": "recordDate",
+              "primaryKey": true
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 1,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 1,
+              "columnComment": "????",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "sourcetype",
+              "fieldLabelName": "sourceType",
+              "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "sourceType",
+              "primaryKey": false
+            }
+          ],
+          "config": [
+            {
+              "primaryKey1": "sourcetype",
+              "propertyName": "sourcetype",
+              "unique": 0,
+              "columnName": "sourceType"
+            },
+            {
+              "primaryKey1": "username",
+              "propertyName": "username",
+              "unique": 1,
+              "columnName": "cardName"
+            },
+            {
+              "primaryKey1": "recodertime",
+              "propertyName": "recodertime",
+              "unique": 2,
+              "columnName": "recordDate"
+            }
+          ],
+          "writerType": "merge",
+          "properties": {
+            "tableLabelName": "20c41818e2d74ef0bbc2049c1f95c442",
+            "Sourcefield": [
+              {
+                "isStatData": "F",
+                "propertyName": "username",
+                "dataType": "string",
+                "columnCode": "username",
+                "columnName": "username"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "recodertime",
+                "dataType": "string",
+                "columnCode": "recodertime",
+                "columnName": "recodertime"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ],
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "typeName": "写入关系数据库",
+            "source": "databaseg164lZXVJ4",
+            "type": "persistence",
+            "processName": "写入关系数据库",
+            "isSource": false,
+            "isSelected": true,
+            "id": "persistenceR9issFhVZL",
+            "isRun": true,
+            "tablefield": [
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 128,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 128,
+                "columnComment": "???",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "cardname",
+                "fieldLabelName": "cardName",
+                "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "cardName",
+                "primaryKey": true
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "????",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATETIME",
+                "propertyName": "recorddate",
+                "fieldLabelName": "recordDate",
+                "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "datetime",
+                "columnName": "recordDate",
+                "primaryKey": true
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 1,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 1,
+                "columnComment": "????",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "sourcetype",
+                "fieldLabelName": "sourceType",
+                "tableId": "20c41818e2d74ef0bbc2049c1f95c442",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "sourceType",
+                "primaryKey": false
+              }
+            ],
+            "config": [
+              {
+                "primaryKey1": "sourcetype",
+                "propertyName": "sourcetype",
+                "unique": 0
+              },
+              {
+                "primaryKey1": "username",
+                "propertyName": "cardname",
+                "unique": 1
+              },
+              {
+                "primaryKey1": "recodertime",
+                "propertyName": "recorddate",
+                "unique": 2
+              }
+            ],
+            "writerType": "merge"
+          }
+        },
+        "text": {
+          "x": 420,
+          "y": 620,
+          "value": "写入关系数据库"
+        }
+      },
+      {
+        "id": "appendgE0cIgJzws",
+        "type": "append",
+        "x": 240,
+        "y": 620,
+        "properties": {
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "username",
+              "dataType": "string",
+              "columnCode": "username",
+              "columnName": "username"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "recodertime",
+              "dataType": "string",
+              "columnCode": "recodertime",
+              "columnName": "recodertime"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "typeName": "添加派生字段",
+          "source": "databaseqoY0XeKF",
+          "type": "append",
+          "isBranch": false,
+          "processName": "添加派生字段",
+          "isSource": false,
+          "isSelected": true,
+          "x": 240,
+          "y": 620,
+          "id": "appendgE0cIgJzws",
+          "text": {
+            "x": 240,
+            "y": 620,
+            "value": "添加派生字段"
+          },
+          "config": [
+            {
+              "expression": "2",
+              "cName": "刷卡类型",
+              "unique": 0,
+              "columnName": "sourcetype"
+            }
+          ],
+          "properties": {
+            "isBranch": false,
+            "Sourcefield": [
+              {
+                "isStatData": "F",
+                "propertyName": "username",
+                "dataType": "string",
+                "columnCode": "username",
+                "columnName": "username"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "recodertime",
+                "dataType": "string",
+                "columnCode": "recodertime",
+                "columnName": "recodertime"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ],
+            "processName": "添加派生字段",
+            "typeName": "添加派生字段",
+            "isSource": false,
+            "isSelected": true,
+            "id": "appendgE0cIgJzws",
+            "source": "databaseg164lZXVJ4",
+            "type": "append",
+            "config": [
+              {
+                "expression": "2",
+                "cName": "刷卡类型",
+                "unique": 0,
+                "columnName": "sourcetype"
+              }
+            ]
+          }
+        },
+        "text": {
+          "x": 240,
+          "y": 620,
+          "value": "添加派生字段"
+        }
+      },
+      {
+        "id": "commitTransactionplpy3zXg",
+        "type": "commitTransaction",
+        "x": 240,
+        "y": 400,
+        "properties": {
+          "isBranch": false,
+          "commitType": "selectAll",
+          "processName": "提交事务",
+          "typeName": "提交事务",
+          "isSource": false,
+          "id": "commitTransactionplpy3zXg",
+          "type": "commitTransaction"
+        },
+        "text": {
+          "x": 240,
+          "y": 400,
+          "value": "提交事务"
+        }
+      },
+      {
+        "id": "databaseqoY0XeKF",
+        "type": "database",
+        "x": 240,
+        "y": 500,
+        "properties": {
+          "databaseName": "C8gcVRH8SGibjItJIclKuA",
+          "typeName": "读取关系数据库",
+          "type": "database",
+          "isBranch": false,
+          "querySQL": "select distinct username,recodertime from creame_recorder where recodertime>date_add(now(), INTERVAL -5 DAY)",
+          "processName": "人脸刷卡数据",
+          "isSource": true,
+          "x": 240,
+          "y": 500,
+          "parameterList": [],
+          "id": "databaseqoY0XeKF",
+          "text": {
+            "x": 240,
+            "y": 500,
+            "value": "读取关系数据库"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "读取关系数据库",
+            "typeName": "读取关系数据库",
+            "isSource": true,
+            "id": "databaseqoY0XeKF",
+            "type": "database"
+          }
+        },
+        "text": {
+          "x": 240,
+          "y": 500,
+          "value": "人脸刷卡数据"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e6449827-bd9f-48a4-aa01-9dda67d42601",
+        "type": "PlineEdge",
+        "sourceNodeId": "startUoWVzfKWk7",
+        "targetNodeId": "databasepgB1j1fl8p",
+        "startPoint": {
+          "x": 240,
+          "y": 133
+        },
+        "endPoint": {
+          "x": 240,
+          "y": 167
+        },
+        "properties": {
+          "sourceId": "startUoWVzfKWk7",
+          "targetId": "databasepgB1j1fl8p",
+          "processName": "",
+          "typeName": "连线",
+          "id": "e6449827-bd9f-48a4-aa01-9dda67d42601",
+          "type": "PlineEdge"
+        },
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 133
+          },
+          {
+            "x": 240,
+            "y": 151
+          },
+          {
+            "x": 240,
+            "y": 151
+          },
+          {
+            "x": 240,
+            "y": 149
+          },
+          {
+            "x": 240,
+            "y": 149
+          },
+          {
+            "x": 240,
+            "y": 167
+          }
+        ]
+      },
+      {
+        "id": "edgeSios1lOl",
+        "type": "PlineEdge",
+        "sourceNodeId": "appendgE0cIgJzws",
+        "targetNodeId": "persistenceR9issFhVZL",
+        "startPoint": {
+          "x": 256,
+          "y": 620
+        },
+        "endPoint": {
+          "x": 404,
+          "y": 620
+        },
+        "properties": {
+          "sourceId": "appendgE0cIgJzws",
+          "targetId": "persistenceR9issFhVZL",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeSios1lOl",
+          "type": "PlineEdge"
+        },
+        "pointsList": [
+          {
+            "x": 256,
+            "y": 620
+          },
+          {
+            "x": 404,
+            "y": 620
+          }
+        ]
+      },
+      {
+        "id": "edgeVpOXgLFR",
+        "type": "PlineEdge",
+        "sourceNodeId": "commitTransactionplpy3zXg",
+        "targetNodeId": "databaseqoY0XeKF",
+        "startPoint": {
+          "x": 240,
+          "y": 421
+        },
+        "endPoint": {
+          "x": 240,
+          "y": 479
+        },
+        "properties": {
+          "sourceId": "commitTransactionplpy3zXg",
+          "targetId": "databaseqoY0XeKF",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeVpOXgLFR",
+          "type": "PlineEdge"
+        },
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 421
+          },
+          {
+            "x": 240,
+            "y": 451
+          },
+          {
+            "x": 240,
+            "y": 451
+          },
+          {
+            "x": 240,
+            "y": 449
+          },
+          {
+            "x": 240,
+            "y": 449
+          },
+          {
+            "x": 240,
+            "y": 479
+          }
+        ]
+      },
+      {
+        "id": "edgeQHLg3YHX",
+        "type": "PlineEdge",
+        "sourceNodeId": "databaseqoY0XeKF",
+        "targetNodeId": "appendgE0cIgJzws",
+        "startPoint": {
+          "x": 240,
+          "y": 521
+        },
+        "endPoint": {
+          "x": 240,
+          "y": 599
+        },
+        "properties": {
+          "sourceId": "databaseqoY0XeKF",
+          "targetId": "appendgE0cIgJzws",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeQHLg3YHX",
+          "type": "PlineEdge"
+        },
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 521
+          },
+          {
+            "x": 240,
+            "y": 599
+          }
+        ]
+      },
+      {
+        "id": "edgevET416HS",
+        "type": "PlineEdge",
+        "sourceNodeId": "databasepgB1j1fl8p",
+        "targetNodeId": "persistenceTKBFAQ10F4",
+        "startPoint": {
+          "x": 240,
+          "y": 221
+        },
+        "endPoint": {
+          "x": 240,
+          "y": 279
+        },
+        "properties": {
+          "sourceId": "databasepgB1j1fl8p",
+          "targetId": "persistenceTKBFAQ10F4",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgevET416HS",
+          "type": "PlineEdge"
+        },
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 221
+          },
+          {
+            "x": 240,
+            "y": 251
+          },
+          {
+            "x": 240,
+            "y": 251
+          },
+          {
+            "x": 240,
+            "y": 249
+          },
+          {
+            "x": 240,
+            "y": 249
+          },
+          {
+            "x": 240,
+            "y": 279
+          }
+        ]
+      },
+      {
+        "id": "edge67eDZeZD",
+        "type": "PlineEdge",
+        "sourceNodeId": "persistenceTKBFAQ10F4",
+        "targetNodeId": "commitTransactionplpy3zXg",
+        "startPoint": {
+          "x": 240,
+          "y": 321
+        },
+        "endPoint": {
+          "x": 240,
+          "y": 379
+        },
+        "properties": {
+          "id": "edge67eDZeZD",
+          "type": "PlineEdge",
+          "typeName": "连线",
+          "sourceId": "persistenceTKBFAQ10F4",
+          "targetId": "commitTransactionplpy3zXg",
+          "processName": ""
+        },
+        "pointsList": [
+          {
+            "x": 240,
+            "y": 321
+          },
+          {
+            "x": 240,
+            "y": 351
+          },
+          {
+            "x": 240,
+            "y": 351
+          },
+          {
+            "x": 240,
+            "y": 349
+          },
+          {
+            "x": 240,
+            "y": 349
+          },
+          {
+            "x": 240,
+            "y": 379
+          }
+        ]
+      }
+    ]
+  },
+  "taskType": "2",
+  "taskCron": "0 5 18,9 * * ? *",
+  "lastRunTime": "2023-07-13 09:05:06",
+  "nextRunTime": "2023-07-13 18:05:00",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2023-07-03 11:06:16",
+  "publishDate": "2023-07-03 11:06:16",
+  "needRollback": "F",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "optCode": "b2f49cbd9583419588ace10ff7e62eed",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "51faadfaf51346c99c5c71ffd0381c0c",
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "databasepgB1j1fl8p": {
+      "flag": "_source",
+      "children": [
+        {
+          "id": "fCardno",
+          "key": "databasepgB1j1fl8p/fCardno",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fCardno",
+          "helpField": "fCardno",
+          "children": []
+        },
+        {
+          "id": "fReaddate",
+          "key": "databasepgB1j1fl8p/fReaddate",
+          "flag": "_self",
+          "attrType": "",
+          "title": "fReaddate",
+          "helpField": "fReaddate",
+          "children": []
+        },
+        {
+          "id": "a",
+          "key": "databasepgB1j1fl8p/a",
+          "flag": "_import",
+          "attrType": "",
+          "title": "a",
+          "helpField": "a",
+          "children": []
+        }
+      ],
+      "helpField": "门禁刷卡数据",
+      "isSource": true,
+      "id": "databasepgB1j1fl8p",
+      "title": "读取关系数据库",
+      "key": "databasepgB1j1fl8p"
+    },
+    "b2f49cbd9583419588ace10ff7e62eed": {
+      "id": "b2f49cbd9583419588ace10ff7e62eed",
+      "key": "api",
+      "flag": "_api",
+      "attrType": "",
+      "title": "定时任务",
+      "helpField": "实时获取考勤数据",
+      "children": [
+        {
+          "id": "__last_error",
+          "key": "b2f49cbd9583419588ace10ff7e62eed/__last_error",
+          "flag": "_inner",
+          "attrType": "",
+          "title": "__last_error",
+          "helpField": "最新错误信息",
+          "children": [
+            {
+              "id": "code",
+              "key": "b2f49cbd9583419588ace10ff7e62eed/__last_error/code",
+              "flag": "_static",
+              "attrType": "",
+              "title": "code",
+              "helpField": "code",
+              "children": []
+            },
+            {
+              "id": "data",
+              "key": "b2f49cbd9583419588ace10ff7e62eed/__last_error/data",
+              "flag": "_static",
+              "attrType": "",
+              "title": "data",
+              "helpField": "data",
+              "children": []
+            },
+            {
+              "id": "message",
+              "key": "b2f49cbd9583419588ace10ff7e62eed/__last_error/message",
+              "flag": "_static",
+              "attrType": "",
+              "title": "message",
+              "helpField": "message",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "__last_return",
+          "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return",
+          "flag": "_inner",
+          "attrType": "",
+          "title": "__last_return",
+          "helpField": "最新执行结果",
+          "children": [
+            {
+              "id": "code",
+              "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return/code",
+              "flag": "_static",
+              "attrType": "",
+              "title": "code",
+              "helpField": "code",
+              "children": []
+            },
+            {
+              "id": "data",
+              "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return/data",
+              "flag": "_static",
+              "attrType": "",
+              "title": "data",
+              "helpField": "data",
+              "children": [
+                {
+                  "id": "success",
+                  "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return/success/success",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "success",
+                  "helpField": "success",
+                  "children": []
+                },
+                {
+                  "id": "error",
+                  "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return/error/error",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "error",
+                  "helpField": "error",
+                  "children": []
+                },
+                {
+                  "id": "info",
+                  "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return/info/info",
+                  "flag": "_static",
+                  "attrType": "",
+                  "title": "info",
+                  "helpField": "info",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": "message",
+              "key": "b2f49cbd9583419588ace10ff7e62eed/__last_return/message",
+              "flag": "_static",
+              "attrType": "",
+              "title": "message",
+              "helpField": "message",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "databaseqoY0XeKF": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "username",
+          "id": "username",
+          "title": "username",
+          "key": "databaseqoY0XeKF/username",
+          "attrType": ""
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "recodertime",
+          "id": "recodertime",
+          "title": "recodertime",
+          "key": "databaseqoY0XeKF/recodertime",
+          "attrType": ""
+        }
+      ],
+      "helpField": "人脸刷卡数据",
+      "id": "databaseqoY0XeKF",
+      "title": "读取关系数据库",
+      "key": "databaseqoY0XeKF",
+      "attrType": ""
+    }
+  },
+  "requestBodyType": "obj",
+  "params": []
+}

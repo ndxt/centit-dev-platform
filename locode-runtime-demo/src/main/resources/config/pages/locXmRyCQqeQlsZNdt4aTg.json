@@ -1,0 +1,681 @@
+{
+  "modelId": "locXmRyCQqeQlsZNdt4aTg",
+  "modelName": "123",
+  "optId": "3s8TTmGPTpOV7_fMk3vtRQ",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "lastModifyDate": "2023-05-15 11:10:00",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "$name": "Root",
+    "$item": {
+      "label": "模块",
+      "id": "Model_1684120044520_0.4329370464999269",
+      "name": "Model"
+    },
+    "$data": {},
+    "children": [
+      {
+        "$name": "Search",
+        "$item": {
+          "label": "搜索页面",
+          "id": "Search_1684120145062_0.6093691391089717",
+          "name": "Search"
+        },
+        "form": {
+          "$name": "SearchForm",
+          "$item": {
+            "label": "表单插槽",
+            "id": "SearchForm_1684120145062_0.2914559752954997",
+            "name": "SearchForm"
+          },
+          "children": [
+            {
+              "$name": "InputText",
+              "$item": {
+                "label": "输入框",
+                "id": "InputText_1684120145062_0.3349731586129383",
+                "name": "InputText"
+              },
+              "label": "输入框",
+              "inline": true
+            }
+          ]
+        },
+        "list": {
+          "$name": "SearchList",
+          "$item": {
+            "label": "列表插槽",
+            "id": "SearchList_1684120145062_0.02041055001195491",
+            "name": "SearchList"
+          },
+          "children": [
+            {
+              "$name": "DataList",
+              "$item": {
+                "label": "数据表格",
+                "id": "DataList_1684120145062_0.7348134428720996",
+                "name": "DataList"
+              },
+              "rowKey": "id",
+              "bordered": true,
+              "size": "small",
+              "columns": [
+                {
+                  "title": "标题",
+                  "children": [],
+                  "dataIndex": "title",
+                  "$name": "HeaderCell",
+                  "$item": {
+                    "label": "表头",
+                    "id": "HeaderCell_1684120145062_0.3546144831584894",
+                    "name": "HeaderCell"
+                  },
+                  "$cell": [],
+                  "columnId": "HeaderCell_1684120145062_0.3546144831584894"
+                }
+              ],
+              "$columns": [
+                {
+                  "title": "标题",
+                  "children": [],
+                  "dataIndex": "title",
+                  "$name": "HeaderCell",
+                  "$item": {
+                    "label": "表头",
+                    "id": "HeaderCell_1684120145062_0.3546144831584894",
+                    "name": "HeaderCell"
+                  },
+                  "$cell": []
+                }
+              ],
+              "dataSource": [],
+              "useSelectChangeCode": true,
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys = [], selectedRows = []) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+              "useChangeCode": true,
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}",
+              "useValueCode": true,
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "useLoadingCode": true,
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "usePaginationCode": true,
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "useSorterCode": true,
+              "setSorterCode": "function setSorter() {\n  // 在下面返回Sorter的值  \n  return this.sorter\n}",
+              "useSelectedRowKeysCode": true,
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "$data": {
+                "Data_1684120145062_0.20495853697663868": {
+                  "id": "Data_1684120145062_0.20495853697663868",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "value",
+                  "label": "数据",
+                  "isDefault": true,
+                  "isMain": true,
+                  "type": "data",
+                  "dataType": "array",
+                  "code": "[]",
+                  "componentSchemas": {
+                    "title": {
+                      "$key": "title",
+                      "propertyName": "title",
+                      "fieldLabelName": "标题",
+                      "fieldType": "string",
+                      "isDefault": true
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "Data_1684120145062_0.20495853697663868_title",
+                      "name": "title",
+                      "label": "标题",
+                      "type": "schema",
+                      "dataType": "string",
+                      "isDefault": true
+                    }
+                  ]
+                },
+                "Data_1684120145062_0.707629425260496": {
+                  "id": "Data_1684120145062_0.707629425260496",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "selected",
+                  "label": "选中数据",
+                  "isDefault": true,
+                  "type": "data",
+                  "dataType": "object",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}"
+                },
+                "Data_1684120145062_0.7640202356443386": {
+                  "id": "Data_1684120145062_0.7640202356443386",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "loading",
+                  "label": "加载中",
+                  "isDefault": true,
+                  "isFixed": true,
+                  "type": "data",
+                  "dataType": "boolean",
+                  "code": "false"
+                },
+                "Data_1684120145062_0.06137758168856533": {
+                  "id": "Data_1684120145062_0.06137758168856533",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "pagination",
+                  "label": "分页",
+                  "isDefault": true,
+                  "isFixed": true,
+                  "type": "data",
+                  "dataType": "object",
+                  "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}"
+                },
+                "Data_1684120145062_0.17886303454217245": {
+                  "id": "Data_1684120145062_0.17886303454217245",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "sorter",
+                  "label": "排序",
+                  "isDefault": true,
+                  "isFixed": true,
+                  "type": "data",
+                  "dataType": "object",
+                  "code": "{}"
+                },
+                "Method_1684120145062_0.4678450029953656": {
+                  "id": "Method_1684120145062_0.4678450029953656",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "query",
+                  "label": "查询",
+                  "isDefault": true,
+                  "type": "method",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { filter } = $comp['Search']\n  const params = Object.assign({}, pagination, sorter, filter())\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('listApiTestID', { params }) // FIXME\n    this.selected.rows = []\n    this.selected.keys = []\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}"
+                }
+              },
+              "actions": {
+                "$name": "DataActions",
+                "$item": {
+                  "label": "操作栏",
+                  "id": "DataActions_1684120146252_0.7842957011895799",
+                  "name": "DataActions"
+                },
+                "children": []
+              },
+              "$parent": {
+                "label": "列表插槽",
+                "id": "SearchList_1684120145062_0.02041055001195491",
+                "name": "SearchList"
+              }
+            }
+          ]
+        },
+        "onResetCode": "function onReset () {\n      // 在下面开始编写点击重置按钮时触发事件\n        this.value = {}\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "onSearchCode": "function onSearch () {\n        // 在下面开始编写点击搜索按钮时触发事件\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "onExportCode": "function onExport () {\n        // 在下面开始编写点击导出按钮时触发事件\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "useResetCode": true,
+        "useSearchCode": true,
+        "useExportCode": false,
+        "useModelCode": true,
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$data": {
+          "Data_1684120145062_0.5689117664757779": {
+            "id": "Data_1684120145062_0.5689117664757779",
+            "componentId": "Search_1684120145062_0.6093691391089717",
+            "name": "value",
+            "label": "数据",
+            "isDefault": true,
+            "isMain": true,
+            "type": "data",
+            "dataType": "object",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": []
+          },
+          "Filter_1684120145062_0.40972156008401717": {
+            "id": "Filter_1684120145062_0.40972156008401717",
+            "componentId": "Search_1684120145062_0.6093691391089717",
+            "name": "filter",
+            "label": "过滤条件",
+            "isDefault": true,
+            "type": "method",
+            "code": "function filter() {\n  const map = {\n    '=': {\n      prefix: \"\",\n      suffix: \"\",\n    },\n    lk: {\n      prefix: \"(like)\",\n      suffix: \"_lk\",\n    },\n    ain: {\n      prefix: \"(splitforin)\",\n      suffix: \"_in\"\n    },\n    datetime: {\n      prefix: \"(datetime)\",\n      suffix: \"_gt\"\n    },\n    nextday: {\n      prefix: \"(nextday)\",\n      suffix: \"_lt\"\n    },\n    gt: {\n      prefix: \"\",\n      suffix: \"_gt\"\n    },\n    ge: {\n      prefix: \"\",\n      suffix: \"_ge\"\n    },\n    lt: {\n      prefix: \"\",\n      suffix: \"_lt\"\n    },\n    le: {\n      prefix: \"\",\n      suffix: \"_le\"\n    },\n    ne: {\n      prefix: \"\",\n      suffix: \"_ne\"\n    },\n    nv: {\n      prefix: \"\",\n      suffix: \"_nv\"\n    },\n    nn: {\n      prefix: \"\",\n      suffix: \"_nn\"\n    },\n  };\n\n  const { $filterMode, $data } = $node\n  const data = $data[Object.keys($data)[0]]?.children?.map(item => {\n    return {\n      key: item.name,\n      mode: '='\n    }\n  })\n  const filterCondition = $filterMode ?? data\n  return filterCondition?.reduce((result, item) => {\n    const { prefix, suffix } = map[item.mode]\n    let value = $parseValue(item.value) || $comp['Search']?.value?.[item.key]\n    const newKey = prefix+item.key+suffix\n      return {\n        ...result,\n        [newKey]: Array.isArray(value) ? value.join(',') : value,\n      }\n  }, {}) ?? {}\n}"
+          }
+        },
+        "$parent": {
+          "label": "模块",
+          "id": "Model_1684120044520_0.4329370464999269",
+          "name": "Model"
+        },
+        "useSearch": true,
+        "useReset": true,
+        "useExport": false,
+        "collapsedMode": "normal",
+        "actionsLayout": "normal",
+        "$filterMode": [],
+        "$filterModeMap": {}
+      }
+    ],
+    "componentData": {
+      "Model_1684120044520_0.4329370464999269": {
+        "$name": "Root",
+        "$item": {
+          "label": "模块",
+          "id": "Model_1684120044520_0.4329370464999269",
+          "name": "Model"
+        },
+        "$data": {},
+        "componentData": {},
+        "style": {},
+        "root": true,
+        "useMountedCode": true,
+        "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('a')\n}",
+        "fit": true
+      },
+      "Search_1684120145062_0.6093691391089717": {
+        "$name": "Search",
+        "$item": {
+          "label": "搜索页面",
+          "id": "Search_1684120145062_0.6093691391089717",
+          "name": "Search"
+        },
+        "form": {
+          "$name": "SearchForm",
+          "$item": {
+            "label": "表单插槽",
+            "id": "SearchForm_1684120145062_0.2914559752954997",
+            "name": "SearchForm"
+          },
+          "children": [
+            {
+              "$name": "InputText",
+              "$item": {
+                "label": "输入框",
+                "id": "InputText_1684120145062_0.3349731586129383",
+                "name": "InputText"
+              },
+              "label": "输入框",
+              "inline": true
+            }
+          ]
+        },
+        "list": {
+          "$name": "SearchList",
+          "$item": {
+            "label": "列表插槽",
+            "id": "SearchList_1684120145062_0.02041055001195491",
+            "name": "SearchList"
+          },
+          "children": [
+            {
+              "$name": "DataList",
+              "$item": {
+                "label": "数据表格",
+                "id": "DataList_1684120145062_0.7348134428720996",
+                "name": "DataList"
+              },
+              "rowKey": "id",
+              "bordered": true,
+              "size": "small",
+              "columns": [
+                {
+                  "title": "标题",
+                  "children": [],
+                  "dataIndex": "title",
+                  "$name": "HeaderCell",
+                  "$item": {
+                    "label": "表头",
+                    "id": "HeaderCell_1684120145062_0.3546144831584894",
+                    "name": "HeaderCell"
+                  },
+                  "$cell": [],
+                  "columnId": "HeaderCell_1684120145062_0.3546144831584894"
+                }
+              ],
+              "$columns": [
+                {
+                  "title": "标题",
+                  "children": [],
+                  "dataIndex": "title",
+                  "$name": "HeaderCell",
+                  "$item": {
+                    "label": "表头",
+                    "id": "HeaderCell_1684120145062_0.3546144831584894",
+                    "name": "HeaderCell"
+                  },
+                  "$cell": []
+                }
+              ],
+              "dataSource": [],
+              "useSelectChangeCode": true,
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys = [], selectedRows = []) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+              "useChangeCode": true,
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}",
+              "useValueCode": true,
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "useLoadingCode": true,
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "usePaginationCode": true,
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+              "useSorterCode": true,
+              "setSorterCode": "function setSorter() {\n  // 在下面返回Sorter的值  \n  return this.sorter\n}",
+              "useSelectedRowKeysCode": true,
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "$data": {
+                "Data_1684120145062_0.20495853697663868": {
+                  "id": "Data_1684120145062_0.20495853697663868",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "value",
+                  "label": "数据",
+                  "isDefault": true,
+                  "isMain": true,
+                  "type": "data",
+                  "dataType": "array",
+                  "code": "[]",
+                  "componentSchemas": {
+                    "title": {
+                      "$key": "title",
+                      "propertyName": "title",
+                      "fieldLabelName": "标题",
+                      "fieldType": "string",
+                      "isDefault": true
+                    }
+                  },
+                  "children": [
+                    {
+                      "id": "Data_1684120145062_0.20495853697663868_title",
+                      "name": "title",
+                      "label": "标题",
+                      "type": "schema",
+                      "dataType": "string",
+                      "isDefault": true
+                    }
+                  ]
+                },
+                "Data_1684120145062_0.707629425260496": {
+                  "id": "Data_1684120145062_0.707629425260496",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "selected",
+                  "label": "选中数据",
+                  "isDefault": true,
+                  "type": "data",
+                  "dataType": "object",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}"
+                },
+                "Data_1684120145062_0.7640202356443386": {
+                  "id": "Data_1684120145062_0.7640202356443386",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "loading",
+                  "label": "加载中",
+                  "isDefault": true,
+                  "isFixed": true,
+                  "type": "data",
+                  "dataType": "boolean",
+                  "code": "false"
+                },
+                "Data_1684120145062_0.06137758168856533": {
+                  "id": "Data_1684120145062_0.06137758168856533",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "pagination",
+                  "label": "分页",
+                  "isDefault": true,
+                  "isFixed": true,
+                  "type": "data",
+                  "dataType": "object",
+                  "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}"
+                },
+                "Data_1684120145062_0.17886303454217245": {
+                  "id": "Data_1684120145062_0.17886303454217245",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "sorter",
+                  "label": "排序",
+                  "isDefault": true,
+                  "isFixed": true,
+                  "type": "data",
+                  "dataType": "object",
+                  "code": "{}"
+                },
+                "Method_1684120145062_0.4678450029953656": {
+                  "id": "Method_1684120145062_0.4678450029953656",
+                  "componentId": "DataList_1684120145062_0.7348134428720996",
+                  "name": "query",
+                  "label": "查询",
+                  "isDefault": true,
+                  "type": "method",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { filter } = $comp['Search']\n  const params = Object.assign({}, pagination, sorter, filter())\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('listApiTestID', { params }) // FIXME\n    this.selected.rows = []\n    this.selected.keys = []\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}"
+                }
+              },
+              "actions": {
+                "$name": "DataActions",
+                "$item": {
+                  "label": "操作栏",
+                  "id": "DataActions_1684120146252_0.7842957011895799",
+                  "name": "DataActions"
+                },
+                "children": []
+              },
+              "$parent": {
+                "label": "列表插槽",
+                "id": "SearchList_1684120145062_0.02041055001195491",
+                "name": "SearchList"
+              }
+            }
+          ]
+        },
+        "onResetCode": "function onReset () {\n      // 在下面开始编写点击重置按钮时触发事件\n        this.value = {}\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "onSearchCode": "function onSearch () {\n        // 在下面开始编写点击搜索按钮时触发事件\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "onExportCode": "function onExport () {\n        // 在下面开始编写点击导出按钮时触发事件\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "useResetCode": true,
+        "useSearchCode": true,
+        "useExportCode": false,
+        "useModelCode": true,
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$data": {
+          "Data_1684120145062_0.5689117664757779": {
+            "id": "Data_1684120145062_0.5689117664757779",
+            "componentId": "Search_1684120145062_0.6093691391089717",
+            "name": "value",
+            "label": "数据",
+            "isDefault": true,
+            "isMain": true,
+            "type": "data",
+            "dataType": "object",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": []
+          },
+          "Filter_1684120145062_0.40972156008401717": {
+            "id": "Filter_1684120145062_0.40972156008401717",
+            "componentId": "Search_1684120145062_0.6093691391089717",
+            "name": "filter",
+            "label": "过滤条件",
+            "isDefault": true,
+            "type": "method",
+            "code": "function filter() {\n  const map = {\n    '=': {\n      prefix: \"\",\n      suffix: \"\",\n    },\n    lk: {\n      prefix: \"(like)\",\n      suffix: \"_lk\",\n    },\n    ain: {\n      prefix: \"(splitforin)\",\n      suffix: \"_in\"\n    },\n    datetime: {\n      prefix: \"(datetime)\",\n      suffix: \"_gt\"\n    },\n    nextday: {\n      prefix: \"(nextday)\",\n      suffix: \"_lt\"\n    },\n    gt: {\n      prefix: \"\",\n      suffix: \"_gt\"\n    },\n    ge: {\n      prefix: \"\",\n      suffix: \"_ge\"\n    },\n    lt: {\n      prefix: \"\",\n      suffix: \"_lt\"\n    },\n    le: {\n      prefix: \"\",\n      suffix: \"_le\"\n    },\n    ne: {\n      prefix: \"\",\n      suffix: \"_ne\"\n    },\n    nv: {\n      prefix: \"\",\n      suffix: \"_nv\"\n    },\n    nn: {\n      prefix: \"\",\n      suffix: \"_nn\"\n    },\n  };\n\n  const { $filterMode, $data } = $node\n  const data = $data[Object.keys($data)[0]]?.children?.map(item => {\n    return {\n      key: item.name,\n      mode: '='\n    }\n  })\n  const filterCondition = $filterMode ?? data\n  return filterCondition?.reduce((result, item) => {\n    const { prefix, suffix } = map[item.mode]\n    let value = $parseValue(item.value) || $comp['Search']?.value?.[item.key]\n    const newKey = prefix+item.key+suffix\n      return {\n        ...result,\n        [newKey]: Array.isArray(value) ? value.join(',') : value,\n      }\n  }, {}) ?? {}\n}"
+          }
+        },
+        "$parent": {
+          "label": "模块",
+          "id": "Model_1684120044520_0.4329370464999269",
+          "name": "Model"
+        },
+        "useSearch": true,
+        "useReset": true,
+        "useExport": false,
+        "collapsedMode": "normal",
+        "actionsLayout": "normal",
+        "$filterMode": [],
+        "$filterModeMap": {}
+      },
+      "DataList_1684120145062_0.7348134428720996": {
+        "$name": "DataList",
+        "$item": {
+          "label": "数据表格",
+          "id": "DataList_1684120145062_0.7348134428720996",
+          "name": "DataList"
+        },
+        "rowKey": "id",
+        "bordered": true,
+        "size": "small",
+        "columns": [
+          {
+            "title": "标题",
+            "children": [],
+            "dataIndex": "title",
+            "$name": "HeaderCell",
+            "$item": {
+              "label": "表头",
+              "id": "HeaderCell_1684120145062_0.3546144831584894",
+              "name": "HeaderCell"
+            },
+            "$cell": [],
+            "columnId": "HeaderCell_1684120145062_0.3546144831584894"
+          }
+        ],
+        "$columns": [
+          {
+            "title": "标题",
+            "children": [],
+            "dataIndex": "title",
+            "$name": "HeaderCell",
+            "$item": {
+              "label": "表头",
+              "id": "HeaderCell_1684120145062_0.3546144831584894",
+              "name": "HeaderCell"
+            },
+            "$cell": []
+          }
+        ],
+        "dataSource": [],
+        "useSelectChangeCode": true,
+        "onSelectChangeCode": "function onSelectChange (selectedRowKeys = [], selectedRows = []) {  \n  this.selected.keys = selectedRowKeys\n  this.selected.rows = selectedRows\n}",
+        "useChangeCode": true,
+        "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n    if (!action) return\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  this.pagination = pagination\n  this.sorter = sorter\n  this.selected.rows = []\n  this.selected.keys = []\n  this.query()\n}",
+        "useValueCode": true,
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+        "useLoadingCode": true,
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "usePaginationCode": true,
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return this.pagination\n}",
+        "useSorterCode": true,
+        "setSorterCode": "function setSorter() {\n  // 在下面返回Sorter的值  \n  return this.sorter\n}",
+        "useSelectedRowKeysCode": true,
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+        "$data": {
+          "Data_1684120145062_0.20495853697663868": {
+            "id": "Data_1684120145062_0.20495853697663868",
+            "componentId": "DataList_1684120145062_0.7348134428720996",
+            "name": "value",
+            "label": "数据",
+            "isDefault": true,
+            "isMain": true,
+            "type": "data",
+            "dataType": "array",
+            "code": "[]",
+            "componentSchemas": {
+              "title": {
+                "$key": "title",
+                "propertyName": "title",
+                "fieldLabelName": "标题",
+                "fieldType": "string",
+                "isDefault": true
+              }
+            },
+            "children": [
+              {
+                "id": "Data_1684120145062_0.20495853697663868_title",
+                "name": "title",
+                "label": "标题",
+                "type": "schema",
+                "dataType": "string",
+                "isDefault": true
+              }
+            ]
+          },
+          "Data_1684120145062_0.707629425260496": {
+            "id": "Data_1684120145062_0.707629425260496",
+            "componentId": "DataList_1684120145062_0.7348134428720996",
+            "name": "selected",
+            "label": "选中数据",
+            "isDefault": true,
+            "type": "data",
+            "dataType": "object",
+            "code": "{ \n  rows: [], \n  keys: [],\n}"
+          },
+          "Data_1684120145062_0.7640202356443386": {
+            "id": "Data_1684120145062_0.7640202356443386",
+            "componentId": "DataList_1684120145062_0.7348134428720996",
+            "name": "loading",
+            "label": "加载中",
+            "isDefault": true,
+            "isFixed": true,
+            "type": "data",
+            "dataType": "boolean",
+            "code": "false"
+          },
+          "Data_1684120145062_0.06137758168856533": {
+            "id": "Data_1684120145062_0.06137758168856533",
+            "componentId": "DataList_1684120145062_0.7348134428720996",
+            "name": "pagination",
+            "label": "分页",
+            "isDefault": true,
+            "isFixed": true,
+            "type": "data",
+            "dataType": "object",
+            "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}"
+          },
+          "Data_1684120145062_0.17886303454217245": {
+            "id": "Data_1684120145062_0.17886303454217245",
+            "componentId": "DataList_1684120145062_0.7348134428720996",
+            "name": "sorter",
+            "label": "排序",
+            "isDefault": true,
+            "isFixed": true,
+            "type": "data",
+            "dataType": "object",
+            "code": "{}"
+          },
+          "Method_1684120145062_0.4678450029953656": {
+            "id": "Method_1684120145062_0.4678450029953656",
+            "componentId": "DataList_1684120145062_0.7348134428720996",
+            "name": "query",
+            "label": "查询",
+            "isDefault": true,
+            "type": "method",
+            "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { filter } = $comp['Search']\n  const params = Object.assign({}, pagination, sorter, filter())\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('listApiTestID', { params }) // FIXME\n    this.selected.rows = []\n    this.selected.keys = []\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}"
+          }
+        },
+        "actions": {
+          "$name": "DataActions",
+          "$item": {
+            "label": "操作栏",
+            "id": "DataActions_1684120146252_0.7842957011895799",
+            "name": "DataActions"
+          },
+          "children": []
+        },
+        "$parent": {
+          "label": "列表插槽",
+          "id": "SearchList_1684120145062_0.02041055001195491",
+          "name": "SearchList"
+        }
+      }
+    },
+    "style": {},
+    "root": true,
+    "useMountedCode": true,
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('a')\n}",
+    "fit": true
+  },
+  "publishDate": "2023-05-15 11:10:00",
+  "structureFunction": {
+    "dataConfigs": {},
+    "methodsConfigs": {
+      "Method_1684120047841": {
+        "id": "Method_1684120047841",
+        "code": "function a () {\n    let a = ;\n    alert(1)\n}",
+        "name": "a",
+        "label": "a",
+        "type": "method"
+      }
+    },
+    "paramsConfigs": {},
+    "eventsConfigs": []
+  },
+  "isValid": "F"
+}

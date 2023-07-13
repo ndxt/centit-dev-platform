@@ -1,0 +1,344 @@
+{
+  "modelId": "dd3e19637e6740b1a9818074408f20b0",
+  "modelName": "申请表单",
+  "optId": "97e80e5daad641e096bbfbb8bf8cc785",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "Y",
+  "lastModifyDate": "2022-03-05 14:38:05",
+  "recorder": "U22AJpoL",
+  "modelComment": "展示补卡信息页面",
+  "formTemplate": {
+    "fit": false,
+    "dataConfigs": {},
+    "methodsConfigs": {},
+    "styleText": "",
+    "children": [
+      {
+        "layout": "vertical",
+        "$name": "表单",
+        "$data": {
+          "Data_1646208289051_0.729659780930467": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "{}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "id",
+                "id": "Data_1646208289051_0.729659780930467_id",
+                "label": "id",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "name",
+                "id": "Data_1646208289051_0.729659780930467_name",
+                "label": "name",
+                "type": "schema"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "schemas": {
+              "name": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "名称",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "name",
+                "fieldLabelName": "名称",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "name",
+                "primaryKey": false
+              },
+              "id": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "编码",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "id",
+                "fieldLabelName": "编码",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "id",
+                "primaryKey": true
+              }
+            },
+            "name": "value",
+            "id": "Data_1646208289051_0.729659780930467",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646208289051_0.7476737004787326": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646208289051_0.7476737004787326",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646208289051_0.8518003074621536": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "async function load (id) {  \n  if (!id) return \n  this.loading = true\n\n  try {\n    // 根据id改变value值  \n    const params = { id }\n    this.value = await $dde.get('2818335e2893450c941f371417c644b5', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1646208289051_0.8518003074621536",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1646208289051_0.14912420616733346": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "async function load () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  if ($params.isEdit) {\n    await $dde.put('a0db94bef0ca44569e83d0943dbb60ff', value)\n  } else {\n    await $dde.post('a3a18aab72d845eeab853e882cab50c1', value)\n  }\n}",
+            "name": "submit",
+            "id": "Method_1646208289051_0.14912420616733346",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1646208289051_0.49367011852341225": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1646208289051_0.49367011852341225",
+            "label": "校验",
+            "type": "method"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "children": [
+          {
+            "$name": "输入框",
+            "notShowItem": false,
+            "readonly": false,
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1646208289051_0.7912617566070108"
+            },
+            "rulesConfig": [],
+            "disabled": false,
+            "$key": "id",
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "InputText_1646208289051_0.5643951429104721"
+            },
+            "label": "id",
+            "allowClear": false
+          },
+          {
+            "$name": "输入框",
+            "notShowItem": false,
+            "readonly": false,
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1646208289051_0.7912617566070108"
+            },
+            "rulesConfig": [],
+            "disabled": false,
+            "$key": "name",
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "InputText_1646208349620_0.15439671268278143"
+            },
+            "label": "name",
+            "allowClear": false
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1635907511200"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1646208289051_0.7912617566070108"
+        },
+        "useLoadingCode": true
+      }
+    ],
+    "root": true,
+    "componentData": {
+      "Form_1646208289051_0.7912617566070108": {
+        "layout": "vertical",
+        "$name": "表单",
+        "$data": {
+          "Data_1646208289051_0.729659780930467": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "{}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "id",
+                "id": "Data_1646208289051_0.729659780930467_id",
+                "label": "id",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "name",
+                "id": "Data_1646208289051_0.729659780930467_name",
+                "label": "name",
+                "type": "schema"
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "schemas": {
+              "name": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "名称",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "name",
+                "fieldLabelName": "名称",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "name",
+                "primaryKey": false
+              },
+              "id": {
+                "recorder": "u0000000",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "precision": 64,
+                "columnComment": "编码",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "columnType": "VARCHAR",
+                "propertyName": "id",
+                "fieldLabelName": "编码",
+                "tableId": "Gj6j4SerR-qMvQ58aZtncw",
+                "fieldType": "string",
+                "lastModifyDate": "2022-02-21 16:11:02",
+                "columnName": "id",
+                "primaryKey": true
+              }
+            },
+            "name": "value",
+            "id": "Data_1646208289051_0.729659780930467",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1646208289051_0.7476737004787326": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1646208289051_0.7476737004787326",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1646208289051_0.8518003074621536": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "async function load (id) {  \n  if (!id) return \n  this.loading = true\n\n  try {\n    // 根据id改变value值  \n    const params = { id }\n    this.value = await $dde.get('2818335e2893450c941f371417c644b5', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1646208289051_0.8518003074621536",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1646208289051_0.14912420616733346": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "async function load () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  if ($params.isEdit) {\n    await $dde.put('a0db94bef0ca44569e83d0943dbb60ff', value)\n  } else {\n    await $dde.post('a3a18aab72d845eeab853e882cab50c1', value)\n  }\n}",
+            "name": "submit",
+            "id": "Method_1646208289051_0.14912420616733346",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1646208289051_0.49367011852341225": {
+            "isDefault": true,
+            "componentId": "Form_1646208289051_0.7912617566070108",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1646208289051_0.49367011852341225",
+            "label": "校验",
+            "type": "method"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1635907511200"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1646208289051_0.7912617566070108"
+        },
+        "useLoadingCode": true
+      }
+    },
+    "style": {},
+    "paramsConfigs": {
+      "Param_1637910207312": {
+        "code": "function watchId(id, oldId) {\n  // 在下面开始编写id监听\n  $comp['表单'].load(id)\n}",
+        "immediate": true,
+        "name": "id",
+        "id": "Param_1637910207312"
+      },
+      "Param_1646308020674": {
+        "name": "isEdit",
+        "id": "Param_1646308020674"
+      }
+    },
+    "label": "模块",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1635907511200"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "F3ly26TrQQiMhivrair-0w",
+  "modelTag": "申请",
+  "isValid": "F"
+}

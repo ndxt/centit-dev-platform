@@ -1,0 +1,205 @@
+{
+  "packetId": "f18e3ab3b3684d2fb3395cb6d85006d8",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "opt_idea_info---新建",
+  "packetDesc": "opt_idea_info---新建",
+  "recorder": "U5iJtAdt",
+  "recordDate": "2022-08-10 10:20:08",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 440,
+        "y": 120,
+        "id": "start",
+        "text": {
+          "x": 440,
+          "y": 120,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "x": 440,
+          "y": 120,
+          "id": "start",
+          "text": {
+            "x": 440,
+            "y": 120,
+            "value": "开始"
+          },
+          "type": "start",
+          "properties": {
+            "isBranch": false,
+            "processName": "开始",
+            "typeName": "开始",
+            "isSource": false,
+            "id": "start",
+            "type": "start"
+          }
+        }
+      },
+      {
+        "x": 440,
+        "y": 280,
+        "id": "metadataUpdatefiOu4qj2",
+        "text": {
+          "x": 440,
+          "y": 280,
+          "value": "元数据更新"
+        },
+        "type": "metadataUpdate",
+        "properties": {
+          "tableLabelName": [],
+          "templateType": 1,
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "元数据更新",
+          "source": "__request_body",
+          "type": "metadataUpdate",
+          "isBranch": false,
+          "processName": "元数据更新",
+          "sourceType": "paramSource",
+          "isSource": false,
+          "x": 440,
+          "y": 280,
+          "tableId": "69ae09194a174c1eb00dc36cd822a0fd",
+          "id": "metadataUpdatefiOu4qj2",
+          "text": {
+            "x": 440,
+            "y": 280,
+            "value": "元数据更新"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "元数据更新",
+            "typeName": "元数据更新",
+            "isSource": false,
+            "id": "metadataUpdatefiOu4qj2",
+            "type": "metadataUpdate"
+          },
+          "updateType": 1
+        }
+      },
+      {
+        "x": 440,
+        "y": 440,
+        "id": "results4yE2fn5L",
+        "text": {
+          "x": 440,
+          "y": 440,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "isBranch": false,
+          "resultOptions": "1",
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": false,
+          "x": 440,
+          "y": 440,
+          "id": "results4yE2fn5L",
+          "text": {
+            "x": 440,
+            "y": 440,
+            "value": "返回结果"
+          },
+          "type": "results",
+          "properties": {
+            "isBranch": false,
+            "resultOptions": "1",
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": false,
+            "id": "results4yE2fn5L",
+            "type": "results"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 440,
+            "y": 153
+          },
+          {
+            "x": 440,
+            "y": 247
+          }
+        ],
+        "endPoint": {
+          "x": 440,
+          "y": 247
+        },
+        "sourceNodeId": "start",
+        "startPoint": {
+          "x": 440,
+          "y": 153
+        },
+        "id": "edge6lLwsFWl",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataUpdatefiOu4qj2",
+        "properties": {
+          "sourceId": "start",
+          "targetId": "metadataUpdatefiOu4qj2",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edge6lLwsFWl",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 440,
+            "y": 313
+          },
+          {
+            "x": 440,
+            "y": 407
+          }
+        ],
+        "endPoint": {
+          "x": 440,
+          "y": 407
+        },
+        "sourceNodeId": "metadataUpdatefiOu4qj2",
+        "startPoint": {
+          "x": 440,
+          "y": 313
+        },
+        "id": "edgedBwHHHVu",
+        "type": "PlineEdge",
+        "targetNodeId": "results4yE2fn5L",
+        "properties": {
+          "sourceId": "metadataUpdatefiOu4qj2",
+          "targetId": "results4yE2fn5L",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgedBwHHHVu",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "3",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-08-10 10:20:08",
+  "publishDate": "2022-08-10 10:20:07",
+  "needRollback": "T",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "optCode": "f18e3ab3b3684d2fb3395cb6d85006d8",
+  "bufferFreshPeriod": -1,
+  "sourceId": "f18e3ab3b3684d2fb3395cb6d85006d8",
+  "logLevel": 1,
+  "isDisable": "F",
+  "params": []
+}

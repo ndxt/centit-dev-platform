@@ -1,0 +1,89 @@
+{
+  "modelId": "30ffde108e7b462a97158b79fee25aef",
+  "modelName": "审批二维码",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1641294689234": {
+        "code": "const { origin, pathname } = location;\nreturn `${origin}${pathname}`",
+        "name": "href",
+        "id": "Data_1641294689234",
+        "title": "href",
+        "type": "s",
+        "key": "Data_1641294689234"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1641294714594": {
+        "code": "function changeHref() {\n  \tconst { nodeInstId } = $params\n    const modelId = '79139c6456924a5ca8a9739dc7dfc063'\n\tconst route = $router.resolve({\n    \tname: 'Page',\n        params: { modelId },\n      \tquery: { nodeInstId },\n    })\n    const { origin, pathname } = location;\n\n  \t$data.href = `${origin}${pathname}${route.href}`\n}",
+        "name": "changeHref",
+        "id": "Method_1641294714594",
+        "title": "changeHref",
+        "key": "Method_1641294714594"
+      }
+    },
+    "styleText": "width: 100%;\ntext-align: center;",
+    "children": [
+      {
+        "size": 320,
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1641294033773_0.3073053032240711"
+        },
+        "level": "H",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.href\n}",
+        "useValueCode": true,
+        "$item": {
+          "name": "QrCode",
+          "label": "二维码",
+          "id": "QrCode_1641294481727_0.39844644621144565"
+        }
+      },
+      {
+        "useStyleText": true,
+        "styleText": "flex: 0 0 100%;\nmargin: 8px 4px;",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1641294033773_0.3073053032240711"
+        },
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.href\n}",
+        "useValueCode": true,
+        "$item": {
+          "name": "Html",
+          "label": "文字",
+          "id": "Html_1641294795442_0.6599176151736288"
+        },
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+      }
+    ],
+    "root": true,
+    "style": {
+      "textAlign": "center",
+      "width": "100%"
+    },
+    "paramsConfigs": {
+      "Param_1641294062254": {
+        "code": "function watchNodeInstId(nodeInstId, oldNodeInstId) {\n  // 在下面开始编写nodeInstId监听\n  $run('changeHref')\n}",
+        "immediate": true,
+        "name": "nodeInstId",
+        "id": "Param_1641294062254"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1641294033773_0.3073053032240711"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "ZF0pLmztQt6YLY4wVj0EOA",
+  "modelTag": "审批",
+  "isValid": "F"
+}

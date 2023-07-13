@@ -1,0 +1,2713 @@
+{
+  "modelId": "ZL9AC3GURhOcEUElrLLw2w",
+  "modelName": "企业日历维护",
+  "optId": "dDf2E-F1RyaQwhpNYXZDPw",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2023-02-01 10:49:37",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "dataConfigs": {},
+    "fit": true,
+    "$name": "Model",
+    "methodsConfigs": {},
+    "children": [
+      {
+        "$name": "Search",
+        "form": {
+          "$name": "SearchForm",
+          "children": [
+            {
+              "$name": "DatePicker",
+              "inline": true,
+              "useChangeCode": false,
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "workDay",
+              "$item": {
+                "name": "DatePicker",
+                "label": "日期选择",
+                "id": "DatePicker_1647677777257_0.3953511774365175"
+              },
+              "label": "选择日期",
+              "onChangeCode": "function onChange(date, dateString) {\n  // 在下面开始编写改变事件\n}"
+            }
+          ],
+          "$key": "filters",
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1647309606836_0.8107154336874198"
+          },
+          "label": "filters"
+        },
+        "useResetCode": true,
+        "$data": {
+          "Data_1647309606837_0.5299613832030337": {
+            "isDefault": true,
+            "componentId": "Search_1647309606836_0.5420881477433053",
+            "code": "{}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "timestamp",
+                "name": "workDay",
+                "id": "Data_1647309606837_0.5299613832030337_workDay",
+                "label": "选择日期",
+                "type": "schema"
+              }
+            ],
+            "componentSchemas": {
+              "workDay": {
+                "isDefault": true,
+                "propertyName": "workDay",
+                "fieldLabelName": "选择日期",
+                "$key": "workDay",
+                "fieldType": "timestamp"
+              }
+            },
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1647309606837_0.5299613832030337",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646912279129_0.6009985242488087"
+        },
+        "useModelCode": false,
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $data.page.pageNo = 1;\n  $run('query');\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1647309606836_0.5420881477433053"
+        },
+        "list": {
+          "$name": "SearchList",
+          "children": [
+            {
+              "$name": "DataList",
+              "useChangeCode": true,
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1647309606837_0.47659125445285544"
+              },
+              "columns": [
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "dayTypeDesc",
+                  "columnId": "HeaderCell_1647327274917_0.593566271845007",
+                  "width": 120,
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327274917_0.593566271845007"
+                  },
+                  "label": "日期类型",
+                  "title": "日期类型",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDay",
+                  "columnId": "HeaderCell_1647327307404_0.924054174003444",
+                  "width": 300,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327307404_0.924054174003444"
+                  },
+                  "label": "日期",
+                  "title": "日期",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDayDesc",
+                  "columnId": "HeaderCell_1647327334588_0.5427721671549475",
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327334588_0.5427721671549475"
+                  },
+                  "title": "备注",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "columnId": "HeaderCell_1647853541693_0.6616200996035804",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647853541693_0.6616200996035804"
+                  },
+                  "title": "操作",
+                  "$cell": [
+                    {
+                      "$name": "Button1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1647853558457_0.3294856508006614": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1647853558457_0.3294856508006614",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1647853558457_0.4914008427276364": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1647853558457_0.4914008427276364",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+                      "text": "编辑",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1647853558457_0.8703211331015457"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1669010611228_0.7649184883119227": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1669010611228_0.7649184883119227",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1669010611228_0.8494509918940063": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1669010611228_0.8494509918940063",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1669010611228_0.47062451323457055"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "fit": true,
+              "useSelectChangeCode": true,
+              "useValueCode": false,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1647309606837_0.9741073862604344"
+              },
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": false,
+              "$data": {
+                "Data_1647309606837_0.6340305186751363": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1647309606837_0.6340305186751363",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Data_1647309606837_0.4899136942407101": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "{}",
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1647309606837_0.4899136942407101",
+                  "label": "排序",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1647309606837_0.7138507951335016": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['Search']\n  const params = Object.assign({}, pagination, sorter, value)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('listApiTestID', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1647309606837_0.7138507951335016",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1647309606837_0.09337641304713196": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "[]",
+                  "componentSchemas": {
+                    "dayTypeDesc": {
+                      "isDefault": true,
+                      "propertyName": "dayTypeDesc",
+                      "fieldLabelName": "日期类型",
+                      "$key": "dayTypeDesc",
+                      "fieldType": "string"
+                    },
+                    "workDayDesc": {
+                      "isDefault": true,
+                      "propertyName": "workDayDesc",
+                      "fieldLabelName": "备注",
+                      "$key": "workDayDesc",
+                      "fieldType": "string"
+                    },
+                    "workDay": {
+                      "isDefault": true,
+                      "propertyName": "workDay",
+                      "fieldLabelName": "日期",
+                      "$key": "workDay",
+                      "fieldType": "string"
+                    }
+                  },
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "dayTypeDesc",
+                      "id": "Data_1647309606837_0.09337641304713196_dayTypeDesc",
+                      "label": "日期类型",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "workDay",
+                      "id": "Data_1647309606837_0.09337641304713196_workDay",
+                      "label": "日期",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "workDayDesc",
+                      "id": "Data_1647309606837_0.09337641304713196_workDayDesc",
+                      "label": "备注",
+                      "type": "schema"
+                    },
+                    {
+                      "dataType": "string",
+                      "name": "dayType",
+                      "id": "Data_1647309606837_0.09337641304713196_dayType",
+                      "label": "日期类型",
+                      "type": "schema",
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    }
+                  ],
+                  "isMain": true,
+                  "dataType": "array",
+                  "schemas": {
+                    "dayType": {
+                      "recorder": "UzC4T6h3",
+                      "columnLength": 2,
+                      "columnOrder": 99,
+                      "autoCreateRule": "",
+                      "precision": 2,
+                      "columnComment": "日期类型",
+                      "referenceType": "",
+                      "scale": 0,
+                      "autoCreateParam": "",
+                      "lazyFetch": false,
+                      "mandatory": false,
+                      "javaType": "java.lang.String",
+                      "accessType": "N",
+                      "referenceData": "",
+                      "columnType": "VARCHAR",
+                      "propertyName": "dayType",
+                      "fieldLabelName": "日期类型",
+                      "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                      "fieldType": "string",
+                      "lastModifyDate": "2022-03-14 17:03:51",
+                      "columnName": "DAY_TYPE",
+                      "primaryKey": false,
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    },
+                    "workDayDesc": {
+                      "recorder": "UzC4T6h3",
+                      "columnLength": 128,
+                      "columnOrder": 99,
+                      "autoCreateRule": "",
+                      "precision": 128,
+                      "columnComment": "备注",
+                      "referenceType": "",
+                      "scale": 0,
+                      "autoCreateParam": "",
+                      "lazyFetch": false,
+                      "mandatory": false,
+                      "javaType": "java.lang.String",
+                      "accessType": "N",
+                      "referenceData": "",
+                      "columnType": "VARCHAR",
+                      "propertyName": "workDayDesc",
+                      "fieldLabelName": "备注",
+                      "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                      "fieldType": "string",
+                      "lastModifyDate": "2022-03-14 17:03:51",
+                      "columnName": "WORK_DAY_DESC",
+                      "primaryKey": false,
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    },
+                    "workDay": {
+                      "recorder": "UzC4T6h3",
+                      "columnLength": 0,
+                      "columnOrder": 99,
+                      "autoCreateRule": "",
+                      "precision": 0,
+                      "columnComment": "日期",
+                      "referenceType": "",
+                      "scale": 0,
+                      "autoCreateParam": "",
+                      "lazyFetch": false,
+                      "mandatory": true,
+                      "javaType": "java.sql.Date",
+                      "accessType": "N",
+                      "referenceData": "",
+                      "columnType": "DATE",
+                      "propertyName": "workDay",
+                      "fieldLabelName": "日期",
+                      "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                      "fieldType": "date",
+                      "lastModifyDate": "2022-03-14 17:03:51",
+                      "columnName": "WORK_DAY",
+                      "primaryKey": true,
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    }
+                  },
+                  "name": "value",
+                  "id": "Data_1647309606837_0.09337641304713196",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Data_1647309606837_0.14172143579315422": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1647309606837_0.14172143579315422",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1647309606837_0.7128489243133254": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}",
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1647309606837_0.7128489243133254",
+                  "label": "分页",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return $data.page;\n}",
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "$key": "list",
+              "label": "datelist",
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  $data.selectedRows = selectedRowKeys;\n}",
+              "size": "small",
+              "$columns": [
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "dayTypeDesc",
+                  "width": 120,
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327274917_0.593566271845007"
+                  },
+                  "label": "日期类型",
+                  "title": "日期类型",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDay",
+                  "width": 300,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327307404_0.924054174003444"
+                  },
+                  "label": "日期",
+                  "title": "日期",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDayDesc",
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327334588_0.5427721671549475"
+                  },
+                  "title": "备注",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647853541693_0.6616200996035804"
+                  },
+                  "title": "操作",
+                  "$cell": [
+                    {
+                      "$name": "Button1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1647853558457_0.3294856508006614": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1647853558457_0.3294856508006614",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1647853558457_0.4914008427276364": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1647853558457_0.4914008427276364",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+                      "text": "编辑",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1647853558457_0.8703211331015457"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1669010611228_0.7649184883119227": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1669010611228_0.7649184883119227",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1669010611228_0.8494509918940063": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1669010611228_0.8494509918940063",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1669010611228_0.47062451323457055"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "dataSource": [],
+              "actions": {
+                "$name": "DataActions",
+                "children": [
+                  {
+                    "$name": "Button",
+                    "useDisabledCode": true,
+                    "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                    "$data": {
+                      "Data_1647309622960_0.7199983370788752": {
+                        "isDefault": true,
+                        "componentId": "Button_1647309622959_0.1370846566931998",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "disabled",
+                        "id": "Data_1647309622960_0.7199983370788752",
+                        "label": "禁用",
+                        "type": "data",
+                        "isFixed": true
+                      },
+                      "Data_1647309622960_0.3288690602511286": {
+                        "isDefault": true,
+                        "componentId": "Button_1647309622959_0.1370846566931998",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "loading",
+                        "id": "Data_1647309622960_0.3288690602511286",
+                        "label": "加载中",
+                        "type": "data",
+                        "isFixed": true
+                      }
+                    },
+                    "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                    "className": "primary",
+                    "type": "default",
+                    "size": "middle",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNew');\n}",
+                    "text": "新增",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1647309622959_0.1370846566931998"
+                    },
+                    "useLoadingCode": true,
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1647309607299_0.8364212396750972"
+                }
+              },
+              "rowKey": "",
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n  if (!action) return;\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.page = pagination;\n  $data.sort = sorter;\n  $data.selectedRows = [];\n  $run('query');\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1647309606837_0.47659125445285544"
+          }
+        },
+        "onResetCode": "function onReset () {\n  // 在下面开始编写点击重置按钮时触发事件\n  // this.value = {};\n  $data.filters = {};\n  $data.page.pageNo = 1;\n  $run('query');\n}"
+      },
+      {
+        "$name": "Modal",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return $data.newOpen;\n}",
+        "keyboard": false,
+        "$data": {
+          "Method_1647310009726_0.47913418366627636": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "async function open (value) {  \n  $data.newOpen = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1647310009726_0.47913418366627636",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1647310009726_0.6921507688269715": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "async function ok () {  \n  try {\n    this.confirmLoading = true \n    // 提交接口，修改接口id\n    await $dde.get('submitApiTestID', {})\n    this.cancel(true)\n    $antd.message.success('ok')\n  } finally {\n    this.confirmLoading = false        \n  }      \n}",
+            "name": "ok",
+            "id": "Method_1647310009726_0.6921507688269715",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1647310009726_0.6937491772544881": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "async function cancel (isOk) {  \n  $data.newOpen = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1647310009726_0.6937491772544881",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1647310009726_0.5505580418817184": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1647310009726_0.5505580418817184",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647310009726_0.18271659241685168": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "confirmLoading",
+            "id": "Data_1647310009726_0.18271659241685168",
+            "label": "提交中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647310009726_0.4857379853889314": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "{}",
+            "children": [],
+            "componentSchemas": {},
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1647310009726_0.4857379853889314",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646912279129_0.6009985242488087"
+        },
+        "useOkCode": false,
+        "closable": true,
+        "useCancelCode": false,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "maskClosable": false,
+        "title": "新增",
+        "onOk": "okNew",
+        "fullscreen": false,
+        "children": [
+          {
+            "$name": "Model",
+            "$params": {
+              "useInfoCode": true,
+              "setInfoCode": "function setInfo() {\n  // 在下面开始编写info事件\n  return $comp.Modal.value\n}"
+            },
+            "customEvents": [],
+            "customParams": [
+              {
+                "name": "info",
+                "label": "info",
+                "props": []
+              }
+            ],
+            "modelId": "",
+            "templateStyle": {},
+            "modelName": "新增",
+            "ref": "AddDate",
+            "slots": {},
+            "children": [],
+            "$events": {},
+            "$item": {
+              "name": "Model",
+              "label": "模块",
+              "id": "Model_1647325106221_0.5259103207123295"
+            },
+            "id": "YhphXhRFSeeneVAuLSuhAQ",
+            "_loading": false
+          }
+        ],
+        "useConfirmLoadingCode": true,
+        "onCancel": "closeNew",
+        "footerMode": "default",
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1647310009726_0.40868013273904724"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值  \n  return this.confirmLoading\n}",
+        "mask": true
+      },
+      {
+        "$name": "Confirm",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "$data": {
+          "Method_1647853607500_0.36074554207194076": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "async function open (value) { \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1647853607500_0.36074554207194076",
+            "label": "打开",
+            "type": "method"
+          },
+          "Data_1647853607500_0.6678717658694457": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1647853607500_0.6678717658694457",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1647853607500_0.5699539665521238": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "async function cancel () {  \n  this.visible = false      \n  // 非必须，响应异步\n  if (this.$reject instanceof Function) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1647853607500_0.5699539665521238",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1647853607500_0.02368313751316986": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1647853607500_0.02368313751316986",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1647853607500_0.18620918789076812": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "async function ok () {  \n  console.log(this.value)\n  try {\n    // 提交接口，修改接口id\n    await $dde.delete('67314ee57b5b4cbdadadffc467b174f1?workDay=' + this.value.workDay)\n    $antd.message.success('删除成功！');\n    $run('query');\n    // 非必须，响应异步\n    this.visible = false  \n    if (this.$resolve instanceof Function) this.$resolve()\n  } finally {}    \n}",
+            "name": "ok",
+            "id": "Method_1647853607500_0.18620918789076812",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646912279129_0.6009985242488087"
+        },
+        "useOkCode": true,
+        "useCancelCode": true,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "$item": {
+          "name": "Confirm",
+          "label": "确认框",
+          "id": "Confirm_1647853607499_0.8623590419715781"
+        },
+        "title": "删除",
+        "content": "确认删除当前数据吗？"
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "Search_1647309606836_0.5420881477433053": {
+        "$name": "Search",
+        "form": {
+          "$name": "SearchForm",
+          "children": [
+            {
+              "$name": "DatePicker",
+              "inline": true,
+              "useChangeCode": false,
+              "rulesConfig": [],
+              "format": "YYYY-MM-DD",
+              "disabled": false,
+              "$key": "workDay",
+              "$item": {
+                "name": "DatePicker",
+                "label": "日期选择",
+                "id": "DatePicker_1647677777257_0.3953511774365175"
+              },
+              "label": "选择日期",
+              "onChangeCode": "function onChange(date, dateString) {\n  // 在下面开始编写改变事件\n}"
+            }
+          ],
+          "$key": "filters",
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1647309606836_0.8107154336874198"
+          },
+          "label": "filters"
+        },
+        "useResetCode": true,
+        "$data": {
+          "Data_1647309606837_0.5299613832030337": {
+            "isDefault": true,
+            "componentId": "Search_1647309606836_0.5420881477433053",
+            "code": "{}",
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "timestamp",
+                "name": "workDay",
+                "id": "Data_1647309606837_0.5299613832030337_workDay",
+                "label": "选择日期",
+                "type": "schema"
+              }
+            ],
+            "componentSchemas": {
+              "workDay": {
+                "isDefault": true,
+                "propertyName": "workDay",
+                "fieldLabelName": "选择日期",
+                "$key": "workDay",
+                "fieldType": "timestamp"
+              }
+            },
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1647309606837_0.5299613832030337",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646912279129_0.6009985242488087"
+        },
+        "useModelCode": false,
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n  // 在下面开始编写点击搜索按钮时触发事件\n  $data.page.pageNo = 1;\n  $run('query');\n}",
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1647309606836_0.5420881477433053"
+        },
+        "list": {
+          "$name": "SearchList",
+          "children": [
+            {
+              "$name": "DataList",
+              "useChangeCode": true,
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1647309606837_0.47659125445285544"
+              },
+              "columns": [
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "dayTypeDesc",
+                  "columnId": "HeaderCell_1647327274917_0.593566271845007",
+                  "width": 120,
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327274917_0.593566271845007"
+                  },
+                  "label": "日期类型",
+                  "title": "日期类型",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDay",
+                  "columnId": "HeaderCell_1647327307404_0.924054174003444",
+                  "width": 300,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327307404_0.924054174003444"
+                  },
+                  "label": "日期",
+                  "title": "日期",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDayDesc",
+                  "columnId": "HeaderCell_1647327334588_0.5427721671549475",
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327334588_0.5427721671549475"
+                  },
+                  "title": "备注",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "columnId": "HeaderCell_1647853541693_0.6616200996035804",
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647853541693_0.6616200996035804"
+                  },
+                  "title": "操作",
+                  "$cell": [
+                    {
+                      "$name": "Button1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1647853558457_0.3294856508006614": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1647853558457_0.3294856508006614",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1647853558457_0.4914008427276364": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1647853558457_0.4914008427276364",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+                      "text": "编辑",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1647853558457_0.8703211331015457"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1669010611228_0.7649184883119227": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1669010611228_0.7649184883119227",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1669010611228_0.8494509918940063": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1669010611228_0.8494509918940063",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1669010611228_0.47062451323457055"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+              "bordered": true,
+              "usePaginationCode": true,
+              "fit": true,
+              "useSelectChangeCode": true,
+              "useValueCode": false,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1647309606837_0.9741073862604344"
+              },
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": false,
+              "$data": {
+                "Data_1647309606837_0.6340305186751363": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "{ \n  rows: [], \n  keys: [],\n}",
+                  "dataType": "object",
+                  "name": "selected",
+                  "id": "Data_1647309606837_0.6340305186751363",
+                  "label": "选中数据",
+                  "type": "data"
+                },
+                "Data_1647309606837_0.4899136942407101": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "{}",
+                  "dataType": "object",
+                  "name": "sorter",
+                  "id": "Data_1647309606837_0.4899136942407101",
+                  "label": "排序",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Method_1647309606837_0.7138507951335016": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['Search']\n  const params = Object.assign({}, pagination, sorter, value)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('listApiTestID', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+                  "name": "query",
+                  "id": "Method_1647309606837_0.7138507951335016",
+                  "label": "查询",
+                  "type": "method"
+                },
+                "Data_1647309606837_0.09337641304713196": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "[]",
+                  "componentSchemas": {
+                    "dayTypeDesc": {
+                      "isDefault": true,
+                      "propertyName": "dayTypeDesc",
+                      "fieldLabelName": "日期类型",
+                      "$key": "dayTypeDesc",
+                      "fieldType": "string"
+                    },
+                    "workDayDesc": {
+                      "isDefault": true,
+                      "propertyName": "workDayDesc",
+                      "fieldLabelName": "备注",
+                      "$key": "workDayDesc",
+                      "fieldType": "string"
+                    },
+                    "workDay": {
+                      "isDefault": true,
+                      "propertyName": "workDay",
+                      "fieldLabelName": "日期",
+                      "$key": "workDay",
+                      "fieldType": "string"
+                    }
+                  },
+                  "children": [
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "dayTypeDesc",
+                      "id": "Data_1647309606837_0.09337641304713196_dayTypeDesc",
+                      "label": "日期类型",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "workDay",
+                      "id": "Data_1647309606837_0.09337641304713196_workDay",
+                      "label": "日期",
+                      "type": "schema"
+                    },
+                    {
+                      "isDefault": true,
+                      "dataType": "string",
+                      "name": "workDayDesc",
+                      "id": "Data_1647309606837_0.09337641304713196_workDayDesc",
+                      "label": "备注",
+                      "type": "schema"
+                    },
+                    {
+                      "dataType": "string",
+                      "name": "dayType",
+                      "id": "Data_1647309606837_0.09337641304713196_dayType",
+                      "label": "日期类型",
+                      "type": "schema",
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    }
+                  ],
+                  "isMain": true,
+                  "dataType": "array",
+                  "schemas": {
+                    "dayType": {
+                      "recorder": "UzC4T6h3",
+                      "columnLength": 2,
+                      "columnOrder": 99,
+                      "autoCreateRule": "",
+                      "precision": 2,
+                      "columnComment": "日期类型",
+                      "referenceType": "",
+                      "scale": 0,
+                      "autoCreateParam": "",
+                      "lazyFetch": false,
+                      "mandatory": false,
+                      "javaType": "java.lang.String",
+                      "accessType": "N",
+                      "referenceData": "",
+                      "columnType": "VARCHAR",
+                      "propertyName": "dayType",
+                      "fieldLabelName": "日期类型",
+                      "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                      "fieldType": "string",
+                      "lastModifyDate": "2022-03-14 17:03:51",
+                      "columnName": "DAY_TYPE",
+                      "primaryKey": false,
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    },
+                    "workDayDesc": {
+                      "recorder": "UzC4T6h3",
+                      "columnLength": 128,
+                      "columnOrder": 99,
+                      "autoCreateRule": "",
+                      "precision": 128,
+                      "columnComment": "备注",
+                      "referenceType": "",
+                      "scale": 0,
+                      "autoCreateParam": "",
+                      "lazyFetch": false,
+                      "mandatory": false,
+                      "javaType": "java.lang.String",
+                      "accessType": "N",
+                      "referenceData": "",
+                      "columnType": "VARCHAR",
+                      "propertyName": "workDayDesc",
+                      "fieldLabelName": "备注",
+                      "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                      "fieldType": "string",
+                      "lastModifyDate": "2022-03-14 17:03:51",
+                      "columnName": "WORK_DAY_DESC",
+                      "primaryKey": false,
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    },
+                    "workDay": {
+                      "recorder": "UzC4T6h3",
+                      "columnLength": 0,
+                      "columnOrder": 99,
+                      "autoCreateRule": "",
+                      "precision": 0,
+                      "columnComment": "日期",
+                      "referenceType": "",
+                      "scale": 0,
+                      "autoCreateParam": "",
+                      "lazyFetch": false,
+                      "mandatory": true,
+                      "javaType": "java.sql.Date",
+                      "accessType": "N",
+                      "referenceData": "",
+                      "columnType": "DATE",
+                      "propertyName": "workDay",
+                      "fieldLabelName": "日期",
+                      "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                      "fieldType": "date",
+                      "lastModifyDate": "2022-03-14 17:03:51",
+                      "columnName": "WORK_DAY",
+                      "primaryKey": true,
+                      "cid": "DataList_1647309606837_0.9741073862604344"
+                    }
+                  },
+                  "name": "value",
+                  "id": "Data_1647309606837_0.09337641304713196",
+                  "label": "数据",
+                  "type": "data"
+                },
+                "Data_1647309606837_0.14172143579315422": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1647309606837_0.14172143579315422",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1647309606837_0.7128489243133254": {
+                  "isDefault": true,
+                  "componentId": "DataList_1647309606837_0.9741073862604344",
+                  "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}",
+                  "dataType": "object",
+                  "name": "pagination",
+                  "id": "Data_1647309606837_0.7128489243133254",
+                  "label": "分页",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return $data.page;\n}",
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+              "$key": "list",
+              "label": "datelist",
+              "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  $data.selectedRows = selectedRowKeys;\n}",
+              "size": "small",
+              "$columns": [
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "dayTypeDesc",
+                  "width": 120,
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327274917_0.593566271845007"
+                  },
+                  "label": "日期类型",
+                  "title": "日期类型",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDay",
+                  "width": 300,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327307404_0.924054174003444"
+                  },
+                  "label": "日期",
+                  "title": "日期",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "dataIndex": "workDayDesc",
+                  "fixed": "normal",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647327334588_0.5427721671549475"
+                  },
+                  "title": "备注",
+                  "align": "normal",
+                  "$cell": []
+                },
+                {
+                  "$name": "HeaderCell",
+                  "children": [],
+                  "width": 160,
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1647853541693_0.6616200996035804"
+                  },
+                  "title": "操作",
+                  "$cell": [
+                    {
+                      "$name": "Button1",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1647853558457_0.3294856508006614": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1647853558457_0.3294856508006614",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1647853558457_0.4914008427276364": {
+                          "isDefault": true,
+                          "componentId": "Button_1647853558457_0.8703211331015457",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1647853558457_0.4914008427276364",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "success",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+                      "text": "编辑",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1647853558457_0.8703211331015457"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    },
+                    {
+                      "$name": "按钮",
+                      "useDisabledCode": true,
+                      "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                      "$data": {
+                        "Data_1669010611228_0.7649184883119227": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "disabled",
+                          "id": "Data_1669010611228_0.7649184883119227",
+                          "label": "禁用",
+                          "type": "data",
+                          "isFixed": true
+                        },
+                        "Data_1669010611228_0.8494509918940063": {
+                          "isDefault": true,
+                          "componentId": "Button_1669010611228_0.47062451323457055",
+                          "code": "false",
+                          "dataType": "boolean",
+                          "name": "loading",
+                          "id": "Data_1669010611228_0.8494509918940063",
+                          "label": "加载中",
+                          "type": "data",
+                          "isFixed": true
+                        }
+                      },
+                      "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                      "className": "error",
+                      "type": "default",
+                      "ghost": true,
+                      "size": "small",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+                      "text": "删除",
+                      "$item": {
+                        "name": "Button",
+                        "label": "按钮",
+                        "id": "Button_1669010611228_0.47062451323457055"
+                      },
+                      "useLoadingCode": true,
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "dataSource": [],
+              "actions": {
+                "$name": "DataActions",
+                "children": [
+                  {
+                    "$name": "Button",
+                    "useDisabledCode": true,
+                    "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                    "$data": {
+                      "Data_1647309622960_0.7199983370788752": {
+                        "isDefault": true,
+                        "componentId": "Button_1647309622959_0.1370846566931998",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "disabled",
+                        "id": "Data_1647309622960_0.7199983370788752",
+                        "label": "禁用",
+                        "type": "data",
+                        "isFixed": true
+                      },
+                      "Data_1647309622960_0.3288690602511286": {
+                        "isDefault": true,
+                        "componentId": "Button_1647309622959_0.1370846566931998",
+                        "code": "false",
+                        "dataType": "boolean",
+                        "name": "loading",
+                        "id": "Data_1647309622960_0.3288690602511286",
+                        "label": "加载中",
+                        "type": "data",
+                        "isFixed": true
+                      }
+                    },
+                    "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                    "className": "primary",
+                    "type": "default",
+                    "size": "middle",
+                    "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNew');\n}",
+                    "text": "新增",
+                    "$item": {
+                      "name": "Button",
+                      "label": "按钮",
+                      "id": "Button_1647309622959_0.1370846566931998"
+                    },
+                    "useLoadingCode": true,
+                    "useClickCode": true
+                  }
+                ],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1647309607299_0.8364212396750972"
+                }
+              },
+              "rowKey": "",
+              "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n  if (!action) return;\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.page = pagination;\n  $data.sort = sorter;\n  $data.selectedRows = [];\n  $run('query');\n}"
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1647309606837_0.47659125445285544"
+          }
+        },
+        "onResetCode": "function onReset () {\n  // 在下面开始编写点击重置按钮时触发事件\n  // this.value = {};\n  $data.filters = {};\n  $data.page.pageNo = 1;\n  $run('query');\n}"
+      },
+      "Button_1647309622959_0.1370846566931998": {
+        "$name": "Button",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1647309622960_0.7199983370788752": {
+            "isDefault": true,
+            "componentId": "Button_1647309622959_0.1370846566931998",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1647309622960_0.7199983370788752",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647309622960_0.3288690602511286": {
+            "isDefault": true,
+            "componentId": "Button_1647309622959_0.1370846566931998",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1647309622960_0.3288690602511286",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "primary",
+        "type": "default",
+        "size": "middle",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNew');\n}",
+        "text": "新增",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1647309622959_0.1370846566931998"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Button_1669010611228_0.47062451323457055": {
+        "$name": "按钮",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1669010611228_0.7649184883119227": {
+            "isDefault": true,
+            "componentId": "Button_1669010611228_0.47062451323457055",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1669010611228_0.7649184883119227",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1669010611228_0.8494509918940063": {
+            "isDefault": true,
+            "componentId": "Button_1669010611228_0.47062451323457055",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1669010611228_0.8494509918940063",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "error",
+        "type": "default",
+        "ghost": true,
+        "size": "small",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+        "text": "删除",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1669010611228_0.47062451323457055"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Button_1647853558457_0.8703211331015457": {
+        "$name": "Button1",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1647853558457_0.3294856508006614": {
+            "isDefault": true,
+            "componentId": "Button_1647853558457_0.8703211331015457",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1647853558457_0.3294856508006614",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647853558457_0.4914008427276364": {
+            "isDefault": true,
+            "componentId": "Button_1647853558457_0.8703211331015457",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1647853558457_0.4914008427276364",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "className": "success",
+        "type": "default",
+        "ghost": true,
+        "size": "small",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+        "text": "编辑",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1647853558457_0.8703211331015457"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "DataList_1647309606837_0.9741073862604344": {
+        "$name": "DataList",
+        "useChangeCode": true,
+        "$parent": {
+          "name": "SearchList",
+          "label": "列表插槽",
+          "id": "SearchList_1647309606837_0.47659125445285544"
+        },
+        "columns": [
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "dayTypeDesc",
+            "columnId": "HeaderCell_1647327274917_0.593566271845007",
+            "width": 120,
+            "fixed": "normal",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647327274917_0.593566271845007"
+            },
+            "label": "日期类型",
+            "title": "日期类型",
+            "align": "normal",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "workDay",
+            "columnId": "HeaderCell_1647327307404_0.924054174003444",
+            "width": 300,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647327307404_0.924054174003444"
+            },
+            "label": "日期",
+            "title": "日期",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "workDayDesc",
+            "columnId": "HeaderCell_1647327334588_0.5427721671549475",
+            "fixed": "normal",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647327334588_0.5427721671549475"
+            },
+            "title": "备注",
+            "align": "normal",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "columnId": "HeaderCell_1647853541693_0.6616200996035804",
+            "width": 160,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647853541693_0.6616200996035804"
+            },
+            "title": "操作",
+            "$cell": [
+              {
+                "$name": "Button1",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1647853558457_0.3294856508006614": {
+                    "isDefault": true,
+                    "componentId": "Button_1647853558457_0.8703211331015457",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1647853558457_0.3294856508006614",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1647853558457_0.4914008427276364": {
+                    "isDefault": true,
+                    "componentId": "Button_1647853558457_0.8703211331015457",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1647853558457_0.4914008427276364",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "success",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+                "text": "编辑",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1647853558457_0.8703211331015457"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              },
+              {
+                "$name": "按钮",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1669010611228_0.7649184883119227": {
+                    "isDefault": true,
+                    "componentId": "Button_1669010611228_0.47062451323457055",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1669010611228_0.7649184883119227",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1669010611228_0.8494509918940063": {
+                    "isDefault": true,
+                    "componentId": "Button_1669010611228_0.47062451323457055",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1669010611228_0.8494509918940063",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "error",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+                "text": "删除",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1669010611228_0.47062451323457055"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              }
+            ]
+          }
+        ],
+        "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值  \n  return this.selected.keys\n}",
+        "bordered": true,
+        "usePaginationCode": true,
+        "fit": true,
+        "useSelectChangeCode": true,
+        "useValueCode": false,
+        "$item": {
+          "name": "DataList",
+          "label": "数据表格",
+          "id": "DataList_1647309606837_0.9741073862604344"
+        },
+        "useLoadingCode": true,
+        "useSelectedRowKeysCode": false,
+        "$data": {
+          "Data_1647309606837_0.6340305186751363": {
+            "isDefault": true,
+            "componentId": "DataList_1647309606837_0.9741073862604344",
+            "code": "{ \n  rows: [], \n  keys: [],\n}",
+            "dataType": "object",
+            "name": "selected",
+            "id": "Data_1647309606837_0.6340305186751363",
+            "label": "选中数据",
+            "type": "data"
+          },
+          "Data_1647309606837_0.4899136942407101": {
+            "isDefault": true,
+            "componentId": "DataList_1647309606837_0.9741073862604344",
+            "code": "{}",
+            "dataType": "object",
+            "name": "sorter",
+            "id": "Data_1647309606837_0.4899136942407101",
+            "label": "排序",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1647309606837_0.7138507951335016": {
+            "isDefault": true,
+            "componentId": "DataList_1647309606837_0.9741073862604344",
+            "code": "async function query () {  \n  this.loading = true\n  const { pagination, sorter } = this\n  const { value } = $comp['Search']\n  const params = Object.assign({}, pagination, sorter, value)\n  try {\n    // 查询接口，修改接口id\n    const { \n      objList, \n      pageDesc, \n    } = await $dde.get('listApiTestID', { params }) // FIXME\n    this.value = objList\n    this.pagination = pageDesc\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "query",
+            "id": "Method_1647309606837_0.7138507951335016",
+            "label": "查询",
+            "type": "method"
+          },
+          "Data_1647309606837_0.09337641304713196": {
+            "isDefault": true,
+            "componentId": "DataList_1647309606837_0.9741073862604344",
+            "code": "[]",
+            "componentSchemas": {
+              "dayTypeDesc": {
+                "isDefault": true,
+                "propertyName": "dayTypeDesc",
+                "fieldLabelName": "日期类型",
+                "$key": "dayTypeDesc",
+                "fieldType": "string"
+              },
+              "workDayDesc": {
+                "isDefault": true,
+                "propertyName": "workDayDesc",
+                "fieldLabelName": "备注",
+                "$key": "workDayDesc",
+                "fieldType": "string"
+              },
+              "workDay": {
+                "isDefault": true,
+                "propertyName": "workDay",
+                "fieldLabelName": "日期",
+                "$key": "workDay",
+                "fieldType": "string"
+              }
+            },
+            "children": [
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "dayTypeDesc",
+                "id": "Data_1647309606837_0.09337641304713196_dayTypeDesc",
+                "label": "日期类型",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "workDay",
+                "id": "Data_1647309606837_0.09337641304713196_workDay",
+                "label": "日期",
+                "type": "schema"
+              },
+              {
+                "isDefault": true,
+                "dataType": "string",
+                "name": "workDayDesc",
+                "id": "Data_1647309606837_0.09337641304713196_workDayDesc",
+                "label": "备注",
+                "type": "schema"
+              },
+              {
+                "dataType": "string",
+                "name": "dayType",
+                "id": "Data_1647309606837_0.09337641304713196_dayType",
+                "label": "日期类型",
+                "type": "schema",
+                "cid": "DataList_1647309606837_0.9741073862604344"
+              }
+            ],
+            "isMain": true,
+            "dataType": "array",
+            "schemas": {
+              "dayType": {
+                "recorder": "UzC4T6h3",
+                "columnLength": 2,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 2,
+                "columnComment": "日期类型",
+                "referenceType": "",
+                "scale": 0,
+                "autoCreateParam": "",
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "dayType",
+                "fieldLabelName": "日期类型",
+                "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                "fieldType": "string",
+                "lastModifyDate": "2022-03-14 17:03:51",
+                "columnName": "DAY_TYPE",
+                "primaryKey": false,
+                "cid": "DataList_1647309606837_0.9741073862604344"
+              },
+              "workDayDesc": {
+                "recorder": "UzC4T6h3",
+                "columnLength": 128,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 128,
+                "columnComment": "备注",
+                "referenceType": "",
+                "scale": 0,
+                "autoCreateParam": "",
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "workDayDesc",
+                "fieldLabelName": "备注",
+                "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                "fieldType": "string",
+                "lastModifyDate": "2022-03-14 17:03:51",
+                "columnName": "WORK_DAY_DESC",
+                "primaryKey": false,
+                "cid": "DataList_1647309606837_0.9741073862604344"
+              },
+              "workDay": {
+                "recorder": "UzC4T6h3",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "日期",
+                "referenceType": "",
+                "scale": 0,
+                "autoCreateParam": "",
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATE",
+                "propertyName": "workDay",
+                "fieldLabelName": "日期",
+                "tableId": "6U1OixW1ShSKhrcNRBzaog",
+                "fieldType": "date",
+                "lastModifyDate": "2022-03-14 17:03:51",
+                "columnName": "WORK_DAY",
+                "primaryKey": true,
+                "cid": "DataList_1647309606837_0.9741073862604344"
+              }
+            },
+            "name": "value",
+            "id": "Data_1647309606837_0.09337641304713196",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1647309606837_0.14172143579315422": {
+            "isDefault": true,
+            "componentId": "DataList_1647309606837_0.9741073862604344",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1647309606837_0.14172143579315422",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647309606837_0.7128489243133254": {
+            "isDefault": true,
+            "componentId": "DataList_1647309606837_0.9741073862604344",
+            "code": "{ \n  pageSize: 20, \n  pageNo: 1,\n}",
+            "dataType": "object",
+            "name": "pagination",
+            "id": "Data_1647309606837_0.7128489243133254",
+            "label": "分页",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "setPaginationCode": "function setPagination() {\n  // 在下面返回Pagination的值  \n  return $data.page;\n}",
+        "setValueCode": "function setValue() {\n  // 在下面返回Value的值  \n  return this.value\n}",
+        "$key": "list",
+        "label": "datelist",
+        "onSelectChangeCode": "function onSelectChange (selectedRowKeys, selectedRows) {  \n  $data.selectedRows = selectedRowKeys;\n}",
+        "size": "small",
+        "$columns": [
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "dayTypeDesc",
+            "width": 120,
+            "fixed": "normal",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647327274917_0.593566271845007"
+            },
+            "label": "日期类型",
+            "title": "日期类型",
+            "align": "normal",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "workDay",
+            "width": 300,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647327307404_0.924054174003444"
+            },
+            "label": "日期",
+            "title": "日期",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "dataIndex": "workDayDesc",
+            "fixed": "normal",
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647327334588_0.5427721671549475"
+            },
+            "title": "备注",
+            "align": "normal",
+            "$cell": []
+          },
+          {
+            "$name": "HeaderCell",
+            "children": [],
+            "width": 160,
+            "$item": {
+              "name": "HeaderCell",
+              "label": "表头",
+              "id": "HeaderCell_1647853541693_0.6616200996035804"
+            },
+            "title": "操作",
+            "$cell": [
+              {
+                "$name": "Button1",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1647853558457_0.3294856508006614": {
+                    "isDefault": true,
+                    "componentId": "Button_1647853558457_0.8703211331015457",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1647853558457_0.3294856508006614",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1647853558457_0.4914008427276364": {
+                    "isDefault": true,
+                    "componentId": "Button_1647853558457_0.8703211331015457",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1647853558457_0.4914008427276364",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "success",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Modal.open($data.row);\n}",
+                "text": "编辑",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1647853558457_0.8703211331015457"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              },
+              {
+                "$name": "按钮",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1669010611228_0.7649184883119227": {
+                    "isDefault": true,
+                    "componentId": "Button_1669010611228_0.47062451323457055",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1669010611228_0.7649184883119227",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1669010611228_0.8494509918940063": {
+                    "isDefault": true,
+                    "componentId": "Button_1669010611228_0.47062451323457055",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1669010611228_0.8494509918940063",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "className": "error",
+                "type": "default",
+                "ghost": true,
+                "size": "small",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $comp.Confirm.open($data.row);\n}",
+                "text": "删除",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1669010611228_0.47062451323457055"
+                },
+                "useLoadingCode": true,
+                "useClickCode": true
+              }
+            ]
+          }
+        ],
+        "dataSource": [],
+        "actions": {
+          "$name": "DataActions",
+          "children": [
+            {
+              "$name": "Button",
+              "useDisabledCode": true,
+              "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+              "$data": {
+                "Data_1647309622960_0.7199983370788752": {
+                  "isDefault": true,
+                  "componentId": "Button_1647309622959_0.1370846566931998",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "disabled",
+                  "id": "Data_1647309622960_0.7199983370788752",
+                  "label": "禁用",
+                  "type": "data",
+                  "isFixed": true
+                },
+                "Data_1647309622960_0.3288690602511286": {
+                  "isDefault": true,
+                  "componentId": "Button_1647309622959_0.1370846566931998",
+                  "code": "false",
+                  "dataType": "boolean",
+                  "name": "loading",
+                  "id": "Data_1647309622960_0.3288690602511286",
+                  "label": "加载中",
+                  "type": "data",
+                  "isFixed": true
+                }
+              },
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+              "className": "primary",
+              "type": "default",
+              "size": "middle",
+              "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('openNew');\n}",
+              "text": "新增",
+              "$item": {
+                "name": "Button",
+                "label": "按钮",
+                "id": "Button_1647309622959_0.1370846566931998"
+              },
+              "useLoadingCode": true,
+              "useClickCode": true
+            }
+          ],
+          "$item": {
+            "name": "DataActions",
+            "label": "操作栏",
+            "id": "DataActions_1647309607299_0.8364212396750972"
+          }
+        },
+        "rowKey": "",
+        "onChangeCode": "function onChange (pagination, filters, sorter, action) {  \n  if (!action) return;\n  // 在下面开始编写分页、排序、筛选变化时触发事件\n  $data.page = pagination;\n  $data.sort = sorter;\n  $data.selectedRows = [];\n  $run('query');\n}"
+      },
+      "Confirm_1647853607499_0.8623590419715781": {
+        "$name": "Confirm",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return this.visible\n}",
+        "$data": {
+          "Method_1647853607500_0.36074554207194076": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "async function open (value) { \n  this.visible = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1647853607500_0.36074554207194076",
+            "label": "打开",
+            "type": "method"
+          },
+          "Data_1647853607500_0.6678717658694457": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1647853607500_0.6678717658694457",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1647853607500_0.5699539665521238": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "async function cancel () {  \n  this.visible = false      \n  // 非必须，响应异步\n  if (this.$reject instanceof Function) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1647853607500_0.5699539665521238",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1647853607500_0.02368313751316986": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1647853607500_0.02368313751316986",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1647853607500_0.18620918789076812": {
+            "isDefault": true,
+            "componentId": "Confirm_1647853607499_0.8623590419715781",
+            "code": "async function ok () {  \n  console.log(this.value)\n  try {\n    // 提交接口，修改接口id\n    await $dde.delete('67314ee57b5b4cbdadadffc467b174f1?workDay=' + this.value.workDay)\n    $antd.message.success('删除成功！');\n    $run('query');\n    // 非必须，响应异步\n    this.visible = false  \n    if (this.$resolve instanceof Function) this.$resolve()\n  } finally {}    \n}",
+            "name": "ok",
+            "id": "Method_1647853607500_0.18620918789076812",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646912279129_0.6009985242488087"
+        },
+        "useOkCode": true,
+        "useCancelCode": true,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "$item": {
+          "name": "Confirm",
+          "label": "确认框",
+          "id": "Confirm_1647853607499_0.8623590419715781"
+        },
+        "title": "删除",
+        "content": "确认删除当前数据吗？"
+      },
+      "Modal_1647310009726_0.40868013273904724": {
+        "$name": "Modal",
+        "onCancelCode": "function onCancel() {\n  // 取消时执行  \n  return this.cancel()\n}",
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值  \n  return $data.newOpen;\n}",
+        "keyboard": false,
+        "$data": {
+          "Method_1647310009726_0.47913418366627636": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "async function open (value) {  \n  $data.newOpen = true\n  this.value = value\n  \n  // 非必须，让open返回异步\n  return new Promise((resolve, reject) => {\n    this.$resolve = resolve\n    this.$reject = reject\n  })\n}",
+            "name": "open",
+            "id": "Method_1647310009726_0.47913418366627636",
+            "label": "打开",
+            "type": "method"
+          },
+          "Method_1647310009726_0.6921507688269715": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "async function ok () {  \n  try {\n    this.confirmLoading = true \n    // 提交接口，修改接口id\n    await $dde.get('submitApiTestID', {})\n    this.cancel(true)\n    $antd.message.success('ok')\n  } finally {\n    this.confirmLoading = false        \n  }      \n}",
+            "name": "ok",
+            "id": "Method_1647310009726_0.6921507688269715",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1647310009726_0.6937491772544881": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "async function cancel (isOk) {  \n  $data.newOpen = false\n  this.value = null\n  \n  // 非必须，响应异步\n  if (isOk === true && this.$resolve) this.$resolve()\n  if (!isOk && this.$reject) this.$reject()\n}",
+            "name": "cancel",
+            "id": "Method_1647310009726_0.6937491772544881",
+            "label": "取消",
+            "type": "method"
+          },
+          "Data_1647310009726_0.5505580418817184": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "visible",
+            "id": "Data_1647310009726_0.5505580418817184",
+            "label": "是否显示",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647310009726_0.18271659241685168": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "confirmLoading",
+            "id": "Data_1647310009726_0.18271659241685168",
+            "label": "提交中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1647310009726_0.4857379853889314": {
+            "isDefault": true,
+            "componentId": "Modal_1647310009726_0.40868013273904724",
+            "code": "{}",
+            "children": [],
+            "componentSchemas": {},
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1647310009726_0.4857379853889314",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1646912279129_0.6009985242488087"
+        },
+        "useOkCode": false,
+        "closable": true,
+        "useCancelCode": false,
+        "onOkCode": "function onOk() {\n  // 提交时执行  \n  return this.ok()\n}",
+        "maskClosable": false,
+        "title": "新增",
+        "onOk": "okNew",
+        "fullscreen": false,
+        "useConfirmLoadingCode": true,
+        "onCancel": "closeNew",
+        "footerMode": "default",
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1647310009726_0.40868013273904724"
+        },
+        "setConfirmLoadingCode": "function setConfirmLoading() {\n  // 在下面返回ConfirmLoading的值  \n  return this.confirmLoading\n}",
+        "mask": true
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('query');\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1646912279129_0.6009985242488087"
+    }
+  },
+  "publishDate": "2023-02-01 10:49:37",
+  "sourceId": "ZL9AC3GURhOcEUElrLLw2w",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1647309692727": {
+        "code": "[]",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "dayTypeDesc",
+            "id": "Data_1647309692727_dayTypeDesc",
+            "label": "日期类型",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "workDay",
+            "id": "Data_1647309692727_workDay",
+            "label": "日期",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "workDayDesc",
+            "id": "Data_1647309692727_workDayDesc",
+            "label": "备注",
+            "type": "schema"
+          },
+          {
+            "dataType": "string",
+            "name": "dayType",
+            "id": "Data_1647309692727_dayType",
+            "label": "日期类型",
+            "type": "schema"
+          }
+        ],
+        "componentSchemas": {
+          "dayTypeDesc": {
+            "isDefault": true,
+            "propertyName": "dayTypeDesc",
+            "fieldLabelName": "日期类型",
+            "$key": "dayTypeDesc",
+            "fieldType": "string"
+          },
+          "workDayDesc": {
+            "isDefault": true,
+            "propertyName": "workDayDesc",
+            "fieldLabelName": "备注",
+            "$key": "workDayDesc",
+            "fieldType": "string"
+          },
+          "workDay": {
+            "isDefault": true,
+            "propertyName": "workDay",
+            "fieldLabelName": "日期",
+            "$key": "workDay",
+            "fieldType": "string"
+          }
+        },
+        "dataType": "array",
+        "schemas": {
+          "dayType": {
+            "recorder": "UzC4T6h3",
+            "columnLength": 2,
+            "columnOrder": 99,
+            "autoCreateRule": "",
+            "precision": 2,
+            "columnComment": "日期类型",
+            "referenceType": "",
+            "scale": 0,
+            "autoCreateParam": "",
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "",
+            "columnType": "VARCHAR",
+            "propertyName": "dayType",
+            "fieldLabelName": "日期类型",
+            "tableId": "6U1OixW1ShSKhrcNRBzaog",
+            "fieldType": "string",
+            "lastModifyDate": "2022-03-14 17:03:51",
+            "columnName": "DAY_TYPE",
+            "primaryKey": false
+          },
+          "workDayDesc": {
+            "recorder": "UzC4T6h3",
+            "columnLength": 128,
+            "columnOrder": 99,
+            "autoCreateRule": "",
+            "precision": 128,
+            "columnComment": "备注",
+            "referenceType": "",
+            "scale": 0,
+            "autoCreateParam": "",
+            "lazyFetch": false,
+            "mandatory": false,
+            "javaType": "java.lang.String",
+            "accessType": "N",
+            "referenceData": "",
+            "columnType": "VARCHAR",
+            "propertyName": "workDayDesc",
+            "fieldLabelName": "备注",
+            "tableId": "6U1OixW1ShSKhrcNRBzaog",
+            "fieldType": "string",
+            "lastModifyDate": "2022-03-14 17:03:51",
+            "columnName": "WORK_DAY_DESC",
+            "primaryKey": false
+          },
+          "workDay": {
+            "recorder": "UzC4T6h3",
+            "columnLength": 0,
+            "columnOrder": 99,
+            "autoCreateRule": "",
+            "precision": 0,
+            "columnComment": "日期",
+            "referenceType": "",
+            "scale": 0,
+            "autoCreateParam": "",
+            "lazyFetch": false,
+            "mandatory": true,
+            "javaType": "java.sql.Date",
+            "accessType": "N",
+            "referenceData": "",
+            "columnType": "DATE",
+            "propertyName": "workDay",
+            "fieldLabelName": "日期",
+            "tableId": "6U1OixW1ShSKhrcNRBzaog",
+            "fieldType": "date",
+            "lastModifyDate": "2022-03-14 17:03:51",
+            "columnName": "WORK_DAY",
+            "primaryKey": true
+          }
+        },
+        "name": "list",
+        "id": "Data_1647309692727",
+        "label": "list",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1647327625582": {
+        "code": "{\r\n    pageSize: 10,\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1647327625582_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "page",
+        "id": "Data_1647327625582",
+        "label": "page",
+        "type": "data",
+        "codeSchemas": {
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          }
+        }
+      },
+      "Data_1647484781444": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "object",
+        "name": "filters",
+        "id": "Data_1647484781444"
+      },
+      "Data_1647325574280": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "loading",
+        "id": "Data_1647325574280",
+        "label": "loading",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1647325690269": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "selectedRows",
+        "id": "Data_1647325690269",
+        "label": "selectedRows",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1647309905830": {
+        "code": "false",
+        "children": [],
+        "dataType": "boolean",
+        "name": "newOpen",
+        "id": "Data_1647309905830",
+        "label": "newOpen",
+        "type": "data"
+      },
+      "Data_1647327652948": {
+        "code": "{\r\n    order: 'desc',\r\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "order",
+            "id": "Data_1647327652948_order",
+            "label": "order",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "sort",
+        "id": "Data_1647327652948",
+        "label": "sort",
+        "type": "data",
+        "codeSchemas": {
+          "order": {
+            "isDefault": true,
+            "propertyName": "order",
+            "fieldLabelName": "order",
+            "fieldType": "string"
+          }
+        }
+      },
+      "Data_1647327726019": {
+        "code": "{}",
+        "children": [],
+        "dataType": "object",
+        "name": "datelist",
+        "id": "Data_1647327726019",
+        "label": "datelist",
+        "type": "data",
+        "codeSchemas": {}
+      }
+    },
+    "methodsConfigs": {
+      "Method_1647418884935": {
+        "code": "async function query() {\n  const { page, sort, filters } = $data;\n  if (filters.workDay != undefined) {\n    filters.workDay = filters.workDay.split(' ')[0];\n  }\n  const params = Object.assign({\n  \t['(like)workDay_lk']: filters.workDay,\n  }, page, sort)\n  $data.loading = true\n  await $dde.get('6703454f60944018a77fddc55cb247f8', { params }).then(res => {\n    res.objList.forEach(item => {\n      item.workDay = item.workDay.split(' ')[0];\n      if(item.dayType != undefined) {\n        item.dayTypeDesc = item.dayType === 'B' ? '班' : '休';\n      }\n    })\n    $data.list = res.objList;\n    $data.page = res.pageDesc;\n  });\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1647418884935",
+        "label": "query",
+        "type": "method"
+      },
+      "Method_1647310085235": {
+        "code": "async function okNew() {\n    const { AddDate } = $refs;\n    await AddDate.run('save');\n    $run('closeNew')\n    $run('query')\n}",
+        "name": "okNew",
+        "id": "Method_1647310085235",
+        "label": "okNew",
+        "type": "method"
+      },
+      "Method_1647309886310": {
+        "code": "function openNew() {\n    $data.newOpen = true\n}",
+        "name": "openNew",
+        "id": "Method_1647309886310",
+        "label": "openNew",
+        "type": "method"
+      },
+      "Method_1647310108505": {
+        "code": "function closeNew() {\n    $data.newOpen = false\n}",
+        "name": "closeNew",
+        "id": "Method_1647310108505",
+        "label": "closeNew",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "日历",
+  "isValid": "F"
+}

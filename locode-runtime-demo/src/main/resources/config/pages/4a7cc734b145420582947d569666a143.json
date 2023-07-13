@@ -1,0 +1,714 @@
+{
+  "modelId": "4a7cc734b145420582947d569666a143",
+  "modelName": "考勤统计",
+  "optId": "6ca65ab404db442e961ea372b76da705",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "B",
+  "lastModifyDate": "2022-03-05 14:38:05",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640850346667": {
+        "code": "[]",
+        "children": [],
+        "name": "data3",
+        "id": "Data_1640850346667",
+        "title": "data3",
+        "type": "a",
+        "key": "Data_1640850346667"
+      },
+      "Data_1641352173078": {
+        "code": "[]",
+        "children": [],
+        "name": "unitList",
+        "id": "Data_1641352173078",
+        "title": "unitList",
+        "type": "a",
+        "key": "Data_1641352173078"
+      },
+      "Data_1640831355190": {
+        "code": "$info.userInfo",
+        "children": [],
+        "name": "userInfo",
+        "id": "Data_1640831355190",
+        "title": "userInfo",
+        "type": "o",
+        "key": "Data_1640831355190"
+      },
+      "Data_1640772077260": {
+        "code": "[]",
+        "children": [],
+        "name": "data1",
+        "id": "Data_1640772077260",
+        "title": "data1",
+        "type": "a",
+        "key": "Data_1640772077260"
+      },
+      "Data_1640850332836": {
+        "code": "[]",
+        "children": [],
+        "name": "data2",
+        "id": "Data_1640850332836",
+        "title": "data2",
+        "type": "a",
+        "key": "Data_1640850332836"
+      },
+      "Data_1640857886423": {
+        "code": "[]",
+        "children": [],
+        "name": "data4",
+        "id": "Data_1640857886423",
+        "title": "data4",
+        "type": "a",
+        "key": "Data_1640857886423"
+      },
+      "Data_1640859282198": {
+        "code": "[]",
+        "children": [],
+        "name": "xAxis2",
+        "id": "Data_1640859282198",
+        "title": "xAxis2",
+        "type": "a",
+        "key": "Data_1640859282198"
+      },
+      "Data_1641371371631": {
+        "children": [],
+        "name": "currentUnit",
+        "id": "Data_1641371371631",
+        "title": "currentUnit",
+        "type": "s",
+        "key": "Data_1641371371631"
+      },
+      "Data_1640858357487": {
+        "code": "[]",
+        "children": [],
+        "name": "xAxis",
+        "id": "Data_1640858357487",
+        "title": "xAxis",
+        "type": "a",
+        "key": "Data_1640858357487"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1641538209671": {
+        "code": "async function initUnit() {\n  debugger\n  //const unitList = await $dde.get('4ec1db479cf346a1b3080f492cc83d36')\n  $data.unitList = unitList.map(item=>{return {value:item.unitCode,   label:item.unitName}})\n}",
+        "name": "initUnit",
+        "id": "Method_1641538209671",
+        "title": "initUnit",
+        "key": "Method_1641538209671"
+      },
+      "Method_1640849071954": {
+        "code": "async function initData() {\n  debugger\n  if(!$data.currentUnit){\n    $data.currentUnit = 'D4BtpSxJ' //技术管理中心\n  }\n  const params = {\n  \tunitCode: $data.currentUnit,\n    month:'2021-12'\n  }\n  \n  $data.loading = true\n  const data1 = await $dde.get('4e1290038c7f415fbe7d55b916c8d7bc', { params })\n  $data.data1 = data1.reverse()\n  $data.xAxis = data1.map(item=>item.username)\n  const data2 = await $dde.get('690c06717de74c8fbc1ed55b21dbc4e9', { params })\n  $data.data2 = data2\n  $data.xAxis2 = data2.map(item=>item.username)\n  const dataYear = await $dde.get('0ffdd3032975432eabb575e6f732bba1', { params:{\n  \tunitCode:'D4BtpSxJ',\n  } })\n  $data.data3 = dataYear.filter(item=>item.year == '2021')\n  $data.data4 = dataYear.filter(item=>item.year == '2020')\n  $data.loading = false\t\n}",
+        "name": "initData",
+        "id": "Method_1640849071954",
+        "title": "initData",
+        "key": "Method_1640849071954"
+      }
+    },
+    "styleText": "padding:10px",
+    "children": [
+      {
+        "$top": {
+          "useStyleText": true,
+          "styleText": "background-color:rgb(18,35,79);\ntext-align:center;",
+          "children": [
+            {
+              "notShowItem": true,
+              "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.unitList.length!==0\n}",
+              "useGetOptionCode": true,
+              "useStyleText": true,
+              "styleText": "width:200px;\ntransform:translateY(-2px);",
+              "$parent": {
+                "name": "LayoutHeader",
+                "label": "顶部布局",
+                "id": "LayoutHeader_1640770639881_0.7056876859007546"
+              },
+              "useChangeCode": true,
+              "setOptionsCode": "function setOptions() {\n  // 在下面返回Options的值\n  debugger\n  return $data.unitList\n}",
+              "showArrow": true,
+              "use$$ifCode": true,
+              "$key": "",
+              "bordered": true,
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+              "options": [
+                {
+                  "label": "选项1",
+                  "value": "1"
+                },
+                {
+                  "label": "选项2",
+                  "value": "2"
+                },
+                {
+                  "label": "选项3",
+                  "value": "3"
+                },
+                {
+                  "label": "选项4",
+                  "value": "4"
+                },
+                {}
+              ],
+              "setGetOptionCode": "function setGetOption() {\n  // 在下面返回GetOption的值\n  return $data.unitList\n}",
+              "$item": {
+                "name": "Select",
+                "label": "下拉框",
+                "id": "Select_1641366323977_0.31984571924436356"
+              },
+              "getOptions": "unitList",
+              "useOptionsCode": true,
+              "onChangeCode": "function onChange(e) {\n  // 在下面开始编写选择事件\n debugger\n\t$data.currentUnit = e\n  \t$run('initData')\n}"
+            },
+            {
+              "useStyleText": true,
+              "styleText": "color:#fff;\nfont-size:24px;",
+              "$parent": {
+                "name": "LayoutHeader",
+                "label": "顶部布局",
+                "id": "LayoutHeader_1640770639881_0.7056876859007546"
+              },
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  if($data.userInfo && $data.userInfo.primaryUnitName){\n  \treturn '部门考勤统计'\n  }else{\n  \treturn '标题'\n  }\n}",
+              "useValueCode": true,
+              "$item": {
+                "name": "Html",
+                "label": "文字",
+                "id": "Html_1640771358142_0.31035814335919176"
+              },
+              "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+            }
+          ],
+          "$item": {
+            "name": "LayoutHeader",
+            "label": "顶部布局",
+            "id": "LayoutHeader_1640770639881_0.7056876859007546"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+        },
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640761413469_0.04614553421544687"
+        },
+        "$center": {
+          "useStyleText": true,
+          "styleText": "background-color:rgb(18,35,79);\npadding:20px;",
+          "children": [
+            {
+              "bgIndex": "10",
+              "useStyleText": false,
+              "children": [
+                {
+                  "useStyleText": true,
+                  "styleText": "display:flex;\nflex-direction:column;\nborder:2px solid rgb(20,144,172);",
+                  "children": [
+                    {
+                      "draggable": false,
+                      "useStyleText": true,
+                      "styleText": "color:#fff;\ndisplay:block;\nwidth:100%;\ntext-align:center;\nfont-size:24px;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '年度加班'\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640847934560_0.3766429809333398"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    },
+                    {
+                      "optionAxis": {
+                        "yAxis": {
+                          "axisLabel": {
+                            "formatter": "{value}",
+                            "color": "#FFFFFF",
+                            "show": true,
+                            "fontSize": 12
+                          },
+                          "data": [],
+                          "axisLine": {
+                            "lineStyle": {
+                              "color": "#FFFFFF",
+                              "width": "1"
+                            },
+                            "show": false
+                          },
+                          "name": "分钟",
+                          "position": "left",
+                          "type": "value"
+                        },
+                        "xAxis": {
+                          "axisLabel": {
+                            "formatter": "{value}",
+                            "color": "#FFFFFF",
+                            "show": true,
+                            "fontSize": 12
+                          },
+                          "data": [
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                            "9",
+                            "10",
+                            "11",
+                            "12"
+                          ],
+                          "axisLine": {
+                            "lineStyle": {
+                              "color": "#FFFFFF",
+                              "width": "1"
+                            },
+                            "show": false
+                          },
+                          "name": "月",
+                          "position": "bottom",
+                          "type": "category"
+                        },
+                        "series": [
+                          {
+                            "data": [
+                              150,
+                              230,
+                              224,
+                              218,
+                              135,
+                              147,
+                              260
+                            ],
+                            "type": "line"
+                          }
+                        ]
+                      },
+                      "useStyleText": true,
+                      "styleText": "flex:1;",
+                      "tooltip": true,
+                      "useChartAxis": true,
+                      "optionSeries": [
+                        {
+                          "$key": "data3",
+                          "type": "line",
+                          "isArrayObject": true,
+                          "ykey": "overtimelength",
+                          "xkey": "month"
+                        },
+                        {
+                          "$key": "data4",
+                          "type": "line",
+                          "isArrayObject": true,
+                          "ykey": "overtimelength",
+                          "xkey": "month"
+                        }
+                      ],
+                      "usexAxisCode": false,
+                      "xAxisCode": "function setxAxis() {\n  // 在下面返回xAxis轴的值\n  debugger\n  return $data.xAxis\n}",
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "draggable": false,
+                      "optionCode": "function option(data) {\n                // 在下面返回option对象\n                return {}\n              }",
+                      "$item": {
+                        "name": "Chart",
+                        "label": "常规图表",
+                        "id": "Chart_1640848045835_0.21902832935820205"
+                      },
+                      "chartColors": [
+                        "#5470c6",
+                        "#91cc75",
+                        "#fac858",
+                        "#ee6666",
+                        "#73c0de",
+                        "#3ba272",
+                        "#fc8452",
+                        "#9a60b4",
+                        "#ea7ccc"
+                      ]
+                    }
+                  ],
+                  "$item": {
+                    "name": "ChartLayoutCell",
+                    "label": "布局内容单元",
+                    "id": "ChartLayoutCell_1640770671868_0.11011083592998583"
+                  },
+                  "params": {
+                    "topType": "%",
+                    "hType": "%",
+                    "top": 52,
+                    "left": 0,
+                    "wType": "%",
+                    "width": 100,
+                    "leftType": "%",
+                    "height": 48
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                },
+                {
+                  "useStyleText": true,
+                  "styleText": "display:flex;\nflex-direction:column;\nborder:2px solid rgb(20,144,172);",
+                  "children": [
+                    {
+                      "draggable": false,
+                      "useStyleText": true,
+                      "styleText": "color:#fff;\ndisplay:block;\nwidth:100%;\ntext-align:center;\nfont-size:24px;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return (new Date().getMonth()+1)+'月加班统计'\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640828450003_0.13395297786017735"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    },
+                    {
+                      "optionAxis": {
+                        "yAxis": {
+                          "axisLabel": {
+                            "formatter": "{value}",
+                            "color": "#FFFFFF",
+                            "show": true,
+                            "fontSize": 12
+                          },
+                          "data": [],
+                          "axisLine": {
+                            "lineStyle": {
+                              "color": "#FFFFFF",
+                              "width": "1"
+                            },
+                            "show": false
+                          },
+                          "name": "人",
+                          "position": "left",
+                          "type": "category"
+                        },
+                        "xAxis": {
+                          "axisLabel": {
+                            "formatter": "{value}",
+                            "color": "#FFFFFF",
+                            "show": true,
+                            "fontSize": 12
+                          },
+                          "data": [],
+                          "axisLine": {
+                            "lineStyle": {
+                              "color": "#FFFFFF",
+                              "width": "1"
+                            },
+                            "show": false
+                          },
+                          "name": "分钟",
+                          "position": "bottom",
+                          "type": "value"
+                        },
+                        "series": [
+                          {
+                            "data": [
+                              150,
+                              230,
+                              224,
+                              218,
+                              135,
+                              147,
+                              260
+                            ],
+                            "type": "line"
+                          }
+                        ]
+                      },
+                      "useStyleText": true,
+                      "styleText": "flex:1;",
+                      "useChartAxis": true,
+                      "tooltip": true,
+                      "optionSeries": [
+                        {
+                          "$key": "data1",
+                          "type": "bar",
+                          "isArrayObject": true,
+                          "ykey": "username",
+                          "xkey": "overtimelength"
+                        }
+                      ],
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "draggable": false,
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n\tdebugger\n}",
+                      "optionCode": "function option(data) {\n                // 在下面返回option对象\n                return {}\n              }",
+                      "chartTitle": "",
+                      "yAxisCode": "function setyAxis() {\n  // 在下面返回yAxis轴的值\n  return $data.data1.map(item=>item.username)\n}",
+                      "useyAxisCode": true,
+                      "$item": {
+                        "name": "Chart",
+                        "label": "常规图表",
+                        "id": "Chart_1640771411595_0.32005005382958984"
+                      },
+                      "useClickCode": true,
+                      "chartColors": [
+                        "#FF32E0",
+                        "#91cc75",
+                        "#fac858",
+                        "#ee6666",
+                        "#73c0de",
+                        "#3ba272",
+                        "#fc8452",
+                        "#9a60b4",
+                        "#ea7ccc",
+                        "#FF5C5C",
+                        "#A87575",
+                        "#261C1C"
+                      ]
+                    }
+                  ],
+                  "$item": {
+                    "name": "ChartLayoutCell",
+                    "label": "布局内容单元",
+                    "id": "ChartLayoutCell_1640770678065_0.9730648586486892"
+                  },
+                  "params": {
+                    "topType": "%",
+                    "hType": "%",
+                    "top": 0,
+                    "left": 0,
+                    "wType": "%",
+                    "width": 32.333333333333336,
+                    "leftType": "%",
+                    "height": 50
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                },
+                {
+                  "useStyleText": true,
+                  "styleText": "border:2px solid rgb(20,144,172);",
+                  "children": [
+                    {
+                      "draggable": false,
+                      "optionCode": "function option(data) {\n                // 在下面返回option对象\n                return {}\n              }",
+                      "optionSeries": [
+                        {
+                          "isRose": true,
+                          "namekey": "username",
+                          "$key": "data1",
+                          "type": "pie",
+                          "valuekey": "overtimelength",
+                          "isArrayObject": true
+                        }
+                      ],
+                      "$item": {
+                        "name": "Chart",
+                        "label": "常规图表",
+                        "id": "Chart_1640860137215_0.420710553353852"
+                      },
+                      "chartColors": [
+                        "#5470c6",
+                        "#91cc75",
+                        "#fac858",
+                        "#ee6666",
+                        "#73c0de",
+                        "#3ba272",
+                        "#fc8452",
+                        "#9a60b4",
+                        "#ea7ccc"
+                      ]
+                    }
+                  ],
+                  "$item": {
+                    "name": "ChartLayoutCell",
+                    "label": "布局内容单元",
+                    "id": "ChartLayoutCell_1640770678082_0.8211488980384503"
+                  },
+                  "params": {
+                    "topType": "%",
+                    "hType": "%",
+                    "top": 0,
+                    "left": 33.833333333333336,
+                    "wType": "%",
+                    "width": 32.333333333333336,
+                    "leftType": "%",
+                    "height": 50
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                },
+                {
+                  "useStyleText": true,
+                  "styleText": "display:flex;\nflex-direction:column;\nborder:2px solid rgb(20,144,172);",
+                  "children": [
+                    {
+                      "draggable": false,
+                      "useStyleText": true,
+                      "styleText": "color:#fff;\ndisplay:block;\nwidth:100%;\ntext-align:center;\nfont-size:24px;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return (new Date().getMonth()+1)+'月迟到早退统计'\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640828870802_0.03709451520292628"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    },
+                    {
+                      "optionAxis": {
+                        "yAxis": {
+                          "axisLabel": {
+                            "formatter": "{value}",
+                            "color": "#FFFFFF",
+                            "show": true,
+                            "fontSize": 12
+                          },
+                          "data": [],
+                          "axisLine": {
+                            "lineStyle": {
+                              "color": "#FFFFFF",
+                              "width": "1"
+                            },
+                            "show": false
+                          },
+                          "name": "分钟",
+                          "position": "left",
+                          "type": "value"
+                        },
+                        "xAxis": {
+                          "axisLabel": {
+                            "formatter": "{value}",
+                            "color": "#FFFFFF",
+                            "show": true,
+                            "fontSize": 12
+                          },
+                          "data": [],
+                          "axisLine": {
+                            "lineStyle": {
+                              "color": "#FFFFFF",
+                              "width": "1"
+                            },
+                            "show": false
+                          },
+                          "name": "人",
+                          "position": "bottom",
+                          "type": "category"
+                        },
+                        "series": [
+                          {
+                            "data": [
+                              150,
+                              230,
+                              224,
+                              218,
+                              135,
+                              147,
+                              260
+                            ],
+                            "type": "line"
+                          }
+                        ]
+                      },
+                      "useStyleText": true,
+                      "styleText": "flex:1;",
+                      "legend": false,
+                      "useChartAxis": true,
+                      "optionSeries": [
+                        {
+                          "$key": "data2",
+                          "type": "bar",
+                          "isArrayObject": true,
+                          "ykey": "leavetduration",
+                          "xkey": "username"
+                        }
+                      ],
+                      "tooltip": true,
+                      "xAxisCode": "function setxAxis() {\n  // 在下面返回xAxis轴的值\n  return $data.xAxis2\n}",
+                      "usexAxisCode": true,
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                      "draggable": false,
+                      "optionCode": "function option(data) {\n                // 在下面返回option对象\n                return {}\n              }",
+                      "chartTitle": "",
+                      "yAxisCode": "function setyAxis() {\n  // 在下面返回yAxis轴的值\n  return $data.xAxis2\n}",
+                      "useyAxisCode": false,
+                      "$item": {
+                        "name": "Chart",
+                        "label": "常规图表",
+                        "id": "Chart_1640771413263_0.9637797570167881"
+                      },
+                      "chartColors": [
+                        "#3365FF",
+                        "#91cc75",
+                        "#fac858",
+                        "#ee6666",
+                        "#73c0de",
+                        "#3ba272",
+                        "#fc8452",
+                        "#9a60b4",
+                        "#ea7ccc"
+                      ]
+                    }
+                  ],
+                  "$item": {
+                    "name": "ChartLayoutCell",
+                    "label": "布局内容单元",
+                    "id": "ChartLayoutCell_1640770678092_0.8862817035102994"
+                  },
+                  "params": {
+                    "topType": "%",
+                    "hType": "%",
+                    "top": 0,
+                    "left": 67.66666666666667,
+                    "wType": "%",
+                    "width": 32.333333333333336,
+                    "leftType": "%",
+                    "height": 50
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                }
+              ],
+              "$parent": {
+                "name": "LayoutContent",
+                "label": "内容",
+                "id": "LayoutContent_1640770646051_0.9131170175179291"
+              },
+              "bgSrc": {
+                "src": "/1-模板背景图/1.png",
+                "name": "1"
+              },
+              "$item": {
+                "name": "ChartLayout",
+                "label": "图表布局",
+                "id": "ChartLayout_1640770647722_0.5610580547495971"
+              }
+            }
+          ],
+          "$item": {
+            "name": "LayoutContent",
+            "label": "内容",
+            "id": "LayoutContent_1640770646051_0.9131170175179291"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1640770637506_0.9969670737469034"
+        },
+        "dir": "tb",
+        "items": [
+          "t",
+          "c"
+        ]
+      }
+    ],
+    "root": true,
+    "positionLayout": false,
+    "useMountedCode": true,
+    "style": {
+      "padding": "10px"
+    },
+    "paramsConfigs": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n\t$run('initData')\n  $run('initUnit')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640761413469_0.04614553421544687"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "R9TTB0O1S3OHLzVGI3NPYg",
+  "modelTag": "空白",
+  "isValid": "F"
+}

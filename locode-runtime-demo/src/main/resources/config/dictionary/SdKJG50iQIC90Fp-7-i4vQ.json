@@ -1,0 +1,34 @@
+{
+  "catalogCode": "SdKJG50iQIC90Fp-7-i4vQ",
+  "catalogName": "行业分类",
+  "catalogStyle": "U",
+  "catalogType": "L",
+  "catalogDesc": "fieldId",
+  "fieldDesc": "{\"dataCode\":{\"isUse\":\"T\",\"value\":\"编码\"},\"dataOrder\":{\"isUse\":\"T\",\"value\":\"排序\"},\"dataValue\":{\"isUse\":\"T\",\"value\":\"名称\"},\"dataTag\":{\"isUse\":\"T\",\"value\":\"启用\"},\"dataDesc\":{\"isUse\":\"T\",\"value\":\"描述\"},\"extraCode\":{\"isUse\":\"F\",\"value\":\"扩展编码\"}}",
+  "updateDate": "2022-04-22 15:53:58",
+  "optId": "Rw6_kgLKRnWGe9WfPVV35Q",
+  "needCache": "1",
+  "topUnit": "DxxkJ664",
+  "details": [
+    {
+      "catalogCode": "SdKJG50iQIC90Fp-7-i4vQ",
+      "dataCode": "DZSW",
+      "dataTag": "T",
+      "dataValue": "电子商务",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2022-04-22 15:53:58",
+      "dataOrder": 2
+    },
+    {
+      "catalogCode": "SdKJG50iQIC90Fp-7-i4vQ",
+      "dataCode": "JT",
+      "dataTag": "T",
+      "dataValue": "交通水利行业",
+      "dataStyle": "U",
+      "dataDesc": "",
+      "lastModifyDate": "2022-04-22 15:53:58",
+      "dataOrder": 1
+    }
+  ]
+}

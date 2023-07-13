@@ -1,0 +1,1020 @@
+{
+  "packetId": "fc72349d5d3849ef835a3600f7a1d0c2",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "每月请假信息同步",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 160,
+        "y": 100,
+        "id": "startNjpofY98mo",
+        "text": {
+          "x": 160,
+          "y": 100,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "id": "startNjpofY98mo",
+          "type": "start"
+        }
+      },
+      {
+        "x": 160,
+        "y": 260,
+        "id": "databasetuP9JBmhqC",
+        "text": {
+          "x": 160,
+          "y": 260,
+          "value": "请假数据"
+        },
+        "type": "database",
+        "properties": {
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "读取关系数据库",
+          "type": "database",
+          "querySQL": "select a.usercode,a.attdate,\ncase when  onduty_type in('1','4') and beginTime<=DATE_FORMAT(attdate,'%Y-%m-%d %08:%45:%00') then b.leaveType else onduty_type end ondutyAndLeave,\ncase when offduty_type in('2','4') and endtime>=DATE_FORMAT(attdate,'%Y-%m-%d %15:%30:%00') then b.leaveType else offduty_type end offdutyAndLeave\nfrom (\n\tSELECT * FROM `v_attendance_daily` where  attdate>=date_sub( date_sub(CURRENT_DATE, INTERVAL extract( DAY FROM CURRENT_DATE )- 1 DAY ), INTERVAL 1 MONTH ) \n)a join leaveinfo b on a.usercode=b.usercode and DATE_FORMAT(a.attdate,'%Y-%m-%d') between DATE_FORMAT(b.beginTime,'%Y-%m-%d') and DATE_FORMAT(b.endTime,'%Y-%m-%d')\nwhere b.flowresult='通过'",
+          "isBranch": false,
+          "processName": "请假数据",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "isSelected": true,
+          "x": 160,
+          "parameterList": [
+            {
+              "value": "",
+              "key": "%"
+            }
+          ],
+          "y": 260,
+          "id": "databasetuP9JBmhqC",
+          "text": {
+            "x": 160,
+            "y": 260,
+            "value": "请假数据"
+          },
+          "config": [
+            {
+              "isStatData": "F",
+              "propertyName": "usercode",
+              "dataType": "string",
+              "columnCode": "usercode",
+              "columnName": "usercode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "attdate",
+              "dataType": "string",
+              "columnCode": "attdate",
+              "columnName": "attdate"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "ondutyandleave",
+              "dataType": "string",
+              "columnCode": "ondutyAndLeave",
+              "columnName": "ondutyandleave"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "offdutyandleave",
+              "dataType": "string",
+              "columnCode": "offdutyAndLeave",
+              "columnName": "offdutyandleave"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "properties": {
+            "querySQL": "select a.usercode,a.attdate,\ncase when  onduty_type in('1','4') and beginTime<=DATE_FORMAT(attdate,'%Y-%m-%d %08:%45:%00') then b.leaveType else onduty_type end ondutyAndLeave,\ncase when offduty_type in('2','4') and endtime>=DATE_FORMAT(attdate,'%Y-%m-%d %15:%30:%00') then b.leaveType else offduty_type end offdutyAndLeave\nfrom (\n\tSELECT * FROM `v_attendance_daily` where  attdate>=date_sub( date_sub(CURRENT_DATE, INTERVAL extract( DAY FROM CURRENT_DATE )- 1 DAY ), INTERVAL 0 MONTH ) \n)a join leaveinfo b on a.usercode=b.usercode and DATE_FORMAT(a.attdate,'%Y-%m-%d') between DATE_FORMAT(b.beginTime,'%Y-%m-%d') and DATE_FORMAT(b.endTime,'%Y-%m-%d')\nwhere b.flowresult='通过'",
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "processName": "请假数据",
+            "typeName": "读取关系数据库",
+            "isSource": true,
+            "isSelected": true,
+            "parameterList": [
+              {
+                "unique": 0,
+                "value": "",
+                "key": "%"
+              }
+            ],
+            "id": "databasetuP9JBmhqC",
+            "type": "database",
+            "config": [
+              {
+                "isStatData": "F",
+                "propertyName": "usercode",
+                "dataType": "string",
+                "columnCode": "usercode",
+                "columnName": "usercode"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "attdate",
+                "dataType": "string",
+                "columnCode": "attdate",
+                "columnName": "attdate"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "ondutyandleave",
+                "dataType": "string",
+                "columnCode": "ondutyAndLeave",
+                "columnName": "ondutyandleave"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "offdutyandleave",
+                "dataType": "string",
+                "columnCode": "offdutyAndLeave",
+                "columnName": "offdutyandleave"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "x": 160,
+        "y": 440,
+        "id": "persistencedlDx4eBiJP",
+        "text": {
+          "x": 160,
+          "y": 440,
+          "value": "每月初执行写入"
+        },
+        "type": "persistence",
+        "properties": {
+          "tableLabelName": "837f269022c44fb9a98ffd6910e24caa",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "usercode",
+              "dataType": "string",
+              "columnCode": "usercode",
+              "columnName": "usercode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "attdate",
+              "dataType": "string",
+              "columnCode": "attdate",
+              "columnName": "attdate"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "ondutyandleave",
+              "dataType": "string",
+              "columnCode": "ondutyAndLeave",
+              "columnName": "ondutyandleave"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "offdutyandleave",
+              "dataType": "string",
+              "columnCode": "offdutyAndLeave",
+              "columnName": "offdutyandleave"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "写入关系数据库",
+          "source": "databasetuP9JBmhqC",
+          "type": "persistence",
+          "resultMsg": "__rmdb_writer_result_msg",
+          "isBranch": false,
+          "result": "__rmdb_writer_result",
+          "processName": "每月初执行写入",
+          "saveAsWhole": false,
+          "isSource": false,
+          "isSelected": false,
+          "x": 160,
+          "y": 440,
+          "id": "persistencedlDx4eBiJP",
+          "text": {
+            "x": 160,
+            "y": 440,
+            "value": "每月初执行写入"
+          },
+          "isRun": true,
+          "tablefield": [
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 0,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 0,
+              "columnComment": "",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.sql.Date",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DATETIME",
+              "propertyName": "onduty",
+              "fieldLabelName": "onduty",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "datetime",
+              "columnName": "onduty",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 0,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 0,
+              "columnComment": "考勤日期",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.sql.Date",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DATETIME",
+              "propertyName": "attdate",
+              "fieldLabelName": "attdate",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "datetime",
+              "columnName": "attdate",
+              "primaryKey": true
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 0,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 0,
+              "columnComment": "",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.sql.Date",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DATETIME",
+              "propertyName": "offduty",
+              "fieldLabelName": "offduty",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "datetime",
+              "columnName": "offduty",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 10,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 10,
+              "columnComment": "迟到时间",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.Integer",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "INT",
+              "propertyName": "latetime",
+              "fieldLabelName": "lateTime",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "integer",
+              "columnName": "lateTime",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 64,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 64,
+              "columnComment": "",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": true,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "usercode",
+              "fieldLabelName": "usercode",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "usercode",
+              "primaryKey": true
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 8,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 8,
+              "columnComment": "旷工天数",
+              "referenceType": "",
+              "scale": 1,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.Double",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DECIMAL",
+              "propertyName": "absenceday",
+              "fieldLabelName": "absenceDay",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "double",
+              "columnName": "absenceDay",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 2,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 2,
+              "columnComment": "",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "ondutyType",
+              "fieldLabelName": "onduty_type",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "onduty_type",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 2,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 2,
+              "columnComment": "",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.String",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "VARCHAR",
+              "propertyName": "offdutyType",
+              "fieldLabelName": "offduty_type",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "string",
+              "columnName": "offduty_type",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 8,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 8,
+              "columnComment": "加班时间",
+              "referenceType": "",
+              "scale": 1,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.Double",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "DECIMAL",
+              "propertyName": "overtimetime",
+              "fieldLabelName": "overtimeTime",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "double",
+              "columnName": "overtimeTime",
+              "primaryKey": false
+            },
+            {
+              "recorder": "U22AJpoL",
+              "columnLength": 10,
+              "columnOrder": 99,
+              "autoCreateRule": "",
+              "precision": 10,
+              "columnComment": "早退时间",
+              "referenceType": "",
+              "scale": 0,
+              "lazyFetch": false,
+              "mandatory": false,
+              "javaType": "java.lang.Integer",
+              "accessType": "N",
+              "referenceData": "",
+              "columnType": "INT",
+              "propertyName": "leaveearlytime",
+              "fieldLabelName": "leaveEarlyTime",
+              "tableId": "837f269022c44fb9a98ffd6910e24caa",
+              "lastModifyDate": "2022-03-05 15:59:51",
+              "fieldType": "integer",
+              "columnName": "leaveEarlyTime",
+              "primaryKey": false
+            }
+          ],
+          "config": [
+            {
+              "primaryKey1": "usercode",
+              "propertyName": "usercode",
+              "unique": 0,
+              "columnName": "usercode"
+            },
+            {
+              "primaryKey1": "attdate",
+              "propertyName": "attdate",
+              "unique": 1,
+              "columnName": "attdate"
+            },
+            {
+              "primaryKey1": "ondutyandleave",
+              "propertyName": "ondutyandleave",
+              "unique": 2,
+              "columnName": "onduty_type"
+            },
+            {
+              "primaryKey1": "offdutyandleave",
+              "propertyName": "offdutyandleave",
+              "unique": 3,
+              "columnName": "offduty_type"
+            }
+          ],
+          "writerType": "merge",
+          "properties": {
+            "tableLabelName": "837f269022c44fb9a98ffd6910e24caa",
+            "Sourcefield": [
+              {
+                "isStatData": "F",
+                "propertyName": "usercode",
+                "dataType": "string",
+                "columnCode": "usercode",
+                "columnName": "usercode"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "attdate",
+                "dataType": "string",
+                "columnCode": "attdate",
+                "columnName": "attdate"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "ondutyandleave",
+                "dataType": "string",
+                "columnCode": "ondutyAndLeave",
+                "columnName": "ondutyandleave"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "offdutyandleave",
+                "dataType": "string",
+                "columnCode": "offdutyAndLeave",
+                "columnName": "offdutyandleave"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ],
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "typeName": "写入关系数据库",
+            "source": "databasetuP9JBmhqC",
+            "type": "persistence",
+            "isBranch": false,
+            "processName": "每月初执行写入",
+            "saveAsWhole": false,
+            "isSource": false,
+            "isSelected": false,
+            "id": "persistencedlDx4eBiJP",
+            "isRun": true,
+            "tablefield": [
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATETIME",
+                "propertyName": "onduty",
+                "fieldLabelName": "onduty",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "datetime",
+                "columnName": "onduty",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "考勤日期",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATETIME",
+                "propertyName": "attdate",
+                "fieldLabelName": "attdate",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "datetime",
+                "columnName": "attdate",
+                "primaryKey": true
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 0,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 0,
+                "columnComment": "",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.sql.Date",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DATETIME",
+                "propertyName": "offduty",
+                "fieldLabelName": "offduty",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "datetime",
+                "columnName": "offduty",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 10,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 10,
+                "columnComment": "迟到时间",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.Integer",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "INT",
+                "propertyName": "latetime",
+                "fieldLabelName": "lateTime",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "integer",
+                "columnName": "lateTime",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 64,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 64,
+                "columnComment": "",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": true,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "usercode",
+                "fieldLabelName": "usercode",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "usercode",
+                "primaryKey": true
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 8,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 8,
+                "columnComment": "旷工天数",
+                "referenceType": "",
+                "scale": 1,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.Double",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DECIMAL",
+                "propertyName": "absenceday",
+                "fieldLabelName": "absenceDay",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "double",
+                "columnName": "absenceDay",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 2,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 2,
+                "columnComment": "",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "ondutyType",
+                "fieldLabelName": "onduty_type",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "onduty_type",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 2,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 2,
+                "columnComment": "",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.String",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "VARCHAR",
+                "propertyName": "offdutyType",
+                "fieldLabelName": "offduty_type",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "string",
+                "columnName": "offduty_type",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 8,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 8,
+                "columnComment": "加班时间",
+                "referenceType": "",
+                "scale": 1,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.Double",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "DECIMAL",
+                "propertyName": "overtimetime",
+                "fieldLabelName": "overtimeTime",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "double",
+                "columnName": "overtimeTime",
+                "primaryKey": false
+              },
+              {
+                "recorder": "U22AJpoL",
+                "columnLength": 10,
+                "columnOrder": 99,
+                "autoCreateRule": "",
+                "precision": 10,
+                "columnComment": "早退时间",
+                "referenceType": "",
+                "scale": 0,
+                "lazyFetch": false,
+                "mandatory": false,
+                "javaType": "java.lang.Integer",
+                "accessType": "N",
+                "referenceData": "",
+                "columnType": "INT",
+                "propertyName": "leaveearlytime",
+                "fieldLabelName": "leaveEarlyTime",
+                "tableId": "837f269022c44fb9a98ffd6910e24caa",
+                "lastModifyDate": "2022-03-05 15:59:51",
+                "fieldType": "integer",
+                "columnName": "leaveEarlyTime",
+                "primaryKey": false
+              }
+            ],
+            "config": [
+              {
+                "primaryKey1": "usercode",
+                "propertyName": "usercode",
+                "unique": 0
+              },
+              {
+                "primaryKey1": "attdate",
+                "propertyName": "attdate",
+                "unique": 1
+              },
+              {
+                "primaryKey1": "ondutyandleave",
+                "propertyName": "ondutyType",
+                "unique": 2
+              },
+              {
+                "primaryKey1": "offdutyandleave",
+                "propertyName": "offdutyType",
+                "unique": 3
+              }
+            ],
+            "writerType": "merge"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 133
+          },
+          {
+            "x": 160,
+            "y": 227
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 227
+        },
+        "sourceNodeId": "startNjpofY98mo",
+        "startPoint": {
+          "x": 160,
+          "y": 133
+        },
+        "id": "ab44fc8f-d62c-416b-b45d-c95b4b5dcdd6",
+        "type": "PlineEdge",
+        "targetNodeId": "databasetuP9JBmhqC",
+        "properties": {
+          "sourceId": "startNjpofY98mo",
+          "targetId": "databasetuP9JBmhqC",
+          "processName": "",
+          "typeName": "连线",
+          "id": "ab44fc8f-d62c-416b-b45d-c95b4b5dcdd6",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 160,
+            "y": 293
+          },
+          {
+            "x": 160,
+            "y": 407
+          }
+        ],
+        "endPoint": {
+          "x": 160,
+          "y": 407
+        },
+        "sourceNodeId": "databasetuP9JBmhqC",
+        "startPoint": {
+          "x": 160,
+          "y": 293
+        },
+        "id": "edge89ZawC2R",
+        "type": "PlineEdge",
+        "targetNodeId": "persistencedlDx4eBiJP",
+        "properties": {
+          "sourceId": "databasetuP9JBmhqC",
+          "targetId": "persistencedlDx4eBiJP",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edge89ZawC2R",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "7",
+  "taskCron": "",
+  "lastRunTime": "2021-12-30 16:27:38",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2023-02-01 11:25:23",
+  "publishDate": "2023-02-01 11:25:23",
+  "needRollback": "F",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "optCode": "fc72349d5d3849ef835a3600f7a1d0c2",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "27f9ce7627a24461b2273e8ff34d4f34",
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "fc72349d5d3849ef835a3600f7a1d0c2": {
+      "flag": "_api",
+      "children": [
+        {
+          "flag": "_inner",
+          "children": [],
+          "helpField": "调度参数",
+          "id": "__module_params",
+          "title": "__module_params",
+          "key": "fc72349d5d3849ef835a3600f7a1d0c2/__module_params",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "code",
+              "id": "code",
+              "title": "code",
+              "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "success",
+                  "id": "success",
+                  "title": "success",
+                  "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return/success/success",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "error",
+                  "id": "error",
+                  "title": "error",
+                  "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return/error/error",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "info",
+                  "id": "info",
+                  "title": "info",
+                  "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return/info/info",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "data",
+              "id": "data",
+              "title": "data",
+              "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "message",
+              "id": "message",
+              "title": "message",
+              "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新执行结果",
+          "id": "__last_return",
+          "title": "__last_return",
+          "key": "fc72349d5d3849ef835a3600f7a1d0c2/__last_return",
+          "attrType": ""
+        }
+      ],
+      "helpField": "每月请假信息同步",
+      "id": "fc72349d5d3849ef835a3600f7a1d0c2",
+      "title": "子模块",
+      "key": "api",
+      "attrType": ""
+    },
+    "databasetuP9JBmhqC": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "usercode",
+          "id": "usercode",
+          "title": "usercode",
+          "key": "databasetuP9JBmhqC/usercode",
+          "attrType": ""
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "attdate",
+          "id": "attdate",
+          "title": "attdate",
+          "key": "databasetuP9JBmhqC/attdate",
+          "attrType": ""
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "ondutyandleave",
+          "id": "ondutyandleave",
+          "title": "ondutyandleave",
+          "key": "databasetuP9JBmhqC/ondutyandleave",
+          "attrType": ""
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "offdutyandleave",
+          "id": "offdutyandleave",
+          "title": "offdutyandleave",
+          "key": "databasetuP9JBmhqC/offdutyandleave",
+          "attrType": ""
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "rmdbDatasetWriterResult",
+          "id": "rmdbDatasetWriterResult",
+          "title": "rmdbDatasetWriterResult",
+          "key": "databasetuP9JBmhqC/rmdbDatasetWriterResult",
+          "attrType": ""
+        }
+      ],
+      "helpField": "请假数据",
+      "isSource": true,
+      "id": "databasetuP9JBmhqC",
+      "title": "读取关系数据库",
+      "key": "databasetuP9JBmhqC"
+    }
+  },
+  "params": []
+}

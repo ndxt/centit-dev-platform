@@ -1,0 +1,2540 @@
+{
+  "packetId": "78e93bd352ea4d7a829ae69241dc3cd5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "leaveinfo---创建流程",
+  "packetDesc": "leaveinfo---创建流程",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 100,
+        "y": 40,
+        "id": "startgpdCc22qEP",
+        "text": {
+          "x": 100,
+          "y": 40,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "resultOptions": "3",
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": false,
+          "id": "startgpdCc22qEP",
+          "source": "startgpdCc22qEP",
+          "type": "start"
+        }
+      },
+      {
+        "x": 180,
+        "y": 440,
+        "id": "createWorkflow7hqOuFAWIc",
+        "text": {
+          "x": 180,
+          "y": 440,
+          "value": "创建工作流"
+        },
+        "type": "createWorkflow",
+        "properties": {
+          "role": [
+            {
+              "modifyTime": "2022-03-05 14:38:14",
+              "expression": "__request_body.checkuser",
+              "optTeamRoleId": "e231d9d6024a4e57b4c5c3bd258f7b95",
+              "roleCode": "ysr",
+              "roleName": "预审人",
+              "optId": "9d6fd68aab8646209bb07d8066bc84e3"
+            }
+          ],
+          "selectFlowCode": "1",
+          "typeName": "创建工作流",
+          "source": "postDataBLrTpkw6WW",
+          "type": "createWorkflow",
+          "flowOptTag": "metadataUpdateGF0DQTgh.leaveno",
+          "userCode": "__request_body.usercode",
+          "isBranch": false,
+          "flowVariables": [
+            {
+              "variableDesc": "是否预审",
+              "modifyTime": "2022-03-05 14:38:14",
+              "variableName": "checkUser",
+              "expression": "__request_body.checkuser",
+              "defaultValue": "",
+              "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+              "optVariableId": "1f9886ae45cf44daa6f33fdaf926e90a"
+            },
+            {
+              "variableDesc": "请假类型",
+              "modifyTime": "2022-03-05 14:38:14",
+              "variableName": "leavetype",
+              "expression": "__request_body.leavetype",
+              "defaultValue": "",
+              "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+              "optVariableId": "acb128ac320444d7bf67730d0d99dae2"
+            },
+            {
+              "variableDesc": "是否通过",
+              "modifyTime": "2022-03-05 14:38:14",
+              "variableName": "applyType",
+              "defaultValue": "A",
+              "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+              "optVariableId": "edaf2195c2964e03ace37b5430f5ec53"
+            }
+          ],
+          "flowCode": "@a2f852f6dcca48cfa7826ffb1129d040",
+          "processName": "创建工作流",
+          "flowOptName": "__request_body.flowOptName",
+          "unitCode": "__request_body.ownunit",
+          "isSource": true,
+          "isSelected": true,
+          "x": 180,
+          "y": 440,
+          "id": "createWorkflow7hqOuFAWIc",
+          "text": {
+            "x": 180,
+            "y": 440,
+            "value": "创建工作流"
+          },
+          "config": [
+            {
+              "expression": "",
+              "cName": "业务的OptId 或者 自定义表单得模板id",
+              "unique": 0,
+              "columnName": "modelId"
+            },
+            {
+              "expression": "",
+              "cName": "流程版本,可为空",
+              "unique": 1,
+              "columnName": "flowVersion"
+            },
+            {
+              "expression": "",
+              "cName": "父节点ID，作为子流程时有效",
+              "unique": 2,
+              "columnName": "parentNodeInstId"
+            },
+            {
+              "expression": "",
+              "cName": "流程办件机构，类似于办件角色",
+              "unique": 3,
+              "columnName": "flowOrganizes"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点机构",
+              "unique": 4,
+              "columnName": "nodeUnits"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点操作人员",
+              "unique": 5,
+              "columnName": "nodeOptUsers"
+            },
+            {
+              "expression": "",
+              "cName": "流程组ID",
+              "unique": 6,
+              "columnName": "flowGroupId"
+            },
+            {
+              "expression": "",
+              "cName": "设置流程时限，格式为3D4H30M",
+              "unique": 7,
+              "columnName": "timeLimitStr"
+            },
+            {
+              "expression": "",
+              "cName": "是否跳过第一步，默认为false，如果第一步为路由节点无效",
+              "unique": 8,
+              "columnName": "skipFirstNode"
+            },
+            {
+              "expression": "",
+              "cName": "提交后的节点强行指定用户",
+              "unique": 9,
+              "columnName": "lockOptUser"
+            },
+            {
+              "expression": "",
+              "cName": "传递的用户code，用于下一步人员指定, 和 lockFirstOpt 配合使用",
+              "unique": 10,
+              "columnName": "workUserCode"
+            }
+          ],
+          "properties": {
+            "role": [
+              {
+                "modifyTime": "2021-12-21 14:37:07",
+                "expression": "postDataBLrTpkw6WW.checkuser",
+                "optTeamRoleId": "f9d58889d5f04e71b9da37f7b3323d45",
+                "roleCode": "ysr",
+                "unique": 0,
+                "roleName": "预审人",
+                "optId": "TpKfue78R4-a-fUFeRhszA"
+              },
+              {
+                "modifyTime": "2021-12-13 16:53:03",
+                "optTeamRoleId": "c76a7a7b3fa24951be7a31df4fbea6de",
+                "roleCode": "request",
+                "unique": 1,
+                "roleName": "申请人",
+                "optId": "TpKfue78R4-a-fUFeRhszA"
+              }
+            ],
+            "typeName": "创建工作流",
+            "source": "postDataBLrTpkw6WW",
+            "type": "createWorkflow",
+            "flowOptTag": "metadataS5iOXBMbsw.leaveno",
+            "userCode": "postDataBLrTpkw6WW.usercode",
+            "isBranch": false,
+            "flowVariables": [
+              {
+                "variableDesc": "是否预审",
+                "modifyTime": "2021-12-21 14:37:32",
+                "variableName": "checkUser",
+                "expression": "postDataBLrTpkw6WW.checkuser",
+                "defaultValue": "",
+                "unique": 0,
+                "isGlobal": true,
+                "optId": "TpKfue78R4-a-fUFeRhszA",
+                "optVariableId": "4c326230ab77446796874277b7aa53cd"
+              },
+              {
+                "variableDesc": "请假类型",
+                "modifyTime": "2021-12-09 17:46:01",
+                "variableName": "leavetype",
+                "expression": "postDataBLrTpkw6WW.leavetype",
+                "defaultValue": "",
+                "unique": 1,
+                "isGlobal": true,
+                "optId": "TpKfue78R4-a-fUFeRhszA",
+                "optVariableId": "3636c628343a431d9d1b7882da381260"
+              },
+              {
+                "variableDesc": "是否通过",
+                "modifyTime": "2021-12-21 11:15:51",
+                "variableName": "applyType",
+                "expression": "",
+                "defaultValue": "A",
+                "unique": 2,
+                "optId": "TpKfue78R4-a-fUFeRhszA",
+                "optVariableId": "a2c9861791d446c1b495c2ea7f6a02bf"
+              }
+            ],
+            "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+            "processName": "创建工作流",
+            "flowOptName": "postDataBLrTpkw6WW.flowOptName",
+            "unitCode": "postDataBLrTpkw6WW.ownunit",
+            "isSource": true,
+            "isSelected": true,
+            "id": "createWorkflow7hqOuFAWIc",
+            "config": [
+              {
+                "expression": "",
+                "cName": "业务的OptId 或者 自定义表单得模板id",
+                "unique": 0,
+                "columnName": "modelId"
+              },
+              {
+                "expression": "",
+                "cName": "流程版本,可为空",
+                "unique": 1,
+                "columnName": "flowVersion"
+              },
+              {
+                "expression": "",
+                "cName": "父节点ID，作为子流程时有效",
+                "unique": 2,
+                "columnName": "parentNodeInstId"
+              },
+              {
+                "expression": "",
+                "cName": "流程办件机构，类似于办件角色",
+                "unique": 3,
+                "columnName": "flowOrganizes"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点机构",
+                "unique": 4,
+                "columnName": "nodeUnits"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点操作人员",
+                "unique": 5,
+                "columnName": "nodeOptUsers"
+              },
+              {
+                "expression": "",
+                "cName": "流程组ID",
+                "unique": 6,
+                "columnName": "flowGroupId"
+              },
+              {
+                "expression": "",
+                "cName": "设置流程时限，格式为3D4H30M",
+                "unique": 7,
+                "columnName": "timeLimitStr"
+              },
+              {
+                "expression": "",
+                "cName": "是否跳过第一步，默认为false，如果第一步为路由节点无效",
+                "unique": 8,
+                "columnName": "skipFirstNode"
+              },
+              {
+                "expression": "",
+                "cName": "提交后的节点强行指定用户",
+                "unique": 9,
+                "columnName": "lockOptUser"
+              },
+              {
+                "expression": "",
+                "cName": "传递的用户code，用于下一步人员指定, 和 lockFirstOpt 配合使用",
+                "unique": 10,
+                "columnName": "workUserCode"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "x": 180,
+        "y": 580,
+        "id": "defineJsonDatazB8gATad1f",
+        "text": {
+          "x": 180,
+          "y": 580,
+          "value": "组装修改数据"
+        },
+        "type": "defineJsonData",
+        "properties": {
+          "isBranch": false,
+          "processName": "组装修改数据",
+          "jsonValue": "{\n  \"leaveno\": \"metadataUpdateGF0DQTgh.leaveno\",\n  \"flowInstId\": \"createWorkflow7hqOuFAWIc.flowInstId\"\n}",
+          "typeName": "创建对象",
+          "isSource": true,
+          "isSelected": true,
+          "x": 180,
+          "y": 580,
+          "id": "defineJsonDatazB8gATad1f",
+          "text": {
+            "x": 180,
+            "y": 580,
+            "value": "组装修改数据"
+          },
+          "type": "defineJsonData",
+          "properties": {
+            "isBranch": false,
+            "processName": "组装修改数据",
+            "jsonValue": "{\n  \"leaveno\":\"metadataS5iOXBMbsw.leaveno\",\n  \"flowInstId\":\"createWorkflow7hqOuFAWIc.flowInstId\",\n  \"flowResult\":\"@审批中\"\n}",
+            "typeName": "创建对象",
+            "isSource": true,
+            "isSelected": true,
+            "id": "defineJsonDatazB8gATad1f",
+            "type": "defineJsonData"
+          }
+        }
+      },
+      {
+        "x": 640,
+        "y": 720,
+        "id": "branchQFHSYPjOTS",
+        "text": {
+          "x": 640,
+          "y": 720,
+          "value": "分支"
+        },
+        "type": "branch",
+        "properties": {
+          "isBranch": true,
+          "processName": "分支",
+          "typeName": "分支",
+          "isSource": false,
+          "isSelected": true,
+          "id": "branchQFHSYPjOTS",
+          "type": "branch"
+        }
+      },
+      {
+        "x": 760,
+        "y": 540,
+        "id": "deleteWorkflow2KvMmYJszr",
+        "text": {
+          "x": 760,
+          "y": 540,
+          "value": "删除工作流"
+        },
+        "type": "deleteWorkflow",
+        "properties": {
+          "typeName": "删除工作流",
+          "type": "deleteWorkflow",
+          "userCode": "__request_body.usercode",
+          "flowInstId": "createWorkflow7hqOuFAWIc.flowInstId",
+          "isBranch": false,
+          "processName": "删除工作流",
+          "isSource": true,
+          "isSelected": true,
+          "x": 760,
+          "y": 540,
+          "id": "deleteWorkflow2KvMmYJszr",
+          "text": {
+            "x": 760,
+            "y": 540,
+            "value": "删除工作流"
+          },
+          "properties": {
+            "flowInstId": "createWorkflow7hqOuFAWIc.flowInstId",
+            "isBranch": false,
+            "processName": "删除工作流",
+            "typeName": "删除工作流",
+            "isSource": true,
+            "isSelected": true,
+            "id": "deleteWorkflow2KvMmYJszr",
+            "type": "deleteWorkflow",
+            "userCode": "postDataBLrTpkw6WW.usercode"
+          }
+        }
+      },
+      {
+        "x": 940,
+        "y": 540,
+        "id": "resultsPZUj8S6TWK",
+        "text": {
+          "x": 940,
+          "y": 540,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "fileName": "",
+          "resultOptions": "3",
+          "code": 0,
+          "Sourcefield": [
+            {
+              "expression": "",
+              "cName": "业务的OptId 或者 自定义表单得模板id",
+              "unique": 0,
+              "columnName": "modelId"
+            },
+            {
+              "expression": "",
+              "cName": "流程版本,可为空",
+              "unique": 1,
+              "columnName": "flowVersion"
+            },
+            {
+              "expression": "",
+              "cName": "父节点ID，作为子流程时有效",
+              "unique": 2,
+              "columnName": "parentNodeInstId"
+            },
+            {
+              "expression": "",
+              "cName": "流程办件机构，类似于办件角色",
+              "unique": 3,
+              "columnName": "flowOrganizes"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点机构",
+              "unique": 4,
+              "columnName": "nodeUnits"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点操作人员",
+              "unique": 5,
+              "columnName": "nodeOptUsers"
+            },
+            {
+              "expression": "",
+              "cName": "流程组ID",
+              "unique": 6,
+              "columnName": "flowGroupId"
+            },
+            {
+              "expression": "",
+              "cName": "设置流程时限，格式为3D4H30M",
+              "unique": 7,
+              "columnName": "timeLimitStr"
+            },
+            {
+              "expression": "",
+              "cName": "是否跳过第一步，默认为false，如果第一步为路由节点无效",
+              "unique": 8,
+              "columnName": "skipFirstNode"
+            },
+            {
+              "expression": "",
+              "cName": "提交后的节点强行指定用户",
+              "unique": 9,
+              "columnName": "lockOptUser"
+            },
+            {
+              "expression": "",
+              "cName": "传递的用户code，用于下一步人员指定, 和 lockFirstOpt 配合使用",
+              "unique": 10,
+              "columnName": "workUserCode"
+            }
+          ],
+          "typeName": "返回结果",
+          "source": "createWorkflow7hqOuFAWIc",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "isSource": true,
+          "isSelected": false,
+          "x": 940,
+          "y": 540,
+          "id": "resultsPZUj8S6TWK",
+          "text": {
+            "x": 940,
+            "y": 540,
+            "value": "返回结果"
+          },
+          "properties": {
+            "isBranch": false,
+            "resultOptions": "3",
+            "code": 0,
+            "Sourcefield": [
+              {
+                "expression": "",
+                "cName": "业务的OptId 或者 自定义表单得模板id",
+                "unique": 0,
+                "columnName": "modelId"
+              },
+              {
+                "expression": "",
+                "cName": "流程版本,可为空",
+                "unique": 1,
+                "columnName": "flowVersion"
+              },
+              {
+                "expression": "",
+                "cName": "父节点ID，作为子流程时有效",
+                "unique": 2,
+                "columnName": "parentNodeInstId"
+              },
+              {
+                "expression": "",
+                "cName": "流程办件机构，类似于办件角色",
+                "unique": 3,
+                "columnName": "flowOrganizes"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点机构",
+                "unique": 4,
+                "columnName": "nodeUnits"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点操作人员",
+                "unique": 5,
+                "columnName": "nodeOptUsers"
+              },
+              {
+                "expression": "",
+                "cName": "流程组ID",
+                "unique": 6,
+                "columnName": "flowGroupId"
+              },
+              {
+                "expression": "",
+                "cName": "设置流程时限，格式为3D4H30M",
+                "unique": 7,
+                "columnName": "timeLimitStr"
+              },
+              {
+                "expression": "",
+                "cName": "是否跳过第一步，默认为false，如果第一步为路由节点无效",
+                "unique": 8,
+                "columnName": "skipFirstNode"
+              },
+              {
+                "expression": "",
+                "cName": "提交后的节点强行指定用户",
+                "unique": 9,
+                "columnName": "lockOptUser"
+              },
+              {
+                "expression": "",
+                "cName": "传递的用户code，用于下一步人员指定, 和 lockFirstOpt 配合使用",
+                "unique": 10,
+                "columnName": "workUserCode"
+              }
+            ],
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": true,
+            "isSelected": false,
+            "id": "resultsPZUj8S6TWK",
+            "source": "createWorkflow7hqOuFAWIc",
+            "type": "results"
+          },
+          "fileContent": ""
+        }
+      },
+      {
+        "x": 340,
+        "y": 720,
+        "id": "defineJsonDataFJ3cDhe6C4",
+        "text": {
+          "x": 340,
+          "y": 720,
+          "value": "组装过程信息对象"
+        },
+        "type": "defineJsonData",
+        "properties": {
+          "jsonValue": "{\n    \"leaveNo\": \"metadataUpdateGF0DQTgh.leaveno\",\n    \"flowOptTag\": \"metadataUpdateGF0DQTgh.leaveno\",\n    \"ideaCode\": \"@0\",\n    \"transIdea\": \"@提交申请\",\n    \"nodeCode\": \"@0\",\n    \"nodeName\": \"@创建\",\n    \"unitCode\": \"__request_body.ownunit\",\n    \"unitName\": \"__request_body.ownunitDesc\",\n    \"userCode\": \"__request_body.usercode\",\n    \"userName\": \"__request_body.usercodeDesc\",\n    \"flowInstId\": \"createWorkflow7hqOuFAWIc.flowInstId\",\n    \"nodeInstId\": \"@0\",\n    \"transContent\": \"__request_body.leavetypeDesc\"\n}",
+          "typeName": "创建对象",
+          "source": "postDataBLrTpkw6WW",
+          "type": "defineJsonData",
+          "isBranch": false,
+          "processName": "组装过程信息对象",
+          "isSource": true,
+          "isSelected": true,
+          "x": 340,
+          "y": 720,
+          "id": "defineJsonDataFJ3cDhe6C4",
+          "text": {
+            "x": 340,
+            "y": 720,
+            "value": "组装过程信息对象"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "组装过程信息对象",
+            "jsonValue": "{\n\"leaveNo\":\"metadataS5iOXBMbsw.leaveno\",\n\"flowOptTag\":\"metadataS5iOXBMbsw.leaveno\",\n\"ideaCode\":\"@0\",\n\"transIdea\":\"@提交申请\",\n\"nodeCode\":\"@0\",\n\"nodeName\":\"@创建\",\n\"unitCode\":\"postDataBLrTpkw6WW.ownunit\",\n\"userCode\":\"postDataBLrTpkw6WW.usercode\",\n\"flowInstId\":\"createWorkflow7hqOuFAWIc.flowInstId\",\n\"nodeInstId\":\"@0\",\n\"transContent\":\"postDataBLrTpkw6WW.leavereason\"\n}",
+            "typeName": "创建对象",
+            "isSource": true,
+            "isSelected": true,
+            "id": "defineJsonDataFJ3cDhe6C4",
+            "source": "postDataBLrTpkw6WW",
+            "type": "defineJsonData"
+          }
+        }
+      },
+      {
+        "x": 940,
+        "y": 720,
+        "id": "resultsrKAoWttrab",
+        "text": {
+          "x": 940,
+          "y": 720,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "code": 0,
+          "resultOptions": "3",
+          "Sourcefield": [
+            {
+              "expression": "",
+              "cName": "业务的OptId 或者 自定义表单得模板id",
+              "unique": 0,
+              "columnName": "modelId"
+            },
+            {
+              "expression": "",
+              "cName": "流程版本,可为空",
+              "unique": 1,
+              "columnName": "flowVersion"
+            },
+            {
+              "expression": "",
+              "cName": "父节点ID，作为子流程时有效",
+              "unique": 2,
+              "columnName": "parentNodeInstId"
+            },
+            {
+              "expression": "",
+              "cName": "流程办件机构，类似于办件角色",
+              "unique": 3,
+              "columnName": "flowOrganizes"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点机构",
+              "unique": 4,
+              "columnName": "nodeUnits"
+            },
+            {
+              "expression": "",
+              "cName": "指定后续节点操作人员",
+              "unique": 5,
+              "columnName": "nodeOptUsers"
+            },
+            {
+              "expression": "",
+              "cName": "流程组ID",
+              "unique": 6,
+              "columnName": "flowGroupId"
+            },
+            {
+              "expression": "",
+              "cName": "设置流程时限，格式为3D4H30M",
+              "unique": 7,
+              "columnName": "timeLimitStr"
+            },
+            {
+              "expression": "",
+              "cName": "是否跳过第一步，默认为false，如果第一步为路由节点无效",
+              "unique": 8,
+              "columnName": "skipFirstNode"
+            },
+            {
+              "expression": "",
+              "cName": "提交后的节点强行指定用户",
+              "unique": 9,
+              "columnName": "lockOptUser"
+            },
+            {
+              "expression": "",
+              "cName": "传递的用户code，用于下一步人员指定, 和 lockFirstOpt 配合使用",
+              "unique": 10,
+              "columnName": "workUserCode"
+            }
+          ],
+          "typeName": "返回结果",
+          "source": "createWorkflow7hqOuFAWIc",
+          "type": "results",
+          "isBranch": false,
+          "processName": "返回结果",
+          "isSource": true,
+          "isSelected": true,
+          "x": 940,
+          "y": 720,
+          "id": "resultsrKAoWttrab",
+          "text": {
+            "x": 940,
+            "y": 720,
+            "value": "返回结果"
+          },
+          "properties": {
+            "isBranch": false,
+            "code": 0,
+            "resultOptions": "3",
+            "Sourcefield": [
+              {
+                "expression": "",
+                "cName": "业务的OptId 或者 自定义表单得模板id",
+                "unique": 0,
+                "columnName": "modelId"
+              },
+              {
+                "expression": "",
+                "cName": "流程版本,可为空",
+                "unique": 1,
+                "columnName": "flowVersion"
+              },
+              {
+                "expression": "",
+                "cName": "父节点ID，作为子流程时有效",
+                "unique": 2,
+                "columnName": "parentNodeInstId"
+              },
+              {
+                "expression": "",
+                "cName": "流程办件机构，类似于办件角色",
+                "unique": 3,
+                "columnName": "flowOrganizes"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点机构",
+                "unique": 4,
+                "columnName": "nodeUnits"
+              },
+              {
+                "expression": "",
+                "cName": "指定后续节点操作人员",
+                "unique": 5,
+                "columnName": "nodeOptUsers"
+              },
+              {
+                "expression": "",
+                "cName": "流程组ID",
+                "unique": 6,
+                "columnName": "flowGroupId"
+              },
+              {
+                "expression": "",
+                "cName": "设置流程时限，格式为3D4H30M",
+                "unique": 7,
+                "columnName": "timeLimitStr"
+              },
+              {
+                "expression": "",
+                "cName": "是否跳过第一步，默认为false，如果第一步为路由节点无效",
+                "unique": 8,
+                "columnName": "skipFirstNode"
+              },
+              {
+                "expression": "",
+                "cName": "提交后的节点强行指定用户",
+                "unique": 9,
+                "columnName": "lockOptUser"
+              },
+              {
+                "expression": "",
+                "cName": "传递的用户code，用于下一步人员指定, 和 lockFirstOpt 配合使用",
+                "unique": 10,
+                "columnName": "workUserCode"
+              }
+            ],
+            "processName": "返回结果",
+            "typeName": "返回结果",
+            "isSource": true,
+            "isSelected": true,
+            "id": "resultsrKAoWttrab",
+            "source": "createWorkflow7hqOuFAWIc",
+            "type": "results"
+          }
+        }
+      },
+      {
+        "x": 180,
+        "y": 280,
+        "id": "commitTransactionaaP1xCUh",
+        "text": {
+          "x": 180,
+          "y": 280,
+          "value": "提交事务"
+        },
+        "type": "commitTransaction",
+        "properties": {
+          "isBranch": false,
+          "commitType": "customSubmit",
+          "databaseName": [
+            "nmne6pXDTxeSD8Pnr3SNCQ"
+          ],
+          "processName": "提交事务",
+          "typeName": "提交事务",
+          "isSource": false,
+          "x": 540,
+          "y": 40,
+          "id": "commitTransactionaaP1xCUh",
+          "text": {
+            "x": 540,
+            "y": 40,
+            "value": "提交事务"
+          },
+          "type": "commitTransaction",
+          "properties": {
+            "processName": "提交事务",
+            "typeName": "提交事务",
+            "isSource": false,
+            "id": "commitTransactionaaP1xCUh",
+            "type": "commitTransaction"
+          }
+        }
+      },
+      {
+        "x": 420,
+        "y": 40,
+        "id": "metadataUpdateGF0DQTgh",
+        "text": {
+          "x": 420,
+          "y": 40,
+          "value": "插入请假数据"
+        },
+        "type": "metadataUpdate",
+        "properties": {
+          "tableLabelName": [],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "元数据更新",
+          "source": "__request_body",
+          "type": "metadataUpdate",
+          "isBranch": false,
+          "processName": "插入请假数据",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 300,
+          "y": 100,
+          "tableId": "160b00bf1dbf4f02860ee354cf013f3c",
+          "id": "metadataUpdateGF0DQTgh",
+          "text": {
+            "x": 300,
+            "y": 100,
+            "value": "元数据更新"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "元数据更新",
+            "typeName": "元数据更新",
+            "isSource": false,
+            "id": "metadataUpdateGF0DQTgh",
+            "type": "metadataUpdate"
+          },
+          "withChildrenDeep": 1,
+          "updateType": 1
+        }
+      },
+      {
+        "x": 180,
+        "y": 720,
+        "id": "metadataUpdateOSOb9Z2V",
+        "text": {
+          "x": 180,
+          "y": 720,
+          "value": "更新请假表工作流字段"
+        },
+        "type": "metadataUpdate",
+        "properties": {
+          "tableLabelName": [],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "元数据更新",
+          "source": "defineJsonDatazB8gATad1f",
+          "type": "metadataUpdate",
+          "isBranch": false,
+          "processName": "更新请假表工作流字段",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 180,
+          "tableId": "160b00bf1dbf4f02860ee354cf013f3c",
+          "y": 720,
+          "id": "metadataUpdateOSOb9Z2V",
+          "text": {
+            "x": 180,
+            "y": 720,
+            "value": "元数据更新"
+          },
+          "properties": {
+            "isBranch": false,
+            "tableLabelName": [],
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "processName": "元数据更新",
+            "typeName": "元数据更新",
+            "isSource": false,
+            "tableId": "160b00bf1dbf4f02860ee354cf013f3c",
+            "id": "metadataUpdateOSOb9Z2V",
+            "type": "metadataUpdate",
+            "updateType": 2
+          },
+          "updateType": 2
+        }
+      },
+      {
+        "x": 480,
+        "y": 720,
+        "id": "metadataUpdatekVwEIEpH",
+        "text": {
+          "x": 480,
+          "y": 720,
+          "value": "插入过程信息数据"
+        },
+        "type": "metadataUpdate",
+        "properties": {
+          "tableLabelName": [],
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "typeName": "元数据更新",
+          "source": "defineJsonDataFJ3cDhe6C4",
+          "type": "metadataUpdate",
+          "isBranch": false,
+          "processName": "插入过程信息数据",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 480,
+          "tableId": "69ae09194a174c1eb00dc36cd822a0fd",
+          "y": 720,
+          "id": "metadataUpdatekVwEIEpH",
+          "text": {
+            "x": 480,
+            "y": 720,
+            "value": "插入过程信息数据"
+          },
+          "properties": {
+            "isBranch": false,
+            "tableLabelName": [],
+            "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+            "processName": "插入过程信息数据",
+            "sourceType": "paramSource",
+            "typeName": "元数据更新",
+            "isSource": false,
+            "tableId": "69ae09194a174c1eb00dc36cd822a0fd",
+            "id": "metadataUpdatekVwEIEpH",
+            "source": "defineJsonDataFJ3cDhe6C4",
+            "type": "metadataUpdate",
+            "updateType": 1
+          },
+          "updateType": 1
+        }
+      },
+      {
+        "x": 220,
+        "y": 40,
+        "id": "defineJsonDataIm42aM22",
+        "text": {
+          "x": 220,
+          "y": 40,
+          "value": "定义常量"
+        },
+        "type": "defineJsonData",
+        "properties": {
+          "isBranch": false,
+          "processName": "定义常量",
+          "jsonValue": "\"审批中\"",
+          "typeName": "创建对象",
+          "isSource": true,
+          "x": 220,
+          "y": 40,
+          "id": "defineJsonDataIm42aM22",
+          "text": {
+            "x": 220,
+            "y": 40,
+            "value": "创建对象"
+          },
+          "type": "defineJsonData",
+          "properties": {
+            "isBranch": false,
+            "processName": "创建对象",
+            "typeName": "创建对象",
+            "isSource": true,
+            "id": "defineJsonDataIm42aM22",
+            "type": "defineJsonData"
+          }
+        }
+      },
+      {
+        "x": 320,
+        "y": 40,
+        "id": "assignmentBBaT5EQF",
+        "text": {
+          "x": 320,
+          "y": 40,
+          "value": "赋值"
+        },
+        "type": "assignment",
+        "properties": {
+          "typeName": "赋值",
+          "assignType": "property",
+          "source": "defineJsonDataIm42aM22",
+          "type": "assignment",
+          "target": "__request_body",
+          "isBranch": false,
+          "processName": "赋值",
+          "isSource": false,
+          "x": 300,
+          "y": 40,
+          "attributeName": "flowResult",
+          "id": "assignmentBBaT5EQF",
+          "text": {
+            "x": 300,
+            "y": 40,
+            "value": "赋值"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "赋值",
+            "typeName": "赋值",
+            "isSource": false,
+            "id": "assignmentBBaT5EQF",
+            "type": "assignment"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 793,
+            "y": 540
+          },
+          {
+            "x": 907,
+            "y": 540
+          }
+        ],
+        "endPoint": {
+          "x": 907,
+          "y": 540
+        },
+        "sourceNodeId": "deleteWorkflow2KvMmYJszr",
+        "startPoint": {
+          "x": 793,
+          "y": 540
+        },
+        "id": "f69b2cfc-e7f0-4129-a667-8f372c656918",
+        "type": "PlineEdge",
+        "targetNodeId": "resultsPZUj8S6TWK",
+        "properties": {
+          "sourceId": "deleteWorkflow2KvMmYJszr",
+          "targetId": "resultsPZUj8S6TWK",
+          "processName": "",
+          "typeName": "连线",
+          "isSelected": true,
+          "id": "f69b2cfc-e7f0-4129-a667-8f372c656918",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 640,
+            "y": 687
+          },
+          {
+            "x": 640,
+            "y": 540
+          },
+          {
+            "x": 727,
+            "y": 540
+          }
+        ],
+        "endPoint": {
+          "x": 727,
+          "y": 540
+        },
+        "sourceNodeId": "branchQFHSYPjOTS",
+        "startPoint": {
+          "x": 640,
+          "y": 687
+        },
+        "id": "d3ae721a-3e19-4cfc-83ea-c8fb3b01eefb",
+        "text": {
+          "x": 640,
+          "y": 573.5,
+          "value": "失败"
+        },
+        "type": "PlineEdge",
+        "targetNodeId": "deleteWorkflow2KvMmYJszr",
+        "properties": {
+          "sourceId": "branchQFHSYPjOTS",
+          "pointsList": [
+            {
+              "x": 640,
+              "y": 687
+            },
+            {
+              "x": 640,
+              "y": 540
+            },
+            {
+              "x": 727,
+              "y": 540
+            }
+          ],
+          "expression": "__last_error.code!=0",
+          "targetId": "deleteWorkflow2KvMmYJszr",
+          "typeName": "连线",
+          "startPoint": {
+            "x": 640,
+            "y": 687
+          },
+          "type": "PlineEdge",
+          "endPoint": {
+            "x": 727,
+            "y": 540
+          },
+          "processName": "失败",
+          "sourceNodeId": "branchQFHSYPjOTS",
+          "isSelected": false,
+          "step": "2",
+          "id": "d3ae721a-3e19-4cfc-83ea-c8fb3b01eefb",
+          "text": {
+            "x": 640,
+            "y": 573.5,
+            "value": "失败"
+          },
+          "targetNodeId": "deleteWorkflow2KvMmYJszr",
+          "properties": {
+            "sourceId": "branchQFHSYPjOTS",
+            "expression": "responseDataCode!=0",
+            "targetId": "deleteWorkflow2KvMmYJszr",
+            "processName": "失败",
+            "typeName": "连线",
+            "isSelected": false,
+            "step": "2",
+            "id": "d3ae721a-3e19-4cfc-83ea-c8fb3b01eefb",
+            "type": "PlineEdge"
+          }
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 673,
+            "y": 720
+          },
+          {
+            "x": 907,
+            "y": 720
+          }
+        ],
+        "endPoint": {
+          "x": 907,
+          "y": 720
+        },
+        "sourceNodeId": "branchQFHSYPjOTS",
+        "startPoint": {
+          "x": 673,
+          "y": 720
+        },
+        "id": "b0958355-fd74-457a-add6-61dbef99b13c",
+        "text": {
+          "x": 760,
+          "y": 720,
+          "value": "成功"
+        },
+        "type": "PlineEdge",
+        "targetNodeId": "resultsrKAoWttrab",
+        "properties": {
+          "sourceId": "branchQFHSYPjOTS",
+          "pointsList": [
+            {
+              "x": 673,
+              "y": 720
+            },
+            {
+              "x": 907,
+              "y": 720
+            }
+          ],
+          "expression": "__last_error.code==0",
+          "targetId": "resultsrKAoWttrab",
+          "typeName": "连线",
+          "startPoint": {
+            "x": 673,
+            "y": 720
+          },
+          "type": "PlineEdge",
+          "endPoint": {
+            "x": 907,
+            "y": 720
+          },
+          "processName": "成功",
+          "sourceNodeId": "branchQFHSYPjOTS",
+          "isSelected": true,
+          "id": "b0958355-fd74-457a-add6-61dbef99b13c",
+          "text": {
+            "x": 760,
+            "y": 720,
+            "value": "成功"
+          },
+          "targetNodeId": "resultsrKAoWttrab",
+          "properties": {
+            "sourceId": "branchQFHSYPjOTS",
+            "expression": "responseDataCode==0",
+            "targetId": "resultsrKAoWttrab",
+            "processName": "成功",
+            "typeName": "连线",
+            "isSelected": true,
+            "id": "b0958355-fd74-457a-add6-61dbef99b13c",
+            "type": "PlineEdge"
+          }
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 180,
+            "y": 613
+          },
+          {
+            "x": 180,
+            "y": 687
+          }
+        ],
+        "endPoint": {
+          "x": 180,
+          "y": 687
+        },
+        "sourceNodeId": "defineJsonDatazB8gATad1f",
+        "startPoint": {
+          "x": 180,
+          "y": 613
+        },
+        "id": "edgeTfpYtyoW",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataUpdateOSOb9Z2V",
+        "properties": {
+          "sourceId": "defineJsonDatazB8gATad1f",
+          "targetId": "metadataUpdateOSOb9Z2V",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeTfpYtyoW",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 213,
+            "y": 720
+          },
+          {
+            "x": 307,
+            "y": 720
+          }
+        ],
+        "endPoint": {
+          "x": 307,
+          "y": 720
+        },
+        "sourceNodeId": "metadataUpdateOSOb9Z2V",
+        "startPoint": {
+          "x": 213,
+          "y": 720
+        },
+        "id": "edgeKCDj5YHF",
+        "type": "PlineEdge",
+        "targetNodeId": "defineJsonDataFJ3cDhe6C4",
+        "properties": {
+          "sourceId": "metadataUpdateOSOb9Z2V",
+          "targetId": "defineJsonDataFJ3cDhe6C4",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeKCDj5YHF",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 373,
+            "y": 720
+          },
+          {
+            "x": 447,
+            "y": 720
+          }
+        ],
+        "endPoint": {
+          "x": 447,
+          "y": 720
+        },
+        "sourceNodeId": "defineJsonDataFJ3cDhe6C4",
+        "startPoint": {
+          "x": 373,
+          "y": 720
+        },
+        "id": "edgeDfQpr9NB",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataUpdatekVwEIEpH",
+        "properties": {
+          "sourceId": "defineJsonDataFJ3cDhe6C4",
+          "targetId": "metadataUpdatekVwEIEpH",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeDfQpr9NB",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 513,
+            "y": 720
+          },
+          {
+            "x": 607,
+            "y": 720
+          }
+        ],
+        "endPoint": {
+          "x": 607,
+          "y": 720
+        },
+        "sourceNodeId": "metadataUpdatekVwEIEpH",
+        "startPoint": {
+          "x": 513,
+          "y": 720
+        },
+        "id": "edgeTAA7HDxS",
+        "type": "PlineEdge",
+        "targetNodeId": "branchQFHSYPjOTS",
+        "properties": {
+          "sourceId": "metadataUpdatekVwEIEpH",
+          "targetId": "branchQFHSYPjOTS",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeTAA7HDxS",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 180,
+            "y": 461
+          },
+          {
+            "x": 180,
+            "y": 559
+          }
+        ],
+        "endPoint": {
+          "x": 180,
+          "y": 559
+        },
+        "sourceNodeId": "createWorkflow7hqOuFAWIc",
+        "startPoint": {
+          "x": 180,
+          "y": 461
+        },
+        "id": "edgeVpddWlfk",
+        "type": "PlineEdge",
+        "targetNodeId": "defineJsonDatazB8gATad1f",
+        "properties": {
+          "sourceId": "createWorkflow7hqOuFAWIc",
+          "targetId": "defineJsonDatazB8gATad1f",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeVpddWlfk",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 116,
+            "y": 40
+          },
+          {
+            "x": 204,
+            "y": 40
+          }
+        ],
+        "endPoint": {
+          "x": 204,
+          "y": 40
+        },
+        "sourceNodeId": "startgpdCc22qEP",
+        "startPoint": {
+          "x": 116,
+          "y": 40
+        },
+        "id": "edgeR2feSYg8",
+        "type": "PlineEdge",
+        "targetNodeId": "defineJsonDataIm42aM22",
+        "properties": {
+          "sourceId": "startgpdCc22qEP",
+          "targetId": "defineJsonDataIm42aM22",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeR2feSYg8",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 236,
+            "y": 40
+          },
+          {
+            "x": 304,
+            "y": 40
+          }
+        ],
+        "endPoint": {
+          "x": 304,
+          "y": 40
+        },
+        "sourceNodeId": "defineJsonDataIm42aM22",
+        "startPoint": {
+          "x": 236,
+          "y": 40
+        },
+        "id": "edgeCehnTpJI",
+        "type": "PlineEdge",
+        "targetNodeId": "assignmentBBaT5EQF",
+        "properties": {
+          "sourceId": "defineJsonDataIm42aM22",
+          "targetId": "assignmentBBaT5EQF",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeCehnTpJI",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 436,
+            "y": 40
+          },
+          {
+            "x": 466,
+            "y": 40
+          },
+          {
+            "x": 466,
+            "y": 160
+          },
+          {
+            "x": 134,
+            "y": 160
+          },
+          {
+            "x": 134,
+            "y": 280
+          },
+          {
+            "x": 164,
+            "y": 280
+          }
+        ],
+        "endPoint": {
+          "x": 164,
+          "y": 280
+        },
+        "sourceNodeId": "metadataUpdateGF0DQTgh",
+        "startPoint": {
+          "x": 436,
+          "y": 40
+        },
+        "id": "edgeNmdQNE8w",
+        "type": "PlineEdge",
+        "targetNodeId": "commitTransactionaaP1xCUh",
+        "properties": {
+          "sourceId": "metadataUpdateGF0DQTgh",
+          "targetId": "commitTransactionaaP1xCUh",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeNmdQNE8w",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 336,
+            "y": 40
+          },
+          {
+            "x": 404,
+            "y": 40
+          }
+        ],
+        "endPoint": {
+          "x": 404,
+          "y": 40
+        },
+        "sourceNodeId": "assignmentBBaT5EQF",
+        "startPoint": {
+          "x": 336,
+          "y": 40
+        },
+        "id": "edgenYu3gtEO",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataUpdateGF0DQTgh",
+        "properties": {
+          "sourceId": "assignmentBBaT5EQF",
+          "targetId": "metadataUpdateGF0DQTgh",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgenYu3gtEO",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 180,
+            "y": 301
+          },
+          {
+            "x": 180,
+            "y": 331
+          },
+          {
+            "x": 226,
+            "y": 331
+          },
+          {
+            "x": 226,
+            "y": 440
+          },
+          {
+            "x": 196,
+            "y": 440
+          }
+        ],
+        "endPoint": {
+          "x": 196,
+          "y": 440
+        },
+        "sourceNodeId": "commitTransactionaaP1xCUh",
+        "startPoint": {
+          "x": 180,
+          "y": 301
+        },
+        "id": "edgeTxwXovAi",
+        "type": "PlineEdge",
+        "targetNodeId": "createWorkflow7hqOuFAWIc",
+        "properties": {
+          "sourceId": "commitTransactionaaP1xCUh",
+          "targetId": "createWorkflow7hqOuFAWIc",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeTxwXovAi",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "3",
+  "taskCron": "",
+  "lastRunTime": "2023-07-13 15:41:14",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2023-01-17 16:49:51",
+  "publishDate": "2023-01-17 16:49:50",
+  "needRollback": "F",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "optCode": "78e93bd352ea4d7a829ae69241dc3cd5",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "17554f125dc84b5198dc22983bdf6a64",
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "createWorkflow7hqOuFAWIc": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "创建工作流",
+      "isSource": true,
+      "id": "createWorkflow7hqOuFAWIc",
+      "title": "创建工作流",
+      "key": "createWorkflow7hqOuFAWIc"
+    },
+    "deleteWorkflow2KvMmYJszr": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "删除工作流",
+      "isSource": true,
+      "id": "deleteWorkflow2KvMmYJszr",
+      "title": "删除工作流",
+      "key": "deleteWorkflow2KvMmYJszr"
+    },
+    "defineJsonDatazB8gATad1f": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveno",
+          "id": "leaveno",
+          "title": "leaveno",
+          "key": "defineJsonDatazB8gATad1f/leaveno",
+          "attrType": ""
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "flowInstId",
+          "id": "flowInstId",
+          "title": "flowInstId",
+          "key": "defineJsonDatazB8gATad1f/flowInstId",
+          "attrType": ""
+        }
+      ],
+      "helpField": "组装修改数据",
+      "isSource": true,
+      "id": "defineJsonDatazB8gATad1f",
+      "title": "创建对象",
+      "key": "defineJsonDatazB8gATad1f"
+    },
+    "resultsPZUj8S6TWK": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "返回结果",
+      "isSource": true,
+      "id": "resultsPZUj8S6TWK",
+      "title": "返回结果",
+      "key": "resultsPZUj8S6TWK"
+    },
+    "defineJsonDataIm42aM22": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "定义常量",
+      "id": "defineJsonDataIm42aM22",
+      "title": "创建对象",
+      "key": "defineJsonDataIm42aM22",
+      "attrType": ""
+    },
+    "defineJsonDataFJ3cDhe6C4": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "leaveNo",
+          "id": "leaveNo",
+          "title": "leaveNo",
+          "key": "leaveNo"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "flowOptTag",
+          "id": "flowOptTag",
+          "title": "flowOptTag",
+          "key": "flowOptTag"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "ideaCode",
+          "id": "ideaCode",
+          "title": "ideaCode",
+          "key": "ideaCode"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "transIdea",
+          "id": "transIdea",
+          "title": "transIdea",
+          "key": "transIdea"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "nodeCode",
+          "id": "nodeCode",
+          "title": "nodeCode",
+          "key": "nodeCode"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "nodeName",
+          "id": "nodeName",
+          "title": "nodeName",
+          "key": "nodeName"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "unitCode",
+          "id": "unitCode",
+          "title": "unitCode",
+          "key": "unitCode"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "unitName",
+          "id": "unitName",
+          "title": "unitName",
+          "key": "unitName"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "userCode",
+          "id": "userCode",
+          "title": "userCode",
+          "key": "userCode"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "userName",
+          "id": "userName",
+          "title": "userName",
+          "key": "userName"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "flowInstId",
+          "id": "flowInstId",
+          "title": "flowInstId",
+          "key": "flowInstId"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "nodeInstId",
+          "id": "nodeInstId",
+          "title": "nodeInstId",
+          "key": "nodeInstId"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "transContent",
+          "id": "transContent",
+          "title": "transContent",
+          "key": "transContent"
+        }
+      ],
+      "helpField": "组装过程信息对象",
+      "isSource": true,
+      "id": "defineJsonDataFJ3cDhe6C4",
+      "title": "创建对象",
+      "key": "defineJsonDataFJ3cDhe6C4"
+    },
+    "resultsrKAoWttrab": {
+      "flag": "_source",
+      "children": [
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "Session数据",
+          "id": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data",
+          "title": "__session_data",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data"
+        },
+        {
+          "flag": "_self",
+          "children": [],
+          "helpField": "请求参数",
+          "id": "78e93bd352ea4d7a829ae69241dc3cd5/__request_params",
+          "title": "__request_params",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_params"
+        },
+        {
+          "flag": "_self",
+          "children": [
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "bigType",
+              "id": "bigType",
+              "title": "bigType",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/bigType"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "endTime",
+              "id": "endTime",
+              "title": "endTime",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/endTime"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "ownunit",
+              "id": "ownunit",
+              "title": "ownunit",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/ownunit"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "isDanger",
+              "id": "isDanger",
+              "title": "isDanger",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/isDanger"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "timeType",
+              "id": "timeType",
+              "title": "timeType",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/timeType"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "usercode",
+              "id": "usercode",
+              "title": "usercode",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/usercode"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "beginTime",
+              "id": "beginTime",
+              "title": "beginTime",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/beginTime"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "checkUser",
+              "id": "checkUser",
+              "title": "checkUser",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/checkUser"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "leaveCity",
+              "id": "leaveCity",
+              "title": "leaveCity",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/leaveCity"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "leaveDays",
+              "id": "leaveDays",
+              "title": "leaveDays",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/leaveDays"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "leaveType",
+              "id": "leaveType",
+              "title": "leaveType",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/leaveType"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "loginName",
+              "id": "loginName",
+              "title": "loginName",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/loginName"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "transport",
+              "id": "transport",
+              "title": "transport",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/transport"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "recorddate",
+              "id": "recorddate",
+              "title": "recorddate",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/recorddate"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "updatedate",
+              "id": "updatedate",
+              "title": "updatedate",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/updatedate"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "leaveReason",
+              "id": "leaveReason",
+              "title": "leaveReason",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/leaveReason"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "抄送人",
+              "id": "users",
+              "title": "users",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/users"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "leaveNo",
+              "id": "leaveNo",
+              "title": "leaveNo",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/leaveNo"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "flowResult",
+              "id": "flowResult",
+              "title": "flowResult",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/flowResult"
+            },
+            {
+              "flag": "_import",
+              "children": [],
+              "helpField": "FLOW_INST_ID",
+              "id": "FLOW_INST_ID",
+              "title": "FLOW_INST_ID",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body/FLOW_INST_ID"
+            }
+          ],
+          "helpField": "请求体",
+          "id": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body",
+          "title": "__request_body",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body"
+        }
+      ],
+      "helpField": "返回结果",
+      "isSource": true,
+      "id": "resultsrKAoWttrab",
+      "title": "返回结果",
+      "key": "resultsrKAoWttrab"
+    },
+    "78e93bd352ea4d7a829ae69241dc3cd5": {
+      "flag": "_api",
+      "children": [
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "系统角色操作权限对象",
+                  "id": "rolePowers",
+                  "title": "rolePowers",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/rolePowers",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "角色的类别",
+                  "id": "roleType",
+                  "title": "roleType",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/roleType",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "角色描述",
+                  "id": "roleDesc",
+                  "title": "roleDesc",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/roleDesc",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "角色代码",
+                  "id": "roleCode",
+                  "title": "roleCode",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/roleCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "角色所属机构",
+                  "id": "unitCode",
+                  "title": "unitCode",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/unitCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "角色名称",
+                  "id": "roleName",
+                  "title": "roleName",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/roleName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "角色所属机构",
+                  "id": "roleOwner",
+                  "title": "roleOwner",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles/roleOwner",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "用户角色信息",
+              "id": "userRoles",
+              "title": "userRoles",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userRoles",
+              "attrType": "list"
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "登录 IP",
+              "id": "loginIp",
+              "title": "loginIp",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/loginIp",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "系统用户设置信息",
+              "id": "userSettings",
+              "title": "userSettings",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userSettings",
+              "attrType": "object"
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "用户菜单集合",
+              "id": "userOptList",
+              "title": "userOptList",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userOptList",
+              "attrType": "object"
+            },
+            {
+              "flag": "_static",
+              "children": [
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "英文名称",
+                  "id": "englishName",
+                  "title": "englishName",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/englishName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "身份证号码",
+                  "id": "idCardNo",
+                  "title": "idCardNo",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/idCardNo",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户代码",
+                  "id": "userCode",
+                  "title": "userCode",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户名拼音",
+                  "id": "userNamePinyin",
+                  "title": "userNamePinyin",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userNamePinyin",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "登录名",
+                  "id": "loginName",
+                  "title": "loginName",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/loginName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户排序",
+                  "id": "userOrder",
+                  "title": "userOrder",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userOrder",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "注册电话",
+                  "id": "regCellPhone",
+                  "title": "regCellPhone",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/regCellPhone",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "当前职务代码",
+                  "id": "currentStationId",
+                  "title": "currentStationId",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/currentStationId",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "最后一次登录时间",
+                  "id": "activeTime",
+                  "title": "activeTime",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/activeTime",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "登录时间",
+                  "id": "loginTimes",
+                  "title": "loginTimes",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/loginTimes",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户描述",
+                  "id": "userDesc",
+                  "title": "userDesc",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userDesc",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "工牌代码",
+                  "id": "userWord",
+                  "title": "userWord",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userWord",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "顶级机构名称",
+                  "id": "topUnitName",
+                  "title": "topUnitName",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/topUnitName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "主机构",
+                  "id": "primaryUnit",
+                  "title": "primaryUnit",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/primaryUnit",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户名",
+                  "id": "userName",
+                  "title": "userName",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "主机构名称",
+                  "id": "primaryUnitName",
+                  "title": "primaryUnitName",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/primaryUnitName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户邮箱",
+                  "id": "regEmail",
+                  "title": "regEmail",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/regEmail",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户标签",
+                  "id": "userTag",
+                  "title": "userTag",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userTag",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "顶级机构",
+                  "id": "topUnit",
+                  "title": "topUnit",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/topUnit",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户类别",
+                  "id": "userType",
+                  "title": "userType",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo/userType",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "用户信息",
+              "id": "userInfo",
+              "title": "userInfo",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userInfo",
+              "attrType": "object"
+            },
+            {
+              "flag": "_static",
+              "children": [
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "更新时间",
+                  "id": "updateDate",
+                  "title": "updateDate",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/updateDate",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "岗位",
+                  "id": "userStation",
+                  "title": "userStation",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/userStation",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "是否为主",
+                  "id": "relType",
+                  "title": "relType",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/relType",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户职务",
+                  "id": "userRank",
+                  "title": "userRank",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/userRank",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "协助职务",
+                  "id": "xzRank",
+                  "title": "xzRank",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/xzRank",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户代码",
+                  "id": "userCode",
+                  "title": "userCode",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/userCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "职务等级",
+                  "id": "postRank",
+                  "title": "postRank",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/postRank",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "顶级机构",
+                  "id": "topUnit",
+                  "title": "topUnit",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/topUnit",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "机构代码",
+                  "id": "unitCode",
+                  "title": "unitCode",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/unitCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "备注",
+                  "id": "rankMemo",
+                  "title": "rankMemo",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/rankMemo",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户排序号",
+                  "id": "userOrder",
+                  "title": "userOrder",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/userOrder",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "用户机构ID",
+                  "id": "userUnitId",
+                  "title": "userUnitId",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits/userUnitId",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "用户机构信息",
+              "id": "userUnits",
+              "title": "userUnits",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/userUnits",
+              "attrType": "list"
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "租户code",
+              "id": "topUnitCode",
+              "title": "topUnitCode",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data/topUnitCode",
+              "attrType": ""
+            }
+          ],
+          "helpField": "Session数据",
+          "id": "__session_data",
+          "title": "__session_data",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__session_data",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [],
+          "helpField": "请求参数",
+          "id": "__request_params",
+          "title": "__request_params",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_params",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [],
+          "helpField": "请求体",
+          "id": "__request_body",
+          "title": "__request_body",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__request_body",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "code",
+              "id": "code",
+              "title": "code",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_error/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "data",
+              "id": "data",
+              "title": "data",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_error/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "message",
+              "id": "message",
+              "title": "message",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_error/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新错误信息",
+          "id": "__last_error",
+          "title": "__last_error",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_error",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "code",
+              "id": "code",
+              "title": "code",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "success",
+                  "id": "success",
+                  "title": "success",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return/success/success",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "error",
+                  "id": "error",
+                  "title": "error",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return/error/error",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_static",
+                  "children": [],
+                  "helpField": "info",
+                  "id": "info",
+                  "title": "info",
+                  "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return/info/info",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "data",
+              "id": "data",
+              "title": "data",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_static",
+              "children": [],
+              "helpField": "message",
+              "id": "message",
+              "title": "message",
+              "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新执行结果",
+          "id": "__last_return",
+          "title": "__last_return",
+          "key": "78e93bd352ea4d7a829ae69241dc3cd5/__last_return",
+          "attrType": ""
+        }
+      ],
+      "helpField": "leaveinfo---创建流程",
+      "id": "78e93bd352ea4d7a829ae69241dc3cd5",
+      "title": "POST 请求",
+      "key": "api",
+      "attrType": ""
+    }
+  },
+  "requestBodyType": "obj",
+  "params": []
+}

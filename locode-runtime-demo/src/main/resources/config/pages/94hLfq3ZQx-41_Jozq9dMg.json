@@ -1,0 +1,653 @@
+{
+  "modelId": "94hLfq3ZQx-41_Jozq9dMg",
+  "modelName": "活动一览（正式版）",
+  "optId": "zsvUYifaRCu7FNU0SyRd3g",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "lastModifyDate": "2023-06-16 15:09:34",
+  "recorder": "Dd3OwQli",
+  "modelComment": "",
+  "formTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "Search",
+        "useExportCode": false,
+        "useResetCode": true,
+        "$data": {
+          "Data_1655887904422_0.8102277034140386": {
+            "isDefault": true,
+            "componentId": "Search_1655887904420_0.9919315947416101",
+            "code": "{}",
+            "componentSchemas": {
+              "dateRange": {
+                "$key": "dateRange",
+                "propertyName": "dateRange",
+                "fieldLabelName": "周日期",
+                "fieldType": "timestamp",
+                "isDefault": true
+              }
+            },
+            "children": [
+              {
+                "id": "Data_1655887904422_0.8102277034140386_dateRange",
+                "name": "dateRange",
+                "label": "周日期",
+                "type": "schema",
+                "dataType": "timestamp",
+                "isDefault": true
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1655887904422_0.8102277034140386",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1655882814927_0.9138833376353617"
+        },
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n        // 在下面开始编写点击搜索按钮时触发事件\n       const lastWeekDate = new Date().getTime() - 7 * 24 * 60 * 60 * 1000\n       const weekDate = this.value?.dateRange ?? lastWeekDate\n       $run('getDateRange', weekDate)\n       $run('getData', $data.range)\n       $data.unitName = ''\n   }",
+        "$filterMode": [
+          {
+            "mode": "=",
+            "label": "选择周",
+            "key": "dateRange"
+          }
+        ],
+        "list": {
+          "$name": "SearchList",
+          "children": [
+            {
+              "$name": "TableS2",
+              "setValuesCode": "function setValues() {\n  // 在下面返回Values的值\n  return $data.values\n}",
+              "onClickCellCode": "function onClickCell(rowData) {\n  // 在下面开始编写选择单元格事件\n  const [row1] = rowData\n  const { unitcode, unitName } = row1\n\n  $data.unitName = unitName\n  $run('getData', {\n    ...$data.range,\n    unitcode\n  })\n}",
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1655887904420_0.7165286959618125"
+              },
+              "columns": [],
+              "values": [
+                "动态属性"
+              ],
+              "description": "",
+              "$key": "dataSource",
+              "showSeriesNumber": true,
+              "rows": [
+                "username",
+                "time",
+                "unitName"
+              ],
+              "useRowsCode": false,
+              "useClickFnCode": false,
+              "setClickFnCode": "function setClickFn(dd) {\n  // 在下面返回ClickFn的值\n  return \n}",
+              "setDescriptionCode": "function setDescription() {\n  // 在下面返回Description的值\n  const { begindate, enddate } = $data.range\n  const text = $data.unitName ? '  当前部门：' + $data.unitName : ''\n  return begindate + ' 至 ' + enddate + text\n}",
+              "readonly": false,
+              "meta": [
+                {
+                  "field": "username",
+                  "name": "人员",
+                  "label": "人员",
+                  "value": "username",
+                  "rowKey": "1"
+                },
+                {
+                  "field": "time",
+                  "name": "时段",
+                  "label": "时段",
+                  "value": "time",
+                  "rowKey": "2"
+                },
+                {
+                  "field": "unitName",
+                  "name": "部门",
+                  "label": "部门",
+                  "value": "unitName",
+                  "rowKey": "default-row"
+                }
+              ],
+              "useDescriptionCode": true,
+              "useClickCellCode": true,
+              "autofit": true,
+              "setRowsCode": "function setRows() {\n  // 在下面返回Rows的值\n  return \n}",
+              "$item": {
+                "name": "TableS2",
+                "label": "S2列表",
+                "id": "TableS2_1655967521937_0.8285827284489489"
+              },
+              "useValuesCode": true,
+              "dataSource": [
+                {
+                  "province": "江苏",
+                  "city": "南京",
+                  "sub_type": "桌子",
+                  "price": "1",
+                  "type": "家具"
+                },
+                {
+                  "province": "江苏",
+                  "city": "南京",
+                  "sub_type": "沙发",
+                  "price": "2",
+                  "type": "家具"
+                },
+                {
+                  "province": "江苏",
+                  "city": "镇江",
+                  "sub_type": "桌子",
+                  "price": "3",
+                  "type": "家具"
+                },
+                {
+                  "province": "江苏",
+                  "city": "镇江",
+                  "sub_type": "沙发",
+                  "price": "4",
+                  "type": "家具"
+                }
+              ]
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1655887904420_0.7165286959618125"
+          }
+        },
+        "onExportCode": "function onExport () {\n        // 在下面开始编写点击导出按钮时触发事件\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "form": {
+          "$name": "SearchForm",
+          "children": [
+            {
+              "$name": "DatePicker",
+              "inline": true,
+              "rulesConfig": [],
+              "$key": "dateRange",
+              "$item": {
+                "name": "DatePicker",
+                "label": "日期选择",
+                "id": "DatePicker_1655951587248_0.7712365869385238"
+              },
+              "label": "周日期",
+              "picker": "week"
+            }
+          ],
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1655887904420_0.11514485515605699"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "actionsLayout": "normal",
+        "useModelCode": true,
+        "$filterModeMap": {
+          "dateRange": {
+            "mode": "=",
+            "label": "选择周",
+            "key": "dateRange"
+          }
+        },
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1655887904420_0.9919315947416101"
+        },
+        "collapsedMode": "normal",
+        "onResetCode": "function onReset () {\n      // 在下面开始编写点击重置按钮时触发事件\n  const lastWeekDate = new Date().getTime() - 7 * 24 * 60 * 60 * 1000\n  $run('getDateRange', lastWeekDate)\n  $run('getData', $data.range)\n  $data.unitName = ''\n  this.value.dateRange = null\n}"
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "Search_1655887904420_0.9919315947416101": {
+        "$name": "Search",
+        "useExportCode": false,
+        "useResetCode": true,
+        "$data": {
+          "Data_1655887904422_0.8102277034140386": {
+            "isDefault": true,
+            "componentId": "Search_1655887904420_0.9919315947416101",
+            "code": "{}",
+            "componentSchemas": {
+              "dateRange": {
+                "$key": "dateRange",
+                "propertyName": "dateRange",
+                "fieldLabelName": "周日期",
+                "fieldType": "timestamp",
+                "isDefault": true
+              }
+            },
+            "children": [
+              {
+                "id": "Data_1655887904422_0.8102277034140386_dateRange",
+                "name": "dateRange",
+                "label": "周日期",
+                "type": "schema",
+                "dataType": "timestamp",
+                "isDefault": true
+              }
+            ],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1655887904422_0.8102277034140386",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1655882814927_0.9138833376353617"
+        },
+        "useSearchCode": true,
+        "onSearchCode": "function onSearch () {\n        // 在下面开始编写点击搜索按钮时触发事件\n       const lastWeekDate = new Date().getTime() - 7 * 24 * 60 * 60 * 1000\n       const weekDate = this.value?.dateRange ?? lastWeekDate\n       $run('getDateRange', weekDate)\n       $run('getData', $data.range)\n       $data.unitName = ''\n   }",
+        "$filterMode": [
+          {
+            "mode": "=",
+            "label": "选择周",
+            "key": "dateRange"
+          }
+        ],
+        "list": {
+          "$name": "SearchList",
+          "children": [
+            {
+              "$name": "TableS2",
+              "setValuesCode": "function setValues() {\n  // 在下面返回Values的值\n  return $data.values\n}",
+              "onClickCellCode": "function onClickCell(rowData) {\n  // 在下面开始编写选择单元格事件\n  const [row1] = rowData\n  const { unitcode, unitName } = row1\n\n  $data.unitName = unitName\n  $run('getData', {\n    ...$data.range,\n    unitcode\n  })\n}",
+              "$parent": {
+                "name": "SearchList",
+                "label": "列表插槽",
+                "id": "SearchList_1655887904420_0.7165286959618125"
+              },
+              "columns": [],
+              "values": [
+                "动态属性"
+              ],
+              "description": "",
+              "$key": "dataSource",
+              "showSeriesNumber": true,
+              "rows": [
+                "username",
+                "time",
+                "unitName"
+              ],
+              "useRowsCode": false,
+              "useClickFnCode": false,
+              "setClickFnCode": "function setClickFn(dd) {\n  // 在下面返回ClickFn的值\n  return \n}",
+              "setDescriptionCode": "function setDescription() {\n  // 在下面返回Description的值\n  const { begindate, enddate } = $data.range\n  const text = $data.unitName ? '  当前部门：' + $data.unitName : ''\n  return begindate + ' 至 ' + enddate + text\n}",
+              "readonly": false,
+              "meta": [
+                {
+                  "field": "username",
+                  "name": "人员",
+                  "label": "人员",
+                  "value": "username",
+                  "rowKey": "1"
+                },
+                {
+                  "field": "time",
+                  "name": "时段",
+                  "label": "时段",
+                  "value": "time",
+                  "rowKey": "2"
+                },
+                {
+                  "field": "unitName",
+                  "name": "部门",
+                  "label": "部门",
+                  "value": "unitName",
+                  "rowKey": "default-row"
+                }
+              ],
+              "useDescriptionCode": true,
+              "useClickCellCode": true,
+              "autofit": true,
+              "setRowsCode": "function setRows() {\n  // 在下面返回Rows的值\n  return \n}",
+              "$item": {
+                "name": "TableS2",
+                "label": "S2列表",
+                "id": "TableS2_1655967521937_0.8285827284489489"
+              },
+              "useValuesCode": true,
+              "dataSource": [
+                {
+                  "province": "江苏",
+                  "city": "南京",
+                  "sub_type": "桌子",
+                  "price": "1",
+                  "type": "家具"
+                },
+                {
+                  "province": "江苏",
+                  "city": "南京",
+                  "sub_type": "沙发",
+                  "price": "2",
+                  "type": "家具"
+                },
+                {
+                  "province": "江苏",
+                  "city": "镇江",
+                  "sub_type": "桌子",
+                  "price": "3",
+                  "type": "家具"
+                },
+                {
+                  "province": "江苏",
+                  "city": "镇江",
+                  "sub_type": "沙发",
+                  "price": "4",
+                  "type": "家具"
+                }
+              ]
+            }
+          ],
+          "$item": {
+            "name": "SearchList",
+            "label": "列表插槽",
+            "id": "SearchList_1655887904420_0.7165286959618125"
+          }
+        },
+        "onExportCode": "function onExport () {\n        // 在下面开始编写点击导出按钮时触发事件\n        $comp['DataList'].pagination.pageNo = 1\n        $comp['DataList'].query()\n      }",
+        "form": {
+          "$name": "SearchForm",
+          "children": [
+            {
+              "$name": "DatePicker",
+              "inline": true,
+              "rulesConfig": [],
+              "$key": "dateRange",
+              "$item": {
+                "name": "DatePicker",
+                "label": "日期选择",
+                "id": "DatePicker_1655951587248_0.7712365869385238"
+              },
+              "label": "周日期",
+              "picker": "week"
+            }
+          ],
+          "$item": {
+            "name": "SearchForm",
+            "label": "表单插槽",
+            "id": "SearchForm_1655887904420_0.11514485515605699"
+          }
+        },
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "actionsLayout": "normal",
+        "useModelCode": true,
+        "$filterModeMap": {
+          "dateRange": {
+            "mode": "=",
+            "label": "选择周",
+            "key": "dateRange"
+          }
+        },
+        "$item": {
+          "name": "Search",
+          "label": "搜索页面",
+          "id": "Search_1655887904420_0.9919315947416101"
+        },
+        "collapsedMode": "normal",
+        "onResetCode": "function onReset () {\n      // 在下面开始编写点击重置按钮时触发事件\n  const lastWeekDate = new Date().getTime() - 7 * 24 * 60 * 60 * 1000\n  $run('getDateRange', lastWeekDate)\n  $run('getData', $data.range)\n  $data.unitName = ''\n  this.value.dateRange = null\n}"
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('init')\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1655882814927_0.9138833376353617"
+    }
+  },
+  "publishDate": "2023-06-16 15:09:34",
+  "sourceId": "94hLfq3ZQx-41_Jozq9dMg",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1656052910987": {
+        "code": "''",
+        "children": [],
+        "dataType": "string",
+        "name": "unitName",
+        "id": "Data_1656052910987",
+        "label": "unitName",
+        "type": "data"
+      },
+      "Data_1655971336603": {
+        "code": "{\r\n    begindate: '',\r\n    enddate: ''\r\n}",
+        "children": [
+          {
+            "id": "Data_1655971336603_begindate",
+            "name": "begindate",
+            "label": "begindate",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655971336603_enddate",
+            "name": "enddate",
+            "label": "enddate",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          }
+        ],
+        "dataType": "object",
+        "name": "range",
+        "id": "Data_1655971336603",
+        "label": "range",
+        "type": "data",
+        "codeSchemas": {
+          "begindate": {
+            "isDefault": true,
+            "propertyName": "begindate",
+            "fieldLabelName": "begindate",
+            "fieldType": "string"
+          },
+          "enddate": {
+            "isDefault": true,
+            "propertyName": "enddate",
+            "fieldLabelName": "enddate",
+            "fieldType": "string"
+          }
+        }
+      },
+      "Data_1655886254427": {
+        "code": "[]",
+        "children": [],
+        "componentSchemas": {},
+        "dataType": "array",
+        "name": "dataSource",
+        "id": "Data_1655886254427",
+        "label": "dataSource",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1656051928994": {
+        "code": "$info.userRoles.some(item => item.roleCode === 'R0000002')",
+        "children": [],
+        "dataType": "boolean",
+        "name": "isR000002",
+        "id": "Data_1656051928994",
+        "label": "isR000002",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1655886294202": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "values",
+        "id": "Data_1655886294202",
+        "label": "values",
+        "type": "data",
+        "codeSchemas": {}
+      },
+      "Data_1655886282666": {
+        "code": "[\"username\", \"time\"]",
+        "children": [
+          {
+            "id": "Data_1655886282666_0",
+            "name": "0",
+            "label": "0",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_1",
+            "name": "1",
+            "label": "1",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_2",
+            "name": "2",
+            "label": "2",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_3",
+            "name": "3",
+            "label": "3",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_4",
+            "name": "4",
+            "label": "4",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_5",
+            "name": "5",
+            "label": "5",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_6",
+            "name": "6",
+            "label": "6",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          },
+          {
+            "id": "Data_1655886282666_7",
+            "name": "7",
+            "label": "7",
+            "type": "schema",
+            "dataType": "string",
+            "isDefault": true
+          }
+        ],
+        "dataType": "array",
+        "name": "rows",
+        "id": "Data_1655886282666",
+        "label": "rows",
+        "type": "data",
+        "codeSchemas": {
+          "0": {
+            "isDefault": true,
+            "propertyName": "0",
+            "fieldLabelName": "0",
+            "fieldType": "string"
+          },
+          "1": {
+            "isDefault": true,
+            "propertyName": "1",
+            "fieldLabelName": "1",
+            "fieldType": "string"
+          },
+          "2": {
+            "isDefault": true,
+            "propertyName": "2",
+            "fieldLabelName": "2",
+            "fieldType": "string"
+          },
+          "3": {
+            "isDefault": true,
+            "propertyName": "3",
+            "fieldLabelName": "3",
+            "fieldType": "string"
+          },
+          "4": {
+            "isDefault": true,
+            "propertyName": "4",
+            "fieldLabelName": "4",
+            "fieldType": "string"
+          },
+          "5": {
+            "isDefault": true,
+            "propertyName": "5",
+            "fieldLabelName": "5",
+            "fieldType": "string"
+          },
+          "6": {
+            "isDefault": true,
+            "propertyName": "6",
+            "fieldLabelName": "6",
+            "fieldType": "string"
+          },
+          "7": {
+            "isDefault": true,
+            "propertyName": "7",
+            "fieldLabelName": "7",
+            "fieldType": "string"
+          }
+        }
+      }
+    },
+    "methodsConfigs": {
+      "Method_1655886306146": {
+        "id": "Method_1655886306146",
+        "code": "async function getData(params) {\n  $data.loading = true\n  const res = await $dde.get('3f6d4917c86d4ae8b469e964e1083ff2', {\n    params\n  })\n  const dir = {\n      '出勤': '√',\n      '休息': '-',\n      '未刷卡': 'x'\n  }\n  \n  $data.dataSource = res.map(item => {\n    return Object.keys(item).reduce((result, key) => {\n      const getKey = (k) => {\n        const [y, m, d] = k.split(':')[0].split('-')\n        return `${m}-${d}`\n      }\n      \n      const useKey = !~key.indexOf(':') ? key : getKey(key)\n      return {\n        ...result,\n        [useKey]: dir[item[key]] || item[key]\n      }\n    }, {})\n  })\n  $data.loading = false\n}",
+        "name": "getData",
+        "label": "getData",
+        "type": "method"
+      },
+      "Method_1656382908108": {
+        "id": "Method_1656382908108",
+        "code": "function init () {\n  const lastWeekDate = new Date().getTime() - 7 * 24 * 60 * 60 * 1000\n  $run('getDateRange', lastWeekDate)\n  $run('getData', $data.range)\n}",
+        "name": "init",
+        "label": "init",
+        "type": "method"
+      },
+      "Method_1655963224363": {
+        "id": "Method_1655963224363",
+        "code": "function formatterDate(dateTime) {\n    const date = new Date(dateTime)\n    const y = date.getFullYear()\n    const m = date.getMonth() + 1\n    const d = date.getDate()\n    const mm = m < 10 ? `0${m}` : m\n    const dd = d < 10 ? `0${d}` : d\n    return { y, mm, dd, ymd: `${y}-${mm}-${dd}`, md: `${mm}-${dd}` }\n}",
+        "name": "formatterDate",
+        "label": "formatterDate",
+        "type": "method"
+      },
+      "Method_1655950291711": {
+        "id": "Method_1655950291711",
+        "code": "function getDateRange (weekDate) {\n    const wDate = new Date(weekDate)\n    const sDay = wDate.getTime() - (wDate.getDay() - 1) * 24 * 60 * 60 * 1000\n    const eDay = wDate.getTime() + (7 - wDate.getDay()) * 24 * 60 * 60 * 1000\n    \n    const { ymd: asDate } = $run('formatterDate', sDay)\n    const { ymd: esDate } = $run('formatterDate', eDay)\n\n    const start = new Date(asDate).getTime()\n    const end = new Date(esDate).getTime()\n    const result = []\n    for(let k = start; k <= end;) {\n        const { md } = $run('formatterDate', k)\n        k = k + 24 * 60 * 60 * 1000\n        result.push(md)\n    }\n\n    $data.range = {\n        begindate: `${asDate}`,\n        enddate: `${esDate}`\n    }\n    $data.values = result\n}",
+        "name": "getDateRange",
+        "label": "getDateRange",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "isValid": "F"
+}

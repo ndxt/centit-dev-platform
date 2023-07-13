@@ -1,0 +1,192 @@
+{
+  "modelId": "9a66d8103f254e42963d03e1db5ba82e",
+  "modelName": "展示流程信息",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "G",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "dataConfigs": {
+      "Data_1640321371155": {
+        "code": "[]",
+        "name": "todos",
+        "id": "Data_1640321371155",
+        "title": "todos",
+        "type": "a",
+        "key": "Data_1640321371155"
+      },
+      "Data_1640313836434": {
+        "code": "true",
+        "name": "isLoading",
+        "id": "Data_1640313836434",
+        "title": "isLoading",
+        "type": "b",
+        "key": "Data_1640313836434"
+      },
+      "Data_1640321886968": {
+        "code": "{}",
+        "name": "ideas",
+        "id": "Data_1640321886968",
+        "title": "ideas",
+        "type": "o",
+        "key": "Data_1640321886968"
+      },
+      "Data_1640313825442": {
+        "code": "0",
+        "name": "current",
+        "id": "Data_1640313825442",
+        "title": "current",
+        "type": "n",
+        "key": "Data_1640313825442"
+      },
+      "Data_1640321357403": {
+        "code": "[]",
+        "name": "dones",
+        "id": "Data_1640321357403",
+        "title": "dones",
+        "type": "a",
+        "key": "Data_1640321357403"
+      },
+      "Data_1640313811506": {
+        "code": "[\n  {\n  \ttitle: '创建',\n    code: ['0'],\n    status: 'process',\n  },\n  {\n  \ttitle: '预审',\n    code: ['ysr'],\n    status: 'process',\n  },\n  {\n  \ttitle: '人事审核',\n    code: ['gsHR', 'xaHR'],\n    status: 'process',\n  },\n  {\n  \ttitle: '部门审核',\n    code: ['bmManager'],\n    status: 'process',\n  },\n  {\n  \ttitle: '结束',\n    status: 'process',\n  },\n]",
+        "name": "list",
+        "id": "Data_1640313811506",
+        "title": "list",
+        "type": "o",
+        "key": "Data_1640313811506"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640321387891": {
+        "code": "async function queryTodos(flowInstId) {\n  \tif (!flowInstId) return\n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'createTime',\n        order: 'asc',\n    }\n    \n    const {\n    \tobjList,\n    } = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params })\n\n\t$data.todos = objList  \n}",
+        "name": "queryTodos",
+        "id": "Method_1640321387891",
+        "title": "queryTodos",
+        "key": "Method_1640321387891"
+      },
+      "Method_1640321401642": {
+        "code": "async function queryDones(flowInstId) {\n  \tif (!flowInstId) return\n  \n\tconst params = { \n    \tflowInstId,\n        // pageSize: -1,\n      \tsort: 'transDate',\n        order: 'asc',\n    }\n    \n    const {\n    \tobjList,\n    } = await $dde.get('8186380be13d401fb3b54a75f8987e8b', { params })\n\n\t$data.dones = objList  \n}",
+        "name": "queryDones",
+        "id": "Method_1640321401642",
+        "title": "queryDones",
+        "key": "Method_1640321401642"
+      },
+      "Method_1640321486011": {
+        "code": "function createIdeas() {\n  const { dones, todos, list } = $data\n  // 复制\n  const ideas = JSON.parse(JSON.stringify(list))\n  \n  dones.forEach(d => {\n  \tconst { nodeCode, transDate, transIdea, userCodeDesc } = d\n    ideas.forEach(i => {\n      if (i.code?.includes(nodeCode)) {\n      \ti.subTitle = transDate\n      \ti.description = `[${userCodeDesc}] ${transIdea}`,\n      \ti.status = 'finish' \n      }\telse {\n        i.status = 'wait'\n      }\n    })\n  })\n  \n  if (todos.length) {\n  \ttodos.forEach(d => {\n      const { nodeCode, userName } = d\n      ideas.forEach((i, index) => {\n        if (i.code?.includes(nodeCode)) {\n          i.description = `等待 [${userName}] 审核`,\n          i.status = 'process' \n          $data.current = index\n        }\n      })\n    })\n  } else {\n  \n  }\n  \n  for (let i = 0; i < $data.current; i++) {\n  \tconst d = ideas[i]\n    if (!d.description) {\n    \tideas.splice(i, 1)\n      \ti--\n        $data.current--\n    }\n  }\n  \n  $data.ideas = ideas\n}",
+        "name": "createIdeas",
+        "id": "Method_1640321486011",
+        "title": "createIdeas",
+        "key": "Method_1640321486011"
+      },
+      "Method_1640321460064": {
+        "code": "async function query(flowInstId) {\n  if (flowInstId) {\n  \t$data.isLoading = true\n  } else {\n  \treturn\n  }\n  \n  // 在下面开始编写flowInstId监听\n  await Promise.all([\n  \t$run('queryDones', flowInstId),\n    $run('queryTodos', flowInstId),\n  ])\n  \n  $run('createIdeas')\n  $data.isLoading = false\n}",
+        "name": "query",
+        "id": "Method_1640321460064",
+        "title": "query",
+        "key": "Method_1640321460064"
+      }
+    },
+    "styleText": "width: 100%;",
+    "children": [
+      {
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640313718568_0.4623772210919983"
+        },
+        "$extra": {
+          "children": [
+            {
+              "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return $data.isLoading\n}",
+              "size": "default",
+              "use$$ifCode": true,
+              "$item": {
+                "name": "Spin",
+                "label": "加载中",
+                "id": "Spin_1640323642286_0.12490506051238892"
+              }
+            },
+            {
+              "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !$data.isLoading\n}",
+              "$parent": {
+                "name": "Model",
+                "label": "模块",
+                "id": "Model_1640313718568_0.4623772210919983"
+              },
+              "use$$ifCode": true,
+              "$key": "ideas",
+              "type": "default",
+              "setCurrentCode": "function setCurrent() {\n  // 在下面返回Current的值\n  return $data.current\n}",
+              "labelPlacement": "horizontal",
+              "size": "default",
+              "children": [
+                {
+                  "use$forCode": true,
+                  "set$$ifCode": "function set$$if() {\n  // 在下面返回$$if的值\n  return !$data.isLoading\n}",
+                  "setDescriptionCode": "function setDescription() {\n  // 在下面返回Description的值\n  return $data.description\n}",
+                  "setStatusCode": "function setStatus() {\n  // 在下面返回Status的值\n  return $data.status\n}",
+                  "useDescriptionCode": true,
+                  "use$$ifCode": false,
+                  "set$forCode": "function set() {\n  return $data || []\n}",
+                  "$item": {
+                    "name": "StepsItem",
+                    "label": "步骤项",
+                    "id": "StepsItem_1640313757125_0.010491664456523608"
+                  },
+                  "useTitleCode": true,
+                  "setSubTitleCode": "function setSubTitle() {\n  // 在下面返回SubTitle的值\n  return $data.subTitle\n}",
+                  "setTitleCode": "function setTitle() {\n  // 在下面返回Title的值\n  return $data.title\n}",
+                  "useSubTitleCode": true
+                }
+              ],
+              "responsive": true,
+              "useCurrentCode": true,
+              "$item": {
+                "name": "Steps",
+                "label": "步骤条",
+                "id": "Steps_1640313757125_0.6700790948978879"
+              },
+              "status": "process",
+              "direction": "horizontal"
+            }
+          ],
+          "$item": {
+            "name": "ResultExtra",
+            "label": "结果操作区",
+            "id": "ResultExtra_1640320869312_0.7492165993308826"
+          }
+        },
+        "$item": {
+          "name": "Result",
+          "label": "结果",
+          "id": "Result_1640320869312_0.9232351854988081"
+        },
+        "title": "成功提交申请",
+        "status": "success"
+      }
+    ],
+    "root": true,
+    "style": {
+      "width": "100%"
+    },
+    "paramsConfigs": {
+      "Param_1640321428192": {
+        "code": "function watchFlowInstId(flowInstId, oldFlowInstId) {\n  // 在下面开始编写flowInstId监听\n  $run('query', flowInstId)\n}",
+        "immediate": true,
+        "name": "flowInstId",
+        "id": "Param_1640321428192"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640313718568_0.4623772210919983"
+    }
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "VrhmkYESSryOgv4NUBSyGQ",
+  "modelTag": "流程",
+  "isValid": "F"
+}

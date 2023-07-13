@@ -1,0 +1,29 @@
+[
+  {
+    "formulaCode": "562bbb833489425481d36f56ae69b7b3",
+    "formulaName": "上级一般部门",
+    "roleFormula": "D('D4BtpSxJ' -- 'A')",
+    "roleLevel": "0",
+    "createTime": "2022-08-31 14:04:31",
+    "topUnit": "DxxkJ664",
+    "formulaDesc": ""
+  },
+  {
+    "formulaCode": "5afb06db5df8414c9422592f90d401cf",
+    "formulaName": "当前部门",
+    "roleFormula": "D('D4BtpSxJ')",
+    "roleLevel": "0",
+    "createTime": "2022-07-21 10:43:03",
+    "topUnit": "DxxkJ664",
+    "formulaDesc": ""
+  },
+  {
+    "formulaCode": "ec4c1bd3d9e946fcb333890e08e006ef",
+    "formulaName": "同行评审",
+    "roleFormula": "D(C-1+1)!D(C)",
+    "roleLevel": "0",
+    "createTime": "2022-11-22 09:19:51",
+    "topUnit": "DxxkJ664",
+    "formulaDesc": ""
+  }
+]

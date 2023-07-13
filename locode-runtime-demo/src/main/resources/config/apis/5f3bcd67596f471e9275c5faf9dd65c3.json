@@ -1,0 +1,4695 @@
+{
+  "packetId": "5f3bcd67596f471e9275c5faf9dd65c3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "查询考勤明细列表",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-03-05 14:38:03",
+  "dataOptDescJson": {
+    "nodes": [
+      {
+        "x": 420,
+        "y": 120,
+        "id": "startsE88Dp8a4g",
+        "text": {
+          "x": 420,
+          "y": 120,
+          "value": "开始"
+        },
+        "type": "start",
+        "properties": {
+          "isBranch": false,
+          "processName": "开始",
+          "typeName": "开始",
+          "isSource": false,
+          "isSelected": true,
+          "id": "startsE88Dp8a4g",
+          "type": "start"
+        }
+      },
+      {
+        "x": 640,
+        "y": 760,
+        "id": "resultsOS8B5j7zG0",
+        "text": {
+          "x": 640,
+          "y": 760,
+          "value": "返回结果"
+        },
+        "type": "results",
+        "properties": {
+          "isBranch": false,
+          "resultOptions": "3",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "expression": "oneOndutytypeDesc",
+              "unique": 0,
+              "dataType": "string",
+              "columnName": "1A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "oneOffdutytypeDesc",
+              "unique": 1,
+              "dataType": "string",
+              "columnName": "1P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twoOndutytypeDesc",
+              "unique": 2,
+              "dataType": "string",
+              "columnName": "2A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twoOffdutytypeDesc",
+              "unique": 3,
+              "dataType": "string",
+              "columnName": "2P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "threeOndutytypeDesc",
+              "unique": 4,
+              "dataType": "string",
+              "columnName": "3A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "threeOffdutytypeDesc",
+              "unique": 5,
+              "dataType": "string",
+              "columnName": "3P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourOndutytypeDesc",
+              "unique": 6,
+              "dataType": "string",
+              "columnName": "4A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourOffdutytypeDesc",
+              "unique": 7,
+              "dataType": "string",
+              "columnName": "4P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fiveOndutytypeDesc",
+              "unique": 8,
+              "dataType": "string",
+              "columnName": "5A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fiveOffdutytypeDesc",
+              "unique": 9,
+              "dataType": "string",
+              "columnName": "5P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixOndutytypeDesc",
+              "unique": 10,
+              "dataType": "string",
+              "columnName": "6A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixOffdutytypeDesc",
+              "unique": 11,
+              "dataType": "string",
+              "columnName": "6P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sevenOndutytypeDesc",
+              "unique": 12,
+              "dataType": "string",
+              "columnName": "7A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sevenOffdutytypeDesc",
+              "unique": 13,
+              "dataType": "string",
+              "columnName": "7P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eightOndutytypeDesc",
+              "unique": 14,
+              "dataType": "string",
+              "columnName": "8A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eightOffdutytypeDesc",
+              "unique": 15,
+              "dataType": "string",
+              "columnName": "8P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "nightOndutytypeDesc",
+              "unique": 16,
+              "dataType": "string",
+              "columnName": "9A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "nightOffdutytypeDesc",
+              "unique": 17,
+              "dataType": "string",
+              "columnName": "9P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twnOndutytypeDesc",
+              "unique": 18,
+              "dataType": "string",
+              "columnName": "10A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twnOffdutytypeDesc",
+              "unique": 19,
+              "dataType": "string",
+              "columnName": "10P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "elevenOndutytypeDesc",
+              "unique": 20,
+              "dataType": "string",
+              "columnName": "11A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "elevenOffdutytypeDesc",
+              "unique": 21,
+              "dataType": "string",
+              "columnName": "11P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twelveOndutytypeDesc",
+              "unique": 22,
+              "dataType": "string",
+              "columnName": "12A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twelveOffdutytypeDesc",
+              "unique": 23,
+              "dataType": "string",
+              "columnName": "12P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirteenOndutytypeDesc",
+              "unique": 24,
+              "dataType": "string",
+              "columnName": "13A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirteenOffdutytypeDesc",
+              "unique": 25,
+              "dataType": "string",
+              "columnName": "13P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourteenOndutytypeDesc",
+              "unique": 26,
+              "dataType": "string",
+              "columnName": "14A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourteenOffdutytypeDesc",
+              "unique": 27,
+              "dataType": "string",
+              "columnName": "14P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fifteenOndutytypeDesc",
+              "unique": 28,
+              "dataType": "string",
+              "columnName": "15A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fifteenOffdutytypeDesc",
+              "unique": 29,
+              "dataType": "string",
+              "columnName": "15P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixteenOndutytypeDesc",
+              "unique": 30,
+              "dataType": "string",
+              "columnName": "16A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixteenOffdutytypeDesc",
+              "unique": 31,
+              "dataType": "string",
+              "columnName": "16P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "seventeenOndutytypeDesc",
+              "unique": 32,
+              "dataType": "string",
+              "columnName": "17A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "seventeenOffdutytypeDesc",
+              "unique": 33,
+              "dataType": "string",
+              "columnName": "17P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eighteenOndutytypeDesc",
+              "unique": 34,
+              "dataType": "string",
+              "columnName": "18A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eighteenOffdutytypeDesc",
+              "unique": 35,
+              "dataType": "string",
+              "columnName": "18P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ninteenOndutytypeDesc",
+              "unique": 36,
+              "dataType": "string",
+              "columnName": "19A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ninteenOffdutytypeDesc",
+              "unique": 37,
+              "dataType": "string",
+              "columnName": "19P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyOndutytypeDesc",
+              "unique": 38,
+              "dataType": "string",
+              "columnName": "20A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyOffdutytypeDesc",
+              "unique": 39,
+              "dataType": "string",
+              "columnName": "20P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyoneOndutytypeDesc",
+              "unique": 40,
+              "dataType": "string",
+              "columnName": "21A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyoneOffdutytypeDesc",
+              "unique": 41,
+              "dataType": "string",
+              "columnName": "21P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntytwoOndutytypeDesc",
+              "unique": 42,
+              "dataType": "string",
+              "columnName": "22A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntytwoOffdutytypeDesc",
+              "unique": 43,
+              "dataType": "string",
+              "columnName": "22P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntythreeOndutytypeDesc",
+              "unique": 44,
+              "dataType": "string",
+              "columnName": "23A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntythreeOffdutytypeDesc",
+              "unique": 45,
+              "dataType": "string",
+              "columnName": "23P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfourOndutytypeDesc",
+              "unique": 46,
+              "dataType": "string",
+              "columnName": "24A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfourOffdutytypeDesc",
+              "unique": 47,
+              "dataType": "string",
+              "columnName": "24P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfiveOndutytypeDesc",
+              "unique": 48,
+              "dataType": "string",
+              "columnName": "25A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfiveOffdutytypeDesc",
+              "unique": 49,
+              "dataType": "string",
+              "columnName": "25P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysixOndutytypeDesc",
+              "unique": 50,
+              "dataType": "string",
+              "columnName": "26A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysixOffdutytypeDescDesc",
+              "unique": 51,
+              "dataType": "string",
+              "columnName": "26P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysevenOndutytypeDesc",
+              "unique": 52,
+              "dataType": "string",
+              "columnName": "27A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysevenOffdutytypeDesc",
+              "unique": 53,
+              "dataType": "string",
+              "columnName": "27P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyeightOndutytypeDesc",
+              "unique": 54,
+              "dataType": "string",
+              "columnName": "28A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyeightOffdutytypeDesc",
+              "unique": 55,
+              "dataType": "string",
+              "columnName": "28P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntynineOndutytypeDesc",
+              "unique": 56,
+              "dataType": "string",
+              "columnName": "29A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntynineOffdutytypeDesc",
+              "unique": 57,
+              "dataType": "string",
+              "columnName": "29P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyOndutytypeDesc",
+              "unique": 58,
+              "dataType": "string",
+              "columnName": "30A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyOffdutytypeDesc",
+              "unique": 59,
+              "dataType": "string",
+              "columnName": "30P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyoneOndutytypeDesc",
+              "unique": 60,
+              "dataType": "string",
+              "columnName": "31A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyoneOffdutytypeDesc",
+              "unique": 61,
+              "dataType": "string",
+              "columnName": "31P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "month",
+              "unique": 62,
+              "dataType": "string",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "expression": "usercode",
+              "unique": 63,
+              "dataType": "string",
+              "columnName": "usercode"
+            },
+            {
+              "isStatData": "F",
+              "expression": "latetimes",
+              "unique": 64,
+              "dataType": "string",
+              "columnName": "latetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "overtimes",
+              "unique": 65,
+              "dataType": "string",
+              "columnName": "overtimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "leavetimes",
+              "unique": 66,
+              "dataType": "string",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "recorddate",
+              "unique": 67,
+              "dataType": "string",
+              "columnName": "recorddate"
+            },
+            {
+              "isStatData": "F",
+              "expression": "outduration",
+              "unique": 68,
+              "dataType": "string",
+              "columnName": "outduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "absencetimes",
+              "unique": 69,
+              "dataType": "string",
+              "columnName": "absencetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "restduration",
+              "unique": 70,
+              "dataType": "string",
+              "columnName": "restduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "leaveduration",
+              "unique": 71,
+              "dataType": "string",
+              "columnName": "leaveduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "workdays",
+              "unique": 72,
+              "dataType": "string",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "planWorkdays",
+              "unique": 73,
+              "dataType": "string",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "lateduration",
+              "unique": 74,
+              "dataType": "string",
+              "columnName": "lateduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "bdutytype",
+              "unique": 75,
+              "dataType": "string",
+              "columnName": "bdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "zbDutytype",
+              "unique": 76,
+              "dataType": "string",
+              "columnName": "zbDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ndutytype",
+              "unique": 77,
+              "dataType": "string",
+              "columnName": "ndutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "hdutytype",
+              "unique": 78,
+              "dataType": "string",
+              "columnName": "hdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "cdutytype",
+              "unique": 79,
+              "dataType": "string",
+              "columnName": "cdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "pdutytype",
+              "unique": 80,
+              "dataType": "string",
+              "columnName": "pdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "gdutytype",
+              "unique": 81,
+              "dataType": "string",
+              "columnName": "gdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "prDutytype",
+              "unique": 82,
+              "dataType": "string",
+              "columnName": "prDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "bdDutytype",
+              "unique": 83,
+              "dataType": "string",
+              "columnName": "bdDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "tqDutytype",
+              "unique": 84,
+              "dataType": "string",
+              "columnName": "tqDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ccDutytype",
+              "unique": 85,
+              "dataType": "string",
+              "columnName": "ccDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "unitcode",
+              "unique": 86,
+              "dataType": "string",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "expression": "workdays",
+              "unique": 87,
+              "dataType": "string",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "planWorkdays",
+              "unique": 88,
+              "dataType": "string",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "absencetimes",
+              "unique": 89,
+              "dataType": "string",
+              "columnName": "absencetimes"
+            }
+          ],
+          "processName": "返回结果",
+          "typeName": "返回结果",
+          "isSource": true,
+          "isSelected": false,
+          "id": "resultsOS8B5j7zG0",
+          "source": "mapBdkTHTB4qI",
+          "type": "results"
+        }
+      },
+      {
+        "x": 420,
+        "y": 440,
+        "id": "mapBdkTHTB4qI",
+        "text": {
+          "x": 420,
+          "y": 440,
+          "value": "字段映射"
+        },
+        "type": "map",
+        "properties": {
+          "configJSON": "{ \"config\": [{\"columnName\":\"1A\",\"expression\":\"oneOndutytypeDesc\"},{\"columnName\":\"1P\",\"expression\":\"oneOffdutytypeDesc\"},{\"columnName\":\"2A\",\"expression\":\"twoOndutytypeDesc\"},{\"columnName\":\"2P\",\"expression\":\"twoOffdutytypeDesc\"},{\"columnName\":\"3A\",\"expression\":\"threeOndutytypeDesc\"},{\"columnName\":\"3P\",\"expression\":\"threeOffdutytypeDesc\"},{\"columnName\":\"4A\",\"expression\":\"fourOndutytypeDesc\"},{\"columnName\":\"4P\",\"expression\":\"fourOffdutytypeDesc\"},{\"columnName\":\"5A\",\"expression\":\"fiveOndutytypeDesc\"},{\"columnName\":\"5P\",\"expression\":\"fiveOffdutytypeDesc\"},\n{\"columnName\":\"6A\",\"expression\":\"sixOndutytypeDesc\"},{\"columnName\":\"6P\",\"expression\":\"sixOffdutytypeDesc\"},{\"columnName\":\"7A\",\"expression\":\"sevenOndutytypeDesc\"},{\"columnName\":\"7P\",\"expression\":\"sevenOffdutytypeDesc\"},{\"columnName\":\"8A\",\"expression\":\"eightOndutytypeDesc\"},{\"columnName\":\"8P\",\"expression\":\"eightOffdutytypeDesc\"},{\"columnName\":\"9A\",\"expression\":\"nightOndutytypeDesc\"},{\"columnName\":\"9P\",\"expression\":\"nightOffdutytypeDesc\"},{\"columnName\":\"10A\",\"expression\":\"twnOndutytypeDesc\"},{\"columnName\":\"10P\",\"expression\":\"twnOffdutytypeDesc\"},{\"columnName\":\"11A\",\"expression\":\"elevenOndutytypeDesc\"},{\"columnName\":\"11P\",\"expression\":\"elevenOffdutytypeDesc\"},{\"columnName\":\"12A\",\"expression\":\"twelveOndutytypeDesc\"},{\"columnName\":\"12P\",\"expression\":\"twelveOffdutytypeDesc\"},{\"columnName\":\"13A\",\"expression\":\"thirteenOndutytypeDesc\"},{\"columnName\":\"13P\",\"expression\":\"thirteenOffdutytypeDesc\"},{\"columnName\":\"14A\",\"expression\":\"fourteenOndutytypeDesc\"},{\"columnName\":\"14P\",\"expression\":\"fourteenOffdutytypeDesc\"},{\"columnName\":\"15A\",\"expression\":\"fifteenOndutytypeDesc\"},{\"columnName\":\"15P\",\"expression\":\"fifteenOffdutytypeDesc\"},{\"columnName\":\"16A\",\"expression\":\"sixteenOndutytypeDesc\"},{\"columnName\":\"16P\",\"expression\":\"sixteenOffdutytypeDesc\"},{\"columnName\":\"17A\",\"expression\":\"seventeenOndutytypeDesc\"},{\"columnName\":\"17P\",\"expression\":\"seventeenOffdutytypeDesc\"},{\"columnName\":\"18A\",\"expression\":\"eighteenOndutytypeDesc\"},{\"columnName\":\"18P\",\"expression\":\"eighteenOffdutytypeDesc\"},{\"columnName\":\"19A\",\"expression\":\"ninteenOndutytypeDesc\"},{\"columnName\":\"19P\",\"expression\":\"ninteenOffdutytypeDesc\"},{\"columnName\":\"20A\",\"expression\":\"twntyOndutytypeDesc\"},{\"columnName\":\"20P\",\"expression\":\"twntyOffdutytypeDesc\"},{\"columnName\":\"21A\",\"expression\":\"twntyoneOndutytypeDesc\"},{\"columnName\":\"21P\",\"expression\":\"twntyoneOffdutytypeDesc\"},{\"columnName\":\"22A\",\"expression\":\"twntytwoOndutytypeDesc\"},{\"columnName\":\"22P\",\"expression\":\"twntytwoOffdutytypeDesc\"},{\"columnName\":\"23A\",\"expression\":\"twntythreeOndutytypeDesc\"},{\"columnName\":\"23P\",\"expression\":\"twntythreeOffdutytypeDesc\"},{\"columnName\":\"24A\",\"expression\":\"twntyfourOndutytypeDesc\"},{\"columnName\":\"24P\",\"expression\":\"twntyfourOffdutytypeDesc\"},{\"columnName\":\"25A\",\"expression\":\"twntyfiveOndutytypeDesc\"},{\"columnName\":\"25P\",\"expression\":\"twntyfiveOffdutytypeDesc\"},{\"columnName\":\"26A\",\"expression\":\"twntysixOndutytypeDesc\"},{\"columnName\":\"26P\",\"expression\":\"twntysixOffdutytypeDescDesc\"},{\"columnName\":\"27A\",\"expression\":\"twntysevenOndutytypeDesc\"},{\"columnName\":\"27P\",\"expression\":\"twntysevenOffdutytypeDesc\"},{\"columnName\":\"28A\",\"expression\":\"twntyeightOndutytypeDesc\"},{\"columnName\":\"28P\",\"expression\":\"twntyeightOffdutytypeDesc\"},{\"columnName\":\"29A\",\"expression\":\"twntynineOndutytypeDesc\"},{\"columnName\":\"29P\",\"expression\":\"twntynineOffdutytypeDesc\"},{\"columnName\":\"30A\",\"expression\":\"thirtyOndutytypeDesc\"},{\"columnName\":\"30P\",\"expression\":\"thirtyOffdutytypeDesc\"},{\"columnName\":\"31A\",\"expression\":\"thirtyoneOndutytypeDesc\"},{\"columnName\":\"31P\",\"expression\":\"thirtyoneOffdutytypeDesc\"},{\"columnName\":\"month\",\"expression\":\"month\"},{\"columnName\":\"usercode\",\"expression\":\"usercode\"},{\"columnName\":\"latetimes\",\"expression\":\"latetimes\"},{\"columnName\":\"overtimes\",\"expression\":\"overtimes\"},{\"columnName\":\"leavetimes\",\"expression\":\"leavetimes\"},{\"columnName\":\"recorddate\",\"expression\":\"recorddate\"},{\"columnName\":\"outduration\",\"expression\":\"outduration\"},{\"columnName\":\"absencetimes\",\"expression\":\"absencetimes\"},{\"columnName\":\"restduration\",\"expression\":\"restduration\"},{\"columnName\":\"leaveduration\",\"expression\":\"leaveduration\"},{\"columnName\":\"workdays\",\"expression\":\"workdays\"},{\"columnName\":\"planWorkdays\",\"expression\":\"planWorkdays\"},{\"columnName\":\"lateduration\",\"expression\":\"lateduration\"},{\"columnName\":\"bdutytype\",\"expression\":\"bdutytype\"},{\"columnName\":\"zbDutytype\",\"expression\":\"zbDutytype\"},{\"columnName\":\"ndutytype\",\"expression\":\"ndutytype\"},{\"columnName\":\"hdutytype\",\"expression\":\"hdutytype\"},{\"columnName\":\"cdutytype\",\"expression\":\"cdutytype\"},{\"columnName\":\"pdutytype\",\"expression\":\"pdutytype\"},{\"columnName\":\"gdutytype\",\"expression\":\"gdutytype\"},{\"columnName\":\"prDutytype\",\"expression\":\"prDutytype\"},{\"columnName\":\"bdDutytype\",\"expression\":\"bdDutytype\"},{\"columnName\":\"tqDutytype\",\"expression\":\"tqDutytype\"},{\"columnName\":\"ccDutytype\",\"expression\":\"ccDutytype\"},{\"columnName\":\"unitcode\",\"expression\":\"unitcode\"},{\"columnName\":\"workdays\",\"expression\":\"workdays\"},{\"columnName\":\"planWorkdays\",\"expression\":\"planWorkdays\"},{\"columnName\":\"absencetimes\",\"expression\":\"absencetimes\"}] }",
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "propertyName": "month",
+              "dataType": "string",
+              "columnCode": "month",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "usercode",
+              "dataType": "string",
+              "columnCode": "usercode",
+              "columnName": "usercode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimelength",
+              "dataType": "string",
+              "columnCode": "overtimelength",
+              "columnName": "overtimelength"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leavetduration",
+              "dataType": "string",
+              "columnCode": "leavetduration",
+              "columnName": "leavetduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "latetimes",
+              "dataType": "string",
+              "columnCode": "latetimes",
+              "columnName": "latetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "overtimes",
+              "dataType": "string",
+              "columnCode": "overtimes",
+              "columnName": "overtimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leavetimes",
+              "dataType": "string",
+              "columnCode": "leavetimes",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "recorddate",
+              "dataType": "string",
+              "columnCode": "recorddate",
+              "columnName": "recorddate"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "outduration",
+              "dataType": "string",
+              "columnCode": "outduration",
+              "columnName": "outduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "absencetimes",
+              "dataType": "string",
+              "columnCode": "absencetimes",
+              "columnName": "absencetimes"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "restduration",
+              "dataType": "string",
+              "columnCode": "restduration",
+              "columnName": "restduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "leaveduration",
+              "dataType": "string",
+              "columnCode": "leaveduration",
+              "columnName": "leaveduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "workdays",
+              "dataType": "string",
+              "columnCode": "workdays",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "planWorkdays",
+              "dataType": "string",
+              "columnCode": "plan_workdays",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "lateduration",
+              "dataType": "string",
+              "columnCode": "lateduration",
+              "columnName": "lateduration"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "bdutytype",
+              "dataType": "string",
+              "columnCode": "bdutytype",
+              "columnName": "bdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "zbDutytype",
+              "dataType": "string",
+              "columnCode": "zb_dutytype",
+              "columnName": "zbDutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "ndutytype",
+              "dataType": "string",
+              "columnCode": "ndutytype",
+              "columnName": "ndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "hdutytype",
+              "dataType": "string",
+              "columnCode": "hdutytype",
+              "columnName": "hdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "cdutytype",
+              "dataType": "string",
+              "columnCode": "cdutytype",
+              "columnName": "cdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "pdutytype",
+              "dataType": "string",
+              "columnCode": "pdutytype",
+              "columnName": "pdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "gdutytype",
+              "dataType": "string",
+              "columnCode": "gdutytype",
+              "columnName": "gdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "prDutytype",
+              "dataType": "string",
+              "columnCode": "pr_dutytype",
+              "columnName": "prDutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "bdDutytype",
+              "dataType": "string",
+              "columnCode": "bd_dutytype",
+              "columnName": "bdDutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "tqDutytype",
+              "dataType": "string",
+              "columnCode": "tq_dutytype",
+              "columnName": "tqDutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "ccDutytype",
+              "dataType": "string",
+              "columnCode": "cc_dutytype",
+              "columnName": "ccDutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "oneOndutytype",
+              "dataType": "string",
+              "columnCode": "one_ondutytype",
+              "columnName": "oneOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "oneOffdutytype",
+              "dataType": "string",
+              "columnCode": "one_offdutytype",
+              "columnName": "oneOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twoOndutytype",
+              "dataType": "string",
+              "columnCode": "two_ondutytype",
+              "columnName": "twoOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twoOffdutytype",
+              "dataType": "string",
+              "columnCode": "two_offdutytype",
+              "columnName": "twoOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "threeOndutytype",
+              "dataType": "string",
+              "columnCode": "three_ondutytype",
+              "columnName": "threeOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "threeOffdutytype",
+              "dataType": "string",
+              "columnCode": "three_offdutytype",
+              "columnName": "threeOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fourOndutytype",
+              "dataType": "string",
+              "columnCode": "four_ondutytype",
+              "columnName": "fourOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fourOffdutytype",
+              "dataType": "string",
+              "columnCode": "four_offdutytype",
+              "columnName": "fourOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fiveOndutytype",
+              "dataType": "string",
+              "columnCode": "five_ondutytype",
+              "columnName": "fiveOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fiveOffdutytype",
+              "dataType": "string",
+              "columnCode": "five_offdutytype",
+              "columnName": "fiveOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "sixOndutytype",
+              "dataType": "string",
+              "columnCode": "six_ondutytype",
+              "columnName": "sixOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "sixOffdutytype",
+              "dataType": "string",
+              "columnCode": "six_offdutytype",
+              "columnName": "sixOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "sevenOndutytype",
+              "dataType": "string",
+              "columnCode": "seven_ondutytype",
+              "columnName": "sevenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "sevenOffdutytype",
+              "dataType": "string",
+              "columnCode": "seven_offdutytype",
+              "columnName": "sevenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "eightOndutytype",
+              "dataType": "string",
+              "columnCode": "eight_ondutytype",
+              "columnName": "eightOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "eightOffdutytype",
+              "dataType": "string",
+              "columnCode": "eight_offdutytype",
+              "columnName": "eightOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "nightOndutytype",
+              "dataType": "string",
+              "columnCode": "night_ondutytype",
+              "columnName": "nightOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "nightOffdutytype",
+              "dataType": "string",
+              "columnCode": "night_offdutytype",
+              "columnName": "nightOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twnOndutytype",
+              "dataType": "string",
+              "columnCode": "twn_ondutytype",
+              "columnName": "twnOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twnOffdutytype",
+              "dataType": "string",
+              "columnCode": "twn_offdutytype",
+              "columnName": "twnOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "elevenOndutytype",
+              "dataType": "string",
+              "columnCode": "eleven_ondutytype",
+              "columnName": "elevenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "elevenOffdutytype",
+              "dataType": "string",
+              "columnCode": "eleven_offdutytype",
+              "columnName": "elevenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twelveOndutytype",
+              "dataType": "string",
+              "columnCode": "twelve_ondutytype",
+              "columnName": "twelveOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twelveOffdutytype",
+              "dataType": "string",
+              "columnCode": "twelve_offdutytype",
+              "columnName": "twelveOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "thirteenOndutytype",
+              "dataType": "string",
+              "columnCode": "thirteen_ondutytype",
+              "columnName": "thirteenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "thirteenOffdutytype",
+              "dataType": "string",
+              "columnCode": "thirteen_offdutytype",
+              "columnName": "thirteenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fourteenOndutytype",
+              "dataType": "string",
+              "columnCode": "fourteen_ondutytype",
+              "columnName": "fourteenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fourteenOffdutytype",
+              "dataType": "string",
+              "columnCode": "fourteen_offdutytype",
+              "columnName": "fourteenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fifteenOndutytype",
+              "dataType": "string",
+              "columnCode": "fifteen_ondutytype",
+              "columnName": "fifteenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "fifteenOffdutytype",
+              "dataType": "string",
+              "columnCode": "fifteen_offdutytype",
+              "columnName": "fifteenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "sixteenOndutytype",
+              "dataType": "string",
+              "columnCode": "sixteen_ondutytype",
+              "columnName": "sixteenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "sixteenOffdutytype",
+              "dataType": "string",
+              "columnCode": "sixteen_offdutytype",
+              "columnName": "sixteenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "seventeenOndutytype",
+              "dataType": "string",
+              "columnCode": "seventeen_ondutytype",
+              "columnName": "seventeenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "seventeenOffdutytype",
+              "dataType": "string",
+              "columnCode": "seventeen_offdutytype",
+              "columnName": "seventeenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "eighteenOndutytype",
+              "dataType": "string",
+              "columnCode": "eighteen_ondutytype",
+              "columnName": "eighteenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "eighteenOffdutytype",
+              "dataType": "string",
+              "columnCode": "eighteen_offdutytype",
+              "columnName": "eighteenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "ninteenOndutytype",
+              "dataType": "string",
+              "columnCode": "ninteen_ondutytype",
+              "columnName": "ninteenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "ninteenOffdutytype",
+              "dataType": "string",
+              "columnCode": "ninteen_offdutytype",
+              "columnName": "ninteenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyOndutytype",
+              "dataType": "string",
+              "columnCode": "twnty_ondutytype",
+              "columnName": "twntyOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyOffdutytype",
+              "dataType": "string",
+              "columnCode": "twnty_offdutytype",
+              "columnName": "twntyOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyoneOndutytype",
+              "dataType": "string",
+              "columnCode": "twntyone_ondutytype",
+              "columnName": "twntyoneOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyoneOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntyone_offdutytype",
+              "columnName": "twntyoneOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntytwoOndutytype",
+              "dataType": "string",
+              "columnCode": "twntytwo_ondutytype",
+              "columnName": "twntytwoOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntytwoOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntytwo_offdutytype",
+              "columnName": "twntytwoOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntythreeOndutytype",
+              "dataType": "string",
+              "columnCode": "twntythree_ondutytype",
+              "columnName": "twntythreeOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntythreeOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntythree_offdutytype",
+              "columnName": "twntythreeOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyfourOndutytype",
+              "dataType": "string",
+              "columnCode": "twntyfour_ondutytype",
+              "columnName": "twntyfourOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyfourOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntyfour_offdutytype",
+              "columnName": "twntyfourOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyfiveOndutytype",
+              "dataType": "string",
+              "columnCode": "twntyfive_ondutytype",
+              "columnName": "twntyfiveOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyfiveOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntyfive_offdutytype",
+              "columnName": "twntyfiveOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntysixOndutytype",
+              "dataType": "string",
+              "columnCode": "twntysix_ondutytype",
+              "columnName": "twntysixOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntysixOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntysix_offdutytype",
+              "columnName": "twntysixOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntysevenOndutytype",
+              "dataType": "string",
+              "columnCode": "twntyseven_ondutytype",
+              "columnName": "twntysevenOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntysevenOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntyseven_offdutytype",
+              "columnName": "twntysevenOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyeightOndutytype",
+              "dataType": "string",
+              "columnCode": "twntyeight_ondutytype",
+              "columnName": "twntyeightOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntyeightOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntyeight_offdutytype",
+              "columnName": "twntyeightOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntynineOndutytype",
+              "dataType": "string",
+              "columnCode": "twntynine_ondutytype",
+              "columnName": "twntynineOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "twntynineOffdutytype",
+              "dataType": "string",
+              "columnCode": "twntynine_offdutytype",
+              "columnName": "twntynineOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "thirtyOndutytype",
+              "dataType": "string",
+              "columnCode": "thirty_ondutytype",
+              "columnName": "thirtyOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "thirtyOffdutytype",
+              "dataType": "string",
+              "columnCode": "thirty_offdutytype",
+              "columnName": "thirtyOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "thirtyoneOndutytype",
+              "dataType": "string",
+              "columnCode": "thirtyone_ondutytype",
+              "columnName": "thirtyoneOndutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "thirtyoneOffdutytype",
+              "dataType": "string",
+              "columnCode": "thirtyone_offdutytype",
+              "columnName": "thirtyoneOffdutytype"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "username",
+              "dataType": "string",
+              "columnCode": "username",
+              "columnName": "username"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "unitcode",
+              "dataType": "string",
+              "columnCode": "unitCode",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "propertyName": "rmdbDatasetWriterResult",
+              "dataType": "string",
+              "columnCode": "rmdb_dataset_writer_result",
+              "columnName": "rmdbDatasetWriterResult"
+            }
+          ],
+          "typeName": "字段映射",
+          "source": "metadataQueryLHhvQcQh",
+          "type": "map",
+          "isBranch": false,
+          "processName": "字段映射",
+          "isSource": true,
+          "isSelected": false,
+          "x": 420,
+          "y": 440,
+          "id": "mapBdkTHTB4qI",
+          "text": {
+            "x": 420,
+            "y": 440,
+            "value": "字段映射"
+          },
+          "config": [
+            {
+              "isStatData": "F",
+              "expression": "oneOndutytypeDesc",
+              "unique": 0,
+              "dataType": "string",
+              "columnName": "1A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "oneOffdutytypeDesc",
+              "unique": 1,
+              "dataType": "string",
+              "columnName": "1P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twoOndutytypeDesc",
+              "unique": 2,
+              "dataType": "string",
+              "columnName": "2A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twoOffdutytypeDesc",
+              "unique": 3,
+              "dataType": "string",
+              "columnName": "2P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "threeOndutytypeDesc",
+              "unique": 4,
+              "dataType": "string",
+              "columnName": "3A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "threeOffdutytypeDesc",
+              "unique": 5,
+              "dataType": "string",
+              "columnName": "3P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourOndutytypeDesc",
+              "unique": 6,
+              "dataType": "string",
+              "columnName": "4A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourOffdutytypeDesc",
+              "unique": 7,
+              "dataType": "string",
+              "columnName": "4P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fiveOndutytypeDesc",
+              "unique": 8,
+              "dataType": "string",
+              "columnName": "5A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fiveOffdutytypeDesc",
+              "unique": 9,
+              "dataType": "string",
+              "columnName": "5P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixOndutytypeDesc",
+              "unique": 10,
+              "dataType": "string",
+              "columnName": "6A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixOffdutytypeDesc",
+              "unique": 11,
+              "dataType": "string",
+              "columnName": "6P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sevenOndutytypeDesc",
+              "unique": 12,
+              "dataType": "string",
+              "columnName": "7A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sevenOffdutytypeDesc",
+              "unique": 13,
+              "dataType": "string",
+              "columnName": "7P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eightOndutytypeDesc",
+              "unique": 14,
+              "dataType": "string",
+              "columnName": "8A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eightOffdutytypeDesc",
+              "unique": 15,
+              "dataType": "string",
+              "columnName": "8P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "nightOndutytypeDesc",
+              "unique": 16,
+              "dataType": "string",
+              "columnName": "9A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "nightOffdutytypeDesc",
+              "unique": 17,
+              "dataType": "string",
+              "columnName": "9P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twnOndutytypeDesc",
+              "unique": 18,
+              "dataType": "string",
+              "columnName": "10A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twnOffdutytypeDesc",
+              "unique": 19,
+              "dataType": "string",
+              "columnName": "10P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "elevenOndutytypeDesc",
+              "unique": 20,
+              "dataType": "string",
+              "columnName": "11A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "elevenOffdutytypeDesc",
+              "unique": 21,
+              "dataType": "string",
+              "columnName": "11P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twelveOndutytypeDesc",
+              "unique": 22,
+              "dataType": "string",
+              "columnName": "12A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twelveOffdutytypeDesc",
+              "unique": 23,
+              "dataType": "string",
+              "columnName": "12P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirteenOndutytypeDesc",
+              "unique": 24,
+              "dataType": "string",
+              "columnName": "13A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirteenOffdutytypeDesc",
+              "unique": 25,
+              "dataType": "string",
+              "columnName": "13P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourteenOndutytypeDesc",
+              "unique": 26,
+              "dataType": "string",
+              "columnName": "14A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourteenOffdutytypeDesc",
+              "unique": 27,
+              "dataType": "string",
+              "columnName": "14P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fifteenOndutytypeDesc",
+              "unique": 28,
+              "dataType": "string",
+              "columnName": "15A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fifteenOffdutytypeDesc",
+              "unique": 29,
+              "dataType": "string",
+              "columnName": "15P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixteenOndutytypeDesc",
+              "unique": 30,
+              "dataType": "string",
+              "columnName": "16A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixteenOffdutytypeDesc",
+              "unique": 31,
+              "dataType": "string",
+              "columnName": "16P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "seventeenOndutytypeDesc",
+              "unique": 32,
+              "dataType": "string",
+              "columnName": "17A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "seventeenOffdutytypeDesc",
+              "unique": 33,
+              "dataType": "string",
+              "columnName": "17P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eighteenOndutytypeDesc",
+              "unique": 34,
+              "dataType": "string",
+              "columnName": "18A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eighteenOffdutytypeDesc",
+              "unique": 35,
+              "dataType": "string",
+              "columnName": "18P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ninteenOndutytypeDesc",
+              "unique": 36,
+              "dataType": "string",
+              "columnName": "19A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ninteenOffdutytypeDesc",
+              "unique": 37,
+              "dataType": "string",
+              "columnName": "19P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyOndutytypeDesc",
+              "unique": 38,
+              "dataType": "string",
+              "columnName": "20A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyOffdutytypeDesc",
+              "unique": 39,
+              "dataType": "string",
+              "columnName": "20P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyoneOndutytypeDesc",
+              "unique": 40,
+              "dataType": "string",
+              "columnName": "21A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyoneOffdutytypeDesc",
+              "unique": 41,
+              "dataType": "string",
+              "columnName": "21P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntytwoOndutytypeDesc",
+              "unique": 42,
+              "dataType": "string",
+              "columnName": "22A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntytwoOffdutytypeDesc",
+              "unique": 43,
+              "dataType": "string",
+              "columnName": "22P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntythreeOndutytypeDesc",
+              "unique": 44,
+              "dataType": "string",
+              "columnName": "23A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntythreeOffdutytypeDesc",
+              "unique": 45,
+              "dataType": "string",
+              "columnName": "23P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfourOndutytypeDesc",
+              "unique": 46,
+              "dataType": "string",
+              "columnName": "24A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfourOffdutytypeDesc",
+              "unique": 47,
+              "dataType": "string",
+              "columnName": "24P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfiveOndutytypeDesc",
+              "unique": 48,
+              "dataType": "string",
+              "columnName": "25A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfiveOffdutytypeDesc",
+              "unique": 49,
+              "dataType": "string",
+              "columnName": "25P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysixOndutytypeDesc",
+              "unique": 50,
+              "dataType": "string",
+              "columnName": "26A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysixOffdutytypeDescDesc",
+              "unique": 51,
+              "dataType": "string",
+              "columnName": "26P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysevenOndutytypeDesc",
+              "unique": 52,
+              "dataType": "string",
+              "columnName": "27A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysevenOffdutytypeDesc",
+              "unique": 53,
+              "dataType": "string",
+              "columnName": "27P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyeightOndutytypeDesc",
+              "unique": 54,
+              "dataType": "string",
+              "columnName": "28A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyeightOffdutytypeDesc",
+              "unique": 55,
+              "dataType": "string",
+              "columnName": "28P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntynineOndutytypeDesc",
+              "unique": 56,
+              "dataType": "string",
+              "columnName": "29A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntynineOffdutytypeDesc",
+              "unique": 57,
+              "dataType": "string",
+              "columnName": "29P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyOndutytypeDesc",
+              "unique": 58,
+              "dataType": "string",
+              "columnName": "30A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyOffdutytypeDesc",
+              "unique": 59,
+              "dataType": "string",
+              "columnName": "30P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyoneOndutytypeDesc",
+              "unique": 60,
+              "dataType": "string",
+              "columnName": "31A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyoneOffdutytypeDesc",
+              "unique": 61,
+              "dataType": "string",
+              "columnName": "31P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "month",
+              "unique": 62,
+              "dataType": "string",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "expression": "usercode",
+              "unique": 63,
+              "dataType": "string",
+              "columnName": "usercode"
+            },
+            {
+              "isStatData": "F",
+              "expression": "latetimes",
+              "unique": 64,
+              "dataType": "string",
+              "columnName": "latetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "overtimes",
+              "unique": 65,
+              "dataType": "string",
+              "columnName": "overtimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "leavetimes",
+              "unique": 66,
+              "dataType": "string",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "recorddate",
+              "unique": 67,
+              "dataType": "string",
+              "columnName": "recorddate"
+            },
+            {
+              "isStatData": "F",
+              "expression": "outduration",
+              "unique": 68,
+              "dataType": "string",
+              "columnName": "outduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "absencetimes",
+              "unique": 69,
+              "dataType": "string",
+              "columnName": "absencetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "restduration",
+              "unique": 70,
+              "dataType": "string",
+              "columnName": "restduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "leaveduration",
+              "unique": 71,
+              "dataType": "string",
+              "columnName": "leaveduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "workdays",
+              "unique": 72,
+              "dataType": "string",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "planWorkdays",
+              "unique": 73,
+              "dataType": "string",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "lateduration",
+              "unique": 74,
+              "dataType": "string",
+              "columnName": "lateduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "bdutytype",
+              "unique": 75,
+              "dataType": "string",
+              "columnName": "bdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "zbDutytype",
+              "unique": 76,
+              "dataType": "string",
+              "columnName": "zbDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ndutytype",
+              "unique": 77,
+              "dataType": "string",
+              "columnName": "ndutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "hdutytype",
+              "unique": 78,
+              "dataType": "string",
+              "columnName": "hdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "cdutytype",
+              "unique": 79,
+              "dataType": "string",
+              "columnName": "cdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "pdutytype",
+              "unique": 80,
+              "dataType": "string",
+              "columnName": "pdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "gdutytype",
+              "unique": 81,
+              "dataType": "string",
+              "columnName": "gdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "prDutytype",
+              "unique": 82,
+              "dataType": "string",
+              "columnName": "prDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "bdDutytype",
+              "unique": 83,
+              "dataType": "string",
+              "columnName": "bdDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "tqDutytype",
+              "unique": 84,
+              "dataType": "string",
+              "columnName": "tqDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ccDutytype",
+              "unique": 85,
+              "dataType": "string",
+              "columnName": "ccDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "unitcode",
+              "unique": 86,
+              "dataType": "string",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "expression": "workdays",
+              "unique": 87,
+              "dataType": "string",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "planWorkdays",
+              "unique": 88,
+              "dataType": "string",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "absencetimes",
+              "unique": 89,
+              "dataType": "string",
+              "columnName": "absencetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "userno",
+              "dataType": "string",
+              "columnName": "userno"
+            }
+          ],
+          "properties": {
+            "configJSON": "{ \"config\": [{\"columnName\":\"1A\",\"expression\":\"oneOndutytypeDesc\"},{\"columnName\":\"1P\",\"expression\":\"oneOffdutytypeDesc\"},{\"columnName\":\"2A\",\"expression\":\"twoOndutytypeDesc\"},{\"columnName\":\"2P\",\"expression\":\"twoOffdutytypeDesc\"},{\"columnName\":\"3A\",\"expression\":\"threeOndutytypeDesc\"},{\"columnName\":\"3P\",\"expression\":\"threeOffdutytypeDesc\"},{\"columnName\":\"4A\",\"expression\":\"fourOndutytypeDesc\"},{\"columnName\":\"4P\",\"expression\":\"fourOffdutytypeDesc\"},{\"columnName\":\"5A\",\"expression\":\"fiveOndutytypeDesc\"},{\"columnName\":\"5P\",\"expression\":\"fiveOffdutytypeDesc\"},\n{\"columnName\":\"6A\",\"expression\":\"sixOndutytypeDesc\"},{\"columnName\":\"6P\",\"expression\":\"sixOffdutytypeDesc\"},{\"columnName\":\"7A\",\"expression\":\"sevenOndutytypeDesc\"},{\"columnName\":\"7P\",\"expression\":\"sevenOffdutytypeDesc\"},{\"columnName\":\"8A\",\"expression\":\"eightOndutytypeDesc\"},{\"columnName\":\"8P\",\"expression\":\"eightOffdutytypeDesc\"},{\"columnName\":\"9A\",\"expression\":\"nightOndutytypeDesc\"},{\"columnName\":\"9P\",\"expression\":\"nightOffdutytypeDesc\"},{\"columnName\":\"10A\",\"expression\":\"twnOndutytypeDesc\"},{\"columnName\":\"10P\",\"expression\":\"twnOffdutytypeDesc\"},{\"columnName\":\"11A\",\"expression\":\"elevenOndutytypeDesc\"},{\"columnName\":\"11P\",\"expression\":\"elevenOffdutytypeDesc\"},{\"columnName\":\"12A\",\"expression\":\"twelveOndutytypeDesc\"},{\"columnName\":\"12P\",\"expression\":\"twelveOffdutytypeDesc\"},{\"columnName\":\"13A\",\"expression\":\"thirteenOndutytypeDesc\"},{\"columnName\":\"13P\",\"expression\":\"thirteenOffdutytypeDesc\"},{\"columnName\":\"14A\",\"expression\":\"fourteenOndutytypeDesc\"},{\"columnName\":\"14P\",\"expression\":\"fourteenOffdutytypeDesc\"},{\"columnName\":\"15A\",\"expression\":\"fifteenOndutytypeDesc\"},{\"columnName\":\"15P\",\"expression\":\"fifteenOffdutytypeDesc\"},{\"columnName\":\"16A\",\"expression\":\"sixteenOndutytypeDesc\"},{\"columnName\":\"16P\",\"expression\":\"sixteenOffdutytypeDesc\"},{\"columnName\":\"17A\",\"expression\":\"seventeenOndutytypeDesc\"},{\"columnName\":\"17P\",\"expression\":\"seventeenOffdutytypeDesc\"},{\"columnName\":\"18A\",\"expression\":\"eighteenOndutytypeDesc\"},{\"columnName\":\"18P\",\"expression\":\"eighteenOffdutytypeDesc\"},{\"columnName\":\"19A\",\"expression\":\"ninteenOndutytypeDesc\"},{\"columnName\":\"19P\",\"expression\":\"ninteenOffdutytypeDesc\"},{\"columnName\":\"20A\",\"expression\":\"twntyOndutytypeDesc\"},{\"columnName\":\"20P\",\"expression\":\"twntyOffdutytypeDesc\"},{\"columnName\":\"21A\",\"expression\":\"twntyoneOndutytypeDesc\"},{\"columnName\":\"21P\",\"expression\":\"twntyoneOffdutytypeDesc\"},{\"columnName\":\"22A\",\"expression\":\"twntytwoOndutytypeDesc\"},{\"columnName\":\"22P\",\"expression\":\"twntytwoOffdutytypeDesc\"},{\"columnName\":\"23A\",\"expression\":\"twntythreeOndutytypeDesc\"},{\"columnName\":\"23P\",\"expression\":\"twntythreeOffdutytypeDesc\"},{\"columnName\":\"24A\",\"expression\":\"twntyfourOndutytypeDesc\"},{\"columnName\":\"24P\",\"expression\":\"twntyfourOffdutytypeDesc\"},{\"columnName\":\"25A\",\"expression\":\"twntyfiveOndutytypeDesc\"},{\"columnName\":\"25P\",\"expression\":\"twntyfiveOffdutytypeDesc\"},{\"columnName\":\"26A\",\"expression\":\"twntysixOndutytypeDesc\"},{\"columnName\":\"26P\",\"expression\":\"twntysixOffdutytypeDescDesc\"},{\"columnName\":\"27A\",\"expression\":\"twntysevenOndutytypeDesc\"},{\"columnName\":\"27P\",\"expression\":\"twntysevenOffdutytypeDesc\"},{\"columnName\":\"28A\",\"expression\":\"twntyeightOndutytypeDesc\"},{\"columnName\":\"28P\",\"expression\":\"twntyeightOffdutytypeDesc\"},{\"columnName\":\"29A\",\"expression\":\"twntynineOndutytypeDesc\"},{\"columnName\":\"29P\",\"expression\":\"twntynineOffdutytypeDesc\"},{\"columnName\":\"30A\",\"expression\":\"thirtyOndutytypeDesc\"},{\"columnName\":\"30P\",\"expression\":\"thirtyOffdutytypeDesc\"},{\"columnName\":\"31A\",\"expression\":\"thirtyoneOndutytypeDesc\"},{\"columnName\":\"31P\",\"expression\":\"thirtyoneOffdutytypeDesc\"},{\"columnName\":\"month\",\"expression\":\"month\"},{\"columnName\":\"usercode\",\"expression\":\"usercode\"},{\"columnName\":\"latetimes\",\"expression\":\"latetimes\"},{\"columnName\":\"overtimes\",\"expression\":\"overtimes\"},{\"columnName\":\"leavetimes\",\"expression\":\"leavetimes\"},{\"columnName\":\"recorddate\",\"expression\":\"recorddate\"},{\"columnName\":\"outduration\",\"expression\":\"outduration\"},{\"columnName\":\"absencetimes\",\"expression\":\"absencetimes\"},{\"columnName\":\"restduration\",\"expression\":\"restduration\"},{\"columnName\":\"leaveduration\",\"expression\":\"leaveduration\"},{\"columnName\":\"workdays\",\"expression\":\"workdays\"},{\"columnName\":\"planWorkdays\",\"expression\":\"planWorkdays\"},{\"columnName\":\"lateduration\",\"expression\":\"lateduration\"},{\"columnName\":\"bdutytype\",\"expression\":\"bdutytype\"},{\"columnName\":\"zbDutytype\",\"expression\":\"zbDutytype\"},{\"columnName\":\"ndutytype\",\"expression\":\"ndutytype\"},{\"columnName\":\"hdutytype\",\"expression\":\"hdutytype\"},{\"columnName\":\"cdutytype\",\"expression\":\"cdutytype\"},{\"columnName\":\"pdutytype\",\"expression\":\"pdutytype\"},{\"columnName\":\"gdutytype\",\"expression\":\"gdutytype\"},{\"columnName\":\"prDutytype\",\"expression\":\"prDutytype\"},{\"columnName\":\"bdDutytype\",\"expression\":\"bdDutytype\"},{\"columnName\":\"tqDutytype\",\"expression\":\"tqDutytype\"},{\"columnName\":\"ccDutytype\",\"expression\":\"ccDutytype\"},{\"columnName\":\"unitcode\",\"expression\":\"unitcode\"},{\"columnName\":\"workdays\",\"expression\":\"workdays\"},{\"columnName\":\"planWorkdays\",\"expression\":\"planWorkdays\"},{\"columnName\":\"absencetimes\",\"expression\":\"absencetimes\"}] }",
+            "Sourcefield": [
+              {
+                "isStatData": "F",
+                "propertyName": "month",
+                "dataType": "string",
+                "columnCode": "month",
+                "columnName": "month"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "usercode",
+                "dataType": "string",
+                "columnCode": "usercode",
+                "columnName": "usercode"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "overtimelength",
+                "dataType": "string",
+                "columnCode": "overtimelength",
+                "columnName": "overtimelength"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "leavetduration",
+                "dataType": "string",
+                "columnCode": "leavetduration",
+                "columnName": "leavetduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "latetimes",
+                "dataType": "string",
+                "columnCode": "latetimes",
+                "columnName": "latetimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "overtimes",
+                "dataType": "string",
+                "columnCode": "overtimes",
+                "columnName": "overtimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "leavetimes",
+                "dataType": "string",
+                "columnCode": "leavetimes",
+                "columnName": "leavetimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "recorddate",
+                "dataType": "string",
+                "columnCode": "recorddate",
+                "columnName": "recorddate"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "outduration",
+                "dataType": "string",
+                "columnCode": "outduration",
+                "columnName": "outduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "absencetimes",
+                "dataType": "string",
+                "columnCode": "absencetimes",
+                "columnName": "absencetimes"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "restduration",
+                "dataType": "string",
+                "columnCode": "restduration",
+                "columnName": "restduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "leaveduration",
+                "dataType": "string",
+                "columnCode": "leaveduration",
+                "columnName": "leaveduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "workdays",
+                "dataType": "string",
+                "columnCode": "workdays",
+                "columnName": "workdays"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "planWorkdays",
+                "dataType": "string",
+                "columnCode": "plan_workdays",
+                "columnName": "planWorkdays"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "lateduration",
+                "dataType": "string",
+                "columnCode": "lateduration",
+                "columnName": "lateduration"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "bdutytype",
+                "dataType": "string",
+                "columnCode": "bdutytype",
+                "columnName": "bdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "zbDutytype",
+                "dataType": "string",
+                "columnCode": "zb_dutytype",
+                "columnName": "zbDutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "ndutytype",
+                "dataType": "string",
+                "columnCode": "ndutytype",
+                "columnName": "ndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "hdutytype",
+                "dataType": "string",
+                "columnCode": "hdutytype",
+                "columnName": "hdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "cdutytype",
+                "dataType": "string",
+                "columnCode": "cdutytype",
+                "columnName": "cdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "pdutytype",
+                "dataType": "string",
+                "columnCode": "pdutytype",
+                "columnName": "pdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "gdutytype",
+                "dataType": "string",
+                "columnCode": "gdutytype",
+                "columnName": "gdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "prDutytype",
+                "dataType": "string",
+                "columnCode": "pr_dutytype",
+                "columnName": "prDutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "bdDutytype",
+                "dataType": "string",
+                "columnCode": "bd_dutytype",
+                "columnName": "bdDutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "tqDutytype",
+                "dataType": "string",
+                "columnCode": "tq_dutytype",
+                "columnName": "tqDutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "ccDutytype",
+                "dataType": "string",
+                "columnCode": "cc_dutytype",
+                "columnName": "ccDutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "oneOndutytype",
+                "dataType": "string",
+                "columnCode": "one_ondutytype",
+                "columnName": "oneOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "oneOffdutytype",
+                "dataType": "string",
+                "columnCode": "one_offdutytype",
+                "columnName": "oneOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twoOndutytype",
+                "dataType": "string",
+                "columnCode": "two_ondutytype",
+                "columnName": "twoOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twoOffdutytype",
+                "dataType": "string",
+                "columnCode": "two_offdutytype",
+                "columnName": "twoOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "threeOndutytype",
+                "dataType": "string",
+                "columnCode": "three_ondutytype",
+                "columnName": "threeOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "threeOffdutytype",
+                "dataType": "string",
+                "columnCode": "three_offdutytype",
+                "columnName": "threeOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fourOndutytype",
+                "dataType": "string",
+                "columnCode": "four_ondutytype",
+                "columnName": "fourOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fourOffdutytype",
+                "dataType": "string",
+                "columnCode": "four_offdutytype",
+                "columnName": "fourOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fiveOndutytype",
+                "dataType": "string",
+                "columnCode": "five_ondutytype",
+                "columnName": "fiveOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fiveOffdutytype",
+                "dataType": "string",
+                "columnCode": "five_offdutytype",
+                "columnName": "fiveOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "sixOndutytype",
+                "dataType": "string",
+                "columnCode": "six_ondutytype",
+                "columnName": "sixOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "sixOffdutytype",
+                "dataType": "string",
+                "columnCode": "six_offdutytype",
+                "columnName": "sixOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "sevenOndutytype",
+                "dataType": "string",
+                "columnCode": "seven_ondutytype",
+                "columnName": "sevenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "sevenOffdutytype",
+                "dataType": "string",
+                "columnCode": "seven_offdutytype",
+                "columnName": "sevenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "eightOndutytype",
+                "dataType": "string",
+                "columnCode": "eight_ondutytype",
+                "columnName": "eightOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "eightOffdutytype",
+                "dataType": "string",
+                "columnCode": "eight_offdutytype",
+                "columnName": "eightOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "nightOndutytype",
+                "dataType": "string",
+                "columnCode": "night_ondutytype",
+                "columnName": "nightOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "nightOffdutytype",
+                "dataType": "string",
+                "columnCode": "night_offdutytype",
+                "columnName": "nightOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twnOndutytype",
+                "dataType": "string",
+                "columnCode": "twn_ondutytype",
+                "columnName": "twnOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twnOffdutytype",
+                "dataType": "string",
+                "columnCode": "twn_offdutytype",
+                "columnName": "twnOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "elevenOndutytype",
+                "dataType": "string",
+                "columnCode": "eleven_ondutytype",
+                "columnName": "elevenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "elevenOffdutytype",
+                "dataType": "string",
+                "columnCode": "eleven_offdutytype",
+                "columnName": "elevenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twelveOndutytype",
+                "dataType": "string",
+                "columnCode": "twelve_ondutytype",
+                "columnName": "twelveOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twelveOffdutytype",
+                "dataType": "string",
+                "columnCode": "twelve_offdutytype",
+                "columnName": "twelveOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "thirteenOndutytype",
+                "dataType": "string",
+                "columnCode": "thirteen_ondutytype",
+                "columnName": "thirteenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "thirteenOffdutytype",
+                "dataType": "string",
+                "columnCode": "thirteen_offdutytype",
+                "columnName": "thirteenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fourteenOndutytype",
+                "dataType": "string",
+                "columnCode": "fourteen_ondutytype",
+                "columnName": "fourteenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fourteenOffdutytype",
+                "dataType": "string",
+                "columnCode": "fourteen_offdutytype",
+                "columnName": "fourteenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fifteenOndutytype",
+                "dataType": "string",
+                "columnCode": "fifteen_ondutytype",
+                "columnName": "fifteenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "fifteenOffdutytype",
+                "dataType": "string",
+                "columnCode": "fifteen_offdutytype",
+                "columnName": "fifteenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "sixteenOndutytype",
+                "dataType": "string",
+                "columnCode": "sixteen_ondutytype",
+                "columnName": "sixteenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "sixteenOffdutytype",
+                "dataType": "string",
+                "columnCode": "sixteen_offdutytype",
+                "columnName": "sixteenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "seventeenOndutytype",
+                "dataType": "string",
+                "columnCode": "seventeen_ondutytype",
+                "columnName": "seventeenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "seventeenOffdutytype",
+                "dataType": "string",
+                "columnCode": "seventeen_offdutytype",
+                "columnName": "seventeenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "eighteenOndutytype",
+                "dataType": "string",
+                "columnCode": "eighteen_ondutytype",
+                "columnName": "eighteenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "eighteenOffdutytype",
+                "dataType": "string",
+                "columnCode": "eighteen_offdutytype",
+                "columnName": "eighteenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "ninteenOndutytype",
+                "dataType": "string",
+                "columnCode": "ninteen_ondutytype",
+                "columnName": "ninteenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "ninteenOffdutytype",
+                "dataType": "string",
+                "columnCode": "ninteen_offdutytype",
+                "columnName": "ninteenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyOndutytype",
+                "dataType": "string",
+                "columnCode": "twnty_ondutytype",
+                "columnName": "twntyOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyOffdutytype",
+                "dataType": "string",
+                "columnCode": "twnty_offdutytype",
+                "columnName": "twntyOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyoneOndutytype",
+                "dataType": "string",
+                "columnCode": "twntyone_ondutytype",
+                "columnName": "twntyoneOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyoneOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntyone_offdutytype",
+                "columnName": "twntyoneOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntytwoOndutytype",
+                "dataType": "string",
+                "columnCode": "twntytwo_ondutytype",
+                "columnName": "twntytwoOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntytwoOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntytwo_offdutytype",
+                "columnName": "twntytwoOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntythreeOndutytype",
+                "dataType": "string",
+                "columnCode": "twntythree_ondutytype",
+                "columnName": "twntythreeOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntythreeOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntythree_offdutytype",
+                "columnName": "twntythreeOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyfourOndutytype",
+                "dataType": "string",
+                "columnCode": "twntyfour_ondutytype",
+                "columnName": "twntyfourOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyfourOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntyfour_offdutytype",
+                "columnName": "twntyfourOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyfiveOndutytype",
+                "dataType": "string",
+                "columnCode": "twntyfive_ondutytype",
+                "columnName": "twntyfiveOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyfiveOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntyfive_offdutytype",
+                "columnName": "twntyfiveOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntysixOndutytype",
+                "dataType": "string",
+                "columnCode": "twntysix_ondutytype",
+                "columnName": "twntysixOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntysixOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntysix_offdutytype",
+                "columnName": "twntysixOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntysevenOndutytype",
+                "dataType": "string",
+                "columnCode": "twntyseven_ondutytype",
+                "columnName": "twntysevenOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntysevenOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntyseven_offdutytype",
+                "columnName": "twntysevenOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyeightOndutytype",
+                "dataType": "string",
+                "columnCode": "twntyeight_ondutytype",
+                "columnName": "twntyeightOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntyeightOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntyeight_offdutytype",
+                "columnName": "twntyeightOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntynineOndutytype",
+                "dataType": "string",
+                "columnCode": "twntynine_ondutytype",
+                "columnName": "twntynineOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "twntynineOffdutytype",
+                "dataType": "string",
+                "columnCode": "twntynine_offdutytype",
+                "columnName": "twntynineOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "thirtyOndutytype",
+                "dataType": "string",
+                "columnCode": "thirty_ondutytype",
+                "columnName": "thirtyOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "thirtyOffdutytype",
+                "dataType": "string",
+                "columnCode": "thirty_offdutytype",
+                "columnName": "thirtyOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "thirtyoneOndutytype",
+                "dataType": "string",
+                "columnCode": "thirtyone_ondutytype",
+                "columnName": "thirtyoneOndutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "thirtyoneOffdutytype",
+                "dataType": "string",
+                "columnCode": "thirtyone_offdutytype",
+                "columnName": "thirtyoneOffdutytype"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "username",
+                "dataType": "string",
+                "columnCode": "username",
+                "columnName": "username"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "unitcode",
+                "dataType": "string",
+                "columnCode": "unitCode",
+                "columnName": "unitcode"
+              },
+              {
+                "isStatData": "F",
+                "propertyName": "rmdbDatasetWriterResult",
+                "dataType": "string",
+                "columnCode": "rmdb_dataset_writer_result",
+                "columnName": "rmdbDatasetWriterResult"
+              }
+            ],
+            "processName": "字段映射",
+            "typeName": "字段映射",
+            "isSource": true,
+            "isSelected": false,
+            "id": "mapBdkTHTB4qI",
+            "source": "metadatamXRK7q7z1R",
+            "type": "map",
+            "config": [
+              {
+                "isStatData": "F",
+                "expression": "oneOndutytypeDesc",
+                "unique": 0,
+                "dataType": "string",
+                "columnName": "1A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "oneOffdutytypeDesc",
+                "unique": 1,
+                "dataType": "string",
+                "columnName": "1P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twoOndutytypeDesc",
+                "unique": 2,
+                "dataType": "string",
+                "columnName": "2A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twoOffdutytypeDesc",
+                "unique": 3,
+                "dataType": "string",
+                "columnName": "2P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "threeOndutytypeDesc",
+                "unique": 4,
+                "dataType": "string",
+                "columnName": "3A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "threeOffdutytypeDesc",
+                "unique": 5,
+                "dataType": "string",
+                "columnName": "3P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fourOndutytypeDesc",
+                "unique": 6,
+                "dataType": "string",
+                "columnName": "4A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fourOffdutytypeDesc",
+                "unique": 7,
+                "dataType": "string",
+                "columnName": "4P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fiveOndutytypeDesc",
+                "unique": 8,
+                "dataType": "string",
+                "columnName": "5A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fiveOffdutytypeDesc",
+                "unique": 9,
+                "dataType": "string",
+                "columnName": "5P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "sixOndutytypeDesc",
+                "unique": 10,
+                "dataType": "string",
+                "columnName": "6A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "sixOffdutytypeDesc",
+                "unique": 11,
+                "dataType": "string",
+                "columnName": "6P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "sevenOndutytypeDesc",
+                "unique": 12,
+                "dataType": "string",
+                "columnName": "7A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "sevenOffdutytypeDesc",
+                "unique": 13,
+                "dataType": "string",
+                "columnName": "7P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "eightOndutytypeDesc",
+                "unique": 14,
+                "dataType": "string",
+                "columnName": "8A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "eightOffdutytypeDesc",
+                "unique": 15,
+                "dataType": "string",
+                "columnName": "8P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "nightOndutytypeDesc",
+                "unique": 16,
+                "dataType": "string",
+                "columnName": "9A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "nightOffdutytypeDesc",
+                "unique": 17,
+                "dataType": "string",
+                "columnName": "9P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twnOndutytypeDesc",
+                "unique": 18,
+                "dataType": "string",
+                "columnName": "10A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twnOffdutytypeDesc",
+                "unique": 19,
+                "dataType": "string",
+                "columnName": "10P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "elevenOndutytypeDesc",
+                "unique": 20,
+                "dataType": "string",
+                "columnName": "11A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "elevenOffdutytypeDesc",
+                "unique": 21,
+                "dataType": "string",
+                "columnName": "11P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twelveOndutytypeDesc",
+                "unique": 22,
+                "dataType": "string",
+                "columnName": "12A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twelveOffdutytypeDesc",
+                "unique": 23,
+                "dataType": "string",
+                "columnName": "12P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "thirteenOndutytypeDesc",
+                "unique": 24,
+                "dataType": "string",
+                "columnName": "13A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "thirteenOffdutytypeDesc",
+                "unique": 25,
+                "dataType": "string",
+                "columnName": "13P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fourteenOndutytypeDesc",
+                "unique": 26,
+                "dataType": "string",
+                "columnName": "14A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fourteenOffdutytypeDesc",
+                "unique": 27,
+                "dataType": "string",
+                "columnName": "14P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fifteenOndutytypeDesc",
+                "unique": 28,
+                "dataType": "string",
+                "columnName": "15A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "fifteenOffdutytypeDesc",
+                "unique": 29,
+                "dataType": "string",
+                "columnName": "15P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "sixteenOndutytypeDesc",
+                "unique": 30,
+                "dataType": "string",
+                "columnName": "16A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "sixteenOffdutytypeDesc",
+                "unique": 31,
+                "dataType": "string",
+                "columnName": "16P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "seventeenOndutytypeDesc",
+                "unique": 32,
+                "dataType": "string",
+                "columnName": "17A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "seventeenOffdutytypeDesc",
+                "unique": 33,
+                "dataType": "string",
+                "columnName": "17P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "eighteenOndutytypeDesc",
+                "unique": 34,
+                "dataType": "string",
+                "columnName": "18A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "eighteenOffdutytypeDesc",
+                "unique": 35,
+                "dataType": "string",
+                "columnName": "18P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "ninteenOndutytypeDesc",
+                "unique": 36,
+                "dataType": "string",
+                "columnName": "19A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "ninteenOffdutytypeDesc",
+                "unique": 37,
+                "dataType": "string",
+                "columnName": "19P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyOndutytypeDesc",
+                "unique": 38,
+                "dataType": "string",
+                "columnName": "20A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyOffdutytypeDesc",
+                "unique": 39,
+                "dataType": "string",
+                "columnName": "20P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyoneOndutytypeDesc",
+                "unique": 40,
+                "dataType": "string",
+                "columnName": "21A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyoneOffdutytypeDesc",
+                "unique": 41,
+                "dataType": "string",
+                "columnName": "21P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntytwoOndutytypeDesc",
+                "unique": 42,
+                "dataType": "string",
+                "columnName": "22A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntytwoOffdutytypeDesc",
+                "unique": 43,
+                "dataType": "string",
+                "columnName": "22P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntythreeOndutytypeDesc",
+                "unique": 44,
+                "dataType": "string",
+                "columnName": "23A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntythreeOffdutytypeDesc",
+                "unique": 45,
+                "dataType": "string",
+                "columnName": "23P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyfourOndutytypeDesc",
+                "unique": 46,
+                "dataType": "string",
+                "columnName": "24A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyfourOffdutytypeDesc",
+                "unique": 47,
+                "dataType": "string",
+                "columnName": "24P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyfiveOndutytypeDesc",
+                "unique": 48,
+                "dataType": "string",
+                "columnName": "25A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyfiveOffdutytypeDesc",
+                "unique": 49,
+                "dataType": "string",
+                "columnName": "25P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntysixOndutytypeDesc",
+                "unique": 50,
+                "dataType": "string",
+                "columnName": "26A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntysixOffdutytypeDescDesc",
+                "unique": 51,
+                "dataType": "string",
+                "columnName": "26P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntysevenOndutytypeDesc",
+                "unique": 52,
+                "dataType": "string",
+                "columnName": "27A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntysevenOffdutytypeDesc",
+                "unique": 53,
+                "dataType": "string",
+                "columnName": "27P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyeightOndutytypeDesc",
+                "unique": 54,
+                "dataType": "string",
+                "columnName": "28A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntyeightOffdutytypeDesc",
+                "unique": 55,
+                "dataType": "string",
+                "columnName": "28P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntynineOndutytypeDesc",
+                "unique": 56,
+                "dataType": "string",
+                "columnName": "29A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "twntynineOffdutytypeDesc",
+                "unique": 57,
+                "dataType": "string",
+                "columnName": "29P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "thirtyOndutytypeDesc",
+                "unique": 58,
+                "dataType": "string",
+                "columnName": "30A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "thirtyOffdutytypeDesc",
+                "unique": 59,
+                "dataType": "string",
+                "columnName": "30P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "thirtyoneOndutytypeDesc",
+                "unique": 60,
+                "dataType": "string",
+                "columnName": "31A"
+              },
+              {
+                "isStatData": "F",
+                "expression": "thirtyoneOffdutytypeDesc",
+                "unique": 61,
+                "dataType": "string",
+                "columnName": "31P"
+              },
+              {
+                "isStatData": "F",
+                "expression": "month",
+                "unique": 62,
+                "dataType": "string",
+                "columnName": "month"
+              },
+              {
+                "isStatData": "F",
+                "expression": "usercode",
+                "unique": 63,
+                "dataType": "string",
+                "columnName": "usercode"
+              },
+              {
+                "isStatData": "F",
+                "expression": "latetimes",
+                "unique": 64,
+                "dataType": "string",
+                "columnName": "latetimes"
+              },
+              {
+                "isStatData": "F",
+                "expression": "overtimes",
+                "unique": 65,
+                "dataType": "string",
+                "columnName": "overtimes"
+              },
+              {
+                "isStatData": "F",
+                "expression": "leavetimes",
+                "unique": 66,
+                "dataType": "string",
+                "columnName": "leavetimes"
+              },
+              {
+                "isStatData": "F",
+                "expression": "recorddate",
+                "unique": 67,
+                "dataType": "string",
+                "columnName": "recorddate"
+              },
+              {
+                "isStatData": "F",
+                "expression": "outduration",
+                "unique": 68,
+                "dataType": "string",
+                "columnName": "outduration"
+              },
+              {
+                "isStatData": "F",
+                "expression": "absencetimes",
+                "unique": 69,
+                "dataType": "string",
+                "columnName": "absencetimes"
+              },
+              {
+                "isStatData": "F",
+                "expression": "restduration",
+                "unique": 70,
+                "dataType": "string",
+                "columnName": "restduration"
+              },
+              {
+                "isStatData": "F",
+                "expression": "leaveduration",
+                "unique": 71,
+                "dataType": "string",
+                "columnName": "leaveduration"
+              },
+              {
+                "isStatData": "F",
+                "expression": "workdays",
+                "unique": 72,
+                "dataType": "string",
+                "columnName": "workdays"
+              },
+              {
+                "isStatData": "F",
+                "expression": "planWorkdays",
+                "unique": 73,
+                "dataType": "string",
+                "columnName": "planWorkdays"
+              },
+              {
+                "isStatData": "F",
+                "expression": "lateduration",
+                "unique": 74,
+                "dataType": "string",
+                "columnName": "lateduration"
+              },
+              {
+                "isStatData": "F",
+                "expression": "bdutytype",
+                "unique": 75,
+                "dataType": "string",
+                "columnName": "bdutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "zbDutytype",
+                "unique": 76,
+                "dataType": "string",
+                "columnName": "zbDutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "ndutytype",
+                "unique": 77,
+                "dataType": "string",
+                "columnName": "ndutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "hdutytype",
+                "unique": 78,
+                "dataType": "string",
+                "columnName": "hdutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "cdutytype",
+                "unique": 79,
+                "dataType": "string",
+                "columnName": "cdutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "pdutytype",
+                "unique": 80,
+                "dataType": "string",
+                "columnName": "pdutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "gdutytype",
+                "unique": 81,
+                "dataType": "string",
+                "columnName": "gdutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "prDutytype",
+                "unique": 82,
+                "dataType": "string",
+                "columnName": "prDutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "bdDutytype",
+                "unique": 83,
+                "dataType": "string",
+                "columnName": "bdDutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "tqDutytype",
+                "unique": 84,
+                "dataType": "string",
+                "columnName": "tqDutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "ccDutytype",
+                "unique": 85,
+                "dataType": "string",
+                "columnName": "ccDutytype"
+              },
+              {
+                "isStatData": "F",
+                "expression": "unitcode",
+                "unique": 86,
+                "dataType": "string",
+                "columnName": "unitcode"
+              },
+              {
+                "isStatData": "F",
+                "expression": "workdays",
+                "unique": 87,
+                "dataType": "string",
+                "columnName": "workdays"
+              },
+              {
+                "isStatData": "F",
+                "expression": "planWorkdays",
+                "unique": 88,
+                "dataType": "string",
+                "columnName": "planWorkdays"
+              },
+              {
+                "isStatData": "F",
+                "expression": "absencetimes",
+                "unique": 89,
+                "dataType": "string",
+                "columnName": "absencetimes"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "x": 420,
+        "y": 640,
+        "id": "appendnkRW3z9pOK",
+        "text": {
+          "x": 420,
+          "y": 640,
+          "value": "添加派生字段"
+        },
+        "type": "append",
+        "properties": {
+          "isBranch": false,
+          "Sourcefield": [
+            {
+              "isStatData": "F",
+              "expression": "oneOndutytypeDesc",
+              "unique": 0,
+              "dataType": "string",
+              "columnName": "1A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "oneOffdutytypeDesc",
+              "unique": 1,
+              "dataType": "string",
+              "columnName": "1P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twoOndutytypeDesc",
+              "unique": 2,
+              "dataType": "string",
+              "columnName": "2A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twoOffdutytypeDesc",
+              "unique": 3,
+              "dataType": "string",
+              "columnName": "2P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "threeOndutytypeDesc",
+              "unique": 4,
+              "dataType": "string",
+              "columnName": "3A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "threeOffdutytypeDesc",
+              "unique": 5,
+              "dataType": "string",
+              "columnName": "3P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourOndutytypeDesc",
+              "unique": 6,
+              "dataType": "string",
+              "columnName": "4A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourOffdutytypeDesc",
+              "unique": 7,
+              "dataType": "string",
+              "columnName": "4P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fiveOndutytypeDesc",
+              "unique": 8,
+              "dataType": "string",
+              "columnName": "5A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fiveOffdutytypeDesc",
+              "unique": 9,
+              "dataType": "string",
+              "columnName": "5P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixOndutytypeDesc",
+              "unique": 10,
+              "dataType": "string",
+              "columnName": "6A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixOffdutytypeDesc",
+              "unique": 11,
+              "dataType": "string",
+              "columnName": "6P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sevenOndutytypeDesc",
+              "unique": 12,
+              "dataType": "string",
+              "columnName": "7A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sevenOffdutytypeDesc",
+              "unique": 13,
+              "dataType": "string",
+              "columnName": "7P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eightOndutytypeDesc",
+              "unique": 14,
+              "dataType": "string",
+              "columnName": "8A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eightOffdutytypeDesc",
+              "unique": 15,
+              "dataType": "string",
+              "columnName": "8P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "nightOndutytypeDesc",
+              "unique": 16,
+              "dataType": "string",
+              "columnName": "9A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "nightOffdutytypeDesc",
+              "unique": 17,
+              "dataType": "string",
+              "columnName": "9P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twnOndutytypeDesc",
+              "unique": 18,
+              "dataType": "string",
+              "columnName": "10A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twnOffdutytypeDesc",
+              "unique": 19,
+              "dataType": "string",
+              "columnName": "10P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "elevenOndutytypeDesc",
+              "unique": 20,
+              "dataType": "string",
+              "columnName": "11A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "elevenOffdutytypeDesc",
+              "unique": 21,
+              "dataType": "string",
+              "columnName": "11P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twelveOndutytypeDesc",
+              "unique": 22,
+              "dataType": "string",
+              "columnName": "12A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twelveOffdutytypeDesc",
+              "unique": 23,
+              "dataType": "string",
+              "columnName": "12P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirteenOndutytypeDesc",
+              "unique": 24,
+              "dataType": "string",
+              "columnName": "13A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirteenOffdutytypeDesc",
+              "unique": 25,
+              "dataType": "string",
+              "columnName": "13P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourteenOndutytypeDesc",
+              "unique": 26,
+              "dataType": "string",
+              "columnName": "14A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fourteenOffdutytypeDesc",
+              "unique": 27,
+              "dataType": "string",
+              "columnName": "14P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fifteenOndutytypeDesc",
+              "unique": 28,
+              "dataType": "string",
+              "columnName": "15A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "fifteenOffdutytypeDesc",
+              "unique": 29,
+              "dataType": "string",
+              "columnName": "15P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixteenOndutytypeDesc",
+              "unique": 30,
+              "dataType": "string",
+              "columnName": "16A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "sixteenOffdutytypeDesc",
+              "unique": 31,
+              "dataType": "string",
+              "columnName": "16P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "seventeenOndutytypeDesc",
+              "unique": 32,
+              "dataType": "string",
+              "columnName": "17A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "seventeenOffdutytypeDesc",
+              "unique": 33,
+              "dataType": "string",
+              "columnName": "17P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eighteenOndutytypeDesc",
+              "unique": 34,
+              "dataType": "string",
+              "columnName": "18A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "eighteenOffdutytypeDesc",
+              "unique": 35,
+              "dataType": "string",
+              "columnName": "18P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ninteenOndutytypeDesc",
+              "unique": 36,
+              "dataType": "string",
+              "columnName": "19A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ninteenOffdutytypeDesc",
+              "unique": 37,
+              "dataType": "string",
+              "columnName": "19P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyOndutytypeDesc",
+              "unique": 38,
+              "dataType": "string",
+              "columnName": "20A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyOffdutytypeDesc",
+              "unique": 39,
+              "dataType": "string",
+              "columnName": "20P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyoneOndutytypeDesc",
+              "unique": 40,
+              "dataType": "string",
+              "columnName": "21A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyoneOffdutytypeDesc",
+              "unique": 41,
+              "dataType": "string",
+              "columnName": "21P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntytwoOndutytypeDesc",
+              "unique": 42,
+              "dataType": "string",
+              "columnName": "22A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntytwoOffdutytypeDesc",
+              "unique": 43,
+              "dataType": "string",
+              "columnName": "22P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntythreeOndutytypeDesc",
+              "unique": 44,
+              "dataType": "string",
+              "columnName": "23A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntythreeOffdutytypeDesc",
+              "unique": 45,
+              "dataType": "string",
+              "columnName": "23P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfourOndutytypeDesc",
+              "unique": 46,
+              "dataType": "string",
+              "columnName": "24A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfourOffdutytypeDesc",
+              "unique": 47,
+              "dataType": "string",
+              "columnName": "24P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfiveOndutytypeDesc",
+              "unique": 48,
+              "dataType": "string",
+              "columnName": "25A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyfiveOffdutytypeDesc",
+              "unique": 49,
+              "dataType": "string",
+              "columnName": "25P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysixOndutytypeDesc",
+              "unique": 50,
+              "dataType": "string",
+              "columnName": "26A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysixOffdutytypeDescDesc",
+              "unique": 51,
+              "dataType": "string",
+              "columnName": "26P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysevenOndutytypeDesc",
+              "unique": 52,
+              "dataType": "string",
+              "columnName": "27A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntysevenOffdutytypeDesc",
+              "unique": 53,
+              "dataType": "string",
+              "columnName": "27P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyeightOndutytypeDesc",
+              "unique": 54,
+              "dataType": "string",
+              "columnName": "28A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntyeightOffdutytypeDesc",
+              "unique": 55,
+              "dataType": "string",
+              "columnName": "28P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntynineOndutytypeDesc",
+              "unique": 56,
+              "dataType": "string",
+              "columnName": "29A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "twntynineOffdutytypeDesc",
+              "unique": 57,
+              "dataType": "string",
+              "columnName": "29P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyOndutytypeDesc",
+              "unique": 58,
+              "dataType": "string",
+              "columnName": "30A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyOffdutytypeDesc",
+              "unique": 59,
+              "dataType": "string",
+              "columnName": "30P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyoneOndutytypeDesc",
+              "unique": 60,
+              "dataType": "string",
+              "columnName": "31A"
+            },
+            {
+              "isStatData": "F",
+              "expression": "thirtyoneOffdutytypeDesc",
+              "unique": 61,
+              "dataType": "string",
+              "columnName": "31P"
+            },
+            {
+              "isStatData": "F",
+              "expression": "month",
+              "unique": 62,
+              "dataType": "string",
+              "columnName": "month"
+            },
+            {
+              "isStatData": "F",
+              "expression": "usercode",
+              "unique": 63,
+              "dataType": "string",
+              "columnName": "usercode"
+            },
+            {
+              "isStatData": "F",
+              "expression": "latetimes",
+              "unique": 64,
+              "dataType": "string",
+              "columnName": "latetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "overtimes",
+              "unique": 65,
+              "dataType": "string",
+              "columnName": "overtimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "leavetimes",
+              "unique": 66,
+              "dataType": "string",
+              "columnName": "leavetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "recorddate",
+              "unique": 67,
+              "dataType": "string",
+              "columnName": "recorddate"
+            },
+            {
+              "isStatData": "F",
+              "expression": "outduration",
+              "unique": 68,
+              "dataType": "string",
+              "columnName": "outduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "absencetimes",
+              "unique": 69,
+              "dataType": "string",
+              "columnName": "absencetimes"
+            },
+            {
+              "isStatData": "F",
+              "expression": "restduration",
+              "unique": 70,
+              "dataType": "string",
+              "columnName": "restduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "leaveduration",
+              "unique": 71,
+              "dataType": "string",
+              "columnName": "leaveduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "workdays",
+              "unique": 72,
+              "dataType": "string",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "planWorkdays",
+              "unique": 73,
+              "dataType": "string",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "lateduration",
+              "unique": 74,
+              "dataType": "string",
+              "columnName": "lateduration"
+            },
+            {
+              "isStatData": "F",
+              "expression": "bdutytype",
+              "unique": 75,
+              "dataType": "string",
+              "columnName": "bdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "zbDutytype",
+              "unique": 76,
+              "dataType": "string",
+              "columnName": "zbDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ndutytype",
+              "unique": 77,
+              "dataType": "string",
+              "columnName": "ndutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "hdutytype",
+              "unique": 78,
+              "dataType": "string",
+              "columnName": "hdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "cdutytype",
+              "unique": 79,
+              "dataType": "string",
+              "columnName": "cdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "pdutytype",
+              "unique": 80,
+              "dataType": "string",
+              "columnName": "pdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "gdutytype",
+              "unique": 81,
+              "dataType": "string",
+              "columnName": "gdutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "prDutytype",
+              "unique": 82,
+              "dataType": "string",
+              "columnName": "prDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "bdDutytype",
+              "unique": 83,
+              "dataType": "string",
+              "columnName": "bdDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "tqDutytype",
+              "unique": 84,
+              "dataType": "string",
+              "columnName": "tqDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "ccDutytype",
+              "unique": 85,
+              "dataType": "string",
+              "columnName": "ccDutytype"
+            },
+            {
+              "isStatData": "F",
+              "expression": "unitcode",
+              "unique": 86,
+              "dataType": "string",
+              "columnName": "unitcode"
+            },
+            {
+              "isStatData": "F",
+              "expression": "workdays",
+              "unique": 87,
+              "dataType": "string",
+              "columnName": "workdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "planWorkdays",
+              "unique": 88,
+              "dataType": "string",
+              "columnName": "planWorkdays"
+            },
+            {
+              "isStatData": "F",
+              "expression": "absencetimes",
+              "unique": 89,
+              "dataType": "string",
+              "columnName": "absencetimes"
+            }
+          ],
+          "processName": "添加派生字段",
+          "typeName": "添加派生字段",
+          "isSource": false,
+          "isSelected": false,
+          "id": "appendnkRW3z9pOK",
+          "source": "mapBdkTHTB4qI",
+          "type": "append",
+          "config": [
+            {
+              "expression": "dict('unitCode',unitcode)",
+              "cName": "部门名称",
+              "unique": 0,
+              "columnName": "unitName"
+            },
+            {
+              "expression": "dict('userCode',usercode)",
+              "cName": "用户名",
+              "unique": 1,
+              "columnName": "userName"
+            }
+          ]
+        }
+      },
+      {
+        "x": 420,
+        "y": 260,
+        "id": "metadataQueryLHhvQcQh",
+        "text": {
+          "x": 420,
+          "y": 260,
+          "value": "元数据查询"
+        },
+        "type": "metadataQuery",
+        "properties": {
+          "databaseName": "nmne6pXDTxeSD8Pnr3SNCQ",
+          "isReturnPageInfo": false,
+          "typeName": "元数据查询",
+          "source": "__request_params",
+          "type": "metadataQuery",
+          "queryType": 1,
+          "isBranch": false,
+          "processName": "元数据查询",
+          "sourceType": "paramSource",
+          "isSource": true,
+          "x": 420,
+          "y": 260,
+          "tableId": "2c59421c968f4ac098898a87dcfb4ec4",
+          "id": "metadataQueryLHhvQcQh",
+          "text": {
+            "x": 420,
+            "y": 260,
+            "value": "元数据查询"
+          },
+          "properties": {
+            "isBranch": false,
+            "processName": "元数据查询",
+            "isReturnPageInfo": true,
+            "typeName": "元数据查询",
+            "isSource": true,
+            "id": "metadataQueryLHhvQcQh",
+            "type": "metadataQuery"
+          }
+        }
+      }
+    ],
+    "edges": [
+      {
+        "pointsList": [
+          {
+            "x": 420,
+            "y": 673
+          },
+          {
+            "x": 420,
+            "y": 760
+          },
+          {
+            "x": 607,
+            "y": 760
+          }
+        ],
+        "endPoint": {
+          "x": 607,
+          "y": 760
+        },
+        "sourceNodeId": "appendnkRW3z9pOK",
+        "startPoint": {
+          "x": 420,
+          "y": 673
+        },
+        "id": "f297ba51-278a-40eb-b9f6-4f2cbddfc116",
+        "type": "PlineEdge",
+        "targetNodeId": "resultsOS8B5j7zG0",
+        "properties": {
+          "sourceId": "appendnkRW3z9pOK",
+          "targetId": "resultsOS8B5j7zG0",
+          "processName": "",
+          "typeName": "连线",
+          "id": "f297ba51-278a-40eb-b9f6-4f2cbddfc116",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 420,
+            "y": 473
+          },
+          {
+            "x": 420,
+            "y": 607
+          }
+        ],
+        "endPoint": {
+          "x": 420,
+          "y": 607
+        },
+        "sourceNodeId": "mapBdkTHTB4qI",
+        "startPoint": {
+          "x": 420,
+          "y": 473
+        },
+        "id": "5f93c557-057a-4b55-8bd3-f7144d6bdf8c",
+        "type": "PlineEdge",
+        "targetNodeId": "appendnkRW3z9pOK",
+        "properties": {
+          "sourceId": "mapBdkTHTB4qI",
+          "targetId": "appendnkRW3z9pOK",
+          "processName": "",
+          "typeName": "连线",
+          "id": "5f93c557-057a-4b55-8bd3-f7144d6bdf8c",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 420,
+            "y": 153
+          },
+          {
+            "x": 420,
+            "y": 227
+          }
+        ],
+        "endPoint": {
+          "x": 420,
+          "y": 227
+        },
+        "sourceNodeId": "startsE88Dp8a4g",
+        "startPoint": {
+          "x": 420,
+          "y": 153
+        },
+        "id": "edgeSrGMyRcQ",
+        "type": "PlineEdge",
+        "targetNodeId": "metadataQueryLHhvQcQh",
+        "properties": {
+          "sourceId": "startsE88Dp8a4g",
+          "targetId": "metadataQueryLHhvQcQh",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeSrGMyRcQ",
+          "type": "PlineEdge"
+        }
+      },
+      {
+        "pointsList": [
+          {
+            "x": 420,
+            "y": 293
+          },
+          {
+            "x": 420,
+            "y": 407
+          }
+        ],
+        "endPoint": {
+          "x": 420,
+          "y": 407
+        },
+        "sourceNodeId": "metadataQueryLHhvQcQh",
+        "startPoint": {
+          "x": 420,
+          "y": 293
+        },
+        "id": "edgeOVLSaNpz",
+        "type": "PlineEdge",
+        "targetNodeId": "mapBdkTHTB4qI",
+        "properties": {
+          "sourceId": "metadataQueryLHhvQcQh",
+          "targetId": "mapBdkTHTB4qI",
+          "processName": "",
+          "typeName": "连线",
+          "id": "edgeOVLSaNpz",
+          "type": "PlineEdge"
+        }
+      }
+    ]
+  },
+  "taskType": "1",
+  "taskCron": "",
+  "lastRunTime": "2023-06-15 16:01:58",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-07-04 15:12:23",
+  "publishDate": "2022-05-12 17:07:34",
+  "needRollback": "F",
+  "optId": "2-qz9yJXRBO2OJrWCYc2nA",
+  "optCode": "5f3bcd67596f471e9275c5faf9dd65c3",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "547b9324d45e43db982694b6b32cc2e4",
+  "logLevel": 1,
+  "isDisable": "F",
+  "schemaProps": {
+    "metadataQueryLHhvQcQh": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "元数据查询",
+      "isSource": true,
+      "id": "metadataQueryLHhvQcQh",
+      "title": "元数据查询",
+      "key": "metadataQueryLHhvQcQh"
+    },
+    "5f3bcd67596f471e9275c5faf9dd65c3": {
+      "children": [
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_self",
+              "children": [
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "系统角色操作权限对象",
+                  "isSource": false,
+                  "id": "rolePowers",
+                  "title": "rolePowers",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/rolePowers",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色的类别",
+                  "isSource": false,
+                  "id": "roleType",
+                  "title": "roleType",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/roleType",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色描述",
+                  "isSource": false,
+                  "id": "roleDesc",
+                  "title": "roleDesc",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/roleDesc",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色代码",
+                  "isSource": false,
+                  "id": "roleCode",
+                  "title": "roleCode",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/roleCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色所属机构",
+                  "isSource": false,
+                  "id": "unitCode",
+                  "title": "unitCode",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/unitCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色名称",
+                  "isSource": false,
+                  "id": "roleName",
+                  "title": "roleName",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/roleName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "角色所属机构",
+                  "isSource": false,
+                  "id": "roleOwner",
+                  "title": "roleOwner",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles/roleOwner",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "用户角色信息",
+              "isSource": false,
+              "id": "userRoles",
+              "title": "userRoles",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/userRoles",
+              "attrType": "list"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "登录 IP",
+              "isSource": false,
+              "id": "loginIp",
+              "title": "loginIp",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/loginIp",
+              "attrType": ""
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "系统用户设置信息",
+              "isSource": false,
+              "id": "userSettings",
+              "title": "userSettings",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/userSettings",
+              "attrType": "object"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "用户菜单集合",
+              "isSource": false,
+              "id": "userOptList",
+              "title": "userOptList",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/userOptList",
+              "attrType": "object"
+            },
+            {
+              "flag": "_self",
+              "children": [
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "英文名称",
+                  "isSource": false,
+                  "id": "englishName",
+                  "title": "englishName",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/englishName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "身份证号码",
+                  "isSource": false,
+                  "id": "idCardNo",
+                  "title": "idCardNo",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/idCardNo",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户代码",
+                  "isSource": false,
+                  "id": "userCode",
+                  "title": "userCode",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户名拼音",
+                  "isSource": false,
+                  "id": "userNamePinyin",
+                  "title": "userNamePinyin",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userNamePinyin",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "登录名",
+                  "isSource": false,
+                  "id": "loginName",
+                  "title": "loginName",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/loginName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户排序",
+                  "isSource": false,
+                  "id": "userOrder",
+                  "title": "userOrder",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userOrder",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "注册电话",
+                  "isSource": false,
+                  "id": "regCellPhone",
+                  "title": "regCellPhone",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/regCellPhone",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "当前职务代码",
+                  "isSource": false,
+                  "id": "currentStationId",
+                  "title": "currentStationId",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/currentStationId",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "最后一次登录时间",
+                  "isSource": false,
+                  "id": "activeTime",
+                  "title": "activeTime",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/activeTime",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "登录时间",
+                  "isSource": false,
+                  "id": "loginTimes",
+                  "title": "loginTimes",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/loginTimes",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户描述",
+                  "isSource": false,
+                  "id": "userDesc",
+                  "title": "userDesc",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userDesc",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "工牌代码",
+                  "isSource": false,
+                  "id": "userWord",
+                  "title": "userWord",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userWord",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "顶级机构名称",
+                  "isSource": false,
+                  "id": "topUnitName",
+                  "title": "topUnitName",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/topUnitName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "主机构",
+                  "isSource": false,
+                  "id": "primaryUnit",
+                  "title": "primaryUnit",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/primaryUnit",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户名",
+                  "isSource": false,
+                  "id": "userName",
+                  "title": "userName",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "主机构名称",
+                  "isSource": false,
+                  "id": "primaryUnitName",
+                  "title": "primaryUnitName",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/primaryUnitName",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户邮箱",
+                  "isSource": false,
+                  "id": "regEmail",
+                  "title": "regEmail",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/regEmail",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户标签",
+                  "isSource": false,
+                  "id": "userTag",
+                  "title": "userTag",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userTag",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "顶级机构",
+                  "isSource": false,
+                  "id": "topUnit",
+                  "title": "topUnit",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/topUnit",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户类别",
+                  "isSource": false,
+                  "id": "userType",
+                  "title": "userType",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo/userType",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "用户信息",
+              "isSource": false,
+              "id": "userInfo",
+              "title": "userInfo",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/userInfo",
+              "attrType": "object"
+            },
+            {
+              "flag": "_self",
+              "children": [
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "更新时间",
+                  "isSource": false,
+                  "id": "updateDate",
+                  "title": "updateDate",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/updateDate",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "岗位",
+                  "isSource": false,
+                  "id": "userStation",
+                  "title": "userStation",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/userStation",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "是否为主",
+                  "isSource": false,
+                  "id": "relType",
+                  "title": "relType",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/relType",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户职务",
+                  "isSource": false,
+                  "id": "userRank",
+                  "title": "userRank",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/userRank",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "协助职务",
+                  "isSource": false,
+                  "id": "xzRank",
+                  "title": "xzRank",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/xzRank",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户代码",
+                  "isSource": false,
+                  "id": "userCode",
+                  "title": "userCode",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/userCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "职务等级",
+                  "isSource": false,
+                  "id": "postRank",
+                  "title": "postRank",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/postRank",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "顶级机构",
+                  "isSource": false,
+                  "id": "topUnit",
+                  "title": "topUnit",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/topUnit",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "机构代码",
+                  "isSource": false,
+                  "id": "unitCode",
+                  "title": "unitCode",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/unitCode",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "备注",
+                  "isSource": false,
+                  "id": "rankMemo",
+                  "title": "rankMemo",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/rankMemo",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户排序号",
+                  "isSource": false,
+                  "id": "userOrder",
+                  "title": "userOrder",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/userOrder",
+                  "attrType": ""
+                },
+                {
+                  "flag": "_self",
+                  "children": [],
+                  "helpField": "用户机构ID",
+                  "isSource": false,
+                  "id": "userUnitId",
+                  "title": "userUnitId",
+                  "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits/userUnitId",
+                  "attrType": ""
+                }
+              ],
+              "helpField": "用户机构信息",
+              "isSource": false,
+              "id": "userUnits",
+              "title": "userUnits",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/userUnits",
+              "attrType": "list"
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "租户code",
+              "isSource": false,
+              "id": "topUnitCode",
+              "title": "topUnitCode",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/topUnitCode",
+              "attrType": ""
+            }
+          ],
+          "helpField": "Session数据",
+          "isSource": true,
+          "id": "__session_data",
+          "title": "__session_data",
+          "key": "5f3bcd67596f471e9275c5faf9dd65c3/__session_data",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "code",
+              "isSource": false,
+              "id": "code",
+              "title": "code",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/code",
+              "attrType": ""
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "data",
+              "isSource": false,
+              "id": "data",
+              "title": "data",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/data",
+              "attrType": ""
+            },
+            {
+              "flag": "_self",
+              "children": [],
+              "helpField": "message",
+              "isSource": false,
+              "id": "message",
+              "title": "message",
+              "key": "5f3bcd67596f471e9275c5faf9dd65c3/message",
+              "attrType": ""
+            }
+          ],
+          "helpField": "最新执行结果",
+          "isSource": true,
+          "id": "__last_error",
+          "title": "__last_error",
+          "key": "5f3bcd67596f471e9275c5faf9dd65c3/__last_error",
+          "attrType": ""
+        },
+        {
+          "flag": "_inner",
+          "children": [],
+          "helpField": "请求参数",
+          "isSource": true,
+          "id": "__request_params",
+          "title": "__request_params",
+          "key": "5f3bcd67596f471e9275c5faf9dd65c3/__request_params",
+          "attrType": ""
+        }
+      ],
+      "helpField": "查询考勤明细列表",
+      "title": "GET 请求",
+      "key": "api"
+    },
+    "mapBdkTHTB4qI": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "字段映射",
+      "isSource": true,
+      "id": "mapBdkTHTB4qI",
+      "title": "字段映射",
+      "key": "mapBdkTHTB4qI"
+    },
+    "resultsOS8B5j7zG0": {
+      "flag": "_source",
+      "children": [],
+      "helpField": "返回结果",
+      "isSource": true,
+      "id": "resultsOS8B5j7zG0",
+      "title": "返回结果",
+      "key": "resultsOS8B5j7zG0"
+    }
+  },
+  "params": []
+}

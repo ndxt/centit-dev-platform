@@ -1,0 +1,545 @@
+{
+  "modelId": "ff1a8608b31344a19df7de2a830a56c7",
+  "modelName": "系统框架",
+  "optId": "3s8TTmGPTpOV7_fMk3vtRQ",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-07-26 10:23:48",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "左边导航栏上面系统名称和用户信息",
+  "mobileFormTemplate": {
+    "fit": true,
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "MobileLayout",
+        "footer": {
+          "$name": "LayoutFooter",
+          "children": [],
+          "$item": {
+            "name": "LayoutFooter",
+            "label": "移动端底部布局",
+            "id": "LayoutFooter_1650011095989_0.5513887850595764"
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1650011070924_0.910655661237568"
+        },
+        "showHeader": false,
+        "title": "首页",
+        "showFooter": false,
+        "leftArrow": false,
+        "tabList": [
+          {
+            "name": "标签1",
+            "icon": "home-o"
+          }
+        ],
+        "children": [
+          {
+            "$name": "MobileLayoutContent",
+            "children": [
+              {
+                "$name": "RouterView",
+                "useStyleText": true,
+                "styleText": "width:100%;\nheight:100%;",
+                "$item": {
+                  "name": "RouterView",
+                  "label": "路由",
+                  "id": "RouterView_1650011643392_0.5571991068367217"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              }
+            ],
+            "$item": {
+              "name": "MobileLayoutContent",
+              "label": "内容",
+              "id": "MobileLayoutContent_1650011095989_0.9623981277451361"
+            }
+          }
+        ],
+        "showTabBar": false,
+        "showNavBar": false,
+        "header": {
+          "$name": "LayoutHeader",
+          "children": [],
+          "$item": {
+            "name": "LayoutHeader",
+            "label": "移动端顶部布局",
+            "id": "LayoutHeader_1650011095989_0.1440909025543018"
+          }
+        },
+        "$item": {
+          "name": "MobileLayout",
+          "label": "布局",
+          "id": "MobileLayout_1650011095989_0.7957017111143769"
+        }
+      }
+    ],
+    "root": true,
+    "useMountedCode": false,
+    "componentData": {},
+    "paramsConfigs": {
+      "Param_1639795972377": {
+        "code": "function watchAppId(appId, oldAppId) {\n  // 在下面开始编写appId监听\n  if($isMobile){\n    $router.push({\n  name:'AppPage',\n    params:{\n    modelId:'fea4162175224bb194cf17476da0f216'\n    }\n  })\n  }else{\n   $run('getMenu', appId)\n  }\n}",
+        "immediate": true,
+        "name": "appId",
+        "id": "Param_1639795972377"
+      },
+      "Param_1639795980792": {
+        "code": "function watchModelId(modelId, oldModelId) {\n  // 在下面开始编写modelId监听\n  if (modelId) {\n  \t$run('goPage', modelId)\n  }\n}",
+        "immediate": true,
+        "name": "modelId",
+        "id": "Param_1639795980792"
+      }
+    },
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $router.push({\n  name:'AppPage',\n    params:{\n    modelId:'fea4162175224bb194cf17476da0f216'\n    }\n  })\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1650011070924_0.910655661237568"
+    }
+  },
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1639559936645": {
+        "code": "[]",
+        "componentSchemas": {},
+        "children": [],
+        "name": "selectedKeys",
+        "id": "Data_1639559936645",
+        "title": "selectedKeys",
+        "type": "a",
+        "key": "Data_1639559936645"
+      },
+      "Data_1639556686435": {
+        "code": "[]",
+        "children": [],
+        "name": "menus",
+        "id": "Data_1639556686435",
+        "title": "menus",
+        "type": "a",
+        "key": "Data_1639556686435"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639554232018": {
+        "code": "async function getMenu(appId) {\n\tconst { System } = $api\n    const { modelId } = $params\n    $data.menus = await $api.queryMenu(appId)\n  \n    if (modelId) {\n      $run('goPage', modelId)\n    } else {\n      $run('selectFirstMenu') \t\n    }\n}",
+        "name": "getMenu",
+        "id": "Method_1639554232018",
+        "title": "getMenu",
+        "key": "Method_1639554232018"
+      },
+      "Method_1639623546552": {
+        "code": "function goPage(modelId, go) {\n  if (!modelId) return\n  $data.selectedKeys = [modelId]\n  if (!go) return \n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId,\n    },\n  })\n}",
+        "name": "goPage",
+        "id": "Method_1639623546552",
+        "title": "goPage",
+        "key": "Method_1639623546552"
+      },
+      "Method_1639559964725": {
+        "code": "function selectFirstMenu() {\n\tconst menu = $data.menus[0]\n    if (menu) {\n      const { url } = menu\n      $run('goPage', url, true)\n    }\n}",
+        "name": "selectFirstMenu",
+        "id": "Method_1639559964725",
+        "title": "selectFirstMenu",
+        "key": "Method_1639559964725"
+      }
+    },
+    "children": [
+      {
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1639118737142"
+        },
+        "$layout": {
+          "$top": {
+            "useStyleText": true,
+            "styleText": "height: 48px;\nline-height: 48px;\npadding: 0 16px;\ndisplay: flex;\nalign-items: center;\nbackground: #000;",
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "font-size: 20px;\nfont-weight: 700;\ncolor: #fff;\nflex: auto;",
+                "$parent": {
+                  "name": "LayoutHeader",
+                  "label": "顶部布局",
+                  "id": "LayoutHeader_1639533001290"
+                },
+                "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return '考勤管理系统'\n}",
+                "useValueCode": true,
+                "$item": {
+                  "name": "Html",
+                  "label": "文字",
+                  "id": "Html_1639533160914"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              },
+              {
+                "useNameCode": true,
+                "$parent": {
+                  "name": "LayoutHeader",
+                  "label": "顶部布局",
+                  "id": "LayoutHeader_1639533001290"
+                },
+                "setNameCode": "function setName() {\n  // 在下面返回Name的值\n  console.log('in code: ', $info?.userInfo?.userName, $info?.userInfo, $info)\n  return $info?.userInfo?.userName\n}",
+                "setUserNameCode": "function setUserName() {\n  // 在下面返回UserName的值\n  return $info.userInfo.userName\n}",
+                "useUserNameCode": true,
+                "$item": {
+                  "name": "UserInfo",
+                  "label": "用户信息",
+                  "id": "UserInfo_1640240323137"
+                }
+              }
+            ],
+            "$item": {
+              "name": "LayoutHeader",
+              "label": "顶部布局",
+              "id": "LayoutHeader_1639533001290"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "children": [],
+          "$center": {
+            "useStyleText": true,
+            "styleText": "padding: 8px;",
+            "children": [
+              {
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1639533006865"
+                },
+                "$item": {
+                  "name": "RouterView",
+                  "label": "路由",
+                  "id": "RouterView_1639635009959"
+                }
+              }
+            ],
+            "$item": {
+              "name": "LayoutContent",
+              "label": "内容",
+              "id": "LayoutContent_1639533006865"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "$item": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1639532999384"
+          },
+          "dir": "tb",
+          "items": [
+            "t",
+            "c"
+          ]
+        },
+        "$left": {
+          "defaultCollapsed": false,
+          "children": [
+            {
+              "$name": "Row",
+              "gutter": 8,
+              "children": [
+                {
+                  "$name": "Html",
+                  "useStyleText": true,
+                  "styleText": "width:100%;\nheight:47px;\ncursor:pointer;\nmargin:8px 0",
+                  "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\nlocation.href = 'http://cloud.centit.com/oa'\n}",
+                  "styleConfig": {
+                    "layout": {
+                      "flex_attrs": {},
+                      "box_attrs": {},
+                      "display": "inline-block",
+                      "width": "",
+                      "height": ""
+                    },
+                    "border": {
+                      "border-top": {},
+                      "border-right": {},
+                      "borderBottomLeftRadius": "",
+                      "border-left": {},
+                      "borderBottomRightRadius": "",
+                      "borderTopRightRadius": "",
+                      "type": "",
+                      "radius": 0,
+                      "border-bottom": {},
+                      "border-outer": {},
+                      "borderTopLeftRadius": ""
+                    },
+                    "background": {
+                      "size": "full",
+                      "color": "",
+                      "w": 150,
+                      "repeat": false,
+                      "h": 100,
+                      "x": 100,
+                      "y": 100,
+                      "position": "center",
+                      "type": "url",
+                      "url": "/locode/api/fileserver/fileserver/download/preview/c60eb6b9032f48999891025ca674b24c?closeAuth=false"
+                    },
+                    "text": {
+                      "color": "",
+                      "textAlign": "",
+                      "fontSize": "",
+                      "lineHeight": "",
+                      "fontWeight": ""
+                    },
+                    "position": {
+                      "top": "",
+                      "left": "",
+                      "bottom": "",
+                      "clear": "",
+                      "position": "",
+                      "right": "",
+                      "float": "",
+                      "zIndex": 0
+                    }
+                  },
+                  "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return ''\n}",
+                  "useValueCode": true,
+                  "$item": {
+                    "name": "Html",
+                    "label": "文字",
+                    "id": "Html_1654744597014_0.3016766347964859"
+                  },
+                  "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                  "configStyle": {
+                    "color": "",
+                    "float": "",
+                    "borderTop": "undefined undefined undefined",
+                    "borderLeft": "undefined undefined undefined",
+                    "top": "",
+                    "borderBottomRightRadius": "",
+                    "borderTopRightRadius": "",
+                    "borderBottom": "undefined undefined undefined",
+                    "fontWeight": "",
+                    "height": "",
+                    "zIndex": 0,
+                    "textAlign": "",
+                    "bottom": "",
+                    "display": "inline-block",
+                    "clear": "",
+                    "right": "",
+                    "borderTopLeftRadius": "",
+                    "left": "",
+                    "borderBottomLeftRadius": "",
+                    "borderRight": "undefined undefined undefined",
+                    "background": "url(/locode/api/fileserver/fileserver/download/preview/c60eb6b9032f48999891025ca674b24c?closeAuth=false) center / 100% 100% no-repeat",
+                    "width": "",
+                    "fontSize": "",
+                    "lineHeight": "",
+                    "position": ""
+                  },
+                  "useClickCode": true
+                }
+              ],
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1639532996347"
+              },
+              "$item": {
+                "name": "Row",
+                "label": "行",
+                "id": "Row_1654744593416_0.5473981736415499"
+              }
+            },
+            {
+              "useMenusCode": true,
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1639532996347"
+              },
+              "useClickItemCode": true,
+              "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return  $data.selectedKeys\n}",
+              "setSelectedKeysCode": "function setSelectedKeys() {\n  // 在下面返回SelectedKeys的值\n  return $data.selectedKeys\n}",
+              "$key": "selectedKeys",
+              "useSelectedKeysCode": true,
+              "mode": "inline",
+              "onClickItemCode": "function onClickItem(item) {\n  // 在下面开始编写点击菜单事件\n  const { url } = item\n  if (url) {\n    $run('goPage', url, true)\n  }\n}",
+              "theme": "dark",
+              "useValueCode": false,
+              "$item": {
+                "name": "Menu",
+                "label": "菜单",
+                "id": "Menu_1639552617736"
+              },
+              "menus": [
+                {
+                  "icon": "MailOutlined",
+                  "title": "示例菜单1",
+                  "key": "1"
+                },
+                {
+                  "icon": "SettingOutlined",
+                  "title": "示例菜单2",
+                  "key": "2"
+                },
+                {
+                  "children": [
+                    {
+                      "icon": "SettingOutlined",
+                      "title": "二级菜单1",
+                      "key": "31",
+                      "group": "分组1"
+                    },
+                    {
+                      "icon": "SettingOutlined",
+                      "title": "二级菜单2",
+                      "key": "32",
+                      "group": "分组1"
+                    },
+                    {
+                      "icon": "AppstoreOutlined",
+                      "title": "二级菜单3",
+                      "key": "33",
+                      "group": "分组2"
+                    },
+                    {
+                      "children": [
+                        {
+                          "icon": "MailOutlined",
+                          "title": "三级菜单1",
+                          "key": "341"
+                        },
+                        {
+                          "icon": "MailOutlined",
+                          "title": "三级菜单1",
+                          "key": "342"
+                        }
+                      ],
+                      "icon": "AppstoreOutlined",
+                      "title": "二级菜单4",
+                      "key": "34",
+                      "group": "分组2"
+                    }
+                  ],
+                  "icon": "AppstoreOutlined",
+                  "title": "示例菜单3",
+                  "key": "3"
+                }
+              ],
+              "setMenusCode": "function setMenus() {\n  // 在下面返回Menus的值\n  return $data.menus\n}"
+            }
+          ],
+          "width": 256,
+          "theme": "dark",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1639532996347"
+          },
+          "collapsedWidth": 48,
+          "collapsible": true
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1639532992050"
+        },
+        "dir": "lr",
+        "items": [
+          "l"
+        ],
+        "hasLayout": true
+      }
+    ],
+    "root": true,
+    "useMountedCode": false,
+    "componentData": {},
+    "style": {},
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  $run('getMenu')\n}",
+    "paramsConfigs": {
+      "Param_1639795972377": {
+        "code": "function watchAppId(appId, oldAppId) {\n  // 在下面开始编写appId监听\n  if($isMobile){}else{\n   $run('getMenu', appId)\n  }\n}",
+        "immediate": true,
+        "name": "appId",
+        "id": "Param_1639795972377"
+      },
+      "Param_1639795980792": {
+        "code": "function watchModelId(modelId, oldModelId) {\n  // 在下面开始编写modelId监听\n  if (modelId) {\n  \t$run('goPage', modelId)\n  }\n}",
+        "immediate": true,
+        "name": "modelId",
+        "id": "Param_1639795980792"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1639118737142"
+    }
+  },
+  "publishDate": "2022-07-26 10:23:48",
+  "sourceId": "TTFKLzXkRUWbVKxMGD6yaA",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1639559936645": {
+        "code": "[]",
+        "componentSchemas": {},
+        "children": [],
+        "name": "selectedKeys",
+        "id": "Data_1639559936645",
+        "title": "selectedKeys",
+        "type": "a",
+        "key": "Data_1639559936645"
+      },
+      "Data_1639556686435": {
+        "code": "[]",
+        "children": [],
+        "name": "menus",
+        "id": "Data_1639556686435",
+        "title": "menus",
+        "type": "a",
+        "key": "Data_1639556686435"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1639554232018": {
+        "code": "async function getMenu(appId) {\n\tconst { System } = $api\n    const { modelId } = $params\n    $data.menus = await $api.queryMenu(appId)\n    console.log($data.menus)\n  \n    if (modelId) {\n      $run('goPage', modelId)\n    } else {\n      $run('selectFirstMenu') \t\n    }\n}",
+        "name": "getMenu",
+        "id": "Method_1639554232018",
+        "label": "getMenu",
+        "type": "method"
+      },
+      "Method_1639623546552": {
+        "code": "function goPage(modelId, go) {\n  if (!modelId) return\n  $data.selectedKeys = [modelId]\n  if (!go) return \n  $router.push({ \n    name: 'AppPage', \n    params: { \n      modelId,\n    },\n  })\n}",
+        "name": "goPage",
+        "id": "Method_1639623546552",
+        "title": "goPage",
+        "key": "Method_1639623546552"
+      },
+      "Method_1639559964725": {
+        "code": "function selectFirstMenu() {\n\tconst menu = $data.menus[0]\n    if (menu) {\n      const { url } = menu\n      $run('goPage', url, true)\n    }\n}",
+        "name": "selectFirstMenu",
+        "id": "Method_1639559964725",
+        "title": "selectFirstMenu",
+        "key": "Method_1639559964725"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1639795972377": {
+        "code": "function watchAppId(appId, oldAppId) {\n  // 在下面开始编写appId监听\n  if($isMobile){\n    $router.push({\n  name:'AppPage',\n    params:{\n    modelId:'fea4162175224bb194cf17476da0f216'\n    }\n  })\n  }else{\n   $run('getMenu', appId)\n  }\n}",
+        "immediate": true,
+        "name": "appId",
+        "id": "Param_1639795972377"
+      },
+      "Param_1639795980792": {
+        "code": "function watchModelId(modelId, oldModelId) {\n  // 在下面开始编写modelId监听\n  if (modelId) {\n  \t$run('goPage', modelId)\n  }\n}",
+        "immediate": true,
+        "name": "modelId",
+        "id": "Param_1639795980792"
+      }
+    }
+  },
+  "modelTag": "框架",
+  "isValid": "F"
+}

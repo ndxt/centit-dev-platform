@@ -1,0 +1,639 @@
+{
+  "modelId": "2e507641583d44038fe5e2c3eae23fe4",
+  "modelName": "每月考勤统计报表",
+  "optId": "2-qz9yJXRBO2OJrWCYc2nA",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-03-25 13:47:53",
+  "recorder": "DromLTfK",
+  "modelComment": "",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640863245790": {
+        "code": "\"2021-12\"",
+        "children": [],
+        "name": "date",
+        "id": "Data_1640863245790",
+        "title": "date",
+        "type": "s",
+        "key": "Data_1640863245790"
+      },
+      "Data_1640863944464": {
+        "code": "{\n\tdate: '',\n    month: '',\n    unitCode: '',\n    closePage: true,\n    pageSize: -1\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "boolean",
+            "name": "closePage",
+            "id": "Data_1640863944464_closePage",
+            "label": "closePage",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "date",
+            "id": "Data_1640863944464_date",
+            "label": "date",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "month",
+            "id": "Data_1640863944464_month",
+            "label": "month",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1640863944464_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitCode",
+            "id": "Data_1640863944464_unitCode",
+            "label": "unitCode",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "params",
+        "id": "Data_1640863944464",
+        "title": "params",
+        "type": "o",
+        "codeSchemas": {
+          "date": {
+            "isDefault": true,
+            "propertyName": "date",
+            "fieldLabelName": "date",
+            "fieldType": "string"
+          },
+          "month": {
+            "isDefault": true,
+            "propertyName": "month",
+            "fieldLabelName": "month",
+            "fieldType": "string"
+          },
+          "unitCode": {
+            "isDefault": true,
+            "propertyName": "unitCode",
+            "fieldLabelName": "unitCode",
+            "fieldType": "string"
+          },
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          },
+          "closePage": {
+            "isDefault": true,
+            "propertyName": "closePage",
+            "fieldLabelName": "closePage",
+            "fieldType": "boolean"
+          }
+        },
+        "key": "Data_1640863944464"
+      },
+      "Data_1640862930290": {
+        "code": "{}",
+        "children": [],
+        "name": "datalist",
+        "id": "Data_1640862930290",
+        "title": "datalist",
+        "type": "o",
+        "key": "Data_1640862930290"
+      },
+      "Data_1644996188850": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "unit",
+        "id": "Data_1644996188850",
+        "title": "unit",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1644996188850"
+      },
+      "Data_1644996760129": {
+        "code": "''",
+        "children": [],
+        "dataType": "string",
+        "name": "unitValue",
+        "id": "Data_1644996760129",
+        "title": "unitValue",
+        "type": "o",
+        "key": "Data_1644996760129"
+      },
+      "Data_1640863117649": {
+        "code": "0",
+        "children": [],
+        "name": "dateMount",
+        "id": "Data_1640863117649",
+        "title": "dateMount",
+        "type": "n",
+        "key": "Data_1640863117649"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640863047782": {
+        "code": "function setTableHead(date) {\n\tconst { mount, weekMap } = $run('getDate', date)\n\n  const dateRow = new Array(mount).fill({}).reduce((result, item, index) => {\n      return {\n        1: '序号',\n        2: '员工编号',\n        3: '姓名',\n        4: '日期',\n        //5: '部门',\n        ...result,\n        [index+5]: `${index + 1}`,\n        [mount+5]: '实际出勤天数',\n        [mount+6]: '实际刷卡次数',\n        [mount+7]: '忘记刷卡次数',\n        [mount+8]: '迟到次数',\n        [mount+9]: '入/离职缺勤',\n        [mount+10]: '旷工',\n        [mount+11]: '事假',\n        [mount+12]: '备注',\n      };\n    }, {});\n  \n    const weekRow = new Array(mount).fill({}).reduce((result, item, index) => {\n      return {\n        1: '序号',\n        2: '员工编号',\n        3: '姓名',\n        4: '星期',\n        //5: '部门',\n        ...result,\n        [index + 5]: weekMap[(index) % 7],\n        [mount+5]: '实际出勤天数',\n        [mount+6]: '实际刷卡时间',\n        [mount+7]: '忘记刷卡次数',\n        [mount+8]: '迟到次数',\n        [mount+9]: '入/离职缺勤',\n        [mount+10]: '旷工',\n        [mount+11]: '事假',\n        [mount+12]: '备注',\n      };\n    }, {});\n  \n   \t$data.dateMount = mount;\n  \n    return {\n      dateRow,\n      weekRow\n   }\n}",
+        "name": "setTableHead",
+        "id": "Method_1640863047782",
+        "title": "setTableHead",
+        "key": "Method_1640863047782"
+      },
+      "Method_1640863007661": {
+        "code": "function getDate(date) {\n  if (!date && typeof date !== \"string\") return;\n\n  const map = [\"日\", \"一\", \"二\", \"三\", \"四\", \"五\", \"六\"];\n\n  const [year, month] = date.split(\"-\");\n\n  const mount = new Date(year, month, 0).getDate();\n\n  const week = new Date(`${year}-${month}`).getDay();\n\n  const moveWeek = map.splice(0, week);\n\n  const weekMap = [...map, ...moveWeek];\n\n  return { mount, weekMap };\n}",
+        "name": "getDate",
+        "id": "Method_1640863007661",
+        "title": "getDate",
+        "key": "Method_1640863007661"
+      },
+      "Method_1640863219760": {
+        "code": "async function getAsyncData() {\n  const { dateRow, weekRow } = $run(\"setTableHead\", $data.params.date);\n\n  const res = await $dde.get(\"5f3bcd67596f471e9275c5faf9dd65c3\", {\n    params: $data.params,\n    month: $data.params.date\n  });\n\n  const getColsData = (row) => {\n    return Object.entries(row).reduce((result, [key, value]) => {\n      if (new RegExp(/^\\d/).test(key)) {\n        let dateIndex = Number(key.match(/\\d+/g)[0]);\n        return {\n          ...result,\n          [dateIndex]: result[dateIndex] ? `${result[dateIndex]}/${value}` : `${value}`,\n        };\n      }\n      return result;\n    }, {});\n  };\n\n  const rows = res.reduce((result, item, index) => {\n    const colsData = getColsData(item);\n    const cols = new Array($data.dateMount).fill({}).reduce(\n      (result, item, index) => {\n        const week = !colsData[index + 1] && ['六', '日'].includes(weekRow[index + 5]);\n        const c = colsData[index + 1] ?? (week ? \"休\" : '');\n        return {\n          ...result,\n          [index + 5]: c,\n        };\n      },\n      {}\n    );\n    const len = Object.keys(cols)[Object.keys(cols).length - 1];\n    return {\n      ...result,\n      [index + 3]: {\n        1: `${index + 1}`,\n        2: `${item.usercode}`,\n        3: `${item.userName}`,\n        //4: `${item.month}`,\n        4: `${item.unitName}`,\n        ...cols,\n        [Number(len) + 1]: `${item.workdays ?? ''}`,\n        [Number(len) + 2]: \"\",\n        [Number(len) + 3]: \"\",\n        [Number(len) + 4]: `${item.latetimes ?? ''}`,\n        [Number(len) + 5]: \"\",\n        [Number(len) + 6]:  `${item.absencetimes ?? ''}`,\n        [Number(len) + 7]: `${item.leaveduration ?? ''}`,\n        [Number(len) + 8]: `${item.mark ?? ''}`,\n      },\n    };\n  }, {});\n\n  $data.datalist = {\n    1: dateRow,\n    2: weekRow,\n    ...rows,\n  };\n}\n",
+        "name": "getAsyncData",
+        "id": "Method_1640863219760",
+        "title": "getAsyncData",
+        "key": "Method_1640863219760"
+      }
+    },
+    "styleText": "width: auto;\noverflow: auto;",
+    "children": [
+      {
+        "layout": "inline",
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "useChangeCode": true,
+                    "rulesConfig": [],
+                    "format": "YYYY-MM",
+                    "disabled": false,
+                    "$item": {
+                      "name": "DatePicker",
+                      "label": "日期选择",
+                      "id": "DatePicker_1644977672205_0.12832837743968528"
+                    },
+                    "label": "日期选择",
+                    "onChangeCode": "function onChange(date, dateString) {\n  // 在下面开始编写改变事件\n  $data.params.date = dateString\n  $run('getAsyncData')\n}"
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1645064690080_0.3883897956451656"
+                }
+              },
+              {
+                "useStyleText": true,
+                "styleText": "marginLeft: 10px;",
+                "children": [
+                  {
+                    "notShowItem": false,
+                    "useStyleText": true,
+                    "styleText": "width: 160px;",
+                    "$parent": {
+                      "name": "Model",
+                      "label": "模块",
+                      "id": "Model_1640861711741_0.6437621443280128"
+                    },
+                    "useChangeCode": true,
+                    "setOptionsCode": "function setOptions() {\n  // 在下面返回Options的值\n  return $data.unit\n}",
+                    "showArrow": true,
+                    "$key": "",
+                    "label": "所在部门",
+                    "bordered": true,
+                    "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+                    "rulesConfig": [],
+                    "options": [
+                      {
+                        "label": "选项1",
+                        "value": "1"
+                      },
+                      {
+                        "label": "选项2",
+                        "value": "2"
+                      },
+                      {
+                        "label": "选项3",
+                        "value": "3"
+                      },
+                      {
+                        "label": "选项4",
+                        "value": "4"
+                      },
+                      {}
+                    ],
+                    "$item": {
+                      "name": "Select",
+                      "label": "下拉框",
+                      "id": "Select_1644977676425_0.5015770938644424"
+                    },
+                    "useOptionsCode": true,
+                    "useStyleCode": false,
+                    "allowClear": true,
+                    "onChangeCode": "function onChange(e) {\n  // 在下面开始编写选择事件\n  debugger\n $data.params.unitCode = e \n//  $run('getAsyncData')\n}"
+                  }
+                ],
+                "$item": {
+                  "name": "Col",
+                  "label": "列",
+                  "id": "Col_1645064704046_0.24019545009182974"
+                },
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+              },
+              {
+                "$name": "Button",
+                "useDisabledCode": true,
+                "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+                "$data": {
+                  "Data_1648177656661_0.2961275754227861": {
+                    "isDefault": true,
+                    "componentId": "Button_1648177656660_0.20995988421210332",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "loading",
+                    "id": "Data_1648177656661_0.2961275754227861",
+                    "label": "加载中",
+                    "type": "data",
+                    "isFixed": true
+                  },
+                  "Data_1648177656661_0.5621696643548604": {
+                    "isDefault": true,
+                    "componentId": "Button_1648177656660_0.20995988421210332",
+                    "code": "false",
+                    "dataType": "boolean",
+                    "name": "disabled",
+                    "id": "Data_1648177656661_0.5621696643548604",
+                    "label": "禁用",
+                    "type": "data",
+                    "isFixed": true
+                  }
+                },
+                "size": "middle",
+                "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n $data.params.unitCode  = $data.params.unitCode  || ''\n  $run('getAsyncData')\n}",
+                "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+                "text": "查询",
+                "$item": {
+                  "name": "Button",
+                  "label": "按钮",
+                  "id": "Button_1648177656660_0.20995988421210332"
+                },
+                "useLoadingCode": true,
+                "type": "default",
+                "useClickCode": true
+              }
+            ],
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1645064681314_0.2470281580880449"
+            },
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1645064687959_0.33604584791868786"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640861711741_0.6437621443280128"
+        },
+        "colon": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1645064681314_0.2470281580880449"
+        }
+      },
+      {
+        "isDynamic": false,
+        "children": [
+          {
+            "useStyleText": true,
+            "styleText": "",
+            "children": [
+              {
+                "useStyleText": true,
+                "styleText": "",
+                "useRowspanCode": true,
+                "cellValue": "",
+                "useHideCode": true,
+                "styleCode": "function style() {\n  // 在下面返回style对象\n  const { col, row } = $data\n  const { dateMount } = $$data\n  \n  const cTextAlgin = col > 4 && col < dateMount + 5\n  const cMinWidth = col > dateMount + 4 && col < dateMount + 10 || col === 4\n  const cBackground = (row === 1 || row === 2) && col > 2 && col < dateMount + 5\n  return {\n    textAlign: 'center',\n  \tminWidth: cMinWidth ? '100px' : '',\n    background: cBackground ? '#99ccff' : ''\n  }\n}",
+                "colspan": "",
+                "hide": false,
+                "children": [],
+                "rowspan": "",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640918667730_0.9663438555377772"
+                },
+                "useStyleCode": true,
+                "setHideCode": "function setHide() {\n  // 在下面返回Hide的值\n  const row = $data.row === 2\n  const col = $data.col < 5 || $data.col > $$data.dateMount + 4\n  return row && col\n}",
+                "setRowspanCode": "function setRowspan() {\n  // 在下面返回Rowspan的值\n  const row = [1,2].includes($data.row)\n  const col = $data.col < 5 || $data.col > $$data.dateMount + 4\n  return row && col ? '2' : '1'\n}"
+              },
+              {
+                "colspan": "",
+                "hide": false,
+                "children": [],
+                "rowspan": "",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640918667730_0.6749729225419259"
+                },
+                "cellValue": ""
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1640918667730_0.10024024710282164"
+            },
+            "useStyleCode": true,
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {\n  \tbackground: $data.row === 1 || $data.row === 2 ? '#fc9' : ''\n  }\n}"
+          },
+          {
+            "children": [
+              {
+                "colspan": "",
+                "hide": false,
+                "children": [],
+                "rowspan": "",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640918667730_0.9786529806572961"
+                },
+                "cellValue": ""
+              },
+              {
+                "colspan": "",
+                "hide": false,
+                "children": [],
+                "rowspan": "",
+                "$item": {
+                  "name": "TableCell",
+                  "label": "单元格",
+                  "id": "TableCell_1640918667730_0.47281395493760026"
+                },
+                "cellValue": ""
+              }
+            ],
+            "$item": {
+              "name": "TableRow",
+              "label": "表格行",
+              "id": "TableRow_1640918667730_0.43465116104227186"
+            }
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640861711741_0.6437621443280128"
+        },
+        "$key": "datalist",
+        "useExport": true,
+        "$item": {
+          "name": "Table",
+          "label": "表格",
+          "id": "Table_1640918667730_0.13610630153140457"
+        },
+        "dataSource": {}
+      }
+    ],
+    "root": true,
+    "useMountedCode": true,
+    "componentData": {
+      "Button_1648177656660_0.20995988421210332": {
+        "$name": "Button",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1648177656661_0.2961275754227861": {
+            "isDefault": true,
+            "componentId": "Button_1648177656660_0.20995988421210332",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1648177656661_0.2961275754227861",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1648177656661_0.5621696643548604": {
+            "isDefault": true,
+            "componentId": "Button_1648177656660_0.20995988421210332",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1648177656661_0.5621696643548604",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "size": "middle",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n $data.params.unitCode  = $data.params.unitCode  || ''\n  $run('getAsyncData')\n}",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "text": "查询",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1648177656660_0.20995988421210332"
+        },
+        "useLoadingCode": true,
+        "type": "default",
+        "useClickCode": true
+      }
+    },
+    "style": {
+      "overflow": "auto",
+      "width": "auto"
+    },
+    "onMountedCode": "function onMounted() {\n  // 在下面开始编写挂载事件\n  debugger\n // $data.params.unitCode = $info.currentUnitCode || ''\n  $data.params.unitCode =  ''\n  let month = `${new Date().getMonth() + 1}`\n   if (month.length === 1) {\n    month = `${'0'}`+ month\n  }\n  $data.params.date = `${new Date().getFullYear()}-${month}`\n  $run('getAsyncData')\n  $dde.get('cd1267703ea84a329c1e6071d4c12de3').then(res => {\n   $data.unit = res.map(item => {\n    return {\n      ...item,\n      label: item.unitName,\n      value: item.unitCode\n    }\n  })\n})\n}",
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640861711741_0.6437621443280128"
+    }
+  },
+  "publishDate": "2022-03-25 13:47:53",
+  "sourceId": "6w75HhtPTROLfwmQDu04-Q",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640863245790": {
+        "code": "\"2021-12\"",
+        "children": [],
+        "name": "date",
+        "id": "Data_1640863245790",
+        "title": "date",
+        "type": "s",
+        "key": "Data_1640863245790"
+      },
+      "Data_1640863944464": {
+        "code": "{\n\tdate: '',\n    month: '',\n    unitCode: '',\n    closePage: true,\n    pageSize: -1\n}",
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "boolean",
+            "name": "closePage",
+            "id": "Data_1640863944464_closePage",
+            "label": "closePage",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "date",
+            "id": "Data_1640863944464_date",
+            "label": "date",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "month",
+            "id": "Data_1640863944464_month",
+            "label": "month",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "number",
+            "name": "pageSize",
+            "id": "Data_1640863944464_pageSize",
+            "label": "pageSize",
+            "type": "schema"
+          },
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "unitCode",
+            "id": "Data_1640863944464_unitCode",
+            "label": "unitCode",
+            "type": "schema"
+          }
+        ],
+        "dataType": "object",
+        "name": "params",
+        "id": "Data_1640863944464",
+        "title": "params",
+        "type": "o",
+        "codeSchemas": {
+          "date": {
+            "isDefault": true,
+            "propertyName": "date",
+            "fieldLabelName": "date",
+            "fieldType": "string"
+          },
+          "month": {
+            "isDefault": true,
+            "propertyName": "month",
+            "fieldLabelName": "month",
+            "fieldType": "string"
+          },
+          "unitCode": {
+            "isDefault": true,
+            "propertyName": "unitCode",
+            "fieldLabelName": "unitCode",
+            "fieldType": "string"
+          },
+          "pageSize": {
+            "isDefault": true,
+            "propertyName": "pageSize",
+            "fieldLabelName": "pageSize",
+            "fieldType": "number"
+          },
+          "closePage": {
+            "isDefault": true,
+            "propertyName": "closePage",
+            "fieldLabelName": "closePage",
+            "fieldType": "boolean"
+          }
+        },
+        "key": "Data_1640863944464"
+      },
+      "Data_1640862930290": {
+        "code": "{}",
+        "children": [],
+        "componentSchemas": {},
+        "name": "datalist",
+        "id": "Data_1640862930290",
+        "title": "datalist",
+        "type": "o",
+        "key": "Data_1640862930290"
+      },
+      "Data_1644996188850": {
+        "code": "[]",
+        "children": [],
+        "dataType": "array",
+        "name": "unit",
+        "id": "Data_1644996188850",
+        "title": "unit",
+        "type": "o",
+        "codeSchemas": {},
+        "key": "Data_1644996188850"
+      },
+      "Data_1644996760129": {
+        "code": "''",
+        "children": [],
+        "dataType": "string",
+        "name": "unitValue",
+        "id": "Data_1644996760129",
+        "title": "unitValue",
+        "type": "o",
+        "key": "Data_1644996760129"
+      },
+      "Data_1640863117649": {
+        "code": "0",
+        "children": [],
+        "name": "dateMount",
+        "id": "Data_1640863117649",
+        "title": "dateMount",
+        "type": "n",
+        "key": "Data_1640863117649"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640863047782": {
+        "code": "function setTableHead(date) {\n\tconst { mount, weekMap } = $run('getDate', date)\n\n  const dateRow = new Array(mount).fill({}).reduce((result, item, index) => {\n      return {\n        1: '序号',\n        2: '员工编号',\n        3: '姓名',\n        4: '日期',\n        ...result,\n        [index+5]: `${index + 1}`,\n        [mount+5]: '实际出勤天数',\n        [mount+6]: '实际刷卡次数',\n        [mount+7]: '忘记刷卡次数',\n        [mount+8]: '迟到次数',\n        [mount+9]: '入/离职缺勤',\n        [mount+10]: '旷工',\n        [mount+11]: '事假',\n        [mount+12]: '备注',\n      };\n    }, {});\n  \n    const weekRow = new Array(mount).fill({}).reduce((result, item, index) => {\n      return {\n        1: '序号',\n        2: '员工编号',\n        3: '姓名',\n        4: '星期',\n        ...result,\n        [index + 5]: weekMap[(index) % 7],\n        [mount+5]: '实际出勤天数',\n        [mount+6]: '实际刷卡时间',\n        [mount+7]: '忘记刷卡次数',\n        [mount+8]: '迟到次数',\n        [mount+9]: '入/离职缺勤',\n        [mount+10]: '旷工',\n        [mount+11]: '事假',\n        [mount+12]: '备注',\n      };\n    }, {});\n  \n   \t$data.dateMount = mount;\n  \n    return {\n      dateRow,\n      weekRow\n   }\n}",
+        "name": "setTableHead",
+        "id": "Method_1640863047782",
+        "title": "setTableHead",
+        "key": "Method_1640863047782"
+      },
+      "Method_1640863007661": {
+        "code": "function getDate(date) {\n  if (!date && typeof date !== \"string\") return;\n\n  const map = [\"日\", \"一\", \"二\", \"三\", \"四\", \"五\", \"六\"];\n\n  const [year, month] = date.split(\"-\");\n\n  const mount = new Date(year, month, 0).getDate();\n\n  const week = new Date(`${year}-${month}`).getDay();\n\n  const moveWeek = map.splice(0, week);\n\n  const weekMap = [...map, ...moveWeek];\n\n  return { mount, weekMap };\n}",
+        "name": "getDate",
+        "id": "Method_1640863007661",
+        "title": "getDate",
+        "key": "Method_1640863007661"
+      },
+      "Method_1640863219760": {
+        "code": "async function getAsyncData() {\n  debugger\n  const { dateRow, weekRow } = $run(\"setTableHead\", $data.params.date);\n  $data.params.month = $data.params.date +`${'-01'}`;\n  console.log('$data.params',$data.params)\n  const res = await $dde.get(\"5f3bcd67596f471e9275c5faf9dd65c3\", {\n    params: $data.params,\n    month: $data.params.date\n  });\n\n  const getColsData = (row) => {\n    return Object.entries(row).reduce((result, [key, value]) => {\n      if (new RegExp(/^\\d/).test(key)) {\n        let dateIndex = Number(key.match(/\\d+/g)[0]);\n        return {\n          ...result,\n          [dateIndex]: result[dateIndex] ? `${result[dateIndex]}/${value}` : `${value}`,\n        };\n      }\n      return result;\n    }, {});\n  };\n\n  const rows = res.reduce((result, item, index) => {\n    const colsData = getColsData(item);\n    const cols = new Array($data.dateMount).fill({}).reduce(\n      (result, item, index) => {\n        const week = !colsData[index + 1] && ['六', '日'].includes(weekRow[index + 5]);\n        const c = colsData[index + 1] ?? (week ? \"休\" : '');\n        return {\n          ...result,\n          [index + 5]: c,\n        };\n      },\n      {}\n    );\n    const len = Object.keys(cols)[Object.keys(cols).length - 1];\n    return {\n      ...result,\n      [index + 3]: {\n        1: `${index + 1}`,\n        2: `${item.usercode}`,\n        3: `${item.userName}`,\n        //4: `${item.month}`,\n        4: `${item.unitName}`,\n        ...cols,\n        [Number(len) + 1]: `${item.workdays ?? ''}`,\n        [Number(len) + 2]: \"\",\n        [Number(len) + 3]: \"\",\n        [Number(len) + 4]: `${item.latetimes ?? ''}`,\n        [Number(len) + 5]: \"\",\n        [Number(len) + 6]:  `${item.absencetimes ?? ''}`,\n        [Number(len) + 7]: `${item.leaveduration ?? ''}`,\n        [Number(len) + 8]: `${item.mark ?? ''}`,\n      },\n    };\n  }, {});\n\n  $data.datalist = {\n    1: dateRow,\n    2: weekRow,\n    ...rows,\n  };\n}\n",
+        "name": "getAsyncData",
+        "id": "Method_1640863219760",
+        "label": "getAsyncData",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "modelTag": "报表",
+  "isValid": "T"
+}

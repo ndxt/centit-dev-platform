@@ -1,0 +1,44 @@
+[
+  {
+    "databaseCode": "C8gcVRH8SGibjItJIclKuA",
+    "databaseName": "人脸识别库",
+    "databaseUrl": "jdbc:mysql://192.168.135.14:3306/arcsoft_face?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=Asia/Shanghai",
+    "username": "root",
+    "password": "cipher:pzS0Vd7iuzB2C+pdhEjVzw==",
+    "databaseDesc": "",
+    "lastModifyDate": "2022-10-08 11:37:25",
+    "createTime": "2022-03-05 16:34:03",
+    "created": "U22AJpoL",
+    "sourceType": "D",
+    "extProps": "{\"\":\"\"}",
+    "topUnit": "DxxkJ664"
+  },
+  {
+    "databaseCode": "nmne6pXDTxeSD8Pnr3SNCQ",
+    "databaseName": "OA资源库",
+    "databaseUrl": "jdbc:mysql://192.168.137.63:32514/centit-oa?characterEncoding=UTF-8&useSSL=false&useUnicode=true&&serverTimezone=Asia/Shanghai&autoReconnect=true",
+    "username": "root",
+    "password": "cipher:UodsWL4qX+HWN3Bwj8yP7Q==",
+    "databaseDesc": "",
+    "lastModifyDate": "2022-10-08 11:33:53",
+    "createTime": "2022-02-22 10:30:24",
+    "created": "u0000000",
+    "sourceType": "D",
+    "extProps": "{\"minIdle\":\"10\",\"maxActive\":\"100\"}",
+    "topUnit": "DxxkJ664"
+  },
+  {
+    "databaseCode": "as1tbQH_TsKztvEVP1hyhw",
+    "databaseName": "门禁刷卡库",
+    "databaseUrl": "jdbc:sqlserver://192.168.128.33:1433;databaseName=iccard",
+    "username": "sa",
+    "password": "cipher:pzS0Vd7iuzB2C+pdhEjVzw==",
+    "databaseDesc": "",
+    "lastModifyDate": "2022-03-11 09:35:06",
+    "createTime": "2022-03-05 16:34:55",
+    "created": "U22AJpoL",
+    "sourceType": "D",
+    "extProps": "{\"\":\"\"}",
+    "topUnit": "DxxkJ664"
+  }
+]

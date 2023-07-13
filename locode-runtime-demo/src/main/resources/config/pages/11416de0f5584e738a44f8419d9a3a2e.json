@@ -1,0 +1,152 @@
+{
+  "modelId": "11416de0f5584e738a44f8419d9a3a2e",
+  "modelName": "补卡申请（提交）",
+  "optId": "pYrzzpp2R_qzhpz9_Q2msA",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "Y",
+  "lastModifyDate": "2022-03-05 14:38:07",
+  "recorder": "U22AJpoL",
+  "modelComment": "展示补卡信息页面",
+  "formTemplate": {
+    "plugin": {
+      "tag": "Model",
+      "label": "模块",
+      "id": "Model_1635907511200"
+    },
+    "styleText": "width: 640px;\nmax-width: 640px;\npadding: 0 32px;",
+    "children": [
+      {
+        "plugin": {
+          "tag": "PageHeader",
+          "label": "页头",
+          "id": "PageHeader_1636340052036"
+        },
+        "subTitle": "申请补打卡",
+        "title": "补卡申请"
+      },
+      {
+        "layout": "vertical",
+        "plugin": {
+          "tag": "Form",
+          "label": "表单",
+          "id": "Form_1635925403565"
+        },
+        "children": [
+          {
+            "plugin": {
+              "tag": "InputText",
+              "label": "输入框",
+              "id": "InputText_1636339276276"
+            },
+            "label": "申请人"
+          },
+          {
+            "plugin": {
+              "tag": "FormItem",
+              "label": "表单项",
+              "id": "FormItem_1636445992580"
+            },
+            "children": [
+              {
+                "plugin": {
+                  "tag": "DatePicker",
+                  "label": "日期选择",
+                  "id": "DatePicker_1636446002607"
+                },
+                "label": "日期选择"
+              },
+              {
+                "plugin": {
+                  "tag": "TimePicker",
+                  "label": "时间选择",
+                  "id": "TimePicker_1636447803098"
+                },
+                "label": "时间选择"
+              }
+            ],
+            "label": "补卡时间"
+          },
+          {
+            "plugin": {
+              "tag": "InputNumber",
+              "label": "数字框",
+              "id": "InputNumber_1637115545072"
+            },
+            "label": "请假天数"
+          },
+          {
+            "showCount": true,
+            "plugin": {
+              "tag": "Textarea",
+              "label": "文本域",
+              "id": "Textarea_1636372400352"
+            },
+            "label": "补卡原因",
+            "allowClear": true,
+            "autosize": true
+          },
+          {
+            "plugin": {
+              "tag": "Upload",
+              "label": "上传文件",
+              "id": "Upload_1636612554667"
+            },
+            "label": "上传材料"
+          }
+        ],
+        "labelAlign": "right",
+        "colon": true,
+        "label": "表单"
+      },
+      {
+        "orientation": "left",
+        "plugin": {
+          "tag": "Divider",
+          "label": "分割线",
+          "id": "Divider_1636340092811"
+        },
+        "text": "预审信息",
+        "type": "horizontal"
+      },
+      {
+        "layout": "vertical",
+        "plugin": {
+          "tag": "Form",
+          "label": "表单",
+          "id": "Form_1636339312485"
+        },
+        "children": [
+          {
+            "plugin": {
+              "tag": "InputText",
+              "label": "输入框",
+              "id": "InputText_1636339319402"
+            },
+            "label": "预审人"
+          },
+          {
+            "plugin": {
+              "tag": "InputText",
+              "label": "输入框",
+              "id": "InputText_1636339322395"
+            },
+            "label": "抄送人"
+          }
+        ],
+        "labelAlign": "right",
+        "colon": true,
+        "label": "表单"
+      }
+    ],
+    "style": {
+      "padding": "0 32px",
+      "width": "640px",
+      "maxWidth": "640px"
+    },
+    "label": "模块"
+  },
+  "publishDate": "2022-03-05 14:38:03",
+  "sourceId": "F3ly26TrQQiMhivrair-0A",
+  "modelTag": "补卡1",
+  "isValid": "F"
+}

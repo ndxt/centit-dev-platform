@@ -1,0 +1,916 @@
+{
+  "modelId": "Ik5Llm_HQiK1iNlmheG21w",
+  "modelName": "test1",
+  "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "lastModifyDate": "2022-08-22 13:52:17",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "",
+  "formTemplate": {
+    "$name": "Model",
+    "children": [
+      {
+        "$name": "Button",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1653891419440_0.8734529831625597": {
+            "isDefault": true,
+            "componentId": "Button_1653891419440_0.1447000224772652",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1653891419440_0.8734529831625597",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1653891419440_0.32889968803948944": {
+            "isDefault": true,
+            "componentId": "Button_1653891419440_0.1447000224772652",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1653891419440_0.32889968803948944",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1653891322260_0.05264657162007369"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "type": "default",
+        "size": "middle",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n $run('tm1')\n}",
+        "text": "query",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1653891419440_0.1447000224772652"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      {
+        "layout": "vertical",
+        "$name": "Form",
+        "$data": {
+          "Data_1661147402142_0.42996785629454926": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147402142_0.42996785629454926",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1661147402142_0.3569609184939335": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147402142_0.3569609184939335",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1661147402142_0.036278991134360616": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147402142_0.036278991134360616",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1661147402142_0.5608411867783525": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147402142_0.5608411867783525",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1661147402142_0.13690479371632414": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147402142_0.13690479371632414",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$group": "Form_1661147402142_0.6274352908542",
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "children": [
+          {
+            "$name": "InputText",
+            "notShowItem": false,
+            "password": false,
+            "$group": "InputText_1661147402142_0.007865238929631202",
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1661147402142_0.6274352908542"
+            },
+            "rulesConfig": [],
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "InputText_1661147402142_0.007865238929631202"
+            },
+            "label": "输入框",
+            "allowClear": false
+          },
+          {
+            "$name": "输入框",
+            "notShowItem": false,
+            "password": false,
+            "$group": "InputText_1661147402142_0.007865238929631202",
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1661147402142_0.6274352908542"
+            },
+            "rulesConfig": [],
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "InputText_1661147406509_0.3058799214373309"
+            },
+            "label": "输入框",
+            "allowClear": false
+          },
+          {
+            "$name": "输入框",
+            "notShowItem": false,
+            "password": false,
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1661147402142_0.6274352908542"
+            },
+            "rulesConfig": [],
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "InputText_1661147406014_0.6749813558212359"
+            },
+            "label": "输入框",
+            "allowClear": false
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1653891322260_0.05264657162007369"
+        },
+        "legend": "表单",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147402142_0.6274352908542"
+        },
+        "useLoadingCode": true
+      },
+      {
+        "layout": "vertical",
+        "$name": "表单",
+        "$data": {
+          "Data_1661147431733_0.34763613788628267": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147431733_0.34763613788628267",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1661147431733_0.6043338630565589": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147431733_0.6043338630565589",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1661147431733_0.1350660744051413": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147431733_0.1350660744051413",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Data_1661147431733_0.1260129866567019": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147431733_0.1260129866567019",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1661147431733_0.237322630781579": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147431733_0.237322630781579",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$group": "Form_1661147402142_0.6274352908542",
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "children": [
+          {
+            "$name": "表单",
+            "notShowItem": false,
+            "password": false,
+            "$group": "InputText_1661147402142_0.007865238929631202",
+            "$data": {
+              "Method_1661147431733_0.3761252030164086": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+                "name": "load",
+                "id": "Method_1661147431733_0.1350660744051413",
+                "label": "获取数据",
+                "type": "method"
+              },
+              "Data_1661147431733_0.2733525424810679": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "false",
+                "dataType": "boolean",
+                "name": "loading",
+                "id": "Data_1661147431733_0.34763613788628267",
+                "label": "加载中",
+                "type": "data",
+                "isFixed": true
+              },
+              "Method_1661147431733_0.6139157109700872": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+                "name": "submit",
+                "id": "Method_1661147431733_0.237322630781579",
+                "label": "提交",
+                "type": "method"
+              },
+              "Data_1661147431733_0.7759934609715213": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "{}",
+                "componentSchemas": {},
+                "children": [],
+                "isMain": true,
+                "dataType": "object",
+                "name": "value",
+                "id": "Data_1661147431733_0.1260129866567019",
+                "label": "数据",
+                "type": "data"
+              },
+              "Method_1661147431733_0.7653583168817335": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function load () {\n  return this.$ref.validate()       \n}",
+                "name": "validate",
+                "id": "Method_1661147431733_0.6043338630565589",
+                "label": "校验",
+                "type": "method"
+              }
+            },
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1661147431733_0.19208198036987878"
+            },
+            "rulesConfig": [],
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "Form_1661147431733_0.8135364405172667"
+            },
+            "label": "输入框",
+            "allowClear": false
+          },
+          {
+            "$name": "表单",
+            "notShowItem": false,
+            "password": false,
+            "$group": "InputText_1661147402142_0.007865238929631202",
+            "$data": {
+              "Method_1661147431733_0.8847712289357028": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+                "name": "submit",
+                "id": "Method_1661147431733_0.237322630781579",
+                "label": "提交",
+                "type": "method"
+              },
+              "Method_1661147431733_0.47588937511907736": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function load () {\n  return this.$ref.validate()       \n}",
+                "name": "validate",
+                "id": "Method_1661147431733_0.6043338630565589",
+                "label": "校验",
+                "type": "method"
+              },
+              "Method_1661147431733_0.5978998609886361": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+                "name": "load",
+                "id": "Method_1661147431733_0.1350660744051413",
+                "label": "获取数据",
+                "type": "method"
+              },
+              "Data_1661147431733_0.5451527737436419": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "false",
+                "dataType": "boolean",
+                "name": "loading",
+                "id": "Data_1661147431733_0.34763613788628267",
+                "label": "加载中",
+                "type": "data",
+                "isFixed": true
+              },
+              "Data_1661147431733_0.6098256875299164": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "{}",
+                "componentSchemas": {},
+                "children": [],
+                "isMain": true,
+                "dataType": "object",
+                "name": "value",
+                "id": "Data_1661147431733_0.1260129866567019",
+                "label": "数据",
+                "type": "data"
+              }
+            },
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1661147431733_0.19208198036987878"
+            },
+            "rulesConfig": [],
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "Form_1661147431733_0.987612026544497"
+            },
+            "label": "输入框",
+            "allowClear": false
+          },
+          {
+            "$name": "表单",
+            "notShowItem": false,
+            "password": false,
+            "$data": {
+              "Method_1661147431733_0.7688045933758396": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+                "name": "submit",
+                "id": "Method_1661147431733_0.237322630781579",
+                "label": "提交",
+                "type": "method"
+              },
+              "Data_1661147431733_0.4423518695291444": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "{}",
+                "componentSchemas": {},
+                "children": [],
+                "isMain": true,
+                "dataType": "object",
+                "name": "value",
+                "id": "Data_1661147431733_0.1260129866567019",
+                "label": "数据",
+                "type": "data"
+              },
+              "Method_1661147431733_0.4110629541582833": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+                "name": "load",
+                "id": "Method_1661147431733_0.1350660744051413",
+                "label": "获取数据",
+                "type": "method"
+              },
+              "Data_1661147431733_0.8920387944294972": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "false",
+                "dataType": "boolean",
+                "name": "loading",
+                "id": "Data_1661147431733_0.34763613788628267",
+                "label": "加载中",
+                "type": "data",
+                "isFixed": true
+              },
+              "Method_1661147431733_0.42145429854991123": {
+                "isDefault": true,
+                "componentId": "Form_1661147431733_0.19208198036987878",
+                "code": "async function load () {\n  return this.$ref.validate()       \n}",
+                "name": "validate",
+                "id": "Method_1661147431733_0.6043338630565589",
+                "label": "校验",
+                "type": "method"
+              }
+            },
+            "$group": "InputText_1661147402142_0.007865238929631202",
+            "$parent": {
+              "name": "Form",
+              "label": "表单",
+              "id": "Form_1661147431733_0.19208198036987878"
+            },
+            "rulesConfig": [],
+            "$item": {
+              "name": "InputText",
+              "label": "输入框",
+              "id": "Form_1661147431733_0.3165596367613097"
+            },
+            "label": "输入框",
+            "allowClear": false
+          }
+        ],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1653891322260_0.05264657162007369"
+        },
+        "legend": "表单",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147431733_0.19208198036987878"
+        },
+        "useLoadingCode": true
+      }
+    ],
+    "root": true,
+    "componentData": {
+      "Button_1653891419440_0.1447000224772652": {
+        "$name": "Button",
+        "useDisabledCode": true,
+        "setDisabledCode": "function setDisabled() {\n  // 在下面返回Disabled的值  \n  return this.disabled\n}",
+        "$data": {
+          "Data_1653891419440_0.8734529831625597": {
+            "isDefault": true,
+            "componentId": "Button_1653891419440_0.1447000224772652",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "disabled",
+            "id": "Data_1653891419440_0.8734529831625597",
+            "label": "禁用",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1653891419440_0.32889968803948944": {
+            "isDefault": true,
+            "componentId": "Button_1653891419440_0.1447000224772652",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1653891419440_0.32889968803948944",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          }
+        },
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1653891322260_0.05264657162007369"
+        },
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "type": "default",
+        "size": "middle",
+        "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n $run('tm1')\n}",
+        "text": "query",
+        "$item": {
+          "name": "Button",
+          "label": "按钮",
+          "id": "Button_1653891419440_0.1447000224772652"
+        },
+        "useLoadingCode": true,
+        "useClickCode": true
+      },
+      "Form_1661147431733_0.19208198036987878": {
+        "layout": "vertical",
+        "$name": "表单",
+        "$data": {
+          "Data_1661147431733_0.34763613788628267": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147431733_0.34763613788628267",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1661147431733_0.6043338630565589": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147431733_0.6043338630565589",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1661147431733_0.1350660744051413": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147431733_0.1350660744051413",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Data_1661147431733_0.1260129866567019": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147431733_0.1260129866567019",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1661147431733_0.237322630781579": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147431733_0.237322630781579",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$group": "Form_1661147402142_0.6274352908542",
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1653891322260_0.05264657162007369"
+        },
+        "legend": "表单",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147431733_0.19208198036987878"
+        },
+        "useLoadingCode": true
+      },
+      "Form_1661147431733_0.987612026544497": {
+        "$name": "表单",
+        "notShowItem": false,
+        "password": false,
+        "$group": "InputText_1661147402142_0.007865238929631202",
+        "$data": {
+          "Method_1661147431733_0.8847712289357028": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147431733_0.237322630781579",
+            "label": "提交",
+            "type": "method"
+          },
+          "Method_1661147431733_0.47588937511907736": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147431733_0.6043338630565589",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1661147431733_0.5978998609886361": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147431733_0.1350660744051413",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Data_1661147431733_0.5451527737436419": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147431733_0.34763613788628267",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Data_1661147431733_0.6098256875299164": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147431733_0.1260129866567019",
+            "label": "数据",
+            "type": "data"
+          }
+        },
+        "$parent": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147431733_0.19208198036987878"
+        },
+        "rulesConfig": [],
+        "$item": {
+          "name": "InputText",
+          "label": "输入框",
+          "id": "Form_1661147431733_0.987612026544497"
+        },
+        "label": "输入框",
+        "allowClear": false
+      },
+      "Form_1661147431733_0.8135364405172667": {
+        "$name": "表单",
+        "notShowItem": false,
+        "password": false,
+        "$group": "InputText_1661147402142_0.007865238929631202",
+        "$data": {
+          "Method_1661147431733_0.3761252030164086": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147431733_0.1350660744051413",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Data_1661147431733_0.2733525424810679": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147431733_0.34763613788628267",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1661147431733_0.6139157109700872": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147431733_0.237322630781579",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1661147431733_0.7759934609715213": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147431733_0.1260129866567019",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1661147431733_0.7653583168817335": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147431733_0.6043338630565589",
+            "label": "校验",
+            "type": "method"
+          }
+        },
+        "$parent": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147431733_0.19208198036987878"
+        },
+        "rulesConfig": [],
+        "$item": {
+          "name": "InputText",
+          "label": "输入框",
+          "id": "Form_1661147431733_0.8135364405172667"
+        },
+        "label": "输入框",
+        "allowClear": false
+      },
+      "Form_1661147431733_0.3165596367613097": {
+        "$name": "表单",
+        "notShowItem": false,
+        "password": false,
+        "$data": {
+          "Method_1661147431733_0.7688045933758396": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147431733_0.237322630781579",
+            "label": "提交",
+            "type": "method"
+          },
+          "Data_1661147431733_0.4423518695291444": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147431733_0.1260129866567019",
+            "label": "数据",
+            "type": "data"
+          },
+          "Method_1661147431733_0.4110629541582833": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147431733_0.1350660744051413",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Data_1661147431733_0.8920387944294972": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147431733_0.34763613788628267",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1661147431733_0.42145429854991123": {
+            "isDefault": true,
+            "componentId": "Form_1661147431733_0.19208198036987878",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147431733_0.6043338630565589",
+            "label": "校验",
+            "type": "method"
+          }
+        },
+        "$group": "InputText_1661147402142_0.007865238929631202",
+        "$parent": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147431733_0.19208198036987878"
+        },
+        "rulesConfig": [],
+        "$item": {
+          "name": "InputText",
+          "label": "输入框",
+          "id": "Form_1661147431733_0.3165596367613097"
+        },
+        "label": "输入框",
+        "allowClear": false
+      },
+      "Form_1661147402142_0.6274352908542": {
+        "layout": "vertical",
+        "$name": "Form",
+        "$data": {
+          "Data_1661147402142_0.42996785629454926": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "{}",
+            "componentSchemas": {},
+            "children": [],
+            "isMain": true,
+            "dataType": "object",
+            "name": "value",
+            "id": "Data_1661147402142_0.42996785629454926",
+            "label": "数据",
+            "type": "data"
+          },
+          "Data_1661147402142_0.3569609184939335": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "false",
+            "dataType": "boolean",
+            "name": "loading",
+            "id": "Data_1661147402142_0.3569609184939335",
+            "label": "加载中",
+            "type": "data",
+            "isFixed": true
+          },
+          "Method_1661147402142_0.036278991134360616": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "async function load (id) {  \n  this.loading = true\n\n  try {\n    const params = { id }\n    // 根据id改变value值  \n    // this.value = await $dde.get('loadId', { params })\n  } finally {\n    this.loading = false   \n  }\n}",
+            "name": "load",
+            "id": "Method_1661147402142_0.036278991134360616",
+            "label": "获取数据",
+            "type": "method"
+          },
+          "Method_1661147402142_0.5608411867783525": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "async function load () {\n  return this.$ref.validate()       \n}",
+            "name": "validate",
+            "id": "Method_1661147402142_0.5608411867783525",
+            "label": "校验",
+            "type": "method"
+          },
+          "Method_1661147402142_0.13690479371632414": {
+            "isDefault": true,
+            "componentId": "Form_1661147402142_0.6274352908542",
+            "code": "async function submit () {\n  const { value } = this  \n  // TODO 获取value后准备提交\n  // await $dde.post('submitId', value)\n}",
+            "name": "submit",
+            "id": "Method_1661147402142_0.13690479371632414",
+            "label": "提交",
+            "type": "method"
+          }
+        },
+        "$group": "Form_1661147402142_0.6274352908542",
+        "setModelCode": "function setModel() {\n  // 在下面返回Model的值  \n  return this.value\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1653891322260_0.05264657162007369"
+        },
+        "legend": "表单",
+        "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值  \n  return this.loading\n}",
+        "useModelCode": true,
+        "$item": {
+          "name": "Form",
+          "label": "表单",
+          "id": "Form_1661147402142_0.6274352908542"
+        },
+        "useLoadingCode": true
+      }
+    },
+    "style": {},
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1653891322260_0.05264657162007369"
+    }
+  },
+  "publishDate": "2022-08-22 13:52:17",
+  "sourceId": "Ik5Llm_HQiK1iNlmheG21w",
+  "structureFunction": {
+    "dataConfigs": {},
+    "methodsConfigs": {
+      "Method_1653891337095": {
+        "code": "async function tm1 () {\n    const { queryDictionary } = $api\n    let dicData = await queryDictionary(\"gaVXuauTSiO1quaguCpAOA\")\n    console.log(dicData)\n}",
+        "name": "tm1",
+        "id": "Method_1653891337095",
+        "label": "tm1",
+        "type": "method"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {}
+  },
+  "isValid": "T"
+}

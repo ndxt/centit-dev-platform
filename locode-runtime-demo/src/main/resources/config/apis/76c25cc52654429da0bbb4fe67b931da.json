@@ -1,0 +1,25 @@
+{
+  "packetId": "76c25cc52654429da0bbb4fe67b931da",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "packetName": "test",
+  "packetDesc": "",
+  "recorder": "U22AJpoL",
+  "recordDate": "2022-06-29 09:16:22",
+  "taskType": "1",
+  "isValid": "T",
+  "isWhile": "F",
+  "returnResult": {
+    "data": "ok"
+  },
+  "updateDate": "2022-06-29 09:19:27",
+  "publishDate": "2022-06-29 09:19:26",
+  "needRollback": "T",
+  "optId": "hlX9hUN5SiqXxo8neCT9gg",
+  "optCode": "76c25cc52654429da0bbb4fe67b931da",
+  "bufferFreshPeriod": -1,
+  "bufferFreshPeriodType": -1,
+  "sourceId": "76c25cc52654429da0bbb4fe67b931da",
+  "logLevel": 1,
+  "isDisable": "T",
+  "params": []
+}

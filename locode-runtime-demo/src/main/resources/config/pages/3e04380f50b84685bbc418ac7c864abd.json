@@ -1,0 +1,603 @@
+{
+  "modelId": "3e04380f50b84685bbc418ac7c864abd",
+  "modelName": "批量审批",
+  "optId": "004c0379248741499b3c2f03e8d523f5",
+  "osId": "t_H4w2emTnq89GXxEN5Dsw",
+  "modelType": "R",
+  "lastModifyDate": "2022-03-22 13:59:11",
+  "recorder": "D4BtpSxJ",
+  "modelComment": "创建空白页面，自由发挥",
+  "formTemplate": {
+    "fit": true,
+    "dataConfigs": {
+      "Data_1640328667069": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1640328667069",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1640328667069"
+      },
+      "Data_1640598176449": {
+        "code": "[]",
+        "children": [],
+        "name": "submitedRows",
+        "id": "Data_1640598176449",
+        "title": "submitedRows",
+        "type": "a",
+        "key": "Data_1640598176449"
+      },
+      "Data_1640328180768": {
+        "code": "[]",
+        "componentSchemas": {
+          "flowOptName": {
+            "isDefault": true,
+            "propertyName": "flowOptName",
+            "fieldLabelName": "申请名称",
+            "$key": "flowOptName",
+            "fieldType": "string"
+          }
+        },
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "flowOptName",
+            "id": "Data_1640328180768_flowOptName",
+            "label": "申请名称",
+            "type": "schema"
+          }
+        ],
+        "name": "flows",
+        "id": "Data_1640328180768",
+        "title": "flows",
+        "type": "a",
+        "key": "Data_1640328180768"
+      },
+      "Data_1640598263520": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmitOpen",
+        "id": "Data_1640598263520",
+        "title": "isSubmitOpen",
+        "type": "b",
+        "key": "Data_1640598263520"
+      },
+      "Data_1640328387167": {
+        "code": "\"\"",
+        "children": [],
+        "name": "flowOptTag",
+        "id": "Data_1640328387167",
+        "title": "flowOptTag",
+        "type": "s",
+        "key": "Data_1640328387167"
+      },
+      "Data_1640328612293": {
+        "code": "[]",
+        "children": [],
+        "name": "selectedRows",
+        "id": "Data_1640328612293",
+        "title": "selectedRows",
+        "type": "a",
+        "key": "Data_1640328612293"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640329083068": {
+        "code": "function select(id) {\n  $data.flowOptTag = id\n}",
+        "name": "select",
+        "id": "Method_1640329083068",
+        "title": "select",
+        "key": "Method_1640329083068"
+      },
+      "Method_1640607121072": {
+        "code": "function format() {\n\tconst { selectedRows: all, submitedRows: sub } = $data\n    return `${sub.length} / ${all.length}`\n}",
+        "name": "format",
+        "id": "Method_1640607121072",
+        "title": "format",
+        "key": "Method_1640607121072"
+      },
+      "Method_1640594040370": {
+        "code": "function submitFlow(flow, info) {\n  /**return new Promise(r => setTimeout(() => {\n    console.log(flow)\n    r()\n  }, 400))**/\n  flow = Object.assign({}, flow, info)\n  return $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {\n  \tflow,\n  })\n}",
+        "name": "submitFlow",
+        "id": "Method_1640594040370",
+        "title": "submitFlow",
+        "key": "Method_1640594040370"
+      },
+      "Method_1640331215269": {
+        "code": "function queryFlows(flows) {\n  if (!flows?.length) return\n  \n  $data.flows = flows\n  $data.flowOptTag = flows[0].flowOptTag\n  $data.selectedRows = flows.map(f => f.flowInstId)\n}",
+        "name": "queryFlows",
+        "id": "Method_1640331215269",
+        "title": "queryFlows",
+        "key": "Method_1640331215269"
+      },
+      "Method_1640328644070": {
+        "code": "async function query(ids) {\n  if (!ids) return\n  const params = {\n  \t['(splitforin)flowInstId_in']: ids.join(','),\n    pageSize: -1,\n  }\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params }) \n  $data.flows = objList\n  $data.flowOptTag = objList[0]?.flowOptTag\n  $data.selectedRows = [...ids]\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1640328644070",
+        "title": "query",
+        "key": "Method_1640328644070"
+      },
+      "Method_1640598282120": {
+        "code": "function openSubmit() {\n  $data.isSubmitOpen = true\n  return\n  \n\tconst { Modal, Progress } = $antd\n    const { h } = $vue\n    const { selectedRows: all, submitedRows: sub } = $data\n    \n    Modal.info({\n      title: '批量提交',\n      content: h(Progress, {\n      \ttype: 'circle',\n      }, {\n      \tformat: h('span', `${sub.length} / ${sub.length}`)\n      })  \n    })\n}",
+        "name": "openSubmit",
+        "id": "Method_1640598282120",
+        "title": "openSubmit",
+        "key": "Method_1640598282120"
+      },
+      "Method_1640593631908": {
+        "code": "async function () {\n  const { AdjustInfo } = $refs\n  const info = AdjustInfo.data.info\n  const { flows, selectedRows: rows } = $data\n  await AdjustInfo.run('validate')\n  await AdjustInfo.run('openConfirm')\n  \n  $data.submitedRows = []\n  $run('openSubmit')\n  for (let i = 0; i < rows.length; i++) {\n    const id = rows[i]\n    const index = flows\n    \t.map(f => f.flowInstId)\n    \t.indexOf(id)\n    if (index < 0) continue\n  \tconst flow = flows[index]\n    \n    try {\n      await $run('submitFlow', flow, info)\n      // 如果提交成功，就删除原来的数据\n      $data.submitedRows.push(id)\n      flows.splice(index, 1)\n    } catch(e) {\n      console.error(e)\n    }\n  }\n  \n  // 返回未提交的数据\n  return flows.map(f => f.flowInstId)\n}",
+        "name": "submit",
+        "id": "Method_1640593631908",
+        "label": "submit",
+        "type": "method"
+      },
+      "Method_1640598287256": {
+        "code": "function closeSubmit() {\n\t$data.isSubmitOpen = false\n}",
+        "name": "closeSubmit",
+        "id": "Method_1640598287256",
+        "title": "closeSubmit",
+        "key": "Method_1640598287256"
+      }
+    },
+    "children": [
+      {
+        "useStyleText": true,
+        "styleText": "margin: -24px;\npadding: 8px;",
+        "children": [],
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640327810919_0.679560180213074"
+        },
+        "$layout": {
+          "useStyleText": true,
+          "styleText": "padding-left: 8px;",
+          "children": [],
+          "$center": {
+            "useStyleText": true,
+            "styleText": "display: flex;\nflex-direction: column;",
+            "children": [
+              {
+                "children": [],
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1640329408154_0.11375517542125912"
+                },
+                "useParamsCode": true,
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1640329442324_0.2625774038440878"
+                },
+                "id": "459dd728f7b44414aa4192e993431b8b",
+                "setParamsCode": "function setParams() {\n  // 在下面返回Params的值\n  return  {\n  \tleaveno: $data.flowOptTag,\n  }\n}"
+              },
+              {
+                "ref": "AdjustInfo",
+                "children": [],
+                "$parent": {
+                  "name": "LayoutContent",
+                  "label": "内容",
+                  "id": "LayoutContent_1640329408154_0.11375517542125912"
+                },
+                "$item": {
+                  "name": "Model",
+                  "label": "模块",
+                  "id": "Model_1640329471954_0.24805598038072096"
+                },
+                "id": "21fb1dbba0594fed8f3b2fd88f041780"
+              }
+            ],
+            "$item": {
+              "name": "LayoutContent",
+              "label": "内容",
+              "id": "LayoutContent_1640329408154_0.11375517542125912"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          },
+          "$item": {
+            "name": "Layout",
+            "label": "布局",
+            "id": "Layout_1640329405139_0.7156062400685617"
+          },
+          "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+          "items": [
+            "c"
+          ]
+        },
+        "$left": {
+          "children": [
+            {
+              "$parent": {
+                "name": "LayoutSider",
+                "label": "侧边栏",
+                "id": "LayoutSider_1640328027759_0.9981231889788711"
+              },
+              "columns": [
+                {
+                  "children": [],
+                  "columnId": "HeaderCell_1640329211636_0.3159660089898635",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1640329211636_0.3159660089898635"
+                  },
+                  "title": "申请人",
+                  "$cell": [
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { creatorName, unitName } = $data.row\n  return `${creatorName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640329235774_0.7069792976467937"
+                      }
+                    },
+                    {
+                      "useStyleText": true,
+                      "styleText": "margin-left: 8px;\nfont-size: 10px;\ncolor: #ccc;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n    const { creatorName, unitName } = $data.row\n  return `${unitName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640329243993_0.22352789209764978"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "flowOptName",
+                  "columnId": "HeaderCell_1640328542378_0.012924042411410097",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1640328542378_0.012924042411410097"
+                  },
+                  "title": "申请名称",
+                  "$cell": [
+                    {
+                      "useStyleText": true,
+                      "styleText": "",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('select', $data.row.flowOptTag)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.flowOptName\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640331677179_0.7147464071475218"
+                      },
+                      "useStyleCode": true,
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  //console.log('$data.row.flowOptTag', $data.row.flowOptTag)\n  //console.log('$$data.flowOptTag', $$data.flowOptTag)\n  if ($data.row.flowOptTag === $$data.flowOptTag) {\n    return {\n    \tcursor: 'pointer',\n        color: '#2db7f5',\n\t\ttextDecoration: 'underline',\n    }\n  }\n  return {\n  \tcursor: 'pointer',\n  }\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "setLoadingCode": "function setLoading() {\n  // 在下面返回Loading的值\n  return $data.loading\n}",
+              "setSelectedRowKeysCode": "function setSelectedRowKeys() {\n  // 在下面返回SelectedRowKeys的值\n  return $data.selectedRows\n}",
+              "$key": "flows",
+              "bordered": true,
+              "fit": true,
+              "onSelectChangeCode": "function onSelectChange(selectedRowKeys) {\n  // 在下面开始编写选择发生变化事件\n  $data.selectedRows = selectedRowKeys\n}",
+              "size": "small",
+              "useSelectChangeCode": true,
+              "$item": {
+                "name": "DataList",
+                "label": "数据表格",
+                "id": "DataList_1640328542378_0.786015868992445"
+              },
+              "$columns": [
+                {
+                  "children": [],
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1640329211636_0.3159660089898635"
+                  },
+                  "title": "申请人",
+                  "$cell": [
+                    {
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  const { creatorName, unitName } = $data.row\n  return `${creatorName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640329235774_0.7069792976467937"
+                      }
+                    },
+                    {
+                      "useStyleText": true,
+                      "styleText": "margin-left: 8px;\nfont-size: 10px;\ncolor: #ccc;",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n    const { creatorName, unitName } = $data.row\n  return `${unitName}`\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640329243993_0.22352789209764978"
+                      },
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+                    }
+                  ]
+                },
+                {
+                  "children": [],
+                  "dataIndex": "flowOptName",
+                  "$item": {
+                    "name": "HeaderCell",
+                    "label": "表头",
+                    "id": "HeaderCell_1640328542378_0.012924042411410097"
+                  },
+                  "title": "申请名称",
+                  "$cell": [
+                    {
+                      "useStyleText": true,
+                      "styleText": "",
+                      "onClickCode": "function onClick(e) {\n  // 在下面开始编写点击事件\n  $run('select', $data.row.flowOptTag)\n}",
+                      "setValueCode": "function setValue() {\n  // 在下面返回Value的值\n  return $data.row.flowOptName\n}",
+                      "useValueCode": true,
+                      "$item": {
+                        "name": "Html",
+                        "label": "文字",
+                        "id": "Html_1640331677179_0.7147464071475218"
+                      },
+                      "useStyleCode": true,
+                      "styleCode": "function style() {\n  // 在下面返回style对象\n  //console.log('$data.row.flowOptTag', $data.row.flowOptTag)\n  //console.log('$$data.flowOptTag', $$data.flowOptTag)\n  if ($data.row.flowOptTag === $$data.flowOptTag) {\n    return {\n    \tcursor: 'pointer',\n        color: '#2db7f5',\n\t\ttextDecoration: 'underline',\n    }\n  }\n  return {\n  \tcursor: 'pointer',\n  }\n}",
+                      "useClickCode": true
+                    }
+                  ]
+                }
+              ],
+              "useLoadingCode": true,
+              "useSelectedRowKeysCode": true,
+              "dataSource": [],
+              "actions": {
+                "children": [],
+                "$item": {
+                  "name": "DataActions",
+                  "label": "操作栏",
+                  "id": "DataActions_1640328543010_0.13267969130815227"
+                }
+              },
+              "rowKey": "flowInstId"
+            }
+          ],
+          "width": 360,
+          "theme": "light",
+          "$item": {
+            "name": "LayoutSider",
+            "label": "侧边栏",
+            "id": "LayoutSider_1640328027759_0.9981231889788711"
+          },
+          "collapsedWidth": 80
+        },
+        "$item": {
+          "name": "Layout",
+          "label": "布局",
+          "id": "Layout_1640328002378_0.6289421064391305"
+        },
+        "dir": "lr",
+        "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}",
+        "items": [
+          "l"
+        ],
+        "hasLayout": true
+      },
+      {
+        "keyboard": true,
+        "useVisibleCode": true,
+        "setVisibleCode": "function setVisible() {\n  // 在下面返回Visible的值\n  return $data.isSubmitOpen\n}",
+        "$parent": {
+          "name": "Model",
+          "label": "模块",
+          "id": "Model_1640327810919_0.679560180213074"
+        },
+        "closable": true,
+        "maskClosable": true,
+        "title": "批量提交",
+        "onOk": "closeSubmit",
+        "children": [
+          {
+            "useStyleText": true,
+            "styleText": "justify-content: center;",
+            "children": [
+              {
+                "usePercentCode": true,
+                "format": "format",
+                "$item": {
+                  "name": "Progress",
+                  "label": "进度条",
+                  "id": "Progress_1640606941674_0.14141504979855624"
+                },
+                "type": "circle",
+                "setPercentCode": "function setPercent() {\n  // 在下面返回Percent的值\n  \tconst { selectedRows: all, submitedRows: sub } = $data\n  return 100 * sub.length / all.length\n}"
+              }
+            ],
+            "$item": {
+              "name": "Row",
+              "label": "行",
+              "id": "Row_1640607540239_0.5472840823620067"
+            },
+            "styleCode": "function style() {\n  // 在下面返回style对象\n  return {}\n}"
+          }
+        ],
+        "onCancel": "closeSubmit",
+        "width": 640,
+        "$item": {
+          "name": "Modal",
+          "label": "模态框",
+          "id": "Modal_1640598323079_0.9369651028239612"
+        },
+        "mask": true
+      }
+    ],
+    "root": true,
+    "componentData": {},
+    "style": {},
+    "paramsConfigs": {
+      "Param_1640328166833": {
+        "code": "function watchIds(flows, oldIds) {\n  // 在下面开始编写ids监听\n  $run('queryFlows', flows)\n}",
+        "immediate": true,
+        "name": "flows",
+        "id": "Param_1640328166833"
+      }
+    },
+    "$item": {
+      "name": "Model",
+      "label": "模块",
+      "id": "Model_1640327810919_0.679560180213074"
+    }
+  },
+  "publishDate": "2022-03-22 13:59:11",
+  "sourceId": "huHZCMaCRtOHssVomhskvw",
+  "structureFunction": {
+    "dataConfigs": {
+      "Data_1640328667069": {
+        "code": "false",
+        "children": [],
+        "name": "loading",
+        "id": "Data_1640328667069",
+        "title": "loading",
+        "type": "b",
+        "key": "Data_1640328667069"
+      },
+      "Data_1640598176449": {
+        "code": "[]",
+        "children": [],
+        "name": "submitedRows",
+        "id": "Data_1640598176449",
+        "title": "submitedRows",
+        "type": "a",
+        "key": "Data_1640598176449"
+      },
+      "Data_1640328180768": {
+        "code": "[]",
+        "componentSchemas": {
+          "flowOptName": {
+            "isDefault": true,
+            "propertyName": "flowOptName",
+            "fieldLabelName": "申请名称",
+            "$key": "flowOptName",
+            "fieldType": "string"
+          }
+        },
+        "children": [
+          {
+            "isDefault": true,
+            "dataType": "string",
+            "name": "flowOptName",
+            "id": "Data_1640328180768_flowOptName",
+            "label": "申请名称",
+            "type": "schema"
+          }
+        ],
+        "name": "flows",
+        "id": "Data_1640328180768",
+        "title": "flows",
+        "type": "a",
+        "key": "Data_1640328180768"
+      },
+      "Data_1640598263520": {
+        "code": "false",
+        "children": [],
+        "name": "isSubmitOpen",
+        "id": "Data_1640598263520",
+        "title": "isSubmitOpen",
+        "type": "b",
+        "key": "Data_1640598263520"
+      },
+      "Data_1640328387167": {
+        "code": "\"\"",
+        "children": [],
+        "name": "flowOptTag",
+        "id": "Data_1640328387167",
+        "title": "flowOptTag",
+        "type": "s",
+        "key": "Data_1640328387167"
+      },
+      "Data_1640328612293": {
+        "code": "[]",
+        "children": [],
+        "name": "selectedRows",
+        "id": "Data_1640328612293",
+        "title": "selectedRows",
+        "type": "a",
+        "key": "Data_1640328612293"
+      }
+    },
+    "methodsConfigs": {
+      "Method_1640329083068": {
+        "code": "function select(id) {\n  $data.flowOptTag = id\n}",
+        "name": "select",
+        "id": "Method_1640329083068",
+        "title": "select",
+        "key": "Method_1640329083068"
+      },
+      "Method_1640607121072": {
+        "code": "function format() {\n\tconst { selectedRows: all, submitedRows: sub } = $data\n    return `${sub.length} / ${all.length}`\n}",
+        "name": "format",
+        "id": "Method_1640607121072",
+        "title": "format",
+        "key": "Method_1640607121072"
+      },
+      "Method_1640594040370": {
+        "code": "function submitFlow(flow, info) {\n  /**return new Promise(r => setTimeout(() => {\n    console.log(flow)\n    r()\n  }, 400))**/\n  flow = Object.assign({}, flow, info)\n  return $dde.post('9f18bbb1f7e24329b5ee23faa1b1ed8b', {\n  \tflow,\n  })\n}",
+        "name": "submitFlow",
+        "id": "Method_1640594040370",
+        "title": "submitFlow",
+        "key": "Method_1640594040370"
+      },
+      "Method_1640331215269": {
+        "code": "function queryFlows(flows) {\n  if (!flows?.length) return\n  \n  $data.flows = flows\n  $data.flowOptTag = flows[0].flowOptTag\n  $data.selectedRows = flows.map(f => f.flowInstId)\n}",
+        "name": "queryFlows",
+        "id": "Method_1640331215269",
+        "title": "queryFlows",
+        "key": "Method_1640331215269"
+      },
+      "Method_1640328644070": {
+        "code": "async function query(ids) {\n  if (!ids) return\n  const params = {\n  \t['(splitforin)flowInstId_in']: ids.join(','),\n    pageSize: -1,\n  }\n  $data.loading = true\n  const {\n  \tobjList,\n    pageDesc,\n  } = await $dde.get('f267ad9a50c64300b1f1c1a6c38f780f', { params }) \n  $data.flows = objList\n  $data.flowOptTag = objList[0]?.flowOptTag\n  $data.selectedRows = [...ids]\n  $data.loading = false\n}",
+        "name": "query",
+        "id": "Method_1640328644070",
+        "title": "query",
+        "key": "Method_1640328644070"
+      },
+      "Method_1640598282120": {
+        "code": "function openSubmit() {\n  $data.isSubmitOpen = true\n  return\n  \n\tconst { Modal, Progress } = $antd\n    const { h } = $vue\n    const { selectedRows: all, submitedRows: sub } = $data\n    \n    Modal.info({\n      title: '批量提交',\n      content: h(Progress, {\n      \ttype: 'circle',\n      }, {\n      \tformat: h('span', `${sub.length} / ${sub.length}`)\n      })  \n    })\n}",
+        "name": "openSubmit",
+        "id": "Method_1640598282120",
+        "title": "openSubmit",
+        "key": "Method_1640598282120"
+      },
+      "Method_1640593631908": {
+        "code": "async function () {\n  const { AdjustInfo } = $refs\n  const info = AdjustInfo.data.info\n  const { flows, selectedRows: rows } = $data\n  await AdjustInfo.run('validate')\n  await AdjustInfo.run('openConfirm')\n  \n  $data.submitedRows = []\n  $run('openSubmit')\n  for (let i = 0; i < rows.length; i++) {\n    const id = rows[i]\n    const index = flows\n    \t.map(f => f.flowInstId)\n    \t.indexOf(id)\n    if (index < 0) continue\n  \tconst flow = flows[index]\n    \n    try {\n      await $run('submitFlow', flow, info)\n      // 如果提交成功，就删除原来的数据\n      $data.submitedRows.push(id)\n      flows.splice(index, 1)\n    } catch(e) {\n      console.error(e)\n    }\n  }\n  \n  // 返回未提交的数据\n  return flows.map(f => f.flowInstId)\n}",
+        "name": "submit",
+        "id": "Method_1640593631908",
+        "label": "submit",
+        "type": "method"
+      },
+      "Method_1640598287256": {
+        "code": "function closeSubmit() {\n\t$data.isSubmitOpen = false\n}",
+        "name": "closeSubmit",
+        "id": "Method_1640598287256",
+        "title": "closeSubmit",
+        "key": "Method_1640598287256"
+      }
+    },
+    "eventsConfigs": [],
+    "paramsConfigs": {
+      "Param_1640328166833": {
+        "code": "function watchIds(flows, oldIds) {\n  // 在下面开始编写ids监听\n  $run('queryFlows', flows)\n}",
+        "immediate": true,
+        "name": "flows",
+        "id": "Param_1640328166833"
+      }
+    }
+  },
+  "modelTag": "审批",
+  "isValid": "F"
+}
