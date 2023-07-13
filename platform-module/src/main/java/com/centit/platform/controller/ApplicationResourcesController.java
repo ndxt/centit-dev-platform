@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.common.JsonResultUtils;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
@@ -11,14 +12,17 @@ import com.centit.platform.po.ApplicationResources;
 import com.centit.platform.service.ApplicationResourcesService;
 import com.centit.product.metadata.service.SourceInfoManager;
 import com.centit.support.database.utils.PageDesc;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -101,16 +105,21 @@ public class ApplicationResourcesController extends BaseController  {
     @GetMapping("/list")
     @WrapUpResponseBody
     public PageQueryResult list(HttpServletRequest request, PageDesc pageDesc){
-        List<ApplicationResources> list = applicationResourcesService.listObjectsByProperty(BaseController.collectRequestParameters(request));
+        Map<String, Object> propertiesMap = BaseController.collectRequestParameters(request);
+        List<ApplicationResources> list = applicationResourcesService.listObjectsByProperty(propertiesMap);
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        if(StringUtils.isNotBlank(topUnit)){
+            propertiesMap.put("topUnit", topUnit);
+        }
+
+        propertiesMap.remove("osId");
+
         if (list!=null && list.size()>0){
             Map<String, String> ids = new HashMap<>();
             list.stream().forEach(applicationResources -> ids.put(applicationResources.getId(),applicationResources.getDataBaseId()));
             List<String> dataBaseCode = list.stream().map(applicationResources -> applicationResources.getDataBaseId()).collect(Collectors.toList());
-            Map map = new HashMap();
-            map.put("databaseCodes",dataBaseCode);
-            map.putAll(BaseController.collectRequestParameters(request));
-            map.remove("osId");
-            JSONArray sourceInfos = databaseInfoMag.listDatabaseAsJson(map,pageDesc);
+            propertiesMap.put("databaseCodes",dataBaseCode);
+            JSONArray sourceInfos = databaseInfoMag.listDatabaseAsJson(propertiesMap, pageDesc);
             JSONArray jsonArray = new JSONArray();
             ids.forEach((key,value)->{
                 sourceInfos.stream().forEach(sourceInfo->{
