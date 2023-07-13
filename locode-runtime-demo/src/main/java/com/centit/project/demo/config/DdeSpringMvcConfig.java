@@ -1,4 +1,4 @@
-package com.centit.locode.runtime;
+package com.centit.project.demo.config;
 
 import com.centit.framework.config.BaseSpringMvcConfig;
 import org.springframework.context.annotation.ComponentScan;

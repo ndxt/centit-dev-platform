@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>centit-dev-platform</artifactId>
-        <groupId>com.centit.product</groupId>
+        <groupId>com.centit.locode</groupId>
         <version>5.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>

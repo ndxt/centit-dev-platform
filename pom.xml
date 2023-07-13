@@ -8,13 +8,13 @@
         <version>5.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.centit.product</groupId>
+    <groupId>com.centit.locode</groupId>
     <artifactId>centit-dev-platform</artifactId>
     <version>5.3-SNAPSHOT</version>
 
     <modules>
         <module>platform-module</module>
-        <module>locode-runtime</module>
+        <module>runtime-module</module>
     </modules>
 
     <packaging>pom</packaging>

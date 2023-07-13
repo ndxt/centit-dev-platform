@@ -4,18 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.centit.product</groupId>
+        <groupId>com.centit.locode</groupId>
         <artifactId>centit-dev-platform</artifactId>
         <version>5.3-SNAPSHOT</version>
     </parent>
 
-    <artifactId>locode-runtime</artifactId>
+    <artifactId>runtime-module</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
 
     <dependencies>
         <dependency>

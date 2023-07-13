@@ -1,4 +1,4 @@
-package com.centit.locode.runtime;
+package com.centit.project.demo.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
