@@ -18,7 +18,6 @@ import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.product.adapter.api.MetadataManageService;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
-import com.centit.workflow.po.FlowInfo;
 import com.centit.workflow.service.FlowDefine;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

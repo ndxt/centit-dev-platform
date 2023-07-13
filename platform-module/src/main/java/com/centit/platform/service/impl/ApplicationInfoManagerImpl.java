@@ -1,6 +1,5 @@
 package com.centit.platform.service.impl;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.fileserver.common.FileLibraryInfo;
@@ -19,7 +18,6 @@ import com.centit.framework.system.po.OsInfo;
 import com.centit.framework.system.po.WorkGroup;
 import com.centit.framework.system.po.WorkGroupParameter;
 import com.centit.platform.dao.ApplicationDictionaryDao;
-import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.service.ApplicationInfoManager;
 import com.centit.product.adapter.api.MetadataManageService;
 import com.centit.support.algorithm.BooleanBaseOpt;
@@ -34,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 

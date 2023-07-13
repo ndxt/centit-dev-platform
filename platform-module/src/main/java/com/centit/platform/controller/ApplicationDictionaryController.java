@@ -14,13 +14,17 @@ import com.centit.framework.system.po.DataCatalog;
 import com.centit.platform.po.ApplicationDictionary;
 import com.centit.platform.service.ApplicationDictionaryService;
 import com.centit.support.database.utils.PageDesc;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author tian_y

@@ -5,7 +5,6 @@ import com.centit.framework.security.model.CentitUserDetails;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public interface ModelExportManager {
     String downModel(String osId) throws FileNotFoundException;

@@ -2,7 +2,6 @@ package com.centit.platform.all.config;
 
 import com.centit.framework.config.BaseSpringMvcConfig;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 /**

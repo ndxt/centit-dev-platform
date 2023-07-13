@@ -13,8 +13,8 @@ import com.centit.framework.model.basedata.OperationLog;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.platform.dao.ApplicationTemplateDao;
 import com.centit.platform.service.ModelExportManager;
-import com.centit.platform.vo.JsonAppVo;
 import com.centit.platform.vo.AppTableNames;
+import com.centit.platform.vo.JsonAppVo;
 import com.centit.product.adapter.po.PendingMetaColumn;
 import com.centit.product.adapter.po.PendingMetaTable;
 import com.centit.product.adapter.po.SourceInfo;
@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.xml.ws.FaultAction;
 import java.io.*;
 import java.util.*;
 
