@@ -77,7 +77,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.centit.product</groupId>
+            <groupId>com.centit.locode</groupId>
             <artifactId>platform-module</artifactId>
             <exclusions>
                 <exclusion>
