@@ -33,7 +33,6 @@ public class ApplicationExchangeController extends BaseController {
     public void exportApplication(@PathVariable String osId, HttpServletRequest request) throws IOException {
         CentitUserDetails ud = WebOptUtils.getCurrentUserDetails(request);
         applicationExchangeManager.exportApplication(osId, ud);
-
     }
 
 }
