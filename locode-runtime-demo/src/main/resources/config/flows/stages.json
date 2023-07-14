@@ -1,0 +1,46 @@
+[
+  {
+    "stageId": "7e81762f89f642489284bcf670031a11",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "stageCode": "request",
+    "stageName": "申请阶段",
+    "stageOrder": 1
+  },
+  {
+    "stageId": "8604c513f1074ecba5d4cc9ae1c7eb97",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "stageCode": "tt1",
+    "stageName": "测试1",
+    "isAccountTime": "T",
+    "limitType": "",
+    "timeLimit": "3D",
+    "expireOpt": "Y",
+    "stageOrder": 1
+  },
+  {
+    "stageId": "cb1d91312c3148f49b9c5afc41b7c724",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "stageCode": "tt2",
+    "stageName": "测试2",
+    "isAccountTime": "T",
+    "limitType": "",
+    "timeLimit": "4D",
+    "expireOpt": "Y",
+    "stageOrder": 2
+  },
+  {
+    "stageId": "f678fe09b4c348aabc32dbf25353e509",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "stageCode": "audit",
+    "stageName": "审批阶段",
+    "isAccountTime": "T",
+    "limitType": "C",
+    "timeLimit": "30D",
+    "expireOpt": "Y",
+    "stageOrder": 2
+  }
+]

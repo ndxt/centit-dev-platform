@@ -1,0 +1,262 @@
+[
+  {
+    "transId": "209ae24b0da9446eb89e7c62f4caf868",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "驳回",
+    "startNodeId": "c6ca37d23784489fbe8d1ce8b0f73f9e",
+    "endNodeId": "682db5e9283e4ee786f2246d6a1549b7",
+    "transCondition": "applyType<>\"A\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "246459c977c14478bc29b52d6b8a6ac8",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "驳回",
+    "startNodeId": "2601a71ac0394f4fb709426d1edf2f93",
+    "endNodeId": "682db5e9283e4ee786f2246d6a1549b7",
+    "transCondition": "applyType<>\"A\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "3650cbb6fb11461086f7ff8e15142cce",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "c98877068fd34fcab9d7566d08d8ab70",
+    "endNodeId": "a01a89143ff64176bcc2ebbc883ef2a5",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "3be7662167df44fdb3c289d45d6df7d7",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "startNodeId": "fb6d4f1c4ba646b0b306042962ddea10",
+    "endNodeId": "4db3fc242d0440d2a9170646543fe98f",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "49c6470443a047518d75f4201ccf7f42",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "01a1ec17f9884de8aa2bac366dec58a9",
+    "endNodeId": "2d7096763ae04925aae4e8b077801490",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "4b89a3c9b23048e79fd595abed14175d",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "通过",
+    "startNodeId": "b2e8b83c9a1c4e35b9ef14b412d10ea8",
+    "endNodeId": "290faf9f8a2742c6b61a9c3a509503f4",
+    "transCondition": "applyType=\"A\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "4bcf0cdbbccc4eb6a1dee339045d34fb",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "驳回",
+    "startNodeId": "b2e8b83c9a1c4e35b9ef14b412d10ea8",
+    "endNodeId": "682db5e9283e4ee786f2246d6a1549b7",
+    "transCondition": "applyType<>\"A\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "4e5c45193141430ea559dead37f9e73c",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "默认",
+    "startNodeId": "a01a89143ff64176bcc2ebbc883ef2a5",
+    "endNodeId": "e939942364fd4db9b6efa561112b1d10",
+    "transCondition": "else",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "4f65920517f941e29e4c585873034d0b",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "事假调休",
+    "startNodeId": "e939942364fd4db9b6efa561112b1d10",
+    "endNodeId": "2c36e9178d2b4807a9c62081ffeb3cf4",
+    "transCondition": "leavetype=\"S\" || leavetype=\"T\" ||  leavetype=\"BD\" || leavetype=\"SN\"  || leavetype=\"QW\"  || leavetype=\"CC\"   || leavetype=\"CQ\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "4fc1d6a23ce245729fa347682a592688",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "公司非事假",
+    "startNodeId": "e939942364fd4db9b6efa561112b1d10",
+    "endNodeId": "ac64090183e84a6487c4a7f5aa364aee",
+    "transCondition": "else",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "60daef2f4bdc4b6d9aef5a8b1ca757cd",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "预审",
+    "startNodeId": "2c36e9178d2b4807a9c62081ffeb3cf4",
+    "endNodeId": "f5baad1ff58f485eb07ec547817844c3",
+    "transCondition": "isnotempty(checkUser)",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "626e257fecfc48908f6961a858c74e61",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "西安非事假",
+    "startNodeId": "e939942364fd4db9b6efa561112b1d10",
+    "endNodeId": "c541ce4d550b4a41abdee8be9924d99d",
+    "transCondition": "'cYpzcoWuQxW0U_iRFxwRhg' in (userUnits(flowUser)) || 'Dr5r1vc4' in (userUnits(flowUser))",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "64c2a99d5eb5490881e8e2886c640767",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "290faf9f8a2742c6b61a9c3a509503f4",
+    "endNodeId": "2d7096763ae04925aae4e8b077801490",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "67dccb8504b8421285b2921ab1eb342b",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "startNodeId": "2cb81e2b434e4117af90b824f5dbbef2",
+    "endNodeId": "e12621b1e46d482e9652a251412467f3",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "6ab3c04abb3e42bc82047934c27b110d",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "startNodeId": "e12621b1e46d482e9652a251412467f3",
+    "endNodeId": "7e45c680225f462baca6d1893f26f32c",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "6ad8a765326b400cadac329927dea5d7",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "默认",
+    "startNodeId": "2c36e9178d2b4807a9c62081ffeb3cf4",
+    "endNodeId": "bbff2e32aac941158d3c3e58da0e8fdd",
+    "transCondition": "else",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "6fbac76f85fd4e18a50aaf4383a81366",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "通过",
+    "startNodeId": "2601a71ac0394f4fb709426d1edf2f93",
+    "endNodeId": "bbff2e32aac941158d3c3e58da0e8fdd",
+    "transCondition": "applyType=\"A\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "82a9a15b21c54f80a9a8491553d892e3",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "startNodeId": "3f5eb3cc253240ef82b12c24ff921ec8",
+    "endNodeId": "fb6d4f1c4ba646b0b306042962ddea10",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "8d9cdb693d4840469362110fd03f04e4",
+    "version": 5,
+    "flowCode": "D_Ay2OJ5R-KzmtWRnaEliA",
+    "startNodeId": "7e45c680225f462baca6d1893f26f32c",
+    "endNodeId": "3f5eb3cc253240ef82b12c24ff921ec8",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "a654b79c026d4cd68ac55dd9993fe6f7",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "bbff2e32aac941158d3c3e58da0e8fdd",
+    "endNodeId": "b2e8b83c9a1c4e35b9ef14b412d10ea8",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "a9f722a9cb5e4f11a268f9f026c7a4e9",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "通过",
+    "startNodeId": "c6ca37d23784489fbe8d1ce8b0f73f9e",
+    "endNodeId": "2c36e9178d2b4807a9c62081ffeb3cf4",
+    "transCondition": "applyType=\"A\"",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "ab364c622649452399b377ec5a447860",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "c541ce4d550b4a41abdee8be9924d99d",
+    "endNodeId": "c6ca37d23784489fbe8d1ce8b0f73f9e",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "bbf401a083de49378c70be66c3bc5227",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "transName": "领导申请",
+    "startNodeId": "a01a89143ff64176bcc2ebbc883ef2a5",
+    "endNodeId": "01a1ec17f9884de8aa2bac366dec58a9",
+    "transCondition": "(leavetype in ('CQ','SN','QW','CC') && ('D6KibYwW' in (userUnits(flowUser))  || 'DM' in(userRoles(flowUser, \"XZ\")))) &&  isempty(checkUser)",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "d92bc41132df4cbd8517c47b0e2f9027",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "ac64090183e84a6487c4a7f5aa364aee",
+    "endNodeId": "c6ca37d23784489fbe8d1ce8b0f73f9e",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "df77a271cefe44eab6e482e8415c33d2",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "682db5e9283e4ee786f2246d6a1549b7",
+    "endNodeId": "2d7096763ae04925aae4e8b077801490",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  },
+  {
+    "transId": "ea3821268c294e13a375590a2735c732",
+    "version": 20,
+    "flowCode": "a2f852f6dcca48cfa7826ffb1129d040",
+    "startNodeId": "f5baad1ff58f485eb07ec547817844c3",
+    "endNodeId": "2601a71ac0394f4fb709426d1edf2f93",
+    "isAccountTime": "I",
+    "canIgnore": "T"
+  }
+]

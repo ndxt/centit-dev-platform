@@ -1,0 +1,37 @@
+[
+  {
+    "optTeamRoleId": "46adcd0389fc4f2fac521d47a06a02d5",
+    "optId": "t_H4w2emTnq89GXxEN5Dsw",
+    "roleCode": "1",
+    "roleName": "1",
+    "modifyTime": "2022-03-05 14:38:14"
+  },
+  {
+    "optTeamRoleId": "b486b2b6ebbd4b199b1e08e40c33c8a7",
+    "optId": "t_H4w2emTnq89GXxEN5Dsw",
+    "roleCode": "c",
+    "roleName": "c",
+    "modifyTime": "2022-03-05 14:38:14"
+  },
+  {
+    "optTeamRoleId": "e231d9d6024a4e57b4c5c3bd258f7b95",
+    "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+    "roleCode": "ysr",
+    "roleName": "预审人",
+    "modifyTime": "2022-03-05 14:38:14"
+  },
+  {
+    "optTeamRoleId": "e28e1295fd8c44768ab586d706c4efdd",
+    "optId": "hlX9hUN5SiqXxo8neCT9gg",
+    "roleCode": "T",
+    "roleName": "测试",
+    "modifyTime": "2023-02-03 16:12:56"
+  },
+  {
+    "optTeamRoleId": "f1ae99f46dd54c70abc1721b078f7290",
+    "optId": "t_H4w2emTnq89GXxEN5Dsw",
+    "roleCode": "221",
+    "roleName": "221",
+    "modifyTime": "2022-03-05 14:38:14"
+  }
+]

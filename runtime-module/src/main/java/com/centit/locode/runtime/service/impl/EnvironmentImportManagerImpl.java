@@ -3,7 +3,6 @@ package com.centit.locode.runtime.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.fileserver.common.FileBaseInfo;
 import com.centit.fileserver.common.FileStore;
 import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
@@ -164,6 +163,16 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
 
     }
 
+    private void saveJsonArrayFile(String filePath, String tableName, String[] fields, String [] pkFileds) throws IOException {
+        JSONArray filesJson = JSON.parseArray(Files.newInputStream(Paths.get(filePath)));
+        for(Object obj : filesJson){
+            if(obj instanceof JSONObject){
+                JSONObject fileObj = (JSONObject) obj;
+                mergeObject(fileObj, tableName, fields, pkFileds);
+            }
+        }
+    }
+
     private void importFile(String fileDir, boolean storeFile) throws IOException {
         //FILE_LIBRARY_INFO PK:library_id
         String [] libraryFields = new String[] {"library_name", "library_type", "create_user", "create_time",
@@ -185,13 +194,9 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
         if(libraryJson != null) {
             mergeObject(libraryJson, "FILE_LIBRARY_INFO", libraryFields, new String[]{"library_id"});
         }
-        JSONArray filesJson = JSON.parseArray(Files.newInputStream(Paths.get(fileDir + File.separator + "fileInfo.json")));
-        for(Object obj : filesJson){
-            if(obj instanceof JSONObject){
-                JSONObject fileObj = (JSONObject) obj;
-                mergeObject(fileObj, "FILE_INFO", fileFields, new String[]{"FILE_ID"});
-            }
-        }
+
+        saveJsonArrayFile(fileDir + File.separator + "fileInfo.json", "FILE_INFO", fileFields, new String[]{"FILE_ID"});
+
         // 文件传输
         JSONArray storeJson = JSON.parseArray(Files.newInputStream(Paths.get(fileDir + File.separator + "storeInfo.json")));
         for(Object obj : storeJson){
@@ -217,7 +222,57 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
 
     private void importWorkflow(String flowDir) throws IOException {
 
+        //WF_FLOW_DEFINE PK:FLOW_CODE VERSION
+        String [] flowFields = new String[] {"FLOW_NAME", "FLOW_CLASS", "FLOW_STATE",
+            "FLOW_DESC", "FLOW_XML_DESC", "FLOW_PUBLISH_DATE", "FIRST_NODE_ID", "OS_ID",
+            "OPT_ID", "TIME_LIMIT", "EXPIRE_OPT", "AT_PUBLISH_DATE", "SOURCE_ID"};
+
+        saveJsonArrayFile(flowDir + File.separator + "defines.json",
+            "WF_FLOW_DEFINE", flowFields, new String[]{"FLOW_CODE", "VERSION"});
+
+        //WF_NODE PK:NODE_ID
+        String [] nodeFields = new String[] {"FLOW_CODE", "VERSION", "NODE_TYPE", "NODE_NAME",
+            "OPT_TYPE", "OPT_ID", "OPT_CODE", "OPT_PARAM", "OS_ID",
+            "OPT_BEAN", "SUB_FLOW_CODE", "ROLE_TYPE", "ROLE_CODE", "UNIT_EXP",
+            "POWER_EXP", "NODE_DESC", "IS_ACCOUNT_TIME", "LIMIT_TYPE", "TIME_LIMIT",
+            "INHERIT_TYPE", "INHERIT_NODE_CODE", "EXPIRE_OPT", "NOTICE_TYPE", "NOTICE_USER_EXP",
+            "NOTICE_MESSAGE", "NODE_CODE", "RISK_INFO", "STAGE_CODE", "MULTI_INST_TYPE",
+            "MULTI_INST_PARAM", "CONVERGE_TYPE", "CONVERGE_PARAM", "WARNING_RULE", "WARNING_PARAM",
+            "SOURCE_ID"};
+
+        saveJsonArrayFile(flowDir + File.separator + "nodes.json",
+            "WF_NODE", nodeFields, new String[]{"NODE_ID"});
+
+        //WF_TRANSITION PK:TRANS_ID
+        String [] transitionFields = new String[] {"TRANS_CLASS", "TRANS_NAME", "TRANS_DESC", "START_NODE_ID",
+            "END_NODE_ID", "TRANS_CONDITION", "LIMIT_TYPE", "TIME_LIMIT", "IS_ACCOUNT_TIME",
+            "CAN_IGNORE", "VERSION", "FLOW_CODE"};
+
+        saveJsonArrayFile(flowDir + File.separator + "transitions.json",
+            "WF_TRANSITION", transitionFields, new String[]{"TRANS_ID"});
+
+        //WF_FLOW_STAGE PK:STAGE_ID
+        String [] stageFields = new String[] {"STAGE_CODE", "STAGE_NAME", "IS_ACCOUNT_TIME", "LIMIT_TYPE",
+            "TIME_LIMIT", "EXPIRE_OPT", "STAGE_ORDER", "VERSION", "FLOW_CODE"};
+
+        saveJsonArrayFile(flowDir + File.separator + "stages.json",
+            "WF_FLOW_STAGE", stageFields, new String[]{"STAGE_ID"});
+
+        //WF_OPT_TEAM_ROLE PK:OPT_TEAM_ROLE_ID
+        String [] teamFields = new String[] {"OPT_ID", "ROLE_CODE", "ROLE_NAME", "FORMULA_CODE",
+            "TEAM_ROLE_ORDER", "MODIFY_TIME"};
+
+        saveJsonArrayFile(flowDir + File.separator + "teams.json",
+            "WF_OPT_TEAM_ROLE", teamFields, new String[]{"OPT_TEAM_ROLE_ID"});
+
+        //WF_OPT_VARIABLE_DEFINE PK:OPT_VARIABLE_ID
+        String [] variableFields = new String[] {"OPT_ID", "VARIABLE_NAME", "VARIABLE_DESC", "VARIABLE_TYPE",
+            "DEFAULT_VALUE", "MODIFY_TIME"};
+
+        saveJsonArrayFile(flowDir + File.separator + "variables.json",
+            "WF_OPT_VARIABLE_DEFINE", variableFields, new String[]{"OPT_VARIABLE_ID"});
     }
+
     /**
      * @param importType dictionary，file，flow, fileAndStore
      * @param ud 操作人员信息

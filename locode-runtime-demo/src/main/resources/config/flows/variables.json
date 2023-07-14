@@ -1,0 +1,34 @@
+[
+  {
+    "optVariableId": "1f9886ae45cf44daa6f33fdaf926e90a",
+    "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+    "variableName": "checkUser",
+    "variableDesc": "是否预审",
+    "defaultValue": "",
+    "modifyTime": "2022-03-05 14:38:14"
+  },
+  {
+    "optVariableId": "acb128ac320444d7bf67730d0d99dae2",
+    "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+    "variableName": "leavetype",
+    "variableDesc": "请假类型",
+    "defaultValue": "",
+    "modifyTime": "2022-03-05 14:38:14"
+  },
+  {
+    "optVariableId": "d8f6fa547828457d8dd2701d93bd86ee",
+    "optId": "t_H4w2emTnq89GXxEN5Dsw",
+    "variableName": "ces",
+    "variableDesc": "s",
+    "defaultValue": "s",
+    "modifyTime": "2022-03-05 14:38:14"
+  },
+  {
+    "optVariableId": "edaf2195c2964e03ace37b5430f5ec53",
+    "optId": "9d6fd68aab8646209bb07d8066bc84e3",
+    "variableName": "applyType",
+    "variableDesc": "是否通过",
+    "defaultValue": "A",
+    "modifyTime": "2022-03-05 14:38:14"
+  }
+]
