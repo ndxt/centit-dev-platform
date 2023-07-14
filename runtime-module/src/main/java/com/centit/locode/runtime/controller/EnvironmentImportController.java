@@ -30,7 +30,7 @@ public class EnvironmentImportController extends BaseController {
     private EnvironmentImportManager environmentImportManager;
 
     @ApiOperation(value = "导入环境数据")
-    @ApiImplicitParam(name = "importType", type = "query", value = "导入类别")
+    @ApiImplicitParam(name = "importType", type = "query", value = "导入类别:dictionary，file，flow, fileAndStore")
     @PutMapping(value = "/import")
     @WrapUpResponseBody
     public void importApplication(String importType,HttpServletRequest request) throws IOException {

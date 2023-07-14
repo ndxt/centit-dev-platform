@@ -2,6 +2,8 @@ package com.centit.locode.runtime.service;
 
 import com.centit.framework.security.model.CentitUserDetails;
 
+import java.io.IOException;
+
 /**
  * 导入操作和导出操作，不是对称的，
  * 导入操作仅仅导入文件信息和工作流引擎信息
@@ -14,5 +16,5 @@ public interface EnvironmentImportManager {
      * @param importType dictionary，file，flow
      * @param ud 操作人员信息
      */
-    void importEnvironment(String importType, CentitUserDetails ud);
+    void importEnvironment(String importType, CentitUserDetails ud) throws IOException;
 }

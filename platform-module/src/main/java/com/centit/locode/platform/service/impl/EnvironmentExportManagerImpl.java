@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.fileserver.common.FileStore;
+import com.centit.framework.components.impl.ObjectUserUnitVariableTranslate;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
@@ -12,6 +13,8 @@ import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ import java.io.InputStream;
  */
 @Service
 public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
+
+    public static final Logger logger = LoggerFactory.getLogger(EnvironmentExportManagerImpl.class);
     @Value("${app.home:./}")
     private String appHome;
 
@@ -207,21 +212,27 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
 
         JSONArray storeInfo = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, fileStoreSql, new Object[]{osId});
         if(storeInfo != null) {
-            FileIOOpt.writeStringToFile(storeInfo.toString(),
-                fileDir + File.separator + "storeInfo.json");
+
             for(Object obj : storeInfo) {
                 if (obj instanceof JSONObject) {
                     JSONObject storeJson = (JSONObject) obj;
-                    InputStream is = fileStore.loadFileStream(storeJson.getString("fileStorePath"));
-
-                    if(is != null){
-                        String fileMd5 = storeJson.getString("fileStorePath");
-                        long fileSize = storeJson.getLong("fileSize");
-                        String filePath = matchFileStoreUrl(fileMd5, fileSize, fileDir);
-                        FileIOOpt.writeInputStreamToFile(is, filePath);
+                    try {
+                        InputStream is = fileStore.loadFileStream(storeJson.getString("fileStorePath"));
+                        if (is != null) {
+                            String fileMd5 = storeJson.getString("fileMd5");
+                            long fileSize = storeJson.getLong("fileSize");
+                            String filePath = matchFileStoreUrl(fileMd5, fileSize, fileDir);
+                            FileIOOpt.writeInputStreamToFile(is, fileDir + File.separatorChar + filePath);
+                            storeJson.put("fileStorePath", filePath);
+                        }
+                    } catch (ObjectException e){
+                        logger.error(e.getMessage());
                     }
                 }
             }
+
+            FileIOOpt.writeStringToFile(storeInfo.toString(),
+                fileDir + File.separator + "storeInfo.json");
         }
     }
 
