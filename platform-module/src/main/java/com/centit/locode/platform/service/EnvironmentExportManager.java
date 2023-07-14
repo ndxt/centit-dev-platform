@@ -12,5 +12,4 @@ public interface EnvironmentExportManager {
 
     InputStream exportApplication(String osId, CentitUserDetails userDetails) throws IOException;
 
-    int importApplication(InputStream offlineFile, String osId, CentitUserDetails userDetails) throws IOException;
 }

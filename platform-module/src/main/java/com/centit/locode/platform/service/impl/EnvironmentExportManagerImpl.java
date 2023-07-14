@@ -3,6 +3,7 @@ package com.centit.locode.platform.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.centit.fileserver.common.FileStore;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
@@ -28,16 +29,23 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
     private String appHome;
 
     @Autowired
+    FileStore fileStore;
+
+    @Autowired
     private ApplicationTemplateDao applicationTemplateDao;
+
+    private void exportJsonArrayToFile(String sqlSen, Object[] params, String jsonFilePath) throws IOException {
+        JSONArray josnArray = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlSen, params);
+        if(josnArray != null) {
+            FileIOOpt.writeStringToFile(josnArray.toString(), jsonFilePath);
+        }
+    }
 
     private void exportResources(String osId, String appFileRoot) throws IOException {
         String resourceFile = appFileRoot + File.separator +  "resources.json";
         String sqlDatabase ="select a.* from f_database_info a where a.database_code " +
             "in (select DATABASE_ID from m_application_resources where os_id= ?)";
-        JSONArray databases = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlDatabase, new Object[]{osId});
-        if(databases != null) {
-            FileIOOpt.writeStringToFile(databases.toString(), resourceFile);
-        }
+        exportJsonArrayToFile(sqlDatabase, new Object[]{osId}, resourceFile);
     }
 
     private void exportMetadata(String osId, String appFileRoot) throws IOException {
@@ -109,19 +117,13 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
     private void exportCheckRules(String topUnit, String appFileRoot) throws IOException {
         String ruleFile = appFileRoot + File.separator +  "checkRules.json";
         String sqlRules ="select a.* from F_DATA_CHECK_RULE a where a.TOP_UNIT = ?";
-        JSONArray rules = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlRules, new Object[]{topUnit});
-        if(rules != null) {
-            FileIOOpt.writeStringToFile(rules.toString(), ruleFile);
-        }
+        exportJsonArrayToFile(sqlRules, new Object[]{topUnit}, ruleFile);
     }
 
     private void exportRoleFormula(String topUnit, String appFileRoot) throws IOException {
         String formulaFile = appFileRoot + File.separator +  "roleFormula.json";
         String sqlFormula ="select a.* from wf_role_formula a where a.top_unit = ?";
-        JSONArray formulas = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlFormula, new Object[]{topUnit});
-        if(formulas != null) {
-            FileIOOpt.writeStringToFile(formulas.toString(), formulaFile);
-        }
+        exportJsonArrayToFile(sqlFormula, new Object[]{topUnit}, formulaFile);
     }
 
     private void deserializeFields(JSONObject jsonObject, String ... fileds){
@@ -178,6 +180,75 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         }
     }
 
+    public static String matchFileStoreUrl(String fileMd5, long fileSize, String rootDir) {
+        String pathname = String.valueOf(fileMd5.charAt(0))
+            + File.separatorChar + fileMd5.charAt(1)
+            + File.separatorChar + fileMd5.charAt(2);
+        FileSystemOpt.createDirect(rootDir + File.separatorChar + pathname);
+        return pathname + File.separatorChar + fileMd5 + "_" + fileSize + ".dat";
+    }
+
+    private void exportFiles(String osId, String appFileRoot) throws IOException {
+        String sqlLibrary = "select a.* from file_library_info a where a.library_id = ?";
+        String fileInfoSql = "select a.* from file_info a where a.library_id = ? and a.file_catalog in ('A','B')";
+        String fileStoreSql = "select distinct b.* from file_info a " +
+            " join FILE_STORE_INFO b on (a.FILE_MD5 = b.FILE_MD5 or a.ATTACHED_FILE_MD5 = b.FILE_MD5 ) " +
+            " where a.library_id = ? and a.file_catalog in ('A','B')";
+        String fileDir = appFileRoot + File.separator + "files";
+        FileSystemOpt.createDirect(new File(fileDir));
+
+        JSONObject library = DatabaseOptUtils.getObjectBySqlAsJson(applicationTemplateDao, sqlLibrary, new Object[]{osId});
+        if(library != null) {
+            FileIOOpt.writeStringToFile(library.toString(),
+                fileDir + File.separator + "library.json");
+        }
+
+        exportJsonArrayToFile(fileInfoSql, new Object[]{osId}, fileDir + File.separator + "fileInfo.json");
+
+        JSONArray storeInfo = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, fileStoreSql, new Object[]{osId});
+        if(storeInfo != null) {
+            FileIOOpt.writeStringToFile(storeInfo.toString(),
+                fileDir + File.separator + "storeInfo.json");
+            for(Object obj : storeInfo) {
+                if (obj instanceof JSONObject) {
+                    JSONObject storeJson = (JSONObject) obj;
+                    InputStream is = fileStore.loadFileStream(storeJson.getString("fileStorePath"));
+
+                    if(is != null){
+                        String fileMd5 = storeJson.getString("fileStorePath");
+                        long fileSize = storeJson.getLong("fileSize");
+                        String filePath = matchFileStoreUrl(fileMd5, fileSize, fileDir);
+                        FileIOOpt.writeInputStreamToFile(is, filePath);
+                    }
+                }
+            }
+        }
+    }
+
+    private void exportWorkflows(String osId, String appFileRoot) throws IOException {
+        String sqlFlowDefine = "select * from wf_flow_define where OS_ID= ? and flow_state in('E','B')";
+        String sqlNodes = "select * from wf_node where (flow_code,version) in(" +
+            "select flow_code,version from wf_flow_define where OS_ID= ? and flow_state='B')";
+        String sqlTransitions = "select * from wf_transition where (flow_code,version) in(" +
+            "select flow_code,version from wf_flow_define where OS_ID= ? and flow_state='B')";
+        String sqlStages = "select * from wf_flow_stage where (flow_code,version) in(" +
+            "select flow_code,version from wf_flow_define where OS_ID=? and flow_state='B')";
+        String sqlTeams = "select * from wf_opt_team_role where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id= ?)";
+        String sqlVariables =  "select * from wf_opt_variable_define where opt_id in " +
+            "(select opt_id from f_optinfo where top_opt_id=?)";
+
+        String flowDir = appFileRoot + File.separator + "flows";
+        FileSystemOpt.createDirect(new File(flowDir));
+
+        exportJsonArrayToFile(sqlFlowDefine, new Object[]{osId}, flowDir + File.separator + "defines.json");
+        exportJsonArrayToFile(sqlNodes, new Object[]{osId}, flowDir + File.separator + "nodes.json");
+        exportJsonArrayToFile(sqlTransitions, new Object[]{osId}, flowDir + File.separator + "transitions.json");
+        exportJsonArrayToFile(sqlStages, new Object[]{osId}, flowDir + File.separator + "stages.json");
+        exportJsonArrayToFile(sqlTeams, new Object[]{osId}, flowDir + File.separator + "teams.json");
+        exportJsonArrayToFile(sqlVariables, new Object[]{osId}, flowDir + File.separator + "variables.json");
+    }
+
     @Override
     public InputStream exportApplication(String osId, CentitUserDetails userDetails) throws IOException {
         String appFileRoot = appHome + File.separator +  osId + "-" + userDetails.getUserCode();
@@ -199,11 +270,9 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         exportRoleFormula(topUnit, appFileRoot);
         exportPages(osId, appFileRoot);
         exportApis(osId, appFileRoot);
+        exportFiles(osId, appFileRoot);
+        exportWorkflows(osId, appFileRoot);
         return null;
     }
 
-    @Override
-    public int importApplication(InputStream offlineFile, String osId, CentitUserDetails userDetails) throws IOException {
-        return 0;
-    }
 }
