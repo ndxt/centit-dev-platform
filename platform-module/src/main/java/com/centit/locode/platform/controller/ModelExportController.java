@@ -63,6 +63,8 @@ public class ModelExportController extends BaseController {
     @GetMapping(value = "/downloadModelFile")
     public void downLoadModel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> parameters = collectRequestParameters(request);
+        //TODO 添加是否是研发人员验证
+
         String fileName = URLEncoder.encode(StringBaseOpt.objectToString(parameters.get("fileName")), "UTF-8") +
             ".zip";
         String fileId=StringBaseOpt.objectToString(parameters.get("fileId"));
@@ -91,6 +93,8 @@ public class ModelExportController extends BaseController {
         if (userDetails == null) {
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
         }
+        //TODO 添加是否是研发人员验证
+
         FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
         String tempFilePath = SystemTempFileUtils.getRandomTempFilePath();
         try {

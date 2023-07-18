@@ -9,6 +9,8 @@ import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
 import com.centit.locode.platform.service.EnvironmentExportManager;
+import com.centit.support.algorithm.UuidOpt;
+import com.centit.support.algorithm.ZipCompressor;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileSystemOpt;
@@ -20,8 +22,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author codefan@sina.com
@@ -262,7 +267,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
 
     @Override
     public InputStream exportApplication(String osId, CentitUserDetails userDetails) throws IOException {
-        String appFileRoot = appHome + File.separator +  osId + "-" + userDetails.getUserCode();
+        String appFileRoot = appHome + File.separator +  osId + "-" + userDetails.getUserCode();// UuidOpt.randomString(4);
         FileSystemOpt.createDirect(new File(appFileRoot));
 
         String applicationFile = appFileRoot + File.separator +  "application.json";
@@ -283,7 +288,11 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         exportApis(osId, appFileRoot);
         exportFiles(osId, appFileRoot);
         exportWorkflows(osId, appFileRoot);
-        return null;
+
+        ZipCompressor.compressFileInDirectory( appFileRoot+".zip", appFileRoot );
+
+        FileSystemOpt.deleteDirect(new File(appFileRoot));
+        return Files.newInputStream(Paths.get(appFileRoot + ".zip"));
     }
 
 }

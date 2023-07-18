@@ -86,6 +86,8 @@ public class ApplicationInfoController extends BaseController {
     @DeleteMapping(value = "/{applicationId}")
     @WrapUpResponseBody
     public IOsInfo deleteApplicationInfo(@PathVariable String applicationId) {
+        //TODO 添加是否是研发人员验证
+
         return applicationInfoManager.deleteApplicationInfo(applicationId);
     }
 
