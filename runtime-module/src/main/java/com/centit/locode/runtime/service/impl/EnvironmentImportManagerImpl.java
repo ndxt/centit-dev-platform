@@ -3,7 +3,7 @@ package com.centit.locode.runtime.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.fileserver.common.FileStore;
+import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
@@ -35,7 +35,7 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
     private String appHome;
 
     @Autowired
-    protected FileStore fileStore;
+    private FileInfoOpt fileInfoOpt;
 
     @Autowired
     protected DummyDao dummyDao;
@@ -173,6 +173,13 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
         }
     }
 
+    public static String matchFileStoreUrl(String fileMd5) {
+        String pathname = String.valueOf(fileMd5.charAt(0))
+            + File.separatorChar + fileMd5.charAt(1)
+            + File.separatorChar + fileMd5.charAt(2);
+        return pathname + File.separatorChar + fileMd5 + ".dat";
+    }
+
     private void importFile(String fileDir, boolean storeFile) throws IOException {
         //FILE_LIBRARY_INFO PK:library_id
         String [] libraryFields = new String[] {"library_name", "library_type", "create_user", "create_time",
@@ -195,29 +202,24 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
             mergeObject(libraryJson, "FILE_LIBRARY_INFO", libraryFields, new String[]{"library_id"});
         }
 
-        saveJsonArrayFile(fileDir + File.separator + "fileInfo.json", "FILE_INFO", fileFields, new String[]{"FILE_ID"});
-
         // 文件传输
-        JSONArray storeJson = JSON.parseArray(Files.newInputStream(Paths.get(fileDir + File.separator + "storeInfo.json")));
-        for(Object obj : storeJson){
+        JSONArray filesJson = JSON.parseArray(Files.newInputStream(Paths.get(fileDir + File.separator + "fileInfo.json")));
+        for(Object obj : filesJson){
             if(obj instanceof JSONObject){
-                JSONObject storeObj = (JSONObject) obj;
+                JSONObject fileJson = (JSONObject) obj;
                 if(storeFile){
                     try {
-                        FileInfo fileInfo = new FileInfo();
-                        fileInfo.setFileMd5(storeObj.getString("fileMd5"));
-                        fileInfo.setFileSize(storeObj.getLong("fileSize"));
-                        String localFilePath =  storeObj.getString("fileStorePath");
-                        String fileStorePath = fileStore.saveFile(fileInfo, fileInfo.getFileSize(),
-                            Files.newInputStream(new File(fileDir + File.separator + localFilePath).toPath()));
-                        storeObj.put("fileStorePath", fileStorePath);
+                        FileInfo fileInfo = fileJson.toJavaObject(FileInfo.class);
+                        String localFilePath = matchFileStoreUrl(fileInfo.getFileMd5());
+                        FileInputStream is =  new FileInputStream(fileDir + File.separator + localFilePath);
+                        fileInfoOpt.saveFile(fileInfo, is.available(), is);
                     } catch (IOException e){
                         logger.error(e.getMessage());
                     }
                 }
-                mergeObject(storeObj, "FILE_STORE_INFO", fileFields, new String[]{"FILE_MD5"});
             }
         }
+
     }
 
     private void importWorkflow(String flowDir) throws IOException {
