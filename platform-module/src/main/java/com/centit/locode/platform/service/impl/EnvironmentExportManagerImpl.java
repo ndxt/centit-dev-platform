@@ -3,13 +3,11 @@ package com.centit.locode.platform.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.fileserver.common.FileStore;
-import com.centit.framework.components.impl.ObjectUserUnitVariableTranslate;
+import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
 import com.centit.locode.platform.service.EnvironmentExportManager;
-import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.algorithm.ZipCompressor;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileIOOpt;
@@ -22,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -39,7 +36,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
     private String appHome;
 
     @Autowired
-    FileStore fileStore;
+    private FileInfoOpt fileInfoOpt;
 
     @Autowired
     private ApplicationTemplateDao applicationTemplateDao;
@@ -190,12 +187,12 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         }
     }
 
-    public static String matchFileStoreUrl(String fileMd5, long fileSize, String rootDir) {
+    public static String matchFileStoreUrl(String fileMd5, String rootDir) {
         String pathname = String.valueOf(fileMd5.charAt(0))
             + File.separatorChar + fileMd5.charAt(1)
             + File.separatorChar + fileMd5.charAt(2);
         FileSystemOpt.createDirect(rootDir + File.separatorChar + pathname);
-        return pathname + File.separatorChar + fileMd5 + "_" + fileSize + ".dat";
+        return pathname + File.separatorChar + fileMd5 + ".dat";
     }
 
     private void exportFiles(String osId, String appFileRoot) throws IOException {
@@ -215,20 +212,19 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
 
         exportJsonArrayToFile(fileInfoSql, new Object[]{osId}, fileDir + File.separator + "fileInfo.json");
 
-        JSONArray storeInfo = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, fileStoreSql, new Object[]{osId});
-        if(storeInfo != null) {
 
-            for(Object obj : storeInfo) {
+
+        JSONArray fileInfos = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, fileInfoSql, new Object[]{osId});
+        if(fileInfos != null) {
+            for(Object obj : fileInfos) {
                 if (obj instanceof JSONObject) {
-                    JSONObject storeJson = (JSONObject) obj;
+                    JSONObject fileJson = (JSONObject) obj;
                     try {
-                        InputStream is = fileStore.loadFileStream(storeJson.getString("fileStorePath"));
+                        InputStream is = fileInfoOpt.loadFileStream(fileJson.getString("fileId"));
                         if (is != null) {
-                            String fileMd5 = storeJson.getString("fileMd5");
-                            long fileSize = storeJson.getLong("fileSize");
-                            String filePath = matchFileStoreUrl(fileMd5, fileSize, fileDir);
+                            String fileMd5 = fileJson.getString("fileMd5");
+                            String filePath = matchFileStoreUrl(fileMd5, fileDir);
                             FileIOOpt.writeInputStreamToFile(is, fileDir + File.separatorChar + filePath);
-                            storeJson.put("fileStorePath", filePath);
                         }
                     } catch (ObjectException e){
                         logger.error(e.getMessage());
@@ -236,9 +232,10 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                 }
             }
 
-            FileIOOpt.writeStringToFile(storeInfo.toString(),
-                fileDir + File.separator + "storeInfo.json");
+            FileIOOpt.writeStringToFile(fileInfos.toString(),
+                fileDir + File.separator + "fileInfo.json");
         }
+        exportJsonArrayToFile(fileStoreSql, new Object[]{osId}, fileDir + File.separator + "storeInfo.json");
     }
 
     private void exportWorkflows(String osId, String appFileRoot) throws IOException {
