@@ -52,6 +52,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>centit-dde-rmdb</artifactId>
+            <version>${centit.dde.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.centit.locode</groupId>
             <artifactId>platform-module</artifactId>
             <version>${project.version}</version>
