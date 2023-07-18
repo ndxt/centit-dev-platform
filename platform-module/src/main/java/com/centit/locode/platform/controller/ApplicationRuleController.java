@@ -9,7 +9,7 @@ import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.locode.platform.po.ApplicationRule;
 import com.centit.locode.platform.service.ApplicationRuleService;
-import com.centit.product.adapter.po.DataCheckRule;
+import com.centit.product.metadata.po.DataCheckRule;
 import com.centit.product.metadata.service.DataCheckRuleService;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;

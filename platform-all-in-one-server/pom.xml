@@ -88,11 +88,23 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!--  <dependency>
-              <groupId>com.centit.product</groupId>
-              <artifactId>fileserver-client</artifactId>
-              <version>${centit.fileserver.version}</version>
-          </dependency>-->
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>database-metadata-rmdb</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>meta-form-rmdb</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>centit-dde-rmdb</artifactId>
+            <version>${centit.dde.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>

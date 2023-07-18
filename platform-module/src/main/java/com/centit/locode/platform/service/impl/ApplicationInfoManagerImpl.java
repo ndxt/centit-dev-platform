@@ -19,7 +19,7 @@ import com.centit.framework.system.po.WorkGroup;
 import com.centit.framework.system.po.WorkGroupParameter;
 import com.centit.locode.platform.dao.ApplicationDictionaryDao;
 import com.centit.locode.platform.service.ApplicationInfoManager;
-import com.centit.product.adapter.api.MetadataManageService;
+import com.centit.product.metadata.api.MetadataManageService;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;

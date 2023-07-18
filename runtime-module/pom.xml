@@ -20,6 +20,24 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>database-metadata-json</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>meta-form-json</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>centit-dde-json</artifactId>
+            <version>${centit.dde.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-extend</artifactId>
         </dependency>
