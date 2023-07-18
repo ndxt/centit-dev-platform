@@ -50,6 +50,13 @@
             <artifactId>database-metadata-rmdb</artifactId>
             <version>${centit.metaform.version}</version>
         </dependency>
+        <!--
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>meta-form-rmdb</artifactId>
+            <version>${centit.metaform.version}</version>
+        </dependency>
+        -->
 
         <dependency>
             <groupId>com.centit.product</groupId>
