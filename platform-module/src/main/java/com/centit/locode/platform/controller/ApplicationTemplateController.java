@@ -127,8 +127,7 @@ public class ApplicationTemplateController extends BaseController {
         if(jsonObject==null){
             throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
         }
-        return modelExportManager.createApp(jsonObject, "",
-            WebOptUtils.getCurrentUserDetails(request));
+        return modelExportManager.createApp(jsonObject, "", userDetails);
     }
 
     @ApiOperation(value = "导入覆盖应用")
@@ -143,9 +142,9 @@ public class ApplicationTemplateController extends BaseController {
         if(jsonObject==null){
             throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
         }
-        return modelExportManager.createApp(jsonObject, osId,
-            WebOptUtils.getCurrentUserDetails(request));
+        return modelExportManager.createApp(jsonObject, osId, userDetails);
     }
+
     @ApiOperation(value = "根据模板导入应用返回预处理结果")
     @RequestMapping(value = "/prepareTemplateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
@@ -157,9 +156,9 @@ public class ApplicationTemplateController extends BaseController {
         if(jsonObject==null){
             throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
         }
-        return modelExportManager.prepareApp(jsonObject, "",
-            WebOptUtils.getCurrentUserDetails(request));
+        return modelExportManager.prepareApp(jsonObject, "", userDetails);
     }
+
     @ApiOperation(value = "导入应用返回预处理结果")
     @RequestMapping(value = "/prepareUpdateApp/{osId}", method = {RequestMethod.POST})
     @WrapUpResponseBody
@@ -175,6 +174,7 @@ public class ApplicationTemplateController extends BaseController {
         return modelExportManager.prepareApp(jsonObject, osId,
             WebOptUtils.getCurrentUserDetails(request));
     }
+
     @ApiOperation(value = "导入应用返回预处理结果")
     @RequestMapping(value = "/importApp", method = {RequestMethod.POST})
     @WrapUpResponseBody

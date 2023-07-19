@@ -47,7 +47,16 @@ public class ModelExportController extends BaseController {
 
     @ApiOperation(value = "导出应用路径")
     @GetMapping(value = "/downloadModel/{osId}")
-    public Map<String,String> downLoadModel(@PathVariable String osId) throws FileNotFoundException {
+    public Map<String,String> downLoadModel(@PathVariable String osId, HttpServletRequest request) throws FileNotFoundException {
+
+        CentitUserDetails ud = WebOptUtils.getCurrentUserDetails(request);
+        if(ud == null){
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");
+        }
+        if(!platformEnvironment.loginUserIsExistWorkGroup(osId, ud.getUserCode())){
+            throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限导出这个应用："+osId+"！");
+        }
+
         String fileId = modelExportManager.downModel(osId);
         String fileName = fileId;
         try {
