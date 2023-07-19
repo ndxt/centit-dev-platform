@@ -12,6 +12,7 @@ import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.system.service.impl.DBPlatformEnvironment;
 import com.centit.support.algorithm.CollectionsOpt;
+import com.centit.support.json.JSONOpt;
 import com.centit.support.quartz.JavaBeanJob;
 import com.centit.support.quartz.QuartzJobUtils;
 import org.quartz.Scheduler;
@@ -58,10 +59,9 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
     private ApplicationContext applicationContext;
 
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        MvcConfigUtil.fastjsonGlobalConfig();
+        JSONOpt.fastjsonGlobalConfig();
         SystemTempFileUtils.setTempFileDirectory(
             SysParametersUtils.getTempHome() + File.separatorChar);
         DBPlatformEnvironment dbPlatformEnvironment = applicationContext.getBean("dbPlatformEnvironment", DBPlatformEnvironment.class);
