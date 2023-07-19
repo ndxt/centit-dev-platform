@@ -9,8 +9,15 @@ import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.runtime.dao.DummyDao;
 import com.centit.locode.runtime.service.EnvironmentImportManager;
+import com.centit.product.metadata.dao.SourceInfoDao;
+import com.centit.product.metadata.po.*;
 import com.centit.support.algorithm.NumberBaseOpt;
-import com.centit.support.database.utils.FieldType;
+import com.centit.support.common.ObjectException;
+import com.centit.support.database.ddl.DDLOperations;
+import com.centit.support.database.ddl.GeneralDDLOperations;
+import com.centit.support.database.metadata.JdbcMetadata;
+import com.centit.support.database.metadata.SimpleTableInfo;
+import com.centit.support.database.utils.*;
 import com.centit.support.file.FileSystemOpt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +30,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +45,9 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
 
     @Autowired
     private FileInfoOpt fileInfoOpt;
+
+    @Autowired
+    private SourceInfoDao sourceInfoDao;
 
     @Autowired
     protected DummyDao dummyDao;
@@ -275,12 +287,48 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
             "WF_OPT_VARIABLE_DEFINE", variableFields, new String[]{"OPT_VARIABLE_ID"});
     }
 
+    private MetaTable loadTableInfo(File tableFile){
+        try {
+            JSONObject tableJson = JSON.parseObject(new FileInputStream(tableFile));
+            MetaTable metaTable = tableJson.toJavaObject(MetaTable.class);
+            JSONArray columns = tableJson.getJSONArray("columns");
+            if(columns!=null){
+                List<MetaColumn> cols = columns.toJavaList(MetaColumn.class);
+                metaTable.setMdColumns(cols);
+            }
+            return metaTable;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private void reconstructDatabase(String metadataDir) throws SQLException {
+        List<File> files = FileSystemOpt.findFiles(metadataDir, "*.json");
+        for(File tabFile : files){
+            MetaTable newTable = loadTableInfo(tabFile);
+            SourceInfo database = sourceInfoDao.getDatabaseInfoById(newTable.getDatabaseCode());
+            DBType dbType = DBType.mapDBType(database.getDatabaseUrl());
+            DDLOperations ddlOpt = GeneralDDLOperations.createDDLOperations(dbType);
+            JdbcMetadata jdbcMetadata = new JdbcMetadata();
+            Connection dbc = DbcpConnectPools.getDbcpConnect(database);
+            if("V".equalsIgnoreCase(newTable.getTableType())){
+                throw new ObjectException(ObjectException.FUNCTION_NOT_SUPPORT, "暂不支持视图的结构导入");
+            }
+            jdbcMetadata.setDBConfig(dbc);
+            SimpleTableInfo oldTable = jdbcMetadata.getTableMetadata(newTable.getTableName());
+            List<String> sqlList = DDLUtils.makeAlterTableSqlList(newTable, oldTable, dbType, ddlOpt);
+            for (String sql : sqlList) {
+                DatabaseAccess.doExecuteSql(dbc, sql);
+            }
+        }
+    }
+
     /**
-     * @param importType dictionary，file，flow, fileAndStore
+     * @param importType dictionary，file，database，flow, fileAndStore"
      * @param ud 操作人员信息
      */
     @Override
-    public void importEnvironment(String importType, CentitUserDetails ud) throws IOException {
+    public void importEnvironment(String importType, CentitUserDetails ud) throws IOException, SQLException {
         String rootDir = appHome + File.separator +  "config";
         if("dictionary".equalsIgnoreCase(importType)) {
             importDictionary(rootDir + File.separator + "dictionary");
@@ -295,6 +343,10 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
 
         if("flow".equalsIgnoreCase(importType)) {
             importWorkflow(rootDir + File.separator + "flows");
+        }
+
+        if("database".equalsIgnoreCase(importType)) {
+            reconstructDatabase(rootDir + File.separator + "metadata");
         }
     }
 }

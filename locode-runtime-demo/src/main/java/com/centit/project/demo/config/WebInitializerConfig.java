@@ -2,6 +2,7 @@ package com.centit.project.demo.config;
 
 import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
+import com.centit.support.json.JSONOpt;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -52,11 +53,9 @@ public abstract class WebInitializerConfig  {
             "/im/*",
             IMSpringMvcConfig.class,SwaggerConfig.class);
 
-
         //dubbo hessian协议使用
        /* ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
         dubbo.addMapping("/*");*/
-
 
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);
@@ -72,5 +71,7 @@ public abstract class WebInitializerConfig  {
         if(jdbcUrl.startsWith("jdbc:h2")){
             WebConfig.initializeH2Console(servletContext);
         }
+
+        JSONOpt.fastjsonGlobalConfig();
     }
 }

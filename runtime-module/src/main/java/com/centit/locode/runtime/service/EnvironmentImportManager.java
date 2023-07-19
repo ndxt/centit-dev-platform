@@ -3,6 +3,7 @@ package com.centit.locode.runtime.service;
 import com.centit.framework.security.model.CentitUserDetails;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * 导入操作和导出操作，不是对称的，
@@ -16,5 +17,5 @@ public interface EnvironmentImportManager {
      * @param importType dictionary，file，flow
      * @param ud 操作人员信息
      */
-    void importEnvironment(String importType, CentitUserDetails ud) throws IOException;
+    void importEnvironment(String importType, CentitUserDetails ud) throws IOException, SQLException;
 }

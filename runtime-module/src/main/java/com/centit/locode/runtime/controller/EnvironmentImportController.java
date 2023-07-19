@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * @author codefan@sina.com
@@ -30,10 +31,11 @@ public class EnvironmentImportController extends BaseController {
     private EnvironmentImportManager environmentImportManager;
 
     @ApiOperation(value = "导入环境数据")
-    @ApiImplicitParam(name = "importType", type = "query", value = "导入类别:dictionary，file，flow, fileAndStore")
+    @ApiImplicitParam(name = "importType", type = "query",
+        value = "导入类别:dictionary，file，database，flow, fileAndStore")
     @PutMapping(value = "/import")
     @WrapUpResponseBody
-    public void importApplication(String importType,HttpServletRequest request) throws IOException {
+    public void importApplication(String importType,HttpServletRequest request) throws IOException, SQLException {
         CentitUserDetails ud = WebOptUtils.getCurrentUserDetails(request);
         if(ud == null){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");
