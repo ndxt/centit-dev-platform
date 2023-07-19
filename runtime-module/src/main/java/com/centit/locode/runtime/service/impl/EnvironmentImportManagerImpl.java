@@ -10,9 +10,10 @@ import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.runtime.dao.DummyDao;
 import com.centit.locode.runtime.service.EnvironmentImportManager;
 import com.centit.product.metadata.dao.SourceInfoDao;
-import com.centit.product.metadata.po.*;
+import com.centit.product.metadata.po.MetaColumn;
+import com.centit.product.metadata.po.MetaTable;
+import com.centit.product.metadata.po.SourceInfo;
 import com.centit.support.algorithm.NumberBaseOpt;
-import com.centit.support.common.ObjectException;
 import com.centit.support.database.ddl.DDLOperations;
 import com.centit.support.database.ddl.GeneralDDLOperations;
 import com.centit.support.database.metadata.JdbcMetadata;
@@ -287,38 +288,35 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
             "WF_OPT_VARIABLE_DEFINE", variableFields, new String[]{"OPT_VARIABLE_ID"});
     }
 
-    private MetaTable loadTableInfo(File tableFile){
-        try {
-            JSONObject tableJson = JSON.parseObject(new FileInputStream(tableFile));
-            MetaTable metaTable = tableJson.toJavaObject(MetaTable.class);
+
+
+    private void reconstructDatabase(String metadataDir) throws IOException, SQLException {
+        List<File> files = FileSystemOpt.findFiles(metadataDir, "*.json");
+        for(File tabFile : files){
+            JSONObject tableJson = JSON.parseObject(Files.newInputStream(tabFile.toPath()));
+            MetaTable newTable = tableJson.toJavaObject(MetaTable.class);
+
             JSONArray columns = tableJson.getJSONArray("columns");
             if(columns!=null){
                 List<MetaColumn> cols = columns.toJavaList(MetaColumn.class);
-                metaTable.setMdColumns(cols);
+                newTable.setMdColumns(cols);
             }
-            return metaTable;
-        } catch (IOException e) {
-            return null;
-        }
-    }
 
-    private void reconstructDatabase(String metadataDir) throws SQLException {
-        List<File> files = FileSystemOpt.findFiles(metadataDir, "*.json");
-        for(File tabFile : files){
-            MetaTable newTable = loadTableInfo(tabFile);
             SourceInfo database = sourceInfoDao.getDatabaseInfoById(newTable.getDatabaseCode());
             DBType dbType = DBType.mapDBType(database.getDatabaseUrl());
             DDLOperations ddlOpt = GeneralDDLOperations.createDDLOperations(dbType);
             JdbcMetadata jdbcMetadata = new JdbcMetadata();
             Connection dbc = DbcpConnectPools.getDbcpConnect(database);
-            if("V".equalsIgnoreCase(newTable.getTableType())){
-                throw new ObjectException(ObjectException.FUNCTION_NOT_SUPPORT, "暂不支持视图的结构导入");
-            }
-            jdbcMetadata.setDBConfig(dbc);
-            SimpleTableInfo oldTable = jdbcMetadata.getTableMetadata(newTable.getTableName());
-            List<String> sqlList = DDLUtils.makeAlterTableSqlList(newTable, oldTable, dbType, ddlOpt);
-            for (String sql : sqlList) {
-                DatabaseAccess.doExecuteSql(dbc, sql);
+            if("V".equalsIgnoreCase(newTable.getTableType())){ //viewSql
+                String viewSql = tableJson.getString("viewSql");
+                DatabaseAccess.doExecuteSql(dbc, ddlOpt.makeCreateViewSql(viewSql, newTable.getTableName()));
+            } else {
+                jdbcMetadata.setDBConfig(dbc);
+                SimpleTableInfo oldTable = jdbcMetadata.getTableMetadata(newTable.getTableName());
+                List<String> sqlList = DDLUtils.makeAlterTableSqlList(newTable, oldTable, dbType, ddlOpt);
+                for (String sql : sqlList) {
+                    DatabaseAccess.doExecuteSql(dbc, sql);
+                }
             }
         }
     }

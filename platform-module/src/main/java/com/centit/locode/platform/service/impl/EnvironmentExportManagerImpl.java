@@ -65,6 +65,8 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         String sqlRelations = "select * from f_md_relation where parent_table_id = ?";
         String sqlRelationDetails = "select * from f_md_rel_detail where relation_id = ?";
 
+        String sqlViewText = "select VIEW_SQL from F_PENDING_META_TABLE where TABLE_ID = ?";
+
         JSONArray tables = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlTables, new Object[]{osId, osId});
         if(tables != null) {
             for (Object obj : tables) {
@@ -88,6 +90,11 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                             }
                         }
                         table.put("relations", relations);
+                    }
+
+                    if("V".equalsIgnoreCase(table.getString("tableType"))){
+                        Object viewSql = DatabaseOptUtils.getScalarObjectQuery(applicationTemplateDao, sqlViewText, new Object[]{tableId});
+                        table.put("viewSql", viewSql);
                     }
 
                     FileIOOpt.writeStringToFile(table.toString(),
