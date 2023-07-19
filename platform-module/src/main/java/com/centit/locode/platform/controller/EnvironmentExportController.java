@@ -4,6 +4,7 @@ import com.centit.fileserver.utils.UploadDownloadUtils;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.platform.service.EnvironmentExportManager;
 import com.centit.support.common.ObjectException;
@@ -32,6 +33,9 @@ public class EnvironmentExportController extends BaseController {
     @Autowired
     private EnvironmentExportManager environmentExportManager;
 
+    @Autowired
+    private PlatformEnvironment platformEnvironment;
+
     @ApiOperation(value = "导出应用的运行时环境")
     @ApiImplicitParam(name = "osId", type = "path", value = "应用ID")
     @GetMapping(value = "/export/{osId}")
@@ -42,7 +46,9 @@ public class EnvironmentExportController extends BaseController {
         if(ud == null){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");
         }
-        //TODO 添加是否是研发人员验证
+        if(!platformEnvironment.loginUserIsExistWorkGroup(osId, ud.getUserCode())){
+            throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限导出这个应用："+osId+"！");
+        }
 
         InputStream zipFileStream = environmentExportManager.exportApplication(osId, ud);
 

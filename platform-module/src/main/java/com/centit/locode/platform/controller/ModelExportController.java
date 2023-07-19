@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,7 +75,7 @@ public class ModelExportController extends BaseController {
         response.setHeader("Content-disposition", "attachment; filename=" + fileName);
         InputStream in = null;
         try {
-            in = new FileInputStream(filePath);
+            in = Files.newInputStream(Paths.get(filePath));
             IOUtils.copy(in, response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
