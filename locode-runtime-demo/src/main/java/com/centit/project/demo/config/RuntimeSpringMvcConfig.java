@@ -11,6 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"com.centit.locode.platform.controller", "com.centit.product.question.controller"},
         includeFilters = {@ComponentScan.Filter(value= org.springframework.stereotype.Controller.class)},
         useDefaultFilters = false)
-class PlatformSpringMvcConfig extends BaseSpringMvcConfig {
+class RuntimeSpringMvcConfig extends BaseSpringMvcConfig {
 
 }

@@ -1,23 +1,14 @@
-package com.centit.locode.platform.all.config;
+package com.centit.project.demo.config;
 
-import com.centit.fileserver.task.FileOptTaskExecutor;
 import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryCache;
 import com.centit.framework.components.OperationLogCenter;
-import com.centit.framework.core.controller.MvcConfigUtil;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.system.service.impl.DBPlatformEnvironment;
-import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.json.JSONOpt;
-import com.centit.support.quartz.JavaBeanJob;
-import com.centit.support.quartz.QuartzJobUtils;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,12 +34,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     protected PlatformEnvironment platformEnvironment;
 
     @Autowired
-    protected SchedulerFactory schedulerFactory;
-
-    @Autowired
-    protected FileOptTaskExecutor fileOptTaskExecutor;
-
-    @Autowired
     protected CodeRepositoryCache.EvictCacheExtOpt osInfoManager;
 
     @Value("${http.exception.notAsHttpError:true}")
@@ -64,8 +49,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         JSONOpt.fastjsonGlobalConfig();
         SystemTempFileUtils.setTempFileDirectory(
             SysParametersUtils.getTempHome() + File.separatorChar);
-        DBPlatformEnvironment dbPlatformEnvironment = applicationContext.getBean("dbPlatformEnvironment", DBPlatformEnvironment.class);
-        dbPlatformEnvironment.setSupportTenant(true);
+
         CodeRepositoryCache.setPlatformEnvironment(platformEnvironment);
         CodeRepositoryCache.setAllCacheFreshPeriod(CodeRepositoryCache.CACHE_FRESH_PERIOD_SECONDS);
         WebOptUtils.setExceptionNotAsHttpError(httpExceptionNotAsHttpError);
@@ -73,19 +57,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
         if (operationLogManager != null) {
             OperationLogCenter.registerOperationLogWriter(operationLogManager);
-        }
-        // 创建定时任务
-        try {
-            Scheduler scheduler = schedulerFactory.getScheduler();
-            QuartzJobUtils.registerJobType("bean", JavaBeanJob.class);
-            QuartzJobUtils.createOrReplaceSimpleJob(scheduler, "fileOptJob",
-                "default", "bean", 1800,
-                CollectionsOpt.createHashMap("bean", fileOptTaskExecutor,
-                    "beanName", "fileOptTaskExecutor",
-                    "methodName", "doFileOptJob"));
-            scheduler.start();
-        } catch (SchedulerException e) {
-            e.printStackTrace();
         }
 
     }

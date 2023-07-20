@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import com.centit.framework.staticsystem.config.StaticSystemBeanConfig;
 
 /**
  * Created by codefan on 17-7-18.
@@ -18,7 +19,7 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
         value = org.springframework.stereotype.Controller.class))
 @Import({
 //    JdbcConfig.class,
-//    SystemBeanConfig.class,
+    StaticSystemBeanConfig.class,
     SpringSecurityDaoConfig.class,
     SpringSecurityCasConfig.class,})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
