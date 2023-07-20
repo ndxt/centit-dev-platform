@@ -33,9 +33,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     @Autowired
     protected PlatformEnvironment platformEnvironment;
 
-    @Autowired
-    protected CodeRepositoryCache.EvictCacheExtOpt osInfoManager;
-
     @Value("${http.exception.notAsHttpError:true}")
     protected boolean httpExceptionNotAsHttpError;
 
@@ -58,11 +55,10 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         if (operationLogManager != null) {
             OperationLogCenter.registerOperationLogWriter(operationLogManager);
         }
-
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext=applicationContext;
+        this.applicationContext = applicationContext;
     }
 }

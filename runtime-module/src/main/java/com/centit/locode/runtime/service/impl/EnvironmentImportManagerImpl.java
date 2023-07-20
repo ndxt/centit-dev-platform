@@ -3,8 +3,6 @@ package com.centit.locode.runtime.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.fileserver.common.FileInfoOpt;
-import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.security.model.CentitUserDetails;
 import com.centit.locode.runtime.dao.DummyDao;
@@ -44,8 +42,8 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
     @Value("${app.home:./}")
     private String appHome;
 
-    @Autowired
-    private FileInfoOpt fileInfoOpt;
+   /* @Autowired
+    private FileInfoOpt fileInfoOpt;*/
 
     @Autowired
     private SourceInfoDao sourceInfoDao;
@@ -220,7 +218,8 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
         for(Object obj : filesJson){
             if(obj instanceof JSONObject){
                 JSONObject fileJson = (JSONObject) obj;
-                if(storeFile){
+                mergeObject(fileJson, "FILE_INFO", fileFields, new String[]{"FILE_ID"});
+                /*if(storeFile){
                     try {
                         FileInfo fileInfo = fileJson.toJavaObject(FileInfo.class);
                         String localFilePath = matchFileStoreUrl(fileInfo.getFileMd5());
@@ -229,7 +228,7 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
                     } catch (IOException e){
                         logger.error(e.getMessage());
                     }
-                }
+                }*/
             }
         }
 
@@ -287,8 +286,6 @@ public class EnvironmentImportManagerImpl implements EnvironmentImportManager {
         saveJsonArrayFile(flowDir + File.separator + "variables.json",
             "WF_OPT_VARIABLE_DEFINE", variableFields, new String[]{"OPT_VARIABLE_ID"});
     }
-
-
 
     private void reconstructDatabase(String metadataDir) throws IOException, SQLException {
         List<File> files = FileSystemOpt.findFiles(metadataDir, "*.json");

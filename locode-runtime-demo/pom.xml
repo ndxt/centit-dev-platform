@@ -26,10 +26,6 @@
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
-                    <artifactId>optflow-serial-number</artifactId>
-                    <groupId>com.centit.product</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>database-design</artifactId>
                     <groupId>com.centit.product</groupId>
                 </exclusion>
@@ -66,6 +62,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-session-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
@@ -78,6 +79,18 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>centit-persistence-jdbc-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
