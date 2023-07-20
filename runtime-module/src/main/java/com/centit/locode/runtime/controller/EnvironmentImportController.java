@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -45,7 +46,7 @@ public class EnvironmentImportController extends BaseController {
 
 
     @ApiOperation(value = "测试接口是否正确启动")
-    @PutMapping(value = "/test")
+    @GetMapping(value = "/test")
     @WrapUpResponseBody
     public String testInterface() {
         return "Hello from locode runtime!";
