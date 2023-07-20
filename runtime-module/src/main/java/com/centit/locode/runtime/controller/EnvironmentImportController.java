@@ -35,7 +35,7 @@ public class EnvironmentImportController extends BaseController {
         value = "导入类别:dictionary，file，database，flow, fileAndStore")
     @PutMapping(value = "/import")
     @WrapUpResponseBody
-    public void importApplication(String importType,HttpServletRequest request) throws IOException, SQLException {
+    public void importApplication(String importType, HttpServletRequest request) throws IOException, SQLException {
         CentitUserDetails ud = WebOptUtils.getCurrentUserDetails(request);
         if(ud == null){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");
@@ -43,4 +43,11 @@ public class EnvironmentImportController extends BaseController {
         environmentImportManager.importEnvironment(importType, ud);
     }
 
+
+    @ApiOperation(value = "测试接口是否正确启动")
+    @PutMapping(value = "/test")
+    @WrapUpResponseBody
+    public String testInterface() {
+        return "Hello from locode runtime!";
+    }
 }

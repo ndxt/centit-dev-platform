@@ -35,6 +35,12 @@
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-module</artifactId>
             <version>${centit.metaform.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>database-design</artifactId>
+                    <groupId>com.centit.product</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -47,6 +53,12 @@
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-module</artifactId>
             <version>${centit.dde.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>optflow-serial-number</artifactId>
+                    <groupId>com.centit.product</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

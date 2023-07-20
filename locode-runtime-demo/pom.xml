@@ -24,6 +24,16 @@
             <groupId>com.centit.locode</groupId>
             <artifactId>runtime-module</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>optflow-serial-number</artifactId>
+                    <groupId>com.centit.product</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>database-design</artifactId>
+                    <groupId>com.centit.product</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
