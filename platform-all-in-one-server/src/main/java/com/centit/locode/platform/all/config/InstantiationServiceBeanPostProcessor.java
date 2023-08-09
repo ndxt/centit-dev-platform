@@ -47,7 +47,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     @Autowired
     protected FileOptTaskExecutor fileOptTaskExecutor;
 
-    @Value("${http.exception.notAsHttpError:true}")
+    @Value("${http.exception.notAsHttpError:false}")
     protected boolean httpExceptionNotAsHttpError;
 
     @Value("${app.support.tenant:true}")
