@@ -182,6 +182,12 @@
 
         <dependency>
             <groupId>com.centit.product</groupId>
+            <artifactId>enterprise-calendar</artifactId>
+            <version>${centit.oa.modules.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
             <artifactId>optflow-serial-number</artifactId>
             <version>${centit.oa.modules.version}</version>
         </dependency>
