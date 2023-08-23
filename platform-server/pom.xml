@@ -84,10 +84,6 @@
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc-config</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.centit.framework</groupId>-->
-        <!--            <artifactId>framework-base-view-easyui</artifactId>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -103,6 +99,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>enterprise-calendar</artifactId>
+            <version>${centit.oa.modules.version}</version>
         </dependency>
 
         <dependency>
