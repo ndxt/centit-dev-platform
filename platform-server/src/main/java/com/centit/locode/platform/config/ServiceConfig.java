@@ -5,10 +5,6 @@ import com.alibaba.nacos.api.annotation.NacosProperties;
 import com.alibaba.nacos.spring.context.annotation.config.EnableNacosConfig;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySources;
-import com.centit.fileserver.client.FileClient;
-import com.centit.fileserver.client.FileClientImpl;
-import com.centit.fileserver.client.FileInfoOptClient;
-import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityDaoConfig;
@@ -122,17 +118,5 @@ public class ServiceConfig {
         return IndexerSearcherFactory.obtainSearcher(
             esServerConfig, ObjectDocument.class);
     }
-    @Bean
-    public FileClient fileClient() {
-        FileClientImpl fileClient = new FileClientImpl();
-        fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
-        return fileClient;
-    }
 
-    @Bean
-    public FileInfoOpt fileInfoOpt(@Autowired FileClient fileClient) {
-        FileInfoOptClient fileStoreBean = new FileInfoOptClient();
-        fileStoreBean.setFileClient(fileClient);
-        return fileStoreBean;
-    }
 }
