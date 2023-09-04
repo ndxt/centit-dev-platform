@@ -50,10 +50,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private TenantManageService tenantManageService;
 
     private final static String FILE_TYPE_ITEM = "I";
-    private OsInfo osInfo;
-    private FileLibraryInfo fileLibrary;
-    private List<OptInfo> optInfos = new ArrayList<>();
-    private List<WorkGroup> workGroup = new ArrayList<>();
+
     @Autowired
     private ApplicationDictionaryDao applicationDictionaryDao;
 
@@ -61,8 +58,16 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public JSONObject createApplicationInfo(OsInfo osInfo) {
         //验证应用数量是否达到限制
         checkOsNumberLimitIsOver(osInfo.getTopUnit());
-        createOsInfoAndOther(osInfo);
-        return assemblyApplicationInfo();
+        //获取工作组组长code
+        String leaderCode = osInfo.getCreated();
+        OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
+
+        assemblyOsInfo.setRelOptId(assemblyOsInfo.getOsId());
+        assemblyOsInfo  = platformEnvironment.addOsInfo(assemblyOsInfo);
+        WorkGroup wg = createWorkGroup(assemblyOsInfo, leaderCode);
+        FileLibraryInfo fileLibrary = createFileLibrary(assemblyOsInfo);
+        List<OptInfo> optInfos = createOptInfos(assemblyOsInfo);
+        return assemblyApplicationInfo(assemblyOsInfo, CollectionsOpt.createList(wg), fileLibrary, optInfos);
     }
 
     @Override
@@ -106,24 +111,26 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     @Override
     public JSONObject getApplicationInfo(String applicationId, String topUnit, boolean checkAuth) {
-        osInfo = platformEnvironment.getOsInfo(applicationId);
+        OsInfo osInfo = platformEnvironment.getOsInfo(applicationId);
         if(osInfo==null){
             return null;
         }
         if (checkAuth && !topUnit.equals(osInfo.getTopUnit())){
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
-        fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
+        FileLibraryInfo fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
+        List<WorkGroup> workGroup = null;
         if(checkAuth) {
             Map map = new HashMap();
             map.put("groupId", applicationId);
-            List<WorkGroup> workGroup = platformEnvironment.listWorkGroup(map, null);
+            workGroup = platformEnvironment.listWorkGroup(map, null);
             if (notHaveAuth(workGroup)) {
                 throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
             }
         }
-        optInfos = platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
-        return assemblyApplicationInfo();
+        List<OptInfo> optInfos = platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
+
+        return assemblyApplicationInfo(osInfo, workGroup , fileLibrary, optInfos );
     }
 
     private boolean notHaveAuth(List<WorkGroup>   workGroups) {
@@ -210,7 +217,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit));
         int unitCount = platformEnvironment.countUnitByTopUnit(topUnit);
         int userCount = platformEnvironment.countUserByTopUnit(topUnit);
-        List<? extends OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        List<OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
 
         tenantInfo.put("databaseCount",dataBaseCount);
@@ -220,41 +227,30 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return tenantInfo;
     }
 
-    private void createOsInfoAndOther(OsInfo osInfo) {
-        //获取工作组组长code
-        String leaderCode = osInfo.getCreated();
-        OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
-        platformEnvironment.addOsInfo(assemblyOsInfo);
-        createWorkGroup(leaderCode);
-        createFileLibrary();
-        createOptInfos();
-        updateOsInfo();
+    private WorkGroup createWorkGroup(OsInfo osInfo, String leaderCode) {
+        WorkGroup wf = assemblyWorkGroupInfo(osInfo, leaderCode);
+        platformEnvironment.batchWorkGroup(CollectionsOpt.createList(wf));
+        return wf;
     }
 
-    private void createWorkGroup(String leaderCode) {
-        workGroup.clear();
-        workGroup.add(assemblyWorkGroupInfo(leaderCode));
-        platformEnvironment.batchWorkGroup(workGroup);
+    private FileLibraryInfo createFileLibrary(OsInfo osInfo) {
+        FileLibraryInfo assemblyLibrary = assemblyFileLibraryInfo(osInfo);
+        return operateFileLibrary.insertFileLibrary(assemblyLibrary);
     }
 
-    private void createFileLibrary() {
-        FileLibraryInfo assemblyLibrary = assemblyFileLibraryInfo();
-        fileLibrary = operateFileLibrary.insertFileLibrary(assemblyLibrary);
+    private List<OptInfo> createOptInfos(OsInfo osInfo) {
+        List<OptInfo> optInfos = new ArrayList<>();
+        createParentMenu(osInfo);
+        OptInfo optInfo = creatSubMenuAndAddOptInfo(osInfo, OptInfo.OPT_INFO_FORM_CODE_COMMON,OptInfo.OPT_INFO_FORM_CODE_COMMON_NAME);
+        optInfos.add(optInfo);
+        optInfo = creatSubMenuAndAddOptInfo(osInfo, OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER,OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER_NAME);
+        optInfos.add(optInfo);
+        return optInfos;
     }
 
-    private void createOptInfos() {
-        optInfos.clear();
-        createParentMenu();
-        creatSubMenuAndAddOptList(OptInfo.OPT_INFO_FORM_CODE_COMMON,OptInfo.OPT_INFO_FORM_CODE_COMMON_NAME);
-        creatSubMenuAndAddOptList(OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER,OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER_NAME);
-    }
 
-    private void updateOsInfo() {
-        osInfo.setRelOptId(osInfo.getOsId());
-        platformEnvironment.updateOsInfo(osInfo);
-    }
-
-    private JSONObject assemblyApplicationInfo() {
+    private JSONObject assemblyApplicationInfo(OsInfo osInfo, List<WorkGroup> workGroup,
+                                               FileLibraryInfo fileLibrary, List<OptInfo> optInfos) {
         JSONObject result = new JSONObject();
         result.put("osInfo", osInfo);
         result.put("workGroup", workGroup);
@@ -286,7 +282,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return osInfo;
     }
 
-    private WorkGroup assemblyWorkGroupInfo(String leaderCode) {
+    private WorkGroup assemblyWorkGroupInfo(OsInfo osInfo, String leaderCode) {
         WorkGroup workGroup = new WorkGroup();
         workGroup.setCreator(osInfo.getCreated());
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
@@ -297,7 +293,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return workGroup;
     }
 
-    private FileLibraryInfo assemblyFileLibraryInfo() {
+    private FileLibraryInfo assemblyFileLibraryInfo(OsInfo osInfo) {
         FileLibraryInfo fileLibrary = new FileLibraryInfo();
         fileLibrary.setLibraryId(osInfo.getOsId());
         fileLibrary.setLibraryName(osInfo.getOsName());
@@ -309,18 +305,17 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return fileLibrary;
     }
 
-    private void createParentMenu() {
-        OptInfo result = assemblyParentMenuInfo();
-        platformEnvironment.addOptInfo(result);
+    private OptInfo createParentMenu(OsInfo osInfo) {
+        OptInfo result = assemblyParentMenuInfo(osInfo);
+        return platformEnvironment.addOptInfo(result);
     }
 
-    private void creatSubMenuAndAddOptList(String type,String optName) {
-        OptInfo result = assemblySubMenuInfo(type,optName);
-        OptInfo optInfo = platformEnvironment.addOptInfo(result);
-        optInfos.add(optInfo);
+    private OptInfo creatSubMenuAndAddOptInfo(OsInfo osInfo, String type,String optName) {
+        OptInfo result = assemblySubMenuInfo(osInfo, type, optName);
+        return platformEnvironment.addOptInfo(result);
     }
 
-    private OptInfo assemblyParentMenuInfo() {
+    private OptInfo assemblyParentMenuInfo(OsInfo osInfo) {
         OptInfo result = new OptInfo();
         result.setOptId(osInfo.getOsId());
         result.setOptName(osInfo.getOsName());
@@ -332,7 +327,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return result;
     }
 
-    private OptInfo assemblySubMenuInfo(String type,String optName) {
+    private OptInfo assemblySubMenuInfo(OsInfo osInfo, String type, String optName) {
         OptInfo result = new OptInfo();
         result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
         result.setPreOptId(osInfo.getOsId());
