@@ -8,10 +8,9 @@ import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.model.basedata.IOptMethod;
-import com.centit.framework.model.basedata.IOsInfo;
-import com.centit.framework.system.po.OptInfo;
-import com.centit.framework.system.po.OsInfo;
+import com.centit.framework.model.basedata.OptInfo;
+import com.centit.framework.model.basedata.OptMethod;
+import com.centit.framework.model.basedata.OsInfo;
 import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.metaform.service.MetaFormModelDraftManager;
 import com.centit.metaform.service.MetaFormModelManager;
@@ -73,7 +72,7 @@ public class ApplicationInfoController extends BaseController {
     @PutMapping
     @WrapUpResponseBody
     @Transactional(rollbackFor = Exception.class)
-    public IOsInfo updateApplicationInfo(@RequestBody OsInfo osInfo) {
+    public OsInfo updateApplicationInfo(@RequestBody OsInfo osInfo) {
         OptInfo optInfo = new OptInfo();
         optInfo.setOptId(osInfo.getOsId());
         optInfo.setOptName(osInfo.getOsName());
@@ -85,7 +84,7 @@ public class ApplicationInfoController extends BaseController {
     @ApiImplicitParam(name = "applicationId", value = "图表ID")
     @DeleteMapping(value = "/{applicationId}")
     @WrapUpResponseBody
-    public IOsInfo deleteApplicationInfo(@PathVariable String applicationId) {
+    public OsInfo deleteApplicationInfo(@PathVariable String applicationId) {
         //TODO 添加是否是研发人员验证
 
         return applicationInfoManager.deleteApplicationInfo(applicationId);
@@ -143,7 +142,7 @@ public class ApplicationInfoController extends BaseController {
             return ResponseData.makeErrorMessage("页面存在数据，无法删除，请先移除！");
         }
         //接口数据
-        List<? extends IOptMethod> iOptMethods = platformEnvironment.listAllOptMethod(topUnit);
+        List<OptMethod> iOptMethods = platformEnvironment.listAllOptMethod(topUnit);
         iOptMethods.removeIf(iOptMethod -> !iOptMethod.getOptId().equals(optId));
         if (iOptMethods.size()>1){
             return ResponseData.makeErrorMessage("接口存在数据，无法删除，请先移除！");

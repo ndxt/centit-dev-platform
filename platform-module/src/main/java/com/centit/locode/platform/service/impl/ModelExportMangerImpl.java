@@ -10,7 +10,7 @@ import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.basedata.OperationLog;
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
 import com.centit.locode.platform.service.ModelExportManager;
 import com.centit.locode.platform.vo.AppTableNames;

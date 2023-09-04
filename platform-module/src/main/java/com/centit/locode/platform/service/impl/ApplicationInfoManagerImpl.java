@@ -10,13 +10,10 @@ import com.centit.framework.components.CodeRepositoryUtil;
 import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.model.basedata.IOptInfo;
-import com.centit.framework.model.basedata.IOsInfo;
-import com.centit.framework.model.basedata.IWorkGroup;
-import com.centit.framework.system.po.OptInfo;
-import com.centit.framework.system.po.OsInfo;
-import com.centit.framework.system.po.WorkGroup;
-import com.centit.framework.system.po.WorkGroupParameter;
+import com.centit.framework.model.basedata.OptInfo;
+import com.centit.framework.model.basedata.OsInfo;
+import com.centit.framework.model.basedata.WorkGroup;
+import com.centit.framework.model.basedata.WorkGroupParameter;
 import com.centit.locode.platform.dao.ApplicationDictionaryDao;
 import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.product.metadata.api.MetadataManageService;
@@ -53,10 +50,10 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private TenantManageService tenantManageService;
 
     private final static String FILE_TYPE_ITEM = "I";
-    private IOsInfo iOsInfo;
+    private OsInfo osInfo;
     private FileLibraryInfo fileLibrary;
-    private List<IOptInfo> optInfos = new ArrayList<>();
-    private List<IWorkGroup> workGroup = new ArrayList<>();
+    private List<OptInfo> optInfos = new ArrayList<>();
+    private List<WorkGroup> workGroup = new ArrayList<>();
     @Autowired
     private ApplicationDictionaryDao applicationDictionaryDao;
 
@@ -70,32 +67,33 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     @Override
     public JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters) {
-        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        List<OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
         if (parameters.containsKey("osName")&& StringUtils.isNotBlank((String)parameters.get("osName"))){//因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
             osInfos.removeIf(osInfo -> !osInfo.getOsName().contains((String)parameters.get("osName")));
         }
-        if (parameters.containsKey("sortValue") && parameters.get("sortValue").equals("ASC")){
-            osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)));
-        }else {
-            osInfos.sort(Comparator.comparing(IOsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
+        if (parameters.containsKey("sortValue") && parameters.get("sortValue").equals("ASC")) {
+            osInfos.sort(Comparator.comparing(OsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)));
+        } else {
+            osInfos.sort(Comparator.comparing(OsInfo::getLastModifyDate, Comparator.nullsFirst(Date::compareTo)).reversed());
         }
+
         if (parameters.get("involved") !=null){
             Map<String, Object> parames = new HashMap<>();
             parames.put("userCode",WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest()));
-            List<? extends IWorkGroup> workGroups = platformEnvironment.listWorkGroup(parames, null);
-            List<String> osId = workGroups.stream().map(IWorkGroup::getGroupId).collect(Collectors.toList());
+            List<WorkGroup> workGroups = platformEnvironment.listWorkGroup(parames, null);
+            List<String> osId = workGroups.stream().map(WorkGroup::getGroupId).collect(Collectors.toList());
             osInfos.removeIf(osInfo->!osId.contains(osInfo.getOsId()));
         }
 
         JSONArray jsonArray = new JSONArray();
-        for (IOsInfo osInfo : osInfos) {
+        for (OsInfo osInfo : osInfos) {
             JSONObject jsonObject = JSONObject.from(osInfo);
                 //JSON.parseObject(JSON.toJSONStringWithDateFormat(osInfo,JSON.DEFFAULT_DATE_FORMAT), JSONObject.class);
             Map map = new HashMap();
             map.put("groupId",osInfo.getOsId());
             map.put("roleCode","组长");
-            List<? extends IWorkGroup> workGroup = platformEnvironment.listWorkGroup(map,null);
+            List<WorkGroup> workGroup = platformEnvironment.listWorkGroup(map,null);
             if (workGroup!=null&&workGroup.size()>0){
                 String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.get(0).getUserCode());
                 jsonObject.put("createUserName",userName);
@@ -108,27 +106,27 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     @Override
     public JSONObject getApplicationInfo(String applicationId, String topUnit, boolean checkAuth) {
-        iOsInfo = platformEnvironment.getOsInfo(applicationId);
-        if(iOsInfo==null){
+        osInfo = platformEnvironment.getOsInfo(applicationId);
+        if(osInfo==null){
             return null;
         }
-        if (checkAuth && !topUnit.equals(iOsInfo.getTopUnit())){
+        if (checkAuth && !topUnit.equals(osInfo.getTopUnit())){
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
         fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
         if(checkAuth) {
             Map map = new HashMap();
             map.put("groupId", applicationId);
-            List<IWorkGroup> workGroup = platformEnvironment.listWorkGroup(map, null);
+            List<WorkGroup> workGroup = platformEnvironment.listWorkGroup(map, null);
             if (notHaveAuth(workGroup)) {
                 throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
             }
         }
-        optInfos = (List<IOptInfo>) platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
+        optInfos = platformEnvironment.listMenuOptInfosUnderOsId(applicationId);
         return assemblyApplicationInfo();
     }
 
-    private boolean notHaveAuth(List<IWorkGroup>   workGroups) {
+    private boolean notHaveAuth(List<WorkGroup>   workGroups) {
         String loginUser = WebOptUtils.getCurrentUserCode(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         if (StringBaseOpt.isNvl(loginUser)) {
@@ -138,7 +136,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (StringBaseOpt.isNvl(loginUser)) {
             return true;
         }
-        for (IWorkGroup workGroup : workGroups) {
+        for (WorkGroup workGroup : workGroups) {
             if (workGroup.getUserCode().equals(loginUser)) {
                 return false;
             }
@@ -148,7 +146,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     @Override
     @Transactional
-    public IOsInfo deleteApplicationInfo(String applicationId) {
+    public OsInfo deleteApplicationInfo(String applicationId) {
         Object[] params= {applicationId};
         String sql;
         sql="delete from q_data_packet_param_draft where packet_id in (" +
@@ -199,7 +197,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public IOsInfo updateApplicationInfo(OsInfo osInfo) {
+    public OsInfo updateApplicationInfo(OsInfo osInfo) {
         return platformEnvironment.updateOsInfo(osInfo);
     }
 
@@ -212,7 +210,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit));
         int unitCount = platformEnvironment.countUnitByTopUnit(topUnit);
         int userCount = platformEnvironment.countUserByTopUnit(topUnit);
-        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        List<? extends OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
 
         tenantInfo.put("databaseCount",dataBaseCount);
@@ -226,7 +224,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         //获取工作组组长code
         String leaderCode = osInfo.getCreated();
         OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
-        iOsInfo = platformEnvironment.addOsInfo(assemblyOsInfo);
+        platformEnvironment.addOsInfo(assemblyOsInfo);
         createWorkGroup(leaderCode);
         createFileLibrary();
         createOptInfos();
@@ -252,13 +250,13 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private void updateOsInfo() {
-        iOsInfo.setRelOptId(iOsInfo.getOsId());
-        platformEnvironment.updateOsInfo(iOsInfo);
+        osInfo.setRelOptId(osInfo.getOsId());
+        platformEnvironment.updateOsInfo(osInfo);
     }
 
     private JSONObject assemblyApplicationInfo() {
         JSONObject result = new JSONObject();
-        result.put("osInfo", iOsInfo);
+        result.put("osInfo", osInfo);
         result.put("workGroup", workGroup);
         result.put("fileLibrary", fileLibrary);
         result.put("submenu", optInfos);
@@ -282,7 +280,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (StringBaseOpt.isNvl(osInfo.getTopUnit())) {
             osInfo.setTopUnit(topUnit);
         }
-        osInfo.setOsType(IOsInfo.OSTYPE_LOCODE);
+        osInfo.setOsType(OsInfo.OSTYPE_LOCODE);
         osInfo.setOsId(null);
         osInfo.setDeleted(false);
         return osInfo;
@@ -290,21 +288,21 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     private WorkGroup assemblyWorkGroupInfo(String leaderCode) {
         WorkGroup workGroup = new WorkGroup();
-        workGroup.setCreator(iOsInfo.getCreated());
+        workGroup.setCreator(osInfo.getCreated());
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
         workGroupParameter.setRoleCode(WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
-        workGroupParameter.setGroupId(iOsInfo.getOsId());
-        workGroupParameter.setUserCode(StringUtils.isBlank(leaderCode)?iOsInfo.getCreated():leaderCode);
+        workGroupParameter.setGroupId(osInfo.getOsId());
+        workGroupParameter.setUserCode(StringUtils.isBlank(leaderCode)? osInfo.getCreated():leaderCode);
         workGroup.setWorkGroupParameter(workGroupParameter);
         return workGroup;
     }
 
     private FileLibraryInfo assemblyFileLibraryInfo() {
         FileLibraryInfo fileLibrary = new FileLibraryInfo();
-        fileLibrary.setLibraryId(iOsInfo.getOsId());
-        fileLibrary.setLibraryName(iOsInfo.getOsName());
+        fileLibrary.setLibraryId(osInfo.getOsId());
+        fileLibrary.setLibraryName(osInfo.getOsName());
         fileLibrary.setLibraryType(FILE_TYPE_ITEM);
-        fileLibrary.setCreateUser(iOsInfo.getCreated());
+        fileLibrary.setCreateUser(osInfo.getCreated());
         String topUnit = WebOptUtils.getCurrentTopUnit(
             RequestThreadLocal.getLocalThreadWrapperRequest());
         fileLibrary.setOwnUnit(topUnit);
@@ -318,27 +316,27 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     private void creatSubMenuAndAddOptList(String type,String optName) {
         OptInfo result = assemblySubMenuInfo(type,optName);
-        IOptInfo optInfo = platformEnvironment.addOptInfo(result);
+        OptInfo optInfo = platformEnvironment.addOptInfo(result);
         optInfos.add(optInfo);
     }
 
     private OptInfo assemblyParentMenuInfo() {
         OptInfo result = new OptInfo();
-        result.setOptId(iOsInfo.getOsId());
-        result.setOptName(iOsInfo.getOsName());
+        result.setOptId(osInfo.getOsId());
+        result.setOptName(osInfo.getOsName());
         result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
         result.setFormCode(OptInfo.OPT_INFO_FORM_CODE_ITEM);
         result.setOptUrl("");
         result.setOptType(OptInfo.OPT_INFO_OPT_TYPE_COMMON);
-        result.setTopOptId(iOsInfo.getOsId());
+        result.setTopOptId(osInfo.getOsId());
         return result;
     }
 
     private OptInfo assemblySubMenuInfo(String type,String optName) {
         OptInfo result = new OptInfo();
         result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
-        result.setPreOptId(iOsInfo.getOsId());
-        result.setTopOptId(iOsInfo.getOsId());
+        result.setPreOptId(osInfo.getOsId());
+        result.setTopOptId(osInfo.getOsId());
         result.setOptUrl("");
         result.setFormCode(type);
         result.setOptName(optName);
@@ -357,7 +355,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (null == tenantInfo){
             throw new ObjectException("租户信息有误!");
         }
-        List<? extends IOsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
+        List<OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
         if (osCount>=tenantInfo.getIntValue("osNumberLimit")){
             throw new ObjectException("应用个数达到最大限制!");

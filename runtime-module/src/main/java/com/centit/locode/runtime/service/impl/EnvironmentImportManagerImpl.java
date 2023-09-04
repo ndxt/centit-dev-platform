@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.runtime.dao.DummyDao;
 import com.centit.locode.runtime.service.EnvironmentImportManager;
 import com.centit.product.metadata.dao.SourceInfoDao;

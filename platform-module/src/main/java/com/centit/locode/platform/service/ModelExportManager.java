@@ -1,7 +1,7 @@
 package com.centit.locode.platform.service;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 
 import java.io.File;
 import java.io.FileNotFoundException;

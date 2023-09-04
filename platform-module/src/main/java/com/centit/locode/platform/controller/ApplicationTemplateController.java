@@ -10,7 +10,7 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.po.ApplicationTemplate;
 import com.centit.locode.platform.service.ApplicationTemplateManager;
 import com.centit.locode.platform.service.ModelExportManager;

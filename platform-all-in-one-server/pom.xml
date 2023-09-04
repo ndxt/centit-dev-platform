@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.locode</groupId>
-        <version>5.3-SNAPSHOT</version>
+        <version>5.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -262,18 +262,14 @@
             <artifactId>centit-dde-workflow-plugin</artifactId>
             <version>${centit.dde.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-msg-plugin</artifactId>
             <version>${centit.dde.version}</version>
         </dependency>
-        <!--文件服务器依赖-->
-        <!-- <dependency>
-             <groupId>com.centit.product</groupId>
-             <artifactId>fileserver-dubbo-server-config</artifactId>
-             <version>${project.version}</version>
-         </dependency>-->
 
+        <!--文件服务器依赖-->
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-module</artifactId>
@@ -296,11 +292,6 @@
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-system-config</artifactId>
         </dependency>
-        <!--       <dependency>
-                   <groupId>com.centit.framework</groupId>
-                   <artifactId>centit-ip-dubbo-server-config</artifactId>
-                   <version>${project.version}</version>
-               </dependency>-->
 
         <!--im依赖-->
         <dependency>
@@ -308,6 +299,7 @@
             <artifactId>centit-im-module</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <!--opt-task依赖-->
         <dependency>
             <groupId>com.centit.product</groupId>

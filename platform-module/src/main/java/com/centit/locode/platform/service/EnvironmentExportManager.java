@@ -1,6 +1,6 @@
 package com.centit.locode.platform.service;
 
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 
 import java.io.IOException;
 import java.io.InputStream;

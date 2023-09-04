@@ -9,8 +9,7 @@ import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.model.basedata.IDataCatalog;
-import com.centit.framework.system.po.DataCatalog;
+import com.centit.framework.model.basedata.DataCatalog;
 import com.centit.locode.platform.po.ApplicationDictionary;
 import com.centit.locode.platform.service.ApplicationDictionaryService;
 import com.centit.support.database.utils.PageDesc;
@@ -89,8 +88,8 @@ public class ApplicationDictionaryController extends BaseController {
                 resultMap.put("pushTime", applicationDictionary.getPushTime());
                 resultMap.put("pushUser", applicationDictionary.getPushUser());
                 String topUnit = WebOptUtils.getCurrentTopUnit(request);
-                List<? extends IDataCatalog> dataCatalogs = platformEnvironment.listAllDataCatalogs(topUnit);
-                for (IDataCatalog iDataCatalog : dataCatalogs) {
+                List<DataCatalog> dataCatalogs = platformEnvironment.listAllDataCatalogs(topUnit);
+                for (DataCatalog iDataCatalog : dataCatalogs) {
                     if (iDataCatalog != null && dictionaryId.equals(iDataCatalog.getCatalogCode())) {
                         DataCatalog dataCatalog = (DataCatalog) iDataCatalog;
                         resultMap.put("catalogName", dataCatalog.getCatalogName());

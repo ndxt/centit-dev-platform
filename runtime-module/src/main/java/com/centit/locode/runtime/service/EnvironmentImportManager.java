@@ -1,6 +1,6 @@
 package com.centit.locode.runtime.service;
 
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 
 import java.io.IOException;
 import java.sql.SQLException;

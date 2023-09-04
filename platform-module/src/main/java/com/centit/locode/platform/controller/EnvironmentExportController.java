@@ -5,7 +5,7 @@ import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.security.model.CentitUserDetails;
+import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.service.EnvironmentExportManager;
 import com.centit.support.common.ObjectException;
 import io.swagger.annotations.Api;

@@ -2,8 +2,7 @@ package com.centit.locode.platform.service;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.framework.model.basedata.IOsInfo;
-import com.centit.framework.system.po.OsInfo;
+import com.centit.framework.model.basedata.OsInfo;
 
 import java.util.Map;
 
@@ -17,9 +16,9 @@ public interface ApplicationInfoManager {
 
     JSONObject getApplicationInfo(String applicationId,String topUnit,boolean checkAuth);
 
-    IOsInfo deleteApplicationInfo(String applicationId);
+    OsInfo deleteApplicationInfo(String applicationId);
 
-    IOsInfo updateApplicationInfo(OsInfo osInfo);
+    OsInfo updateApplicationInfo(OsInfo osInfo);
 
     /**
      * 获取资源详情及使用情况
