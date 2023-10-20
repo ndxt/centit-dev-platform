@@ -314,6 +314,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         OptInfo result = new OptInfo();
         result.setOsId(osInfo.getOsId());
         result.setOptId(osInfo.getRelOptId());
+        result.setPreOptId("0");
         result.setOptName(osInfo.getOsName());
         result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
         result.setFormCode(OptInfo.OPT_INFO_FORM_CODE_ITEM);
