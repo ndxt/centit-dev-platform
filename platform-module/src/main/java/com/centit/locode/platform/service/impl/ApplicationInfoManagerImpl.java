@@ -20,6 +20,7 @@ import com.centit.product.metadata.api.MetadataManageService;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
+import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.tenant.dubbo.adapter.TenantManageService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -61,8 +62,10 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         //获取工作组组长code
         String leaderCode = osInfo.getCreated();
         OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
-
-        assemblyOsInfo.setRelOptId(assemblyOsInfo.getOsId());
+        // 设置主键
+        String osId = UuidOpt.getUuidAsString22();
+        assemblyOsInfo.setOsId(osId);
+        assemblyOsInfo.setRelOptId(osId);
         assemblyOsInfo  = platformEnvironment.addOsInfo(assemblyOsInfo);
         WorkGroup wg = createWorkGroup(assemblyOsInfo, leaderCode);
         FileLibraryInfo fileLibrary = createFileLibrary(assemblyOsInfo);
@@ -172,6 +175,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
         sql="delete from m_meta_form_model where os_id=?";
         DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from F_ROLEPOWER where OPT_CODE in " +
+            "(select a.OPT_CODE from f_optdef a join f_optinfo b on a.opt_id=b.opt_id where b.os_id=?)";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
         sql="delete from f_optdef where opt_id in (select opt_id from f_optinfo where os_id=?)";
         DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
         sql="delete from wf_opt_team_role where opt_id in " +
@@ -241,9 +247,9 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     private List<OptInfo> createOptInfos(OsInfo osInfo) {
         List<OptInfo> optInfos = new ArrayList<>();
         createParentMenu(osInfo);
-        OptInfo optInfo = creatSubMenuAndAddOptInfo(osInfo, OptInfo.OPT_INFO_FORM_CODE_COMMON,OptInfo.OPT_INFO_FORM_CODE_COMMON_NAME);
+        OptInfo optInfo = creatSubMenuAndAddOptInfo(osInfo, OptInfo.OPT_INFO_FORM_CODE_COMMON, OptInfo.OPT_INFO_FORM_CODE_COMMON_NAME);
         optInfos.add(optInfo);
-        optInfo = creatSubMenuAndAddOptInfo(osInfo, OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER,OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER_NAME);
+        optInfo = creatSubMenuAndAddOptInfo(osInfo, OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER, OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER_NAME);
         optInfos.add(optInfo);
         return optInfos;
     }
@@ -277,7 +283,6 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             osInfo.setTopUnit(topUnit);
         }
         osInfo.setOsType(OsInfo.OSTYPE_LOCODE);
-        osInfo.setOsId(null);
         osInfo.setDeleted(false);
         return osInfo;
     }
@@ -306,36 +311,28 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private OptInfo createParentMenu(OsInfo osInfo) {
-        OptInfo result = assemblyParentMenuInfo(osInfo);
-        return platformEnvironment.addOptInfo(result);
-    }
-
-    private OptInfo creatSubMenuAndAddOptInfo(OsInfo osInfo, String type,String optName) {
-        OptInfo result = assemblySubMenuInfo(osInfo, type, optName);
-        return platformEnvironment.addOptInfo(result);
-    }
-
-    private OptInfo assemblyParentMenuInfo(OsInfo osInfo) {
         OptInfo result = new OptInfo();
-        result.setOptId(osInfo.getOsId());
+        result.setOsId(osInfo.getOsId());
+        result.setOptId(osInfo.getRelOptId());
         result.setOptName(osInfo.getOsName());
         result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
         result.setFormCode(OptInfo.OPT_INFO_FORM_CODE_ITEM);
         result.setOptUrl("");
         result.setOptType(OptInfo.OPT_INFO_OPT_TYPE_COMMON);
-        result.setTopOptId(osInfo.getOsId());
-        return result;
+        result.setTopOptId(osInfo.getRelOptId());
+        return platformEnvironment.addOptInfo(result);
     }
 
-    private OptInfo assemblySubMenuInfo(OsInfo osInfo, String type, String optName) {
+    private OptInfo creatSubMenuAndAddOptInfo(OsInfo osInfo, String type,String optName) {
         OptInfo result = new OptInfo();
         result.setIsInToolbar(OptInfo.OPT_INFO_IN_TOOLBAR_NO);
-        result.setPreOptId(osInfo.getOsId());
-        result.setTopOptId(osInfo.getOsId());
+        result.setPreOptId(osInfo.getRelOptId());
+        result.setTopOptId(osInfo.getRelOptId());
+        result.setOsId(osInfo.getOsId());
         result.setOptUrl("");
         result.setFormCode(type);
         result.setOptName(optName);
-        return result;
+        return platformEnvironment.addOptInfo(result);
     }
 
     /**
