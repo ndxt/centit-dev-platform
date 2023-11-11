@@ -14,10 +14,12 @@ import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
+import com.centit.framework.model.security.ThirdPartyCheckUserDetails;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.framework.system.config.SystemBeanConfig;
 import com.centit.im.service.IntelligentRobotFactory;
 import com.centit.im.service.impl.IntelligentRobotFactoryRpcImpl;
+import com.centit.locode.platform.plugins.ZjJttCheckUserPlugin;
 import com.centit.msgpusher.plugins.EMailMsgPusher;
 import com.centit.msgpusher.plugins.SystemUserEmailSupport;
 import com.centit.search.document.FileDocument;
@@ -101,6 +103,10 @@ public class ServiceConfig {
     public IntelligentRobotFactory intelligentRobotFactory() {
         IntelligentRobotFactoryRpcImpl intelligentRobotFactory = new IntelligentRobotFactoryRpcImpl();
         return intelligentRobotFactory;
+    }
+    @Bean
+    public ThirdPartyCheckUserDetails thirdPartyCheckUserDetails(){
+        return new ZjJttCheckUserPlugin();
     }
 
     /* 这个定时任务 不能用run来做，应该用一个 定时任务容器
