@@ -104,7 +104,7 @@ public class ServiceConfig {
         IntelligentRobotFactoryRpcImpl intelligentRobotFactory = new IntelligentRobotFactoryRpcImpl();
         return intelligentRobotFactory;
     }
-    @Bean
+    @Bean("thirdPartyCheckUserDetails")
     public ThirdPartyCheckUserDetails thirdPartyCheckUserDetails(){
         return new ZjJttCheckUserPlugin();
     }
