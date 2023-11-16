@@ -32,8 +32,8 @@ public class ZjJttCheckUserPlugin implements ThirdPartyCheckUserDetails {
         String userCode = jsonObject.getString("userCode");
         Date loginTime = DatetimeOpt.castObjectToDate(jsonObject.get("loginTime"));
         Date currentTime = DatetimeOpt.currentUtilDate();
-        if(StringUtils.isBlank(userCode) || loginTime==null || loginTime.after(DatetimeOpt.addMinutes(currentTime, 2)) ||
-            loginTime.before(DatetimeOpt.addMinutes(currentTime, -2))) {
+        if(StringUtils.isBlank(userCode) || loginTime==null || loginTime.after(DatetimeOpt.addMinutes(currentTime, 30)) ||
+            loginTime.before(DatetimeOpt.addMinutes(currentTime, -30))) {
             throw new ObjectException("第三方验证失败: accessToken 已过期是非法的！");
         }
         return platformEnvironment.loadUserDetailsByUserCode(userCode);
