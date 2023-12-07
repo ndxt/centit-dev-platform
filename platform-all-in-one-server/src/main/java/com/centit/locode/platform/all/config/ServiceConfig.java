@@ -174,13 +174,11 @@ public class ServiceConfig {
             esServerConfig, ObjectDocument.class);
     }
 
-    @Bean
-    public Searcher documentSearcher() {
+    @Bean(name = "documentSearcher")
+    public Searcher documentSearcher(@Autowired ESServerConfig esServerConfig) {
         if (BooleanBaseOpt.castObjectToBoolean(
             env.getProperty("fulltext.index.enable"), false)) {
-            return IndexerSearcherFactory.obtainSearcher(
-                IndexerSearcherFactory.loadESServerConfigFormProperties(
-                    SysParametersUtils.loadProperties()), FileDocument.class);
+            return IndexerSearcherFactory.obtainSearcher(esServerConfig, FileDocument.class);
         }
         return null;
     }
