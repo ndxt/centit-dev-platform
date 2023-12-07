@@ -22,15 +22,9 @@ import com.centit.im.service.impl.IntelligentRobotFactoryRpcImpl;
 import com.centit.locode.platform.plugins.ZjJttCheckUserPlugin;
 import com.centit.msgpusher.plugins.EMailMsgPusher;
 import com.centit.msgpusher.plugins.SystemUserEmailSupport;
-import com.centit.search.document.FileDocument;
-import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.ESServerConfig;
-import com.centit.search.service.Impl.ESIndexer;
-import com.centit.search.service.Impl.ESSearcher;
 import com.centit.search.service.IndexerSearcherFactory;
-import com.centit.search.service.Searcher;
 import com.centit.search.utils.ImagePdfTextExtractor;
-import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import io.lettuce.core.RedisClient;
@@ -166,27 +160,6 @@ public class ServiceConfig {
         return IndexerSearcherFactory.loadESServerConfigFormProperties(
             SysParametersUtils.loadProperties()
         );
-    }
-
-    @Bean(name = "esObjectIndexer")
-    public ESIndexer esObjectIndexer(@Autowired ESServerConfig esServerConfig) {
-        return IndexerSearcherFactory.obtainIndexer(
-            esServerConfig, ObjectDocument.class);
-    }
-
-    @Bean(name = "documentSearcher")
-    public Searcher documentSearcher(@Autowired ESServerConfig esServerConfig) {
-        if (BooleanBaseOpt.castObjectToBoolean(
-            env.getProperty("fulltext.index.enable"), false)) {
-            return IndexerSearcherFactory.obtainSearcher(esServerConfig, FileDocument.class);
-        }
-        return null;
-    }
-
-    @Bean(name = "esObjectSearcher")
-    public ESSearcher esObjectSearcher(@Autowired ESServerConfig esServerConfig) {
-        return IndexerSearcherFactory.obtainSearcher(
-            esServerConfig, ObjectDocument.class);
     }
 
     @Bean

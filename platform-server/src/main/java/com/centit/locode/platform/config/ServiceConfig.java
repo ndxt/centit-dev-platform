@@ -5,7 +5,6 @@ import com.alibaba.nacos.api.annotation.NacosProperties;
 import com.alibaba.nacos.spring.context.annotation.config.EnableNacosConfig;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySources;
-import com.centit.fileserver.client.FileClient;
 import com.centit.fileserver.client.FileClientImpl;
 import com.centit.fileserver.client.FileInfoOptClient;
 import com.centit.fileserver.common.FileInfoOpt;
@@ -21,11 +20,7 @@ import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.msgpusher.plugins.EMailMsgPusher;
 import com.centit.msgpusher.plugins.SystemUserEmailSupport;
-import com.centit.search.document.ObjectDocument;
 import com.centit.search.service.ESServerConfig;
-import com.centit.search.service.Impl.ESIndexer;
-import com.centit.search.service.Impl.ESSearcher;
-import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,17 +105,6 @@ public class ServiceConfig {
         config.setOsId(environment.getProperty("elasticsearch.osId"));
         config.setMinScore(NumberBaseOpt.parseFloat(environment.getProperty("elasticsearch.filter.minScore"), 0.5f));
         return config;
-    }
-
-    @Bean(name = "esIndexer")
-    public ESIndexer esIndexer(@Autowired ESServerConfig esServerConfig) {
-        return IndexerSearcherFactory.obtainIndexer(esServerConfig, ObjectDocument.class);
-    }
-
-    @Bean(name = "esSearcher")
-    public ESSearcher esSearcher(@Autowired ESServerConfig esServerConfig) {
-        return IndexerSearcherFactory.obtainSearcher(
-            esServerConfig, ObjectDocument.class);
     }
 
     @Bean
