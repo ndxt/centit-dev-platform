@@ -28,8 +28,10 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
     private final OperationLogWriter optLogManager;
 
     private final MessageSender innerMessageManager;
+
     @Autowired
     protected PlatformEnvironment platformEnvironment;
+
     @Autowired
     public InstantiationServiceBeanPostProcessor(NotificationCenter notificationCenter, OperationLogWriter optLogManager, MessageSender innerMessageManager) {
         this.notificationCenter = notificationCenter;

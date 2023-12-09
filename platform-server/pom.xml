@@ -97,6 +97,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>elk-opt-log</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
