@@ -107,11 +107,6 @@
             <version>${centit.metaform.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>centit-dde-es-plugin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -247,12 +242,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>centit-dde-workflow-plugin</artifactId>
-            <version>${centit.dde.version}</version>
         </dependency>
 
         <dependency>
