@@ -321,7 +321,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (jsonAppVo.getMetaObject().size() > 0) {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
             }
-            jsonAppVo.refreshCache(ddeDubboTaskRun);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -366,7 +365,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (jsonAppVo.getMetaObject().size() > 0) {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
             }
-            jsonAppVo.refreshCache(ddeDubboTaskRun);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
