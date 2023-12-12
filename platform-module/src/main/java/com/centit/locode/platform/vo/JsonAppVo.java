@@ -164,6 +164,14 @@ public class JsonAppVo {
         setDatabaseName();
     }
 
+    public void refreshCache(DdeDubboTaskRun ddeDubboTaskRun) {
+        for (Object object : appList) {
+            if (object instanceof DataPacket) {
+                ddeDubboTaskRun.refreshCache(((DataPacket) object).getPacketId());
+            }
+        }
+    }
+
     private void createMapJsonObject(JSONObject jsonObject) {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
             if ("file".equals(entry.getKey())) {
