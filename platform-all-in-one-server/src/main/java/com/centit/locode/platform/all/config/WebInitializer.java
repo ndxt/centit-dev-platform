@@ -2,6 +2,7 @@ package com.centit.locode.platform.all.config;
 
 import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;
@@ -79,7 +80,7 @@ public class WebInitializer implements WebApplicationInitializer {
         Properties properties = PropertiesReader.getClassPathProperties("/system.properties");
         String jdbcUrl = properties.getProperty("jdbc.url");
 
-        if(jdbcUrl.startsWith("jdbc:h2")){
+        if(jdbcUrl !=null && jdbcUrl.startsWith("jdbc:h2")){
             WebConfig.initializeH2Console(servletContext);
         }
     }
