@@ -48,6 +48,7 @@ public class JsonAppVo {
     private static final String ID = "id";
     private static final String PACKET_ID = "packetId";
     private static final String DATA_OPT_DESC_JSON = "dataOptDescJson";
+    private static final String FLOW_XML_DESC="flowXmlDesc";
     private static final String MODEL_ID = "modelId";
     private static final String FORM_TEMPLATE = "formTemplate";
     private static final String OPT_TEAM_ROLE_ID = "optTeamRoleId";
@@ -188,8 +189,9 @@ public class JsonAppVo {
             .updateDataCatalog().updateDataDictionaryUseCatalog().updateApplicationDictionary()
             .updateOsInfoUseDatabase()
             .updateMdTable().updateMdColumn().updateMdRelation().updateRelationDetail()
-            .updateOptInfo().updateOptDef().updateTableRelation().uploadFiles().updatePacket().updateOptDefUsePacket().updatePacketParams()
-            .updateMetaForm().updateOptInfoUseMetaForm()
+            .updateOptInfo().updateOptDef().updateTableRelation().uploadFiles()
+            .updatePacket().updateOptDefUsePacket().updatePacketParams()
+            .updateMetaForm().updateOptInfoUseMetaForm().updateWfDefineUseMetaFormWithPacket().updateWfNodeUseMetaFormWithPacket()
             .updateWfOptTeamRole().updateWfOptVariable()
             .updateWfDefine().updateWfNode().updateWfDefineUseWfNode().updateWfTransition().updatePacketUseWfDefine().updateMetaFormUseWfDefine();
     }
@@ -700,7 +702,7 @@ public class JsonAppVo {
                     boolean samePacketId = map.get(SOURCE_ID).toString().equals(oldMap.getSourceId()) && osId.equals(oldMap.getOsId());
                     if (samePacketId) {
                         uuid = oldMap.getPacketId();
-                        map.put(IS_VALID,oldMap.getIsValid());
+                        map.put(IS_VALID, oldMap.getIsValid());
                         break;
                     }
                 }
@@ -855,8 +857,8 @@ public class JsonAppVo {
             }
             if (map.get(STRUCTURE_FUNCTION) != null) {
                 form = (String) map.get(STRUCTURE_FUNCTION);
-                for (String key : dataPacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                for (String key : metaFormMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
                 }
                 for (String key : dataPacketMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
@@ -888,6 +890,45 @@ public class JsonAppVo {
                 }
                 map.put(OPT_URL, form);
             }
+        });
+        return this;
+    }
+
+    private JsonAppVo updateWfDefineUseMetaFormWithPacket() {
+        if (mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name());
+        list.forEach(map -> {
+            if(map.get(FLOW_XML_DESC)!=null) {
+                String form = (String) map.get(FLOW_XML_DESC);
+                for (String key : metaFormMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                }
+                for (String key : dataPacketMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                }
+                for (String key : optInfoMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) optInfoMap.get(key));
+                }
+                map.put(FLOW_XML_DESC, form);
+            }
+        });
+        return this;
+    }
+
+    private JsonAppVo updateWfNodeUseMetaFormWithPacket() {
+        if (mapJsonObject.get(AppTableNames.WF_NODE.name()) == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_NODE.name());
+        list.forEach(map -> {
+            dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, dataPacketMap.get(key)));
+            metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, metaFormMap.get(key)));
+            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
         });
         return this;
     }
@@ -1093,11 +1134,28 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name());
         list.forEach(map -> {
-            String form = (String) map.get(STRUCTURE_FUNCTION);
-            for (String key : flowDefineMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+            String form;
+            if (map.get(FORM_TEMPLATE) != null) {
+                form = (String) map.get(FORM_TEMPLATE);
+                for (String key : flowDefineMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+                }
+                map.put(FORM_TEMPLATE, form);
             }
-            map.put(STRUCTURE_FUNCTION, form);
+            if (map.get(MOBILE_FORM_TEMPLATE) != null) {
+                form = (String) map.get(MOBILE_FORM_TEMPLATE);
+                for (String key : flowDefineMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+                }
+                map.put(MOBILE_FORM_TEMPLATE, form);
+            }
+            if (map.get(STRUCTURE_FUNCTION) != null) {
+                form = (String) map.get(STRUCTURE_FUNCTION);
+                for (String key : flowDefineMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+                }
+                map.put(STRUCTURE_FUNCTION, form);
+            }
         });
         return this;
     }
@@ -1119,7 +1177,7 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
         List<OsInfo> oldList = convertJavaList(OsInfo.class, AppTableNames.F_OS_INFO.name());
-        if (oldList==null) {
+        if (oldList == null) {
             list.forEach(map -> map.put(TOP_UNIT, topUnit));
             appList.addAll(convertMap(OsInfo.class, list));
             WorkGroup teamUser = assembleWorkGroup((String) list.get(0).get(OS_ID));

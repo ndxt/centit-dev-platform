@@ -70,7 +70,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId and is_disable='F'");
         applicationSql.put(AppTableNames.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
             "select packet_id from q_data_packet where OS_ID=:osId and is_disable='F')");
-        applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId and flow_state in('E','B')");
+        applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId and flow_state in('A','E','B')");
         applicationSql.put(AppTableNames.WF_NODE.name(), "select * from wf_node where (flow_code,version) in(" +
             "select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B')");
         applicationSql.put(AppTableNames.WF_TRANSITION.name(), "select * from wf_transition where (flow_code,version) in(" +
