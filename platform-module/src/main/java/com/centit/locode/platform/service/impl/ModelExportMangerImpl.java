@@ -67,7 +67,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where os_id=:osId");
         applicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select a.* from f_table_opt_relation a join f_md_table b on a.table_id=b.TABLE_ID where a.os_id=:osId");
         applicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId and is_valid='F'");
-        applicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId and is_disable='F'");
+        applicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId ");
         applicationSql.put(AppTableNames.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
             "select packet_id from q_data_packet where OS_ID=:osId and is_disable='F')");
         applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId and flow_state in('A','E','B')");
