@@ -21,8 +21,10 @@ import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.msgpusher.plugins.EMailMsgPusher;
 import com.centit.msgpusher.plugins.SystemUserEmailSupport;
 import com.centit.search.service.ESServerConfig;
+import com.centit.search.utils.ImagePdfTextExtractor;
 import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
@@ -96,6 +98,30 @@ public class ServiceConfig {
         return operationLog;
     }
 
+    @Bean
+    public ImagePdfTextExtractor.OcrServerHost ocrServerHost() {
+        ImagePdfTextExtractor.OcrServerHost ocrServer = ImagePdfTextExtractor.fetchDefaultOrrServer();
+        String ocrServerHost = environment.getProperty("ocr.server.url");
+        if(StringUtils.isNotBlank(ocrServerHost)) {
+            String stemp = environment.getProperty("ocr.server.auth.api");
+            if (StringUtils.isNotBlank(stemp)) {
+                ocrServer.setAuthorUrl(ocrServerHost + stemp);
+            }
+            stemp = environment.getProperty("ocr.server.ocr.api");
+            if (StringUtils.isNotBlank(stemp)) {
+                ocrServer.setOrcUrl(ocrServerHost + stemp);
+            }
+            stemp = environment.getProperty("ocr.server.auth.username");
+            if (StringUtils.isNotBlank(stemp)) {
+                ocrServer.setUserName(stemp);
+            }
+            stemp = environment.getProperty("ocr.server.auth.password");
+            if (StringUtils.isNotBlank(stemp)) {
+                ocrServer.setPassword(stemp);
+            }
+        }
+        return ocrServer;
+    }
     @Bean
     public ESServerConfig esServerConfig() {
         ESServerConfig config = new ESServerConfig();
