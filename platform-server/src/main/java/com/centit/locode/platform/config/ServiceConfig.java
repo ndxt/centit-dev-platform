@@ -122,11 +122,14 @@ public class ServiceConfig {
         }
         return ocrServer;
     }
+
     @Bean
     public ESServerConfig esServerConfig() {
         ESServerConfig config = new ESServerConfig();
         config.setServerHostIp(environment.getProperty("elasticsearch.server.ip"));
         config.setServerHostPort(environment.getProperty("elasticsearch.server.port"));
+        config.setUsername(environment.getProperty("elasticsearch.server.username"));
+        config.setPassword(environment.getProperty("elasticsearch.server.password"));
         config.setClusterName(environment.getProperty("elasticsearch.server.cluster"));
         config.setOsId(environment.getProperty("elasticsearch.osId"));
         config.setMinScore(NumberBaseOpt.parseFloat(environment.getProperty("elasticsearch.filter.minScore"), 0.5f));
