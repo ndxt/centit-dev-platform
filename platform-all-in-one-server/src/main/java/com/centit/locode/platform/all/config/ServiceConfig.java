@@ -115,7 +115,7 @@ public class ServiceConfig {
         @Autowired ZipFileOpt zipFileOpt,
         @Autowired EncryptFileOpt encryptFileOpt,
         @Autowired DocumentIndexOpt documentIndexOpt) {
-        FileOptTaskExecutor fileOptTaskExecutor = new FileOptTaskExecutor();
+        FileOptTaskExecutor fileOptTaskExecutor = new FileOptTaskExecutor(saveFileOpt);
         fileOptTaskExecutor.setFileOptTaskQueue(fileOptTaskQueue);
 
         fileOptTaskExecutor.addFileOperator(saveFileOpt);
