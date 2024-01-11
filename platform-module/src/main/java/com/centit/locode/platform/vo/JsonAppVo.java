@@ -233,6 +233,7 @@ public class JsonAppVo {
             map.put(CREATED, userCode);
             map.put(CREATE_TIME, new Date());
             map.put(LAST_MODIFY_DATE, new Date());
+            map.remove(TOP_UNIT);
         });
         return this;
     }
@@ -1182,6 +1183,8 @@ public class JsonAppVo {
             appList.addAll(convertMap(OsInfo.class, list));
             WorkGroup teamUser = assembleWorkGroup((String) list.get(0).get(OS_ID));
             appList.add(teamUser);
+        }else{
+            appList.addAll(convertMap(OsInfo.class, list));
         }
         return this;
     }

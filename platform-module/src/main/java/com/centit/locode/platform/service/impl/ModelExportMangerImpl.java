@@ -218,9 +218,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         try {
             JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt);
             int result = createApp(jsonAppVo);
-            OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用成功").user(userDetails.getUserCode())
-                .topUnit(userDetails.getTopUnitCode()).unit(userDetails.getCurrentUnitCode()).
-                    loginIp(userDetails.getLoginIp()).time(new Date()).tag(String.valueOf(result)));
+//            OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用成功").user(userDetails.getUserCode())
+//                .topUnit(userDetails.getTopUnitCode()).unit(userDetails.getCurrentUnitCode()).
+//                    loginIp(userDetails.getLoginIp()).time(new Date()).tag(String.valueOf(result)));
             return result;
         } catch (Exception e) {
             OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用失败").user(userDetails.getUserCode())
