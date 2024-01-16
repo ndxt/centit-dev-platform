@@ -9,13 +9,11 @@ import com.centit.fileserver.client.FileClientImpl;
 import com.centit.fileserver.client.FileInfoOptClient;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.framework.components.impl.NotificationCenterImpl;
-import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.core.service.DataScopePowerManager;
 import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
-import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.msgpusher.plugins.EMailMsgPusher;
@@ -87,15 +85,6 @@ public class ServiceConfig {
     @Bean
     public DataScopePowerManager queryDataScopeFilter(){
         return new DataScopePowerManagerImpl();
-    }
-
-    @Bean
-    @Lazy(value = false)
-    public OperationLogWriter operationLogWriter() {
-        TextOperationLogWriterImpl operationLog = new TextOperationLogWriterImpl();
-        operationLog.setOptLogHomePath(appHome + "/logs");
-        operationLog.init();
-        return operationLog;
     }
 
     @Bean

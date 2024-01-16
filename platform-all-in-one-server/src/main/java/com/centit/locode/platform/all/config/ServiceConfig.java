@@ -153,8 +153,6 @@ public class ServiceConfig {
         return ocrServer;
     }
 
-
-
     @Bean
     public ESServerConfig esServerConfig() {
         return IndexerSearcherFactory.loadESServerConfigFormProperties(
@@ -175,9 +173,7 @@ public class ServiceConfig {
         messageManager.setEmailServerPort(25);
         messageManager.setEmailServerUser("alertmail2@centit.com");
         messageManager.setEmailServerPwd(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
-
         messageManager.setUserEmailSupport(new SystemUserEmailSupport());
-
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //notificationCenter.initDummyMsgSenders();
         notificationCenter.setPlatformEnvironment(platformEnvironment);
