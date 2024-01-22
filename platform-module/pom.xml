@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.locode</groupId>
-        <version>5.4-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,16 +15,19 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-extend</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.support</groupId>
             <artifactId>centit-database-transaction</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-core</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -35,6 +38,7 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -68,7 +72,7 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-dubbo-adapter</artifactId>
-            <version>${project.version}</version>
+            <version>${centit.dde.version}</version>
         </dependency>
 
         <dependency>
@@ -86,20 +90,20 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-dubbo-adapter</artifactId>
-            <version>${project.version}</version>
+            <version>${centit.metaform.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>integraton-platform-dubbo-adapter</artifactId>
-            <version>5.4-SNAPSHOT</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-adapter</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.locode</groupId>
-        <version>5.4-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -73,16 +73,19 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-session-redis</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -94,11 +97,13 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-core-web</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>elk-opt-log</artifactId>
+            <version>${revision}</version>
             <!--<artifactId>rmdb-opt-log</artifactId>-->
         </dependency>
 
@@ -110,18 +115,19 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>enterprise-calendar</artifactId>
-            <version>${centit.oa.modules.version}</version>
+            <version>${centit.commons.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>optflow-serial-number</artifactId>
-            <version>${centit.oa.modules.version}</version>
+            <version>${centit.commons.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>communion-module</artifactId>
+            <version>${centit.commons.version}</version>
         </dependency>
 
         <dependency>
@@ -154,42 +160,42 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-ip-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${metadata.commons.version}</version>
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workorder-module</artifactId>
-            <version>${project.version}</version>
+            <version>${centit.commons.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workflow-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${workflow.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${centit.dde.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-client</artifactId>
-            <version>${centit.fileserver.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-dubbo-client-config</artifactId>
-            <version>${centit.fileserver.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>

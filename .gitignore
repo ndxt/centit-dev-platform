@@ -7,3 +7,6 @@ target
 mvn*
 .settings
 .DS_Store
+**/~$*
+out.*
+.flattened-pom.xml

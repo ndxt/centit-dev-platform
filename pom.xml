@@ -3,14 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>framework-snapshot-dependencies</artifactId>
         <groupId>com.centit.framework</groupId>
-        <version>5.4-SNAPSHOT</version>
+        <artifactId>centit-project-bulid-parent</artifactId>
+        <version>5.5-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.centit.locode</groupId>
     <artifactId>centit-dev-platform</artifactId>
-    <version>5.4-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <modules>
         <module>platform-module</module>
@@ -22,6 +23,7 @@
     <description>南大先腾云研发平台</description>
 
     <properties>
+        <centit.commons.version>5.4-SNAPSHOT</centit.commons.version>
         <workflow.version>5.4-SNAPSHOT</workflow.version>
         <metadata.commons.version>5.4-SNAPSHOT</metadata.commons.version>
         <centit.fileserver.version>5.4-SNAPSHOT</centit.fileserver.version>
