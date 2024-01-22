@@ -3,7 +3,7 @@ package com.centit.locode.platform.dao;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.jdbc.dao.BaseDaoImpl;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
-import com.centit.framework.tenant.po.AppInfo;
+import com.centit.locode.platform.po.AppInfo;
 import com.centit.support.database.utils.QueryAndNamedParams;
 import com.centit.support.database.utils.QueryUtils;
 import org.springframework.stereotype.Repository;

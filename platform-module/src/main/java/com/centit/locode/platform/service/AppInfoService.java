@@ -2,7 +2,7 @@ package com.centit.locode.platform.service;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.jdbc.service.BaseEntityManager;
-import com.centit.framework.tenant.po.AppInfo;
+import com.centit.locode.platform.po.AppInfo;
 
 /**
  * @author tian_y

@@ -2,9 +2,9 @@ package com.centit.locode.platform.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.centit.framework.tenant.dao.AppInfoDao;
-import com.centit.framework.tenant.po.AppInfo;
-import com.centit.framework.tenant.service.AppInfoService;
+import com.centit.locode.platform.dao.AppInfoDao;
+import com.centit.locode.platform.po.AppInfo;
+import com.centit.locode.platform.service.AppInfoService;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
 import org.springframework.beans.factory.annotation.Autowired;
