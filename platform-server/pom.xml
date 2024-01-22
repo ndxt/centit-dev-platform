@@ -158,7 +158,7 @@
 
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-dubbo-client</artifactId>
+            <artifactId>framework-system-dubbo-client-config</artifactId>
             <version>${revision}</version>
         </dependency>
 
