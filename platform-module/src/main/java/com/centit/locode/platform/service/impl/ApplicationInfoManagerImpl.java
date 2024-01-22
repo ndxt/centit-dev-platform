@@ -22,7 +22,6 @@ import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.ObjectException;
-import com.centit.tenant.dubbo.adapter.TenantManageService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,14 +40,12 @@ import java.util.stream.Collectors;
 public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     @Autowired
     private PlatformEnvironment platformEnvironment;
+
     @Autowired
     private OperateFileLibrary operateFileLibrary;
 
     @Autowired
     private MetadataManageService metadataManageService;
-
-    @Autowired
-    private TenantManageService tenantManageService;
 
     private final static String FILE_TYPE_ITEM = "I";
 
@@ -219,7 +216,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
         String topUnit = MapUtils.getString(parameters, "topUnit");
 
-        JSONObject tenantInfo = tenantManageService.getTenantInfoByTopUnit(topUnit);
+        JSONObject tenantInfo = platformEnvironment.getTenantInfoByTopUnit(topUnit);
         int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit));
         int unitCount = platformEnvironment.countUnitByTopUnit(topUnit);
         int userCount = platformEnvironment.countUserByTopUnit(topUnit);
@@ -344,7 +341,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (StringUtils.isBlank(topUnit)){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN,"topUnit不能为空!");
         }
-        JSONObject tenantInfo = tenantManageService.getTenantInfoByTopUnit(topUnit);
+        JSONObject tenantInfo = platformEnvironment.getTenantInfoByTopUnit(topUnit);
         if (null == tenantInfo){
             throw new ObjectException("租户信息有误!");
         }

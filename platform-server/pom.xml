@@ -156,10 +156,9 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-dubbo-client-config</artifactId>
+            <artifactId>framework-system-dubbo-client</artifactId>
             <version>${revision}</version>
         </dependency>
 
