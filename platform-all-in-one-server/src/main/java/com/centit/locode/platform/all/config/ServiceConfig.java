@@ -28,8 +28,6 @@ import com.centit.search.utils.ImagePdfTextExtractor;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import io.lettuce.core.RedisClient;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
@@ -190,11 +188,6 @@ public class ServiceConfig {
     @Bean
     public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
         return new InstantiationServiceBeanPostProcessor();
-    }
-
-    @Bean
-    public WxMpService wxMpService() {
-        return new WxMpServiceImpl();
     }
 
 }
