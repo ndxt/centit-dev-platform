@@ -281,7 +281,7 @@
             <version>${revision}</version>
         </dependency>
 
-        <!--framework-demo 依赖-->
+        <!--ip-demo 依赖-->
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-system-config</artifactId>
