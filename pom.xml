@@ -23,12 +23,6 @@
     <description>南大先腾云研发平台</description>
 
     <properties>
-        <centit.commons.version>5.4-SNAPSHOT</centit.commons.version>
-        <workflow.version>5.4-SNAPSHOT</workflow.version>
-        <metadata.commons.version>5.4-SNAPSHOT</metadata.commons.version>
-        <centit.fileserver.version>5.4-SNAPSHOT</centit.fileserver.version>
-        <centit.dde.version>5.4-SNAPSHOT</centit.dde.version>
-        <centit.metaform.version>5.4-SNAPSHOT</centit.metaform.version>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
 

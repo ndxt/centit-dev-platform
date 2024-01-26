@@ -22,19 +22,19 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>database-metadata-json</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-json</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-module</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>database-design</artifactId>
@@ -46,13 +46,13 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-json</artifactId>
-            <version>${centit.dde.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-module</artifactId>
-            <version>${centit.dde.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>

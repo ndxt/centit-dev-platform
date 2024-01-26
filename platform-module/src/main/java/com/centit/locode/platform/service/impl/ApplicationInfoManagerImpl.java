@@ -218,15 +218,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
         JSONObject tenantInfo = platformEnvironment.getTenantInfoByTopUnit(topUnit);
         int dataBaseCount = metadataManageService.countDataBase(CollectionsOpt.createHashMap("topUnit", topUnit));
-        int unitCount = platformEnvironment.countUnitByTopUnit(topUnit);
-        int userCount = platformEnvironment.countUserByTopUnit(topUnit);
-        List<OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
-        int osCount = CollectionUtils.sizeIsEmpty(osInfos) ? 0 : osInfos.size();
-
         tenantInfo.put("databaseCount",dataBaseCount);
-        tenantInfo.put("unitCount",unitCount);
-        tenantInfo.put("userCount",userCount);
-        tenantInfo.put("osCount",osCount);
         return tenantInfo;
     }
 
