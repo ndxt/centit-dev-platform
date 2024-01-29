@@ -27,6 +27,12 @@ public class HistoryVersion implements Serializable {
     @ValueGenerator(strategy = GeneratorType.UUID)
     private  String historyId;
 
+    @ApiModelProperty(value = "类型，1：工作流 2：页面设计 3：api网关")
+    @Column(name = "type")
+    @NotBlank(message = "字段不能为空")
+    @Length(max = 1, message = "字段长度不能大于{max}")
+    private  String type;
+
     @ApiModelProperty(value = "关联表id")
     @Column(name = "relation_id")
     @Length(max = 32, message = "字段长度不能大于{max}")
@@ -62,9 +68,4 @@ public class HistoryVersion implements Serializable {
     @Length(max = 32, message = "字段长度不能大于{max}")
     private  String pushUser;
 
-    @ApiModelProperty(value = "类型，1：工作流 2：页面设计 3：api网关")
-    @Column(name = "type")
-    @NotBlank(message = "字段不能为空")
-    @Length(max = 1, message = "字段长度不能大于{max}")
-    private  String type;
 }
