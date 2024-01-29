@@ -13,7 +13,6 @@
     <packaging>war</packaging>
     <properties>
         <finalName>${project.artifactId}-${project.version}</finalName>
-        <revision>5.5-SNAPSHOT</revision>
     </properties>
 
     <build>
