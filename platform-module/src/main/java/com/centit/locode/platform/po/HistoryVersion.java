@@ -33,6 +33,10 @@ public class HistoryVersion implements Serializable {
     @Length(max = 1, message = "字段长度不能大于{max}")
     private  String type;
 
+    @Column(name = "APP_VERSION_ID")
+    @ApiModelProperty(value = "关联应用版本ID")
+    private String appVersionId;
+
     @ApiModelProperty(value = "关联表id")
     @Column(name = "relation_id")
     @Length(max = 32, message = "字段长度不能大于{max}")

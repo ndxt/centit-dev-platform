@@ -33,14 +33,23 @@ public class HistoryVersionController extends BaseController {
     @PostMapping()
     @WrapUpResponseBody
     public String createHistoryVersion(@RequestBody HistoryVersion historyVersion){
-         historyVersionService.createHistoryVersion(historyVersion);
-         return historyVersion.getHistoryId();
+        historyVersion.setAppVersionId(null);
+        historyVersionService.createHistoryVersion(historyVersion);
+        return historyVersion.getHistoryId();
     }
 
     @ApiOperation(value = "修改版本信息")
     @PutMapping()
     @WrapUpResponseBody
     public void updateHistory(@RequestBody HistoryVersion historyVersion) {
+        HistoryVersion dbVersion = historyVersionService.getHistoryVersion(historyVersion.getHistoryId());
+        if(dbVersion==null){
+            throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "需要修改的版本信息不存在!");
+        }
+        if(StringUtils.isNotBlank(dbVersion.getAppVersionId())){
+            throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "应用全局版本，不能修改!");
+        }
+        historyVersion.setAppVersionId(null);
         historyVersionService.updateHistoryVersion(historyVersion);
     }
 
@@ -48,6 +57,13 @@ public class HistoryVersionController extends BaseController {
     @DeleteMapping(value = "/{historyId}")
     @WrapUpResponseBody
     public void deleteHistory(@PathVariable String historyId) {
+        HistoryVersion dbVersion = historyVersionService.getHistoryVersion(historyId);
+        if(dbVersion==null){
+            return;
+        }
+        if(StringUtils.isNotBlank(dbVersion.getAppVersionId())){
+            throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "应用全局版本，不能删除!");
+        }
         historyVersionService.deleteHistoryVersion(historyId);
     }
 

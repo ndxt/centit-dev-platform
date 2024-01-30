@@ -1,5 +1,7 @@
 package com.centit.locode.platform.po;
 
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,6 +23,7 @@ public class ApplicationVersion implements Serializable {
     @Id
     @Column(name = "VERSION_ID")
     @ApiModelProperty(value = "版本id")
+    @ValueGenerator(strategy = GeneratorType.UUID22)
     private String versionId;
 
     @Column(name = "APPLICATION_ID")
