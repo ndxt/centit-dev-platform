@@ -41,8 +41,10 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         applicationVersionDao.saveNewObject(applicationVersion);
         String versionId= applicationVersion.getVersionId();
         //查找应用相关的所有页面
+
         //查找应用相关的所有api
-        //查找应用相关的所有工作流
+
+        //查找应用相关的所有工作流，工作流的比较复杂，需要相关的版本和变量等信息
         return versionId;
     }
 
