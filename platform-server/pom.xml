@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.locode</groupId>
-        <version>5.4-SNAPSHOT</version>
+        <version>5.4.240119</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -48,20 +48,19 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>database-metadata-rmdb</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
-        <!--
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-rmdb</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
-        -->
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-rmdb</artifactId>
-            <version>${centit.dde.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -73,16 +72,19 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-session-redis</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -94,11 +96,13 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-core-web</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>elk-opt-log</artifactId>
+            <version>${revision}</version>
             <!--<artifactId>rmdb-opt-log</artifactId>-->
         </dependency>
 
@@ -110,18 +114,19 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>enterprise-calendar</artifactId>
-            <version>${centit.oa.modules.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>optflow-serial-number</artifactId>
-            <version>${centit.oa.modules.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>communion-module</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -154,48 +159,49 @@
 
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <artifactId>framework-system-dubbo-client-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workorder-module</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workflow-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-dubbo-client-config</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-client</artifactId>
-            <version>${centit.fileserver.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-dubbo-client-config</artifactId>
-            <version>${centit.fileserver.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
