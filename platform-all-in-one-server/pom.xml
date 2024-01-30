@@ -146,6 +146,31 @@
         </dependency>
 
         <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-core-web</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>enterprise-calendar</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>optflow-serial-number</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>communion-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- jdbc library -->
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -179,30 +204,6 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>sqljdbc4</artifactId>
             <version>4.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-core-web</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>enterprise-calendar</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>optflow-serial-number</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>communion-module</artifactId>
-            <version>${revision}</version>
         </dependency>
 
         <!-- server runtime library -->
