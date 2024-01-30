@@ -5,7 +5,7 @@
     <parent>
         <artifactId>centit-dev-platform</artifactId>
         <groupId>com.centit.locode</groupId>
-        <version>5.4-SNAPSHOT</version>
+        <version>5.4.240119</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -51,18 +51,19 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workflow-module</artifactId>
-            <version>${workflow.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-module</artifactId>
-            <version>${centit.dde.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -86,27 +87,26 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>database-metadata-rmdb</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-rmdb</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-rmdb</artifactId>
-            <version>${centit.dde.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-module</artifactId>
-            <version>${centit.metaform.version}</version>
+            <version>${revision}</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.centit.product</groupId>
@@ -124,18 +124,52 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-server</artifactId>
+            <artifactId>framework-system-module</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-session-redis</artifactId>
+            <version>${revision}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-core-web</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-system-web</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>enterprise-calendar</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>optflow-serial-number</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.product</groupId>
+            <artifactId>communion-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+        <!-- server runtime library -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -172,30 +206,6 @@
             <version>4.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-core-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>enterprise-calendar</artifactId>
-            <version>${centit.oa.modules.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>optflow-serial-number</artifactId>
-            <version>${centit.oa.modules.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>communion-module</artifactId>
-            <version>${centit.oa.modules.version}</version>
-        </dependency>
-
-        <!-- server runtime library -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -249,14 +259,14 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-msg-plugin</artifactId>
-            <version>${centit.dde.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <!--文件服务器依赖-->
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>fileserver-module</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.centit.support</groupId>
@@ -268,45 +278,35 @@
         <dependency>
             <groupId>com.centit.support</groupId>
             <artifactId>centit-quartz-extend</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <!--ip-demo 依赖-->
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-system-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <!--im依赖-->
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-im-module</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <!--opt-task依赖-->
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>opt-task-module</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-general-task</artifactId>
-            <version>${project.version}</version>
+            <version>${revision}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>centit-ip-tenant-manage</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-web</artifactId>
-        </dependency>
-
     </dependencies>
 
     <profiles>
