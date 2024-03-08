@@ -49,7 +49,7 @@ public class JsonAppVo {
     private static final String ID = "id";
     private static final String PACKET_ID = "packetId";
     private static final String DATA_OPT_DESC_JSON = "dataOptDescJson";
-    private static final String FLOW_XML_DESC="flowXmlDesc";
+    private static final String FLOW_XML_DESC = "flowXmlDesc";
     private static final String MODEL_ID = "modelId";
     private static final String FORM_TEMPLATE = "formTemplate";
     private static final String OPT_TEAM_ROLE_ID = "optTeamRoleId";
@@ -130,7 +130,6 @@ public class JsonAppVo {
     private List<Object> metaObject = new ArrayList<>();
     @Getter
     private List<String> listDatabaseName = new ArrayList<>();
-
     private Map<String, Object> databaseMap = new HashMap<>();
     private Map<String, Object> mdTableMap = new HashMap<>();
     private Map<String, Object> relationMap = new HashMap<>();
@@ -180,7 +179,7 @@ public class JsonAppVo {
                 zipFilePath = StringBaseOpt.objectToString(entry.getValue());
             } else {
                 mapJsonObject.put(entry.getKey(),
-                    new ObjectMapper().convertValue(entry.getValue(), DataSet.class).getDataAsList());
+                    ((DataSet) entry.getValue()).getDataAsList());
             }
         }
     }
@@ -211,7 +210,11 @@ public class JsonAppVo {
             return;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name());
-        list.stream().map(s -> (String) s.get(DATABASE_CODE)).forEach(listDatabaseName::add);
+        list.forEach(map->{
+            if("D".equals(StringBaseOpt.objectToString(map.get("sourceType")))){
+                listDatabaseName.add(StringBaseOpt.objectToString(map.get(DATABASE_CODE)));
+            }
+        });
     }
 
     private JsonAppVo updateOsInfo() {
@@ -902,7 +905,7 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name());
         list.forEach(map -> {
-            if(map.get(FLOW_XML_DESC)!=null) {
+            if (map.get(FLOW_XML_DESC) != null) {
                 String form = (String) map.get(FLOW_XML_DESC);
                 for (String key : metaFormMap.keySet()) {
                     form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
@@ -1184,7 +1187,7 @@ public class JsonAppVo {
             appList.addAll(convertMap(OsInfo.class, list));
             WorkGroup teamUser = assembleWorkGroup((String) list.get(0).get(OS_ID));
             appList.add(teamUser);
-        }else{
+        } else {
             appList.addAll(convertMap(OsInfo.class, list));
         }
         return this;

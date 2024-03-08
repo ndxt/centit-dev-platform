@@ -22,6 +22,7 @@ import com.centit.product.metadata.po.SourceInfo;
 import com.centit.support.algorithm.*;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
+import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -199,8 +202,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public JSONObject uploadModel(File zipFile) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
+        String filePath = appHome + File.separator + "c" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         ZipCompressor.release(zipFile, filePath);
+        parseCsvToJson(jsonObject, filePath);
+        JSONObject returnJsonObject = new JSONObject();
+        returnJsonObject.put("file", filePath);
+        returnJsonObject.put("F_DATABASE_INFO",jsonObject.get("F_DATABASE_INFO"));
+        return returnJsonObject;
+    }
+
+    private void parseCsvToJson(JSONObject jsonObject, String filePath) throws Exception {
         List<File> files = FileSystemOpt.findFiles(filePath, "*.csv");
         CsvDataSet csvDataSet = new CsvDataSet();
         for (File file : files) {
@@ -209,7 +220,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
             jsonObject.put(fileName, csvDataSet.load(null, null));
         }
         jsonObject.put("file", filePath);
-        return jsonObject;
     }
 
     @Override
@@ -233,10 +243,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails) {
         try {
-            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
+            JSONObject sourceJson=new JSONObject();
+            parseCsvToJson(sourceJson,jsonObject.getString("file"));
+            DataSet dataSet=DataSet.toDataSet(jsonObject.get("F_DATABASE_INFO"));
+            sourceJson.put("F_DATABASE_INFO",dataSet);
+            JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
             jsonAppVo.updatePrimary();
-            JSONObject returnJson = new JSONObject();
-            returnJson.put("jsonAppVo", jsonAppVo);
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
             List<Map<String, Object>> pendingColumnsList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_COLUMN.name());
             List<Map<String, Object>> databaseList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_DATABASE_INFO.name());
@@ -276,6 +288,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     }
                 }
             }
+            JSONObject returnJson = new JSONObject();
+            JSONObject subJson=new JSONObject();
+            subJson.put("F_DATABASE_INFO",jsonObject.get("F_DATABASE_INFO"));
+            subJson.put("file",jsonObject.get("file"));
+            subJson.put("targetOsId",osId);
+            returnJson.put("jsonAppVo",subJson);
             returnJson.put("DDL", DDLs);
             returnJson.put("runDDL", true);
             return returnJson;
@@ -287,16 +305,15 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer importApp(JSONObject jsonObject,CentitUserDetails userDetails) throws Exception {
-        if (!jsonObject.containsKey("jsonAppVo")) {
-            throw new Exception("没有需要导入的属性");
-        }
-        JsonAppVo jsonAppVo = JSON.parseObject(jsonObject.getString("jsonAppVo"), JsonAppVo.class);
-        if (jsonAppVo == null) {
-            throw new Exception("导入属性内容为空");
-        }
-        jsonAppVo.setTopUnit(userDetails);
-        jsonAppVo.createAppObject();
-        jsonAppVo.setDatabaseName();
+        JSONObject jsonAppVoJson=jsonObject.getJSONObject("jsonAppVo");
+        JSONObject sourceJson=new JSONObject();
+        String filePath=jsonAppVoJson.getString("file");
+        parseCsvToJson(sourceJson,filePath);
+        DataSet dataSet=DataSet.toDataSet(jsonAppVoJson.get("F_DATABASE_INFO"));
+        sourceJson.put("F_DATABASE_INFO",dataSet);
+        JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
+            getOldApplication(jsonAppVoJson.getString("targetOsId")), userDetails, appHome, fileInfoOpt);
+        jsonAppVo.prepareApp();
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
         int result = 0;
         try {
@@ -322,6 +339,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
             }
             jsonAppVo.refreshCache(ddeDubboTaskRun);
+            FileSystemOpt.deleteDirect(filePath);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
