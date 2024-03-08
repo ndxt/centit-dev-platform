@@ -289,9 +289,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 }
             }
             JSONObject returnJson = new JSONObject();
-            returnJson.put("F_DATABASE_INFO",jsonObject.get("F_DATABASE_INFO"));
-            returnJson.put("file",jsonObject.get("file"));
-            returnJson.put("oldOsId",osId);
+            JSONObject subJson=new JSONObject();
+            subJson.put("F_DATABASE_INFO",jsonObject.get("F_DATABASE_INFO"));
+            subJson.put("file",jsonObject.get("file"));
+            subJson.put("targetOsId",osId);
+            returnJson.put("jsonAppVo",subJson);
             returnJson.put("DDL", DDLs);
             returnJson.put("runDDL", true);
             return returnJson;
@@ -303,13 +305,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer importApp(JSONObject jsonObject,CentitUserDetails userDetails) throws Exception {
+        JSONObject jsonAppVoJson=jsonObject.getJSONObject("jsonAppVo");
         JSONObject sourceJson=new JSONObject();
-        String filePath=jsonObject.getString("file");
+        String filePath=jsonAppVoJson.getString("file");
         parseCsvToJson(sourceJson,filePath);
-        DataSet dataSet=DataSet.toDataSet(jsonObject.get("F_DATABASE_INFO"));
+        DataSet dataSet=DataSet.toDataSet(jsonAppVoJson.get("F_DATABASE_INFO"));
         sourceJson.put("F_DATABASE_INFO",dataSet);
         JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
-            getOldApplication(jsonObject.getString("oldOsId")), userDetails, appHome, fileInfoOpt);
+            getOldApplication(jsonAppVoJson.getString("targetOsId")), userDetails, appHome, fileInfoOpt);
         jsonAppVo.prepareApp();
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
         int result = 0;
