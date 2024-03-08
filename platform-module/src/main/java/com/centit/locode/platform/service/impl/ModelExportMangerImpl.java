@@ -26,6 +26,7 @@ import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -245,7 +246,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         try {
             JSONObject sourceJson=new JSONObject();
             parseCsvToJson(sourceJson,jsonObject.getString("file"));
-            DataSet dataSet=DataSet.toDataSet(jsonObject.get("F_DATABASE_INFO"));
+            String copyString=JSON.toJSONString(jsonObject);
+            JSONObject copyJson=JSONObject.parse(copyString);
+            DataSet dataSet=DataSet.toDataSet(copyJson.get("F_DATABASE_INFO"));
             sourceJson.put("F_DATABASE_INFO",dataSet);
             JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
             jsonAppVo.updatePrimary();
