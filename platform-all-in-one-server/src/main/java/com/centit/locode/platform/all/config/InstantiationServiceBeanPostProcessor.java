@@ -60,7 +60,7 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         JSONOpt.fastjsonGlobalConfig();
         SystemTempFileUtils.setTempFileDirectory(
             SysParametersUtils.getTempHome() + File.separatorChar);
-        DBPlatformEnvironment dbPlatformEnvironment = applicationContext.getBean("dbPlatformEnvironment", DBPlatformEnvironment.class);
+        DBPlatformEnvironment dbPlatformEnvironment = applicationContext.getBean("platformEnvironment", DBPlatformEnvironment.class);
         dbPlatformEnvironment.setSupportTenant(true);
         CodeRepositoryCache.setPlatformEnvironment(platformEnvironment);
         CodeRepositoryCache.setAllCacheFreshPeriod(CodeRepositoryCache.CACHE_FRESH_PERIOD_SECONDS);
