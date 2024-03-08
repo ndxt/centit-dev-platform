@@ -304,7 +304,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Transactional(rollbackFor = Exception.class)
     public Integer importApp(JSONObject jsonObject,CentitUserDetails userDetails) throws Exception {
         JSONObject sourceJson=new JSONObject();
-        parseCsvToJson(sourceJson,jsonObject.getString("file"));
+        String filePath=jsonObject.getString("file");
+        parseCsvToJson(sourceJson,filePath);
         DataSet dataSet=DataSet.toDataSet(jsonObject.get("F_DATABASE_INFO"));
         sourceJson.put("F_DATABASE_INFO",dataSet);
         JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
@@ -335,6 +336,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
             }
             jsonAppVo.refreshCache(ddeDubboTaskRun);
+            FileSystemOpt.deleteDirect(filePath);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
