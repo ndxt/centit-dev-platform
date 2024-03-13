@@ -1,5 +1,6 @@
 package com.centit.locode.platform.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.dde.adapter.DdeDubboTaskRun;
@@ -242,7 +243,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         try {
             JSONObject sourceJson=new JSONObject();
             parseCsvToJson(sourceJson,jsonObject.getString("file"));
-            String copyString=JSON.toJSONString(jsonObject);
+            String copyString= JSON.toJSONString(jsonObject);
             JSONObject copyJson=JSONObject.parse(copyString);
             DataSet dataSet=DataSet.toDataSet(copyJson.get("F_DATABASE_INFO"));
             sourceJson.put("F_DATABASE_INFO",dataSet);
