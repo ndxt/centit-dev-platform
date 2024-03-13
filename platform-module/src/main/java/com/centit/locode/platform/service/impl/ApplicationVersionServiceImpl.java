@@ -162,8 +162,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 }
             }
         }
-        // 生成 并上传 应用导出包
-
+        // 生成 并上传 应用导出包 (zip文件）上传到文件服务器并返回 fileId
+        String fileId = "";
+        applicationVersion.setBackupFileId(fileId);
         applicationVersionDao.saveNewObject(applicationVersion);
         return versionId;
     }
