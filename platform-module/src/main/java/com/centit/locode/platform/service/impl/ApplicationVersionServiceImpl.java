@@ -13,6 +13,7 @@ import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
 import com.centit.locode.platform.service.HistoryVersionService;
+import com.centit.locode.platform.service.ModelExportManager;
 import com.centit.metaform.dao.MetaFormModelDao;
 import com.centit.support.algorithm.DatetimeOpt;
 import com.centit.support.algorithm.UuidOpt;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
     @Autowired
     HistoryVersionService historyVersionService;
+
+    @Autowired
+    ModelExportManager modelExportManager;
 
     public static void mapJsonProperties(JSONObject json, String ... props){
         for(String p : props){
@@ -163,10 +168,14 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             }
         }
         // 生成 并上传 应用导出包 (zip文件）上传到文件服务器并返回 fileId
-        String fileId = "";
-        applicationVersion.setBackupFileId(fileId);
-        applicationVersionDao.saveNewObject(applicationVersion);
-        return versionId;
+        try {
+            String fileId = modelExportManager.exportModelAndSaveToFileServer(applicationVersion.getApplicationId());
+            applicationVersion.setBackupFileId(fileId);
+            applicationVersionDao.saveNewObject(applicationVersion);
+            return versionId;
+        } catch (IOException e){
+            throw new RuntimeException("创建应用版本完成，但是上传应用快照失败："+e.getMessage(), e);
+        }
     }
 
     @Override

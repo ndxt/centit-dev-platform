@@ -7,6 +7,7 @@ import com.centit.dde.adapter.DdeDubboTaskRun;
 import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.fileserver.common.FileInfoOpt;
+import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.basedata.OperationLog;
@@ -25,7 +26,6 @@ import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -142,6 +142,19 @@ public class ModelExportMangerImpl implements ModelExportManager {
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
         return fileId;
+    }
+
+    @Override
+    public String exportModelAndSaveToFileServer(String osId) throws IOException{
+        String fileId = downModel(osId);
+        String filePath = appHome + File.separator + fileId + ".zip";
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileName(osId +".zip");
+        fileInfo.setFileType("zip");
+        fileInfo.setOsId(osId);
+        fileInfo.setLibraryId("backup");
+        fileInfo.setFileOwner("system");
+        return fileInfoOpt.saveFile(fileInfo,  0, new FileInputStream(filePath));
     }
 
     private void updateSourceId(Map<String, Object> map) {
