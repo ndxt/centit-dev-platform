@@ -49,6 +49,8 @@ public class HistoryVersionController extends BaseController {
         if(StringUtils.isNotBlank(dbVersion.getAppVersionId())){
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "应用全局版本，不能修改!");
         }
+        //只能更新 基本信息，版本的具体内容不能更新
+        historyVersion.setContent(null);
         historyVersion.setAppVersionId(null);
         historyVersionService.updateHistoryVersion(historyVersion);
     }

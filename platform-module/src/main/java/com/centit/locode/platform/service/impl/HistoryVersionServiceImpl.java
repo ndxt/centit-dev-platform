@@ -4,6 +4,8 @@ import com.centit.locode.platform.dao.HistoryVersionDao;
 import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.HistoryVersionService;
 import com.centit.support.database.utils.PageDesc;
+import com.centit.support.security.Md5Encoder;
+import com.centit.support.security.Sha1Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,9 @@ public class HistoryVersionServiceImpl implements HistoryVersionService {
 
     @Override
     public void createHistoryVersion(HistoryVersion historyVersion) {
+        //保存时 生成sha指纹
+        historyVersion.setHistorySha(
+            Sha1Encoder.encodeBase64(historyVersion.getContent().toJSONString(), true) );
         historyVersionDao.saveNewObject(historyVersion);
     }
 

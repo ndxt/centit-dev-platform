@@ -45,4 +45,8 @@ public class ApplicationVersion implements Serializable {
     @Column(name = "NOTE_INFO")
     @ApiModelProperty(value = "备注信息")
     private String noteInfo;
+
+    @Column(name = "BACKUP_FILE_ID")
+    @ApiModelProperty(value = "备份文件")
+    private String backupFileId;
 }
