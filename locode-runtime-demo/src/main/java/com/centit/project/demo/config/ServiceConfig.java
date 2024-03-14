@@ -1,5 +1,6 @@
 package com.centit.project.demo.config;
 
+import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
 import com.centit.framework.config.SpringSecurityCasConfig;
@@ -7,8 +8,12 @@ import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
+import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.framework.staticsystem.config.StaticSystemBeanConfig;
+import com.centit.search.service.ESServerConfig;
+import com.centit.search.service.IndexerSearcherFactory;
+import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
@@ -65,6 +70,18 @@ public class ServiceConfig {
         operationLog.setOptLogHomePath(appHome+"/logs");
         operationLog.init();
         return operationLog;
+    }
+
+    @Bean
+    public ESServerConfig esServerConfig() {
+        return IndexerSearcherFactory.loadESServerConfigFormProperties(
+            SysParametersUtils.loadProperties()
+        );
+    }
+
+    @Bean
+    public UserUnitFilterCalcContextFactory userUnitFilterFactory() {
+        return new SystemUserUnitCalcContextFactoryImpl();
     }
 
     @Bean
