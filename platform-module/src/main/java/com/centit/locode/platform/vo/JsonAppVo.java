@@ -6,7 +6,6 @@ import com.centit.dde.adapter.po.DataPacket;
 import com.centit.dde.adapter.po.DataPacketDraft;
 import com.centit.dde.adapter.po.DataPacketParam;
 import com.centit.dde.adapter.po.DataPacketParamDraft;
-
 import com.centit.dde.core.DataSet;
 import com.centit.dde.utils.ConstantValue;
 import com.centit.fileserver.common.FileInfoOpt;
@@ -24,7 +23,6 @@ import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;

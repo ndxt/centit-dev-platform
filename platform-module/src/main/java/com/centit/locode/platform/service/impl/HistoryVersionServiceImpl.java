@@ -4,7 +4,6 @@ import com.centit.locode.platform.dao.HistoryVersionDao;
 import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.HistoryVersionService;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.support.security.Md5Encoder;
 import com.centit.support.security.Sha1Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

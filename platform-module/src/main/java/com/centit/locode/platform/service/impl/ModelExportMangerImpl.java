@@ -11,6 +11,7 @@ import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.basedata.OperationLog;
+import com.centit.framework.model.basedata.OsInfo;
 import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
 import com.centit.locode.platform.service.ModelExportManager;
@@ -145,11 +146,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     @Override
-    public String exportModelAndSaveToFileServer(String osId) throws IOException{
+    public String exportModelAndSaveToFileServer(OsInfo osInfo) throws IOException{
+        String osId = osInfo.getOsId();
         String fileId = downModel(osId);
         String filePath = appHome + File.separator + fileId + ".zip";
         FileInfo fileInfo = new FileInfo();
-        fileInfo.setFileName(osId +".zip");
+        fileInfo.setFileName(osInfo.getOsName()+ DatetimeOpt.currentDate() +".zip");
         fileInfo.setFileType("zip");
         fileInfo.setOsId(osId);
         fileInfo.setLibraryId("backup");

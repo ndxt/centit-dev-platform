@@ -2,7 +2,6 @@ package com.centit.locode.platform.all.config;
 
 import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;

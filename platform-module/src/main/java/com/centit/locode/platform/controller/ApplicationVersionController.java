@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/appHistory")
-@Api(tags = {"应用的历史版本管理接口"}, value = "应用的历史版本管理接口")
+@Api(tags = {"应用的全局历史版本管理接口"}, value = "应用的全局历史版本管理接口")
 public class ApplicationVersionController extends BaseController
 {
 
@@ -42,6 +42,13 @@ public class ApplicationVersionController extends BaseController
     @WrapUpResponseBody()
     public String createHistoryVersion(@RequestBody ApplicationVersion appVersion) {
         return applicationVersionService.createApplicationVersion(appVersion);
+    }
+
+    @ApiOperation(value = "创建历史版本", notes = "创建历史版本")
+    @PutMapping()
+    @WrapUpResponseBody()
+    public void updateHistoryVersion(@RequestBody ApplicationVersion appVersion) {
+        applicationVersionService.updateApplicationVersion(appVersion);
     }
 
     /*@ApiOperation(value = "下载历史版本", notes = "download")
