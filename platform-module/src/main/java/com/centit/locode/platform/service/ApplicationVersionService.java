@@ -1,5 +1,6 @@
 package com.centit.locode.platform.service;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.support.database.utils.PageDesc;
 
@@ -17,9 +18,9 @@ public interface ApplicationVersionService {
 
     ApplicationVersion getApplicationVersion(String versionId);
 
-    InputStream exportApplicationVersion(String versionId);
+    JSONArray compareTwoVersion(String versionId, String versionId2);
 
-    void importApplicationVersion(InputStream inputStream);
+    JSONArray compareToOldVersion(String applicationId, String versionId);
 
     void restoreApplicationVersion(String versionId);
 }

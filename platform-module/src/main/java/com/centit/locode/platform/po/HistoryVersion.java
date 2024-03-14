@@ -77,4 +77,11 @@ public class HistoryVersion implements Serializable {
     @Length(max = 80, message = "字段长度不能大于{max}")
     private String historySha;
 
+    public String getTypeDesc(){
+        //1：工作流 2：页面设计 3：api网关")
+        if("1".equals(type)) return "工作流";
+        if("2".equals(type)) return "页面设计";
+        if("3".equals(type)) return "api接口";
+        return "unknown";
+    }
 }

@@ -6,11 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "application_version")
@@ -34,9 +32,10 @@ public class ApplicationVersion implements Serializable {
     @ApiModelProperty(value = "版本标签")
     private String versionLabel;
 
+    @OrderBy("DESC")
     @Column(name = "DATE_CREATED")
     @ApiModelProperty(value = "创建日期")
-    private String dateCreated;
+    private Date dateCreated;
 
     @Column(name = "CREATOR")
     @ApiModelProperty(value = "创建人")

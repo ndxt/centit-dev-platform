@@ -16,4 +16,6 @@ public interface HistoryVersionService {
     List<HistoryVersion> listHistoryVersion(Map<String, Object> params, PageDesc pageDesc);
 
     HistoryVersion getHistoryVersion(String historyId);
+
+    List<HistoryVersion> listHistoryByAppVersion(String appVersion);
 }

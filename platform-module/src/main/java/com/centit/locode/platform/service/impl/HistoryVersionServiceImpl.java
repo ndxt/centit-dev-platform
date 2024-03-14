@@ -47,4 +47,11 @@ public class HistoryVersionServiceImpl implements HistoryVersionService {
     public HistoryVersion getHistoryVersion(String historyId) {
         return historyVersionDao.getObjectById(historyId);
     }
+
+    @Override
+    public List<HistoryVersion> listHistoryByAppVersion(String appVersion) {
+        return historyVersionDao.listObjectsByFilter("where APP_VERSION_ID=? order by type, relation_id",
+            new Object[]{appVersion});
+    }
+
 }
