@@ -138,6 +138,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         }
         return hvs;
     }
+
     /**
      * 直接从数据库中获取 页面、api 和工作流引擎数据（工作流引擎引用最新版本的）
      * @param applicationVersion 版本信息
@@ -152,7 +153,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "关联应用信息不能存在！");
         }
         //保存版本信息
-
         String versionId = UuidOpt.getUuidAsString22();
         applicationVersion.setVersionId(versionId);
         Date currentTime = DatetimeOpt.currentUtilDate();
@@ -273,10 +273,8 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             diffJsons.add(diff);
             j++;
         }
-
         return diffJsons;
     }
-
 
     @Override
     public JSONArray compareTwoVersion(String versionId, String versionId2) {
