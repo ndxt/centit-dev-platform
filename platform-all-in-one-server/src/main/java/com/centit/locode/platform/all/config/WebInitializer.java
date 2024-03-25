@@ -62,20 +62,15 @@ public class WebInitializer implements WebApplicationInitializer {
             "/im/*",
             IMSpringMvcConfig.class,SwaggerConfig.class);
 
-
-        //dubbo hessian协议使用
-       /* ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
-        dubbo.addMapping("/*");*/
-        WebConfig.registerAssertUserLoginFilter(servletContext, new String[] {
-            "/platform/*", "/dde/*", "/fileserver/*", "/metaform/*", "/dbdesign/*", "/workflow/*"
-        });
-
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);
         WebConfig.registerCharacterEncodingFilter(servletContext, servletUrlPatterns);
         WebConfig.registerHttpPutFormContentFilter(servletContext, servletUrlPatterns);
         WebConfig.registerHiddenHttpMethodFilter(servletContext, servletUrlPatterns);
         WebConfig.registerRequestThreadLocalFilter(servletContext);
+        WebConfig.registerAssertUserLoginFilter(servletContext, new String[] {
+            "/platform/*", "/dde/*", "/fileserver/*", "/metaform/*", "/dbdesign/*", "/workflow/*"
+        });
         WebConfig.registerSpringSecurityFilter(servletContext, servletUrlPatterns);
 
         Properties properties = PropertiesReader.getClassPathProperties("/system.properties");
