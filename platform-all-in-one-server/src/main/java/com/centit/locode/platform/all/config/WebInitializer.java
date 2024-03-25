@@ -66,7 +66,9 @@ public class WebInitializer implements WebApplicationInitializer {
         //dubbo hessian协议使用
        /* ServletRegistration.Dynamic dubbo = servletContext.addServlet("dubbo", DispatcherServlet.class);
         dubbo.addMapping("/*");*/
-
+        WebConfig.registerAssertUserLoginFilter(servletContext, new String[] {
+            "/platform/*", "/dde/*", "/fileserver/*", "/metaform/*", "/dbdesign/*", "/workflow/*"
+        });
 
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);
