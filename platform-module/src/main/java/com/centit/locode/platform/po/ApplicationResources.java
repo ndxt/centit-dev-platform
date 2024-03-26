@@ -28,19 +28,19 @@ public class ApplicationResources implements Serializable{
 
     @Id
     @Column(name = "id")
-    @NotBlank(message = "字段不能为空")
+    @NotBlank
     @ApiModelProperty(value = "id", hidden = true)
     @ValueGenerator(strategy = GeneratorType.UUID22)
     private String id;
 
     @ApiModelProperty(value = "应用id")
     @Column(name = "os_id")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     private String osId;
 
     @ApiModelProperty(value = "资源id")
     @Column(name = "database_id")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     private String dataBaseId;
 
     @ApiModelProperty(value = "分配时间", name = "push_time",hidden = true)
@@ -50,7 +50,7 @@ public class ApplicationResources implements Serializable{
 
     @ApiModelProperty(value = "分配人")
     @Column(name = "push_user")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     @DictionaryMap(
         fieldName = {"pushUserName"},
         value = {"userCode"}
@@ -59,7 +59,7 @@ public class ApplicationResources implements Serializable{
 
     @ApiModelProperty(value = "是否为默认关系数据库")
     @Column(name = "is_used")
-    @Length(max = 1, message = "字段长度不能大于{max}")
+    @Length(max = 1)
     private String isUsed;
 
 }

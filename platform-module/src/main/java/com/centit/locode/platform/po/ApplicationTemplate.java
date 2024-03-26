@@ -35,18 +35,18 @@ public class ApplicationTemplate implements java.io.Serializable {
 
     @ApiModelProperty(value = "模板名称", required = true)
     @Column(name = "TEMPLATE_NAME")
-    @Length(max = 500, message = "字段长度不能大于{max}")
+    @Length(max = 500)
     private String templateName;
 
     @ApiModelProperty(value = "模板分类")
     @Column(name = "TEMPLATE_TYPE")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     @DictionaryMap(fieldName = "templateTypeText", value = "TemplateType")
     private String templateType;
 
     @ApiModelProperty(value = "模板说明")
     @Column(name = "TEMPLATE_MEMO")
-    @Length(max = 1000, message = "字段长度不能大于{max}")
+    @Length(max = 1000)
     private String templateMemo;
 
     @ApiModelProperty(value = "模板内容")
@@ -61,11 +61,11 @@ public class ApplicationTemplate implements java.io.Serializable {
 
     @ApiModelProperty(value = "图片id")
     @Column(name = "PIC_ID")
-    @Length(max = 64, message = "字段长度不能大于{max}")
+    @Length(max = 64)
     private String picId;
 
     @ApiModelProperty(value = "是否启用")
     @Column(name = "IS_USED")
-    @Length(max = 1, message = "字段长度不能大于{max}")
+    @Length(max = 1)
     private String isUsed;
 }
