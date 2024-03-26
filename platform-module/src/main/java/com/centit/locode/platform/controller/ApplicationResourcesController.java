@@ -39,8 +39,6 @@ public class ApplicationResourcesController extends BaseController  {
     @Autowired
     private SourceInfoManager databaseInfoMag;
 
-
-
     @ApiOperation(value = "新增关联信息")
     @PostMapping()
     @WrapUpResponseBody

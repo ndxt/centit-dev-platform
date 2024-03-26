@@ -22,7 +22,7 @@ public class DummyPo implements Serializable {
 
     @Id
     @Column(name = "id")
-    @NotBlank(message = "字段不能为空")
+    @NotBlank
     @ApiModelProperty(value = "id", hidden = true)
     @ValueGenerator(strategy = GeneratorType.UUID22)
     private String id;

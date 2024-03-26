@@ -23,14 +23,14 @@ public class HistoryVersion implements Serializable {
     @Id
     @Column(name = "history_id")
     @ApiModelProperty(value = "id",hidden = true)
-    @NotBlank(message = "字段不能为空")
+    @NotBlank
     @ValueGenerator(strategy = GeneratorType.UUID22)
     private  String historyId;
 
     @ApiModelProperty(value = "类型，1：工作流 2：页面设计 3：api网关")
     @Column(name = "type")
-    @NotBlank(message = "字段不能为空")
-    @Length(max = 1, message = "字段长度不能大于{max}")
+    @NotBlank
+    @Length(max = 1)
     private  String type;
 
     @Column(name = "APP_VERSION_ID")
@@ -39,12 +39,12 @@ public class HistoryVersion implements Serializable {
 
     @ApiModelProperty(value = "关联表id")
     @Column(name = "relation_id")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     private  String relationId;
 
     @ApiModelProperty(value = "应用id")
     @Column(name = "os_id")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     private  String osId;
 
     @ApiModelProperty(value = "内容")
@@ -54,12 +54,12 @@ public class HistoryVersion implements Serializable {
 
     @ApiModelProperty(value = "标签")
     @Column(name = "label")
-    @Length(max = 100, message = "字段长度不能大于{max}")
+    @Length(max = 100)
     private  String label;
 
     @ApiModelProperty(value = "备注")
     @Column(name = "memo")
-    @Length(max = 500, message = "字段长度不能大于{max}")
+    @Length(max = 500)
     private  String  memo;
 
     @ApiModelProperty(value = "提交时间", name = "push_time",hidden = true)
@@ -69,12 +69,12 @@ public class HistoryVersion implements Serializable {
 
     @ApiModelProperty(value = "提交人")
     @Column(name = "push_user")
-    @Length(max = 32, message = "字段长度不能大于{max}")
+    @Length(max = 32)
     private  String pushUser;
 
     @Column(name = "history_sha")
     @ApiModelProperty(value = "版本指纹")
-    @Length(max = 80, message = "字段长度不能大于{max}")
+    @Length(max = 80)
     private String historySha;
 
     public String getTypeDesc(){
