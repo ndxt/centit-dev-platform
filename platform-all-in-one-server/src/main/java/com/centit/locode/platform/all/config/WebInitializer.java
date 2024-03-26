@@ -69,7 +69,7 @@ public class WebInitializer implements WebApplicationInitializer {
         WebConfig.registerHiddenHttpMethodFilter(servletContext, servletUrlPatterns);
         WebConfig.registerRequestThreadLocalFilter(servletContext);
         WebConfig.registerAssertUserLoginFilter(servletContext, new String[] {
-            "/platform/*", "/dde/*", "/fileserver/*", "/metadata/*", "/dbdesign/*", "/workflow/*"
+            "/platform/*", "/dde/*", "/metadata/*", "/dbdesign/*", "/workflow/*"
         });
         WebConfig.registerSpringSecurityFilter(servletContext, servletUrlPatterns);
 
