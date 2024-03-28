@@ -8,6 +8,7 @@ import com.centit.dde.core.DataSet;
 import com.centit.dde.dataset.CsvDataSet;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.po.FileInfo;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.components.OperationLogCenter;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.basedata.OperationLog;
@@ -342,12 +343,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
                 if (runDDL) {
                     for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
-                        JSONObject filter = new JSONObject();
-                        filter.put("filterType", "database");
-                        filter.put("databaseCode", sDatabaseName);
-                        List<PendingMetaTable> tables = metaTableManager.searchPendingMetaTable(filter,true);
-                        if(tables!=null && !tables.isEmpty()) {
-                            metaTableManager.batchPublishTables(tables, jsonAppVo.getUserCode());
+                        ResponseData responseData = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
+                        if (responseData.getCode() < 0) {
+                            logger.error(responseData.getMessage() + JSON.toJSONString(responseData.getData()));
                         }
                     }
                 }
@@ -392,12 +390,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (jsonAppVo.getAppList().size() > 0) {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
                 for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
-                    JSONObject filter = new JSONObject();
-                    filter.put("filterType", "database");
-                    filter.put("databaseCode", sDatabaseName);
-                    List<PendingMetaTable> tables = metaTableManager.searchPendingMetaTable(filter,true);
-                    if(tables!=null && !tables.isEmpty()) {
-                        metaTableManager.batchPublishTables(tables, jsonAppVo.getUserCode());
+                    ResponseData responseData = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
+                    if (responseData.getCode() < 0) {
+                        logger.error(responseData.getMessage() + JSON.toJSONString(responseData.getData()));
                     }
                 }
             }
