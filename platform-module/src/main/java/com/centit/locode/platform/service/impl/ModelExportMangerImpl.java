@@ -25,7 +25,6 @@ import com.centit.support.algorithm.*;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -343,9 +342,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
                 if (runDDL) {
                     for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
-                        Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
-                        if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {
-                            logger.error(pair.getRight());
+                        JSONObject filter = new JSONObject();
+                        filter.put("filterType", "database");
+                        filter.put("databaseCode", sDatabaseName);
+                        List<PendingMetaTable> tables = metaTableManager.searchPendingMetaTable(filter,true);
+                        if(tables!=null && !tables.isEmpty()) {
+                            metaTableManager.batchPublishTables(tables, jsonAppVo.getUserCode());
                         }
                     }
                 }
@@ -390,9 +392,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (jsonAppVo.getAppList().size() > 0) {
                 result += DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
                 for (String sDatabaseName : jsonAppVo.getListDatabaseName()) {
-                    Pair<Integer, String> pair = metaTableManager.publishDatabase(sDatabaseName, jsonAppVo.getUserCode());
-                    if (GeneralAlgorithm.equals(pair.getLeft(), -1)) {
-                        logger.error(pair.getRight());
+                    JSONObject filter = new JSONObject();
+                    filter.put("filterType", "database");
+                    filter.put("databaseCode", sDatabaseName);
+                    List<PendingMetaTable> tables = metaTableManager.searchPendingMetaTable(filter,true);
+                    if(tables!=null && !tables.isEmpty()) {
+                        metaTableManager.batchPublishTables(tables, jsonAppVo.getUserCode());
                     }
                 }
             }
