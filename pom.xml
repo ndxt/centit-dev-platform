@@ -16,6 +16,7 @@
     <modules>
         <module>platform-module</module>
         <module>runtime-module</module>
+        <module>runtime-static-env</module>
     </modules>
 
     <packaging>pom</packaging>
