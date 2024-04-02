@@ -1,4 +1,4 @@
-package com.centit.framework.system.controller;
+package com.centit.system.controller;
 
 import com.centit.fileserver.utils.UploadDownloadUtils;
 import com.centit.framework.common.JsonResultUtils;
@@ -14,7 +14,7 @@ import com.centit.framework.model.basedata.DataCatalog;
 import com.centit.framework.model.basedata.DataDictionary;
 import com.centit.framework.model.basedata.DataDictionaryId;
 import com.centit.framework.operationlog.RecordOperationLog;
-import com.centit.framework.system.service.DataDictionaryManager;
+import com.centit.system.service.DataDictionaryManager;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.JavaBeanMetaData;

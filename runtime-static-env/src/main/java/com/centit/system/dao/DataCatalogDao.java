@@ -1,4 +1,4 @@
-package com.centit.framework.system.dao;
+package com.centit.system.dao;
 
 import com.centit.framework.core.dao.CodeBook;
 import com.centit.framework.jdbc.dao.BaseDaoImpl;

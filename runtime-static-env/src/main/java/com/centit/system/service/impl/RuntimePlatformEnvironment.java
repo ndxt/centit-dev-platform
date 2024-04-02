@@ -1,12 +1,12 @@
-package com.centit.framework.system.service.impl;
+package com.centit.system.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.common.GlobalConstValue;
 import com.centit.framework.components.CodeRepositoryCache;
-import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.*;
+import com.centit.framework.staticsystem.service.impl.AbstractStaticPlatformEnvironment;
 import com.centit.support.common.ListAppendMap;
 import com.centit.support.file.FileIOOpt;
 import com.centit.support.file.FileSystemOpt;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("platformEnvironment")
-public class RuntimePlatformEnvironment implements PlatformEnvironment {
+public class RuntimePlatformEnvironment extends AbstractStaticPlatformEnvironment {
 
     private static Log logger = LogFactory.getLog(RuntimePlatformEnvironment.class);
 

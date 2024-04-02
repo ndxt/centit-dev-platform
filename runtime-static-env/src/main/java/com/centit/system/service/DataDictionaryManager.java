@@ -1,4 +1,4 @@
-package com.centit.framework.system.service;
+package com.centit.system.service;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.centit.framework.model.basedata.DataCatalog;

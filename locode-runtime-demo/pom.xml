@@ -20,6 +20,21 @@
     </properties>
 
     <dependencies>
+        <!-- 添加系统维护部分，这部分提供用户组织机构的运维 -->
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-system-module</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 添加静态用户组织架构，和数据字典的动态配置 ， 这个和上面的二选一-->
+        <!--
+        <dependency>
+            <groupId>com.centit.locode</groupId>
+            <artifactId>runtime-static-env</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        781030-->
+
         <dependency>
             <groupId>com.centit.locode</groupId>
             <artifactId>runtime-module</artifactId>
@@ -41,12 +56,6 @@
         <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-config</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-static</artifactId>
             <version>${revision}</version>
         </dependency>
 

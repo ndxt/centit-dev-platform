@@ -1,4 +1,4 @@
-package com.centit.framework.system.service.impl;
+package com.centit.system.service.impl;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -7,9 +7,9 @@ import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.basedata.DataCatalog;
 import com.centit.framework.model.basedata.DataDictionary;
 import com.centit.framework.model.basedata.DataDictionaryId;
-import com.centit.framework.system.dao.DataCatalogDao;
-import com.centit.framework.system.dao.DataDictionaryDao;
-import com.centit.framework.system.service.DataDictionaryManager;
+import com.centit.system.dao.DataCatalogDao;
+import com.centit.system.dao.DataDictionaryDao;
+import com.centit.system.service.DataDictionaryManager;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
 import org.apache.commons.lang3.StringUtils;
