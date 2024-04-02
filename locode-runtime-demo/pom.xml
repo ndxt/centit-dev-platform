@@ -52,12 +52,6 @@
 
         <dependency>
             <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-static-config</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
             <artifactId>framework-session-jdbc</artifactId>
             <version>${revision}</version>
         </dependency>
