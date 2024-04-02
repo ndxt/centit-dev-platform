@@ -8,16 +8,22 @@ import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
+import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
+import com.centit.framework.model.security.CentitUserDetailsService;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
+import com.centit.framework.security.UserDetailsServiceImpl;
 import com.centit.framework.staticsystem.config.StaticSystemBeanConfig;
 import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 
 /**
@@ -30,7 +36,6 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
         value = org.springframework.stereotype.Controller.class))
 @Import({
     JdbcConfig.class,
-    StaticSystemBeanConfig.class,
     SpringSecurityDaoConfig.class,
     SpringSecurityCasConfig.class,})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -87,6 +92,24 @@ public class ServiceConfig {
     @Bean
     public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
         return new InstantiationServiceBeanPostProcessor();
+    }
+
+    @Bean
+    public CentitUserDetailsService centitUserDetailsService(@Autowired PlatformEnvironment platformEnvironment) {
+        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
+        userDetailsService.setPlatformEnvironment(platformEnvironment);
+        return userDetailsService;
+    }
+
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        return //new LazyCsrfTokenRepository(
+            new HttpSessionCsrfTokenRepository();
+    }
+
+    @Bean
+    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor() {
+        return new AutowiredAnnotationBeanPostProcessor();
     }
 }
 
