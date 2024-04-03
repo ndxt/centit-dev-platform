@@ -13,7 +13,6 @@ import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.model.security.CentitUserDetailsService;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.framework.security.UserDetailsServiceImpl;
-import com.centit.framework.staticsystem.config.StaticSystemBeanConfig;
 import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
