@@ -42,9 +42,9 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
     private ApplicationTemplateDao applicationTemplateDao;
 
     private void exportJsonArrayToFile(String sqlSen, Object[] params, String jsonFilePath) throws IOException {
-        JSONArray josnArray = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlSen, params);
-        if(josnArray != null) {
-            FileIOOpt.writeStringToFile(josnArray.toString(), jsonFilePath);
+        JSONArray jsonArray = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlSen, params);
+        if(jsonArray != null) {
+            FileIOOpt.writeStringToFile(jsonArray.toString(), jsonFilePath);
         }
     }
 
@@ -64,7 +64,6 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         String sqlColumns = "select * from f_md_column where table_id = ?";
         String sqlRelations = "select * from f_md_relation where parent_table_id = ?";
         String sqlRelationDetails = "select * from f_md_rel_detail where relation_id = ?";
-
         String sqlViewText = "select VIEW_SQL from F_PENDING_META_TABLE where TABLE_ID = ?";
 
         JSONArray tables = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlTables, new Object[]{osId, osId});
@@ -80,9 +79,9 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                     JSONArray relations = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao,
                         sqlRelations, new Object[]{tableId});
                     if (relations != null) {
-                        for (Object obj2 : relations) {
-                            if (obj2 instanceof JSONObject) {
-                                JSONObject relation = (JSONObject) obj2;
+                        for (Object rel : relations) {
+                            if (rel instanceof JSONObject) {
+                                JSONObject relation = (JSONObject) rel;
                                 String relationId = relation.getString("relationId");
                                 JSONArray relationDetails = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao,
                                     sqlRelationDetails, new Object[]{relationId});
@@ -107,10 +106,8 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
     private void exportDictionaries(String osId, String appFileRoot) throws IOException {
         String dictDir = appFileRoot + File.separator +  "dictionary";
         FileSystemOpt.createDirect(new File(dictDir));
-
         String sqlCatalog = "select * from f_datacatalog where CATALOG_CODE in " +
             "(select dictionary_id from m_application_dictionary where os_id= ?)";
-
         String sqlDictionary = "select * from f_datadictionary where CATALOG_CODE = ?";
 
         JSONArray catalogs = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlCatalog, new Object[]{osId});
@@ -218,9 +215,6 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         }
 
         exportJsonArrayToFile(fileInfoSql, new Object[]{osId}, fileDir + File.separator + "fileInfo.json");
-
-
-
         JSONArray fileInfos = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, fileInfoSql, new Object[]{osId});
         if(fileInfos != null) {
             for(Object obj : fileInfos) {
@@ -294,7 +288,6 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         exportWorkflows(osId, appFileRoot);
 
         ZipCompressor.compressFileInDirectory( appFileRoot+".zip", appFileRoot );
-
         FileSystemOpt.deleteDirect(new File(appFileRoot));
         return Files.newInputStream(Paths.get(appFileRoot + ".zip"));
     }
