@@ -31,7 +31,7 @@ public class EnvironmentImportController extends BaseController {
     @Autowired
     private EnvironmentImportManager environmentImportManager;
 
-    @ApiOperation(value = "导入环境数据")
+    @ApiOperation(value = "导入环境数据，包括数据字典、数据库资源、文件、工作流等等元数据")
     @ApiImplicitParam(name = "importType", type = "query",
         value = "导入类别:dictionary，file，database，flow, fileAndStore")
     @PutMapping(value = "/import")
