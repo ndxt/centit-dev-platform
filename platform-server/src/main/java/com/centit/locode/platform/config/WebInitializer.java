@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 
 public class WebInitializer implements WebApplicationInitializer {
 
-
     @Override
     public void onStartup(@Nonnull ServletContext servletContext) throws ServletException {
         WebConfig.registerSpringConfig(servletContext, ServiceConfig.class);

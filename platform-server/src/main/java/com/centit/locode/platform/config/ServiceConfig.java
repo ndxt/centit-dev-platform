@@ -1,6 +1,5 @@
 package com.centit.locode.platform.config;
 
-
 import com.alibaba.nacos.api.annotation.NacosProperties;
 import com.alibaba.nacos.spring.context.annotation.config.EnableNacosConfig;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
@@ -15,7 +14,9 @@ import com.centit.framework.core.service.impl.DataScopePowerManagerImpl;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.security.CentitUserDetailsService;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
+import com.centit.framework.security.UserDetailsServiceImpl;
 import com.centit.msgpusher.plugins.EMailMsgPusher;
 import com.centit.msgpusher.plugins.SystemUserEmailSupport;
 import com.centit.search.service.ESServerConfig;
@@ -24,11 +25,17 @@ import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 
 /**
@@ -66,6 +73,38 @@ public class ServiceConfig {
     }
 
     @Bean
+    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor() {
+        return new AutowiredAnnotationBeanPostProcessor();
+    }
+
+    @Bean
+    public CentitUserDetailsService centitUserDetailsService(@Autowired PlatformEnvironment platformEnvironment) {
+        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
+        userDetailsService.setPlatformEnvironment(platformEnvironment);
+        return userDetailsService;
+    }
+
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        return new HttpSessionCsrfTokenRepository();
+    }
+
+    @Bean
+    MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
+        ms.setUseCodeAsDefaultMessage(true);
+        //"classpath:org/springframework/security/messages"
+        ms.setBasenames("classpath:i18n/messages", "classpath:org/springframework/security/messages");
+        ms.setDefaultEncoding("UTF-8");
+        return ms;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean validatorFactory() {
+        return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
     public NotificationCenter notificationCenter(@Autowired PlatformEnvironment platformEnvironment) {
         EMailMsgPusher messageManager = new EMailMsgPusher();
         messageManager.setEmailServerHost("mail.centit.com");
@@ -74,7 +113,6 @@ public class ServiceConfig {
         messageManager.setEmailServerPwd(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
         //messageManager.setTopUnit(dataOptContext.getTopUnit());
         messageManager.setUserEmailSupport(new SystemUserEmailSupport());
-
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         notificationCenter.setPlatformEnvironment(platformEnvironment);
         notificationCenter.registerMessageSender("email", messageManager);
@@ -129,7 +167,6 @@ public class ServiceConfig {
     public FileInfoOpt fileInfoOpt() {
         FileClientImpl fileClient = new FileClientImpl();
         fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
-
         FileInfoOptClient fileStoreBean = new FileInfoOptClient();
         fileStoreBean.setFileClient(fileClient);
         return fileStoreBean;
