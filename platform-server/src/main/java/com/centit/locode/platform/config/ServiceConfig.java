@@ -52,7 +52,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 @EnableNacosConfig(globalProperties = @NacosProperties(serverAddr = "${nacos.server-addr}"))
 @NacosPropertySources({@NacosPropertySource(dataId = "${nacos.system-dataid}",groupId = "CENTIT", autoRefreshed = true)})
-@PropertySource("classpath:system.properties")
 public class ServiceConfig {
 
     @Value("${app.home:./}")
