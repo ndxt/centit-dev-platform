@@ -1,11 +1,14 @@
 package com.centit.locode.platform.controller;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.framework.model.basedata.UserInfo;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
+import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -40,7 +44,14 @@ public class ApplicationVersionController extends BaseController
     @ApiOperation(value = "创建历史版本", notes = "创建历史版本")
     @PostMapping()
     @WrapUpResponseBody()
-    public String createHistoryVersion(@RequestBody ApplicationVersion appVersion) {
+    public String createHistoryVersion(@RequestBody ApplicationVersion appVersion, HttpServletRequest request) {
+        UserInfo userInfo = WebOptUtils.assertUserLogin(request);
+        if(!applicationVersionService.checkMergeState(appVersion.getApplicationId())){
+            throw new ObjectException(
+                ObjectException.DATA_VALIDATE_ERROR, "当前应用有正在合并中的版本，请等待合并完成后再创建新版本！"
+            );
+        }
+        appVersion.setCreator(userInfo.getUserCode());
         return applicationVersionService.createApplicationVersion(appVersion);
     }
 
@@ -55,7 +66,6 @@ public class ApplicationVersionController extends BaseController
     @GetMapping("download/{versionId}")
     @WrapUpResponseBody()
     public void downloadHistoryVersion(@RequestBody String osId) {
-
     }*/
 
     @ApiOperation(value = "比较历史版本", notes = "比较历史版本")

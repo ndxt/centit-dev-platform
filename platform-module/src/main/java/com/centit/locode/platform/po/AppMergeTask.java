@@ -25,9 +25,9 @@ public class AppMergeTask implements Serializable {
     private String appVersionId;
 
     @Id
-    @Column(name = "relateion_ID")
+    @Column(name = "relation_id")
     @ApiModelProperty(value = "关联表ID")
-    private String relateionId;
+    private String relationId;
 
     @Column(name = "object_type")
     @ApiModelProperty(value = "对象类型")

@@ -6,7 +6,9 @@ import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.OsInfo;
+import com.centit.locode.platform.dao.AppMergeTaskDao;
 import com.centit.locode.platform.dao.ApplicationVersionDao;
+import com.centit.locode.platform.po.AppMergeTask;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
@@ -34,6 +36,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
     @Autowired
     ApplicationVersionDao applicationVersionDao;
+
+    @Autowired
+    AppMergeTaskDao appMergeTaskDao;
 
     @Autowired
     PlatformEnvironment platformEnvironment;
@@ -191,6 +196,13 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     }
 
     @Override
+    public boolean checkMergeState(String applicationId){
+        return applicationVersionDao.countObjectByProperties(
+            CollectionsOpt.createHashMap("applicationId" ,applicationId,
+                "mergeStatus", "B")) > 0;
+    }
+
+    @Override
     public List<ApplicationVersion> listApplicationVersion(String applicationId, PageDesc pageDesc) {
         return applicationVersionDao.listObjectsByProperties(
             CollectionsOpt.createHashMap("applicationId", applicationId),
@@ -295,8 +307,23 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     }
 
     @Override
-    public void restoreApplicationVersion(String versionId) {
+    public void restoreAppVersion(String versionId) {
 
+    }
+
+    @Override
+    public void mergeAppComponents(String versionId, JSONArray components) {
+
+    }
+
+    @Override
+    public void restoreCompleted(AppMergeTask task) {
+
+    }
+
+    @Override
+    public int mergeCompleted(AppMergeTask task) {
+        return 0;
     }
 
 }
