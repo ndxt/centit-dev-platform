@@ -9,5 +9,5 @@ import com.centit.locode.platform.po.AppInfo;
  */
 public interface AppInfoService extends BaseEntityManager<AppInfo, String> {
 
-    public JSONObject getLastAppInfo(String appType);
+    JSONObject getLastAppInfo(String appType);
 }
