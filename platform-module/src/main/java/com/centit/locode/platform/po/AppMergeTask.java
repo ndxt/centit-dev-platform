@@ -1,5 +1,8 @@
 package com.centit.locode.platform.po;
 
+import com.centit.support.database.orm.GeneratorCondition;
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,10 +41,24 @@ public class AppMergeTask implements Serializable {
     private String historyId;
 
     @Column(name = "merge_type")
-    @ApiModelProperty(name = "合并类型", value = "新增 N 删除 D 更新 U")
+    @ApiModelProperty(name = "合并类型", value = "新增 C 删除 D 更新 U")
     private String mergeType;
 
+    @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
     @Column(name = "merge_time")
     @ApiModelProperty(value = "创建时间")
     private Date mergeTime;
+
+    @Column(name = "merge_status")
+    @ApiModelProperty(value ="合并状态")
+    private String mergeStatus;
+
+    @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()", condition = GeneratorCondition.ALWAYS)
+    @Column(name = "last_update_time")
+    @ApiModelProperty(value ="最后更新时间")
+    private Date lastUpdateTime;
+
+    @Column(name = "update_user")
+    @ApiModelProperty(value ="最后更新人")
+    private String updateUser;
 }

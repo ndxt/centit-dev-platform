@@ -24,9 +24,13 @@ public interface ApplicationVersionService {
 
     JSONArray compareToOldVersion(String applicationId, String versionId);
 
-    void restoreAppVersion(String versionId);
+    JSONArray listAppComponents(String appVersionId, String type, PageDesc pageDesc);
 
-    void mergeAppComponents(String versionId, JSONArray components);
+    int restoreAppVersion(String appVersionId);
+
+    int mergeAppComponents(String appVersionId, JSONArray components);
+
+    List<AppMergeTask> listAppMergeTasks(String appVersionId, PageDesc pageDesc);
 
     void restoreCompleted(AppMergeTask task);
 

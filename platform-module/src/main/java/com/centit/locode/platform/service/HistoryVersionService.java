@@ -9,6 +9,8 @@ import java.util.Map;
 public interface HistoryVersionService {
     void createHistoryVersion(HistoryVersion historyVersion);
 
+    int countHistoryVersion(String relationId, String historySha);
+
     void updateHistoryVersion(HistoryVersion historyVersion);
 
     void deleteHistoryVersion(String historyId);

@@ -1,6 +1,7 @@
 package com.centit.locode.platform.controller;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.centit.framework.common.ResponseData;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
@@ -10,6 +11,8 @@ import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.json.JSONOpt;
 import com.centit.support.json.JsonDifferent;
+import com.centit.support.security.SecurityOptUtils;
+import com.centit.support.security.Sha1Encoder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,7 +35,18 @@ public class HistoryVersionController extends BaseController {
     @ApiOperation(value = "新增版本信息")
     @PostMapping()
     @WrapUpResponseBody
-    public String createHistoryVersion(@RequestBody HistoryVersion historyVersion){
+    public String createHistoryVersion(@RequestBody String hvJsonStr){
+        HistoryVersion historyVersion = JSONObject.parseObject(
+            SecurityOptUtils.decodeSecurityString(hvJsonStr),
+            HistoryVersion.class);
+        //保存时 生成sha指纹
+        historyVersion.setHistorySha(
+            Sha1Encoder.encodeBase64(historyVersion.getContent().toJSONString(), true));
+        if(historyVersionService.countHistoryVersion(historyVersion.getRelationId(),
+            historyVersion.getHistorySha()) > 0){
+            throw new ObjectException(ResponseData.ERROR_FIELD_INPUT_CONFLICT,
+                "存在相同的版本，无需再次创建。sha："+historyVersion.getHistorySha());
+        }
         historyVersion.setAppVersionId(null);
         historyVersionService.createHistoryVersion(historyVersion);
         return historyVersion.getHistoryId();
