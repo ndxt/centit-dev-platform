@@ -32,11 +32,6 @@ public class ApplicationVersion implements Serializable {
     @ApiModelProperty(value = "版本标签")
     private String versionLabel;
 
-    @OrderBy("DESC")
-    @Column(name = "DATE_CREATED")
-    @ApiModelProperty(value = "创建日期")
-    private Date dateCreated;
-
     @Column(name = "CREATOR")
     @ApiModelProperty(value = "创建人")
     private String creator;
@@ -48,4 +43,19 @@ public class ApplicationVersion implements Serializable {
     @Column(name = "BACKUP_FILE_ID")
     @ApiModelProperty(value = "备份文件")
     private String backupFileId;
+
+    @OrderBy("DESC")
+    @Column(name = "MERGE_STATUS")
+    @ApiModelProperty(name = "合并状态", value = "A: 没有合并 或者 合并完成  B：合并中")
+    private String mergeStatus;
+
+    @Column(name = "MERGE_TIME")
+    @ApiModelProperty(name = "合并时间")
+    private Date mergeTime;
+
+    @OrderBy("DESC")
+    @Column(name = "DATE_CREATED")
+    @ApiModelProperty(value = "创建日期")
+    private Date dateCreated;
+
 }
