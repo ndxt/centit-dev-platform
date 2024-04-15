@@ -56,6 +56,7 @@ public class ApplicationVersion implements Serializable {
     @OrderBy("DESC")
     @Column(name = "DATE_CREATED")
     @ApiModelProperty(value = "创建日期")
+    @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
     private Date dateCreated;
 
 }

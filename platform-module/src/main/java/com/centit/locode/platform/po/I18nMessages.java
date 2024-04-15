@@ -1,8 +1,12 @@
 package com.centit.locode.platform.po;
 
+import com.centit.support.database.orm.GeneratorCondition;
+import com.centit.support.database.orm.GeneratorType;
+import com.centit.support.database.orm.ValueGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,6 +38,7 @@ public class I18nMessages implements Serializable {
 
     @Column(name = "last_update_time")
     @ApiModelProperty(value = "最后更新时间")
+    @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()", condition = GeneratorCondition.ALWAYS)
     private Date lastUpdateTime;
 
     @Column(name = "update_user")
