@@ -17,6 +17,7 @@ import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
@@ -55,6 +56,11 @@ public class ServiceConfig implements EnvironmentAware {
         if (environment != null) {
             this.env = environment;
         }
+    }
+
+    @Bean
+    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor(){
+        return new AutowiredAnnotationBeanPostProcessor();
     }
 
     /**
