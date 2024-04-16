@@ -629,7 +629,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                             // 更新的，创建版本，并恢复为旧版本
                             recoveryHistoryVersion(hv, false);
                             mergeTask.setHistoryId(jsonDiff.getString("historyId"));
-                            mergeTask.setMergeDesc("更新 - " + jsonDiff.getString("memo"));
+                            mergeTask.setMergeDesc("更新 - " + hv.getMemo());
                             mergeTask.setMergeType("U");
 
                         }
