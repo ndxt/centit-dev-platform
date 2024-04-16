@@ -17,8 +17,8 @@ import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -42,14 +42,20 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
     SpringSecurityCasConfig.class,})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringHttpSession
-public class ServiceConfig {
+public class ServiceConfig implements EnvironmentAware {
 
-    @Autowired
-    private Environment env;
     @Value("${app.home:./}")
     private String appHome;
     @Value("${redis.default.host}")
     private String redisHost;
+
+    private Environment env;
+    @Override
+    public void setEnvironment(@Autowired Environment environment) {
+        if (environment != null) {
+            this.env = environment;
+        }
+    }
 
     /**
      * 这个bean必须要有
@@ -58,6 +64,13 @@ public class ServiceConfig {
     @Bean("passwordEncoder")
     public StandardPasswordEncoderImpl passwordEncoder() {
         return  new StandardPasswordEncoderImpl();
+    }
+
+    @Bean
+    public CentitUserDetailsService centitUserDetailsService(@Autowired PlatformEnvironment platformEnvironment) {
+        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
+        userDetailsService.setPlatformEnvironment(platformEnvironment);
+        return userDetailsService;
     }
 
     @Bean
@@ -94,24 +107,6 @@ public class ServiceConfig {
     @Bean
     public InstantiationServiceBeanPostProcessor instantiationServiceBeanPostProcessor() {
         return new InstantiationServiceBeanPostProcessor();
-    }
-
-    @Bean
-    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor() {
-        return new AutowiredAnnotationBeanPostProcessor();
-    }
-
-    /*  这bean从框架中移除，由开发人员自行定义
-        @Bean("passwordEncoder")
-        public StandardPasswordEncoderImpl passwordEncoder() {
-            return  new StandardPasswordEncoderImpl();
-        }
-    */
-    @Bean
-    public CentitUserDetailsService centitUserDetailsService(@Autowired PlatformEnvironment platformEnvironment) {
-        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
-        userDetailsService.setPlatformEnvironment(platformEnvironment);
-        return userDetailsService;
     }
 
     @Bean

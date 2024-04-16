@@ -15,36 +15,20 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
-        <finalName>${finalName}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>test/*</exclude>
-                    <exclude>prod/*</exclude>
-                    <exclude>system.properties</exclude>
-                    <exclude>demo/*</exclude>
-                    <exclude>prev/*</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/${profiles.active}</directory>
-            </resource>
-        </resources>
-    </build>
-
     <dependencies>
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-dubbo-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-system-dubbo-client-config</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
+
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-dubbo-client-config</artifactId>
@@ -162,13 +146,6 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.centit.framework</groupId>
-            <artifactId>framework-system-dubbo-client-config</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>meta-form-dubbo-client-config</artifactId>
@@ -240,4 +217,33 @@
             </properties>
         </profile>
     </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>${finalName}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>test/*</exclude>
+                    <exclude>prod/*</exclude>
+                    <exclude>system.properties</exclude>
+                    <exclude>demo/*</exclude>
+                    <exclude>prev/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+            </resource>
+        </resources>
+    </build>
+
 </project>

@@ -33,9 +33,15 @@ import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 /**
  * Created by codefan on 17-7-18.
@@ -52,14 +58,20 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
     SpringSecurityCasConfig.class,})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringHttpSession
-public class ServiceConfig {
+public class ServiceConfig implements EnvironmentAware {
 
-    @Autowired
-    private Environment env;
     @Value("${app.home:./}")
     private String appHome;
     @Value("${redis.default.host}")
     private String redisHost;
+
+    private Environment env;
+    @Override
+    public void setEnvironment(@Autowired Environment environment) {
+        if (environment != null) {
+            this.env = environment;
+        }
+    }
 
     @Bean
     public RedisClient redisClient() {
@@ -80,10 +92,29 @@ public class ServiceConfig {
         return new LinkedBlockingQueueFileOptTaskQueue(appHome + "/task");
     }
 
-
     @Bean(name = "passwordEncoder")
     public StandardPasswordEncoderImpl passwordEncoder() {
         return new StandardPasswordEncoderImpl();
+    }
+
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        return new HttpSessionCsrfTokenRepository();
+    }
+
+    @Bean
+    MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
+        ms.setUseCodeAsDefaultMessage(true);
+        //"classpath:org/springframework/security/messages"
+        ms.setBasenames("classpath:i18n/messages", "classpath:org/springframework/security/messages");
+        ms.setDefaultEncoding("UTF-8");
+        return ms;
+    }
+
+    @Bean
+    public LocalValidatorFactoryBean validatorFactory() {
+        return new LocalValidatorFactoryBean();
     }
 
     @Bean
