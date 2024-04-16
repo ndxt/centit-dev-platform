@@ -44,6 +44,10 @@ public class AppMergeTask implements Serializable {
     @ApiModelProperty(name = "合并类型", value = "新增 C 删除 D 更新 U")
     private String mergeType;
 
+    @Column(name = "merge_desc")
+    @ApiModelProperty(name =  "合并说明")
+    private String mergeDesc;
+
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
     @Column(name = "merge_time")
     @ApiModelProperty(value = "创建时间")
@@ -51,7 +55,7 @@ public class AppMergeTask implements Serializable {
 
     @Column(name = "merge_status")
     @ApiModelProperty(value ="合并状态")
-    private String mergeStatus;
+    private Boolean mergeStatus;
 
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()", condition = GeneratorCondition.ALWAYS)
     @Column(name = "last_update_time")

@@ -26,13 +26,13 @@ public interface ApplicationVersionService {
 
     JSONArray listAppComponents(String appVersionId, String type, PageDesc pageDesc);
 
-    int restoreAppVersion(String appVersionId);
+    int restoreAppVersion(String appVersionId, String userCode);
 
-    int mergeAppComponents(String appVersionId, JSONArray components);
+    int mergeAppComponents(String appVersionId, JSONArray components, String userCode);
 
     List<AppMergeTask> listAppMergeTasks(String appVersionId, PageDesc pageDesc);
 
-    void restoreCompleted(AppMergeTask task);
+    void mergeCompleted(AppMergeTask task);
 
-    int mergeCompleted(AppMergeTask task);
+    void restoreCompleted(String appVersionId);
 }

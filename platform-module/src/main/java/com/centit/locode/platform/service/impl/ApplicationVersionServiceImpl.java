@@ -16,6 +16,7 @@ import com.centit.locode.platform.service.HistoryVersionService;
 import com.centit.locode.platform.service.ModelExportManager;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.algorithm.DatetimeOpt;
+import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
@@ -58,6 +59,47 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         }
     }
 
+    private HistoryVersion createFlowHV(JSONObject jsonObject){
+        HistoryVersion hv = new HistoryVersion();
+        hv.setType("1");
+        hv.setRelationId(jsonObject.getString("flowCode"));
+        hv.setMemo(jsonObject.getString("flowName"));
+        //dataOptDescJson returnResult extProps schemaProps
+        JSONObject jsonContent = JSON.parseObject(jsonObject.getString("flowXmlDesc"));
+        if(jsonContent!=null) {
+            jsonContent.put("optId", jsonObject.getString("optId"));
+            jsonContent.put("flowCode", jsonObject.getString("flowCode"));
+            jsonContent.put("version", jsonObject.getString("version"));
+            jsonContent.put("flowName", jsonObject.getString("flowName"));
+            jsonContent.put("flowDesc", jsonObject.getString("flowDesc"));
+        }else{
+            jsonContent = jsonObject;
+        }
+        hv.setContent(jsonContent);
+        return hv;
+    }
+
+    private HistoryVersion createPageHV(JSONObject jsonObject){
+        HistoryVersion hv = new HistoryVersion();
+        hv.setType("2");
+        hv.setRelationId(jsonObject.getString("modelId"));
+        hv.setMemo(jsonObject.getString("modelName"));
+        mapJsonProperties(jsonObject, "formTemplate", "mobileFormTemplate", "structureFunction");
+        hv.setContent(jsonObject);
+        return hv;
+    }
+
+    private HistoryVersion createApiHV(JSONObject jsonObject){
+        HistoryVersion hv = new HistoryVersion();
+        hv.setType("3");
+        hv.setRelationId(jsonObject.getString("packetId"));
+        hv.setMemo(jsonObject.getString("packetName"));
+        //dataOptDescJson returnResult extProps schemaProps
+        mapJsonProperties(jsonObject, "dataOptDescJson","returnResult","extProps","schemaProps");
+        hv.setContent(jsonObject);
+        return hv;
+    }
+
     private List<HistoryVersion> createHistoryVersions(String osId){
         List<HistoryVersion> hvs = new ArrayList<>(100);
         //// A 草稿 B 正常 C 过期 D 禁用  E 已发布
@@ -75,23 +117,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         if(flows!=null){
             for(Object obj : flows){
                 if(obj instanceof JSONObject) {
-                    JSONObject jsonObject = (JSONObject) obj;
-                    HistoryVersion hv = new HistoryVersion();
-                    hv.setType("1");
-                    hv.setRelationId(jsonObject.getString("flowCode"));
-                    hv.setMemo(jsonObject.getString("flowName"));
-                    //dataOptDescJson returnResult extProps schemaProps
-                    JSONObject jsonContent = JSON.parseObject(jsonObject.getString("flowXmlDesc"));
-                    if(jsonContent!=null) {
-                        jsonContent.put("optId", jsonObject.getString("optId"));
-                        jsonContent.put("flowCode", jsonObject.getString("flowCode"));
-                        jsonContent.put("version", jsonObject.getString("version"));
-                        jsonContent.put("flowName", jsonObject.getString("flowName"));
-                    }else{
-                        jsonContent = jsonObject;
-                    }
-                    hv.setContent(jsonContent);
-                    hvs.add(hv);
+                    hvs.add(createFlowHV((JSONObject) obj));
                 }
             }
         }
@@ -107,14 +133,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         if(pages!=null){
             for(Object obj : pages){
                 if(obj instanceof JSONObject) {
-                    JSONObject jsonObject = (JSONObject) obj;
-                    HistoryVersion hv = new HistoryVersion();
-                    hv.setType("2");
-                    hv.setRelationId(jsonObject.getString("modelId"));
-                    hv.setMemo(jsonObject.getString("modelName"));
-                    mapJsonProperties(jsonObject, "formTemplate", "mobileFormTemplate", "structureFunction");
-                    hv.setContent(jsonObject);
-                    hvs.add(hv);
+                    hvs.add(createPageHV((JSONObject) obj));
                 }
             }
         }
@@ -133,15 +152,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         if(apis!=null){
             for(Object obj : apis){
                 if(obj instanceof JSONObject) {
-                    JSONObject jsonObject = (JSONObject) obj;
-                    HistoryVersion hv = new HistoryVersion();
-                    hv.setType("3");
-                    hv.setRelationId(jsonObject.getString("packetId"));
-                    hv.setMemo(jsonObject.getString("packetName"));
-                    //dataOptDescJson returnResult extProps schemaProps
-                    mapJsonProperties(jsonObject, "dataOptDescJson","returnResult","extProps","schemaProps");
-                    hv.setContent(jsonObject);
-                    hvs.add(hv);
+                    hvs.add(createApiHV((JSONObject) obj));
                 }
             }
         }
@@ -366,10 +377,10 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setRelationId(jsonDiff.getString("relationId"));
         hv.setType(jsonDiff.getString("type"));
         hv.setContent(jsonDiff.getJSONObject("content"));
-        hv.setMemo(jsonDiff.getString("memo"));
+        hv.setLabel("V_recovery_"+appVersion.getVersionId());
+        hv.setMemo("因为恢复版本而创建的："+appVersion.getVersionId());//jsonDiff.getString("memo"));
         hv.setPushTime(DatetimeOpt.currentUtilDate());
         hv.setPushUser("system");
-        hv.setLabel("因为恢复版本而创建的："+appVersion.getVersionId());
         //保存时 生成sha指纹
         hv.setHistorySha(
             Sha1Encoder.encodeBase64(hv.getContent().toJSONString(), true) );
@@ -380,43 +391,172 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     private HistoryVersion recoveryHistoryVersion(JSONObject jsonDiff, boolean isCreate){
         HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
         if("1".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
-            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
-                "update wf_flow_define set FLOW_XML_DESC = ?, FLOW_DESC =?, FLOW_STATE='A' " +
+            if(isCreate) {
+                Object obj = DatabaseOptUtils.getScalarObjectQuery(applicationVersionDao,
+                    "select count(*) as hasFlow from wf_flow_define where FLOW_CODE= ? and version = 0",
+                    new Object[]{jsonDiff.getString("relationId")});
+                if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
+                    //insert into
+                    return hv;
+                }
+            }
+            JSONObject flowJson = JSONObject.parseObject(jsonDiff.getString("content"));
+            DatabaseOptUtils.doExecuteSql(applicationVersionDao,
+                "update wf_flow_define set FLOW_XML_DESC = ?, FLOW_NAME =?, FLOW_DESC =?, FLOW_STATE='A' " +
                     " where FLOW_CODE= ? and version = 0",
                 new Object[]{ jsonDiff.getString("content"),
-                    jsonDiff.getString("memo"),
+                    flowJson.getString("flowName"),
+                    flowJson.getString("flowDesc"),
+                    jsonDiff.getString("relationId") }
+            );
+            return hv;
+        }
+
+        if("2".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+            // 恢复到 draft
+            JSONObject modelJson = JSONObject.parseObject(jsonDiff.getString("content"));
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                "update m_meta_form_model_draft set IS_VALID = 'F', Model_Comment = ?, " +
+                    "MOBILE_FORM_TEMPLATE = ? , form_template= ?" +
+                    "STRUCTURE_FUNCTION = ?, MODEL_TAG = ? " +
+                    " where MODEL_ID = ?",
+                new Object[]{ modelJson.getString("modelComment"),
+                    modelJson.getString("mobileFormTemplate"),
+                    modelJson.getString("formTemplate"),
+                    modelJson.getString("structureFunction"),
+                    modelJson.getString("modelTag"),
+                    jsonDiff.getString("relationId") }
+            );
+            return hv;
+        }
+        if("3".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+            // 恢复到 draft
+            JSONObject packetJson = JSONObject.parseObject(jsonDiff.getString("content"));
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                "update q_data_packet_draft set is_disable = 'F', task_type = ？," +
+                    " schema_props = ？, return_type = ？, return_result = ？, request_body_type = ？，" +
+                    " PACKET_TYPE = ？, PACKET_NAME = ？, PACKET_DESC  = ？," +
+                    " interface_name = ？, has_data_opt = ？, " +
+                    " EXT_PROPS  = ？, data_opt_desc_json = ？" +
+                    " where PACKET_ID= ?",
+                new Object[]{ packetJson.getString("taskType"),
+                    packetJson.getString("schemaProps"),
+                    packetJson.getString("returnType"),
+                    packetJson.getString("returnResult"),
+                    packetJson.getString("requestBodyType"),
+                    packetJson.getString("packetType"),
+                    packetJson.getString("packetName"),
+                    packetJson.getString("packetDesc"),
+                    packetJson.getString("interfaceName"),
+                    packetJson.getString("hasDataOpt"),
+                    packetJson.getString("extProps"),
+                    packetJson.getString("dataOptDescJson"),
                     jsonDiff.getString("relationId") }
             );
         }
+
+        return hv;
+    }
+
+    private HistoryVersion deleteHistoryVersion(JSONObject jsonDiff){
+        HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
+        if("1".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                // A 草稿 B 正常 C 过期 D 禁用  E 已发布
+                "update wf_flow_define set FLOW_STATE='D' " +
+                    " where FLOW_CODE= ? and version = 0",
+                new Object[]{jsonDiff.getString("relationId") }
+            );
+
+        } else if("2".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+            // 恢复到 draft
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                "update m_meta_form_model_draft set IS_VALID = 'T' " +
+                    " where MODEL_ID = ?",
+                new Object[]{
+                    jsonDiff.getString("relationId") }
+            );
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                "update m_meta_form_model set IS_VALID = 'T' " +
+                    " where MODEL_ID = ?",
+                new Object[]{
+                    jsonDiff.getString("relationId") }
+            );
+        } else if("3".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+            // 恢复到 draft
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                "update q_data_packet_draft set is_disable = 'T' " +
+                    " where PACKET_ID= ?",
+                new Object[]{jsonDiff.getString("relationId") }
+            );
+            DatabaseOptUtils.doExecuteSql( applicationVersionDao,
+                "update q_data_packet set is_disable = 'T' " +
+                    " where PACKET_ID= ?",
+                new Object[]{jsonDiff.getString("relationId") }
+            );
+        }
+
         return hv;
     }
 
     @Override
-    public int restoreAppVersion(String appVersionId) {
+    public int restoreAppVersion(String appVersionId, String userCode) {
         ApplicationVersion appVersion = applicationVersionDao.getObjectById(appVersionId);
         JSONArray diff = innerCompareToOldVersion(appVersion.getApplicationId(), appVersionId, true);
         //恢复不同
+        int mergeCount=0;
         for(Object obj : diff){
             if(obj instanceof JSONObject){
+                AppMergeTask mergeTask = new AppMergeTask();
+                mergeTask.setAppVersionId(appVersionId);
+
+                mergeTask.setMergeStatus(false);
                 JSONObject jsonDiff = (JSONObject) obj;
+                mergeTask.setRelationId(jsonDiff.getString("relationId"));
+                mergeTask.setObjectType(jsonDiff.getString("type"));
+                mergeTask.setUpdateUser(userCode);
                 if("D".equals(jsonDiff.getString("diff"))){
                     // 删除的，创建版本， 检查是否有删除状态的，如果有 先恢复
-
+                    recoveryHistoryVersion(jsonDiff, true);
+                    mergeTask.setMergeType("C");
+                    mergeTask.setHistoryId(jsonDiff.getString("historyId"));
+                    mergeTask.setMergeDesc("创建 - " + jsonDiff.getString("memo"));//
                 } else if("C".equals(jsonDiff.getString("diff"))){
+                    // createHistoryVersion(jsonDiff, appVersion);
                     // 新增的，修改为 删除
-
+                    deleteHistoryVersion(jsonDiff);
+                    mergeTask.setHistoryId(jsonDiff.getString("historyId2"));
+                    mergeTask.setMergeDesc("删除 - " + jsonDiff.getString("memo"));
+                    mergeTask.setMergeType("D");
                 } else if("U".equals(jsonDiff.getString("diff"))){
+                    createHistoryVersion(jsonDiff, appVersion);
                     // 更新的，创建版本，并恢复为旧版本
+                    recoveryHistoryVersion(jsonDiff, false);
+                    mergeTask.setHistoryId(jsonDiff.getString("historyId"));
+                    mergeTask.setMergeDesc("更新 - " + jsonDiff.getString("memo"));
+                    mergeTask.setMergeType("U");
                 }
+                appMergeTaskDao.saveNewObject(mergeTask);
+                mergeCount++;
             }
         }
-        return diff.size();
+        if(mergeCount>0){
+            applicationVersionDao.setRestoreStatus(appVersionId, "B");
+        }
+        return mergeCount;
     }
 
     @Override
-    public int mergeAppComponents(String appVersionId, JSONArray components) {
+    public int mergeAppComponents(String appVersionId, JSONArray components, String userCode) {
+        ApplicationVersion appVersion = applicationVersionDao.getObjectById(appVersionId);
+        int mergeCount=0;
+        for(Object obj : components){
 
-        return components.size();
+        }
+        if(mergeCount>0){
+            applicationVersionDao.setRestoreStatus(appVersionId, "B");
+        }
+        return mergeCount;
     }
 
     @Override
@@ -426,13 +566,14 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     }
 
     @Override
-    public void restoreCompleted(AppMergeTask task) {
-
+    public void mergeCompleted(AppMergeTask task) {
+         appMergeTaskDao.markTaskComplete(task.getAppVersionId(), task.getRelationId());
     }
 
     @Override
-    public int mergeCompleted(AppMergeTask task) {
-        return 0;
+    public void restoreCompleted(String appVersionId) {
+        appMergeTaskDao.clearMergeTask(appVersionId);
+        applicationVersionDao.setRestoreStatus(appVersionId, "A");
     }
 
 }
