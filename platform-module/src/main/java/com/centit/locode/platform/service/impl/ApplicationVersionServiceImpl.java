@@ -601,10 +601,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 JSONObject jsonDiff = (JSONObject) obj;
                 HistoryVersion hv = historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
                 if(hv!=null){
-                    HistoryVersion hv2 = createHistoryVersion(hv.getType(), hv.getRelationId());
-                    hv2.setOsId(appVersion.getApplicationId());
-                    hv2.setAppVersionId(appVersionId);
-
                     AppMergeTask mergeTask = new AppMergeTask();
                     mergeTask.setAppVersionId(appVersionId);
                     mergeTask.setMergeStatus(false);
@@ -612,20 +608,23 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     mergeTask.setObjectType(hv.getType());
                     mergeTask.setUpdateUser(userCode);
 
+                    HistoryVersion hv2 = createHistoryVersion(hv.getType(), hv.getRelationId());
                     if(hv2==null){
                         recoveryHistoryVersion(hv, true);
                         mergeTask.setMergeType("C");
                         mergeTask.setHistoryId(hv.getHistoryId());
                         mergeTask.setMergeDesc("创建 - " + hv.getMemo());//
                     }else {
+                        hv2.setOsId(appVersion.getApplicationId());
+                        hv2.setAppVersionId(appVersionId);
                         hv2.setHistorySha(
                             Sha1Encoder.encodeBase64(hv2.getContent().toJSONString(), true) );
                         if(! StringUtils.equals(hv.getHistorySha(), hv2.getHistorySha())){
                             //创建版本
-                            hv.setLabel("V_recovery_"+appVersion.getVersionId());
-                            hv.setMemo("因为恢复版本而创建的："+appVersion.getVersionId());//jsonDiff.getString("memo"));
-                            hv.setPushTime(DatetimeOpt.currentUtilDate());
-                            hv.setPushUser(userCode);
+                            hv2.setLabel("V_recovery_"+appVersion.getVersionId());
+                            hv2.setMemo("因为恢复版本而创建的："+appVersion.getVersionId());//jsonDiff.getString("memo"));
+                            hv2.setPushTime(DatetimeOpt.currentUtilDate());
+                            hv2.setPushUser(userCode);
                             historyVersionService.createHistoryVersion(hv2);
                             // 更新的，创建版本，并恢复为旧版本
                             recoveryHistoryVersion(hv, false);
