@@ -33,7 +33,6 @@ import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -61,9 +60,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableSpringHttpSession
 public class ServiceConfig implements EnvironmentAware {
 
-    @Value("${app.home:./}")
-    private String appHome;
-
     private Environment env;
     @Override
     public void setEnvironment(@Autowired Environment environment) {
@@ -73,8 +69,13 @@ public class ServiceConfig implements EnvironmentAware {
     }
 
     @Bean
+    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor(){
+        return new AutowiredAnnotationBeanPostProcessor();
+    }
+
+    @Bean
     public RedisClient redisClient() {
-        return RedisClient.create(env.getProperty("redis.default.host"));
+        return RedisClient.create(env.getProperty("redis.default.hos"));
     }
 
     @Bean
@@ -87,13 +88,8 @@ public class ServiceConfig implements EnvironmentAware {
     }
 
     @Bean
-    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor(){
-        return new AutowiredAnnotationBeanPostProcessor();
-    }
-
-    @Bean
     public FileTaskQueue fileOptTaskQueue() throws Exception {
-        return new LinkedBlockingQueueFileOptTaskQueue(appHome + "/task");
+        return new LinkedBlockingQueueFileOptTaskQueue(env.getProperty("app.home") + "/task");
     }
 
     @Bean(name = "passwordEncoder")

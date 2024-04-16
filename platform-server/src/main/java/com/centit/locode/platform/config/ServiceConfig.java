@@ -26,7 +26,6 @@ import com.centit.support.security.AESSecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -56,11 +55,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableNacosConfig(globalProperties = @NacosProperties(serverAddr = "${nacos.server-addr}"))
 @NacosPropertySources({@NacosPropertySource(dataId = "${nacos.system-dataid}",groupId = "CENTIT", autoRefreshed = true)})
 public class ServiceConfig implements EnvironmentAware {
-
-    @Value("${app.home:./}")
-    private String appHome;
-    @Value("${fileserver.url}")
-    private String fileserver;
 
     private Environment environment;
     @Override
@@ -166,6 +160,8 @@ public class ServiceConfig implements EnvironmentAware {
 
     @Bean
     public FileInfoOpt fileInfoOpt() {
+
+        String fileserver = environment.getProperty("fileserver.url");
         FileClientImpl fileClient = new FileClientImpl();
         fileClient.init(fileserver, fileserver, "u0000000", "000000", fileserver);
         FileInfoOptClient fileStoreBean = new FileInfoOptClient();

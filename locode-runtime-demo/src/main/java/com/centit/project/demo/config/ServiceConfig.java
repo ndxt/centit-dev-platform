@@ -18,7 +18,6 @@ import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
@@ -44,11 +43,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringHttpSession
 public class ServiceConfig implements EnvironmentAware {
-
-    @Value("${app.home:./}")
-    private String appHome;
-    @Value("${redis.default.host}")
-    private String redisHost;
 
     private Environment env;
     @Override
@@ -93,7 +87,7 @@ public class ServiceConfig implements EnvironmentAware {
     @Lazy(value = false)
     public OperationLogWriter operationLogWriter() {
         TextOperationLogWriterImpl operationLog =  new TextOperationLogWriterImpl();
-        operationLog.setOptLogHomePath(appHome+"/logs");
+        operationLog.setOptLogHomePath(env.getProperty("app.home")+"/logs");
         operationLog.init();
         return operationLog;
     }
