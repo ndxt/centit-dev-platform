@@ -41,15 +41,16 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 /**
  * @author zhf
  */
+@Configuration
 @EnableAsync
 @EnableScheduling
+@PropertySource("classpath:system.properties")
 @Import({
     SpringSecurityDaoConfig.class,
     JdbcConfig.class})
 @ComponentScan(basePackages = "com.centit",
     excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,
         value = org.springframework.stereotype.Controller.class))
-@Configuration
 @EnableNacosConfig(globalProperties = @NacosProperties(serverAddr = "${nacos.server-addr}"))
 @NacosPropertySources({@NacosPropertySource(dataId = "${nacos.system-dataid}",groupId = "CENTIT", autoRefreshed = true)})
 public class ServiceConfig {
@@ -60,7 +61,7 @@ public class ServiceConfig {
     private String fileserver;
 
     @Autowired
-    Environment environment;
+    protected Environment environment;
     /**
      * 这个bean必须要有
      *

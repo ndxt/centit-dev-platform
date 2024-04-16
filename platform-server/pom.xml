@@ -47,8 +47,8 @@
     <dependencies>
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>centit-dde-dubbo-server-config</artifactId>
-            <version>${project.version}</version>
+            <artifactId>centit-dde-dubbo-client-config</artifactId>
+            <version>${revision}</version>
         </dependency>
 
         <dependency>
@@ -183,12 +183,6 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>centit-workflow-dubbo-client-config</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
-            <artifactId>centit-dde-dubbo-client-config</artifactId>
             <version>${revision}</version>
         </dependency>
 
