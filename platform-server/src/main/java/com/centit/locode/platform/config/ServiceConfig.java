@@ -25,6 +25,7 @@ import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.MessageSource;
@@ -67,6 +68,11 @@ public class ServiceConfig implements EnvironmentAware {
         if (environment != null) {
             this.environment = environment;
         }
+    }
+
+    @Bean
+    public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor(){
+        return new AutowiredAnnotationBeanPostProcessor();
     }
 
     /**

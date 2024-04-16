@@ -17,36 +17,6 @@
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
 
-    <build>
-        <finalName>${finalName}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>test/*</exclude>
-                    <exclude>prod/*</exclude>
-                    <exclude>system.properties</exclude>
-                    <exclude>demo/*</exclude>
-                    <exclude>prev/*</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/${profiles.active}</directory>
-            </resource>
-        </resources>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>com.centit.framework</groupId>
@@ -344,5 +314,29 @@
             </properties>
         </profile>
     </profiles>
+    <build>
+        <finalName>${finalName}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
 
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>test/*</exclude>
+                    <exclude>prod/*</exclude>
+                    <exclude>demo/*</exclude>
+                    <exclude>prev/*</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
 </project>
