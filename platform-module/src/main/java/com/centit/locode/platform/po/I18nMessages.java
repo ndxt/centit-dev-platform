@@ -1,5 +1,6 @@
 package com.centit.locode.platform.po;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -11,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -24,17 +26,20 @@ public class I18nMessages implements Serializable {
 
     @Id
     @Column(name = "OS_ID")
+    @NotBlank
     @ApiModelProperty(value = "应用ID")
     private String osId;
 
     @Id
+    @NotBlank
     @Column(name = "MSG_KEY")
     @ApiModelProperty(value = "标签ID")
     private String msgKey;
 
+    @NotBlank
     @Column(name = "MSG_VALUE")
     @ApiModelProperty(value = "标签文本")
-    private String msgValue;
+    private JSONObject msgValue;
 
     @Column(name = "last_update_time")
     @ApiModelProperty(value = "最后更新时间")
