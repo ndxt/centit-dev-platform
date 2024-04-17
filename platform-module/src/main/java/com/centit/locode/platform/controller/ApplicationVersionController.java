@@ -6,7 +6,6 @@ import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.framework.model.basedata.UserInfo;
-import com.centit.locode.platform.po.AppInfo;
 import com.centit.locode.platform.po.AppMergeTask;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
