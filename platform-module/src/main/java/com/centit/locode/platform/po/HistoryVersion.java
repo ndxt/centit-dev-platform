@@ -62,7 +62,7 @@ public class HistoryVersion implements Serializable {
     @Length(max = 500)
     private  String  memo;
 
-    @ApiModelProperty(value = "提交时间", name = "push_time",hidden = true)
+    @ApiModelProperty(value = "提交时间", name = "push_time", hidden = true)
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
     @Column(name = "push_time")
     private Date pushTime;

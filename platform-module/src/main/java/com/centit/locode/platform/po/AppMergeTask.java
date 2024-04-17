@@ -45,7 +45,7 @@ public class AppMergeTask implements Serializable {
     private String mergeType;
 
     @Column(name = "merge_desc")
-    @ApiModelProperty(name =  "合并说明")
+    @ApiModelProperty(value =  "合并说明")
     private String mergeDesc;
 
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()")
