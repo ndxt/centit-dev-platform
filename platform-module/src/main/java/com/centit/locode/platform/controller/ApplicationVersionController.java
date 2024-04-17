@@ -6,12 +6,15 @@ import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.framework.model.basedata.UserInfo;
+import com.centit.locode.platform.po.AppInfo;
+import com.centit.locode.platform.po.AppMergeTask;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,7 +58,7 @@ public class ApplicationVersionController extends BaseController
         return applicationVersionService.createApplicationVersion(appVersion);
     }
 
-    @ApiOperation(value = "创建历史版本", notes = "创建历史版本")
+    @ApiOperation(value = "更改历史版本信息", notes = "更改历史版本信息")
     @PutMapping()
     @WrapUpResponseBody()
     public void updateHistoryVersion(@RequestBody ApplicationVersion appVersion) {
@@ -88,4 +91,76 @@ public class ApplicationVersionController extends BaseController
     public void deleteHistoryVersion(@PathVariable String versionId) {
         applicationVersionService.deleteApplicationVersion(versionId);
     }
+
+    @ApiOperation(value = "查看历史版本中的文件", notes = "查看历史版本中的文件")
+    @GetMapping("view/{objType}/{versionId}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "objType", value = "类型：1：工作流 2：页面设计 3：api网关",
+            required = true, paramType = "path", dataType = "String"),
+        @ApiImplicitParam(
+            name = "appVersionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String")
+    })
+    @WrapUpResponseBody()
+    public PageQueryResult<Object> viewObjectByType(@PathVariable String objType,
+                                                    @PathVariable String appVersionId, PageDesc pageDesc) {
+        JSONArray objs = applicationVersionService.listAppComponents(appVersionId, objType, pageDesc);
+        return PageQueryResult.createJSONArrayResult(objs, pageDesc);
+    }
+
+    @ApiOperation(value = "恢复（回退）历史版本", notes = "回退后调用mergeTask查看更新内容")
+    @PostMapping("/restore/{appVersionId}")
+    @WrapUpResponseBody()
+    public int restoreAppVersion(@PathVariable String appVersionId, HttpServletRequest request){
+        UserInfo userInfo = WebOptUtils.assertUserLogin(request);
+        return applicationVersionService.restoreAppVersion(appVersionId, userInfo.getUserCode());
+    }
+
+    @ApiOperation(value = "合并历史版本中的部分页面、接口和流程", notes = "合并后调用mergeTask查看更新内容")
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "appVersionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String"),
+        @ApiImplicitParam(
+            name = "components", value = "选中的对象，属性包括 mergeTask中返回的 historyId 即可", required = true,
+            paramType = "body", dataTypeClass = JSONArray.class)
+
+    })
+    @PostMapping("/merge/{appVersionId}")
+    @WrapUpResponseBody()
+    public int mergeAppComponents(@PathVariable String appVersionId,
+                                  @RequestBody JSONArray components, HttpServletRequest request){
+        UserInfo userInfo = WebOptUtils.assertUserLogin(request);
+        return applicationVersionService.mergeAppComponents(appVersionId, components, userInfo.getUserCode());
+    }
+
+    @ApiOperation(value = "查看合并历史版本中的更新内容", notes = "查看合并历史版本中的更新内容")
+    @GetMapping("mergeTask/{objType}/{versionId}")
+    @WrapUpResponseBody()
+    public PageQueryResult<AppMergeTask> listMergeTask(@PathVariable String appVersionId, PageDesc pageDesc,
+                                                 HttpServletRequest request) {
+
+        List<AppMergeTask> objs = applicationVersionService.listAppMergeTasks(
+            appVersionId, collectRequestParameters(request), pageDesc);
+        return PageQueryResult.createResult(objs, pageDesc);
+    }
+
+    @ApiOperation(value = "标记页面、接口、api合并完成", notes = "标记页面、接口、api合并完成")
+    @PutMapping("/mergeCompleted")
+    @WrapUpResponseBody()
+    public void markMergeCompleted(@RequestBody AppMergeTask task,  HttpServletRequest request) {
+        UserInfo userInfo = WebOptUtils.assertUserLogin(request);
+        task.setUpdateUser(userInfo.getUserCode());
+        applicationVersionService.mergeCompleted(task);
+    }
+
+    @ApiOperation(value = "标记恢复合并完成", notes = "标记恢复合并完成")
+    @PutMapping("/restoreCompleted/{appVersionId}")
+    @WrapUpResponseBody()
+    public void markeRestoreCompleted(@PathVariable String appVersionId,  HttpServletRequest request) {
+        WebOptUtils.assertUserLogin(request);
+        applicationVersionService.restoreCompleted(appVersionId);
+    }
+
 }

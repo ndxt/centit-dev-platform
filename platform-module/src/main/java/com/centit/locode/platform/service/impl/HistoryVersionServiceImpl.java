@@ -1,5 +1,6 @@
 package com.centit.locode.platform.service.impl;
 
+import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.locode.platform.dao.HistoryVersionDao;
 import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.HistoryVersionService;
@@ -39,6 +40,13 @@ public class HistoryVersionServiceImpl implements HistoryVersionService {
     @Override
     public void deleteHistoryVersion(String historyId) {
         historyVersionDao.deleteObjectById(historyId);
+    }
+
+    @Override
+    public void removeAppHistoryTag(String appVersionId) {
+        DatabaseOptUtils.doExecuteSql(historyVersionDao,
+            "update history_version set APP_VERSION_ID = null where APP_VERSION_ID =? ",
+            new Object[] {appVersionId});
     }
 
     @Override

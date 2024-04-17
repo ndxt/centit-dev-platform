@@ -15,6 +15,8 @@ public interface HistoryVersionService {
 
     void deleteHistoryVersion(String historyId);
 
+    void removeAppHistoryTag(String appVersionId);
+
     List<HistoryVersion> listHistoryVersion(Map<String, Object> params, PageDesc pageDesc);
 
     HistoryVersion getHistoryVersion(String historyId);
