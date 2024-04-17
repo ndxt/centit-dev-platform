@@ -6,6 +6,7 @@ import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.support.database.utils.PageDesc;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ApplicationVersionService {
     String createApplicationVersion(ApplicationVersion applicationVersion);
@@ -30,7 +31,7 @@ public interface ApplicationVersionService {
 
     int mergeAppComponents(String appVersionId, JSONArray components, String userCode);
 
-    List<AppMergeTask> listAppMergeTasks(String appVersionId, PageDesc pageDesc);
+    List<AppMergeTask> listAppMergeTasks(String appVersionId, Map<String, Object> filterMap, PageDesc pageDesc);
 
     void mergeCompleted(AppMergeTask task);
 

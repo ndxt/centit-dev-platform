@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -212,6 +213,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     @Override
     public void deleteApplicationVersion(String versionId) {
         applicationVersionDao.deleteObjectById(versionId);
+        historyVersionService.removeAppHistoryTag(versionId);
     }
 
     @Override
@@ -592,6 +594,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         }
         return null;
     }
+
     @Override
     public int mergeAppComponents(String appVersionId, JSONArray components, String userCode) {
         ApplicationVersion appVersion = applicationVersionDao.getObjectById(appVersionId);
@@ -616,7 +619,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                         mergeTask.setMergeDesc("创建 - " + hv.getMemo());//
                     }else {
                         hv2.setOsId(appVersion.getApplicationId());
-                        hv2.setAppVersionId(appVersionId);
+                        //hv2.setAppVersionId(appVersionId);
                         hv2.setHistorySha(
                             Sha1Encoder.encodeBase64(hv2.getContent().toJSONString(), true) );
                         if(! StringUtils.equals(hv.getHistorySha(), hv2.getHistorySha())){
@@ -649,9 +652,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     }
 
     @Override
-    public List<AppMergeTask> listAppMergeTasks(String appVersionId, PageDesc pageDesc) {
-        return appMergeTaskDao.listObjectsByProperties(
-            CollectionsOpt.createHashMap("appVersionId", appVersionId) ,pageDesc);
+    public List<AppMergeTask> listAppMergeTasks(String appVersionId, Map<String, Object> filterMap, PageDesc pageDesc) {
+        filterMap.put("appVersionId", appVersionId);
+        return appMergeTaskDao.listObjectsByProperties(filterMap ,pageDesc);
     }
 
     @Override
