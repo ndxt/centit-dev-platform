@@ -81,7 +81,7 @@ public class I18nMessagesController {
         i18nMessagesService.updateI18nMessages(i18nMessages);
     }
 
-    @ApiOperation(value = "删除版本信息")
+    @ApiOperation(value = "删除国际化信息")
     @DeleteMapping(value = "/{osId}/{msgKey}")
     @WrapUpResponseBody
     public void deleteI8nMessage(@PathVariable String osId, @PathVariable String msgKey) {
