@@ -75,7 +75,7 @@ public class ServiceConfig implements EnvironmentAware {
 
     @Bean
     public RedisClient redisClient() {
-        return RedisClient.create(env.getProperty("redis.default.hos"));
+        return RedisClient.create(env.getProperty("redis.default.host"));
     }
 
     @Bean
