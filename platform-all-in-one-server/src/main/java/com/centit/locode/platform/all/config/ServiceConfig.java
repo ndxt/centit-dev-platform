@@ -107,7 +107,8 @@ public class ServiceConfig implements EnvironmentAware {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setUseCodeAsDefaultMessage(true);
         //"classpath:org/springframework/security/messages"
-        ms.setBasenames("classpath:i18n/messages", "classpath:org/springframework/security/messages");
+        ms.setBasenames("classpath:i18n/messages", "classpath:i18n/workflow", "classpath:i18n/dde",
+            "classpath:org/springframework/security/messages");
         ms.setDefaultEncoding("UTF-8");
         return ms;
     }
