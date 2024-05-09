@@ -48,7 +48,7 @@ public class ApplicationVersionController extends BaseController
     @WrapUpResponseBody()
     public String createHistoryVersion(@RequestBody ApplicationVersion appVersion, HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
-        if(!applicationVersionService.checkMergeState(appVersion.getApplicationId())){
+        if(applicationVersionService.checkMergeState(appVersion.getApplicationId())){
             throw new ObjectException(
                 ObjectException.DATA_VALIDATE_ERROR, "当前应用有正在合并中的版本，请等待合并完成后再创建新版本！"
             );
