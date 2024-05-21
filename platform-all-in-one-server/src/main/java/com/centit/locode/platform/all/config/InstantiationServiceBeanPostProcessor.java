@@ -14,6 +14,7 @@ import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.json.JSONOpt;
 import com.centit.support.quartz.JavaBeanJob;
 import com.centit.support.quartz.QuartzJobUtils;
+import com.centit.workflow.service.impl.FlowTaskImpl;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
@@ -26,6 +27,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * Created by codefan on 17-7-6.
@@ -46,6 +48,9 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
     @Autowired
     protected FileOptTaskExecutor fileOptTaskExecutor;
+
+    @Autowired
+    private FlowTaskImpl flowTaskImpl;
 
     @Value("${http.exception.notAsHttpError:false}")
     protected boolean httpExceptionNotAsHttpError;
@@ -72,13 +77,24 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         }
         // 创建定时任务
         try {
+            Random random = new Random();
+            int second = random.nextInt() % 60;
+            int minute = random.nextInt() % 9 +1;
+            String cornExpress = String.valueOf(second) + " " +String.valueOf(minute) + "/10 8-19 * * ? *";
+
             Scheduler scheduler = schedulerFactory.getScheduler();
             QuartzJobUtils.registerJobType("bean", JavaBeanJob.class);
+
             QuartzJobUtils.createOrReplaceSimpleJob(scheduler, "fileOptJob",
                 "default", "bean", 1800,
                 CollectionsOpt.createHashMap("bean", fileOptTaskExecutor,
                     "beanName", "fileOptTaskExecutor",
                     "methodName", "doFileOptJob"));
+            QuartzJobUtils.createOrReplaceCronJob(scheduler, "flowTaskJob",
+                "default", "bean", cornExpress, //"0 0/5 * * * ? *",
+                CollectionsOpt.createHashMap("bean", flowTaskImpl,
+                    "beanName", "flowTaskImpl",
+                    "methodName", "doFlowTimerJob"));
             scheduler.start();
         } catch (SchedulerException e) {
             e.printStackTrace();
