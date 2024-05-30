@@ -33,9 +33,14 @@ public class ApplicationVersionController extends BaseController
     ApplicationVersionService applicationVersionService;
 
     @ApiOperation(value = "列举所有历史版本", notes = "列举所有历史版本")
-    @ApiImplicitParam(
-        name = "pageDesc", value = "json格式，分页对象信息",
-        paramType = "body", dataTypeClass = PageDesc.class)
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+                name = "osId", value = "应用ID，application Id",
+                required = true, paramType = "path", dataType = "String"),
+        @ApiImplicitParam(
+            name = "pageDesc", value = "json格式，分页对象信息",
+            paramType = "body", dataTypeClass = PageDesc.class)
+        )}
     @GetMapping("list/{osId}")
     @WrapUpResponseBody()
     public PageQueryResult<ApplicationVersion> list(@PathVariable String osId, PageDesc pageDesc) {
@@ -72,13 +77,29 @@ public class ApplicationVersionController extends BaseController
 
     @ApiOperation(value = "比较历史版本", notes = "比较历史版本")
     @GetMapping("compare/{versionId}/{versionId2}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "versionId",  value = "历史版本号", required = true,
+            paramType = "path", dataType = "String"),
+        @ApiImplicitParam(
+            name = "versionId2", value = "历史版本号2", required = true,
+            paramType = "path", dataType = "String")
+    })
     @WrapUpResponseBody()
     public JSONArray compareHistoryVersion(@PathVariable String versionId, @PathVariable String versionId2) {
         return applicationVersionService.compareTwoVersion(versionId, versionId2);
     }
 
     @ApiOperation(value = "和最新的内容对比", notes = "和最新的内容对比")
-    @GetMapping("diff/{osId}/{versionId}")
+    @GetMapping("diff/{osId}/{versionId}"
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "osId", value = "应用ID，application Id",
+            required = true, paramType = "path", dataType = "String"),
+        @ApiImplicitParam(
+            name = "versionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String")
+    })
     @WrapUpResponseBody()
     public JSONArray compareToOldVersion(@PathVariable String osId, @PathVariable String versionId) {
         return applicationVersionService.compareToOldVersion(osId, versionId);
@@ -86,13 +107,16 @@ public class ApplicationVersionController extends BaseController
 
     @ApiOperation(value = "删除历史版本", notes = "删除历史版本")
     @DeleteMapping("{versionId}")
+    @ApiImplicitParam(
+            name = "versionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String"),
     @WrapUpResponseBody()
     public void deleteHistoryVersion(@PathVariable String versionId) {
         applicationVersionService.deleteApplicationVersion(versionId);
     }
 
     @ApiOperation(value = "查看历史版本中的文件", notes = "查看历史版本中的文件")
-    @GetMapping("view/{objType}/{versionId}")
+    @GetMapping("view/{objType}/{appVersionId}")
     @ApiImplicitParams({
         @ApiImplicitParam(
             name = "objType", value = "类型：1：工作流 2：页面设计 3：api网关",
@@ -110,6 +134,9 @@ public class ApplicationVersionController extends BaseController
 
     @ApiOperation(value = "恢复（回退）历史版本", notes = "回退后调用mergeTask查看更新内容")
     @PostMapping("/restore/{appVersionId}")
+    @ApiImplicitParam(
+            name = "appVersionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String"),
     @WrapUpResponseBody()
     public int restoreAppVersion(@PathVariable String appVersionId, HttpServletRequest request){
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
@@ -127,6 +154,9 @@ public class ApplicationVersionController extends BaseController
 
     })
     @PostMapping("/merge/{appVersionId}")
+    @ApiImplicitParam(
+            name = "appVersionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String"),
     @WrapUpResponseBody()
     public int mergeAppComponents(@PathVariable String appVersionId,
                                   @RequestBody JSONArray components, HttpServletRequest request){
@@ -135,7 +165,10 @@ public class ApplicationVersionController extends BaseController
     }
 
     @ApiOperation(value = "查看合并历史版本中的更新内容", notes = "查看合并历史版本中的更新内容")
-    @GetMapping("mergeTask/{objType}/{versionId}")
+    @GetMapping("mergeTask/{appVersionId}")
+    @ApiImplicitParam(
+            name = "appVersionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String")
     @WrapUpResponseBody()
     public PageQueryResult<AppMergeTask> listMergeTask(@PathVariable String appVersionId, PageDesc pageDesc,
                                                  HttpServletRequest request) {
@@ -156,6 +189,9 @@ public class ApplicationVersionController extends BaseController
 
     @ApiOperation(value = "标记恢复合并完成", notes = "标记恢复合并完成")
     @PutMapping("/restoreCompleted/{appVersionId}")
+    @ApiImplicitParam(
+            name = "appVersionId", value = "历史版本号", required = true,
+            paramType = "path", dataType = "String"),
     @WrapUpResponseBody()
     public void markeRestoreCompleted(@PathVariable String appVersionId,  HttpServletRequest request) {
         WebOptUtils.assertUserLogin(request);
