@@ -419,9 +419,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             JSONObject modelJson = hv.getContent();
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 "update m_meta_form_model_draft set IS_VALID = 'F', Model_Comment = ?, " +
-                    "MOBILE_FORM_TEMPLATE = ? , form_template= ?" +
+                    "MOBILE_FORM_TEMPLATE = ? , form_template= ?, " +
                     "STRUCTURE_FUNCTION = ?, MODEL_TAG = ? " +
-                    " where MODEL_ID = ?",
+                    "where MODEL_ID = ?",
                 new Object[]{ modelJson.getString("modelComment"),
                     modelJson.getString("mobileFormTemplate"),
                     modelJson.getString("formTemplate"),
@@ -435,11 +435,11 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             // 恢复到 draft
             JSONObject packetJson = hv.getContent();
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
-                "update q_data_packet_draft set is_disable = 'F', task_type = ？," +
-                    " schema_props = ？, return_type = ？, return_result = ？, request_body_type = ？，" +
-                    " PACKET_TYPE = ？, PACKET_NAME = ？, PACKET_DESC  = ？," +
-                    " interface_name = ？, has_data_opt = ？, " +
-                    " EXT_PROPS  = ？, data_opt_desc_json = ？" +
+                "update q_data_packet_draft set is_disable = 'F', task_type = ?," +
+                    " schema_props = ?, return_type = ?, return_result = ?, request_body_type = ?," +
+                    " PACKET_TYPE = ?, PACKET_NAME = ?, PACKET_DESC  = ?, " +
+                    " interface_name = ?, has_data_opt = ?, " +
+                    " EXT_PROPS  = ?, data_opt_desc_json = ?" +
                     " where PACKET_ID= ?",
                 new Object[]{ packetJson.getString("taskType"),
                     packetJson.getString("schemaProps"),
