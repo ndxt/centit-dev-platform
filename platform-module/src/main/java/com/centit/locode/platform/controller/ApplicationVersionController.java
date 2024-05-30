@@ -26,8 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/appHistory")
 @Api(tags = {"应用的全局历史版本管理接口"}, value = "应用的全局历史版本管理接口")
-public class ApplicationVersionController extends BaseController
-{
+public class ApplicationVersionController extends BaseController {
 
     @Autowired
     ApplicationVersionService applicationVersionService;
@@ -35,12 +34,12 @@ public class ApplicationVersionController extends BaseController
     @ApiOperation(value = "列举所有历史版本", notes = "列举所有历史版本")
     @ApiImplicitParams({
         @ApiImplicitParam(
-                name = "osId", value = "应用ID，application Id",
-                required = true, paramType = "path", dataType = "String"),
+            name = "osId", value = "应用ID，application Id",
+            required = true, paramType = "path", dataType = "String"),
         @ApiImplicitParam(
             name = "pageDesc", value = "json格式，分页对象信息",
-            paramType = "body", dataTypeClass = PageDesc.class)
-        })
+            paramType = "query", dataTypeClass = PageDesc.class)
+    })
     @GetMapping("list/{osId}")
     @WrapUpResponseBody()
     public PageQueryResult<ApplicationVersion> list(@PathVariable String osId, PageDesc pageDesc) {
@@ -145,9 +144,15 @@ public class ApplicationVersionController extends BaseController
 
     @ApiOperation(value = "合并历史版本中的部分页面、接口和流程", notes = "合并后调用mergeTask查看更新内容")
     @PostMapping("/merge/{appVersionId}")
-    @ApiImplicitParam(
+    @ApiImplicitParams({
+        @ApiImplicitParam(
             name = "appVersionId", value = "历史版本号", required = true,
-            paramType = "path", dataType = "String")
+            paramType = "path", dataType = "String"),
+        @ApiImplicitParam(
+            name = "components", value = "选中的对象，属性包括 mergeTask中返回的 historyId 即可", required = true,
+            paramType = "body", dataTypeClass = JSONArray.class)
+
+    })
     @WrapUpResponseBody()
     public int mergeAppComponents(@PathVariable String appVersionId,
                                   @RequestBody JSONArray components, HttpServletRequest request){
