@@ -46,7 +46,7 @@ public class ApplicationVersion implements Serializable {
 
     @OrderBy("DESC")
     @Column(name = "MERGE_STATUS")
-    @ApiModelProperty(name = "合并状态", value = "A: 没有合并 或者 合并完成  B：合并中")
+    @ApiModelProperty(name = "合并状态", value = "A: 合并完成(或无需合并）  B：合并中")
     private String mergeStatus;
 
     @Column(name = "MERGE_TIME")

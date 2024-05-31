@@ -513,7 +513,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
                 AppMergeTask mergeTask = new AppMergeTask();
                 mergeTask.setAppVersionId(appVersionId);
-                mergeTask.setMergeStatus(false);
+                mergeTask.setMergeStatus("B");
                 mergeTask.setRelationId(jsonDiff.getString("relationId"));
                 mergeTask.setObjectType(jsonDiff.getString("type"));
                 mergeTask.setUpdateUser(userCode);
@@ -606,7 +606,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 if(hv!=null){
                     AppMergeTask mergeTask = new AppMergeTask();
                     mergeTask.setAppVersionId(appVersionId);
-                    mergeTask.setMergeStatus(false);
+                    mergeTask.setMergeStatus("B");
                     mergeTask.setRelationId(hv.getRelationId());
                     mergeTask.setObjectType(hv.getType());
                     mergeTask.setUpdateUser(userCode);
