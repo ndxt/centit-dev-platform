@@ -17,7 +17,7 @@ public class AppMergeTaskDao extends BaseDaoImpl<AppMergeTask, JSONObject> {
 
     public void markTaskComplete(String appVersionId, String relationId) {
         DatabaseOptUtils.doExecuteSql(this,
-            "update app_merge_task set merge_status = 'T' " +
+            "update app_merge_task set merge_status = 'A' " +
                 "where app_version_id = ? and relation_id = ?",
             new Object[] {appVersionId, relationId});
     }
