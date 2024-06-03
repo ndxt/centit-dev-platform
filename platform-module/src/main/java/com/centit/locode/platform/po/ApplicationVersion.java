@@ -44,6 +44,10 @@ public class ApplicationVersion implements Serializable {
     @ApiModelProperty(value = "备份文件")
     private String backupFileId;
 
+    public static final String VERSION_MERGE_STATUS_NONE = "A";
+    public static final String VERSION_MERGE_STATUS_COMPLETED = "A";
+    public static final String VERSION_MERGE_STATUS_MERGING = "B";
+
     @OrderBy("DESC")
     @Column(name = "MERGE_STATUS")
     @ApiModelProperty(name = "合并状态", value = "A: 合并完成(或无需合并）  B：合并中")

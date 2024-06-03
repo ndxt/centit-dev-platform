@@ -220,7 +220,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     public boolean checkMergeState(String applicationId){
         return applicationVersionDao.countObjectByProperties(
             CollectionsOpt.createHashMap("applicationId" ,applicationId,
-                "mergeStatus", "B")) > 0;
+                "mergeStatus", ApplicationVersion.VERSION_MERGE_STATUS_MERGING)) > 0; //"B"
     }
 
     @Override
@@ -513,7 +513,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
                 AppMergeTask mergeTask = new AppMergeTask();
                 mergeTask.setAppVersionId(appVersionId);
-                mergeTask.setMergeStatus("B");
+                mergeTask.setMergeStatus(ApplicationVersion.VERSION_MERGE_STATUS_MERGING);
                 mergeTask.setRelationId(jsonDiff.getString("relationId"));
                 mergeTask.setObjectType(jsonDiff.getString("type"));
                 mergeTask.setUpdateUser(userCode);
@@ -522,7 +522,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     // 删除的，创建版本， 检查是否有删除状态的，如果有 先恢复
                     HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
                     recoveryHistoryVersion(hv, true);
-                    mergeTask.setMergeType("C");
+                    mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_CREATE);//"C");
                     mergeTask.setHistoryId(jsonDiff.getString("historyId"));
                     mergeTask.setMergeDesc("创建 - " + jsonDiff.getString("memo"));//
                 } else if("C".equals(jsonDiff.getString("diff"))){
@@ -531,7 +531,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     deleteHistoryVersion(jsonDiff);
                     mergeTask.setHistoryId(jsonDiff.getString("historyId2"));
                     mergeTask.setMergeDesc("删除 - " + jsonDiff.getString("memo"));
-                    mergeTask.setMergeType("D");
+                    mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_DELETE);//"D");
                 } else if("U".equals(jsonDiff.getString("diff"))){
                     createHistoryVersion(jsonDiff, appVersion);
                     // 更新的，创建版本，并恢复为旧版本
@@ -539,14 +539,14 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     recoveryHistoryVersion(hv, false);
                     mergeTask.setHistoryId(jsonDiff.getString("historyId"));
                     mergeTask.setMergeDesc("更新 - " + jsonDiff.getString("memo"));
-                    mergeTask.setMergeType("U");
+                    mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_UPDATE);//"U");
                 }
                 appMergeTaskDao.saveNewObject(mergeTask);
                 mergeCount++;
             }
         }
         if(mergeCount>0){
-            applicationVersionDao.setRestoreStatus(appVersionId, "B");
+            applicationVersionDao.setRestoreStatus(appVersionId, ApplicationVersion.VERSION_MERGE_STATUS_MERGING);//"B");
         }
         return mergeCount;
     }
@@ -608,7 +608,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 if(hv!=null){
                     AppMergeTask mergeTask = new AppMergeTask();
                     mergeTask.setAppVersionId(appVersionId);
-                    mergeTask.setMergeStatus("B");
+                    mergeTask.setMergeStatus(ApplicationVersion.VERSION_MERGE_STATUS_MERGING);
                     mergeTask.setRelationId(hv.getRelationId());
                     mergeTask.setObjectType(hv.getType());
                     mergeTask.setUpdateUser(userCode);
@@ -616,7 +616,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     HistoryVersion hv2 = createHistoryVersion(hv.getType(), hv.getRelationId());
                     if(hv2==null){
                         recoveryHistoryVersion(hv, true);
-                        mergeTask.setMergeType("C");
+                        mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_CREATE);//"C"
                         mergeTask.setHistoryId(hv.getHistoryId());
                         mergeTask.setMergeDesc("创建 - " + hv.getMemo());//
                     }else {
@@ -635,7 +635,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                             recoveryHistoryVersion(hv, false);
                             mergeTask.setHistoryId(jsonDiff.getString("historyId"));
                             mergeTask.setMergeDesc("更新 - " + hv.getMemo());
-                            mergeTask.setMergeType("U");
+                            mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_UPDATE);//"U");
 
                         }
                     }
@@ -647,7 +647,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             }
         }
         if(mergeCount>0){
-            applicationVersionDao.setRestoreStatus(appVersionId, "B");
+            applicationVersionDao.setRestoreStatus(appVersionId, ApplicationVersion.VERSION_MERGE_STATUS_MERGING);//"B");
         }
         return mergeCount;
     }
@@ -666,7 +666,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     @Override
     public void restoreCompleted(String appVersionId) {
         appMergeTaskDao.clearMergeTask(appVersionId);
-        applicationVersionDao.setRestoreStatus(appVersionId, "A");
+        applicationVersionDao.setRestoreStatus(appVersionId, ApplicationVersion.VERSION_MERGE_STATUS_COMPLETED);//"A");
     }
 
 }
