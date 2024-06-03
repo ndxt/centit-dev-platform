@@ -602,7 +602,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         for(Object obj : components){
             if(obj instanceof JSONObject) {
                 JSONObject jsonDiff = (JSONObject) obj;
-                HistoryVersion hv = historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
+                String historyId = jsonDiff.getString("historyId");
+                if(StringUtils.isBlank(historyId)) continue;
+                HistoryVersion hv = historyVersionService.getHistoryVersion(historyId);
                 if(hv!=null){
                     AppMergeTask mergeTask = new AppMergeTask();
                     mergeTask.setAppVersionId(appVersionId);
@@ -642,7 +644,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                         mergeCount++;
                     }
                 }
-
             }
         }
         if(mergeCount>0){
