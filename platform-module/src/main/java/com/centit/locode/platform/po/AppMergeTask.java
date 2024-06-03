@@ -40,6 +40,10 @@ public class AppMergeTask implements Serializable {
     @ApiModelProperty(value = "历史版本")
     private String historyId;
 
+    public static final String MERGE_TYPE_CREATE = "C";
+    public static final String MERGE_TYPE_DELETE = "D";
+    public static final String MERGE_TYPE_UPDATE = "U";
+
     @Column(name = "merge_type")
     @ApiModelProperty(name = "合并类型", value = "新增 C 删除 D 更新 U")
     private String mergeType;
