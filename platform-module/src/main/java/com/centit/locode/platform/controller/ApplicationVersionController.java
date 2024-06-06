@@ -194,4 +194,23 @@ public class ApplicationVersionController extends BaseController {
         applicationVersionService.restoreCompleted(appVersionId);
     }
 
+    @ApiOperation(value = "回滚一个对象，页面、接口或者流程", notes = "回滚一个对象，页面、接口或者流程")
+    @PutMapping("/rollback")
+    @WrapUpResponseBody()
+    public void rollbackMergeTask(@RequestBody AppMergeTask task,  HttpServletRequest request) {
+        UserInfo userInfo = WebOptUtils.assertUserLogin(request);
+        task.setUpdateUser(userInfo.getUserCode());
+        applicationVersionService.rollbackMergeTask(task);
+    }
+
+    @ApiOperation(value = "回滚所有的为标记为已完成合并的对象", notes = "回滚所有的为标记为已完成合并的对象")
+    @PutMapping("/rollbackAll/{appVersionId}")
+    @ApiImplicitParam(
+        name = "appVersionId", value = "历史版本号", required = true,
+        paramType = "path", dataType = "String")
+    @WrapUpResponseBody()
+    public void rollbackRestore(@PathVariable String appVersionId,  HttpServletRequest request) {
+        WebOptUtils.assertUserLogin(request);
+        applicationVersionService.rollbackRestore(appVersionId);
+    }
 }

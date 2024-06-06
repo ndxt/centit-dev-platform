@@ -95,7 +95,14 @@ public class I18nMessagesServiceImpl implements I18nMessagesService {
         for(I18nMessages msg: messages){
             String value = msg.getMsgValue().getString(lang);
             if(StringUtils.isBlank(value)){
-                value = msg.getMsgValue().getString(defaultLang);
+                // zh-HK 华 - 香港的 SAR zh-MO 华 - 澳门的 SAR  zh-CN 华 -中国 zh-CHS 华 (单一化)
+                // zh-SG 华 -新加坡 zh-TW 华 -台湾  zh-CHT 华 (传统的)
+                if(lang.startsWith("zh_")){
+                    value = msg.getMsgValue().getString("zh_CN");
+                }
+                if(StringUtils.isBlank(value)) {
+                    value = msg.getMsgValue().getString(defaultLang);
+                }
             }
             msgMap.put(msg.getMsgKey(), value);
         }

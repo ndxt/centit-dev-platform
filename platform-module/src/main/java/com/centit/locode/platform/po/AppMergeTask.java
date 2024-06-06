@@ -58,7 +58,7 @@ public class AppMergeTask implements Serializable {
     private Date mergeTime;
 
     @Column(name = "merge_status")
-    @ApiModelProperty(name ="合并状态", value = "A: 合并完成(或无需合并)， B：合并中 ")
+    @ApiModelProperty(name ="合并状态", value = "A: 合并完成(或无需合并)， B：合并中, C: 已回滚 ")
     private String mergeStatus;
 
     @ValueGenerator(strategy = GeneratorType.FUNCTION, value = "today()", condition = GeneratorCondition.ALWAYS)

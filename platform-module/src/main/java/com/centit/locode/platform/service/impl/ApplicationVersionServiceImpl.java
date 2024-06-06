@@ -349,24 +349,27 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         if("1".equals(type)) { //"类型，1：工作流 2：页面设计 3：api网关"
             return DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
                 "select h.history_id, h.relation_id, h.label, h.history_sha, h.os_id, h.type, " +
-                    "f.FLOW_NAME, f.FLOW_DESC " +
+                    "f.FLOW_NAME, f.FLOW_DESC, o.OPT_NAME " +
                     "from history_version h join wf_flow_define f on (h.relation_id = f.FLOW_CODE and f.version =0) " +
-                    "where h.type  = '1' and h.APP_VERSION_ID = ?",
+                    "left join F_OPTINFO o on (f.OPT_ID = o.OPT_ID) " + //, o.OPT_NAME
+                "where h.type  = '1' and h.APP_VERSION_ID = ?",
                 new Object[]{appVersionId}, pageDesc);
         }
         if("2".equals(type)) { //"类型，1：工作流 2：页面设计 3：api网关"
             return DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
                 "select h.history_id, h.relation_id, h.label, h.history_sha, h.os_id, h.type, " +
-                    "f.Model_Name, f.Model_Comment " +
+                    "f.Model_Name, f.Model_Comment, o.OPT_NAME  " +
                     "from history_version h join m_meta_form_model f on (h.relation_id = f.MODEL_ID) " +
-                    "where h.type  = '2' and h.APP_VERSION_ID = ?",
+                    "left join F_OPTINFO o on (f.OPT_ID = o.OPT_ID) " + //, o.OPT_NAME
+                    "where h.type = '2' and h.APP_VERSION_ID = ?",
                 new Object[]{appVersionId}, pageDesc);
         }
         if("3".equals(type)) { //"类型，1：工作流 2：页面设计 3：api网关"
             return DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
                 "select h.history_id, h.relation_id, h.label, h.history_sha, h.os_id, h.type, " +
-                    "p.PACKET_NAME , p.PACKET_DESC " +
-                    "from history_version h join q_data_packet p on (h.relation_id = p.PACKET_ID) " +
+                    "p.PACKET_NAME, p.PACKET_DESC, o.OPT_NAME  " +
+                    "from history_version h join q_data_packet p on (h.relation_id = p.PACKET_ID) "  +
+                    "left join F_OPTINFO o on (p.OPT_ID = o.OPT_ID) " + //, o.OPT_NAME
                     "where h.type  = '3' and h.APP_VERSION_ID = ?",
                 new Object[]{appVersionId}, pageDesc);
         }
@@ -460,12 +463,12 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         return hv;
     }
 
-    private HistoryVersion deleteHistoryVersion(JSONObject jsonDiff){
+    private HistoryVersion changeRelationObjectState(JSONObject jsonDiff, boolean toGarbage){
         HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
         if("1".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 // A 草稿 B 正常 C 过期 D 禁用  E 已发布
-                "update wf_flow_define set FLOW_STATE='D' " +
+                "update wf_flow_define set FLOW_STATE= " + (toGarbage? "'D'": "'B'") +
                     " where FLOW_CODE= ? and version = 0",
                 new Object[]{jsonDiff.getString("relationId") }
             );
@@ -473,13 +476,13 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         } else if("2".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
             // 恢复到 draft
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
-                "update m_meta_form_model_draft set IS_VALID = 'T' " +
+                "update m_meta_form_model_draft set IS_VALID =" + (toGarbage? "'T'": "'F'") +
                     " where MODEL_ID = ?",
                 new Object[]{
                     jsonDiff.getString("relationId") }
             );
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
-                "update m_meta_form_model set IS_VALID = 'T' " +
+                "update m_meta_form_model set IS_VALID = " + (toGarbage? "'T'": "'F'") +
                     " where MODEL_ID = ?",
                 new Object[]{
                     jsonDiff.getString("relationId") }
@@ -487,12 +490,12 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         } else if("3".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
             // 恢复到 draft
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
-                "update q_data_packet_draft set is_disable = 'T' " +
+                "update q_data_packet_draft set is_disable = " + (toGarbage? "'T'": "'F'") +
                     " where PACKET_ID= ?",
                 new Object[]{jsonDiff.getString("relationId") }
             );
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
-                "update q_data_packet set is_disable = 'T' " +
+                "update q_data_packet set is_disable = " + (toGarbage? "'T'": "'F'") +
                     " where PACKET_ID= ?",
                 new Object[]{jsonDiff.getString("relationId") }
             );
@@ -528,16 +531,16 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 } else if("C".equals(jsonDiff.getString("diff"))){
                     // createHistoryVersion(jsonDiff, appVersion);
                     // 新增的，修改为 删除
-                    deleteHistoryVersion(jsonDiff);
+                    changeRelationObjectState(jsonDiff, true);
                     mergeTask.setHistoryId(jsonDiff.getString("historyId2"));
                     mergeTask.setMergeDesc("删除 - " + jsonDiff.getString("memo"));
                     mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_DELETE);//"D");
                 } else if("U".equals(jsonDiff.getString("diff"))){
-                    createHistoryVersion(jsonDiff, appVersion);
+                    HistoryVersion hv2 = createHistoryVersion(jsonDiff, appVersion);
                     // 更新的，创建版本，并恢复为旧版本
-                    HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
+                    HistoryVersion hv = historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
                     recoveryHistoryVersion(hv, false);
-                    mergeTask.setHistoryId(jsonDiff.getString("historyId"));
+                    mergeTask.setHistoryId(hv2.getHistoryId()); //jsonDiff.getString("historyId"));
                     mergeTask.setMergeDesc("更新 - " + jsonDiff.getString("memo"));
                     mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_UPDATE);//"U");
                 }
@@ -667,6 +670,35 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     public void restoreCompleted(String appVersionId) {
         appMergeTaskDao.clearMergeTask(appVersionId);
         applicationVersionDao.setRestoreStatus(appVersionId, ApplicationVersion.VERSION_MERGE_STATUS_COMPLETED);//"A");
+    }
+
+    private void innerRollbackMergeTask(AppMergeTask task) {
+        if(AppMergeTask.MERGE_TYPE_CREATE.equals(task.getMergeType())){
+            //update state to delete
+            changeRelationObjectState(JSONObject.from(task), true);
+        } else if(AppMergeTask.MERGE_TYPE_UPDATE.equals(task.getMergeType())){
+            HistoryVersion hv = historyVersionService.getHistoryVersion(task.getHistoryId());
+            recoveryHistoryVersion(hv, false);
+        } else if(AppMergeTask.MERGE_TYPE_DELETE.equals(task.getMergeType())){
+            changeRelationObjectState(JSONObject.from(task), false);
+        }
+    }
+
+    @Override
+    public void rollbackMergeTask(AppMergeTask task) {
+        innerRollbackMergeTask(task);
+        appMergeTaskDao.markTaskRollback(task.getAppVersionId(), task.getRelationId());
+    }
+
+    @Override
+    public void rollbackRestore(String appVersionId) {
+        List<AppMergeTask> tasks = appMergeTaskDao.listMergeTask(appVersionId, "B");
+        if(tasks!=null && tasks.size()>0) {
+            for (AppMergeTask task : tasks) {
+                innerRollbackMergeTask(task);
+            }
+        }
+        restoreCompleted(appVersionId);
     }
 
 }
