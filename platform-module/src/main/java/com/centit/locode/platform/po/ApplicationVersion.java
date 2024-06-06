@@ -47,6 +47,7 @@ public class ApplicationVersion implements Serializable {
     public static final String VERSION_MERGE_STATUS_NONE = "A";
     public static final String VERSION_MERGE_STATUS_COMPLETED = "A";
     public static final String VERSION_MERGE_STATUS_MERGING = "B";
+    public static final String VERSION_MERGE_STATUS_ROLLBACK = "C";
 
     @OrderBy("DESC")
     @Column(name = "MERGE_STATUS")

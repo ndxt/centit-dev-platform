@@ -442,7 +442,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     " schema_props = ?, return_type = ?, return_result = ?, request_body_type = ?," +
                     " PACKET_TYPE = ?, PACKET_NAME = ?, PACKET_DESC  = ?, " +
                     " interface_name = ?, has_data_opt = ?, " +
-                    " EXT_PROPS  = ?, data_opt_desc_json = ?" +
+                    " EXT_PROPS  = ?, data_opt_desc_json = ? " +
                     " where PACKET_ID= ?",
                 new Object[]{ packetJson.getString("taskType"),
                     packetJson.getString("schemaProps"),
@@ -692,7 +692,8 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
     @Override
     public void rollbackRestore(String appVersionId) {
-        List<AppMergeTask> tasks = appMergeTaskDao.listMergeTask(appVersionId, "B");
+        List<AppMergeTask> tasks = appMergeTaskDao.listMergeTask(appVersionId,
+            ApplicationVersion.VERSION_MERGE_STATUS_MERGING);// B
         if(tasks!=null && tasks.size()>0) {
             for (AppMergeTask task : tasks) {
                 innerRollbackMergeTask(task);
