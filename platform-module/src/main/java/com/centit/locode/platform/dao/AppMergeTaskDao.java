@@ -7,6 +7,8 @@ import com.centit.locode.platform.po.AppMergeTask;
 import com.centit.support.algorithm.CollectionsOpt;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AppMergeTaskDao extends BaseDaoImpl<AppMergeTask, JSONObject> {
 
@@ -20,5 +22,17 @@ public class AppMergeTaskDao extends BaseDaoImpl<AppMergeTask, JSONObject> {
             "update app_merge_task set merge_status = 'A' " +
                 "where app_version_id = ? and relation_id = ?",
             new Object[] {appVersionId, relationId});
+    }
+
+    public void markTaskRollback(String appVersionId, String relationId) {
+        DatabaseOptUtils.doExecuteSql(this,
+            "update app_merge_task set merge_status = 'C' " +
+                "where app_version_id = ? and relation_id = ?",
+            new Object[] {appVersionId, relationId});
+    }
+
+    public List<AppMergeTask> listMergeTask(String appVersionId, String mergeStatus) {
+        return this.listObjectsByProperties(CollectionsOpt.createHashMap(
+            "appVersionId",appVersionId, "mergeStatus", mergeStatus));
     }
 }
