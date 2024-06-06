@@ -24,6 +24,7 @@ public class AppMergeTaskDao extends BaseDaoImpl<AppMergeTask, JSONObject> {
             new Object[] {appVersionId, relationId});
     }
 
+    //VERSION_MERGE_STATUS_ROLLBACK
     public void markTaskRollback(String appVersionId, String relationId) {
         DatabaseOptUtils.doExecuteSql(this,
             "update app_merge_task set merge_status = 'C' " +
