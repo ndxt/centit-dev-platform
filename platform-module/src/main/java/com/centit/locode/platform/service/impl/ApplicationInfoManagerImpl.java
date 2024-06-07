@@ -118,7 +118,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         if (checkAuth && !topUnit.equals(osInfo.getTopUnit())){
             throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
         }
-        FileLibraryInfo fileLibrary = operateFileLibrary.getFileLibrary(applicationId);
+        FileLibraryInfo fileLibrary = operateFileLibrary.getFileLibrary(topUnit, applicationId);
         List<WorkGroup> workGroup = null;
         if(checkAuth) {
             Map map = new HashMap();
