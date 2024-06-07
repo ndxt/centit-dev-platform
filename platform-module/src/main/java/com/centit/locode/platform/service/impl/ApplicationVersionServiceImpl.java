@@ -107,8 +107,8 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         //查找应用相关的所有工作流，工作流的比较复杂，需要相关的版本和变量等信息
         JSONArray flows = DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
             "select b.FLOW_CODE, b.version, b.FLOW_NAME, b.FLOW_CLASS, " +
-                "b.FLOW_STATE, b.FLOW_DESC, b.FLOW_XML_DESC, b.Time_Limit, b.Expire_Opt," +
-                "b.Opt_ID, b.OS_ID  " +
+                " b.FLOW_STATE, b.FLOW_DESC, b.FLOW_XML_DESC, b.Time_Limit, b.Expire_Opt," +
+                " b.Opt_ID, b.OS_ID, Time_Limit, Expire_Opt, SOURCE_ID, EXPIRE_CALL_API, Warning_Param " +
                 " from " +
                 " (select FLOW_CODE, max(version) as version from wf_flow_define where os_id = ? group by flow_code) a " +
                 " join wf_flow_define b on (a.flow_code=b.flow_code and a.version = b.version) " +
@@ -125,8 +125,8 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         //查找应用相关的所有页面
         JSONArray pages = DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
             "select MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type," +
-                "Model_Comment, MOBILE_FORM_TEMPLATE, form_template," +
-                "STRUCTURE_FUNCTION, MODEL_TAG  " +
+                " Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template," +
+                " STRUCTURE_FUNCTION, SOURCE_ID, MODEL_TAG  " +
                 " from m_meta_form_model where IS_VALID = 'F' and os_id = ?" +
                 " order by MODEL_ID",
             new Object[]{osId});
@@ -140,14 +140,14 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         }
         //查找应用相关的所有api
         JSONArray apis = DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
-            "select task_type, task_Cron, SOURCE_ID, schema_props, " +
-                "return_type, return_result, request_body_type, " +
-                "PACKET_TYPE, PACKET_NAME, PACKET_ID, PACKET_DESC, " +
-                "os_id, OPT_ID, opt_code, need_rollback, " +
-                "is_disable, interface_name, has_data_opt, " +
-                "EXT_PROPS, data_opt_desc_json " +
-                "from q_data_packet where is_disable = 'F' and os_id = ? " +
-                "order by PACKET_ID",
+            "select task_type, task_Cron, SOURCE_ID, schema_props, template_type," +
+                " return_type, return_result, request_body_type, Recorder, " +
+                " PACKET_TYPE, PACKET_NAME, PACKET_ID, PACKET_DESC, FALL_BACK_LEVEL, " +
+                " os_id, OPT_ID, opt_code, need_rollback, Owner_Type, Owner_Code, " +
+                " is_disable, interface_name, has_data_opt, BUFFER_FRESH_PERIOD, buffer_fresh_period_type, " +
+                " EXT_PROPS, data_opt_desc_json, FALL_BACK_LEVEL, metadata_table_id, log_level " +
+                " from q_data_packet where is_disable = 'F' and os_id = ? " +
+                " order by PACKET_ID",
             new Object[]{osId});
 
         if(apis!=null){
@@ -403,9 +403,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
                 DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
                     "insert into wf_flow_define (FLOW_CODE, version, FLOW_XML_DESC, FLOW_NAME, FLOW_DESC, FLOW_STATE, " +
-                        " Time_Limit, Expire_Opt, Opt_ID, FLOW_Publish_Date, OS_ID, SOURCE_ID, EXPIRE_CALL_API, Warning_Param )"+
+                        " Time_Limit, Expire_Opt, Opt_ID, OS_ID, SOURCE_ID, EXPIRE_CALL_API, Warning_Param )"+
                         " values ( :flowCode, 0, :flowXmlDesc, :flowName, :flowDesc, 'A'," +
-                        ":timeLimit, :expireOpt, :optId, :flowPublishDate, :osId, :sourceId, :expireCallApi, :warningParam)" ,
+                        ":timeLimit, :expireOpt, :optId, :osId, :sourceId, :expireCallApi, :warningParam)" ,
                     hv.getContent());
                 return;
             }
@@ -430,10 +430,11 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 new Object[]{hv.getRelationId()});
             if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
                 modelJson.put("modelId", hv.getRelationId());
+                modelJson.put("lastModifyDate", DatetimeOpt.currentUtilDate());
                 DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
                     "insert into m_meta_form_model_draft (MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type, "+
                         "last_modify_Date, Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template, "+
-                        "publish_date, SOURCE_ID, STRUCTURE_FUNCTION, MODEL_TAG, IS_VALID )"+
+                        " SOURCE_ID, STRUCTURE_FUNCTION, MODEL_TAG, IS_VALID )"+
                         " values ( :modelId, :modelName, :optId, :osId, :modelType, " +
                         " :lastModifyDate, :recorder, :modelComment, :mobileFormTemplate, :formTemplate," +
                         " :sourceId, :structureFunction, modelTag, 'F' )" ,
@@ -462,13 +463,15 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 new Object[]{hv.getRelationId()});
             if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
                 packetJson.put("packetId", hv.getRelationId());
+                packetJson.put("recordDate", DatetimeOpt.currentUtilDate());
+                packetJson.put("updateDate", DatetimeOpt.currentUtilDate());
                 DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
                     "insert into q_data_packet_draft " +
                         "(PACKET_ID, os_id, Owner_Type, Owner_Code, PACKET_NAME, " +
                         " PACKET_TYPE, PACKET_DESC, Recorder, Record_Date, has_data_opt, " +
                         " data_opt_desc_json, task_type, task_Cron, " +
                         " is_valid, interface_name, return_type, return_result, update_date," +
-                        " publish_date, need_rollback, OPT_ID, EXT_PROPS, opt_code, " +
+                        " need_rollback, OPT_ID, EXT_PROPS, opt_code, " +
                         " BUFFER_FRESH_PERIOD, buffer_fresh_period_type, template_type, metadata_table_id, log_level," +
                         " is_disable, schema_props, request_body_type, FALL_BACK_LEVEL )"+
                         //--------------------------------------------------------------------//
@@ -476,7 +479,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                         " :packetType, :packetDesc, :recorder, :recordDate, :hasDataOpt," +
                         " :dataOptDescJson, :taskType, :taskCron, " +
                         " 'T', :interfaceName, :returnType, :returnResult, :updateDate, " +
-                        " :publishDate, :needRollback, :optId, :extProps, :optCode," +
+                        " :needRollback, :optId, :extProps, :optCode," +
                         " :bufferFreshPeriod, :bufferFreshPeriodType, :templateType, :metadataTableId, :logLevel, " +
                         " 'F', :schemaProps, :requestBodyType, :fallBackLevel )",
                     packetJson);
