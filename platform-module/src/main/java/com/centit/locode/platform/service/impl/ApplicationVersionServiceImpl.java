@@ -101,6 +101,51 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         return hv;
     }
 
+
+    private HistoryVersion createHistoryVersion(String objType, String objectId){
+        //// A 草稿 B 正常 C 过期 D 禁用  E 已发布
+        //查找应用相关的所有工作流，工作流的比较复杂，需要相关的版本和变量等信息
+        if("1".equals(objType)) {
+            JSONObject flow = DatabaseOptUtils.getObjectBySqlAsJson(applicationVersionDao,
+                "select b.FLOW_CODE, b.version, b.FLOW_NAME, b.FLOW_CLASS, " +
+                    "b.FLOW_STATE, b.FLOW_DESC, b.FLOW_XML_DESC, b.Time_Limit, b.Expire_Opt," +
+                    "b.Opt_ID, b.OS_ID, b.SOURCE_ID, b.EXPIRE_CALL_API, b.Warning_Param  " +
+                    " from  wf_flow_define b  " +
+                    " where b.FLOW_CODE = ? and b.version= 0 ",
+                new Object[]{objectId});
+            if (flow != null) {
+                return createFlowHV(flow);
+            }
+        } else  if("2".equals(objType)) {
+            //查找应用相关的所有页面
+            JSONObject page = DatabaseOptUtils.getObjectBySqlAsJson(applicationVersionDao,
+                "select MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type," +
+                    " Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template," +
+                    "STRUCTURE_FUNCTION, SOURCE_ID, MODEL_TAG  " +
+                    " from m_meta_form_model where MODEL_ID = ?" ,
+                new Object[]{objectId});
+
+            if (page != null) {
+                return createPageHV(page);
+            }
+        } else  if("3".equals(objType)) {
+            //查找应用相关的所有api
+            JSONObject api = DatabaseOptUtils.getObjectBySqlAsJson(applicationVersionDao,
+                "select task_type, task_Cron, SOURCE_ID, schema_props, " +
+                    "return_type, return_result, request_body_type, Recorder, " +
+                    "PACKET_TYPE, PACKET_NAME, PACKET_ID, PACKET_DESC, FALL_BACK_LEVEL, " +
+                    "os_id, OPT_ID, opt_code, need_rollback, Owner_Type, Owner_Code, " +
+                    "is_disable, interface_name, has_data_opt, BUFFER_FRESH_PERIOD, buffer_fresh_period_type, " +
+                    "EXT_PROPS, data_opt_desc_json, FALL_BACK_LEVEL, log_level " +
+                    "from q_data_packet where PACKET_ID = ? ",
+                new Object[]{objectId});
+            if (api != null) {
+                return createApiHV(api);
+            }
+        }
+        return null;
+    }
+
     private List<HistoryVersion> createHistoryVersions(String osId){
         List<HistoryVersion> hvs = new ArrayList<>(100);
         //// A 草稿 B 正常 C 过期 D 禁用  E 已发布
@@ -108,7 +153,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         JSONArray flows = DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
             "select b.FLOW_CODE, b.version, b.FLOW_NAME, b.FLOW_CLASS, " +
                 " b.FLOW_STATE, b.FLOW_DESC, b.FLOW_XML_DESC, b.Time_Limit, b.Expire_Opt," +
-                " b.Opt_ID, b.OS_ID, Time_Limit, Expire_Opt, SOURCE_ID, EXPIRE_CALL_API, Warning_Param " +
+                " b.Opt_ID, b.OS_ID, b.SOURCE_ID, b.EXPIRE_CALL_API, b.Warning_Param " +
                 " from " +
                 " (select FLOW_CODE, max(version) as version from wf_flow_define where os_id = ? group by flow_code) a " +
                 " join wf_flow_define b on (a.flow_code=b.flow_code and a.version = b.version) " +
@@ -598,50 +643,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             applicationVersionDao.setRestoreStatus(appVersionId, ApplicationVersion.VERSION_MERGE_STATUS_MERGING);//"B");
         }
         return mergeCount;
-    }
-
-    private HistoryVersion createHistoryVersion(String objType, String objectId){
-        //// A 草稿 B 正常 C 过期 D 禁用  E 已发布
-        //查找应用相关的所有工作流，工作流的比较复杂，需要相关的版本和变量等信息
-        if("1".equals(objType)) {
-            JSONObject flow = DatabaseOptUtils.getObjectBySqlAsJson(applicationVersionDao,
-                "select b.FLOW_CODE, b.version, b.FLOW_NAME, b.FLOW_CLASS, " +
-                    "b.FLOW_STATE, b.FLOW_DESC, b.FLOW_XML_DESC, b.Time_Limit, b.Expire_Opt," +
-                    "b.Opt_ID, b.OS_ID  " +
-                    " from  wf_flow_define b  " +
-                    " where b.FLOW_CODE = ? and b.version= 0 ",
-                new Object[]{objectId});
-            if (flow != null) {
-                return createFlowHV(flow);
-            }
-        } else  if("2".equals(objType)) {
-            //查找应用相关的所有页面
-            JSONObject page = DatabaseOptUtils.getObjectBySqlAsJson(applicationVersionDao,
-                "select MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type," +
-                    "Model_Comment, MOBILE_FORM_TEMPLATE, form_template," +
-                    "STRUCTURE_FUNCTION, MODEL_TAG  " +
-                    " from m_meta_form_model where MODEL_ID = ?" ,
-                new Object[]{objectId});
-
-            if (page != null) {
-                return createPageHV(page);
-            }
-        } else  if("3".equals(objType)) {
-            //查找应用相关的所有api
-            JSONObject api = DatabaseOptUtils.getObjectBySqlAsJson(applicationVersionDao,
-                "select task_type, task_Cron, SOURCE_ID, schema_props, " +
-                    "return_type, return_result, request_body_type, " +
-                    "PACKET_TYPE, PACKET_NAME, PACKET_ID, PACKET_DESC, " +
-                    "os_id, OPT_ID, opt_code, need_rollback, " +
-                    "is_disable, interface_name, has_data_opt, " +
-                    "EXT_PROPS, data_opt_desc_json " +
-                    "from q_data_packet where PACKET_ID = ? ",
-                new Object[]{objectId});
-            if (api != null) {
-                return createApiHV(api);
-            }
-        }
-        return null;
     }
 
     @Override
