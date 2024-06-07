@@ -96,7 +96,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setRelationId(jsonObject.getString("packetId"));
         hv.setMemo(jsonObject.getString("packetName"));
         //dataOptDescJson returnResult extProps schemaProps
-        mapJsonProperties(jsonObject, "dataOptDescJson","returnResult","extProps","schemaProps");
+        mapJsonProperties(jsonObject, "dataOptDescJson", "returnResult", "extProps", "schemaProps");
         hv.setContent(jsonObject);
         return hv;
     }
