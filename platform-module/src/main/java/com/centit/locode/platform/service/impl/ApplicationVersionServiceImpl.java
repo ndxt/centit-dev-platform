@@ -393,18 +393,23 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         return hv;
     }
 
-    private HistoryVersion recoveryHistoryVersion(HistoryVersion hv , boolean isCreate){
+    private void recoveryHistoryVersion(HistoryVersion hv){
         //HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
         if("1".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
-            if(isCreate) {
-                Object obj = DatabaseOptUtils.getScalarObjectQuery(applicationVersionDao,
-                    "select count(*) as hasFlow from wf_flow_define where FLOW_CODE= ? and version = 0",
-                    new Object[]{hv.getRelationId()});
-                if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
-                    //insert into
-                    return hv;
-                }
+
+            Object obj = DatabaseOptUtils.getScalarObjectQuery(applicationVersionDao,
+                "select count(*) as hasFlow from wf_flow_define where FLOW_CODE= ? and version = 0",
+                new Object[]{hv.getRelationId()});
+            if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
+                DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
+                    "insert into wf_flow_define (FLOW_CODE, version, FLOW_XML_DESC, FLOW_NAME, FLOW_DESC, FLOW_STATE, " +
+                        " Time_Limit, Expire_Opt, Opt_ID, FLOW_Publish_Date, OS_ID, SOURCE_ID, EXPIRE_CALL_API, Warning_Param )"+
+                        " values ( :flowCode, 0, :flowXmlDesc, :flowName, :flowDesc, 'A'," +
+                        ":timeLimit, :expireOpt, :optId, :flowPublishDate, :osId, :sourceId, :expireCallApi, :warningParam)" ,
+                    hv.getContent());
+                return;
             }
+
             JSONObject flowJson = hv.getContent();
             DatabaseOptUtils.doExecuteSql(applicationVersionDao,
                 "update wf_flow_define set FLOW_XML_DESC = ?, FLOW_NAME =?, FLOW_DESC =?, FLOW_STATE='A' " +
@@ -414,12 +419,28 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     flowJson.getString("flowDesc"),
                     hv.getRelationId()  }
             );
-            return hv;
+            return;
         }
 
         if("2".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
             // 恢复到 draft
             JSONObject modelJson = hv.getContent();
+            Object obj = DatabaseOptUtils.getScalarObjectQuery(applicationVersionDao,
+                "select count(*) as hasPage from m_meta_form_model_draft where MODEL_ID= ?",
+                new Object[]{hv.getRelationId()});
+            if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
+                modelJson.put("modelId", hv.getRelationId());
+                DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
+                    "insert into m_meta_form_model_draft (MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type, "+
+                        "last_modify_Date, Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template, "+
+                        "publish_date, SOURCE_ID, STRUCTURE_FUNCTION, MODEL_TAG, IS_VALID )"+
+                        " values ( :modelId, :modelName, :optId, :osId, :modelType, " +
+                        " :lastModifyDate, :recorder, :modelComment, :mobileFormTemplate, :formTemplate," +
+                        " :sourceId, :structureFunction, modelTag, 'F' )" ,
+                    modelJson);
+                return;
+            }
+
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 "update m_meta_form_model_draft set IS_VALID = 'F', Model_Comment = ?, " +
                     "MOBILE_FORM_TEMPLATE = ? , form_template= ?, " +
@@ -430,13 +451,37 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     modelJson.getString("formTemplate"),
                     modelJson.getString("structureFunction"),
                     modelJson.getString("modelTag"),
-                    hv.getRelationId()  }
-            );
-            return hv;
+                    hv.getRelationId()});
+            return;
         }
         if("3".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
             // 恢复到 draft
             JSONObject packetJson = hv.getContent();
+            Object obj = DatabaseOptUtils.getScalarObjectQuery(applicationVersionDao,
+                "select count(*) as hasApi from q_data_packet_draft where PACKET_ID= ?",
+                new Object[]{hv.getRelationId()});
+            if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
+                packetJson.put("packetId", hv.getRelationId());
+                DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
+                    "insert into q_data_packet_draft " +
+                        "(PACKET_ID, os_id, Owner_Type, Owner_Code, PACKET_NAME, " +
+                        " PACKET_TYPE, PACKET_DESC, Recorder, Record_Date, has_data_opt, " +
+                        " data_opt_desc_json, task_type, task_Cron, " +
+                        " is_valid, interface_name, return_type, return_result, update_date," +
+                        " publish_date, need_rollback, OPT_ID, EXT_PROPS, opt_code, " +
+                        " BUFFER_FRESH_PERIOD, buffer_fresh_period_type, template_type, metadata_table_id, log_level," +
+                        " is_disable, schema_props, request_body_type, FALL_BACK_LEVEL )"+
+                        //--------------------------------------------------------------------//
+                        " values (:packetId, :osId, :ownerType, :ownerCode, :packetName," +
+                        " :packetType, :packetDesc, :recorder, :recordDate, :hasDataOpt," +
+                        " :dataOptDescJson, :taskType, :taskCron, " +
+                        " 'T', :interfaceName, :returnType, :returnResult, :updateDate, " +
+                        " :publishDate, :needRollback, :optId, :extProps, :optCode," +
+                        " :bufferFreshPeriod, :bufferFreshPeriodType, :templateType, :metadataTableId, :logLevel, " +
+                        " 'F', :schemaProps, :requestBodyType, :fallBackLevel )",
+                    packetJson);
+                return;
+            }
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 "update q_data_packet_draft set is_disable = 'F', task_type = ?," +
                     " schema_props = ?, return_type = ?, return_result = ?, request_body_type = ?," +
@@ -459,8 +504,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     hv.getRelationId()  }
             );
         }
-
-        return hv;
     }
 
     private HistoryVersion changeRelationObjectState(JSONObject jsonDiff, boolean toGarbage){
@@ -524,7 +567,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 if("D".equals(jsonDiff.getString("diff"))){
                     // 删除的，创建版本， 检查是否有删除状态的，如果有 先恢复
                     HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
-                    recoveryHistoryVersion(hv, true);
+                    recoveryHistoryVersion(hv);
                     mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_CREATE);//"C");
                     mergeTask.setHistoryId(jsonDiff.getString("historyId"));
                     mergeTask.setMergeDesc("创建 - " + jsonDiff.getString("memo"));//
@@ -539,7 +582,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     HistoryVersion hv2 = createHistoryVersion(jsonDiff, appVersion);
                     // 更新的，创建版本，并恢复为旧版本
                     HistoryVersion hv = historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
-                    recoveryHistoryVersion(hv, false);
+                    recoveryHistoryVersion(hv);
                     mergeTask.setHistoryId(hv2.getHistoryId()); //jsonDiff.getString("historyId"));
                     mergeTask.setMergeDesc("更新 - " + jsonDiff.getString("memo"));
                     mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_UPDATE);//"U");
@@ -618,7 +661,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
                     HistoryVersion hv2 = createHistoryVersion(hv.getType(), hv.getRelationId());
                     if(hv2==null){
-                        recoveryHistoryVersion(hv, true);
+                        recoveryHistoryVersion(hv);
                         mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_CREATE);//"C"
                         mergeTask.setHistoryId(hv.getHistoryId());
                         mergeTask.setMergeDesc("创建 - " + hv.getMemo());//
@@ -635,7 +678,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                             hv2.setPushUser(userCode);
                             historyVersionService.createHistoryVersion(hv2);
                             // 更新的，创建版本，并恢复为旧版本
-                            recoveryHistoryVersion(hv, false);
+                            recoveryHistoryVersion(hv);
                             mergeTask.setHistoryId(jsonDiff.getString("historyId"));
                             mergeTask.setMergeDesc("更新 - " + hv.getMemo());
                             mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_UPDATE);//"U");
@@ -678,7 +721,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             changeRelationObjectState(JSONObject.from(task), true);
         } else if(AppMergeTask.MERGE_TYPE_UPDATE.equals(task.getMergeType())){
             HistoryVersion hv = historyVersionService.getHistoryVersion(task.getHistoryId());
-            recoveryHistoryVersion(hv, false);
+            recoveryHistoryVersion(hv);
         } else if(AppMergeTask.MERGE_TYPE_DELETE.equals(task.getMergeType())){
             changeRelationObjectState(JSONObject.from(task), false);
         }
