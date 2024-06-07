@@ -140,12 +140,12 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         }
         //查找应用相关的所有api
         JSONArray apis = DatabaseOptUtils.listObjectsBySqlAsJson(applicationVersionDao,
-            "select task_type, task_Cron, SOURCE_ID, schema_props, template_type," +
+            "select task_type, task_Cron, SOURCE_ID, schema_props, " +
                 " return_type, return_result, request_body_type, Recorder, " +
                 " PACKET_TYPE, PACKET_NAME, PACKET_ID, PACKET_DESC, FALL_BACK_LEVEL, " +
                 " os_id, OPT_ID, opt_code, need_rollback, Owner_Type, Owner_Code, " +
                 " is_disable, interface_name, has_data_opt, BUFFER_FRESH_PERIOD, buffer_fresh_period_type, " +
-                " EXT_PROPS, data_opt_desc_json, FALL_BACK_LEVEL, metadata_table_id, log_level " +
+                " EXT_PROPS, data_opt_desc_json, FALL_BACK_LEVEL, log_level " +
                 " from q_data_packet where is_disable = 'F' and os_id = ? " +
                 " order by PACKET_ID",
             new Object[]{osId});
@@ -472,7 +472,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                         " data_opt_desc_json, task_type, task_Cron, " +
                         " is_valid, interface_name, return_type, return_result, update_date," +
                         " need_rollback, OPT_ID, EXT_PROPS, opt_code, " +
-                        " BUFFER_FRESH_PERIOD, buffer_fresh_period_type, template_type, metadata_table_id, log_level," +
+                        " BUFFER_FRESH_PERIOD, buffer_fresh_period_type, log_level," +
                         " is_disable, schema_props, request_body_type, FALL_BACK_LEVEL )"+
                         //--------------------------------------------------------------------//
                         " values (:packetId, :osId, :ownerType, :ownerCode, :packetName," +
@@ -480,7 +480,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                         " :dataOptDescJson, :taskType, :taskCron, " +
                         " 'T', :interfaceName, :returnType, :returnResult, :updateDate, " +
                         " :needRollback, :optId, :extProps, :optCode," +
-                        " :bufferFreshPeriod, :bufferFreshPeriodType, :templateType, :metadataTableId, :logLevel, " +
+                        " :bufferFreshPeriod, :bufferFreshPeriodType, :logLevel, " +
                         " 'F', :schemaProps, :requestBodyType, :fallBackLevel )",
                     packetJson);
                 return;
