@@ -27,7 +27,6 @@ import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.utils.ImagePdfTextExtractor;
 import com.centit.support.security.AESSecurityUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
-import io.lettuce.core.RedisClient;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
@@ -71,11 +70,6 @@ public class ServiceConfig implements EnvironmentAware {
     @Bean
     public AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor(){
         return new AutowiredAnnotationBeanPostProcessor();
-    }
-
-    @Bean
-    public RedisClient redisClient() {
-        return RedisClient.create(env.getProperty("redis.default.host"));
     }
 
     @Bean
