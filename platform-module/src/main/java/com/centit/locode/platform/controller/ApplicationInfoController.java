@@ -10,6 +10,7 @@ import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.OptInfo;
 import com.centit.framework.model.basedata.OptMethod;
 import com.centit.framework.model.basedata.OsInfo;
+import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.metaform.service.MetaFormModelDraftManager;
 import com.centit.metaform.service.MetaFormModelManager;
@@ -87,6 +88,13 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public OsInfo deleteApplicationInfo(@PathVariable String applicationId, HttpServletRequest request) {
         //TODO 添加是否是研发人员验证
+        CentitUserDetails ud = WebOptUtils.getCurrentUserDetails(request);
+        if(ud == null){
+            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");
+        }
+        if(!platformEnvironment.loginUserIsExistWorkGroup(applicationId, ud.getUserCode())){
+            throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限删除这个应用："+applicationId+"！");
+        }
         return applicationInfoManager.deleteApplicationInfo(applicationId);
     }
 
