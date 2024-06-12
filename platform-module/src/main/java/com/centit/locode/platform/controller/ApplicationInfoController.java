@@ -85,19 +85,15 @@ public class ApplicationInfoController extends BaseController {
     @ApiImplicitParam(name = "applicationId", value = "图表ID")
     @DeleteMapping(value = "/{applicationId}")
     @WrapUpResponseBody
-    public OsInfo deleteApplicationInfo(@PathVariable String applicationId) {
+    public OsInfo deleteApplicationInfo(@PathVariable String applicationId, HttpServletRequest request) {
         //TODO 添加是否是研发人员验证
-
         return applicationInfoManager.deleteApplicationInfo(applicationId);
     }
 
     @ApiOperation(value = "查询应用模块")
     @GetMapping(value = "/list")
     @WrapUpResponseBody
-    public JSONArray listApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
-        if (!WebOptUtils.isTenantTopUnit(request)){
-            return null;
-        }
+    public JSONArray listApplicationInfo(HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         Map<String, Object> parameters = BaseController.collectRequestParameters(request);
         return applicationInfoManager.listApplicationInfo(topUnit, parameters);
@@ -107,9 +103,6 @@ public class ApplicationInfoController extends BaseController {
     @GetMapping(value = "/{applicationId}")
     @WrapUpResponseBody
     public JSONObject getApplicationInfo(@PathVariable String applicationId, HttpServletRequest request) {
-        if (!WebOptUtils.isTenantTopUnit(request)){
-            return null;
-        }
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         String loginUser = WebOptUtils.getCurrentUserCode(request);
         if(StringUtils.isBlank(loginUser)){

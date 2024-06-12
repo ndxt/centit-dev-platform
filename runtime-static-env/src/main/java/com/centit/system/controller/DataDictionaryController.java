@@ -15,7 +15,6 @@ import com.centit.framework.model.basedata.DataDictionary;
 import com.centit.framework.model.basedata.DataDictionaryId;
 import com.centit.framework.operationlog.RecordOperationLog;
 import com.centit.support.algorithm.CollectionsOpt;
-import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.common.ParamName;
@@ -75,7 +74,6 @@ public class DataDictionaryController extends BaseController {
      * @param field    指需要的属性名
      * @param pageDesc 分页信息
      * @param request  {@link HttpServletRequest}
-     * @param response {@link HttpServletResponse}
      * @return PageQueryResult
      */
     @ApiOperation(value = "查询所有字典目录列表", notes = "查询所有字典目录列表。")
@@ -89,13 +87,10 @@ public class DataDictionaryController extends BaseController {
     })
     @RequestMapping(method = RequestMethod.GET)
     @WrapUpResponseBody
-    public PageQueryResult<Object> list(String[] field, PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+    public PageQueryResult<Object> list(String[] field, PageDesc pageDesc, HttpServletRequest request) {
         Map<String, Object> searchColumn = BaseController.collectRequestParameters(request);
-        if (WebOptUtils.isTenantTopUnit(request)) {
-            searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
-        }
+        searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
         List<DataCatalog> listObjects = dataDictionaryManager.listObjects(searchColumn, pageDesc);
-
         return PageQueryResult.createJSONArrayResult(
             dataDictionaryManager.appendRelativeOsInfo(listObjects), pageDesc, field);
     }
@@ -601,9 +596,7 @@ public class DataDictionaryController extends BaseController {
     @WrapUpResponseBody
     public ResponseData getAllCatalog(HttpServletRequest request) {
         Map<String, Object> searchColumn = new HashMap<>();
-        if (WebOptUtils.isTenantTopUnit(request)) {
-            searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
-        }
+        searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
         List<DataCatalog> catalogs = dataDictionaryManager.listAllDataCatalog(searchColumn);
         return ResponseData.makeResponseData(catalogs);
     }
@@ -619,9 +612,7 @@ public class DataDictionaryController extends BaseController {
     @WrapUpResponseBody
     public ResponseData getWholeDictionary(HttpServletRequest request) {
         Map<String, Object> searchColumn = new HashMap<>();
-        if (WebOptUtils.isTenantTopUnit(request)) {
-            searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
-        }
+        searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
         List<DataCatalog> catalogs = dataDictionaryManager.listAllDataCatalog(searchColumn);
         List<String> catalogCodes = new ArrayList<>();
         catalogs.forEach(ca -> catalogCodes.add(ca.getCatalogCode()));
@@ -645,9 +636,7 @@ public class DataDictionaryController extends BaseController {
     @ResponseBody
     public ResponseEntity<byte[]> downloadProperties(HttpServletRequest request) throws IOException {
         Map<String, Object> searchColumn = new HashMap<>();
-        if (WebOptUtils.isTenantTopUnit(request)) {
-            searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
-        }
+        searchColumn.put("topUnit", WebOptUtils.getCurrentTopUnit(request));
         List<DataCatalog> catalogs = dataDictionaryManager.listAllDataCatalog(searchColumn);
         List<String> catalogCodes = new ArrayList<>();
         catalogs.forEach(ca -> catalogCodes.add(ca.getCatalogCode()));
