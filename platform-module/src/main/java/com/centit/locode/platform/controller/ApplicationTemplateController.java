@@ -14,7 +14,6 @@ import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.po.ApplicationTemplate;
 import com.centit.locode.platform.service.ApplicationTemplateManager;
 import com.centit.locode.platform.service.ModelExportManager;
-import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.file.FileSystemOpt;
@@ -22,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +52,7 @@ public class ApplicationTemplateController extends BaseController {
     public void createApplicationInfo(HttpServletRequest request, HttpServletResponse response){
         if(GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
             ApplicationTemplate applicationTemplate = new ApplicationTemplate();
-            if(!StringBaseOpt.isNvl(request.getParameter(TEMPLATE_ID))){
+            if(StringUtils.isNotBlank(request.getParameter(TEMPLATE_ID))){
                 applicationTemplate.setTemplateId(request.getParameter(TEMPLATE_ID));
             }
             applicationTemplate.setTemplateName(request.getParameter("templateName"));
