@@ -267,9 +267,9 @@ public class JsonAppVo {
         List<SourceInfo> oldList = convertJavaList(SourceInfo.class, AppTableNames.F_DATABASE_INFO.name());
         list.forEach(map -> {
             String uuid;
-            if (map.get(MAP_DATA_CODE) != null && !StringBaseOpt.isNvl((String) map.get(MAP_DATA_CODE))) {
+            if (map.get(MAP_DATA_CODE) != null && StringUtils.isNotBlank((String) map.get(MAP_DATA_CODE))) {
                 uuid = (String) map.get(MAP_DATA_CODE);
-            } else if (!StringBaseOpt.isNvl(defaultDatabase)) {
+            } else if (StringUtils.isNotBlank(defaultDatabase)) {
                 uuid = defaultDatabase;
             } else if (oldList != null) {
                 uuid = oldList.get(0).getDatabaseCode();
@@ -313,7 +313,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             map.put(ID, uuid);
@@ -344,7 +344,7 @@ public class JsonAppVo {
                         }
                     }
                 }
-                if (StringBaseOpt.isNvl(uuid)) {
+                if (StringUtils.isBlank(uuid)) {
                     for (DataCatalog oldMap : oldList) {
                         boolean findRepeatCatalog = map.get(CATALOG_CODE).toString().equals(oldMap.getCatalogCode())
                             && !osId.equals(oldMap.getOsId());
@@ -355,7 +355,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(CATALOG_CODE).toString();
             }
             dictionaryMap.put(map.get(CATALOG_CODE).toString(), uuid);
@@ -400,7 +400,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             map.put(ID, uuid);
@@ -444,7 +444,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             mdTableMap.put(map.get(TABLE_ID).toString(), uuid);
@@ -491,7 +491,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             relationMap.put(map.get(RELATION_ID).toString(), uuid);
@@ -556,7 +556,7 @@ public class JsonAppVo {
                             break;
                         }
                     }
-                    if (StringBaseOpt.isNvl(uuid)) {
+                    if (StringUtils.isBlank(uuid)) {
                         for (OptInfo oldMap : finalOldList) {
                             boolean findRepeatOptId = map.get(OPT_ID).toString().equals(oldMap.getOptId())
                                 && !osId.equals(oldMap.getTopOptId());
@@ -569,7 +569,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(OPT_ID).toString();
             }
             optInfoMap.put((String) map.get(OPT_ID), uuid);
@@ -603,7 +603,7 @@ public class JsonAppVo {
                         break;
                     }
                 }
-                if (StringBaseOpt.isNvl(uuid)) {
+                if (StringUtils.isBlank(uuid)) {
                     for (OptMethod oldMap : finalOldList) {
                         boolean findRepeatOptCode = map.get(OPT_CODE).toString().equals(oldMap.getOptCode())
                             && !osId.equals(oldMap.getTopOptId());
@@ -614,7 +614,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(OPT_CODE).toString();
             }
             map.put(OPT_CODE, uuid);
@@ -649,7 +649,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             map.put(ID, uuid);
@@ -659,7 +659,7 @@ public class JsonAppVo {
     }
 
     private JsonAppVo uploadFiles() {
-        if (StringBaseOpt.isNvl(zipFilePath)) {
+        if (StringUtils.isBlank(zipFilePath)) {
             return this;
         }
         List<File> files = FileSystemOpt.findFiles(zipFilePath, "file.zip");
@@ -709,7 +709,7 @@ public class JsonAppVo {
                         break;
                     }
                 }
-                if (StringBaseOpt.isNvl(uuid)) {
+                if (StringUtils.isBlank(uuid)) {
                     for (DataPacket oldMap : finalOldList) {
                         boolean findRepeatPacketId = map.get(PACKET_ID).toString().equals(oldMap.getPacketId())
                             && !osId.equals(oldMap.getOsId());
@@ -721,7 +721,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(PACKET_ID).toString();
                 if (ConstantValue.TASK_TYPE_AGENT.equals(map.get(TASK_TYPE).toString())) {
                     map.put(IS_VALID, false);
@@ -801,7 +801,7 @@ public class JsonAppVo {
                         break;
                     }
                 }
-                if (StringBaseOpt.isNvl(uuid)) {
+                if (StringUtils.isBlank(uuid)) {
                     for (MetaFormModel oldMap : finalOldList) {
                         boolean findRepeatModelId = map.get(MODEL_ID).toString().equals(oldMap.getModelId())
                             && !osId.equals(oldMap.getOsId());
@@ -812,7 +812,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(MODEL_ID).toString();
             }
             metaFormMap.put((String) map.get(MODEL_ID), uuid);
@@ -955,7 +955,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             map.put(OPT_TEAM_ROLE_ID, uuid);
@@ -983,7 +983,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             map.put(OPT_VARIABLE_ID, uuid);
@@ -1009,7 +1009,7 @@ public class JsonAppVo {
                             break;
                         }
                     }
-                    if (StringBaseOpt.isNvl(uuid)) {
+                    if (StringUtils.isBlank(uuid)) {
                         for (FlowInfo oldMap : finalOldList) {
                             if (map.get(FLOW_CODE).toString().equals(oldMap.getFlowCode())
                                 && !osId.equals(oldMap.getOsId())) {
@@ -1019,7 +1019,7 @@ public class JsonAppVo {
                         }
                     }
                 }
-                if (StringBaseOpt.isNvl(uuid)) {
+                if (StringUtils.isBlank(uuid)) {
                     uuid = map.get(FLOW_CODE).toString();
                 }
                 flowDefineMap.put((String) map.get(FLOW_CODE), uuid);
@@ -1050,7 +1050,7 @@ public class JsonAppVo {
                         break;
                     }
                 }
-                if (StringBaseOpt.isNvl(uuid)) {
+                if (StringUtils.isBlank(uuid)) {
                     for (NodeInfo oldMap : finalOldList) {
                         if (map.get(NODE_ID).toString().equals(oldMap.getNodeId())
                             && !osId.equals(oldMap.getOsId())) {
@@ -1060,7 +1060,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(NODE_ID).toString();
             }
             wfNodeMap.put((String) map.get(NODE_ID), uuid);
@@ -1108,7 +1108,7 @@ public class JsonAppVo {
                     }
                 }
             }
-            if (StringBaseOpt.isNvl(uuid)) {
+            if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
             map.put(TRANS_ID, uuid);

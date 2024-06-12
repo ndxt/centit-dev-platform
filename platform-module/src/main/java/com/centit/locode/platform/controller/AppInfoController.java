@@ -13,7 +13,6 @@ import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.framework.model.basedata.OperationLog;
 import com.centit.locode.platform.po.AppInfo;
 import com.centit.locode.platform.service.AppInfoService;
-import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.Api;
@@ -157,7 +156,7 @@ public class AppInfoController extends BaseController {
     @WrapUpResponseBody
     public JSONObject getLastAppInfo(@PathVariable String appType, HttpServletRequest request) {
         String ownApp=request.getParameter("ownApp");
-        if(StringBaseOpt.isNvl(ownApp)){
+        if(StringUtils.isBlank(ownApp)){
             ownApp="system";
         }
         Map<String, Object> filter = new HashMap<>();
@@ -193,7 +192,7 @@ public class AppInfoController extends BaseController {
     @RequestMapping(value = "/getLastAppUrl", method = {RequestMethod.GET})
     public void getLastAppUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String ownApp=request.getParameter("ownApp");
-        if(StringBaseOpt.isNvl(ownApp)){
+        if(StringUtils.isBlank(ownApp)){
             ownApp="system";
         }
         String serverName = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/" + appKey;
@@ -224,7 +223,7 @@ public class AppInfoController extends BaseController {
     @RequestMapping(value = "/manifest.plist", method = {RequestMethod.GET})
     public void getLastIOSUrl(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String ownApp=request.getParameter("ownApp");
-        if(StringBaseOpt.isNvl(ownApp)){
+        if(StringUtils.isBlank(ownApp)){
             ownApp="system";
         }
         Map<String, Object> filter = new HashMap<>();

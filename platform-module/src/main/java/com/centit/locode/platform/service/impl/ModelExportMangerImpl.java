@@ -26,6 +26,7 @@ import com.centit.support.algorithm.*;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -362,7 +363,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     private JSONObject getOldApplication(String osId) {
-        if (StringBaseOpt.isNvl(osId)) {
+        if (StringUtils.isBlank(osId)) {
             return new JSONObject();
         }
         Map<String, Object> mapApplication = new HashMap<>(1);

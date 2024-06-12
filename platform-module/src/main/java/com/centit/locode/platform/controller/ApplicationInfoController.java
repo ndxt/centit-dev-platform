@@ -6,7 +6,6 @@ import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
-import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.OptInfo;
 import com.centit.framework.model.basedata.OptMethod;
@@ -15,7 +14,6 @@ import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.metaform.service.MetaFormModelDraftManager;
 import com.centit.metaform.service.MetaFormModelManager;
 import com.centit.product.metadata.api.MetadataManageService;
-import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.workflow.service.FlowDefine;
 import io.swagger.annotations.Api;
@@ -61,9 +59,12 @@ public class ApplicationInfoController extends BaseController {
     @ApiOperation(value = "新增应用")
     @PostMapping
     @WrapUpResponseBody
-    public JSONObject createApplicationInfo(@RequestBody OsInfo osInfo,HttpServletRequest httpServletRequest) {
-        if(StringBaseOpt.isNvl(osInfo.getTopUnit())){
+    public JSONObject createApplicationInfo(@RequestBody OsInfo osInfo, HttpServletRequest httpServletRequest) {
+        if(StringUtils.isBlank(osInfo.getTopUnit())){
             osInfo.setTopUnit(WebOptUtils.getCurrentTopUnit(httpServletRequest));
+        }
+        if(StringUtils.isBlank(osInfo.getCreated())){
+            osInfo.setCreated(WebOptUtils.getCurrentUserCode(httpServletRequest));
         }
         return applicationInfoManager.createApplicationInfo(osInfo);
     }
@@ -99,34 +100,40 @@ public class ApplicationInfoController extends BaseController {
         }
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         Map<String, Object> parameters = BaseController.collectRequestParameters(request);
-        return applicationInfoManager.listApplicationInfo(topUnit,parameters);
+        return applicationInfoManager.listApplicationInfo(topUnit, parameters);
     }
 
     @ApiOperation(value = "查询单个应用模块")
     @GetMapping(value = "/{applicationId}")
     @WrapUpResponseBody
-    public JSONObject getApplicationInfo(@PathVariable String applicationId,HttpServletRequest request) {
+    public JSONObject getApplicationInfo(@PathVariable String applicationId, HttpServletRequest request) {
         if (!WebOptUtils.isTenantTopUnit(request)){
             return null;
         }
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
-        return applicationInfoManager.getApplicationInfo(applicationId,topUnit,true);
+        String loginUser = WebOptUtils.getCurrentUserCode(request);
+        if(StringUtils.isBlank(loginUser)){
+                loginUser = request.getParameter("userCode");
+        }
+        return applicationInfoManager.getApplicationInfo(applicationId,topUnit, loginUser,true);
     }
 
     @ApiOperation(value = "查询单个应用模块")
     @GetMapping(value = "no-auth/{applicationId}")
     @WrapUpResponseBody
-    public JSONObject getApplicationInfoNoAuth(@PathVariable String applicationId) {
-        return applicationInfoManager.getApplicationInfo(applicationId,"",false);
+    public JSONObject getApplicationInfoNoAuth(@PathVariable String applicationId, HttpServletRequest request) {
+        String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        String loginUser = WebOptUtils.getCurrentUserCode(request);
+        return applicationInfoManager.getApplicationInfo(applicationId,topUnit, loginUser,false);
     }
 
     @ApiOperation(value = "业务模块删除按钮")
     @DeleteMapping(value = "/businessDelete/{optId}")
     @WrapUpResponseBody
     public ResponseData businessDelete(@PathVariable String optId,  HttpServletRequest request) {
-        String loginUser = WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest());
-        if (StringBaseOpt.isNvl(loginUser)) {
-            loginUser = WebOptUtils.getRequestFirstOneParameter(RequestThreadLocal.getLocalThreadWrapperRequest(), "userCode");
+        String loginUser = WebOptUtils.getCurrentUserCode(request);
+        if (StringUtils.isBlank(loginUser)) {
+            loginUser = WebOptUtils.getRequestFirstOneParameter(request, "userCode");
         }
         if (StringUtils.isBlank(loginUser)){
             throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");

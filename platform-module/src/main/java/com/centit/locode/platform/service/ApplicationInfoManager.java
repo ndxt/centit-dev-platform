@@ -14,7 +14,7 @@ public interface ApplicationInfoManager {
 
     JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters);
 
-    JSONObject getApplicationInfo(String applicationId,String topUnit,boolean checkAuth);
+    JSONObject getApplicationInfo(String applicationId, String topUnit, String loginUser, boolean checkAuth);
 
     OsInfo deleteApplicationInfo(String applicationId);
 

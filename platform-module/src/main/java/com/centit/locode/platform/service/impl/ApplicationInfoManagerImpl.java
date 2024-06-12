@@ -19,7 +19,6 @@ import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.product.metadata.api.MetadataManageService;
 import com.centit.support.algorithm.BooleanBaseOpt;
 import com.centit.support.algorithm.CollectionsOpt;
-import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.algorithm.UuidOpt;
 import com.centit.support.common.ObjectException;
 import org.apache.commons.collections4.CollectionUtils;
@@ -74,7 +73,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     public JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters) {
         List<OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
-        if (parameters.containsKey("osName")&& StringUtils.isNotBlank((String)parameters.get("osName"))){//因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
+        if (parameters.containsKey("osName") && StringUtils.isNotBlank((String)parameters.get("osName"))){
+            //因为前面接口本身就不支持条件查询，只能大致模拟迷糊查询
             osInfos.removeIf(osInfo -> !osInfo.getOsName().contains((String)parameters.get("osName")));
         }
         if (parameters.containsKey("sortValue") && parameters.get("sortValue").equals("ASC")) {
@@ -85,7 +85,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
         if (parameters.get("involved") !=null){
             Map<String, Object> parames = new HashMap<>();
-            parames.put("userCode",WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest()));
+            parames.put("userCode", WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest()));
             List<WorkGroup> workGroups = platformEnvironment.listWorkGroup(parames, null);
             List<String> osId = workGroups.stream().map(WorkGroup::getGroupId).collect(Collectors.toList());
             osInfos.removeIf(osInfo->!osId.contains(osInfo.getOsId()));
@@ -110,7 +110,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public JSONObject getApplicationInfo(String applicationId, String topUnit, boolean checkAuth) {
+    public JSONObject getApplicationInfo(String applicationId, String topUnit, String loginUser, boolean checkAuth) {
         OsInfo osInfo = platformEnvironment.getOsInfo(applicationId);
         if(osInfo==null){
             return null;
@@ -124,7 +124,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             Map map = new HashMap();
             map.put("groupId", applicationId);
             workGroup = platformEnvironment.listWorkGroup(map, null);
-            if (notHaveAuth(workGroup)) {
+            if (notHaveAuth(workGroup, loginUser)) {
                 throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
             }
         }
@@ -133,14 +133,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return assemblyApplicationInfo(osInfo, workGroup , fileLibrary, optInfos );
     }
 
-    private boolean notHaveAuth(List<WorkGroup>   workGroups) {
-        String loginUser = WebOptUtils.getCurrentUserCode(
-            RequestThreadLocal.getLocalThreadWrapperRequest());
-        if (StringBaseOpt.isNvl(loginUser)) {
-            loginUser = WebOptUtils.getRequestFirstOneParameter(
-                RequestThreadLocal.getLocalThreadWrapperRequest(), "userCode");
-        }
-        if (StringBaseOpt.isNvl(loginUser)) {
+    private boolean notHaveAuth(List<WorkGroup>  workGroups, String loginUser) {
+        if (StringUtils.isBlank(loginUser)) {
             return true;
         }
         for (WorkGroup workGroup : workGroups) {
@@ -255,21 +249,13 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     private OsInfo assemblyOsInfo(OsInfo osInfo) {
-        String loginUser = WebOptUtils.getCurrentUserCode(
-            RequestThreadLocal.getLocalThreadWrapperRequest());
-        if (StringBaseOpt.isNvl(loginUser) && StringBaseOpt.isNvl(osInfo.getCreated())) {
+        if (StringUtils.isBlank(osInfo.getCreated())) {
             throw new ObjectException(ResponseData.ERROR_USER_LOGIN_ERROR,
                 "没有登录的用户");
         }
-        String topUnit = WebOptUtils.getCurrentTopUnit(
-            RequestThreadLocal.getLocalThreadWrapperRequest());
-        if (StringBaseOpt.isNvl(topUnit) && StringBaseOpt.isNvl(osInfo.getTopUnit())) {
+        if (StringUtils.isBlank(osInfo.getTopUnit())) {
             throw new ObjectException(ResponseData.ERROR_USER_LOGIN_ERROR,
                 "没有所属租户");
-        }
-        osInfo.setCreated(loginUser);
-        if (StringBaseOpt.isNvl(osInfo.getTopUnit())) {
-            osInfo.setTopUnit(topUnit);
         }
         osInfo.setOsType(OsInfo.OSTYPE_LOCODE);
         osInfo.setDeleted(false);
@@ -293,8 +279,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         fileLibrary.setLibraryName(osInfo.getOsName());
         fileLibrary.setLibraryType(FILE_TYPE_ITEM);
         fileLibrary.setCreateUser(osInfo.getCreated());
-        String topUnit = WebOptUtils.getCurrentTopUnit(
-            RequestThreadLocal.getLocalThreadWrapperRequest());
+        String topUnit = osInfo.getTopUnit();
         fileLibrary.setOwnUnit(topUnit);
         return fileLibrary;
     }

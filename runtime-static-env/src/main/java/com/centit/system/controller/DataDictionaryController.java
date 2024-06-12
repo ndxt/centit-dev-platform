@@ -374,7 +374,7 @@ public class DataDictionaryController extends BaseController {
     private void dictionaryPreHandler(DataCatalog dataCatalog, DataDictionary dataDictionary) {
         //附加代码 EXTRACODE  字段
         //这是一个自解释字段，业务系统可以自行解释这个字段的意义，单作为树形结构的数据字典时，这个字段必需为上级字典的代码。
-        if (T.equalsIgnoreCase(dataCatalog.getCatalogType()) && !StringBaseOpt.isNvl(dataDictionary.getExtraCode())) {
+        if (T.equalsIgnoreCase(dataCatalog.getCatalogType()) && StringUtils.isNotBlank(dataDictionary.getExtraCode())) {
             String extraCode = dataDictionary.getExtraCode();
             if (extraCode.equals(dataDictionary.getDataCode())) {
                 throw new ObjectException("extraCode 与 dataCode 不能一致");
