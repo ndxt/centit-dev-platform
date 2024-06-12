@@ -54,7 +54,7 @@ public class ModelExportController extends BaseController {
     @ApiOperation(value = "导出应用路径")
     @GetMapping(value = "/downloadModel/{osId}")
     public Map<String,String> downLoadModel(@PathVariable String osId, HttpServletRequest request) throws FileNotFoundException {
-
+        Map<String, Object> parameters =collectRequestParameters(request);
         CentitUserDetails ud = WebOptUtils.getCurrentUserDetails(request);
         if(ud == null){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");

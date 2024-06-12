@@ -188,6 +188,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
         sql="delete from file_library_info where library_id=?";
         DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
+        sql="delete from work_group where group_id=?";
+        DatabaseOptUtils.doExecuteSql(applicationDictionaryDao,sql,params);
         return platformEnvironment.deleteOsInfo(applicationId);
     }
 
