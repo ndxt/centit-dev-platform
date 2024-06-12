@@ -8,6 +8,7 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.basedata.WorkGroup;
 import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.service.ModelExportManager;
 import com.centit.support.algorithm.StringBaseOpt;
@@ -16,6 +17,7 @@ import com.centit.support.file.FileSystemOpt;
 import com.centit.support.file.FileType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,7 +59,8 @@ public class ModelExportController extends BaseController {
         if(ud == null){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "用户没有登录，没有对应的权限！");
         }
-        if(!platformEnvironment.loginUserIsExistWorkGroup(osId, ud.getUserCode())){
+        List<WorkGroup> userGroups = platformEnvironment.listWorkGroup(osId, ud.getUserCode(), null);
+        if(CollectionUtils.isEmpty(userGroups)){
             throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限导出这个应用："+osId+"！");
         }
 

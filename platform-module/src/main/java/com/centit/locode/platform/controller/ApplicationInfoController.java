@@ -7,10 +7,7 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.model.adapter.PlatformEnvironment;
-import com.centit.framework.model.basedata.OptInfo;
-import com.centit.framework.model.basedata.OptMethod;
-import com.centit.framework.model.basedata.OsInfo;
-import com.centit.framework.model.basedata.UserInfo;
+import com.centit.framework.model.basedata.*;
 import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.metaform.service.MetaFormModelDraftManager;
@@ -21,6 +18,7 @@ import com.centit.workflow.service.FlowDefine;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +87,8 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public OsInfo deleteApplicationInfo(@PathVariable String applicationId, HttpServletRequest request) {
         UserInfo ud = WebOptUtils.assertUserLogin(request);
-        if(!platformEnvironment.loginUserIsExistWorkGroup(applicationId, ud.getUserCode())){
+        List<WorkGroup> userGroups = platformEnvironment.listWorkGroup(applicationId, ud.getUserCode(), null);
+        if(CollectionUtils.isEmpty(userGroups)){
             throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限删除这个应用："+applicationId+"！");
         }
         return applicationInfoManager.deleteApplicationInfo(applicationId);
@@ -100,8 +99,9 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public JSONArray listApplicationInfo(HttpServletRequest request) {
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
+        String userCode = WebOptUtils.getCurrentUserCode(request);
         Map<String, Object> parameters = BaseController.collectRequestParameters(request);
-        return applicationInfoManager.listApplicationInfo(topUnit, parameters);
+        return applicationInfoManager.listApplicationInfo(topUnit, userCode, parameters);
     }
 
     @ApiOperation(value = "查询单个应用模块")
