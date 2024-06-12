@@ -12,7 +12,7 @@ import java.util.Map;
 public interface ApplicationInfoManager {
     JSONObject createApplicationInfo(OsInfo osInfo);
 
-    JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters);
+    JSONArray listApplicationInfo(String topUnit, String userCode, Map<String, Object> parameters);
 
     JSONObject getApplicationInfo(String applicationId, String topUnit, String loginUser, boolean checkAuth);
 

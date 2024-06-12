@@ -5,9 +5,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.centit.fileserver.common.FileLibraryInfo;
 import com.centit.fileserver.common.OperateFileLibrary;
 import com.centit.framework.common.ResponseData;
-import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryUtil;
-import com.centit.framework.filter.RequestThreadLocal;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.basedata.OptInfo;
@@ -70,7 +68,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
     }
 
     @Override
-    public JSONArray listApplicationInfo(String topUnit, Map<String, Object> parameters) {
+    public JSONArray listApplicationInfo(String topUnit, String userCode, Map<String, Object> parameters) {
         List<OsInfo> osInfos = platformEnvironment.listOsInfos(topUnit);
         osInfos.removeIf(osInfo -> BooleanBaseOpt.castObjectToBoolean(osInfo.isDeleted(), true));
         if (parameters.containsKey("osName") && StringUtils.isNotBlank((String)parameters.get("osName"))){
@@ -84,9 +82,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         }
 
         if (parameters.get("involved") !=null){
-            Map<String, Object> parames = new HashMap<>();
-            parames.put("userCode", WebOptUtils.getCurrentUserCode(RequestThreadLocal.getLocalThreadWrapperRequest()));
-            List<WorkGroup> workGroups = platformEnvironment.listWorkGroup(parames, null);
+            List<WorkGroup> workGroups = platformEnvironment.listWorkGroup(null, userCode, null);
             List<String> osId = workGroups.stream().map(WorkGroup::getGroupId).collect(Collectors.toList());
             osInfos.removeIf(osInfo->!osId.contains(osInfo.getOsId()));
         }
@@ -95,11 +91,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         for (OsInfo osInfo : osInfos) {
             JSONObject jsonObject = JSONObject.from(osInfo);
                 //JSON.parseObject(JSON.toJSONStringWithDateFormat(osInfo,JSON.DEFFAULT_DATE_FORMAT), JSONObject.class);
-            Map map = new HashMap();
-            map.put("groupId",osInfo.getOsId());
-            map.put("roleCode","组长");
-            List<WorkGroup> workGroup = platformEnvironment.listWorkGroup(map,null);
-            if (workGroup!=null&&workGroup.size()>0){
+            List<WorkGroup> workGroup = platformEnvironment.listWorkGroup(osInfo.getOsId(),null, "组长");
+            if (workGroup!=null && workGroup.size()>0){
                 String userName = CodeRepositoryUtil.getUserName(topUnit, workGroup.get(0).getUserCode());
                 jsonObject.put("createUserName",userName);
                 jsonObject.put("userCode",workGroup.get(0).getUserCode());
@@ -121,9 +114,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         FileLibraryInfo fileLibrary = operateFileLibrary.getFileLibrary(topUnit, applicationId);
         List<WorkGroup> workGroup = null;
         if(checkAuth) {
-            Map map = new HashMap();
-            map.put("groupId", applicationId);
-            workGroup = platformEnvironment.listWorkGroup(map, null);
+            workGroup = platformEnvironment.listWorkGroup(applicationId, null, null);
             if (notHaveAuth(workGroup, loginUser)) {
                 throw new ObjectException(ResponseData.HTTP_NON_AUTHORITATIVE_INFORMATION, "您没有权限");
             }
@@ -218,7 +209,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
 
     private WorkGroup createWorkGroup(OsInfo osInfo, String leaderCode) {
         WorkGroup wf = assemblyWorkGroupInfo(osInfo, leaderCode);
-        platformEnvironment.batchWorkGroup(CollectionsOpt.createList(wf));
+        platformEnvironment.batchSaveWorkGroup(CollectionsOpt.createList(wf));
         return wf;
     }
 
