@@ -62,6 +62,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
     private HistoryVersion createFlowHV(JSONObject jsonObject){
         HistoryVersion hv = new HistoryVersion();
+        hv.setHistoryId(UuidOpt.getUuidAsString22());
         hv.setType("1");
         hv.setRelationId(jsonObject.getString("flowCode"));
         hv.setMemo(jsonObject.getString("flowName"));
@@ -82,6 +83,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
     private HistoryVersion createPageHV(JSONObject jsonObject){
         HistoryVersion hv = new HistoryVersion();
+        hv.setHistoryId(UuidOpt.getUuidAsString22());
         hv.setType("2");
         hv.setRelationId(jsonObject.getString("modelId"));
         hv.setMemo(jsonObject.getString("modelName"));
@@ -92,6 +94,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
     private HistoryVersion createApiHV(JSONObject jsonObject){
         HistoryVersion hv = new HistoryVersion();
+        hv.setHistoryId(UuidOpt.getUuidAsString22());
         hv.setType("3");
         hv.setRelationId(jsonObject.getString("packetId"));
         hv.setMemo(jsonObject.getString("packetName"));
