@@ -601,10 +601,10 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     @Override
     public int restoreAppVersion(String appVersionId, String userCode) {
         ApplicationVersion appVersion = applicationVersionDao.getObjectById(appVersionId);
-        JSONArray diff = innerCompareToOldVersion(appVersion.getApplicationId(), appVersionId, true);
+        JSONArray diffs = innerCompareToOldVersion(appVersion.getApplicationId(), appVersionId, true);
         //恢复不同
         int mergeCount=0;
-        for(Object obj : diff){
+        for(Object obj : diffs){
             if(obj instanceof JSONObject){
                 JSONObject jsonDiff = (JSONObject) obj;
 
@@ -617,7 +617,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
 
                 if("D".equals(jsonDiff.getString("diff"))){
                     // 删除的，创建版本， 检查是否有删除状态的，如果有 先恢复
-                    HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
+                    HistoryVersion hv = historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
                     recoveryHistoryVersion(hv);
                     mergeTask.setMergeType(AppMergeTask.MERGE_TYPE_CREATE);//"C");
                     mergeTask.setHistoryId(jsonDiff.getString("historyId"));
@@ -744,7 +744,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     public void rollbackRestore(String appVersionId) {
         List<AppMergeTask> tasks = appMergeTaskDao.listMergeTask(appVersionId,
             ApplicationVersion.VERSION_MERGE_STATUS_MERGING);// B
-        if(tasks!=null && tasks.size()>0) {
+        if(tasks!=null && !tasks.isEmpty()) {
             for (AppMergeTask task : tasks) {
                 innerRollbackMergeTask(task);
             }
