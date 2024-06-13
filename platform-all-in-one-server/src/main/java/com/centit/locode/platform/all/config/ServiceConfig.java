@@ -15,6 +15,7 @@ import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.framework.model.adapter.UserUnitFilterCalcContextFactory;
 import com.centit.framework.model.security.ThirdPartyCheckUserDetails;
+import com.centit.framework.redis.config.RedisClientConfig;
 import com.centit.framework.security.StandardPasswordEncoderImpl;
 import com.centit.framework.system.config.SystemBeanConfig;
 import com.centit.im.service.IntelligentRobotFactory;
@@ -52,6 +53,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
         value = org.springframework.stereotype.Controller.class))
 @Import({
     JdbcConfig.class,
+    RedisClientConfig.class,
     SystemBeanConfig.class,
     SpringSecurityDaoConfig.class,
     SpringSecurityCasConfig.class,})
