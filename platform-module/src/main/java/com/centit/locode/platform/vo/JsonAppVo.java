@@ -142,8 +142,9 @@ public class JsonAppVo {
     public JsonAppVo() {
     }
 
-    public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt) {
+    public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt, String zipFilePath) {
         createMapJsonObject(jsonObject);
+        this.zipFilePath = zipFilePath;
         this.oldAppObject = oldObject;
         this.userCode = userDetails == null ? "" : userDetails.getUserCode();
         this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
@@ -172,12 +173,8 @@ public class JsonAppVo {
 
     private void createMapJsonObject(JSONObject jsonObject) {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
-            if ("file".equals(entry.getKey())) {
-                zipFilePath = StringBaseOpt.objectToString(entry.getValue());
-            } else {
-                mapJsonObject.put(entry.getKey(),
-                    (List<Map<String, Object>>) entry.getValue());
-            }
+            mapJsonObject.put(entry.getKey(),
+                (List<Map<String, Object>>) entry.getValue());
         }
     }
 
@@ -207,8 +204,8 @@ public class JsonAppVo {
             return;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATABASE_INFO.name());
-        list.forEach(map->{
-            if("D".equals(StringBaseOpt.objectToString(map.get("sourceType")))){
+        list.forEach(map -> {
+            if ("D".equals(StringBaseOpt.objectToString(map.get("sourceType")))) {
                 listDatabaseName.add(StringBaseOpt.objectToString(map.get(DATABASE_CODE)));
             }
         });
