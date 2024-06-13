@@ -231,14 +231,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
             jsonObject.put(fileName, CsvFileIO.readDataFromInputStream(new FileInputStream(file.getPath()),
                 true, null, "gbk"));
         }
-        jsonObject.put("file", filePath);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails) {
         try {
-            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt);
+            String zipFilePath=jsonObject.getString("file");
+            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt,zipFilePath);
             int result = createApp(jsonAppVo);
 //            OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用成功").user(userDetails.getUserCode())
 //                .topUnit(userDetails.getTopUnitCode()).unit(userDetails.getCurrentUnitCode()).
@@ -255,12 +255,13 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails) {
         try {
+            String zipFilePath=jsonObject.getString("file");
             JSONObject sourceJson=new JSONObject();
-            parseCsvToJson(sourceJson,jsonObject.getString("file"));
+            parseCsvToJson(sourceJson,zipFilePath);
             String copyString= JSON.toJSONString(jsonObject);
             JSONObject copyJson=JSONObject.parse(copyString);
             sourceJson.put("F_DATABASE_INFO", copyJson.get("F_DATABASE_INFO"));
-            JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
+            JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt,zipFilePath);
             jsonAppVo.updatePrimary();
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
             List<Map<String, Object>> pendingColumnsList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_COLUMN.name());
@@ -324,7 +325,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         parseCsvToJson(sourceJson,filePath);
         sourceJson.put("F_DATABASE_INFO", jsonAppVoJson.get("F_DATABASE_INFO"));
         JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
-            getOldApplication(jsonAppVoJson.getString("targetOsId")), userDetails, appHome, fileInfoOpt);
+            getOldApplication(jsonAppVoJson.getString("targetOsId")),
+            userDetails, appHome, fileInfoOpt,filePath);
         jsonAppVo.prepareApp();
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
         int result = 0;
