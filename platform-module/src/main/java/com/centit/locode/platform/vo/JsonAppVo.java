@@ -6,7 +6,6 @@ import com.centit.dde.adapter.po.DataPacket;
 import com.centit.dde.adapter.po.DataPacketDraft;
 import com.centit.dde.adapter.po.DataPacketParam;
 import com.centit.dde.adapter.po.DataPacketParamDraft;
-import com.centit.dde.core.DataSet;
 import com.centit.dde.utils.ConstantValue;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.common.FileLibraryInfo;
@@ -177,7 +176,7 @@ public class JsonAppVo {
                 zipFilePath = StringBaseOpt.objectToString(entry.getValue());
             } else {
                 mapJsonObject.put(entry.getKey(),
-                    ((DataSet) entry.getValue()).getDataAsList());
+                    (List<Map<String, Object>>) entry.getValue());
             }
         }
     }

@@ -4,8 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.dde.adapter.DdeDubboTaskRun;
-import com.centit.dde.core.DataSet;
-import com.centit.dde.dataset.CsvDataSet;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.common.ResponseData;
@@ -25,6 +23,7 @@ import com.centit.product.metadata.po.SourceInfo;
 import com.centit.support.algorithm.*;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
+import com.centit.support.file.CsvFileIO;
 import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
@@ -183,11 +182,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
         }
         JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, sql, map);
-        DataSet simpleDataSet = new DataSet();
-        simpleDataSet.setData(jsonArray);
-        CsvDataSet csvDataSet = new CsvDataSet();
-        csvDataSet.setFilePath(filePath + File.separator + fileName + ".csv");
-        csvDataSet.save(simpleDataSet);
+        try(FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")){
+            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "gbk");
+        } catch (IOException e) {
+            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION, "导出文件出错"+ e.getMessage());
+        }
     }
 
     private void compressFileInfo(String osId, String filePath) throws IOException {
@@ -221,17 +220,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
         parseCsvToJson(jsonObject, filePath);
         JSONObject returnJsonObject = new JSONObject();
         returnJsonObject.put("file", filePath);
-        returnJsonObject.put("F_DATABASE_INFO",jsonObject.get("F_DATABASE_INFO"));
+        returnJsonObject.put("F_DATABASE_INFO", jsonObject.get("F_DATABASE_INFO"));
         return returnJsonObject;
     }
 
     private void parseCsvToJson(JSONObject jsonObject, String filePath) throws Exception {
         List<File> files = FileSystemOpt.findFiles(filePath, "*.csv");
-        CsvDataSet csvDataSet = new CsvDataSet();
         for (File file : files) {
             String fileName = FileSystemOpt.extractFileName(file.getPath());
-            csvDataSet.setInputStream(new FileInputStream(file.getPath()));
-            jsonObject.put(fileName, csvDataSet.load(null, null));
+            jsonObject.put(fileName, CsvFileIO.readDataFromInputStream(new FileInputStream(file.getPath()),
+                true, null, "gbk"));
         }
         jsonObject.put("file", filePath);
     }
@@ -261,8 +259,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             parseCsvToJson(sourceJson,jsonObject.getString("file"));
             String copyString= JSON.toJSONString(jsonObject);
             JSONObject copyJson=JSONObject.parse(copyString);
-            DataSet dataSet=DataSet.toDataSet(copyJson.get("F_DATABASE_INFO"));
-            sourceJson.put("F_DATABASE_INFO",dataSet);
+            sourceJson.put("F_DATABASE_INFO", copyJson.get("F_DATABASE_INFO"));
             JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt);
             jsonAppVo.updatePrimary();
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
@@ -325,8 +322,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         JSONObject sourceJson=new JSONObject();
         String filePath=jsonAppVoJson.getString("file");
         parseCsvToJson(sourceJson,filePath);
-        DataSet dataSet=DataSet.toDataSet(jsonAppVoJson.get("F_DATABASE_INFO"));
-        sourceJson.put("F_DATABASE_INFO",dataSet);
+        sourceJson.put("F_DATABASE_INFO", jsonAppVoJson.get("F_DATABASE_INFO"));
         JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
             getOldApplication(jsonAppVoJson.getString("targetOsId")), userDetails, appHome, fileInfoOpt);
         jsonAppVo.prepareApp();

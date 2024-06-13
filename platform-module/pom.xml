@@ -65,12 +65,6 @@
 
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>centit-dde-core</artifactId>
-            <version>${revision}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.centit.product</groupId>
             <artifactId>centit-dde-adapter</artifactId>
             <version>${revision}</version>
         </dependency>
