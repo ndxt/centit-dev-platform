@@ -51,7 +51,7 @@ public class ModelExportController extends BaseController {
     @Autowired
     private PlatformEnvironment platformEnvironment;
 
-    @ApiOperation(value = "导出应用路径")
+    @ApiOperation(value = "1.导出应用")
     @GetMapping(value = "/downloadModel/{osId}")
     public Map<String,String> downLoadModel(@PathVariable String osId, HttpServletRequest request) throws FileNotFoundException {
         Map<String, Object> parameters =collectRequestParameters(request);
@@ -64,7 +64,7 @@ public class ModelExportController extends BaseController {
             throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限导出这个应用："+osId+"！");
         }
 
-        String fileId = modelExportManager.downModel(osId);
+        String fileId = modelExportManager.downModel(osId,parameters);
         String fileName = fileId;
         try {
             fileName = platformEnvironment.getOsInfo(osId).getOsName();
@@ -77,7 +77,7 @@ public class ModelExportController extends BaseController {
         return map;
     }
 
-    @ApiOperation(value = "导出应用文件")
+    @ApiOperation(value = "2.根据返回id下载应用文件")
     @GetMapping(value = "/downloadModelFile")
     public void downLoadModel(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> parameters = collectRequestParameters(request);
@@ -103,7 +103,7 @@ public class ModelExportController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "导入zip获取json")
+    @ApiOperation(value = "3.文件导入")
     @RequestMapping(value = "/updateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public JSONObject upLoadModel(HttpServletRequest request) {
