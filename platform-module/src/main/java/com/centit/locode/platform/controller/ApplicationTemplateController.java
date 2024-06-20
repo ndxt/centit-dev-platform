@@ -130,21 +130,6 @@ public class ApplicationTemplateController extends BaseController {
         return modelExportManager.createApp(jsonObject, "", userDetails);
     }
 
-    @ApiOperation(value = "导入覆盖应用")
-    @RequestMapping(value = "/updateApp/{osId}", method = {RequestMethod.POST})
-    @WrapUpResponseBody
-    public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request,
-                             @PathVariable String osId)  {
-        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-        if (userDetails==null){
-            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
-        }
-        if(jsonObject==null){
-            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
-        }
-        return modelExportManager.createApp(jsonObject, osId, userDetails);
-    }
-
     @ApiOperation(value = "根据模板导入应用返回预处理结果")
     @RequestMapping(value = "/prepareTemplateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
@@ -159,7 +144,7 @@ public class ApplicationTemplateController extends BaseController {
         return modelExportManager.prepareApp(jsonObject, "", userDetails);
     }
 
-    @ApiOperation(value = "导入应用返回预处理结果")
+    @ApiOperation(value = "5.返回DDL")
     @RequestMapping(value = "/prepareUpdateApp/{osId}", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public JSONObject prepareApp(@RequestBody JSONObject jsonObject, HttpServletRequest request,
@@ -175,7 +160,7 @@ public class ApplicationTemplateController extends BaseController {
             WebOptUtils.getCurrentUserDetails(request));
     }
 
-    @ApiOperation(value = "导入应用返回预处理结果")
+    @ApiOperation(value = "6.完成导入")
     @RequestMapping(value = "/importApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public Integer importApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) throws Exception {
