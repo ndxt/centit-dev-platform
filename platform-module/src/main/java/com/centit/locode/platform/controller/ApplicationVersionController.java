@@ -20,6 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 
@@ -59,6 +62,18 @@ public class ApplicationVersionController extends BaseController {
         }
         appVersion.setCreator(userInfo.getUserCode());
         return applicationVersionService.createApplicationVersion(appVersion);
+        /* TODO SSE
+          response.setContentType("text/event-stream");
+          response.setCharacterEncoding("UTF-8");
+          try {
+            PrintWriter writer = response.getWriter();
+            //这里需要\n\n，必须要，不然前台接收不到值,键必须为data
+            writer.write("data : 中文测试 \n\n");
+            writer.flush();
+        } catch (IOException e) {
+            throw new ObjectException(e);
+        }*/
+
     }
 
     @ApiOperation(value = "更改历史版本信息", notes = "更改历史版本信息")
@@ -180,6 +195,7 @@ public class ApplicationVersionController extends BaseController {
     public void markMergeCompleted(@RequestBody AppMergeTask task,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
         task.setUpdateUser(userInfo.getUserCode());
+        // 发布对象
         applicationVersionService.mergeCompleted(task);
     }
 
@@ -191,6 +207,7 @@ public class ApplicationVersionController extends BaseController {
     @WrapUpResponseBody()
     public void markeRestoreCompleted(@PathVariable String appVersionId,  HttpServletRequest request) {
         WebOptUtils.assertUserLogin(request);
+        // 发布所有的对象 状态为 B 的对象
         applicationVersionService.restoreCompleted(appVersionId);
     }
 

@@ -14,7 +14,7 @@ public class AppMergeTaskDao extends BaseDaoImpl<AppMergeTask, JSONObject> {
 
     public void clearMergeTask(String appVersionId) {
         this.deleteObjectsByProperties(CollectionsOpt.createHashMap(
-            "appVersionId",appVersionId));
+            "appVersionId", appVersionId));
     }
 
     public void markTaskComplete(String appVersionId, String relationId) {
