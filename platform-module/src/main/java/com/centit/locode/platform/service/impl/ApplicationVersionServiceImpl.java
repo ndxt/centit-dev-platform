@@ -711,13 +711,134 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         return appMergeTaskDao.listObjectsByProperties(filterMap ,pageDesc);
     }
 
+    private void publishPage(String modelId){
+        String query = "select MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type, "+
+            " Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template, "+
+            " SOURCE_ID, STRUCTURE_FUNCTION, MODEL_TAG, IS_VALID "+
+            " from m_meta_form_model_draft where MODEL_ID = ?";
+        JSONObject object = DatabaseOptUtils.getObjectBySqlAsJson(appMergeTaskDao, query, new Object[]{modelId});
+        if(object == null){
+            throw new ObjectException(ObjectException.DATA_NOT_FOUND_EXCEPTION, "找不到对应的页面模块"+modelId);
+        }
+        Object count = DatabaseOptUtils.getScalarObjectQuery(appMergeTaskDao,
+            "select count(*) from m_meta_form_model where MODEL_ID = ?", new Object[]{modelId});
+        object.put("lastModifyDate", DatetimeOpt.currentUtilDate());
+        object.put("publishDate", DatetimeOpt.currentUtilDate());
+        if(NumberBaseOpt.castObjectToInteger(count,0)>0){
+            String updateSql = "update m_meta_form_model set " +
+                " Model_Name = :modelName, OPT_ID = :optId, os_id = :osId, Model_Type = :modelType, "+
+                " Recorder = :recorder, Model_Comment = :modelComment," +
+                " MOBILE_FORM_TEMPLATE = :mobileFormTemplate, form_template = :formTemplate, "+
+                " SOURCE_ID = :sourceId, STRUCTURE_FUNCTION = :structureFunction," +
+                " MODEL_TAG = :modelTag, IS_VALID = 'F', last_modify_Date = :lastModifyDate," +
+                " publish_date = :publishDate"+
+                " where MODEL_ID = :modelId";
+            DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, updateSql, object);
+        } else {
+            String insertSql = "insert into m_meta_form_model" +
+                " (MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type," +
+                "  Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template, last_modify_Date," +
+                " SOURCE_ID, STRUCTURE_FUNCTION, MODEL_TAG, IS_VALID, publishDate )" +
+                " values (:modelId, :modelName, :optId, :osId, :modelType," +
+                " :recorder, :modelComment, :mobileFormTemplate, :formTemplate, :lastModifyDate," +
+                " :sourceId, :structureFunction, :modelTag, 'F', :publishDate)";
+            DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, insertSql, object);
+        }
+
+        String updateSql = "update m_meta_form_model_draft set " +
+            " last_modify_Date = :lastModifyDate, publish_date = :publishDate"+
+            " where MODEL_ID = :modelId";
+        DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, updateSql, object);
+    }
+
+    private void publishApi(String apiId){
+        String query = "select PACKET_ID, os_id, Owner_Type, Owner_Code, PACKET_NAME, " +
+            "PACKET_TYPE, PACKET_DESC, Recorder, Record_Date, has_data_opt, " +
+            "data_opt_desc_json, task_type, task_Cron, is_valid, interface_name, " +
+            "is_while, return_type, return_result, need_rollback, OPT_ID, " +
+            "EXT_PROPS, opt_code, BUFFER_FRESH_PERIOD, buffer_fresh_period_type, " +
+            "log_level, is_disable, schema_props, request_body_type, FALL_BACK_LEVEL " +
+            "from q_data_packet_draft  where PACKET_ID = ?";
+        JSONObject object = DatabaseOptUtils.getObjectBySqlAsJson(appMergeTaskDao, query, new Object[]{apiId});
+        if(object == null){
+            throw new ObjectException(ObjectException.DATA_NOT_FOUND_EXCEPTION, "找不到对应的API接口模块"+apiId);
+        }
+        Object count = DatabaseOptUtils.getScalarObjectQuery(appMergeTaskDao,
+            "select count(*) from q_data_packet where PACKET_ID = ?", new Object[]{apiId});
+        object.put("updateDate", DatetimeOpt.currentUtilDate());
+        object.put("publishDate", DatetimeOpt.currentUtilDate());
+        if(NumberBaseOpt.castObjectToInteger(count,0)>0){
+            String updateSql = "update q_data_packet set " +
+                "os_id = :osId, Owner_Type = :ownerType, Owner_Code = :ownerCode, PACKET_NAME = :packetName, " +
+                "PACKET_TYPE = :packetType, PACKET_DESC = :packetDesc, Recorder = :recorder, Record_Date = :recordDate, has_data_opt = :hasDataOpt, " +
+                "data_opt_desc_json = :dataOptDescJson, task_type = :taskType, task_Cron = :taskCron, is_valid = 'T', interface_name = :interfaceName, " +
+                "is_while = :isWhile, return_type = :returnType, return_result = :returnResult, need_rollback = :needRollback, OPT_ID = :optId, " +
+                "EXT_PROPS = :extProps, opt_code = :optCode, BUFFER_FRESH_PERIOD = :bufferFreshPeriod, buffer_fresh_period_type = :bufferFreshPeriodType, " +
+                "log_level = :logLevel, is_disable = 'F', schema_props = :schemaProps, request_body_type = :requestBodyType, FALL_BACK_LEVEL = :fallBackLevel, " +
+                "update_date = :updateDate, publish_date = :publishDate)"+
+                " where PACKET_ID = :packetId";
+            DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, updateSql, object);
+        } else {
+            String insertSql = "insert into q_data_packet" +
+                "(PACKET_ID, os_id, Owner_Type, Owner_Code, PACKET_NAME, " +
+                "PACKET_TYPE, PACKET_DESC, Recorder, Record_Date, has_data_opt, " +
+                "data_opt_desc_json, task_type, task_Cron, is_valid, interface_name, " +
+                "is_while, return_type, return_result, need_rollback, OPT_ID, " +
+                "EXT_PROPS, opt_code, BUFFER_FRESH_PERIOD, buffer_fresh_period_type, " +
+                "log_level, is_disable, schema_props, request_body_type, FALL_BACK_LEVEL " +
+                "update_date,  publish_date)"+
+                " values (:packetId, :osId, :ownerType, :ownerCode, :packetName, " +
+                " :packetType, :packetDesc, :recorder, :recordDate, :hasDataOpt, " +
+                " :dataOptDescJson, :taskType, :taskCron, 'T', :interfaceName, " +
+                " :isWhile, :returnType, :returnResult, :needRollback, :optId, " +
+                " :extProps, :optCode, :bufferFreshPeriod, :bufferFreshPeriodType, " +
+                " :logLevel, 'F', :schemaProps, :requestBodyType, :fallBackLevel, " +
+                " :updateDate, :publishDate)";
+            DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, insertSql, object);
+        }
+        String deleteParams = "delete q_data_packet_param  where PACKET_ID = :packetId";
+        DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, deleteParams, object);
+
+        String insertParams = "insert into q_data_packet_param (PACKET_ID, PARAM_Name, PARAM_Label, PARAM_Display_Style, param_Type, " +
+            "param_Reference_Type, param_Reference_Data, param_Validate_Regex, param_Validate_Info, " +
+            "param_Default_Value, PARAM_Order, IS_REQUIRED ) " +
+            "select PACKET_ID, PARAM_Name, PARAM_Label, PARAM_Display_Style, param_Type, " +
+            "param_Reference_Type, param_Reference_Data, param_Validate_Regex, param_Validate_Info, " +
+            "param_Default_Value, PARAM_Order, IS_REQUIRED " +
+            "from q_data_packet_param_draft where PACKET_ID = ?";
+        DatabaseOptUtils.doExecuteSql(appMergeTaskDao, insertParams,new Object[] {apiId});
+
+        String updateSql = "update q_data_packet_draft set " +
+            " update_date = :updateDate,  publish_date = :publishDate"+
+            " where PACKET_ID = :packetId";
+        DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, updateSql, object);
+    }
+
     @Override
     public void mergeCompleted(AppMergeTask task) {
-         appMergeTaskDao.markTaskComplete(task.getAppVersionId(), task.getRelationId());
+        // 发布对象
+        if("2".equals(task.getObjectType())){
+            publishPage(task.getRelationId());
+        } else if("3".equals(task.getObjectType())){
+            publishApi(task.getRelationId());
+        }
+        appMergeTaskDao.markTaskComplete(task.getAppVersionId(), task.getRelationId());
     }
 
     @Override
     public void restoreCompleted(String appVersionId) {
+        // 发布所有对象
+        List<AppMergeTask> tasks = appMergeTaskDao.listMergeTask(appVersionId,
+             ApplicationVersion.VERSION_MERGE_STATUS_MERGING);
+        if(tasks!=null && !tasks.isEmpty()){
+            for(AppMergeTask task :tasks){
+                if("2".equals(task.getObjectType())){
+                    publishPage(task.getRelationId());
+                } else if("3".equals(task.getObjectType())){
+                    publishApi(task.getRelationId());
+                }
+            }
+        }
         appMergeTaskDao.clearMergeTask(appVersionId);
         applicationVersionDao.setRestoreStatus(appVersionId, ApplicationVersion.VERSION_MERGE_STATUS_COMPLETED);//"A");
     }

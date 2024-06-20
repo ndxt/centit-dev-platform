@@ -33,7 +33,7 @@ public class AppMergeTask implements Serializable {
     private String relationId;
 
     @Column(name = "object_type")
-    @ApiModelProperty(value = "对象类型")
+    @ApiModelProperty(value = "类型，1：工作流 2：页面设计 3：api网关")
     private String objectType;
 
     @Column(name = "history_ID")
