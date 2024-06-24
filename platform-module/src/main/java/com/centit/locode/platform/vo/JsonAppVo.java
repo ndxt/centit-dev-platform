@@ -107,6 +107,7 @@ public class JsonAppVo {
     private static final String FIRST_NODE_ID = "firstNodeId";
     private static final String TASK_TYPE = "taskType";
     private static final String IS_VALID = "isValid";
+    private static final String MAP_DATA_CODE = "mapDataCode";
 
     @Getter
     @Setter
@@ -127,6 +128,12 @@ public class JsonAppVo {
     private List<Object> metaObject = new ArrayList<>();
     @Getter
     private List<String> listDatabaseName = new ArrayList<>();
+    @Getter
+    @Setter
+    private boolean runMetaData;
+    @Getter
+    @Setter
+    private boolean runDictionary;
     private Map<String, Object> databaseMap = new HashMap<>();
     private Map<String, Object> mdTableMap = new HashMap<>();
     private Map<String, Object> relationMap = new HashMap<>();
@@ -137,10 +144,7 @@ public class JsonAppVo {
     private Map<String, Object> wfNodeMap = new HashMap<>();
     private Map<String, Object> dictionaryMap = new HashMap<>();
     private Map<String, Object> fileMap = new HashMap<>();
-    private static final String MAP_DATA_CODE = "mapDataCode";
 
-    public JsonAppVo() {
-    }
 
     public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt, String zipFilePath) {
         createMapJsonObject(jsonObject);
@@ -150,12 +154,10 @@ public class JsonAppVo {
         this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
         this.appHome = appHome;
         this.fileInfoOpt = fileInfoOpt;
+        this.runMetaData=true;
+        this.runDictionary=true;
     }
 
-    public void setTopUnit(CentitUserDetails userDetails) {
-        this.topUnit = userDetails == null ? "" : userDetails.getTopUnitCode();
-        this.userCode = userDetails.getUserCode();
-    }
 
     public void prepareApp() {
         updatePrimary();
@@ -1220,7 +1222,7 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createDataCatalog() {
-        if (mapJsonObject.get(AppTableNames.F_DATACATALOG.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATACATALOG.name()) == null || !this.runDictionary) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATACATALOG.name());
@@ -1229,7 +1231,7 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createDataDictionary() {
-        if (mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name()) == null || !this.runDictionary) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name());
@@ -1238,7 +1240,7 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createApplicationDictionary() {
-        if (mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name()) == null || !this.runDictionary) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.M_APPLICATION_DICTIONARY.name());
@@ -1247,7 +1249,7 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createMdTableWithColumnObject() {
-        if (mapJsonObject.get(AppTableNames.F_MD_TABLE.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_TABLE.name()) == null || !this.runMetaData) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_TABLE.name());
@@ -1270,7 +1272,7 @@ public class JsonAppVo {
     }
 
     private JsonAppVo createMdRelationWithDetailObject() {
-        if (mapJsonObject.get(AppTableNames.F_MD_RELATION.name()) == null) {
+        if (mapJsonObject.get(AppTableNames.F_MD_RELATION.name()) == null || !this.runMetaData) {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_RELATION.name());
