@@ -353,12 +353,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
     public Integer importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
         JSONObject jsonAppVoJson = jsonObject.getJSONObject("jsonAppVo");
         JSONObject sourceJson = new JSONObject();
-        String filePath = jsonAppVoJson.getString("file");
+        String filePath = StringBaseOpt.objectToString(jsonAppVoJson.get("file"));
         parseCsvToJson(sourceJson, filePath);
         sourceJson.put("F_DATABASE_INFO", jsonAppVoJson.get("F_DATABASE_INFO"));
         JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
             getOldApplication(jsonAppVoJson.getString("targetOsId")),
             userDetails, appHome, fileInfoOpt, filePath);
+        jsonAppVo.setRunDictionary(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDictionary"), true));
+        jsonAppVo.setRunMetaData(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runMetaData"), true));
         jsonAppVo.prepareApp();
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
         int result = 0;
