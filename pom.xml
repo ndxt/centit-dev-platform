@@ -24,7 +24,7 @@
     <description>南大先腾云研发平台</description>
 
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
+        <revision>5.5.240601-SNAPSHOT</revision>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
