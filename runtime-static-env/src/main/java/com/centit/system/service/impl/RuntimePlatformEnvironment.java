@@ -6,7 +6,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.common.GlobalConstValue;
 import com.centit.framework.components.CodeRepositoryCache;
 import com.centit.framework.model.basedata.*;
-import com.centit.framework.model.security.CentitPasswordEncoder;
 import com.centit.framework.staticsystem.service.impl.AbstractStaticPlatformEnvironment;
 import com.centit.support.common.ListAppendMap;
 import com.centit.support.file.FileIOOpt;
@@ -14,8 +13,6 @@ import com.centit.support.file.FileSystemOpt;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +27,7 @@ public class RuntimePlatformEnvironment extends AbstractStaticPlatformEnvironmen
 
     private static Log logger = LogFactory.getLog(RuntimePlatformEnvironment.class);
 
-    @Value("${app.home:./}")
     protected String appHome;
-
-    public RuntimePlatformEnvironment(@Autowired CentitPasswordEncoder passwordEncoder){
-        super.setPasswordEncoder(passwordEncoder);
-    }
 
     public void setAppHome(String appHome) {
         this.appHome = appHome;
