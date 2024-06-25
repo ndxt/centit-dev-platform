@@ -74,13 +74,6 @@ public class ServiceConfig implements EnvironmentAware {
     }
 
     @Bean
-    public CentitUserDetailsService centitUserDetailsService(@Autowired PlatformEnvironment platformEnvironment) {
-        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
-        userDetailsService.setPlatformEnvironment(platformEnvironment);
-        return userDetailsService;
-    }
-
-    @Bean
     public NotificationCenter notificationCenter() {
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //这个不是必须的,只是为了在没有真正的发送类时不报错
