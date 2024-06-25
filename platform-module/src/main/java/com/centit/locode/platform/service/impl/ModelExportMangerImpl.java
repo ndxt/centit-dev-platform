@@ -59,42 +59,40 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @PostConstruct
     void init() {
-        applicationSql.put(AppTableNames.F_OS_INFO.name(), "select * from f_os_info where os_id=:osId");
-        applicationSql.put(AppTableNames.FILE_LIBRARY_INFO.name(), "select * from file_library_info where library_id=:osId");
-        applicationSql.put(AppTableNames.F_OPTINFO.name(), "select * from f_optinfo where top_opt_id=:osId");
+        applicationSql.put(AppTableNames.F_OS_INFO.name(), "select * from f_os_info where [:osId | os_id=:osId]");
+        applicationSql.put(AppTableNames.FILE_LIBRARY_INFO.name(), "select * from file_library_info where [:osId | library_id=:osId]");
+        applicationSql.put(AppTableNames.F_OPTINFO.name(), "select * from f_optinfo where [:osId | top_opt_id=:osId]");
         applicationSql.put(AppTableNames.F_OPTDEF.name(), "select * from f_optdef where opt_id in " +
-            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+            "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:optId | and opt_id=:optId])");
         applicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
-            "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
-        applicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where os_id=:osId");
-        applicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select a.* from f_table_opt_relation a join f_md_table b on a.table_id=b.TABLE_ID where a.os_id=:osId");
-        applicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where OS_ID=:osId");
-        applicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select * from q_data_packet where OS_ID=:osId ");
-        applicationSql.put(AppTableNames.Q_DATA_PACKET_PARAM.name(), "select * from q_data_packet_param where packet_id in (" +
-            "select packet_id from q_data_packet where OS_ID=:osId and is_disable='F')");
-        applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where OS_ID=:osId and flow_state in('A','E','B','D')");
+            "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
+        applicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where [:osId | os_id=:osId]");
+        applicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select a.* from f_table_opt_relation a join f_md_table b on a.table_id=b.TABLE_ID where [:osId | a.os_id=:osId] [:optId | and opt_id=:optId]");
+        applicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where [:osId | OS_ID=:osId] [:optId | and opt_id=:optId]");
+        applicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select * from q_data_packet where [:osId | OS_ID=:osId] [:optId | and opt_id=:optId]");
+        applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where [:osId | OS_ID=:osId] and flow_state in('A','E','B','D') [:optId | and opt_id=:optId]");
         applicationSql.put(AppTableNames.WF_NODE.name(), "select * from wf_node where (flow_code,version) in(" +
-            "select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B')");
+            "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:optId | and opt_id=:optId])");
         applicationSql.put(AppTableNames.WF_TRANSITION.name(), "select * from wf_transition where (flow_code,version) in(" +
-            "select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B')");
+            "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:optId | and opt_id=:optId])");
         applicationSql.put(AppTableNames.WF_FLOW_STAGE.name(), "select * from wf_flow_stage where (flow_code,version) in(" +
-            "select flow_code,version from wf_flow_define where OS_ID=:osId and flow_state='B')");
+            "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:optId | and opt_id=:optId])");
         applicationSql.put(AppTableNames.WF_OPT_TEAM_ROLE.name(), "select * from wf_opt_team_role where opt_id in " +
-            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+            "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:optId | and opt_id=:optId])");
         applicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " +
-            "(select opt_id from f_optinfo where top_opt_id=:osId)");
+            "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:optId | and opt_id=:optId])");
         applicationSql.put(AppTableNames.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " +
-            "(select dictionary_id from m_application_dictionary where os_id=:osId)");
+            "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId])");
         applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " +
-            "(select dictionary_id from m_application_dictionary where os_id=:osId)");
-        applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where os_id=:osId");
+            "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId])");
+        applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
 
-        newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)" +
-            " and database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
-        newDatabaseSql.put(AppTableNames.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
-        newDatabaseSql.put(AppTableNames.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where OS_ID=:osId)");
+        newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:optId | and opt_id=:optId])" +
+            " and database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
+        newDatabaseSql.put(AppTableNames.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:optId | and opt_id=:optId])");
+        newDatabaseSql.put(AppTableNames.F_MD_RELATION.name(), "select * from f_md_relation where parent_table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:optId | and opt_id=:optId])");
         newDatabaseSql.put(AppTableNames.F_MD_REL_DETAIL.name(), "select * from f_md_rel_detail where relation_id in (select relation_id from f_md_relation where parent_table_id in " +
-            "(select table_id from f_table_opt_relation where OS_ID=:osId))");
+            "(select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:optId | and opt_id=:optId]))");
 
         oldDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select table_id,table_name,DATABASE_CODE from f_md_table where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
         oldDatabaseSql.put(AppTableNames.F_MD_RELATION.name(), "select RELATION_ID,PARENT_TABLE_ID,CHILD_TABLE_ID from f_md_relation where parent_table_id in (select table_id from f_md_table where database_code in " +
@@ -123,11 +121,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     @Override
-    public String downModel(String osId) throws FileNotFoundException {
+    public String downModel(String osId, Map<String, Object> parameters) throws FileNotFoundException {
         String fileId = DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
         String filePath = appHome + File.separator + fileId;
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
+        if (parameters != null && StringUtils.isNotBlank(StringBaseOpt.objectToString(parameters.get("optId")))) {
+            mapApplication.put("optId", StringBaseOpt.objectToString(parameters.get("optId")));
+        }
         updateSourceId(mapApplication);
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
@@ -146,17 +147,17 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     @Override
-    public String exportModelAndSaveToFileServer(OsInfo osInfo) throws IOException{
+    public String exportModelAndSaveToFileServer(OsInfo osInfo) throws IOException {
         String osId = osInfo.getOsId();
-        String fileId = downModel(osId);
+        String fileId = downModel(osId, null);
         String filePath = appHome + File.separator + fileId + ".zip";
         FileInfo fileInfo = new FileInfo();
-        fileInfo.setFileName(osInfo.getOsName()+ DatetimeOpt.currentDate() +".zip");
+        fileInfo.setFileName(osInfo.getOsName() + DatetimeOpt.currentDate() + ".zip");
         fileInfo.setFileType("zip");
         fileInfo.setOsId(osId);
         fileInfo.setLibraryId("backup");
         fileInfo.setFileOwner("system");
-        return fileInfoOpt.saveFile(fileInfo,  0, new FileInputStream(filePath));
+        return fileInfoOpt.saveFile(fileInfo, 0, new FileInputStream(filePath));
     }
 
     private void updateSourceId(Map<String, Object> map) {
@@ -181,12 +182,43 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 throw new SecurityException();
             }
         }
-        JSONArray jsonArray = DatabaseOptUtils.listObjectsByNamedSqlAsJson(applicationTemplateDao, sql, map);
-        try(FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")){
+        JSONArray jsonArray = DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, sql, map);
+        if (fileName.equals(AppTableNames.F_OPTINFO.name()) && map.containsKey("optId")) {
+            jsonArray = parentOpt(jsonArray, StringBaseOpt.objectToString(map.get("optId")));
+        }
+        try (FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")) {
             CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "gbk");
         } catch (IOException e) {
-            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION, "导出文件出错"+ e.getMessage());
+            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION, "导出文件出错" + e.getMessage());
         }
+    }
+
+    private JSONArray parentOpt(JSONArray jsonArray, String optId) {
+        JSONArray parentOpt = new JSONArray();
+        JSONObject optInfo = getOptInfo(jsonArray, optId);
+        if (optInfo == null) {
+            return jsonArray;
+        }
+        while (optInfo != null) {
+            parentOpt.add(optInfo);
+            String preOptId = optInfo.getString("preOptId");
+            if (preOptId.equals("0")) {
+                break;
+            }
+            optInfo = getOptInfo(jsonArray, preOptId);
+        }
+        return parentOpt;
+    }
+
+    private JSONObject getOptInfo(JSONArray jsonArray, String optId) {
+        for (Object row : jsonArray) {
+            if (row instanceof JSONObject) {
+                if (((JSONObject) row).getString("optId").equals(optId)) {
+                    return (JSONObject) row;
+                }
+            }
+        }
+        return null;
     }
 
     private void compressFileInfo(String osId, String filePath) throws IOException {
@@ -237,8 +269,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Transactional(rollbackFor = Exception.class)
     public Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails) {
         try {
-            String zipFilePath=jsonObject.getString("file");
-            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt,zipFilePath);
+            String zipFilePath = jsonObject.getString("file");
+            JsonAppVo jsonAppVo = new JsonAppVo(jsonObject, getOldApplication(osId), userDetails, appHome, fileInfoOpt, zipFilePath);
             int result = createApp(jsonAppVo);
 //            OperationLogCenter.log(OperationLog.create().application(osId).content("导入应用成功").user(userDetails.getUserCode())
 //                .topUnit(userDetails.getTopUnitCode()).unit(userDetails.getCurrentUnitCode()).
@@ -255,13 +287,13 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails) {
         try {
-            String zipFilePath=jsonObject.getString("file");
-            JSONObject sourceJson=new JSONObject();
-            parseCsvToJson(sourceJson,zipFilePath);
-            String copyString= JSON.toJSONString(jsonObject);
-            JSONObject copyJson=JSONObject.parse(copyString);
+            String zipFilePath = jsonObject.getString("file");
+            JSONObject sourceJson = new JSONObject();
+            parseCsvToJson(sourceJson, zipFilePath);
+            String copyString = JSON.toJSONString(jsonObject);
+            JSONObject copyJson = JSONObject.parse(copyString);
             sourceJson.put("F_DATABASE_INFO", copyJson.get("F_DATABASE_INFO"));
-            JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt,zipFilePath);
+            JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt, zipFilePath);
             jsonAppVo.updatePrimary();
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
             List<Map<String, Object>> pendingColumnsList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_COLUMN.name());
@@ -303,11 +335,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 }
             }
             JSONObject returnJson = new JSONObject();
-            JSONObject subJson=new JSONObject();
-            subJson.put("F_DATABASE_INFO",jsonObject.get("F_DATABASE_INFO"));
-            subJson.put("file",jsonObject.get("file"));
-            subJson.put("targetOsId",osId);
-            returnJson.put("jsonAppVo",subJson);
+            JSONObject subJson = new JSONObject();
+            subJson.put("F_DATABASE_INFO", jsonObject.get("F_DATABASE_INFO"));
+            subJson.put("file", jsonObject.get("file"));
+            subJson.put("targetOsId", osId);
+            returnJson.put("jsonAppVo", subJson);
             returnJson.put("DDL", DDLs);
             returnJson.put("runDDL", true);
             return returnJson;
@@ -318,15 +350,17 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer importApp(JSONObject jsonObject,CentitUserDetails userDetails) throws Exception {
-        JSONObject jsonAppVoJson=jsonObject.getJSONObject("jsonAppVo");
-        JSONObject sourceJson=new JSONObject();
-        String filePath=jsonAppVoJson.getString("file");
-        parseCsvToJson(sourceJson,filePath);
+    public Integer importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
+        JSONObject jsonAppVoJson = jsonObject.getJSONObject("jsonAppVo");
+        JSONObject sourceJson = new JSONObject();
+        String filePath = StringBaseOpt.objectToString(jsonAppVoJson.get("file"));
+        parseCsvToJson(sourceJson, filePath);
         sourceJson.put("F_DATABASE_INFO", jsonAppVoJson.get("F_DATABASE_INFO"));
         JsonAppVo jsonAppVo = new JsonAppVo(sourceJson,
             getOldApplication(jsonAppVoJson.getString("targetOsId")),
-            userDetails, appHome, fileInfoOpt,filePath);
+            userDetails, appHome, fileInfoOpt, filePath);
+        jsonAppVo.setRunDictionary(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDictionary"), true));
+        jsonAppVo.setRunMetaData(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runMetaData"), true));
         jsonAppVo.prepareApp();
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
         int result = 0;

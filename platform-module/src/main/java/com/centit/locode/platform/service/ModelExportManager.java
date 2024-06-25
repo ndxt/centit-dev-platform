@@ -7,9 +7,10 @@ import com.centit.framework.model.security.CentitUserDetails;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 
 public interface ModelExportManager {
-    String downModel(String osId) throws FileNotFoundException;
+    String downModel(String osId, Map<String, Object> parameters) throws FileNotFoundException;
 
     String exportModelAndSaveToFileServer(OsInfo osInfo) throws IOException;
 

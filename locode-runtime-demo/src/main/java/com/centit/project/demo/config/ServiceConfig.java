@@ -63,7 +63,14 @@ public class ServiceConfig implements EnvironmentAware {
      */
     @Bean("passwordEncoder")
     public StandardPasswordEncoderImpl passwordEncoder() {
-        return  new StandardPasswordEncoderImpl();
+        return new StandardPasswordEncoderImpl();
+    }
+
+    @Bean
+    public CentitUserDetailsService centitUserDetailsService(@Autowired PlatformEnvironment platformEnvironment) {
+        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
+        userDetailsService.setPlatformEnvironment(platformEnvironment);
+        return userDetailsService;
     }
 
     @Bean
