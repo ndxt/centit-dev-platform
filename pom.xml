@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.centit.framework</groupId>
         <artifactId>centit-project-bulid-parent</artifactId>
-        <version>5.4.2401</version>
+        <version>5.5-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -24,25 +24,8 @@
     <description>南大先腾云研发平台</description>
 
     <properties>
-        <revision>5.5.240601-SNAPSHOT</revision>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>aplan-releases</id>
-            <name>aplan releases</name>
-            <url>http://maven.mic.com/nexus/content/repositories/focustech-aplan-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>aplan snapshots</name>
-            <url>http://maven.mic.com/nexus/content/repositories/base-snapshot/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <plugins>
