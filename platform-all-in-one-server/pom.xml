@@ -95,7 +95,7 @@
         <dependency>
             <groupId>com.centit.product</groupId>
             <artifactId>opt-log-web</artifactId>
-           <version>${project.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -126,6 +126,12 @@
             <groupId>com.centit.framework</groupId>
             <artifactId>framework-system-web</artifactId>
             <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.centit.framework</groupId>
+            <artifactId>framework-thirdparty-user-plugin</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
