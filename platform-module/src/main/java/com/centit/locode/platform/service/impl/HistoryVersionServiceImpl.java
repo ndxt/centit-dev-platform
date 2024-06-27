@@ -56,6 +56,8 @@ public class HistoryVersionServiceImpl implements HistoryVersionService {
 
     @Override
     public HistoryVersion getHistoryVersion(String historyId) {
+        if(historyId==null || historyId.isEmpty())
+            return null;
         return historyVersionDao.getObjectById(historyId);
     }
 
