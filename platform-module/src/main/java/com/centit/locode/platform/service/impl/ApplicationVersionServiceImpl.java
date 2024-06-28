@@ -286,12 +286,15 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     private JSONArray compareTwoHVS(List<HistoryVersion> hvs1, List<HistoryVersion> hvs2, boolean withContent){
         int len1= hvs1==null?0:hvs1.size();
         int len2= hvs2==null?0:hvs2.size();
+        if(len1>0) hvs1.sort(HistoryVersion::compareTo);
+        if(len2>0) hvs2.sort(HistoryVersion::compareTo);
+
         int i=0, j=0;
         JSONArray diffJsons = new JSONArray();
         while(i<len1 && j<len2){
             HistoryVersion hv1 = hvs1.get(i);
             HistoryVersion hv2 = hvs2.get(j);
-            if(StringUtils.equals(hv1.getType(), hv2.getType()) && StringUtils.equals(hv1.getRelationId(), hv2.getRelationId())){
+            if(hv1.compareTo(hv2)==0){
                 if(!StringUtils.equals(hv1.getHistorySha(), hv2.getHistorySha())){
                     JSONObject diff = new JSONObject();
                     diff.put("type", hv1.getType());
@@ -308,9 +311,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     diffJsons.add(diff);
                 }
                 i++; j++;
-            } else if(StringUtils.compare(hv1.getType(),hv2.getType())<0 ||
-                (StringUtils.compare(hv1.getType(),hv2.getType())==0  &&
-                        StringUtils.compare(hv1.getRelationId(), hv2.getRelationId())<0)) {
+            } else if(hv1.compareTo(hv2) < 0) {
                 JSONObject diff = new JSONObject();
                 diff.put("type", hv1.getType());
                 diff.put("typeDesc", hv1.getTypeDesc());

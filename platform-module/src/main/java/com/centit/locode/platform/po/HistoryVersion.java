@@ -6,6 +6,7 @@ import com.centit.support.database.orm.ValueGenerator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -17,7 +18,8 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "history_version")
-public class HistoryVersion implements Serializable {
+public class HistoryVersion implements Serializable, Comparable<HistoryVersion> {
+
     private static final long serialVersionUID = 1;
 
     @Id
@@ -83,5 +85,16 @@ public class HistoryVersion implements Serializable {
         if("2".equals(type)) return "页面设计";
         if("3".equals(type)) return "api接口";
         return "unknown";
+    }
+
+    @Override
+    public int compareTo(HistoryVersion o) {
+        if(StringUtils.equals(this.getType(), o.getType()) && StringUtils.equals(this.getRelationId(), o.getRelationId()))
+            return 0;
+        if(StringUtils.compare(this.getType(),o.getType())<0 ||
+            (StringUtils.compare(this.getType(), o.getType())==0  &&
+                StringUtils.compare(this.getRelationId(), o.getRelationId())<0))
+            return -1;
+        return 1;
     }
 }
