@@ -557,9 +557,8 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         }
     }
 
-    private HistoryVersion changeRelationObjectState(String historyId, String relationId, boolean toGarbage){
-        HistoryVersion hv  =  historyVersionService.getHistoryVersion(historyId);
-        if("1".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+    private void changeRelationObjectState(String objType, String relationId, boolean toGarbage){
+        if("1".equals(objType)){ //"类型，1：工作流 2：页面设计 3：api网关"
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 // A 草稿 B 正常 C 过期 D 禁用  E 已发布
                 "update wf_flow_define set FLOW_STATE= " + (toGarbage? "'D'": "'B'") +
@@ -567,7 +566,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 new Object[]{ relationId }
             );
 
-        } else if("2".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+        } else if("2".equals(objType)){ //"类型，1：工作流 2：页面设计 3：api网关"
             // 恢复到 draft
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 "update m_meta_form_model_draft set IS_VALID =" + (toGarbage? "'T'": "'F'") +
@@ -579,7 +578,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     " where MODEL_ID = ?",
                 new Object[]{relationId}
             );
-        } else if("3".equals(hv.getType())){ //"类型，1：工作流 2：页面设计 3：api网关"
+        } else if("3".equals(objType)){ //"类型，1：工作流 2：页面设计 3：api网关"
             // 恢复到 draft
             DatabaseOptUtils.doExecuteSql( applicationVersionDao,
                 "update q_data_packet_draft set is_disable = " + (toGarbage? "'T'": "'F'") +
@@ -592,7 +591,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 new Object[]{relationId}
             );
         }
-        return hv;
     }
 
     @Override
@@ -622,7 +620,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 } else if("C".equals(jsonDiff.getString("diff"))){
                     // createHistoryVersion(jsonDiff, appVersion);
                     // 新增的，修改为 删除
-                    changeRelationObjectState(jsonDiff.getString("historyId2"),
+                    changeRelationObjectState(jsonDiff.getString("type"),
                         jsonDiff.getString("relationId"),  true);
                     mergeTask.setHistoryId(jsonDiff.getString("historyId2"));
                     mergeTask.setMergeDesc("删除 - " + jsonDiff.getString("memo"));
@@ -844,12 +842,12 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     private void innerRollbackMergeTask(AppMergeTask task) {
         if(AppMergeTask.MERGE_TYPE_CREATE.equals(task.getMergeType())){
             //update state to delete
-            changeRelationObjectState(task.getHistoryId(), task.getRelationId(), true);
+            changeRelationObjectState(task.getObjectType(), task.getRelationId(), true);
         } else if(AppMergeTask.MERGE_TYPE_UPDATE.equals(task.getMergeType())){
             HistoryVersion hv = historyVersionService.getHistoryVersion(task.getHistoryId());
             recoveryHistoryVersion(hv);
         } else if(AppMergeTask.MERGE_TYPE_DELETE.equals(task.getMergeType())){
-            changeRelationObjectState(task.getHistoryId(), task.getRelationId(), false);
+            changeRelationObjectState(task.getObjectType(), task.getRelationId(), false);
         }
     }
 
