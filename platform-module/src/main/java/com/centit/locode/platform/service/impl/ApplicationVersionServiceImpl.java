@@ -772,7 +772,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 "is_while = :isWhile, return_type = :returnType, return_result = :returnResult, need_rollback = :needRollback, OPT_ID = :optId, " +
                 "EXT_PROPS = :extProps, opt_code = :optCode, BUFFER_FRESH_PERIOD = :bufferFreshPeriod, buffer_fresh_period_type = :bufferFreshPeriodType, " +
                 "log_level = :logLevel, is_disable = 'F', schema_props = :schemaProps, request_body_type = :requestBodyType, FALL_BACK_LEVEL = :fallBackLevel, " +
-                "update_date = :updateDate, publish_date = :publishDate)"+
+                "update_date = :updateDate, publish_date = :publishDate"+
                 " where PACKET_ID = :packetId";
             DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, updateSql, object);
         } else {
@@ -793,7 +793,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 " :updateDate, :publishDate)";
             DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, insertSql, object);
         }
-        String deleteParams = "delete q_data_packet_param  where PACKET_ID = :packetId";
+        String deleteParams = "delete from q_data_packet_param  where PACKET_ID = :packetId";
         DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, deleteParams, object);
 
         String insertParams = "insert into q_data_packet_param (PACKET_ID, PARAM_Name, PARAM_Label, PARAM_Display_Style, param_Type, " +
