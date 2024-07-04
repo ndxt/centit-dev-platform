@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -45,8 +46,9 @@ public class ApplicationVersionController extends BaseController {
     })
     @GetMapping("list/{osId}")
     @WrapUpResponseBody()
-    public PageQueryResult<ApplicationVersion> list(@PathVariable String osId, PageDesc pageDesc) {
-        List<ApplicationVersion> appVers = applicationVersionService.listApplicationVersion(osId, pageDesc);
+    public PageQueryResult<ApplicationVersion> list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request) {
+        Map<String, Object> searchColumn = collectRequestParameters(request);
+        List<ApplicationVersion> appVers = applicationVersionService.listApplicationVersion(osId, pageDesc, searchColumn);
         return PageQueryResult.createResult(appVers, pageDesc);
     }
 

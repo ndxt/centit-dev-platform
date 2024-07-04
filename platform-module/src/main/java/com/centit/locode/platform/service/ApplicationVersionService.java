@@ -17,7 +17,7 @@ public interface ApplicationVersionService {
 
     boolean checkMergeState(String applicationId);
 
-    List<ApplicationVersion> listApplicationVersion(String applicationId, PageDesc pageDesc);
+    List<ApplicationVersion> listApplicationVersion(String applicationId, PageDesc pageDesc, Map<String, Object> filterMap);
 
     ApplicationVersion getApplicationVersion(String versionId);
 

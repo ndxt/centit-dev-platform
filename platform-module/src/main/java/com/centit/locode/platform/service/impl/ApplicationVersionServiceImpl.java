@@ -272,9 +272,10 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     }
 
     @Override
-    public List<ApplicationVersion> listApplicationVersion(String applicationId, PageDesc pageDesc) {
+    public List<ApplicationVersion> listApplicationVersion(String applicationId, PageDesc pageDesc, Map<String, Object> filterMap) {
+        filterMap.put("applicationId", applicationId);
         return applicationVersionDao.listObjectsByProperties(
-            CollectionsOpt.createHashMap("applicationId", applicationId),
+            filterMap,
             pageDesc);
     }
 
