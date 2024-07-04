@@ -49,7 +49,7 @@ public class ApplicationVersionController extends BaseController {
     public PageQueryResult<ApplicationVersion> list(@PathVariable String osId, PageDesc pageDesc, HttpServletRequest request) {
         Map<String, Object> searchColumn = collectRequestParameters(request);
         List<ApplicationVersion> appVers = applicationVersionService.listApplicationVersion(osId, pageDesc, searchColumn);
-        return PageQueryResult.createResult(appVers, pageDesc);
+        return PageQueryResult.createResultMapDict(appVers, pageDesc);
     }
 
     @ApiOperation(value = "创建历史版本", notes = "创建历史版本")
@@ -188,7 +188,7 @@ public class ApplicationVersionController extends BaseController {
 
         List<AppMergeTask> objs = applicationVersionService.listAppMergeTasks(
             appVersionId, collectRequestParameters(request), pageDesc);
-        return PageQueryResult.createResult(objs, pageDesc);
+        return PageQueryResult.createResultMapDict(objs, pageDesc);
     }
 
     @ApiOperation(value = "标记页面、接口、api合并完成", notes = "标记页面、接口、api合并完成")
