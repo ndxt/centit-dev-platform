@@ -773,7 +773,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 "is_while = :isWhile, return_type = :returnType, return_result = :returnResult, need_rollback = :needRollback, OPT_ID = :optId, " +
                 "EXT_PROPS = :extProps, opt_code = :optCode, BUFFER_FRESH_PERIOD = :bufferFreshPeriod, buffer_fresh_period_type = :bufferFreshPeriodType, " +
                 "log_level = :logLevel, is_disable = 'F', schema_props = :schemaProps, request_body_type = :requestBodyType, FALL_BACK_LEVEL = :fallBackLevel, " +
-                "update_date = :updateDate, publish_date = :publishDate)"+
+                "update_date = :updateDate, publish_date = :publishDate"+
                 " where PACKET_ID = :packetId";
             DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, updateSql, object);
         } else {
