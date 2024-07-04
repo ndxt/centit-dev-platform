@@ -794,7 +794,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 " :updateDate, :publishDate)";
             DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, insertSql, object);
         }
-        String deleteParams = "delete q_data_packet_param  where PACKET_ID = :packetId";
+        String deleteParams = "delete from q_data_packet_param  where PACKET_ID = :packetId";
         DatabaseOptUtils.doExecuteNamedSql(appMergeTaskDao, deleteParams, object);
 
         String insertParams = "insert into q_data_packet_param (PACKET_ID, PARAM_Name, PARAM_Label, PARAM_Display_Style, param_Type, " +

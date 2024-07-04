@@ -1,5 +1,6 @@
 package com.centit.locode.platform.po;
 
+import com.centit.framework.core.dao.DictionaryMap;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
 import io.swagger.annotations.ApiModel;
@@ -34,6 +35,10 @@ public class ApplicationVersion implements Serializable {
 
     @Column(name = "CREATOR")
     @ApiModelProperty(value = "创建人")
+    @DictionaryMap(
+        fieldName = {"creatorName"},
+        value = {"userCode"}
+    )
     private String creator;
 
     @Column(name = "NOTE_INFO")

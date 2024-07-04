@@ -1,5 +1,6 @@
 package com.centit.locode.platform.po;
 
+import com.centit.framework.core.dao.DictionaryMap;
 import com.centit.support.database.orm.GeneratorCondition;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
@@ -68,5 +69,9 @@ public class AppMergeTask implements Serializable {
 
     @Column(name = "update_user")
     @ApiModelProperty(value ="最后更新人")
+    @DictionaryMap(
+        fieldName = {"updateUserName"},
+        value = {"userCode"}
+    )
     private String updateUser;
 }
