@@ -66,6 +66,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setType("1");
         hv.setRelationId(jsonObject.getString("flowCode"));
         hv.setMemo(jsonObject.getString("flowName"));
+        if(!jsonObject.containsKey("sourceId")){
+            jsonObject.put("sourceId",jsonObject.getString("flowCode"));
+        }
         //dataOptDescJson returnResult extProps schemaProps
         JSONObject jsonContent = JSON.parseObject(jsonObject.getString("flowXmlDesc"));
         if(jsonContent!=null) {
@@ -87,6 +90,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setType("2");
         hv.setRelationId(jsonObject.getString("modelId"));
         hv.setMemo(jsonObject.getString("modelName"));
+        if(!jsonObject.containsKey("sourceId")){
+            jsonObject.put("sourceId",jsonObject.getString("modelId"));
+        }
         mapJsonProperties(jsonObject, "formTemplate", "mobileFormTemplate", "structureFunction");
         hv.setContent(jsonObject);
         return hv;
@@ -98,6 +104,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setType("3");
         hv.setRelationId(jsonObject.getString("packetId"));
         hv.setMemo(jsonObject.getString("packetName"));
+        if(!jsonObject.containsKey("sourceId")){
+            jsonObject.put("sourceId",jsonObject.getString("packetId"));
+        }
         //dataOptDescJson returnResult extProps schemaProps
         mapJsonProperties(jsonObject, "dataOptDescJson", "returnResult", "extProps", "schemaProps");
         hv.setContent(jsonObject);
