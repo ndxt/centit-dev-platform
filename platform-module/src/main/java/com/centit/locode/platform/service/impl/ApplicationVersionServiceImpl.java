@@ -14,10 +14,7 @@ import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
 import com.centit.locode.platform.service.HistoryVersionService;
 import com.centit.locode.platform.service.ModelExportManager;
-import com.centit.support.algorithm.CollectionsOpt;
-import com.centit.support.algorithm.DatetimeOpt;
-import com.centit.support.algorithm.NumberBaseOpt;
-import com.centit.support.algorithm.UuidOpt;
+import com.centit.support.algorithm.*;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.security.Sha1Encoder;
@@ -66,9 +63,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setType("1");
         hv.setRelationId(jsonObject.getString("flowCode"));
         hv.setMemo(jsonObject.getString("flowName"));
-        if (!jsonObject.containsKey("sourceId")) {
-            jsonObject.put("sourceId", jsonObject.getString("flowCode"));
-        }
         //dataOptDescJson returnResult extProps schemaProps
         JSONObject jsonContent = JSON.parseObject(jsonObject.getString("flowXmlDesc"));
         if (jsonContent != null) {
@@ -77,6 +71,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             jsonContent.put("version", jsonObject.getString("version"));
             jsonContent.put("flowName", jsonObject.getString("flowName"));
             jsonContent.put("flowDesc", jsonObject.getString("flowDesc"));
+            jsonContent.put("flowClass", jsonObject.getString("flowClass"));
         } else {
             jsonContent = jsonObject;
         }
@@ -90,9 +85,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setType("2");
         hv.setRelationId(jsonObject.getString("modelId"));
         hv.setMemo(jsonObject.getString("modelName"));
-        if (!jsonObject.containsKey("sourceId")) {
-            jsonObject.put("sourceId", jsonObject.getString("modelId"));
-        }
         mapJsonProperties(jsonObject, "formTemplate", "mobileFormTemplate", "structureFunction");
         hv.setContent(jsonObject);
         return hv;
@@ -104,9 +96,6 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setType("3");
         hv.setRelationId(jsonObject.getString("packetId"));
         hv.setMemo(jsonObject.getString("packetName"));
-        if (!jsonObject.containsKey("sourceId")) {
-            jsonObject.put("sourceId", jsonObject.getString("packetId"));
-        }
         //dataOptDescJson returnResult extProps schemaProps
         mapJsonProperties(jsonObject, "dataOptDescJson", "returnResult", "extProps", "schemaProps");
         hv.setContent(jsonObject);
@@ -232,6 +221,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         if (osInfo == null) {
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "关联应用信息不能存在！");
         }
+        //需要先导出，变动sourceId后再保存版本
         String fileId = "";
         Exception exception = null;
         try {
@@ -463,21 +453,21 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     private void recoveryHistoryVersion(HistoryVersion hv) {
         //HistoryVersion hv  =  historyVersionService.getHistoryVersion(jsonDiff.getString("historyId"));
         if ("1".equals(hv.getType())) { //"类型，1：工作流 2：页面设计 3：api网关"
-
+            JSONObject flowJson = hv.getContent();
             Object obj = DatabaseOptUtils.getScalarObjectQuery(applicationVersionDao,
                 "select count(*) as hasFlow from wf_flow_define where FLOW_CODE= ? and version = 0",
                 new Object[]{hv.getRelationId()});
             if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
+                flowJson.put("flowXmlDesc",flowJson.toString());
+                flowJson.put("flowClass", StringBaseOpt.castObjectToString(flowJson.get("flowClass"),"R"));
                 DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
                     "insert into wf_flow_define (FLOW_CODE, version, FLOW_XML_DESC, FLOW_NAME, FLOW_DESC, FLOW_STATE, " +
-                        " Time_Limit, Expire_Opt, Opt_ID, OS_ID, SOURCE_ID, EXPIRE_CALL_API, Warning_Param )" +
+                        " Time_Limit, Expire_Opt, Opt_ID, OS_ID, SOURCE_ID, EXPIRE_CALL_API, Warning_Param,flow_class )" +
                         " values ( :flowCode, 0, :flowXmlDesc, :flowName, :flowDesc, 'A'," +
-                        ":timeLimit, :expireOpt, :optId, :osId, :sourceId, :expireCallApi, :warningParam)",
-                    hv.getContent());
+                        ":timeLimit, :expireOpt, :optId, :osId, :sourceId, :expireCallApi, :warningParam,:flowClass)",
+                    flowJson);
                 return;
             }
-
-            JSONObject flowJson = hv.getContent();
             DatabaseOptUtils.doExecuteSql(applicationVersionDao,
                 "update wf_flow_define set FLOW_XML_DESC = ?, FLOW_NAME =?, FLOW_DESC =?, FLOW_STATE='A' " +
                     " where FLOW_CODE= ? and version = 0",
@@ -498,13 +488,16 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             if (NumberBaseOpt.castObjectToInteger(obj, 0) == 0) {
                 modelJson.put("modelId", hv.getRelationId());
                 modelJson.put("lastModifyDate", DatetimeOpt.currentUtilDate());
+                modelJson.put("mobileFormTemplate", modelJson.getString("mobileFormTemplate"));
+                modelJson.put("formTemplate", modelJson.getString("formTemplate"));
+                modelJson.put("structureFunction", modelJson.getString("structureFunction"));
                 DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
                     "insert into m_meta_form_model_draft (MODEL_ID, Model_Name, OPT_ID, os_id, Model_Type, " +
                         "last_modify_Date, Recorder, Model_Comment, MOBILE_FORM_TEMPLATE, form_template, " +
                         " SOURCE_ID, STRUCTURE_FUNCTION, MODEL_TAG, IS_VALID )" +
                         " values ( :modelId, :modelName, :optId, :osId, :modelType, " +
                         " :lastModifyDate, :recorder, :modelComment, :mobileFormTemplate, :formTemplate," +
-                        " :sourceId, :structureFunction, modelTag, 'F' )",
+                        " :sourceId, :structureFunction, :modelTag, 'F' )",
                     modelJson);
                 return;
             }
@@ -532,6 +525,10 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 packetJson.put("packetId", hv.getRelationId());
                 packetJson.put("recordDate", DatetimeOpt.currentUtilDate());
                 packetJson.put("updateDate", DatetimeOpt.currentUtilDate());
+                packetJson.put("returnResult", packetJson.getString("returnResult"));
+                packetJson.put("extProps", packetJson.getString("extProps"));
+                packetJson.put("dataOptDescJson", packetJson.getString("dataOptDescJson"));
+                packetJson.put("schemaProps", packetJson.getString("schemaProps"));
                 DatabaseOptUtils.doExecuteNamedSql(applicationVersionDao,
                     "insert into q_data_packet_draft " +
                         "(PACKET_ID, os_id, Owner_Type, Owner_Code, PACKET_NAME, " +
