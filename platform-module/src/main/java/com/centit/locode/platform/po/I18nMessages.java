@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
-@Table(name = "APP_MERGE_TASK ")
+@Table(name = "I18N_MESSAGES")
 @ApiModel(description = "国际化信息表")
 @Data
 public class I18nMessages implements Serializable {
