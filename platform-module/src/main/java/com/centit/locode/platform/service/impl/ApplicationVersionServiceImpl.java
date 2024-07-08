@@ -280,9 +280,33 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     @Override
     public List<ApplicationVersion> listApplicationVersion(String applicationId, PageDesc pageDesc, Map<String, Object> filterMap) {
         filterMap.put("applicationId", applicationId);
-        return applicationVersionDao.listObjectsByProperties(
+        List<ApplicationVersion> versionList = applicationVersionDao.listObjectsByProperties(
             filterMap,
             pageDesc);
+        boolean isInMerging=false;
+        if(versionList!=null) {
+            for (ApplicationVersion version : versionList) {
+                if(ApplicationVersion.VERSION_MERGE_STATUS_MERGING.equals(version.getMergeStatus())){
+                    isInMerging = true;
+                    break;
+                }
+            }
+        }
+        // 始终添加 合并中的 对象
+        if(!isInMerging) {
+            ApplicationVersion mergeObj = applicationVersionDao.getObjectByProperties(
+                CollectionsOpt.createHashMap("mergeStatus", ApplicationVersion.VERSION_MERGE_STATUS_MERGING));
+            if(mergeObj!=null) {
+                List<ApplicationVersion> versionList2 = new ArrayList<>();
+                versionList2.add(mergeObj);
+                if(versionList!=null) {
+                    versionList2.addAll(versionList);
+                }
+                return versionList2;
+            }
+
+        }
+        return versionList;
     }
 
     @Override
