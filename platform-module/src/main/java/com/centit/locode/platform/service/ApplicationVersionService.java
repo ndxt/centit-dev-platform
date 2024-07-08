@@ -35,6 +35,8 @@ public interface ApplicationVersionService {
 
     void mergeCompleted(AppMergeTask task);
 
+    boolean checkRestoreCompleted(String appVersionId);
+
     void restoreCompleted(String appVersionId);
 
     void rollbackMergeTask(AppMergeTask task);

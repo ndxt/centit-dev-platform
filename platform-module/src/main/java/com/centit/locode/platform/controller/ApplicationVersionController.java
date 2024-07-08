@@ -1,7 +1,6 @@
 package com.centit.locode.platform.controller;
 
 import com.alibaba.fastjson2.JSONArray;
-import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
@@ -10,10 +9,8 @@ import com.centit.framework.model.basedata.UserInfo;
 import com.centit.locode.platform.po.AppMergeTask;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
-import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
-import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,9 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -200,10 +194,12 @@ public class ApplicationVersionController extends BaseController {
     public void markMergeCompleted(@RequestBody JSONArray tasks,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
         List<AppMergeTask> appMergeTasks=tasks.toJavaList(AppMergeTask.class);
+        String appVersionId = appMergeTasks.get(0).getAppVersionId();
         for(AppMergeTask task:appMergeTasks) {
             task.setUpdateUser(userInfo.getUserCode());
             applicationVersionService.mergeCompleted(task);
         }
+        applicationVersionService.checkRestoreCompleted(appVersionId);
     }
 
     @ApiOperation(value = "标记恢复合并完成", notes = "标记恢复合并完成")
@@ -212,7 +208,7 @@ public class ApplicationVersionController extends BaseController {
             name = "appVersionId", value = "历史版本号", required = true,
             paramType = "path", dataType = "String")
     @WrapUpResponseBody()
-    public void markeRestoreCompleted(@PathVariable String appVersionId,  HttpServletRequest request) {
+    public void markRestoreCompleted(@PathVariable String appVersionId,  HttpServletRequest request) {
         WebOptUtils.assertUserLogin(request);
         // 发布所有的对象 状态为 B 的对象
         applicationVersionService.restoreCompleted(appVersionId);
@@ -224,10 +220,12 @@ public class ApplicationVersionController extends BaseController {
     public void rollbackMergeTask(@RequestBody JSONArray tasks,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
         List<AppMergeTask> appMergeTasks=tasks.toJavaList(AppMergeTask.class);
+        String appVersionId = appMergeTasks.get(0).getAppVersionId();
         for(AppMergeTask task:appMergeTasks) {
             task.setUpdateUser(userInfo.getUserCode());
             applicationVersionService.rollbackMergeTask(task);
         }
+        applicationVersionService.checkRestoreCompleted(appVersionId);
     }
 
     @ApiOperation(value = "回滚所有的为标记为已完成合并的对象", notes = "回滚所有的为标记为已完成合并的对象")

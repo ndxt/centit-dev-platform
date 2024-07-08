@@ -866,6 +866,19 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
     }
 
     @Override
+    public boolean checkRestoreCompleted(String appVersionId){
+        int task = appMergeTaskDao.countObjectByProperties(CollectionsOpt.createHashMap(
+            "appVersionId", appVersionId,
+            "mergeStatus", ApplicationVersion.VERSION_MERGE_STATUS_MERGING
+        ));
+        boolean complete = task == 0;
+        if(complete){
+            restoreCompleted(appVersionId);
+        }
+        return complete;
+    }
+
+    @Override
     public void restoreCompleted(String appVersionId) {
         // 发布所有对象
         List<AppMergeTask> tasks = appMergeTaskDao.listMergeTask(appVersionId,
