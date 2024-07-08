@@ -36,7 +36,7 @@ public class I18nMessages implements Serializable {
     @ApiModelProperty(value = "标签ID")
     private String msgKey;
 
-    @NotBlank
+//    @NotBlank
     @Column(name = "MSG_VALUE")
     @ApiModelProperty(value = "标签文本")
     private JSONObject msgValue;

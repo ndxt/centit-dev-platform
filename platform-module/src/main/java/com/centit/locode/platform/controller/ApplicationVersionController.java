@@ -1,6 +1,7 @@
 package com.centit.locode.platform.controller;
 
 import com.alibaba.fastjson2.JSONArray;
+import com.centit.framework.common.JsonResultUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
@@ -9,8 +10,10 @@ import com.centit.framework.model.basedata.UserInfo;
 import com.centit.locode.platform.po.AppMergeTask;
 import com.centit.locode.platform.po.ApplicationVersion;
 import com.centit.locode.platform.service.ApplicationVersionService;
+import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
+import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -194,11 +197,13 @@ public class ApplicationVersionController extends BaseController {
     @ApiOperation(value = "标记页面、接口、api合并完成", notes = "标记页面、接口、api合并完成")
     @PutMapping("/mergeCompleted")
     @WrapUpResponseBody()
-    public void markMergeCompleted(@RequestBody AppMergeTask task,  HttpServletRequest request) {
+    public void markMergeCompleted(@RequestBody JSONArray tasks,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
-        task.setUpdateUser(userInfo.getUserCode());
-        // 发布对象
-        applicationVersionService.mergeCompleted(task);
+        List<AppMergeTask> appMergeTasks=tasks.toJavaList(AppMergeTask.class);
+        for(AppMergeTask task:appMergeTasks) {
+            task.setUpdateUser(userInfo.getUserCode());
+            applicationVersionService.mergeCompleted(task);
+        }
     }
 
     @ApiOperation(value = "标记恢复合并完成", notes = "标记恢复合并完成")
@@ -216,10 +221,13 @@ public class ApplicationVersionController extends BaseController {
     @ApiOperation(value = "回滚一个对象，页面、接口或者流程", notes = "回滚一个对象，页面、接口或者流程")
     @PutMapping("/rollback")
     @WrapUpResponseBody()
-    public void rollbackMergeTask(@RequestBody AppMergeTask task,  HttpServletRequest request) {
+    public void rollbackMergeTask(@RequestBody JSONArray tasks,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
-        task.setUpdateUser(userInfo.getUserCode());
-        applicationVersionService.rollbackMergeTask(task);
+        List<AppMergeTask> appMergeTasks=tasks.toJavaList(AppMergeTask.class);
+        for(AppMergeTask task:appMergeTasks) {
+            task.setUpdateUser(userInfo.getUserCode());
+            applicationVersionService.rollbackMergeTask(task);
+        }
     }
 
     @ApiOperation(value = "回滚所有的为标记为已完成合并的对象", notes = "回滚所有的为标记为已完成合并的对象")
