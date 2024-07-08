@@ -3,6 +3,7 @@ package com.centit.locode.platform.po;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.support.database.orm.GeneratorType;
 import com.centit.support.database.orm.ValueGenerator;
+import com.centit.support.security.Sha1Encoder;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 @ApiModel
 @Entity
@@ -96,5 +98,18 @@ public class HistoryVersion implements Serializable, Comparable<HistoryVersion> 
                 StringUtils.compare(this.getRelationId(), o.getRelationId())<0))
             return -1;
         return 1;
+    }
+
+    public String generateHistorySha(){
+        JSONObject jsonObject = new JSONObject();
+        for(Map.Entry<String, Object> entry : this.getContent().entrySet()){
+            if(StringUtils.equalsAny(entry.getKey(),
+                "formTemplate","mobileFormTemplate","structureFunction",
+                    "dataOptDescJson","extProps","schemaProps",
+                "nodeList","transList")){
+                jsonObject.put(entry.getKey(),entry.getValue());
+            }
+        }
+        return Sha1Encoder.encodeBase64(jsonObject.toJSONString(), true);
     }
 }

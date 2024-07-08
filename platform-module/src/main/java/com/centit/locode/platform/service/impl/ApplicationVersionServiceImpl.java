@@ -86,6 +86,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setRelationId(jsonObject.getString("modelId"));
         hv.setMemo(jsonObject.getString("modelName"));
         mapJsonProperties(jsonObject, "formTemplate", "mobileFormTemplate", "structureFunction");
+        //
         hv.setContent(jsonObject);
         return hv;
     }
@@ -98,6 +99,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setMemo(jsonObject.getString("packetName"));
         //dataOptDescJson returnResult extProps schemaProps
         mapJsonProperties(jsonObject, "dataOptDescJson", "returnResult", "extProps", "schemaProps");
+        //
         hv.setContent(jsonObject);
         return hv;
     }
@@ -242,8 +244,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             hv.setPushUser("system");
             hv.setLabel("全局版本：" + versionId);
             //保存时 生成sha指纹
-            hv.setHistorySha(
-                Sha1Encoder.encodeBase64(hv.getContent().toJSONString(), true));
+            hv.setHistorySha(hv.generateHistorySha());
             historyVersionService.createHistoryVersion(hv);
         }
         // 生成 并上传 应用导出包 (zip文件）上传到文件服务器并返回 fileId
@@ -307,7 +308,9 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     diff.put("typeDesc", hv1.getTypeDesc());
                     diff.put("relationId", hv1.getRelationId());
                     diff.put("historyId", hv1.getHistoryId());
+                    diff.put("sha", hv1.getHistorySha());
                     diff.put("historyId2", hv2.getHistoryId());
+                    diff.put("sha2", hv2.getHistorySha());
                     diff.put("diff", "U");
                     diff.put("diffDesc", "更改");
                     diff.put("memo", hv1.getMemo());
@@ -324,6 +327,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 diff.put("typeDesc", hv1.getTypeDesc());
                 diff.put("relationId", hv1.getRelationId());
                 diff.put("historyId", hv1.getHistoryId());
+                diff.put("sha", hv1.getHistorySha());
                 diff.put("diff", "D");
                 diff.put("diffDesc", "删除");
                 diff.put("memo", hv1.getMemo());
@@ -335,6 +339,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 diff.put("typeDesc", hv2.getTypeDesc());
                 diff.put("relationId", hv2.getRelationId());
                 diff.put("historyId2", hv2.getHistoryId());
+                diff.put("sha2", hv2.getHistorySha());
                 diff.put("diff", "C");
                 diff.put("diffDesc", "新增");
                 diff.put("memo", hv2.getMemo());
@@ -353,6 +358,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             diff.put("typeDesc", hv1.getTypeDesc());
             diff.put("relationId", hv1.getRelationId());
             diff.put("historyId", hv1.getHistoryId());
+            diff.put("sha", hv1.getHistorySha());
             diff.put("diff", "D");
             diff.put("diffDesc", "删除");
             diff.put("memo", hv1.getMemo());
@@ -367,6 +373,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             diff.put("typeDesc", hv2.getTypeDesc());
             diff.put("relationId", hv2.getRelationId());
             diff.put("historyId2", hv2.getHistoryId());
+            diff.put("sha2", hv2.getHistorySha());
             diff.put("diff", "C");
             diff.put("diffDesc", "新增");
             diff.put("memo", hv2.getMemo());
@@ -390,8 +397,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         List<HistoryVersion> hvs1 = historyVersionService.listHistoryByAppVersion(versionId);
         List<HistoryVersion> hvs2 = createHistoryVersions(applicationId);
         for (HistoryVersion hv : hvs2) {
-            hv.setHistorySha(
-                Sha1Encoder.encodeBase64(hv.getContent().toJSONString(), true));
+            hv.setHistorySha(hv.generateHistorySha());
         }
         return compareTwoHVS(hvs1, hvs2, withContent);
     }
@@ -444,8 +450,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setPushTime(DatetimeOpt.currentUtilDate());
         hv.setPushUser("system");
         //保存时 生成sha指纹
-        hv.setHistorySha(
-            Sha1Encoder.encodeBase64(hv.getContent().toJSONString(), true));
+        hv.setHistorySha(hv.generateHistorySha());
         historyVersionService.createHistoryVersion(hv);
         return hv;
     }
@@ -687,8 +692,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     } else {
                         hv2.setOsId(appVersion.getApplicationId());
                         //hv2.setAppVersionId(appVersionId);
-                        hv2.setHistorySha(
-                            Sha1Encoder.encodeBase64(hv2.getContent().toJSONString(), true));
+                        hv2.setHistorySha(hv2.generateHistorySha());
                         if (!StringUtils.equals(hv.getHistorySha(), hv2.getHistorySha())) {
                             //创建版本
                             hv2.setLabel("V_recovery_" + appVersion.getVersionId());

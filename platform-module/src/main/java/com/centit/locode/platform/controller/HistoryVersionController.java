@@ -39,9 +39,9 @@ public class HistoryVersionController extends BaseController {
         HistoryVersion historyVersion = JSONObject.parseObject(
             SecurityOptUtils.decodeSecurityString(hvJsonStr),
             HistoryVersion.class);
+        //整理，并清楚不需要的字段
         //保存时 生成sha指纹
-        historyVersion.setHistorySha(
-            Sha1Encoder.encodeBase64(historyVersion.getContent().toJSONString(), true));
+        historyVersion.setHistorySha(historyVersion.generateHistorySha());
         if(historyVersionService.countHistoryVersion(historyVersion.getRelationId(),
             historyVersion.getHistorySha()) > 0){
             throw new ObjectException(ResponseData.ERROR_FIELD_INPUT_CONFLICT,
