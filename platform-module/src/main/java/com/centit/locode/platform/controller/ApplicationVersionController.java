@@ -191,7 +191,7 @@ public class ApplicationVersionController extends BaseController {
     @ApiOperation(value = "标记页面、接口、api合并完成", notes = "标记页面、接口、api合并完成")
     @PutMapping("/mergeCompleted")
     @WrapUpResponseBody()
-    public void markMergeCompleted(@RequestBody JSONArray tasks,  HttpServletRequest request) {
+    public boolean markMergeCompleted(@RequestBody JSONArray tasks,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
         List<AppMergeTask> appMergeTasks=tasks.toJavaList(AppMergeTask.class);
         String appVersionId = appMergeTasks.get(0).getAppVersionId();
@@ -199,7 +199,7 @@ public class ApplicationVersionController extends BaseController {
             task.setUpdateUser(userInfo.getUserCode());
             applicationVersionService.mergeCompleted(task);
         }
-        applicationVersionService.checkRestoreCompleted(appVersionId);
+        return applicationVersionService.checkRestoreCompleted(appVersionId);
     }
 
     @ApiOperation(value = "标记恢复合并完成", notes = "标记恢复合并完成")
@@ -217,7 +217,7 @@ public class ApplicationVersionController extends BaseController {
     @ApiOperation(value = "回滚一个对象，页面、接口或者流程", notes = "回滚一个对象，页面、接口或者流程")
     @PutMapping("/rollback")
     @WrapUpResponseBody()
-    public void rollbackMergeTask(@RequestBody JSONArray tasks,  HttpServletRequest request) {
+    public boolean rollbackMergeTask(@RequestBody JSONArray tasks,  HttpServletRequest request) {
         UserInfo userInfo = WebOptUtils.assertUserLogin(request);
         List<AppMergeTask> appMergeTasks=tasks.toJavaList(AppMergeTask.class);
         String appVersionId = appMergeTasks.get(0).getAppVersionId();
@@ -225,7 +225,7 @@ public class ApplicationVersionController extends BaseController {
             task.setUpdateUser(userInfo.getUserCode());
             applicationVersionService.rollbackMergeTask(task);
         }
-        applicationVersionService.checkRestoreCompleted(appVersionId);
+        return applicationVersionService.checkRestoreCompleted(appVersionId);
     }
 
     @ApiOperation(value = "回滚所有的为标记为已完成合并的对象", notes = "回滚所有的为标记为已完成合并的对象")
