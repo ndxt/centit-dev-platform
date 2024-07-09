@@ -7,6 +7,7 @@ import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.dao.ApplicationTemplateDao;
+import com.centit.locode.platform.service.ApplicationInfoManager;
 import com.centit.locode.platform.service.EnvironmentExportManager;
 import com.centit.support.algorithm.ZipCompressor;
 import com.centit.support.common.ObjectException;
@@ -40,6 +41,9 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
 
     @Autowired
     private ApplicationTemplateDao applicationTemplateDao;
+
+    @Autowired
+    private ApplicationInfoManager applicationInfoManager;
 
     private void exportJsonArrayToFile(String sqlSen, Object[] params, String jsonFilePath) throws IOException {
         JSONArray jsonArray = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlSen, params);
@@ -269,8 +273,10 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         FileSystemOpt.createDirect(new File(appFileRoot));
 
         String applicationFile = appFileRoot + File.separator +  "application.json";
-        String sqlApplication = "select * from f_os_info where os_id = ? ";
-        JSONObject application = DatabaseOptUtils.getObjectBySqlAsJson(applicationTemplateDao, sqlApplication, new Object[]{osId});
+        //String sqlApplication = "select * from f_os_info where os_id = ? ";
+        JSONObject application = applicationInfoManager.getApplicationInfo(osId,
+            userDetails.getTopUnitCode(), userDetails.getUserCode(),false);
+        // DatabaseOptUtils.getObjectBySqlAsJson(applicationTemplateDao, sqlApplication, new Object[]{osId});
         if(application == null) {
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "应用："+osId +" 不存在！");
         }
