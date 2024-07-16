@@ -33,6 +33,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -44,6 +45,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableAsync
 @EnableScheduling
 @PropertySource("classpath:system.properties")
+@EnableWebSecurity
 @Import({
     DubboConfig.class,
     IpServerDubboClientConfig.class,

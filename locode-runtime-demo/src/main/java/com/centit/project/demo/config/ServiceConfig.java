@@ -23,6 +23,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
@@ -33,13 +34,13 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  */
 @Configuration
 @PropertySource("classpath:system.properties")
+@EnableWebSecurity
 @ComponentScan(basePackages = "com.centit",
     excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,
         value = org.springframework.stereotype.Controller.class))
 @Import({
     JdbcConfig.class,
-    SpringSecurityDaoConfig.class,
-    SpringSecurityCasConfig.class,})
+    SpringSecurityDaoConfig.class})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSpringHttpSession
 public class ServiceConfig implements EnvironmentAware {
