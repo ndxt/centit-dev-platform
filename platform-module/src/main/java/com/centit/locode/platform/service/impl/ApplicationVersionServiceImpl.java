@@ -86,7 +86,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setRelationId(jsonObject.getString("modelId"));
         hv.setMemo(jsonObject.getString("modelName"));
         mapJsonProperties(jsonObject, "formTemplate", "mobileFormTemplate", "structureFunction");
-        //
+        hv.setPushUser(jsonObject.getString("recorder"));
         hv.setContent(jsonObject);
         return hv;
     }
@@ -99,7 +99,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         hv.setMemo(jsonObject.getString("packetName"));
         //dataOptDescJson returnResult extProps schemaProps
         mapJsonProperties(jsonObject, "dataOptDescJson", "returnResult", "extProps", "schemaProps");
-        //
+        hv.setPushUser(jsonObject.getString("recorder"));
         hv.setContent(jsonObject);
         return hv;
     }
@@ -338,6 +338,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                     diff.put("diff", "U");
                     diff.put("diffDesc", "更改");
                     diff.put("memo", hv1.getMemo());
+                    diff.put("lastUpdateUser", StringUtils.isBlank(hv2.getPushUser())? hv1.getPushUser(): hv2.getPushUser());
                     if (withContent) {
                         diff.put("content", hv2.getContent());
                     }
@@ -355,6 +356,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 diff.put("diff", "D");
                 diff.put("diffDesc", "删除");
                 diff.put("memo", hv1.getMemo());
+                diff.put("lastUpdateUser", hv1.getPushUser());
                 diffJsons.add(diff);
                 i++;
             } else {
@@ -370,6 +372,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
                 if (withContent) {
                     diff.put("content", hv2.getContent());
                 }
+                diff.put("lastUpdateUser", hv2.getPushUser());
                 diffJsons.add(diff);
                 j++;
             }
@@ -386,6 +389,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             diff.put("diff", "D");
             diff.put("diffDesc", "删除");
             diff.put("memo", hv1.getMemo());
+            diff.put("lastUpdateUser", hv1.getPushUser());
             diffJsons.add(diff);
             i++;
         }
@@ -404,6 +408,7 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
             if (withContent) {
                 diff.put("content", hv2.getContent());
             }
+            diff.put("lastUpdateUser", hv2.getPushUser());
             diffJsons.add(diff);
             j++;
         }
@@ -647,13 +652,13 @@ public class ApplicationVersionServiceImpl implements ApplicationVersionService 
         for (Object obj : diffs) {
             if (obj instanceof JSONObject) {
                 JSONObject jsonDiff = (JSONObject) obj;
-
                 AppMergeTask mergeTask = new AppMergeTask();
                 mergeTask.setAppVersionId(appVersionId);
                 mergeTask.setMergeStatus(ApplicationVersion.VERSION_MERGE_STATUS_MERGING);
                 mergeTask.setRelationId(jsonDiff.getString("relationId"));
                 mergeTask.setObjectType(jsonDiff.getString("type"));
-                mergeTask.setUpdateUser(userCode);
+                mergeTask.setUpdateUser(StringUtils.isBlank(jsonDiff.getString("lastUpdateUser"))?
+                    userCode: jsonDiff.getString("lastUpdateUser"));
 
                 if ("D".equals(jsonDiff.getString("diff"))) {
                     // 删除的，创建版本， 检查是否有删除状态的，如果有 先恢复
