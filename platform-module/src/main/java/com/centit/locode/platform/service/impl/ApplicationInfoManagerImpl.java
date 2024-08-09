@@ -56,8 +56,8 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         //获取工作组组长code
         String leaderCode = osInfo.getCreated();
         OsInfo assemblyOsInfo = assemblyOsInfo(osInfo);
-        // 设置主键
-        String osId = UuidOpt.getUuidAsString22();
+        // 如果主键为空 生成主键
+        String osId =  StringUtils.isBlank(osInfo.getOsId())? UuidOpt.getUuidAsString22() : osInfo.getOsId();
         assemblyOsInfo.setOsId(osId);
         assemblyOsInfo.setRelOptId(osId);
         assemblyOsInfo  = platformEnvironment.addOsInfo(assemblyOsInfo);
