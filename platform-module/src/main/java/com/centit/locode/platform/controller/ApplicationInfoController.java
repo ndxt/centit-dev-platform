@@ -2,6 +2,8 @@ package com.centit.locode.platform.controller;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.centit.dde.adapter.dao.DataPacketDao;
+import com.centit.dde.adapter.dao.DataPacketDraftDao;
 import com.centit.framework.common.ResponseData;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
@@ -45,6 +47,9 @@ public class ApplicationInfoController extends BaseController {
 
     @Autowired
     private MetaFormModelDraftManager metaFormModelDraftManager;
+    @Autowired
+    private DataPacketDraftDao dataPacketdraftDao;
+
 
     @Autowired
     MetadataManageService metadataManageService;
@@ -136,7 +141,6 @@ public class ApplicationInfoController extends BaseController {
         if (StringUtils.isBlank(loginUser)){
             throw new ObjectException(ResponseData.HTTP_MOVE_TEMPORARILY, "您未登录，请先登录！");
         }
-        String topUnit = WebOptUtils.getCurrentTopUnit(request);
         Map<String, Object> metaFormParam = new HashMap<>();
         metaFormParam.put("optId",optId);
         metaFormParam.put("isValid","F");
@@ -147,9 +151,11 @@ public class ApplicationInfoController extends BaseController {
             return ResponseData.makeErrorMessage("页面存在数据，无法删除，请先移除！");
         }
         //接口数据
-        List<OptMethod> iOptMethods = platformEnvironment.listAllOptMethod(topUnit);
-        iOptMethods.removeIf(iOptMethod -> !iOptMethod.getOptId().equals(optId));
-        if (iOptMethods.size()>1){
+        Map<String, Object> packetDraftParam = new HashMap<>();
+        packetDraftParam.put("optId",optId);
+        packetDraftParam.put("isDisable","F");
+        JSONArray dataPacketDraftList=dataPacketdraftDao.listDataPacketDraft(packetDraftParam,null);
+        if (!dataPacketDraftList.isEmpty()){
             return ResponseData.makeErrorMessage("接口存在数据，无法删除，请先移除！");
         }
         //流程数据
