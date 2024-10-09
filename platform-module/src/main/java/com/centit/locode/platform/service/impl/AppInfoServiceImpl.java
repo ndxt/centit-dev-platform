@@ -7,6 +7,7 @@ import com.centit.locode.platform.po.AppInfo;
 import com.centit.locode.platform.service.AppInfoService;
 import com.centit.support.algorithm.CollectionsOpt;
 import com.centit.support.database.utils.PageDesc;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,11 +76,13 @@ public class AppInfoServiceImpl implements AppInfoService {
 
     @Override
     public AppInfo getObjectByProperty(String s, Object o) {
+        if(StringUtils.isBlank(s) || o == null) return null;
         return appInfoDao.getObjectByProperties(CollectionsOpt.createHashMap(s, o));
     }
 
     @Override
     public AppInfo getObjectByProperties(Map<String, Object> map) {
+        if(map == null || map.isEmpty()) return null;
         return appInfoDao.getObjectByProperties(map);
     }
 
