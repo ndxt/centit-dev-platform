@@ -296,6 +296,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             JSONObject copyJson = JSONObject.parse(copyString);
             sourceJson.put("F_DATABASE_INFO", copyJson.get("F_DATABASE_INFO"));
             JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), currentUserDetails, appHome, fileInfoOpt, zipFilePath);
+            jsonAppVo.setUploadFiles(false);
             jsonAppVo.updatePrimary();
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
             List<Map<String, Object>> pendingColumnsList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_COLUMN.name());

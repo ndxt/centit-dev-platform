@@ -130,10 +130,15 @@ public class JsonAppVo {
     private List<String> listDatabaseName = new ArrayList<>();
     @Getter
     @Setter
+    private boolean uploadFiles;
+    @Getter
+    @Setter
     private boolean runMetaData;
     @Getter
     @Setter
     private boolean runDictionary;
+
+
     private Map<String, Object> databaseMap = new HashMap<>();
     private Map<String, Object> mdTableMap = new HashMap<>();
     private Map<String, Object> relationMap = new HashMap<>();
@@ -156,6 +161,7 @@ public class JsonAppVo {
         this.fileInfoOpt = fileInfoOpt;
         this.runMetaData=true;
         this.runDictionary=true;
+        this.uploadFiles=true;
     }
 
 
@@ -657,6 +663,9 @@ public class JsonAppVo {
     }
 
     private JsonAppVo uploadFiles() {
+        if(!uploadFiles){
+            return this;
+        }
         if (StringUtils.isBlank(zipFilePath)) {
             return this;
         }
