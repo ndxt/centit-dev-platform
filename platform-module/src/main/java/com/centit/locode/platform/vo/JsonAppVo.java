@@ -679,9 +679,9 @@ public class JsonAppVo {
         zipFiles.forEach(file -> {
             FileInfo fileInfo = new FileInfo();
             String fileName = FileSystemOpt.extractFullFileName(file.getPath());
-            fileInfo.setFileName(fileName);
-            fileInfo.setFileShowPath("/-1");
             String oldFileId = fileName.substring(fileName.indexOf("(") + 1, fileName.indexOf(")"));
+            fileInfo.setFileName(StringUtils.replace(fileName,"("+oldFileId+")",""));
+            fileInfo.setFileShowPath("/-1");
             fileInfo.setLibraryId(osId);
             fileInfo.setFileCatalog("A");
             String fileId = null;
