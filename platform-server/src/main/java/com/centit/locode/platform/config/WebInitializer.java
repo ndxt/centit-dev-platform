@@ -23,16 +23,16 @@ public class WebInitializer implements WebApplicationInitializer {
         String [] servletUrlPatterns = {"/system/*","/platform/*","/oa/*","/help/*"};
         WebConfig.registerServletConfig(servletContext, "system",
             "/system/*",
-            SystemSpringMvcConfig.class, SwaggerConfig.class);
+            SystemSpringMvcConfig.class);
         WebConfig.registerServletConfig(servletContext, "platform",
             "/platform/*",
             PlatformSpringMvcConfig.class,SwaggerConfig.class);
         WebConfig.registerServletConfig(servletContext, "oa",
             "/oa/*",
-            OaComponentSpringMvcConfig.class, SwaggerConfig.class);
+            OaComponentSpringMvcConfig.class);
         WebConfig.registerServletConfig(servletContext, "help",
             "/help/*",
-            WorkOrderSpringMvcConfig.class, SwaggerConfig.class);
+            WorkOrderSpringMvcConfig.class);
         WebConfig.registerRequestContextListener(servletContext);
         WebConfig.registerSingleSignOutHttpSessionListener(servletContext);
         WebConfig.registerCharacterEncodingFilter(servletContext, servletUrlPatterns);
