@@ -130,10 +130,15 @@ public class JsonAppVo {
     private List<String> listDatabaseName = new ArrayList<>();
     @Getter
     @Setter
+    private boolean uploadFiles;
+    @Getter
+    @Setter
     private boolean runMetaData;
     @Getter
     @Setter
     private boolean runDictionary;
+
+
     private Map<String, Object> databaseMap = new HashMap<>();
     private Map<String, Object> mdTableMap = new HashMap<>();
     private Map<String, Object> relationMap = new HashMap<>();
@@ -156,6 +161,7 @@ public class JsonAppVo {
         this.fileInfoOpt = fileInfoOpt;
         this.runMetaData=true;
         this.runDictionary=true;
+        this.uploadFiles=true;
     }
 
 
@@ -657,6 +663,9 @@ public class JsonAppVo {
     }
 
     private JsonAppVo uploadFiles() {
+        if(!uploadFiles){
+            return this;
+        }
         if (StringUtils.isBlank(zipFilePath)) {
             return this;
         }
@@ -670,9 +679,9 @@ public class JsonAppVo {
         zipFiles.forEach(file -> {
             FileInfo fileInfo = new FileInfo();
             String fileName = FileSystemOpt.extractFullFileName(file.getPath());
-            fileInfo.setFileName(fileName);
-            fileInfo.setFileShowPath("/-1");
             String oldFileId = fileName.substring(fileName.indexOf("(") + 1, fileName.indexOf(")"));
+            fileInfo.setFileName(StringUtils.replace(fileName,"("+oldFileId+")",""));
+            fileInfo.setFileShowPath("/-1");
             fileInfo.setLibraryId(osId);
             fileInfo.setFileCatalog("A");
             String fileId = null;
