@@ -737,7 +737,6 @@ public class JsonAppVo {
             dataPacketMap.put((String) map.get(PACKET_ID), uuid);
             map.put(PACKET_ID, uuid);
             map.put(OS_ID, osId);
-            map.put(RECORD_DATE, new Date());
             map.put(UPDATE_DATE, new Date());
             map.put(PUBLISH_DATE, new Date());
             map.put(RECORDER, userCode);
@@ -825,7 +824,6 @@ public class JsonAppVo {
             metaFormMap.put((String) map.get(MODEL_ID), uuid);
             map.put(MODEL_ID, uuid);
             map.put(OS_ID, osId);
-            map.put(LAST_MODIFY_DATE, new Date());
             map.put(PUBLISH_DATE, new Date());
             map.put(RECORDER, userCode);
             optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))

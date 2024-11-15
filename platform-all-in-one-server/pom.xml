@@ -19,6 +19,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.centit.jlwater</groupId>
+            <artifactId>jlwater-ca-plugin</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.centit.framework</groupId>
             <artifactId>centit-persistence-jdbc-config</artifactId>
             <version>${project.version}</version>
@@ -86,7 +91,7 @@
 
         <dependency>
             <groupId>com.centit.product</groupId>
-            <artifactId>elk-opt-log</artifactId>
+            <artifactId>rmdb-opt-log</artifactId>
             <!--<artifactId>rmdb-opt-log</artifactId>-->
             <version>${project.version}</version>
 
