@@ -3,7 +3,6 @@ package com.centit.project.demo.config;
 import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.components.impl.NotificationCenterImpl;
 import com.centit.framework.components.impl.TextOperationLogWriterImpl;
-import com.centit.framework.config.SpringSecurityCasConfig;
 import com.centit.framework.config.SpringSecurityDaoConfig;
 import com.centit.framework.jdbc.config.JdbcConfig;
 import com.centit.framework.model.adapter.NotificationCenter;

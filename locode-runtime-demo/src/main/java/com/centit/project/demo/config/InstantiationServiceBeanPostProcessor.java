@@ -5,7 +5,6 @@ import com.centit.framework.common.SysParametersUtils;
 import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.components.CodeRepositoryCache;
 import com.centit.framework.components.OperationLogCenter;
-import com.centit.framework.model.adapter.NotificationCenter;
 import com.centit.framework.model.adapter.OperationLogWriter;
 import com.centit.framework.model.adapter.PlatformEnvironment;
 import com.centit.support.json.JSONOpt;
@@ -25,9 +24,6 @@ import java.io.File;
 public class InstantiationServiceBeanPostProcessor implements ApplicationListener<ContextRefreshedEvent> , ApplicationContextAware {
 
     @Autowired
-    protected NotificationCenter notificationCenter;
-
-    @Autowired
     private OperationLogWriter operationLogManager;
 
     @Autowired
@@ -35,11 +31,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
     @Value("${http.exception.notAsHttpError:true}")
     protected boolean httpExceptionNotAsHttpError;
-
-    @Value("${app.support.tenant:true}")
-    protected boolean supportTenant;
-
-    private ApplicationContext applicationContext;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -50,7 +41,6 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
         CodeRepositoryCache.setPlatformEnvironment(platformEnvironment);
         CodeRepositoryCache.setAllCacheFreshPeriod(CodeRepositoryCache.CACHE_FRESH_PERIOD_SECONDS);
         WebOptUtils.setExceptionNotAsHttpError(httpExceptionNotAsHttpError);
-        WebOptUtils.setIsTenant(supportTenant);
 
         if (operationLogManager != null) {
             OperationLogCenter.registerOperationLogWriter(operationLogManager);
@@ -59,6 +49,5 @@ public class InstantiationServiceBeanPostProcessor implements ApplicationListene
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }

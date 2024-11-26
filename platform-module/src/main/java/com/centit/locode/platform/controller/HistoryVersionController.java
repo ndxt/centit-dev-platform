@@ -12,7 +12,6 @@ import com.centit.support.database.utils.PageDesc;
 import com.centit.support.json.JSONOpt;
 import com.centit.support.json.JsonDifferent;
 import com.centit.support.security.SecurityOptUtils;
-import com.centit.support.security.Sha1Encoder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

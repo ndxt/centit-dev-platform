@@ -17,7 +17,6 @@ import com.centit.locode.platform.service.ModelExportManager;
 import com.centit.support.algorithm.*;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
-import com.centit.support.security.Sha1Encoder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
