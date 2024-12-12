@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.centit.product.oa.team.utils.ResourceBaseController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
 @Api(value = "应用资源关联", tags = "应用资源关联")
 @RestController
 @RequestMapping(value = "/appResources")
-public class ApplicationResourcesController extends BaseController  {
+public class ApplicationResourcesController extends ResourceBaseController  {
 
     @Autowired
     private ApplicationResourcesService applicationResourcesService;
