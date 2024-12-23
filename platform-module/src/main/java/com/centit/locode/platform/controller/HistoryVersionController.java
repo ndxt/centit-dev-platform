@@ -7,6 +7,7 @@ import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.locode.platform.po.HistoryVersion;
 import com.centit.locode.platform.service.HistoryVersionService;
+import com.centit.support.algorithm.StringBaseOpt;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.json.JSONOpt;
@@ -38,6 +39,7 @@ public class HistoryVersionController extends BaseController {
         HistoryVersion historyVersion = JSONObject.parseObject(
             SecurityOptUtils.decodeSecurityString(hvJsonStr),
             HistoryVersion.class);
+        historyVersion.setRelationId(historyVersion.getRelationId().trim());
         //整理，并清楚不需要的字段
         //保存时 生成sha指纹
         historyVersion.setHistorySha(historyVersion.generateHistorySha());
