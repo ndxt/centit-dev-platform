@@ -15,6 +15,7 @@ public interface ModelExportManager {
     String exportModelAndSaveToFileServer(OsInfo osInfo) throws IOException;
 
     JSONObject uploadModel(File zipFile) throws Exception;
+
     Integer createApp(JSONObject jsonObject, String osId, CentitUserDetails userDetails);
 
     JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails);
