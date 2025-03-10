@@ -56,6 +56,10 @@ public class AppInfo implements Serializable {
     @ApiModelProperty(value = "文件Id", name = "fileId")
     private String fileId;
 
+    @Column(name = "FILE_SIZE")
+    @ApiModelProperty(value = "文件大小", name = "fileSize")
+    private Long fileSize;
+
     @Column(name = "FILE_NAME")
     @Length(max = 100)
     @ApiModelProperty(value = "文件名称", name = "fileName")

@@ -63,7 +63,7 @@ public class AppInfoController extends BaseController {
         paramType = "body", dataTypeClass = PageDesc.class)
     @RequestMapping(method = RequestMethod.GET)
     @WrapUpResponseBody(contentType = WrapUpContentType.MAP_DICT)
-    public PageQueryResult<Object> list(PageDesc pageDesc, HttpServletRequest request, HttpServletResponse response) {
+    public PageQueryResult<Object> list(PageDesc pageDesc, HttpServletRequest request) {
         Map<String, Object> searchColumn = BaseController.collectRequestParameters(request);
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         searchColumn.put("topUnit",topUnit);
@@ -77,7 +77,7 @@ public class AppInfoController extends BaseController {
         paramType = "body", dataTypeClass = AppInfo.class)
     @RequestMapping(method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public ResponseData saveAppInfo(@RequestBody AppInfo appInfo, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseData saveAppInfo(@RequestBody AppInfo appInfo, HttpServletRequest request) {
         appInfo.setCreator(WebOptUtils.getCurrentUserCode(request));
         String topUnit = WebOptUtils.getCurrentTopUnit(request);
         appInfo.setTopUnit(topUnit);
@@ -133,7 +133,7 @@ public class AppInfoController extends BaseController {
         required = true, paramType = "path", dataType = "String")
     @RequestMapping(value = "/{appId}", method = {RequestMethod.GET})
     @WrapUpResponseBody
-    public AppInfo getAppInfoById(@PathVariable String appId, HttpServletResponse response) {
+    public AppInfo getAppInfoById(@PathVariable String appId) {
         return appInfoService.getObjectById(appId);
     }
 
