@@ -1201,7 +1201,7 @@ public class JsonAppVo {
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
         workGroupParameter.setUserCode(userCode);
         workGroupParameter.setGroupId(osId);
-        workGroupParameter.setRoleCode(WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
+        workGroupParameter.setRoleCode("组长");//WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
         teamUser.setWorkGroupParameter(workGroupParameter);
         teamUser.setCreator(userCode);
         return teamUser;

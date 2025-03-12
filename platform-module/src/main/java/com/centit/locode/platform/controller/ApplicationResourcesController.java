@@ -11,6 +11,7 @@ import com.centit.framework.core.dao.PageQueryResult;
 import com.centit.locode.platform.po.ApplicationResources;
 import com.centit.locode.platform.service.ApplicationResourcesService;
 import com.centit.product.metadata.service.SourceInfoManager;
+import com.centit.product.oa.team.utils.ResourceBaseController;
 import com.centit.support.database.utils.PageDesc;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.centit.product.oa.team.utils.ResourceBaseController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;

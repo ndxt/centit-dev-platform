@@ -94,7 +94,7 @@ public class ApplicationInfoController extends BaseController {
     @WrapUpResponseBody
     public OsInfo deleteApplicationInfo(@PathVariable String applicationId, HttpServletRequest request) {
         UserInfo ud = WebOptUtils.assertUserLogin(request);
-        List<WorkGroup> userGroups = platformEnvironment.listWorkGroup(applicationId, ud.getUserCode(), WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
+        List<WorkGroup> userGroups = platformEnvironment.listWorkGroup(applicationId, ud.getUserCode(), "组长");//WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
         if(CollectionUtils.isEmpty(userGroups)){
             throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "组长才能删除这个应用："+applicationId+"！");
         }

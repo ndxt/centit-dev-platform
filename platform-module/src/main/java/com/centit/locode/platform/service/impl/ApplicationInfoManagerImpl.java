@@ -259,7 +259,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         WorkGroup workGroup = new WorkGroup();
         workGroup.setCreator(osInfo.getCreated());
         WorkGroupParameter workGroupParameter = new WorkGroupParameter();
-        workGroupParameter.setRoleCode(WorkGroup.WORKGROUP_ROLE_CODE_LEADER);
+        workGroupParameter.setRoleCode("组长");// TenantConstant.WORKGROUP_ROLE_CODE_LEADER);
         workGroupParameter.setGroupId(osInfo.getOsId());
         workGroupParameter.setUserCode(StringUtils.isBlank(leaderCode)? osInfo.getCreated():leaderCode);
         workGroup.setWorkGroupParameter(workGroupParameter);
