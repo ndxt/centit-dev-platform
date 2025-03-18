@@ -722,7 +722,7 @@ public class JsonAppVo {
                             && !osId.equals(oldMap.getOsId());
                         if (findRepeatPacketId) {
                             uuid = UuidOpt.getUuidAsString();
-                            map.put(IS_VALID, false);
+                            map.put(IS_VALID, oldMap.getIsValid());
                             break;
                         }
                     }
