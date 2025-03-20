@@ -1,0 +1,145 @@
+{
+  "nodes": [
+    {
+      "id": "start",
+      "type": "start",
+      "x": 200,
+      "y": 100,
+      "properties": {
+        "type": "start",
+        "typeName": "开始",
+        "processName": "开始",
+        "id": "start",
+        "isSource": false,
+        "isBranch": false
+      },
+      "text": {
+        "x": 200,
+        "y": 100,
+        "value": "开始"
+      }
+    },
+    {
+      "id": "results",
+      "type": "results",
+      "x": 200,
+      "y": 500,
+      "properties": {
+        "type": "results",
+        "typeName": "返回结果",
+        "processName": "返回结果",
+        "id": "results",
+        "isSource": true,
+        "isBranch": false
+      },
+      "text": {
+        "x": 200,
+        "y": 500,
+        "value": "返回结果"
+      }
+    },
+    {
+      "id": "msgSendLUNk7b5h",
+      "type": "msgSend",
+      "x": 200,
+      "y": 300,
+      "properties": {
+        "id": "msgSendLUNk7b5h",
+        "type": "msgSend",
+        "typeName": "消息发送",
+        "isSource": true,
+        "isBranch": false,
+        "processName": "消息发送",
+        "exceptionAsError": true,
+        "sendType": "M",
+        "mailServer": "sysMail",
+        "optUsers": "userCode",
+        "subject": "@问候",
+        "content": "@hello"
+      },
+      "text": {
+        "x": 200,
+        "y": 300,
+        "value": "消息发送"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edgeUC9fWCI7",
+      "type": "PlineEdge",
+      "sourceNodeId": "start",
+      "targetNodeId": "msgSendLUNk7b5h",
+      "startPoint": {
+        "x": 200,
+        "y": 121
+      },
+      "endPoint": {
+        "x": 200,
+        "y": 279
+      },
+      "properties": {
+        "id": "edgeUC9fWCI7",
+        "type": "PlineEdge",
+        "typeName": "连线",
+        "sourceId": "start",
+        "targetId": "msgSendLUNk7b5h",
+        "processName": ""
+      },
+      "pointsList": [
+        {
+          "x": 200,
+          "y": 121
+        },
+        {
+          "x": 200,
+          "y": 279
+        }
+      ]
+    },
+    {
+      "id": "edgeQ1ABAZWL",
+      "type": "PlineEdge",
+      "sourceNodeId": "msgSendLUNk7b5h",
+      "targetNodeId": "results",
+      "startPoint": {
+        "x": 200,
+        "y": 321
+      },
+      "endPoint": {
+        "x": 184,
+        "y": 500
+      },
+      "properties": {
+        "id": "edgeQ1ABAZWL",
+        "type": "PlineEdge",
+        "typeName": "连线",
+        "sourceId": "msgSendLUNk7b5h",
+        "targetId": "results",
+        "processName": ""
+      },
+      "pointsList": [
+        {
+          "x": 200,
+          "y": 321
+        },
+        {
+          "x": 200,
+          "y": 351
+        },
+        {
+          "x": 154,
+          "y": 351
+        },
+        {
+          "x": 154,
+          "y": 500
+        },
+        {
+          "x": 184,
+          "y": 500
+        }
+      ]
+    }
+  ]
+}

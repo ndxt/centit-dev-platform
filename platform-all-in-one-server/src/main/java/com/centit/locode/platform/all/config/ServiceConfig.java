@@ -25,7 +25,9 @@ import com.centit.msgpusher.plugins.SystemUserEmailSupport;
 import com.centit.search.service.ESServerConfig;
 import com.centit.search.service.IndexerSearcherFactory;
 import com.centit.search.utils.ImagePdfTextExtractor;
+import com.centit.support.algorithm.NumberBaseOpt;
 import com.centit.support.security.AESSecurityUtils;
+import com.centit.support.security.SecurityOptUtils;
 import com.centit.workflow.service.impl.SystemUserUnitCalcContextFactoryImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.SchedulerFactory;
@@ -194,11 +196,26 @@ public class ServiceConfig implements EnvironmentAware {
     @Bean
     public NotificationCenter notificationCenter(@Autowired PlatformEnvironment platformEnvironment) {
         //messageManager.setServerEmail("alertmail2@centit.com");
+        String serverEmail = env.getProperty("pusher.email.server.host");
+        String serverEmailPwd ,serverEmailUser;
+        int serverEmailPort = 25;
+        if(StringUtils.isBlank(serverEmail)){
+            serverEmail = "mail.centit.com";
+            serverEmailUser = "alertmail2@centit.com";
+            serverEmailPwd = SecurityOptUtils.decodeSecurityString("aescbc:Q1nnNW1UcabHqNobleuLkg==");
+        } else{
+            serverEmailPwd = SecurityOptUtils.decodeSecurityString(
+                env.getProperty("pusher.email.server.password"));
+            serverEmailUser = env.getProperty("pusher.email.server.user");
+            serverEmailPort = NumberBaseOpt.castObjectToInteger(env.getProperty("pusher.email.server.port"), 25);
+        }
+
         EMailMsgPusher messageManager = new EMailMsgPusher();
-        messageManager.setEmailServerHost("mail.centit.com");
-        messageManager.setEmailServerPort(25);
-        messageManager.setEmailServerUser("alertmail2@centit.com");
-        messageManager.setEmailServerPwd(AESSecurityUtils.decryptBase64String("LZhLhIlJ6gtIlUZ6/NassA==", ""));
+        messageManager.setEmailServerHost(serverEmail);
+        messageManager.setEmailServerPort(serverEmailPort);
+        messageManager.setEmailServerUser(serverEmailUser);
+        messageManager.setEmailServerPwd(serverEmailPwd);
+
         messageManager.setUserEmailSupport(new SystemUserEmailSupport());
         NotificationCenterImpl notificationCenter = new NotificationCenterImpl();
         //notificationCenter.initDummyMsgSenders();
