@@ -240,6 +240,8 @@ public class JsonAppVo {
             map.put(CREATE_TIME, new Date());
             map.put(LAST_MODIFY_DATE, new Date());
             map.remove(TOP_UNIT);
+            map.remove("logoFileId");
+            map.remove("picId");
         });
         return this;
     }
