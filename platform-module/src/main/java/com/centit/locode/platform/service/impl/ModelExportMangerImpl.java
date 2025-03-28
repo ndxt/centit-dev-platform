@@ -82,9 +82,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " +
             "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
         applicationSql.put(AppTableNames.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " +
-            "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId])");
+            "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId]) and catalog_style<>'S'");
         applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " +
-            "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId])");
+            "(select a.dictionary_id from m_application_dictionary a join f_datacatalog b on a.dictionary_id=b.CATALOG_CODE where [:osId | a.os_id=:osId] and catalog_style<>'S')");
         applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
 
         newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])" +
