@@ -222,7 +222,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     private void compressFileInfo(String osId, String filePath) throws IOException {
-        String fileInfoSql = "select file_id, file_name from file_info where library_id=:osId and file_catalog in ('A','B')";
+        String fileInfoSql = "select a.file_id, a.file_name from file_info a join file_store_info b on a.file_md5=b.file_md5 where a.library_id=:osId and a.file_catalog in ('A','B')";
         List<Object[]> objects = DatabaseOptUtils.listObjectsByNamedSql(applicationTemplateDao, fileInfoSql, CollectionsOpt.createHashMap("osId", osId));
         if (objects == null) {
             return;
