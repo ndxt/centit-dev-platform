@@ -25,6 +25,7 @@ import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.CsvFileIO;
 import com.centit.support.file.FileSystemOpt;
+import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +62,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
     void init() {
         applicationSql.put(AppTableNames.F_OS_INFO.name(), "select * from f_os_info where [:osId | os_id=:osId]");
         applicationSql.put(AppTableNames.FILE_LIBRARY_INFO.name(), "select * from file_library_info where [:osId | library_id=:osId]");
-        applicationSql.put(AppTableNames.F_OPTINFO.name(), "select * from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)]");
+        applicationSql.put(AppTableNames.F_OPTINFO.name(), "select * from f_optinfo where [:osId | top_opt_id=:osId]");
         applicationSql.put(AppTableNames.F_OPTDEF.name(), "select * from f_optdef where opt_id in " +
             "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
         applicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " +
@@ -126,8 +127,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
         String filePath = appHome + File.separator + fileId;
         Map<String, Object> mapApplication = new HashMap<>(1);
         mapApplication.put("osId", osId);
+        boolean isModelExport=false;
         if (parameters != null && StringUtils.isNotBlank(StringBaseOpt.objectToString(parameters.get("optId")))) {
             mapApplication.put("optId", StringBaseOpt.objectToString(parameters.get("optId")));
+            isModelExport=true;
         }
         updateSourceId(mapApplication);
         for (Map.Entry<String, String> entry : applicationSql.entrySet()) {
@@ -136,10 +139,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
         for (Map.Entry<String, String> entry : newDatabaseSql.entrySet()) {
             createFile(mapApplication, entry.getValue(), entry.getKey(), filePath);
         }
-        try {
-            compressFileInfo(osId, filePath);
-        } catch (IOException e) {
-            throw new ObjectException(e.getMessage());
+        if(!isModelExport) {
+            try {
+                compressFileInfo(osId, filePath);
+            } catch (IOException e) {
+                throw new ObjectException(e.getMessage());
+            }
         }
         ZipCompressor.compress(filePath + ".zip", filePath);
         FileSystemOpt.deleteDirect(filePath);
@@ -184,7 +189,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
         JSONArray jsonArray = DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, sql, map);
         if (fileName.equals(AppTableNames.F_OPTINFO.name()) && map.containsKey("optId")) {
-            jsonArray = parentOpt(jsonArray, StringBaseOpt.objectToString(map.get("optId")));
+            jsonArray = parentOpt(jsonArray, map.get("optId"));
         }
         try (FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")) {
             CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "gbk");
@@ -193,21 +198,22 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
     }
 
-    private JSONArray parentOpt(JSONArray jsonArray, String optId) {
+    private JSONArray parentOpt(JSONArray jsonArray, Object optId) {
         JSONArray parentOpt = new JSONArray();
-        JSONObject optInfo = getOptInfo(jsonArray, optId);
-        if (optInfo == null) {
-            return jsonArray;
-        }
-        while (optInfo != null) {
+        String[] optIds = StringBaseOpt.objectToStringArray(optId);
+        for(String optIdTemp:optIds) {
+            JSONObject optInfo = getOptInfo(jsonArray, optIdTemp);
             parentOpt.add(optInfo);
-            String preOptId = optInfo.getString("preOptId");
-            if (preOptId.equals("0")) {
-                break;
-            }
-            optInfo = getOptInfo(jsonArray, preOptId);
+            getPid(parentOpt,jsonArray,optInfo.getString("preOptId"));
         }
         return parentOpt;
+    }
+    private void getPid(JSONArray pOptInfo,JSONArray jsonArray,String preOptId){
+        JSONObject optInfo = (JSONObject)jsonArray.stream().filter(s-> ((JSONObject) s).getString("optId").equals(preOptId)).findFirst().get();
+        pOptInfo.add(optInfo);
+        if(!optInfo.getString("preOptId").equals("0")){
+            getPid(pOptInfo,jsonArray,optInfo.getString("preOptId"));
+        }
     }
 
     private JSONObject getOptInfo(JSONArray jsonArray, String optId) {
