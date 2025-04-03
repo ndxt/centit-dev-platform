@@ -209,8 +209,25 @@ public class ModelExportMangerImpl implements ModelExportManager {
         return parentOpt;
     }
     private void getPid(JSONArray pOptInfo,JSONArray jsonArray,String preOptId){
-        JSONObject optInfo = (JSONObject)jsonArray.stream().filter(s-> ((JSONObject) s).getString("optId").equals(preOptId)).findFirst().get();
-        pOptInfo.add(optInfo);
+        JSONObject optInfo = new JSONObject();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject item = jsonArray.getJSONObject(i);
+            if (item.getString("optId").equals(preOptId)) {
+                optInfo = item;
+                break;
+            }
+        }
+        boolean isRepeat=false;
+        for (int i = 0; i < pOptInfo.size(); i++) {
+            JSONObject item = pOptInfo.getJSONObject(i);
+            if (item.getString("optId").equals(optInfo.getString("optId"))) {
+                isRepeat = true;
+                break;
+            }
+        }
+        if(!isRepeat) {
+            pOptInfo.add(optInfo);
+        }
         if(!optInfo.getString("preOptId").equals("0")){
             getPid(pOptInfo,jsonArray,optInfo.getString("preOptId"));
         }
