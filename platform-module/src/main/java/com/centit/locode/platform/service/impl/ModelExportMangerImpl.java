@@ -376,7 +376,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
+    public JSONArray importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
         JSONObject jsonAppVoJson = jsonObject.getJSONObject("jsonAppVo");
         JSONObject sourceJson = new JSONObject();
         String filePath = StringBaseOpt.objectToString(jsonAppVoJson.get("file"));
@@ -417,7 +417,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return result;
+        return jsonAppVo.getDiffIds();
     }
 
     private JSONObject getOldApplication(String osId) {

@@ -1,5 +1,6 @@
 package com.centit.locode.platform.service;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.framework.model.basedata.OsInfo;
 import com.centit.framework.model.security.CentitUserDetails;
@@ -20,5 +21,5 @@ public interface ModelExportManager {
 
     JSONObject prepareApp(JSONObject jsonObject, String osId, CentitUserDetails currentUserDetails);
 
-    Integer importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception;
+    JSONArray importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception;
 }

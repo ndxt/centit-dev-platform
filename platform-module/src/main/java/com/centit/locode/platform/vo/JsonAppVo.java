@@ -1,5 +1,6 @@
 package com.centit.locode.platform.vo;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.dde.adapter.DdeDubboTaskRun;
 import com.centit.dde.adapter.po.DataPacket;
@@ -138,7 +139,6 @@ public class JsonAppVo {
     @Setter
     private boolean runDictionary;
 
-
     private Map<String, Object> databaseMap = new HashMap<>();
     private Map<String, Object> mdTableMap = new HashMap<>();
     private Map<String, Object> relationMap = new HashMap<>();
@@ -162,6 +162,23 @@ public class JsonAppVo {
         this.runMetaData=true;
         this.runDictionary=true;
         this.uploadFiles=true;
+    }
+
+    public JSONArray getDiffIds(){
+        JSONArray jsonArray = new JSONArray();
+        JSONObject dataPacketMapJson=new JSONObject();
+        dataPacketMapJson.put("接口主键变化",dataPacketMap);
+        jsonArray.add(dataPacketMapJson);
+        JSONObject metaFormMapJson=new JSONObject();
+        metaFormMapJson.put("页面主键变化",metaFormMap);
+        jsonArray.add(metaFormMapJson);
+        JSONObject flowDefineMapJson=new JSONObject();
+        flowDefineMapJson.put("流程主键变化",flowDefineMap);
+        jsonArray.add(flowDefineMapJson);
+        JSONObject dictionaryMapJson=new JSONObject();
+        dictionaryMapJson.put("数据字典主键变化",dictionaryMap);
+        jsonArray.add(dictionaryMapJson);
+        return jsonArray;
     }
 
 

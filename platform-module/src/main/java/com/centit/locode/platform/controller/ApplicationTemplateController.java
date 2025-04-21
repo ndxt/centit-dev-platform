@@ -1,5 +1,6 @@
 package com.centit.locode.platform.controller;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.centit.fileserver.utils.SystemTempFileUtils;
 import com.centit.fileserver.utils.UploadDownloadUtils;
@@ -14,6 +15,7 @@ import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.po.ApplicationTemplate;
 import com.centit.locode.platform.service.ApplicationTemplateManager;
 import com.centit.locode.platform.service.ModelExportManager;
+import com.centit.locode.platform.vo.JsonAppVo;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.file.FileSystemOpt;
@@ -163,7 +165,7 @@ public class ApplicationTemplateController extends BaseController {
     @ApiOperation(value = "6.完成导入")
     @RequestMapping(value = "/importApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public Integer importApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) throws Exception {
+    public JSONArray importApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) throws Exception {
         CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
         if (userDetails==null){
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
