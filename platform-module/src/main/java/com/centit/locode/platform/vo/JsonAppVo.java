@@ -26,10 +26,13 @@ import com.centit.workflow.po.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -37,6 +40,7 @@ import java.util.*;
  */
 
 public class JsonAppVo {
+    protected static final Logger logger = LoggerFactory.getLogger(JsonAppVo.class);
     private static final String OS_ID = "osId";
     private static final String DATABASE_CODE = "databaseCode";
     private static final String TABLE_ID = "tableId";
@@ -115,12 +119,12 @@ public class JsonAppVo {
     private JSONObject oldAppObject;
     @Getter
     private Map<String, List<Map<String, Object>>> mapJsonObject = new HashMap<>();
-    private String zipFilePath;
-    private String appHome;
-    private FileInfoOpt fileInfoOpt;
+    private final String zipFilePath;
+    private final String appHome;
+    private final FileInfoOpt fileInfoOpt;
     @Getter
     private String userCode;
-    private String topUnit;
+    private final String topUnit;
     private String osId;
     private String defaultDatabase;
     @Getter
@@ -139,16 +143,16 @@ public class JsonAppVo {
     @Setter
     private boolean runDictionary;
 
-    private Map<String, Object> databaseMap = new HashMap<>();
-    private Map<String, Object> mdTableMap = new HashMap<>();
-    private Map<String, Object> relationMap = new HashMap<>();
-    private Map<String, Object> dataPacketMap = new HashMap<>();
-    private Map<String, Object> metaFormMap = new HashMap<>();
-    private Map<String, Object> flowDefineMap = new HashMap<>();
-    private Map<String, Object> optInfoMap = new HashMap<>();
-    private Map<String, Object> wfNodeMap = new HashMap<>();
-    private Map<String, Object> dictionaryMap = new HashMap<>();
-    private Map<String, Object> fileMap = new HashMap<>();
+    private final Map<String, Object> databaseDiffMap = new HashMap<>();
+    private final Map<String, Object> mdTableDiffMap = new HashMap<>();
+    private final Map<String, Object> relationDiffMap = new HashMap<>();
+    private final Map<String, Object> dataPacketDiffMap = new HashMap<>();
+    private final Map<String, Object> metaFormDiffMap = new HashMap<>();
+    private final Map<String, Object> flowDefineDiffMap = new HashMap<>();
+    private final Map<String, Object> optInfoDiffMap = new HashMap<>();
+    private final Map<String, Object> wfNodeDiffMap = new HashMap<>();
+    private final Map<String, Object> dictionaryDiffMap = new HashMap<>();
+    private final Map<String, Object> fileDiffMap = new HashMap<>();
 
 
     public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt, String zipFilePath) {
@@ -167,40 +171,16 @@ public class JsonAppVo {
     public JSONArray getDiffIds(){
         JSONArray jsonArray = new JSONArray();
         JSONObject dataPacketMapJson=new JSONObject();
-        Map<String, Object> dataPacketDiffMap = new HashMap<>();
-         for (Map.Entry<String, Object> entry : dataPacketMap.entrySet()) {
-             if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
-                 dataPacketDiffMap.put(entry.getKey(), entry.getValue());
-             }
-        }
-        dataPacketMapJson.put("接口主键变化",dataPacketDiffMap);
+        dataPacketMapJson.put("接口主键变化", dataPacketDiffMap);
         jsonArray.add(dataPacketMapJson);
         JSONObject metaFormMapJson=new JSONObject();
-        Map<String, Object> metaFormDiffMap = new HashMap<>();
-        for (Map.Entry<String, Object> entry : metaFormMap.entrySet()) {
-            if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
-                metaFormDiffMap.put(entry.getKey(), entry.getValue());
-            }
-        }
-        metaFormMapJson.put("页面主键变化",metaFormDiffMap);
+        metaFormMapJson.put("页面主键变化", metaFormDiffMap);
         jsonArray.add(metaFormMapJson);
         JSONObject flowDefineMapJson=new JSONObject();
-        Map<String, Object> flowDefineDiffMap = new HashMap<>();
-        for (Map.Entry<String, Object> entry : flowDefineMap.entrySet()) {
-            if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
-                flowDefineDiffMap.put(entry.getKey(), entry.getValue());
-            }
-        }
-        flowDefineMapJson.put("流程主键变化",flowDefineDiffMap);
+        flowDefineMapJson.put("流程主键变化", flowDefineDiffMap);
         jsonArray.add(flowDefineMapJson);
         JSONObject dictionaryMapJson=new JSONObject();
-        Map<String, Object> dictionaryDiffMap = new HashMap<>();
-        for (Map.Entry<String, Object> entry : dictionaryMap.entrySet()) {
-            if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
-                dictionaryDiffMap.put(entry.getKey(), entry.getValue());
-            }
-        }
-        dictionaryMapJson.put("数据字典主键变化",dictionaryDiffMap);
+        dictionaryMapJson.put("数据字典主键变化", dictionaryDiffMap);
         jsonArray.add(dictionaryMapJson);
         return jsonArray;
     }
@@ -222,8 +202,11 @@ public class JsonAppVo {
 
     private void createMapJsonObject(JSONObject jsonObject) {
         for (Map.Entry<String, Object> entry : jsonObject.entrySet()) {
-            mapJsonObject.put(entry.getKey(),
-                (List<Map<String, Object>>) entry.getValue());
+            if (entry.getValue() instanceof List) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> list = (List<Map<String, Object>>) entry.getValue();
+                mapJsonObject.put(entry.getKey(), list);
+            }
         }
     }
 
@@ -323,12 +306,16 @@ public class JsonAppVo {
             } else {
                 throw new ObjectException(ObjectException.DATA_NOT_INTEGRATED, map.get("databaseName") + ":没有指定数据库");
             }
-            for (SourceInfo sourceInfo : oldList) {
-                if (uuid.equals(sourceInfo.getDatabaseCode())) {
-                    map.put("databaseName", sourceInfo.getDatabaseName());
+            if (oldList != null) {
+                for (SourceInfo sourceInfo : oldList) {
+                    if (uuid.equals(sourceInfo.getDatabaseCode())) {
+                        map.put("databaseName", sourceInfo.getDatabaseName());
+                    }
                 }
             }
-            databaseMap.put(map.get(DATABASE_CODE).toString(), uuid);
+            if(!uuid.equals(map.get(DATABASE_CODE).toString())) {
+                databaseDiffMap.put(map.get(DATABASE_CODE).toString(), uuid);
+            }
             map.put(DATABASE_CODE, uuid);
             map.put(OS_ID, osId);
             map.put(CREATED, userCode);
@@ -346,8 +333,8 @@ public class JsonAppVo {
         List<ApplicationResources> oldList = convertJavaList(ApplicationResources.class, AppTableNames.M_APPLICATION_RESOURCES.name());
         list.forEach(map -> {
             String uuid = "";
-            databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_ID)))
-                .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseMap.get(key)));
+            databaseDiffMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_ID)))
+                .findFirst().ifPresent(key -> map.put(DATABASE_ID, databaseDiffMap.get(key)));
             if (oldList != null) {
                 for (ApplicationResources oldMap : oldList) {
                     if (oldMap.getDataBaseId() != null) {
@@ -405,7 +392,9 @@ public class JsonAppVo {
             if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(CATALOG_CODE).toString();
             }
-            dictionaryMap.put(map.get(CATALOG_CODE).toString(), uuid);
+            if(!uuid.equals(map.get(CATALOG_CODE).toString())) {
+                dictionaryDiffMap.put(map.get(CATALOG_CODE).toString(), uuid);
+            }
             map.put(CATALOG_CODE, uuid);
             map.put(OS_ID, osId);
             map.put(CREATOR, userCode);
@@ -422,8 +411,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_DATADICTIONARY.name());
-        list.forEach(map -> dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(CATALOG_CODE)))
-            .findFirst().ifPresent(key -> map.put(CATALOG_CODE, dictionaryMap.get(key))));
+        list.forEach(map -> dictionaryDiffMap.keySet().stream().filter(key -> key.equals(map.get(CATALOG_CODE)))
+            .findFirst().ifPresent(key -> map.put(CATALOG_CODE, dictionaryDiffMap.get(key))));
         return this;
     }
 
@@ -435,8 +424,8 @@ public class JsonAppVo {
         List<ApplicationDictionary> oldList = convertJavaList(ApplicationDictionary.class, AppTableNames.M_APPLICATION_DICTIONARY.name());
         list.forEach(map -> {
             String uuid = "";
-            dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(DICTIONARY_ID)))
-                .findFirst().ifPresent(key -> map.put(DICTIONARY_ID, dictionaryMap.get(key)));
+            dictionaryDiffMap.keySet().stream().filter(key -> key.equals(map.get(DICTIONARY_ID)))
+                .findFirst().ifPresent(key -> map.put(DICTIONARY_ID, dictionaryDiffMap.get(key)));
             if (oldList != null) {
                 for (ApplicationDictionary oldMap : oldList) {
                     boolean equalsResource = oldMap.getDictionaryId().equals(map.get(DICTIONARY_ID).toString()) &&
@@ -464,8 +453,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OS_INFO.name());
-        list.forEach(map -> databaseMap.keySet().stream().filter(key -> key.equals(map.get(DEFAULT_DATABASE)))
-            .findFirst().ifPresent(key -> map.put(DEFAULT_DATABASE, databaseMap.get(key))));
+        list.forEach(map -> databaseDiffMap.keySet().stream().filter(key -> key.equals(map.get(DEFAULT_DATABASE)))
+            .findFirst().ifPresent(key -> map.put(DEFAULT_DATABASE, databaseDiffMap.get(key))));
         return this;
     }
 
@@ -479,8 +468,8 @@ public class JsonAppVo {
             String uuid = "";
             map.put(RECORDER, userCode);
             map.put(RECORD_DATE, new Date());
-            databaseMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_CODE)))
-                .findFirst().ifPresent(key -> map.put(DATABASE_CODE, databaseMap.get(key)));
+            databaseDiffMap.keySet().stream().filter(key -> key.equals(map.get(DATABASE_CODE)))
+                .findFirst().ifPresent(key -> map.put(DATABASE_CODE, databaseDiffMap.get(key)));
             if (finalOldList != null) {
                 for (MetaTable oldMap : finalOldList) {
                     if (oldMap.getTableName().equals(map.get(TABLE_NAME).toString()) &&
@@ -494,7 +483,9 @@ public class JsonAppVo {
             if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
-            mdTableMap.put(map.get(TABLE_ID).toString(), uuid);
+            if(!uuid.equals(map.get(TABLE_ID).toString())) {
+                mdTableDiffMap.put(map.get(TABLE_ID).toString(), uuid);
+            }
             map.put(TABLE_ID, uuid);
         });
         return this;
@@ -508,10 +499,10 @@ public class JsonAppVo {
         list.forEach(map -> {
             map.put(RECORDER, userCode);
             map.put(LAST_MODIFY_DATE, new Date());
-            mdTableMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
-                .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableMap.get(key)));
-            dictionaryMap.keySet().stream().filter(key -> key.equals(map.get(REFERENCE_DATA)))
-                .findFirst().ifPresent(key -> map.put(REFERENCE_DATA, dictionaryMap.get(key)));
+            mdTableDiffMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
+                .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableDiffMap.get(key)));
+            dictionaryDiffMap.keySet().stream().filter(key -> key.equals(map.get(REFERENCE_DATA)))
+                .findFirst().ifPresent(key -> map.put(REFERENCE_DATA, dictionaryDiffMap.get(key)));
         });
         return this;
     }
@@ -523,10 +514,10 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_RELATION.name());
         List<MetaRelation> finalOldList = convertJavaList(MetaRelation.class, AppTableNames.F_MD_RELATION.name());
         list.forEach(map -> {
-            mdTableMap.keySet().stream().filter(key -> key.equals(map.get(PARENT_TABLE_ID)))
-                .findFirst().ifPresent(key -> map.put(PARENT_TABLE_ID, mdTableMap.get(key)));
-            mdTableMap.keySet().stream().filter(key -> key.equals(map.get(CHILD_TABLE_ID)))
-                .findFirst().ifPresent(key -> map.put(CHILD_TABLE_ID, mdTableMap.get(key)));
+            mdTableDiffMap.keySet().stream().filter(key -> key.equals(map.get(PARENT_TABLE_ID)))
+                .findFirst().ifPresent(key -> map.put(PARENT_TABLE_ID, mdTableDiffMap.get(key)));
+            mdTableDiffMap.keySet().stream().filter(key -> key.equals(map.get(CHILD_TABLE_ID)))
+                .findFirst().ifPresent(key -> map.put(CHILD_TABLE_ID, mdTableDiffMap.get(key)));
             String uuid = "";
             if (finalOldList != null) {
                 for (MetaRelation oldMap : finalOldList) {
@@ -541,7 +532,9 @@ public class JsonAppVo {
             if (StringUtils.isBlank(uuid)) {
                 uuid = UuidOpt.getUuidAsString();
             }
-            relationMap.put(map.get(RELATION_ID).toString(), uuid);
+            if(!uuid.equals(map.get(RELATION_ID).toString())) {
+                relationDiffMap.put(map.get(RELATION_ID).toString(), uuid);
+            }
             map.put(RELATION_ID, uuid);
             map.put(RECORDER, userCode);
             map.put(LAST_MODIFY_DATE, new Date());
@@ -554,8 +547,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_MD_REL_DETAIL.name());
-        list.forEach(map -> relationMap.keySet().stream().filter(key -> key.equals(map.get(RELATION_ID)))
-            .findFirst().ifPresent(key -> map.put(RELATION_ID, relationMap.get(key))));
+        list.forEach(map -> relationDiffMap.keySet().stream().filter(key -> key.equals(map.get(RELATION_ID)))
+            .findFirst().ifPresent(key -> map.put(RELATION_ID, relationDiffMap.get(key))));
         return this;
     }
 
@@ -570,13 +563,15 @@ public class JsonAppVo {
             String uuid = "";
             if (map.get(OPT_ID).equals(map.get(TOP_OPT_ID))) {
                 uuid = osId;
-                boolean findRepeatOptId = false;
-                for (OptInfo oldMap : finalOldList) {
-                    findRepeatOptId = uuid.equals(oldMap.getOptId())
-                        && uuid.equals(oldMap.getTopOptId());
-                    if (findRepeatOptId) {
-                        map.put("optName", oldMap.getOptName());
-                        break;
+                boolean findRepeatOptId;
+                if (finalOldList != null) {
+                    for (OptInfo oldMap : finalOldList) {
+                        findRepeatOptId = uuid.equals(oldMap.getOptId())
+                            && uuid.equals(oldMap.getTopOptId());
+                        if (findRepeatOptId) {
+                            map.put("optName", oldMap.getOptName());
+                            break;
+                        }
                     }
                 }
             } else if (OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(map.get(FORM_CODE)) ||
@@ -619,7 +614,9 @@ public class JsonAppVo {
             if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(OPT_ID).toString();
             }
-            optInfoMap.put((String) map.get(OPT_ID), uuid);
+            if(!uuid.equals(map.get(OPT_ID).toString())) {
+                optInfoDiffMap.put(map.get(OPT_ID).toString(), uuid);
+            }
             map.put(OPT_ID, uuid);
             map.put(TOP_OPT_ID, osId);
             map.put(OS_ID, osId);
@@ -629,8 +626,8 @@ public class JsonAppVo {
             map.put(CREATE_DATE, new Date());
         });
         list.forEach(map ->
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(PRE_OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(PRE_OPT_ID, optInfoMap.get(key)))
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(PRE_OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(PRE_OPT_ID, optInfoDiffMap.get(key)))
         );
         return this;
     }
@@ -669,8 +666,8 @@ public class JsonAppVo {
             map.put(UPDATE_DATE, new Date());
             map.put(CREATOR, userCode);
             map.put(CREATE_DATE, new Date());
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
         });
         return this;
     }
@@ -682,10 +679,10 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_TABLE_OPT_RELATION.name());
         List<MetaOptRelation> finalOldList = convertJavaList(MetaOptRelation.class, AppTableNames.F_TABLE_OPT_RELATION.name());
         list.forEach(map -> {
-            mdTableMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
-                .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableMap.get(key)));
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            mdTableDiffMap.keySet().stream().filter(key -> key.equals(map.get(TABLE_ID)))
+                .findFirst().ifPresent(key -> map.put(TABLE_ID, mdTableDiffMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
             String uuid = "";
             if (finalOldList != null) {
                 for (MetaOptRelation oldMap : finalOldList) {
@@ -713,7 +710,7 @@ public class JsonAppVo {
             return this;
         }
         List<File> files = FileSystemOpt.findFiles(zipFilePath, "file.zip");
-        if (files == null || files.size() == 0) {
+        if (files == null || files.isEmpty()) {
             return this;
         }
         String filePath = appHome + File.separator + "u" + DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss");
@@ -729,12 +726,14 @@ public class JsonAppVo {
             fileInfo.setFileCatalog("A");
             String fileId = null;
             try {
-                fileId = fileInfoOpt.saveFile(fileInfo, -1, new FileInputStream(file.getPath()));
+                fileId = fileInfoOpt.saveFile(fileInfo, -1, Files.newInputStream(Paths.get(file.getPath())));
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
             fileInfo.setFileId(fileId);
-            fileMap.put(oldFileId, fileId);
+            if (fileId != null && !fileId.equals(oldFileId)) {
+                fileDiffMap.put(oldFileId, fileId);
+            }
         });
         FileSystemOpt.deleteDirect(filePath);
 //        对于模板不能删除资源文件
@@ -779,32 +778,34 @@ public class JsonAppVo {
                     map.put(IS_VALID, false);
                 }
             }
-            dataPacketMap.put((String) map.get(PACKET_ID), uuid);
+            if(!uuid.equals(map.get(PACKET_ID).toString())) {
+                dataPacketDiffMap.put(map.get(PACKET_ID).toString(), uuid);
+            }
             map.put(PACKET_ID, uuid);
             map.put(OS_ID, osId);
             map.put(UPDATE_DATE, new Date());
             map.put(PUBLISH_DATE, new Date());
             map.put(RECORDER, userCode);
             map.put(OPT_CODE, uuid);
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
         });
         list.forEach(map -> {
-            String form = (String) map.get(DATA_OPT_DESC_JSON);
-            for (String key : mdTableMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) mdTableMap.get(key));
+            String form = map.get(DATA_OPT_DESC_JSON).toString();
+            for (String key : mdTableDiffMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) mdTableDiffMap.get(key));
             }
-            for (String key : databaseMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) databaseMap.get(key));
+            for (String key : databaseDiffMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) databaseDiffMap.get(key));
             }
-            for (String key : dataPacketMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+            for (String key : dataPacketDiffMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) dataPacketDiffMap.get(key));
             }
-            for (String key : dictionaryMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+            for (String key : dictionaryDiffMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) dictionaryDiffMap.get(key));
             }
-            for (String key : fileMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) fileMap.get(key));
+            for (String key : fileDiffMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) fileDiffMap.get(key));
             }
             map.put(DATA_OPT_DESC_JSON, form);
         });
@@ -818,8 +819,8 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTDEF.name());
         list.forEach(map -> {
             if (map.get(API_ID) != null) {
-                dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(API_ID)))
-                    .findFirst().ifPresent(key -> map.put(API_ID, dataPacketMap.get(key)));
+                dataPacketDiffMap.keySet().stream().filter(key -> key.equals(map.get(API_ID)))
+                    .findFirst().ifPresent(key -> map.put(API_ID, dataPacketDiffMap.get(key)));
                 map.put(OPT_URL, DDE_RUN + map.get(API_ID));
                 map.put(OPT_CODE, map.get(API_ID));
             }
@@ -832,8 +833,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET_PARAM.name());
-        list.forEach(map -> dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(PACKET_ID)))
-            .findFirst().ifPresent(key -> map.put(PACKET_ID, dataPacketMap.get(key))));
+        list.forEach(map -> dataPacketDiffMap.keySet().stream().filter(key -> key.equals(map.get(PACKET_ID)))
+            .findFirst().ifPresent(key -> map.put(PACKET_ID, dataPacketDiffMap.get(key))));
         return this;
     }
 
@@ -866,61 +867,63 @@ public class JsonAppVo {
             if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(MODEL_ID).toString();
             }
-            metaFormMap.put((String) map.get(MODEL_ID), uuid);
+            if(!uuid.equals(map.get(MODEL_ID).toString())) {
+                metaFormDiffMap.put((String) map.get(MODEL_ID), uuid);
+            }
             map.put(MODEL_ID, uuid);
             map.put(OS_ID, osId);
             map.put(PUBLISH_DATE, new Date());
             map.put(RECORDER, userCode);
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
         });
         list.forEach(map -> {
             String form;
             if (map.get(FORM_TEMPLATE) != null) {
                 form = (String) map.get(FORM_TEMPLATE);
-                for (String key : metaFormMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                for (String key : metaFormDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormDiffMap.get(key));
                 }
-                for (String key : dataPacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                for (String key : dataPacketDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketDiffMap.get(key));
                 }
-                for (String key : dictionaryMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+                for (String key : dictionaryDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dictionaryDiffMap.get(key));
                 }
-                for (String key : fileMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) fileMap.get(key));
+                for (String key : fileDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) fileDiffMap.get(key));
                 }
                 map.put(FORM_TEMPLATE, form);
             }
             if (map.get(MOBILE_FORM_TEMPLATE) != null) {
                 form = (String) map.get(MOBILE_FORM_TEMPLATE);
-                for (String key : metaFormMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                for (String key : metaFormDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormDiffMap.get(key));
                 }
-                for (String key : dataPacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                for (String key : dataPacketDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketDiffMap.get(key));
                 }
-                for (String key : dictionaryMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+                for (String key : dictionaryDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dictionaryDiffMap.get(key));
                 }
-                for (String key : fileMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) fileMap.get(key));
+                for (String key : fileDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) fileDiffMap.get(key));
                 }
                 map.put(MOBILE_FORM_TEMPLATE, form);
             }
             if (map.get(STRUCTURE_FUNCTION) != null) {
                 form = (String) map.get(STRUCTURE_FUNCTION);
-                for (String key : metaFormMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                for (String key : metaFormDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormDiffMap.get(key));
                 }
-                for (String key : dataPacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                for (String key : dataPacketDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketDiffMap.get(key));
                 }
-                for (String key : dictionaryMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dictionaryMap.get(key));
+                for (String key : dictionaryDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dictionaryDiffMap.get(key));
                 }
-                for (String key : fileMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) fileMap.get(key));
+                for (String key : fileDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) fileDiffMap.get(key));
                 }
                 map.put(STRUCTURE_FUNCTION, form);
             }
@@ -934,12 +937,12 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.F_OPTINFO.name());
         list.forEach(map -> {
-            metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ROUTE)))
-                .findFirst().ifPresent(key -> map.put(OPT_ROUTE, metaFormMap.get(key)));
+            metaFormDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ROUTE)))
+                .findFirst().ifPresent(key -> map.put(OPT_ROUTE, metaFormDiffMap.get(key)));
             if (map.get(OPT_URL) != null) {
                 String form = (String) map.get(OPT_URL);
-                for (String key : metaFormMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                for (String key : metaFormDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormDiffMap.get(key));
                 }
                 map.put(OPT_URL, form);
             }
@@ -955,14 +958,14 @@ public class JsonAppVo {
         list.forEach(map -> {
             if (map.get(FLOW_XML_DESC) != null) {
                 String form = (String) map.get(FLOW_XML_DESC);
-                for (String key : metaFormMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) metaFormMap.get(key));
+                for (String key : metaFormDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) metaFormDiffMap.get(key));
                 }
-                for (String key : dataPacketMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) dataPacketMap.get(key));
+                for (String key : dataPacketDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) dataPacketDiffMap.get(key));
                 }
-                for (String key : optInfoMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) optInfoMap.get(key));
+                for (String key : optInfoDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) optInfoDiffMap.get(key));
                 }
                 map.put(FLOW_XML_DESC, form);
             }
@@ -976,12 +979,12 @@ public class JsonAppVo {
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_NODE.name());
         list.forEach(map -> {
-            dataPacketMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
-                .findFirst().ifPresent(key -> map.put(OPT_CODE, dataPacketMap.get(key)));
-            metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
-                .findFirst().ifPresent(key -> map.put(OPT_CODE, metaFormMap.get(key)));
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            dataPacketDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, dataPacketDiffMap.get(key)));
+            metaFormDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, metaFormDiffMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
         });
         return this;
     }
@@ -993,8 +996,8 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_OPT_TEAM_ROLE.name());
         List<OptTeamRole> finalOldList = convertJavaList(OptTeamRole.class, AppTableNames.WF_OPT_TEAM_ROLE.name());
         list.forEach(map -> {
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
             String uuid = "";
             if (finalOldList != null) {
                 for (OptTeamRole oldMap : finalOldList) {
@@ -1021,8 +1024,8 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_OPT_VARIABLE_DEFINE.name());
         List<OptVariableDefine> finalOldList = convertJavaList(OptVariableDefine.class, AppTableNames.WF_OPT_VARIABLE_DEFINE.name());
         list.forEach(map -> {
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
             String uuid = "";
             if (finalOldList != null) {
                 for (OptVariableDefine oldMap : finalOldList) {
@@ -1072,16 +1075,18 @@ public class JsonAppVo {
                 if (StringUtils.isBlank(uuid)) {
                     uuid = map.get(FLOW_CODE).toString();
                 }
-                flowDefineMap.put((String) map.get(FLOW_CODE), uuid);
+                if(!uuid.equals(map.get(FLOW_CODE).toString())) {
+                    flowDefineDiffMap.put(map.get(FLOW_CODE).toString(), uuid);
+                }
             }
             map.put(FLOW_PUBLISH_DATE, new Date());
-            optInfoMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
-                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoMap.get(key)));
+            optInfoDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_ID)))
+                .findFirst().ifPresent(key -> map.put(OPT_ID, optInfoDiffMap.get(key)));
             map.put(OS_ID, osId);
         });
         list.forEach(map ->
-            flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
-                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key))));
+            flowDefineDiffMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
+                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineDiffMap.get(key))));
         return this;
     }
 
@@ -1113,13 +1118,15 @@ public class JsonAppVo {
             if (StringUtils.isBlank(uuid)) {
                 uuid = map.get(NODE_ID).toString();
             }
-            wfNodeMap.put((String) map.get(NODE_ID), uuid);
+            if(!uuid.equals(map.get(NODE_ID).toString())) {
+                wfNodeDiffMap.put(map.get(NODE_ID).toString(), uuid);
+            }
             map.put(NODE_ID, uuid);
             map.put(OS_ID, osId);
-            flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
-                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key)));
-            metaFormMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
-                .findFirst().ifPresent(key -> map.put(OPT_CODE, metaFormMap.get(key)));
+            flowDefineDiffMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
+                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineDiffMap.get(key)));
+            metaFormDiffMap.keySet().stream().filter(key -> key.equals(map.get(OPT_CODE)))
+                .findFirst().ifPresent(key -> map.put(OPT_CODE, metaFormDiffMap.get(key)));
         });
         return this;
     }
@@ -1129,8 +1136,8 @@ public class JsonAppVo {
             return this;
         }
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_FLOW_DEFINE.name());
-        list.forEach(map -> wfNodeMap.keySet().stream().filter(key -> key.equals(map.get(FIRST_NODE_ID)))
-            .findFirst().ifPresent(key -> map.put(FIRST_NODE_ID, wfNodeMap.get(key))));
+        list.forEach(map -> wfNodeDiffMap.keySet().stream().filter(key -> key.equals(map.get(FIRST_NODE_ID)))
+            .findFirst().ifPresent(key -> map.put(FIRST_NODE_ID, wfNodeDiffMap.get(key))));
         return this;
     }
 
@@ -1141,12 +1148,12 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.WF_TRANSITION.name());
         List<FlowTransition> finalOldList = convertJavaList(FlowTransition.class, AppTableNames.WF_TRANSITION.name());
         list.forEach(map -> {
-            flowDefineMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
-                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineMap.get(key)));
-            wfNodeMap.keySet().stream().filter(key -> key.equals(map.get(START_NODE_ID)))
-                .findFirst().ifPresent(key -> map.put(START_NODE_ID, wfNodeMap.get(key)));
-            wfNodeMap.keySet().stream().filter(key -> key.equals(map.get(END_NODE_ID)))
-                .findFirst().ifPresent(key -> map.put(END_NODE_ID, wfNodeMap.get(key)));
+            flowDefineDiffMap.keySet().stream().filter(key -> key.equals(map.get(FLOW_CODE)))
+                .findFirst().ifPresent(key -> map.put(FLOW_CODE, flowDefineDiffMap.get(key)));
+            wfNodeDiffMap.keySet().stream().filter(key -> key.equals(map.get(START_NODE_ID)))
+                .findFirst().ifPresent(key -> map.put(START_NODE_ID, wfNodeDiffMap.get(key)));
+            wfNodeDiffMap.keySet().stream().filter(key -> key.equals(map.get(END_NODE_ID)))
+                .findFirst().ifPresent(key -> map.put(END_NODE_ID, wfNodeDiffMap.get(key)));
             String uuid = "";
             if (finalOldList != null) {
                 for (FlowTransition oldMap : finalOldList) {
@@ -1173,8 +1180,8 @@ public class JsonAppVo {
         List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.Q_DATA_PACKET.name());
         list.forEach(map -> {
             String form = (String) map.get(DATA_OPT_DESC_JSON);
-            for (String key : flowDefineMap.keySet()) {
-                form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+            for (String key : flowDefineDiffMap.keySet()) {
+                form = StringUtils.replace(form, key, (String) flowDefineDiffMap.get(key));
             }
             map.put(DATA_OPT_DESC_JSON, form);
         });
@@ -1190,22 +1197,22 @@ public class JsonAppVo {
             String form;
             if (map.get(FORM_TEMPLATE) != null) {
                 form = (String) map.get(FORM_TEMPLATE);
-                for (String key : flowDefineMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+                for (String key : flowDefineDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) flowDefineDiffMap.get(key));
                 }
                 map.put(FORM_TEMPLATE, form);
             }
             if (map.get(MOBILE_FORM_TEMPLATE) != null) {
                 form = (String) map.get(MOBILE_FORM_TEMPLATE);
-                for (String key : flowDefineMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+                for (String key : flowDefineDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) flowDefineDiffMap.get(key));
                 }
                 map.put(MOBILE_FORM_TEMPLATE, form);
             }
             if (map.get(STRUCTURE_FUNCTION) != null) {
                 form = (String) map.get(STRUCTURE_FUNCTION);
-                for (String key : flowDefineMap.keySet()) {
-                    form = StringUtils.replace(form, key, (String) flowDefineMap.get(key));
+                for (String key : flowDefineDiffMap.keySet()) {
+                    form = StringUtils.replace(form, key, (String) flowDefineDiffMap.get(key));
                 }
                 map.put(STRUCTURE_FUNCTION, form);
             }
@@ -1221,7 +1228,7 @@ public class JsonAppVo {
     }
 
     private boolean notHaveOldData(String dataName) {
-        return oldAppObject.get(dataName) == null || oldAppObject.getJSONArray(dataName).size() == 0;
+        return oldAppObject.get(dataName) == null || oldAppObject.getJSONArray(dataName).isEmpty();
     }
 
     private JsonAppVo createOsInfo() {
@@ -1436,7 +1443,7 @@ public class JsonAppVo {
         return this;
     }
 
-    private List<Object> convertMap(Class type, List<Map<String, Object>> list) {
+    private List<Object> convertMap(Class<?> type, List<Map<String, Object>> list) {
         List<Object> object = new ArrayList<>();
         try {
             JavaBeanMetaData javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(type);
