@@ -167,16 +167,40 @@ public class JsonAppVo {
     public JSONArray getDiffIds(){
         JSONArray jsonArray = new JSONArray();
         JSONObject dataPacketMapJson=new JSONObject();
-        dataPacketMapJson.put("接口主键变化",dataPacketMap);
+        Map<String, Object> dataPacketDiffMap = new HashMap<>();
+         for (Map.Entry<String, Object> entry : dataPacketMap.entrySet()) {
+             if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
+                 dataPacketDiffMap.put(entry.getKey(), entry.getValue());
+             }
+        }
+        dataPacketMapJson.put("接口主键变化",dataPacketDiffMap);
         jsonArray.add(dataPacketMapJson);
         JSONObject metaFormMapJson=new JSONObject();
-        metaFormMapJson.put("页面主键变化",metaFormMap);
+        Map<String, Object> metaFormDiffMap = new HashMap<>();
+        for (Map.Entry<String, Object> entry : metaFormMap.entrySet()) {
+            if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
+                metaFormDiffMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+        metaFormMapJson.put("页面主键变化",metaFormDiffMap);
         jsonArray.add(metaFormMapJson);
         JSONObject flowDefineMapJson=new JSONObject();
-        flowDefineMapJson.put("流程主键变化",flowDefineMap);
+        Map<String, Object> flowDefineDiffMap = new HashMap<>();
+        for (Map.Entry<String, Object> entry : flowDefineMap.entrySet()) {
+            if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
+                flowDefineDiffMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+        flowDefineMapJson.put("流程主键变化",flowDefineDiffMap);
         jsonArray.add(flowDefineMapJson);
         JSONObject dictionaryMapJson=new JSONObject();
-        dictionaryMapJson.put("数据字典主键变化",dictionaryMap);
+        Map<String, Object> dictionaryDiffMap = new HashMap<>();
+        for (Map.Entry<String, Object> entry : dictionaryMap.entrySet()) {
+            if (!entry.getKey().equals(StringBaseOpt.objectToString(entry.getValue()))) {
+                dictionaryDiffMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+        dictionaryMapJson.put("数据字典主键变化",dictionaryDiffMap);
         jsonArray.add(dictionaryMapJson);
         return jsonArray;
     }
