@@ -872,7 +872,6 @@ public class JsonAppVo {
                             uuid = matchOptInfo.getOptId();
                         } else {
                             uuid = UuidOpt.getUuidAsString();
-                            optInfoDiffMap.put(optId, uuid);
                         }
                     } else {
                         uuid = optId;
@@ -882,6 +881,9 @@ public class JsonAppVo {
                 uuid = optId;
             }
             // 更新操作信息
+            if(!uuid.equals(optId)){
+                optInfoDiffMap.put(optId, uuid);
+            }
             map.put(OPT_ID, uuid);
             map.put(TOP_OPT_ID, osId);
             map.put(OS_ID, osId);
@@ -1232,7 +1234,6 @@ public class JsonAppVo {
                             if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
                                 map.put(IS_VALID, false);
                             }
-                            dataPacketDiffMap.put(packetId, uuid);
                         }
                     } else {
                         // 如果没有找到匹配的操作定义，则使用操作代码作为UUID
@@ -1244,6 +1245,9 @@ public class JsonAppVo {
                 }
             }
             // 更新数据包的UUID和其它元数据
+            if(!uuid.equals(packetId)){
+                dataPacketDiffMap.put(packetId, uuid);
+            }
             map.put(PACKET_ID, uuid);
             map.put(OS_ID, osId);
             map.put(UPDATE_DATE, now);
@@ -1377,7 +1381,6 @@ public class JsonAppVo {
                         } else {
                             // 如果不匹配，则生成新的UUID，并记录到diffMap中
                             uuid = UuidOpt.getUuidAsString();
-                            metaFormDiffMap.put(modelId, uuid);
                         }
                     } else {
                         // 如果没有找到匹配的操作定义，则使用操作代码作为UUID
@@ -1389,6 +1392,9 @@ public class JsonAppVo {
                 uuid = modelId;
             }
             // 更新map中的UUID和其他必要字段
+            if(!uuid.equals(modelId)){
+                metaFormDiffMap.put(modelId, uuid);
+            }
             map.put(MODEL_ID, uuid);
             map.put(OS_ID, osId);
             map.put(PUBLISH_DATE, now);
