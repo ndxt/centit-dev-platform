@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -68,23 +69,23 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     @PostConstruct
     void init() {
-        applicationSql.put(AppTableNames.F_OS_INFO.name(), "select os_id,page_flow from f_os_info where [:osId | os_id=:osId]");
-        applicationSql.put(AppTableNames.F_OPTINFO.name(), "select * from f_optinfo where [:osId | top_opt_id=:osId]");
-        applicationSql.put(AppTableNames.F_OPTDEF.name(), "select * from f_optdef where opt_id in " + "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
-        applicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " + "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
-        applicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where [:osId | os_id=:osId]");
-        applicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select a.* from f_table_opt_relation a join f_md_table b on a.table_id=b.TABLE_ID where [:osId | a.os_id=:osId] [:(splitforin)optId | and opt_id in (:optId)]");
-        applicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)]");
+//        applicationSql.put(AppTableNames.F_OS_INFO.name(), "select os_id,page_flow from f_os_info where [:osId | os_id=:osId]");
+//        applicationSql.put(AppTableNames.F_OPTINFO.name(), "select * from f_optinfo where [:osId | top_opt_id=:osId]");
+//        applicationSql.put(AppTableNames.F_OPTDEF.name(), "select * from f_optdef where opt_id in " + "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
+//        applicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,top_unit,database_name,database_desc,source_type " + "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
+//        applicationSql.put(AppTableNames.M_APPLICATION_RESOURCES.name(), "select * from m_application_resources where [:osId | os_id=:osId]");
+//        applicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select a.* from f_table_opt_relation a join f_md_table b on a.table_id=b.TABLE_ID where [:osId | a.os_id=:osId] [:(splitforin)optId | and opt_id in (:optId)]");
+//        applicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select * from m_meta_form_model where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)]");
         applicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select * from q_data_packet where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)]");
-        applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where [:osId | OS_ID=:osId] and (flow_state<>'C' or version=0) [:(splitforin)optId | and opt_id in (:optId)]");
-        applicationSql.put(AppTableNames.WF_NODE.name(), "select * from wf_node where (flow_code,version) in(" + "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:(splitforin)optId | and opt_id in (:optId)])");
-        applicationSql.put(AppTableNames.WF_TRANSITION.name(), "select * from wf_transition where (flow_code,version) in(" + "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:(splitforin)optId | and opt_id in (:optId)])");
-        applicationSql.put(AppTableNames.WF_FLOW_STAGE.name(), "select * from wf_flow_stage where (flow_code,version) in(" + "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:(splitforin)optId | and opt_id in (:optId)])");
-        applicationSql.put(AppTableNames.WF_OPT_TEAM_ROLE.name(), "select * from wf_opt_team_role where opt_id in " + "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
-        applicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " + "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
-        applicationSql.put(AppTableNames.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " + "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId]) and catalog_style<>'S'");
-        applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " + "(select a.dictionary_id from m_application_dictionary a join f_datacatalog b on a.dictionary_id=b.CATALOG_CODE where [:osId | a.os_id=:osId] and catalog_style<>'S')");
-        applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
+//        applicationSql.put(AppTableNames.WF_FLOW_DEFINE.name(), "select * from wf_flow_define where [:osId | OS_ID=:osId] and (flow_state<>'C' or version=0) [:(splitforin)optId | and opt_id in (:optId)]");
+//        applicationSql.put(AppTableNames.WF_NODE.name(), "select * from wf_node where (flow_code,version) in(" + "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:(splitforin)optId | and opt_id in (:optId)])");
+//        applicationSql.put(AppTableNames.WF_TRANSITION.name(), "select * from wf_transition where (flow_code,version) in(" + "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:(splitforin)optId | and opt_id in (:optId)])");
+//        applicationSql.put(AppTableNames.WF_FLOW_STAGE.name(), "select * from wf_flow_stage where (flow_code,version) in(" + "select flow_code,version from wf_flow_define where [:osId | OS_ID=:osId] and flow_state='B' [:(splitforin)optId | and opt_id in (:optId)])");
+//        applicationSql.put(AppTableNames.WF_OPT_TEAM_ROLE.name(), "select * from wf_opt_team_role where opt_id in " + "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
+//        applicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select * from wf_opt_variable_define where opt_id in " + "(select opt_id from f_optinfo where [:osId | top_opt_id=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
+//        applicationSql.put(AppTableNames.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " + "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId]) and catalog_style<>'S'");
+//        applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " + "(select a.dictionary_id from m_application_dictionary a join f_datacatalog b on a.dictionary_id=b.CATALOG_CODE where [:osId | a.os_id=:osId] and catalog_style<>'S')");
+//        applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
 
         newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])" + " and database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
         newDatabaseSql.put(AppTableNames.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
@@ -242,7 +243,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         // 使用FileOutputStream打开文件流，并确保在操作完成后关闭流
         try (FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")) {
             // 将JSONArray中的数据保存到CSV文件中，指定字符编码为GBK
-            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "gbk");
+            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "UTF-8");
         } catch (IOException e) {
             // 如果文件写入过程中发生IOException，抛出自定义异常
             throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION, "导出文件出错" + e.getMessage());
