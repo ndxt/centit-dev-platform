@@ -1210,7 +1210,10 @@ public class JsonAppVo {
                     DataPacket matchSourcePacket = sourceIdMap.get(sourceKey);
                     if (matchSourcePacket != null) {
                         uuid = matchSourcePacket.getPacketId();
-                        map.put(TASK_CRON, matchSourcePacket.getTaskCron());
+                        if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
+                            map.put(TASK_CRON, matchSourcePacket.getTaskCron());
+                            map.put(IS_VALID, matchSourcePacket.getIsValid());
+                        }
                     }
                 }
                 if (StringBaseOpt.isNvl(uuid)) {
@@ -1220,7 +1223,10 @@ public class JsonAppVo {
                         // 检查顶级操作ID是否匹配
                         if (matchOsId != null && matchOsId.equals(osId)) {
                             uuid = packetId;
-                            map.put(TASK_CRON, matchPacket.getTaskCron());
+                            if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
+                                map.put(TASK_CRON, matchPacket.getTaskCron());
+                                map.put(IS_VALID, matchPacket.getIsValid());
+                            }
                         } else {
                             uuid = UuidOpt.getUuidAsString();
                             if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
