@@ -11,17 +11,19 @@ import com.centit.framework.common.WebOptUtils;
 import com.centit.framework.core.controller.BaseController;
 import com.centit.framework.core.controller.WrapUpResponseBody;
 import com.centit.framework.core.dao.PageQueryResult;
+import com.centit.framework.model.adapter.PlatformEnvironment;
+import com.centit.framework.model.basedata.WorkGroup;
 import com.centit.framework.model.security.CentitUserDetails;
 import com.centit.locode.platform.po.ApplicationTemplate;
 import com.centit.locode.platform.service.ApplicationTemplateManager;
 import com.centit.locode.platform.service.ModelExportManager;
-import com.centit.locode.platform.vo.JsonAppVo;
 import com.centit.support.common.ObjectException;
 import com.centit.support.database.utils.PageDesc;
 import com.centit.support.file.FileSystemOpt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,22 +50,24 @@ public class ApplicationTemplateController extends BaseController {
 
     @Autowired
     private ModelExportManager modelExportManager;
+    @Autowired
+    private PlatformEnvironment platformEnvironment;
 
     @ApiOperation(value = "保存应用模板")
     @PostMapping(value = "/saveApp")
-    public void createApplicationInfo(HttpServletRequest request, HttpServletResponse response){
-        if(GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
+    public void createApplicationInfo(HttpServletRequest request, HttpServletResponse response) {
+        if (GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
             ApplicationTemplate applicationTemplate = new ApplicationTemplate();
-            if(StringUtils.isNotBlank(request.getParameter(TEMPLATE_ID))){
+            if (StringUtils.isNotBlank(request.getParameter(TEMPLATE_ID))) {
                 applicationTemplate.setTemplateId(request.getParameter(TEMPLATE_ID));
             }
             applicationTemplate.setTemplateName(request.getParameter("templateName"));
             applicationTemplate.setTemplateType(request.getParameter("templateType"));
             applicationTemplate.setPicId(request.getParameter("picId"));
             applicationTemplate.setTemplateMemo(request.getParameter("templateMemo"));
-            if(request.getParameter(IS_USED)==null || "".equals(request.getParameter(IS_USED))){
+            if (request.getParameter(IS_USED) == null || "".equals(request.getParameter(IS_USED))) {
                 applicationTemplate.setIsUsed("T");
-            }else{
+            } else {
                 applicationTemplate.setIsUsed(request.getParameter(IS_USED));
             }
             FileSystemOpt.createDirect(SystemTempFileUtils.getTempDirectory());
@@ -72,7 +76,7 @@ public class ApplicationTemplateController extends BaseController {
                 InputStream inputStream = UploadDownloadUtils.fetchInputStreamFromMultipartResolver(request).getRight();
                 File file = new File(tempFilePath);
                 FileUtils.copyInputStreamToFile(inputStream, file);
-                if(file.length()!=0) {
+                if (file.length() != 0) {
                     applicationTemplate.setTemplateContent(modelExportManager.uploadModel(file));
                 }
                 applicationTemplateManager.mergeApplicationTemplate(applicationTemplate);
@@ -82,7 +86,7 @@ public class ApplicationTemplateController extends BaseController {
             } finally {
                 FileSystemOpt.deleteFile(tempFilePath);
             }
-        }else{
+        } else {
             JsonResultUtils.writeErrorMessageJson("只有平台管理员有权限", response);
         }
     }
@@ -91,10 +95,10 @@ public class ApplicationTemplateController extends BaseController {
     @ApiImplicitParam(name = TEMPLATE_ID, value = "模板ID")
     @DeleteMapping(value = "/{templateId}")
     @WrapUpResponseBody
-    public void deleteApplicationTemplate(@PathVariable String templateId,HttpServletRequest request,HttpServletResponse response) {
-        if(GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
+    public void deleteApplicationTemplate(@PathVariable String templateId, HttpServletRequest request, HttpServletResponse response) {
+        if (GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
             applicationTemplateManager.deleteApplicationTemplate(templateId);
-        }else{
+        } else {
             JsonResultUtils.writeErrorMessageJson("只有平台管理员有权限", response);
         }
     }
@@ -104,8 +108,8 @@ public class ApplicationTemplateController extends BaseController {
     @WrapUpResponseBody
     public PageQueryResult<ApplicationTemplate> listApplicationTemplate(HttpServletRequest request, PageDesc pageDesc) {
         Map<String, Object> searchColumn = collectRequestParameters(request);
-        if(!GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
-          searchColumn.put(IS_USED,"T");
+        if (!GlobalConstValue.SYSTEM_TENANT_TOP_UNIT.equals(WebOptUtils.getCurrentTopUnit(request))) {
+            searchColumn.put(IS_USED, "T");
         }
         List<ApplicationTemplate> list = applicationTemplateManager.listApplicationTemplate(searchColumn, pageDesc);
         return PageQueryResult.createResult(list, pageDesc);
@@ -121,58 +125,48 @@ public class ApplicationTemplateController extends BaseController {
     @ApiOperation(value = "根据模板创建应用")
     @RequestMapping(value = "/createApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
-        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-        if (userDetails==null){
-            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
-        }
-        if(jsonObject==null){
-            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
-        }
-        return modelExportManager.createApp(jsonObject, "", userDetails);
+    public Integer createApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
+        throw new ObjectException(ResponseData.ERROR_BAD_REQUEST, "接口暂未实现");
     }
 
     @ApiOperation(value = "根据模板导入应用返回预处理结果")
     @RequestMapping(value = "/prepareTemplateApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
-    public JSONObject prepareTemplateApp(@RequestBody JSONObject jsonObject, HttpServletRequest request)  {
-        CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-        if (userDetails==null){
-            throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
-        }
-        if(jsonObject==null){
-            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
-        }
-        return modelExportManager.prepareApp(jsonObject, "", userDetails);
+    public JSONObject prepareTemplateApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) {
+        throw new ObjectException(ResponseData.ERROR_BAD_REQUEST, "接口暂未实现");
     }
 
-    @ApiOperation(value = "5.返回DDL")
+    @ApiOperation(value = "4.准备导入")
     @RequestMapping(value = "/prepareUpdateApp/{osId}", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public JSONObject prepareApp(@RequestBody JSONObject jsonObject, HttpServletRequest request,
-                             @PathVariable String osId)  {
+                                 @PathVariable String osId) {
         CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-        if (userDetails==null){
+        if (userDetails == null) {
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
         }
-        if(jsonObject==null){
-            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
+        if (jsonObject == null) {
+            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST, "导入内容没有填写");
+        }
+        List<WorkGroup> userGroups = platformEnvironment.listWorkGroup(osId, userDetails.getUserCode(), null);
+        if (CollectionUtils.isEmpty(userGroups)) {
+            throw new ObjectException(ResponseData.ERROR_FORBIDDEN, "用户没有权限导出这个应用：" + osId + "！");
         }
         return modelExportManager.prepareApp(jsonObject, osId,
             WebOptUtils.getCurrentUserDetails(request));
     }
 
-    @ApiOperation(value = "6.完成导入")
+    @ApiOperation(value = "5.完成导入")
     @RequestMapping(value = "/importApp", method = {RequestMethod.POST})
     @WrapUpResponseBody
     public JSONArray importApp(@RequestBody JSONObject jsonObject, HttpServletRequest request) throws Exception {
         CentitUserDetails userDetails = WebOptUtils.getCurrentUserDetails(request);
-        if (userDetails==null){
+        if (userDetails == null) {
             throw new ObjectException(ResponseData.ERROR_USER_NOT_LOGIN, "您未登录，请先登录！");
         }
-        if(jsonObject==null){
-            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST,"导入内容没有填写");
+        if (jsonObject == null) {
+            throw new ObjectException(ResponseData.ERROR_BAD_REQUEST, "导入内容没有填写");
         }
-        return modelExportManager.importApp(jsonObject,userDetails);
+        return modelExportManager.importApp(jsonObject, userDetails);
     }
 }
