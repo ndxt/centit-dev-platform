@@ -670,41 +670,49 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (!jsonAppVo.getAppList().isEmpty()) {
                 if (!runDDL) {
                     // 如果不运行DDL，设置所有表的状态为"S"
+                    logger.info("开始更改待发布状态");
                     for (Object object : jsonAppVo.getAppList()) {
                         if (object instanceof PendingMetaTable) {
                             ((PendingMetaTable) object).setTableState("S");
                         }
                     }
+                    logger.info("更改待发布完成");
                 }
                 // 批量合并对象到数据库
+                logger.info("开始更新数据");
                 DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
-
+                logger.info("更新数据完成");
                 // 如果需要运行DDL，发布所有数据库
                 if (runDDL) {
+                    logger.info("开始发布数据库");
                     for (String databaseCode : jsonAppVo.getPublishDatabaseCode()) {
                         ResponseData responseData = metaTableManager.publishDatabase(databaseCode, jsonAppVo.getUserCode());
                         if (responseData.getCode() < 0) {
                             logger.error("发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
                         }
                     }
+                    logger.info("发布数据库完成");
                 }
             }
 
             // 处理元对象，如果存在，则批量合并到数据库
             if (!jsonAppVo.getMetaObject().isEmpty()) {
+                logger.info("开始更新元数据");
                 DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
+                logger.info("更新元数据完成");
             }
 
             // 刷新缓存，确保最新数据被正确处理
+            logger.info("开始刷新缓存");
             jsonAppVo.refreshCache(ddeDubboTaskRun);
-
+            logger.info("刷新缓存完成");
         } catch (Exception e) {
             // 保留原始异常堆栈信息
             throw new RuntimeException("导入应用过程中发生异常", e);
         } finally {
             // 尝试删除临时文件，如果失败，则记录警告日志
             try {
-//                FileSystemOpt.deleteDirect(filePath);
+                FileSystemOpt.deleteDirect(filePath);
             } catch (Exception e) {
                 logger.warn("删除临时文件失败: {}", filePath, e);
             }
