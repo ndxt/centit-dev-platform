@@ -707,8 +707,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
             jsonAppVo.refreshCache(ddeDubboTaskRun);
             logger.info("刷新缓存完成");
         } catch (Exception e) {
-            // 保留原始异常堆栈信息
-            throw new RuntimeException("导入应用过程中发生异常", e);
+            // 保留原始异常堆栈信息，并抛出带有详细错误信息的运行时异常
+            String errorMessage = "导入应用过程中发生异常: " + e.getMessage();
+            logger.error(errorMessage, e); // 记录详细的错误日志
+            throw new RuntimeException(errorMessage, e);
         } finally {
             // 尝试删除临时文件，如果失败，则记录警告日志
             try {
