@@ -1469,34 +1469,36 @@ public class JsonAppVo {
         // 从数据库中获取旧的团队角色信息列表
         List<OptTeamRole> finalOldList = convertJavaList(OptTeamRole.class, AppTableNames.WF_OPT_TEAM_ROLE.name());
         // 创建一个映射表用于存储旧信息中的角色代码、操作ID和团队角色ID
-        Map<String, String> sourceIdMap = new HashMap<>();
+        Map<String, OptTeamRole> sourceIdMap = new HashMap<>();
         // 遍历旧的团队角色信息列表，填充映射表
         if (finalOldList != null) {
             for (OptTeamRole oldMap : finalOldList) {
                 String roleCode = oldMap.getRoleCode();
                 String optId = oldMap.getOptId();
-                String teamRoleId = oldMap.getOptTeamRoleId();
-                sourceIdMap.put(roleCode + ":" + optId, teamRoleId);
+                sourceIdMap.put(roleCode + ":" + optId, oldMap);
             }
         }
         // 遍历新数据列表，更新角色代码和操作ID，生成或更新团队角色ID
         for (Map<String, Object> map : list) {
-            String optId = StringBaseOpt.objectToString(map.get(OPT_ID));
             String roleCode = StringBaseOpt.objectToString(map.get(ROLE_CODE));
             String teamRoleId = StringBaseOpt.objectToString(map.get(OPT_TEAM_ROLE_ID));
             // 获取变更后的操作ID，如果存在，则更新map中的操作ID
             updateIfMapped(map, OPT_ID, optInfoDiffMap);
+            String optId = StringBaseOpt.objectToString(map.get(OPT_ID));
             // 生成或获取团队角色ID
             String uuid = "";
             if (finalOldList != null) {
-                String changeTeamRoleId = sourceIdMap.get(roleCode + ":" + optId);
-                if (!StringBaseOpt.isNvl(changeTeamRoleId)) {
-                    map.put(OPT_TEAM_ROLE_ID, changeTeamRoleId);
+                OptTeamRole changeTeamRole = sourceIdMap.get(roleCode + ":" + optId);
+                if (changeTeamRole!=null) {
+                    map.put(OPT_TEAM_ROLE_ID, changeTeamRole.getOptTeamRoleId());
                 } else {
                     uuid = UuidOpt.getUuidAsString();
                 }
             } else {
                 uuid = teamRoleId;
+            }
+            if("".equals(uuid)){
+                uuid = UuidOpt.getUuidAsString();
             }
             // 更新map中的团队角色ID和修改时间
             map.put(OPT_TEAM_ROLE_ID, uuid);
@@ -1526,32 +1528,31 @@ public class JsonAppVo {
         List<OptVariableDefine> finalOldList = convertJavaList(OptVariableDefine.class, AppTableNames.WF_OPT_VARIABLE_DEFINE.name());
 
         // 创建一个映射，用于存储变量名和操作ID的组合以及对应的变量ID
-        Map<String, String> sourceIdMap = new HashMap<>();
+        Map<String, OptVariableDefine> sourceIdMap = new HashMap<>();
 
         // 如果旧数据列表不为空，则遍历列表，填充sourceIdMap
         if (finalOldList != null) {
             for (OptVariableDefine oldMap : finalOldList) {
                 String variableName = oldMap.getVariableName();
                 String optId = oldMap.getOptId();
-                String variableId = oldMap.getOptVariableId();
-                sourceIdMap.put(variableName + ":" + optId, variableId);
+                sourceIdMap.put(variableName + ":" + optId, oldMap);
             }
         }
         // 遍历新数据列表，进行数据更新
         for (Map<String, Object> map : list) {
-            String optId = StringBaseOpt.objectToString(map.get(OPT_ID));
             String variableName = StringBaseOpt.objectToString(map.get(VARIABLE_NAME));
             String variableId = StringBaseOpt.objectToString(map.get(OPT_VARIABLE_ID));
             // 获取操作ID的变更信息
             updateIfMapped(map, OPT_ID, optInfoDiffMap);
+            String optId = StringBaseOpt.objectToString(map.get(OPT_ID));
             // 初始化UUID为空字符串
             String uuid = "";
             // 如果旧数据列表不为空，则尝试获取变量ID的变更信息
             if (finalOldList != null) {
-                String changeVariableId = sourceIdMap.get(variableName + ":" + optId);
+                OptVariableDefine changeVariable = sourceIdMap.get(variableName + ":" + optId);
                 // 如果变量ID有变更，则更新map中的变量ID
-                if (!StringBaseOpt.isNvl(changeVariableId)) {
-                    map.put(OPT_VARIABLE_ID, changeVariableId);
+                if (changeVariable!=null) {
+                    map.put(OPT_VARIABLE_ID, changeVariable.getOptVariableId());
                 } else {
                     // 如果没有变更信息，则生成新的UUID
                     uuid = UuidOpt.getUuidAsString();
@@ -1559,6 +1560,9 @@ public class JsonAppVo {
             } else {
                 // 如果旧数据列表为空，则直接使用原始变量ID
                 uuid = variableId;
+            }
+            if("".equals(uuid)){
+                uuid = UuidOpt.getUuidAsString();
             }
             // 更新map中的变量ID和修改时间
             map.put(OPT_VARIABLE_ID, uuid);
