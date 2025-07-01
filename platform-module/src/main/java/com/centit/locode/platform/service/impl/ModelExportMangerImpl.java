@@ -680,7 +680,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 }
                 // 批量合并对象到数据库
                 logger.info("开始更新数据");
-                DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
+                try {
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
+                } catch (Exception e) {
+                    logger.error("批量合并对象时发生异常：{}", e.getMessage(), e);
+                    throw new ObjectException("批量合并对象失败", e);
+                }
                 logger.info("更新数据完成");
                 // 如果需要运行DDL，发布所有数据库
                 if (runDDL) {
