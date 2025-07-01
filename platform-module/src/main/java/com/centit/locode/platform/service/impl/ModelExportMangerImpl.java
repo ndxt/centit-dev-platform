@@ -729,7 +729,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             String fileName = FileSystemOpt.extractFileName(path);
 
             try (InputStream is = Files.newInputStream(Paths.get(path))) {
-                jsonObject.put(fileName, CsvFileIO.readDataFromInputStream(is, true, null, "utf-8"));
+                jsonObject.put(fileName, CsvFileIO.readDataFromInputStream(is, true, null, "UTF-8"));
             } catch (Exception e) {
                 // 可替换为日志框架输出
                 logger.error("读取CSV文件失败: {}", path);
