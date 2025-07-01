@@ -17,6 +17,7 @@ import com.centit.metaform.po.MetaFormModel;
 import com.centit.metaform.po.MetaFormModelDraft;
 import com.centit.product.metadata.po.*;
 import com.centit.support.algorithm.*;
+import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
 import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
@@ -190,6 +191,7 @@ public class JsonAppVo {
         addDiffEntry(jsonArray, "流程主键变化", flowDefineDiffMap);
         addDiffEntry(jsonArray, "数据字典主键变化", dictionaryDiffMap);
         addDiffEntry(jsonArray, "菜单主键变化", optInfoDiffMap);
+        addDiffEntry(jsonArray, "表主键变化", mdTableDiffMap);
 
         return jsonArray;
     }
@@ -612,14 +614,14 @@ public class JsonAppVo {
         // 如果存在旧的数据，则遍历旧的元数据表列表，将其加入到映射中
         if (hasOldData) {
             for (MetaTable metaTable : oldList) {
-                String key = metaTable.getTableName() + ":" + metaTable.getDatabaseCode();
+                String key = StringUtils.lowerCase(metaTable.getTableName()) + ":" + metaTable.getDatabaseCode();
                 oldMetaTableMap.put(key, metaTable);
             }
         }
         // 遍历新的元数据表列表，进行数据的更新处理
         for (Map<String, Object> map : list) {
             // 获取表名和数据库编码
-            String tableName = StringBaseOpt.objectToString(map.get(TABLE_NAME));
+            String tableName = StringUtils.lowerCase(StringBaseOpt.objectToString(map.get(TABLE_NAME)));
             String databaseCode = StringBaseOpt.objectToString(map.get(DATABASE_CODE));
             // 替换数据库编码
             String newDbCode = databaseDiffMap.get(databaseCode);
@@ -1490,15 +1492,12 @@ public class JsonAppVo {
             if (finalOldList != null) {
                 OptTeamRole changeTeamRole = sourceIdMap.get(roleCode + ":" + optId);
                 if (changeTeamRole!=null) {
-                    map.put(OPT_TEAM_ROLE_ID, changeTeamRole.getOptTeamRoleId());
+                    uuid= changeTeamRole.getOptTeamRoleId();
                 } else {
                     uuid = UuidOpt.getUuidAsString();
                 }
             } else {
                 uuid = teamRoleId;
-            }
-            if("".equals(uuid)){
-                uuid = UuidOpt.getUuidAsString();
             }
             // 更新map中的团队角色ID和修改时间
             map.put(OPT_TEAM_ROLE_ID, uuid);
@@ -1552,7 +1551,7 @@ public class JsonAppVo {
                 OptVariableDefine changeVariable = sourceIdMap.get(variableName + ":" + optId);
                 // 如果变量ID有变更，则更新map中的变量ID
                 if (changeVariable!=null) {
-                    map.put(OPT_VARIABLE_ID, changeVariable.getOptVariableId());
+                    uuid= changeVariable.getOptVariableId();
                 } else {
                     // 如果没有变更信息，则生成新的UUID
                     uuid = UuidOpt.getUuidAsString();
@@ -1560,9 +1559,6 @@ public class JsonAppVo {
             } else {
                 // 如果旧数据列表为空，则直接使用原始变量ID
                 uuid = variableId;
-            }
-            if("".equals(uuid)){
-                uuid = UuidOpt.getUuidAsString();
             }
             // 更新map中的变量ID和修改时间
             map.put(OPT_VARIABLE_ID, uuid);
@@ -2442,11 +2438,12 @@ public class JsonAppVo {
     private List<Object> convertMap(Class<?> type, List<Map<String, Object>> list) {
         List<Object> object = new ArrayList<>();
         try {
+            JavaBeanMetaData javaBeanMetaData = JavaBeanMetaData.createBeanMetaDataFromType(type);
             for (Map<String, Object> map : list) {
                 if (map == null || map.isEmpty()) {
                     continue;
                 }
-                object.add(GeneralAlgorithm.castObjectToType(map, type));
+                object.add(javaBeanMetaData.createBeanObjectFromMap(map));
             }
             return object;
         } catch (Exception e) {

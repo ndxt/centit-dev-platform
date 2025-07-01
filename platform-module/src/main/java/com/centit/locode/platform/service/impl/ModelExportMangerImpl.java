@@ -98,7 +98,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         oldApplicationSql.put(AppTableNames.F_OS_INFO.name(), "select os_id,os_name from f_os_info where os_id=:osId");
         oldApplicationSql.put(AppTableNames.F_OPTINFO.name(), "select SOURCE_ID,FORM_CODE,OPT_ID,DOC_ID,top_opt_id,opt_name from f_optinfo");
         oldApplicationSql.put(AppTableNames.F_OPTDEF.name(), "select a.SOURCE_ID,a.OPT_CODE,b.top_opt_id from f_optdef a join f_optinfo b on a.opt_id=b.opt_id");
-        oldApplicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,database_name " + "from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
+        oldApplicationSql.put(AppTableNames.F_DATABASE_INFO.name(), "select database_code,database_name,source_type from f_database_info where database_code in (select DATABASE_ID from m_application_resources where os_id=:osId)");
         oldApplicationSql.put(AppTableNames.F_TABLE_OPT_RELATION.name(), "select table_id,opt_id,id from f_table_opt_relation");
         oldApplicationSql.put(AppTableNames.M_META_FORM_MODEL.name(), "select source_id,MODEL_ID,os_id,is_valid from m_meta_form_model");
         oldApplicationSql.put(AppTableNames.Q_DATA_PACKET.name(), "select source_id,packet_id,os_id,is_valid,task_cron from q_data_packet");
