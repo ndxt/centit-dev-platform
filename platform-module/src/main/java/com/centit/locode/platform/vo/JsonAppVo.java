@@ -404,6 +404,7 @@ public class JsonAppVo {
             }
             if (!uuid.equals(databaseCode)) {
                 databaseDiffMap.put(databaseCode, uuid);
+                map.put(DATABASE_CODE, uuid);
             }
         }
     }
