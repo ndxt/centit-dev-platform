@@ -195,6 +195,12 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.com.kingbase</groupId>
+            <artifactId>kingbase-jdbc</artifactId>
+            <version>8.2.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
