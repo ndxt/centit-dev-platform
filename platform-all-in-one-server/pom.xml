@@ -196,8 +196,8 @@
 
         <dependency>
             <groupId>cn.com.kingbase</groupId>
-            <artifactId>kingbase-jdbc</artifactId>
-            <version>8.2.0</version>
+            <artifactId>kingbase8</artifactId>
+            <version>8.6.0</version>
         </dependency>
 
         <dependency>
