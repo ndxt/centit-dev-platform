@@ -459,13 +459,16 @@ public class JsonAppVo {
             String uuid = "";
             // 如果有旧的数据目录信息，则尝试复用UUID
             if (hasOldData) {
+                String sourceKey;
                 if (!StringBaseOpt.isNvl(sourceId)) {
-                    String sourceKey = sourceId + ":" + topUnit;
-                    DataCatalog matchedBySourceId = catalogSourceMap.get(sourceKey);
-                    // sourceId相同，获取目标应用catalogCode
-                    if (matchedBySourceId != null) {
-                        uuid = matchedBySourceId.getCatalogCode();
-                    }
+                    sourceKey = sourceId + ":" + topUnit;
+                } else {
+                    sourceKey = catalogCode + ":" + topUnit;
+                }
+                DataCatalog matchedBySourceId = catalogSourceMap.get(sourceKey);
+                // sourceId相同，获取目标应用catalogCode
+                if (matchedBySourceId != null) {
+                    uuid = matchedBySourceId.getCatalogCode();
                 }
                 if (StringUtils.isBlank(uuid)) {
                     DataCatalog matchedByCatalogCode = catalogCodeMap.get(catalogCode);
@@ -889,7 +892,7 @@ public class JsonAppVo {
                 uuid = optId;
             }
             // 更新操作信息
-            if(!uuid.equals(optId)){
+            if (!uuid.equals(optId)) {
                 optInfoDiffMap.put(optId, uuid);
             }
             map.put(OPT_ID, uuid);
@@ -969,8 +972,8 @@ public class JsonAppVo {
                     String oldOptMethod = sourceIdMap.get(sourceKey);
                     if (!StringBaseOpt.isNvl(oldOptMethod)) {
                         uuid = oldOptMethod;
-                        map.put(API_ID,uuid);
-                        map.put(OPT_URL,"/dde/run/"+uuid);
+                        map.put(API_ID, uuid);
+                        map.put(OPT_URL, "/dde/run/" + uuid);
                     }
                 }
                 if (StringBaseOpt.isNvl(uuid)) {
@@ -980,8 +983,8 @@ public class JsonAppVo {
                         // 检查顶级操作ID是否匹配
                         if (matchTopOptId != null && matchTopOptId.equals(osId)) {
                             uuid = optCode;
-                            map.put(API_ID,uuid);
-                            map.put(OPT_URL,"/dde/run/"+uuid);
+                            map.put(API_ID, uuid);
+                            map.put(OPT_URL, "/dde/run/" + uuid);
                         } else {
                             uuid = UuidOpt.getUuidAsString();
                             map.remove(OPT_URL);
@@ -1215,15 +1218,18 @@ public class JsonAppVo {
             String sourceId = StringBaseOpt.objectToString(map.get(SOURCE_ID));
             // 检查数据包是否已经存在
             if (finalOldList != null) {
+                String sourceKey;
                 if (!StringBaseOpt.isNvl(sourceId)) {
-                    String sourceKey = sourceId + ":" + osId;
-                    DataPacket matchSourcePacket = sourceIdMap.get(sourceKey);
-                    if (matchSourcePacket != null) {
-                        uuid = matchSourcePacket.getPacketId();
-                        if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
-                            map.put(TASK_CRON, matchSourcePacket.getTaskCron());
-                            map.put(IS_VALID, matchSourcePacket.getIsValid());
-                        }
+                    sourceKey = sourceId + ":" + osId;
+                } else {
+                    sourceKey = packetId + ":" + osId;
+                }
+                DataPacket matchSourcePacket = sourceIdMap.get(sourceKey);
+                if (matchSourcePacket != null) {
+                    uuid = matchSourcePacket.getPacketId();
+                    if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
+                        map.put(TASK_CRON, matchSourcePacket.getTaskCron());
+                        map.put(IS_VALID, matchSourcePacket.getIsValid());
                     }
                 }
                 if (StringBaseOpt.isNvl(uuid)) {
@@ -1253,7 +1259,7 @@ public class JsonAppVo {
                 }
             }
             // 更新数据包的UUID和其它元数据
-            if(!uuid.equals(packetId)){
+            if (!uuid.equals(packetId)) {
                 dataPacketDiffMap.put(packetId, uuid);
             }
             map.put(PACKET_ID, uuid);
@@ -1371,13 +1377,16 @@ public class JsonAppVo {
             String sourceId = StringBaseOpt.objectToString(map.get(SOURCE_ID));
             // 如果已存在的数据包不为空
             if (finalOldList != null) {
+                String sourceKey;
                 if (!StringBaseOpt.isNvl(sourceId)) {
-                    String sourceKey = sourceId + ":" + osId;
-                    MetaFormModel matchSource = sourceIdMap.get(sourceKey);
-                    if (matchSource != null) {
-                        // 如果在sourceIdMap中找到匹配项，则使用匹配项的modelId和isValid
-                        uuid = matchSource.getModelId();
-                    }
+                    sourceKey = sourceId + ":" + osId;
+                } else {
+                    sourceKey = modelId + ":" + osId;
+                }
+                MetaFormModel matchSource = sourceIdMap.get(sourceKey);
+                if (matchSource != null) {
+                    // 如果在sourceIdMap中找到匹配项，则使用匹配项的modelId和isValid
+                    uuid = matchSource.getModelId();
                 }
                 if (StringBaseOpt.isNvl(uuid)) {
                     MetaFormModel matchId = idMap.get(modelId);
@@ -1400,7 +1409,7 @@ public class JsonAppVo {
                 uuid = modelId;
             }
             // 更新map中的UUID和其他必要字段
-            if(!uuid.equals(modelId)){
+            if (!uuid.equals(modelId)) {
                 metaFormDiffMap.put(modelId, uuid);
             }
             map.put(MODEL_ID, uuid);
@@ -1497,8 +1506,8 @@ public class JsonAppVo {
             String uuid = "";
             if (finalOldList != null) {
                 OptTeamRole changeTeamRole = sourceIdMap.get(roleCode + ":" + optId);
-                if (changeTeamRole!=null) {
-                    uuid= changeTeamRole.getOptTeamRoleId();
+                if (changeTeamRole != null) {
+                    uuid = changeTeamRole.getOptTeamRoleId();
                 } else {
                     uuid = UuidOpt.getUuidAsString();
                 }
@@ -1556,8 +1565,8 @@ public class JsonAppVo {
             if (finalOldList != null) {
                 OptVariableDefine changeVariable = sourceIdMap.get(variableName + ":" + optId);
                 // 如果变量ID有变更，则更新map中的变量ID
-                if (changeVariable!=null) {
-                    uuid= changeVariable.getOptVariableId();
+                if (changeVariable != null) {
+                    uuid = changeVariable.getOptVariableId();
                 } else {
                     // 如果没有变更信息，则生成新的UUID
                     uuid = UuidOpt.getUuidAsString();
@@ -1626,13 +1635,16 @@ public class JsonAppVo {
             if (version == 0) {
                 String uuid = "";
                 if (finalOldList != null) {
-                    if(!StringBaseOpt.isNvl(sourceId)) {
-                        String sourceKey = sourceId + ":" + osId;
-                        FlowInfo matchSource = sourceIdMap.get(sourceKey);
-                        // 根据sourceId和osId查找匹配的uuid
-                        if (matchSource != null) {
-                            uuid = matchSource.getFlowCode();
-                        }
+                    String sourceKey;
+                    if (!StringBaseOpt.isNvl(sourceId)) {
+                        sourceKey = sourceId + ":" + osId;
+                    } else {
+                        sourceKey = flowCode + ":" + osId;
+                    }
+                    FlowInfo matchSource = sourceIdMap.get(sourceKey);
+                    // 根据sourceId和osId查找匹配的uuid
+                    if (matchSource != null) {
+                        uuid = matchSource.getFlowCode();
                     }
                     // 如果未找到匹配的uuid，尝试根据flowCode查找
                     if (StringBaseOpt.isNvl(uuid)) {
@@ -1704,13 +1716,16 @@ public class JsonAppVo {
             String uuid = "";
             // 根据旧的数据列表，查找并确定节点的UUID
             if (finalOldList != null) {
-                if(!StringBaseOpt.isNvl(sourceId)) {
-                    String sourceKey = sourceId + ":" + osId;
-                    NodeInfo matchSource = sourceIdMap.get(sourceKey);
-                    // 根据sourceId和osId查找匹配的uuid
-                    if (matchSource != null) {
-                        uuid = matchSource.getNodeId();
-                    }
+                String sourceKey;
+                if (!StringBaseOpt.isNvl(sourceId)) {
+                    sourceKey = sourceId + ":" + osId;
+                } else {
+                    sourceKey = nodeId + ":" + osId;
+                }
+                NodeInfo matchSource = sourceIdMap.get(sourceKey);
+                // 根据sourceId和osId查找匹配的uuid
+                if (matchSource != null) {
+                    uuid = matchSource.getNodeId();
                 }
                 // 如果未找到匹配的uuid，尝试根据flowCode查找
                 if (StringBaseOpt.isNvl(uuid)) {
