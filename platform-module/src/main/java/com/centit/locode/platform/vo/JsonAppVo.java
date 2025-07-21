@@ -1416,7 +1416,7 @@ public class JsonAppVo {
      */
     private void updateOptInfoUseMetaForm() {
         // 获取metaForm模型的JSON对象
-        Object mapJsonObject = this.mapJsonObject.get(AppTableNames.M_META_FORM_MODEL.name());
+        Object mapJsonObject = this.mapJsonObject.get(AppTableNames.F_OPTINFO.name());
         // 如果对象为空，则直接返回
         if (mapJsonObject == null) {
             return;
@@ -1430,7 +1430,7 @@ public class JsonAppVo {
         for (Map<String, Object> map : list) {
             updateIfMapped(map, OPT_ROUTE, metaFormDiffMap);
             // 获取并转换原始操作URL为字符串
-            String originalOptUrl = StringBaseOpt.objectToString(OPT_URL);
+            String originalOptUrl = StringBaseOpt.objectToString(map.get(OPT_URL));
             // 如果原始操作URL为空，则跳过当前循环
             if (originalOptUrl == null) {
                 continue;
