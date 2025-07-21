@@ -850,11 +850,11 @@ public class JsonAppVo {
             boolean isCommonOrPageEnter = OptInfo.OPT_INFO_FORM_CODE_COMMON.equals(formCode)
                 || OptInfo.OPT_INFO_FORM_CODE_PAGE_ENTER.equals(formCode);
             if (isCommonOrPageEnter) {
-                map.remove(OS_ID);
-                map.remove(TOP_OPT_ID);
                 map.remove(PRE_OPT_ID);
                 map.remove(FORM_CODE);
                 map.remove(SOURCE_ID);
+                map.put(TOP_OPT_ID, osId);
+                map.put(OS_ID, osId);
                 String oldOptId = commonOptMap.get(formCode);
                 if (!optId.equals(oldOptId)) {
                     optInfoDiffMap.put(optId, oldOptId);
