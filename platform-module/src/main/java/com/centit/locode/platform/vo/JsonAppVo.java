@@ -1215,7 +1215,7 @@ public class JsonAppVo {
             String sourceId = StringBaseOpt.objectToString(map.get(SOURCE_ID));
             // 检查数据包是否已经存在
             if (finalOldList != null) {
-                if (!StringBaseOpt.isNvl(packetId)) {
+                if (!StringBaseOpt.isNvl(sourceId)) {
                     String sourceKey = sourceId + ":" + osId;
                     DataPacket matchSourcePacket = sourceIdMap.get(sourceKey);
                     if (matchSourcePacket != null) {
@@ -1371,7 +1371,7 @@ public class JsonAppVo {
             String sourceId = StringBaseOpt.objectToString(map.get(SOURCE_ID));
             // 如果已存在的数据包不为空
             if (finalOldList != null) {
-                if (!StringBaseOpt.isNvl(modelId)) {
+                if (!StringBaseOpt.isNvl(sourceId)) {
                     String sourceKey = sourceId + ":" + osId;
                     MetaFormModel matchSource = sourceIdMap.get(sourceKey);
                     if (matchSource != null) {
@@ -1626,11 +1626,13 @@ public class JsonAppVo {
             if (version == 0) {
                 String uuid = "";
                 if (finalOldList != null) {
-                    String sourceKey = sourceId + ":" + osId;
-                    FlowInfo matchSource = sourceIdMap.get(sourceKey);
-                    // 根据sourceId和osId查找匹配的uuid
-                    if (matchSource != null) {
-                        uuid = matchSource.getFlowCode();
+                    if(!StringBaseOpt.isNvl(sourceId)) {
+                        String sourceKey = sourceId + ":" + osId;
+                        FlowInfo matchSource = sourceIdMap.get(sourceKey);
+                        // 根据sourceId和osId查找匹配的uuid
+                        if (matchSource != null) {
+                            uuid = matchSource.getFlowCode();
+                        }
                     }
                     // 如果未找到匹配的uuid，尝试根据flowCode查找
                     if (StringBaseOpt.isNvl(uuid)) {
@@ -1702,11 +1704,13 @@ public class JsonAppVo {
             String uuid = "";
             // 根据旧的数据列表，查找并确定节点的UUID
             if (finalOldList != null) {
-                String sourceKey = sourceId + ":" + osId;
-                NodeInfo matchSource = sourceIdMap.get(sourceKey);
-                // 根据sourceId和osId查找匹配的uuid
-                if (matchSource != null) {
-                    uuid = matchSource.getNodeId();
+                if(!StringBaseOpt.isNvl(sourceId)) {
+                    String sourceKey = sourceId + ":" + osId;
+                    NodeInfo matchSource = sourceIdMap.get(sourceKey);
+                    // 根据sourceId和osId查找匹配的uuid
+                    if (matchSource != null) {
+                        uuid = matchSource.getNodeId();
+                    }
                 }
                 // 如果未找到匹配的uuid，尝试根据flowCode查找
                 if (StringBaseOpt.isNvl(uuid)) {
