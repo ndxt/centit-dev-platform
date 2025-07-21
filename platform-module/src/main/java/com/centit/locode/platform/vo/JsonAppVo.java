@@ -859,6 +859,7 @@ public class JsonAppVo {
                 if (!optId.equals(oldOptId)) {
                     optInfoDiffMap.put(optId, oldOptId);
                 }
+                map.put(OPT_ID, oldOptId);
                 continue;
             }
 
