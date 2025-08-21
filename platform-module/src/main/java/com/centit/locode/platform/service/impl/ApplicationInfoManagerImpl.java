@@ -142,6 +142,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         Object[] params = {applicationId};
 
         try {
+            OsInfo osInfo = platformEnvironment.getOsInfo(applicationId);
             String sql;
 
             // 删除关联数据包参数草稿
@@ -247,7 +248,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
             sql = "delete from f_os_info where os_id=?";
             DatabaseOptUtils.doExecuteSql(applicationDictionaryDao, sql, params);
 
-            return platformEnvironment.deleteOsInfo(applicationId);
+            return osInfo;
 
         } catch (Exception e) {
             // 记录错误日志
