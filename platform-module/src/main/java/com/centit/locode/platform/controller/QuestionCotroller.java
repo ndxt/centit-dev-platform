@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 页面、流程、api中检查到的问题列表；
+ */
 @Api(value = "统一问题管理", tags = "统一问题管理")
 @RestController
 @RequestMapping(value = "/problem")
