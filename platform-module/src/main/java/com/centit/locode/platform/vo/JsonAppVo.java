@@ -285,32 +285,72 @@ public class JsonAppVo {
      * 该方法涵盖了从操作系统信息到工作流定义的全方位更新，确保系统状态的最新和一致性
      */
     public void updatePrimary() {
+        logger.info("开始更新应用信息...");
         updateOsInfo();
+        logger.info("更新应用信息完成");
+        logger.info("开始更新数据库配置...");
         setDatabaseDiffMap();
+        logger.info("更新数据库配置完成");
+        logger.info("开始更新数据字典...");
         updateDataCatalog();
+        logger.info("更新数据字典完成");
+        logger.info("开始更新字典明细...");
         updateDataDictionaryUseCatalog();
+        logger.info("更新字典明细完成");
+        logger.info("开始更新应用字典...");
         updateApplicationDictionary();
+        logger.info("更新应用字典完成");
+        logger.info("开始更新表配置...");
         updateMdTable();
+        logger.info("更新表配置完成");
+        logger.info("开始更新字段配置...");
         updateMdColumn();
+        logger.info("更新字段配置完成");
+        logger.info("开始更新表关系...");
         updateMdRelation();
+        logger.info("更新表关系完成");
+        logger.info("开始更新表关系明细...");
         updateRelationDetail();
+        logger.info("更新表关系明细完成");
+        logger.info("开始更新菜单...");
         updateOptInfo();
+        logger.info("更新菜单完成");
+        logger.info("开始更新操作定义...");
         updateOptDef();
+        logger.info("更新操作定义完成");
+        logger.info("开始更新应用与表关联...");
         updateTableRelation();
+        logger.info("更新应用与表关联完成");
+        logger.info("开始更新文件...");
         uploadFiles();
+        logger.info("更新文件完成");
+        logger.info("开始更新接口...");
         updatePacket();
+        logger.info("更新接口完成");
+        logger.info("开始用接口更新操作定义...");
         updateOptDefUsePacket();
+        logger.info("用接口更新操作定义完成");
         updatePacketParams();
+        logger.info("开始更新页面");
         updateMetaForm();
+        logger.info("更新页面完成");
+        logger.info("开始用页面更新菜单...");
         updateOptInfoUseMetaForm();
+        logger.info("用页面更新菜单完成");
         updateWfOptTeamRole();
         updateWfOptVariable();
+        logger.info("开始更新流程");
         updateWfDefine();
+        logger.info("更新流程完成.");
         updateWfNode();
         updateWfDefineUseDiffMap();
         updateWfTransition();
+        logger.info("开始更新接口主键...");
         updatePacketUseDiffMap();
+        logger.info("更新主键完成");
+        logger.info("开始更新页面主键");
         updateMetaFormUseDiffMap();
+        logger.info("更新页面主键完成");
     }
 
 
