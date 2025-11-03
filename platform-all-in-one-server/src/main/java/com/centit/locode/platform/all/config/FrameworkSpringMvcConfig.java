@@ -4,6 +4,7 @@ import com.centit.framework.config.BaseSpringMvcConfig;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = {"com.centit.framework.system.controller",
+                        "com.centit.framework.jtt.controller",
                         "com.centit.framework.users.controller"},
     includeFilters = {@ComponentScan.Filter(value= org.springframework.stereotype.Controller.class)},
     useDefaultFilters = false)
