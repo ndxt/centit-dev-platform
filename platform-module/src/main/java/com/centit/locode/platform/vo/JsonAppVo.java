@@ -137,7 +137,23 @@ public class JsonAppVo {
     @Getter
     private List<Object> appList = new ArrayList<>();
     @Getter
+    private List<Object> metaformList = new ArrayList<>();
+    @Getter
+    private List<Object> metaformDraftList = new ArrayList<>();
+    @Getter
+    private List<Object> packetList = new ArrayList<>();
+    @Getter
+    private List<Object> packetDraftList = new ArrayList<>();
+    @Getter
+    private List<Object> workFlowList = new ArrayList<>();
+    @Getter
+    private List<Object> wfNodeList = new ArrayList<>();
+    @Getter
+    private List<Object> wfTransitionList = new ArrayList<>();
+    @Getter
     private List<Object> metaObject = new ArrayList<>();
+    @Getter
+    private List<Object> pendingMetaObject = new ArrayList<>();
     @Getter
     @Setter
     private boolean uploadFiles;
@@ -250,10 +266,10 @@ public class JsonAppVo {
      * @param ddeDubboTaskRun DdeDubboTaskRun对象，用于执行缓存刷新操作
      */
     public void refreshCache(DdeDubboTaskRun ddeDubboTaskRun) {
-        if (appList == null) {
+        if (packetList == null) {
             return;
         }
-        for (Object object : appList) {
+        for (Object object : packetList) {
             if (object instanceof DataPacket) {
                 String packetId = ((DataPacket) object).getPacketId();
                 if (packetId != null) {
@@ -362,7 +378,14 @@ public class JsonAppVo {
     public void createAppObject() {
         // 清空应用列表，为创建新的应用对象做准备
         appList.clear();
-
+        metaformList.clear();
+        metaformDraftList.clear();
+        packetList.clear();
+        packetDraftList.clear();
+        workFlowList.clear();
+        wfNodeList.clear();
+        metaObject.clear();
+        pendingMetaObject.clear();
         // 以下代码块通过链式调用创建应用程序所需的各类信息和资源
         this.createOsInfo()
             .createDataCatalog()
@@ -2171,7 +2194,7 @@ public class JsonAppVo {
         columnList.forEach(map -> map.put(MAX_LENGTH, map.get(COLUMN_LENGTH)));
 
         // 添加 PendingMetaColumn 对象
-        appList.addAll(convertMap(PendingMetaColumn.class, columnList));
+        pendingMetaObject.addAll(convertMap(PendingMetaColumn.class, columnList));
 
         return this;
     }
@@ -2224,23 +2247,13 @@ public class JsonAppVo {
         if (list == null) {
             return this;
         }
-        // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
-        }
         try {
-            List<Object> convertedList = convertMap(MetaFormModel.class, list);
-            if (convertedList != null) {
-                appList.addAll(convertedList);
-            }
+            metaformList= convertMap(MetaFormModel.class, list);
         } catch (Exception e) {
             logger.error("转换 MetaFormModel 出错", e);
         }
         try {
-            List<Object> convertedList = convertMap(MetaFormModelDraft.class, list);
-            if (convertedList != null) {
-                appList.addAll(convertedList);
-            }
+            metaformDraftList = convertMap(MetaFormModelDraft.class, list);
         } catch (Exception e) {
             logger.error("转换 MetaFormModelDraft 出错", e);
         }
@@ -2257,23 +2270,13 @@ public class JsonAppVo {
         if (list == null) {
             return this;
         }
-        // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
-        }
         try {
-            List<Object> convertedList = convertMap(DataPacket.class, list);
-            if (convertedList != null) {
-                appList.addAll(convertedList);
-            }
+            packetList = convertMap(DataPacket.class, list);
         } catch (Exception e) {
             logger.error("转换 DataPacket 出错", e);
         }
         try {
-            List<Object> convertedList = convertMap(DataPacketDraft.class, list);
-            if (convertedList != null) {
-                appList.addAll(convertedList);
-            }
+            packetDraftList = convertMap(DataPacketDraft.class, list);
         } catch (Exception e) {
             logger.error("转换 DataPacketDraft 出错", e);
         }
@@ -2311,13 +2314,13 @@ public class JsonAppVo {
             return this;
         }
         // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
+        if (workFlowList == null) {
+            workFlowList = new ArrayList<>();
         }
         try {
             List<Object> convertedList = convertMap(OptTeamRole.class, list);
             if (convertedList != null) {
-                appList.addAll(convertedList);
+                workFlowList.addAll(convertedList);
             }
         } catch (Exception e) {
             logger.error("转换 OptTeamRole 出错", e);
@@ -2336,13 +2339,13 @@ public class JsonAppVo {
             return this;
         }
         // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
+        if (workFlowList == null) {
+            workFlowList = new ArrayList<>();
         }
         try {
             List<Object> convertedList = convertMap(OptVariableDefine.class, list);
             if (convertedList != null) {
-                appList.addAll(convertedList);
+                workFlowList.addAll(convertedList);
             }
         } catch (Exception e) {
             logger.error("转换 OptVariableDefine 出错", e);
@@ -2411,13 +2414,13 @@ public class JsonAppVo {
             return this;
         }
         // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
+        if (workFlowList == null) {
+            workFlowList = new ArrayList<>();
         }
         try {
             List<Object> convertedList = convertMap(FlowInfo.class, list);
             if (convertedList != null) {
-                appList.addAll(convertedList);
+                workFlowList.addAll(convertedList);
             }
         } catch (Exception e) {
             logger.error("转换 FlowInfo 出错", e);
@@ -2435,15 +2438,8 @@ public class JsonAppVo {
         if (list == null) {
             return this;
         }
-        // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
-        }
         try {
-            List<Object> convertedList = convertMap(NodeInfo.class, list);
-            if (convertedList != null) {
-                appList.addAll(convertedList);
-            }
+            wfNodeList = convertMap(NodeInfo.class, list);
         } catch (Exception e) {
             logger.error("转换 NodeInfo 出错", e);
         }
@@ -2460,15 +2456,8 @@ public class JsonAppVo {
         if (list == null) {
             return this;
         }
-        // 防御 appList 未初始化
-        if (appList == null) {
-            appList = new ArrayList<>();
-        }
         try {
-            List<Object> convertedList = convertMap(FlowTransition.class, list);
-            if (convertedList != null) {
-                appList.addAll(convertedList);
-            }
+            wfTransitionList = convertMap(FlowTransition.class, list);
         } catch (Exception e) {
             logger.error("转换 FlowTransition 出错", e);
         }

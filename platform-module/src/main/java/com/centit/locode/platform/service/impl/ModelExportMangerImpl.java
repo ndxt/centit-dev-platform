@@ -664,7 +664,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         // 获取是否运行DDL的标志
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
-
+        List<ResponseData> responseDataList=new ArrayList<>();
         try {
             // 根据runDDL标志决定是否执行DDL操作
             if (!jsonAppVo.getAppList().isEmpty()) {
@@ -682,6 +682,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 logger.info("开始更新数据");
                 try {
                     DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPacketList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPacketDraftList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaformList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaformDraftList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWorkFlowList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWfNodeList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWfTransitionList());
+                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPendingMetaObject());
                 } catch (Exception e) {
                     logger.error("批量合并对象时发生异常：{}", e.getMessage(), e);
                     throw new ObjectException("批量合并对象失败", e);
@@ -689,14 +697,22 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 logger.info("更新数据完成");
                 // 如果需要运行DDL，发布所有数据库
                 if (runDDL) {
-                    logger.info("开始发布数据库");
-                    for (String databaseCode : jsonAppVo.getPublishDatabaseCode()) {
-                        ResponseData responseData = metaTableManager.publishDatabase(databaseCode, jsonAppVo.getUserCode());
-                        if (responseData.getCode() < 0) {
-                            logger.error("发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
+
+                    try {
+                        logger.info("开始发布数据库");
+                        for (String databaseCode : jsonAppVo.getPublishDatabaseCode()) {
+                            ResponseData responseData = metaTableManager.publishDatabase(databaseCode, jsonAppVo.getUserCode());
+                            if (responseData.getCode() < 0) {
+                                logger.error("发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
+                                // 错误继续执行，不中断循环
+                                responseDataList.add(responseData);
+                            }
                         }
+                        logger.info("发布数据库完成");
+                    } catch (Exception e) {
+                        logger.error("发布数据库时发生异常：{}", e.getMessage(), e);
+                        // 异常继续执行，不中断主流程
                     }
-                    logger.info("发布数据库完成");
                 }
             }
 
@@ -726,7 +742,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
 
         // 返回差异ID，表示此次导入影响的记录
-        return jsonAppVo.getDiffIds();
+        JSONObject databaseResult = new JSONObject();
+        databaseResult.put("数据库发布结果",responseDataList);
+        JSONArray result = jsonAppVo.getDiffIds();
+        result.add(databaseResult);
+        return result;
     }
 
     private void parseCsvToJson(JSONObject jsonObject, String filePath) {
