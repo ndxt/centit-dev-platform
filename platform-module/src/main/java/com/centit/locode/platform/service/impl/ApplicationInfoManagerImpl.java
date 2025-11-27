@@ -341,7 +341,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         return fileLibrary;
     }
 
-    private OptInfo createParentMenu(OsInfo osInfo) {
+    private void createParentMenu(OsInfo osInfo) {
         OptInfo result = new OptInfo();
         result.setOsId(osInfo.getOsId());
         result.setOptId(osInfo.getRelOptId());
@@ -352,7 +352,7 @@ public class ApplicationInfoManagerImpl implements ApplicationInfoManager {
         result.setOptUrl("");
         result.setOptType(OptInfo.OPT_INFO_OPT_TYPE_COMMON);
         result.setTopOptId(osInfo.getRelOptId());
-        return platformEnvironment.addOptInfo(result);
+        platformEnvironment.addOptInfo(result);
     }
 
     private OptInfo creatSubMenuAndAddOptInfo(OsInfo osInfo, String type, String optName) {
