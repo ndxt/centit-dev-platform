@@ -115,6 +115,7 @@ public class JsonAppVo {
     private static final String FIRST_NODE_ID = "firstNodeId";
     private static final String TASK_TYPE = "taskType";
     private static final String IS_VALID = "isValid";
+    private static final String LOG_LEVEL = "logLevel";
     private static final String TASK_CRON = "taskCron";
     private static final String MAP_DATA_CODE = "mapDataCode";
     private static final String LOGO_FILE_ID = "logoFileId";
@@ -1290,6 +1291,7 @@ public class JsonAppVo {
                 DataPacket matchSourcePacket = sourceIdMap.get(sourceKey);
                 if (matchSourcePacket != null) {
                     uuid = matchSourcePacket.getPacketId();
+                    map.put(LOG_LEVEL,matchSourcePacket.getLogLevel());
                     if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
                         map.put(TASK_CRON, matchSourcePacket.getTaskCron());
                         map.put(IS_VALID, matchSourcePacket.getIsValid());
