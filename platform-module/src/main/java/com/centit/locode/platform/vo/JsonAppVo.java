@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -2166,13 +2167,31 @@ public class JsonAppVo {
 
         // 使用正则表达式进行批量替换
         if (allReplacements != null && !allReplacements.isEmpty()) {
-            String result = form;
-            for (Map.Entry<String, String> entry : allReplacements.entrySet()) {
-                String key = Pattern.quote(entry.getKey()); // 转义特殊字符
-                String value = entry.getValue();
-                result = result.replaceAll(key, value);
+            // 创建一个包含所有需要替换的键的正则表达式
+            StringBuilder patternBuilder = new StringBuilder();
+            boolean first = true;
+            for (String key : allReplacements.keySet()) {
+                if (!first) {
+                    patternBuilder.append("|");
+                }
+                patternBuilder.append(Pattern.quote(key));
+                first = false;
             }
-            map.put(fieldKey, result);
+
+            Pattern pattern = Pattern.compile(patternBuilder.toString());
+            Matcher matcher = pattern.matcher(form);
+
+            StringBuffer result = new StringBuffer();
+            while (matcher.find()) {
+                String matchedKey = matcher.group();
+                String replacement = allReplacements.get(matchedKey);
+                if (replacement != null) {
+                    matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+                }
+            }
+            matcher.appendTail(result);
+
+            map.put(fieldKey, result.toString());
         } else {
             map.put(fieldKey, form);
         }
