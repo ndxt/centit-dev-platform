@@ -2163,19 +2163,19 @@ public class JsonAppVo {
         }
         // 将模板内容转换为字符串形式
         String form = templateObj.toString();
-        // 遍历所有替换规则，对模板内容进行替换
-        StringBuilder sb = new StringBuilder(form);
-        for (Map.Entry<String, String> entry : allReplacements.entrySet()) {
-            int startIndex = 0;
-            int findIndex;
-            String key = entry.getKey();
-            String value = entry.getValue();
-            while ((findIndex = sb.indexOf(key, startIndex)) != -1) {
-                sb.replace(findIndex, findIndex + key.length(), value);
-                startIndex = findIndex + value.length();
+
+        // 使用正则表达式进行批量替换
+        if (allReplacements != null && !allReplacements.isEmpty()) {
+            String result = form;
+            for (Map.Entry<String, String> entry : allReplacements.entrySet()) {
+                String key = Pattern.quote(entry.getKey()); // 转义特殊字符
+                String value = entry.getValue();
+                result = result.replaceAll(key, value);
             }
+            map.put(fieldKey, result);
+        } else {
+            map.put(fieldKey, form);
         }
-        map.put(fieldKey, sb.toString());
     }
 
     /**
