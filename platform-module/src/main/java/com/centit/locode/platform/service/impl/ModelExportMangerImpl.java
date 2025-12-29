@@ -112,8 +112,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         oldApplicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select VARIABLE_NAME,OPT_ID,OPT_VARIABLE_ID from wf_opt_variable_define");
         oldApplicationSql.put(AppTableNames.F_DATACATALOG.name(), "select catalog_code,top_unit,source_id from f_datacatalog");
         oldApplicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select id,os_id,dictionary_id from m_application_dictionary");
-        oldApplicationSql.put(AppTableNames.FILE_INFO.name(), "select a.file_id, a.file_name,a.file_md5,a.parent_folder,a.file_type,a.library_id from file_info a join file_store_info b on a.file_md5=b.file_md5 where a.library_id=:osId and a.file_catalog in ('A','B')");
-        oldApplicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.source_id from file_folder_info a where a.library_id=:osId");
+        oldApplicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.source_id from file_folder_info a ");
 
     }
 
