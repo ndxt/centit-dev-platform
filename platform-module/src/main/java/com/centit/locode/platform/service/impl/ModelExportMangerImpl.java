@@ -86,6 +86,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(AppTableNames.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " + "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId]) and catalog_style<>'S'");
         applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " + "(select a.dictionary_id from m_application_dictionary a join f_datacatalog b on a.dictionary_id=b.CATALOG_CODE where [:osId | a.os_id=:osId] and catalog_style<>'S')");
         applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
+        applicationSql.put(AppTableNames.FILE_INFO.name(), "select a.file_id, a.file_name,a.file_md5,a.parent_folder,a.file_type,a.library_id,a.file_show_path from file_info a join file_store_info b on a.file_md5=b.file_md5 where [:osId | a.library_id=:osId] and a.file_catalog in ('A','B')");
+        applicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.folder_path from file_folder_info a where [:osId | a.library_id=:osId] " +
+            "and folder_id in (select a.parent_folder from file_info a join file_store_info b on a.file_md5=b.file_md5 where [:osId | a.library_id=:osId] and a.file_catalog in ('A','B'))");
 
         newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])" + " and database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
         newDatabaseSql.put(AppTableNames.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
@@ -109,6 +112,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         oldApplicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select VARIABLE_NAME,OPT_ID,OPT_VARIABLE_ID from wf_opt_variable_define");
         oldApplicationSql.put(AppTableNames.F_DATACATALOG.name(), "select catalog_code,top_unit,source_id from f_datacatalog");
         oldApplicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select id,os_id,dictionary_id from m_application_dictionary");
+        oldApplicationSql.put(AppTableNames.FILE_INFO.name(), "select a.file_id, a.file_name,a.file_md5,a.parent_folder,a.file_type,a.library_id from file_info a join file_store_info b on a.file_md5=b.file_md5 where a.library_id=:osId and a.file_catalog in ('A','B')");
+        oldApplicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.source_id from file_folder_info a where a.library_id=:osId");
+
     }
 
     /**
@@ -404,12 +410,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         // 定义文件分隔符，用于构建文件路径
         final String FILE_SEPARATOR = File.separator;
 
-        // SQL查询语句，用于获取指定库ID和分类的文件信息
-        String fileInfoSql = "select a.file_id, a.file_name from file_info a join file_store_info b on a.file_md5=b.file_md5 where a.library_id=:osId and a.file_catalog in ('A','B')";
+
         // 执行SQL查询，获取文件信息列表
-        List<Object[]> objects = DatabaseOptUtils.listObjectsByNamedSql(applicationTemplateDao, fileInfoSql, CollectionsOpt.createHashMap("osId", osId));
+        JSONArray jsonArray= DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, applicationSql.get(AppTableNames.FILE_INFO.name()), CollectionsOpt.createHashMap("osId", osId));
         // 如果没有查询到文件信息，则直接返回
-        if (objects == null || objects.isEmpty()) {
+        if (jsonArray == null || jsonArray.isEmpty()) {
             return;
         }
 
@@ -426,9 +431,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
 
         // 遍历文件信息列表，将每个文件复制到文件信息目录中
-        for (Object[] object : objects) {
-            String fileId = StringBaseOpt.castObjectToString(object[0]);
-            String fileName = StringBaseOpt.castObjectToString(object[1]);
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String fileId = jsonObject.getString("fileId");
+            String fileName = jsonObject.getString("fileName");
+
             try (InputStream inputStream = fileInfoOpt.loadFileStream(fileId)) {
                 if (inputStream != null) {
                     String fileIdPath = fileInfoPath + FILE_SEPARATOR + "(" + fileId + ")" + fileName;
@@ -612,7 +619,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * 该方法负责解析JSON对象中的应用信息，并根据提供的文件路径解析CSV数据，
      * 将其转换为JSON格式，然后根据JSON数据更新或创建应用程序及相关元数据
      *
-     * @param jsonObject  包含应用程序信息的JSON对象，必须包含"jsonAppVo"字段
+     * @param jsonObject  包含应用程序信息的JSON对象，结构如下
+     *    {"runDDL":true/false,"runDictionary":true/false,"runMetaData":true/false,"jsonAppVo":{"F_DATABASE_INFO":[{"databaseCode":"","mapDataCode":""}],"file":"","targetOsId":"","DDL":""}}
      * @param userDetails 当前用户信息，用于记录操作者
      * @return 返回包含差异ID的JSONArray，表示此次导入新增或更新的记录ID
      * @throws Exception 如果解析过程中遇到错误或缺少必要信息，则抛出异常

@@ -9,6 +9,7 @@ import com.centit.dde.adapter.po.DataPacketParam;
 import com.centit.dde.adapter.po.DataPacketParamDraft;
 import com.centit.dde.utils.ConstantValue;
 import com.centit.fileserver.common.FileInfoOpt;
+import com.centit.fileserver.po.FileFolderInfo;
 import com.centit.fileserver.po.FileInfo;
 import com.centit.framework.model.basedata.*;
 import com.centit.framework.model.security.CentitUserDetails;
@@ -27,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +46,7 @@ public class JsonAppVo {
     private static final String OS_ID = "osId";
     private static final String PAGE_FLOW = "pageFlow";
     private static final String DATABASE_CODE = "databaseCode";
+    private static final String MAP_DATA_CODE = "mapDataCode";
     private static final String TABLE_ID = "tableId";
     private static final String REFERENCE_DATA = "referenceData";
     private static final String RELATION_ID = "relationId";
@@ -71,40 +74,28 @@ public class JsonAppVo {
     private static final String NO_PUBLISH = "W";
     private static final String MAX_LENGTH = "maxLength";
     private static final String COLUMN_LENGTH = "columnLength";
-    private static final String LIBRARY_ID = "libraryId";
     private static final String TOP_OPT_ID = "topOptId";
     private static final String PRE_OPT_ID = "preOptId";
     private static final String UPDATE_DATE = "updateDate";
-    private static final String CREATE_TIME = "createTime";
     private static final String LAST_MODIFY_DATE = "lastModifyDate";
-    private static final String UPDATE_TIME = "updateTime";
     private static final String RECORD_DATE = "recordDate";
     private static final String PUBLISH_DATE = "publishDate";
     private static final String MODIFY_TIME = "modifyTime";
     private static final String FLOW_PUBLISH_DATE = "flowPublishDate";
-    private static final String REL_OPT_ID = "relOptId";
-    private static final String CREATED = "created";
-    private static final String CREATE_USER = "createUser";
-    private static final String OWN_USER = "ownUser";
     private static final String RECORDER = "recorder";
     private static final String UPDATOR = "updator";
     private static final String CREATOR = "creator";
     private static final String CREATE_DATE = "createDate";
     private static final String TABLE_TYPE = "T";
-    private static final String DEFAULT_DATABASE = "defaultDatabase";
     private static final String TABLE_NAME = "tableName";
     private static final String SOURCE_ID = "sourceId";
     private static final String DOC_ID = "docId";
     private static final String ROLE_CODE = "roleCode";
     private static final String VARIABLE_NAME = "variableName";
-    private static final String OS_NAME = "osName";
-    private static final String LIBRARY_NAME = "libraryName";
     private static final String FORM_CODE = "formCode";
     private static final String MOBILE_FORM_TEMPLATE = "mobileFormTemplate";
     private static final String STRUCTURE_FUNCTION = "structureFunction";
-    private static final String DATABASE_ID = "databaseId";
     private static final String DICTIONARY_ID = "dictionaryId";
-    private static final String DATABASE_ID_CLASS = "dataBaseId";
     private static final String PUSH_USER = "pushUser";
     private static final String PUSH_TIME = "pushTime";
     private static final String OPT_ROUTE = "optRoute";
@@ -117,9 +108,6 @@ public class JsonAppVo {
     private static final String IS_VALID = "isValid";
     private static final String LOG_LEVEL = "logLevel";
     private static final String TASK_CRON = "taskCron";
-    private static final String MAP_DATA_CODE = "mapDataCode";
-    private static final String LOGO_FILE_ID = "logoFileId";
-    private static final String PIC_ID = "picId";
     private final Date now;
 
     @Getter
@@ -175,6 +163,7 @@ public class JsonAppVo {
     private final Map<String, String> wfNodeDiffMap = new HashMap<>();
     private final Map<String, String> dictionaryDiffMap = new HashMap<>();
     private final Map<String, String> fileDiffMap = new HashMap<>();
+    private final Map<String, String> folderDiffMap = new HashMap<>();
 
 
     public JsonAppVo(JSONObject jsonObject, JSONObject oldObject, String osId, CentitUserDetails userDetails, String appHome, FileInfoOpt fileInfoOpt, String zipFilePath) {
@@ -202,14 +191,13 @@ public class JsonAppVo {
      */
     public JSONArray getDiffIds() {
         JSONArray jsonArray = new JSONArray();
-
         addDiffEntry(jsonArray, "接口主键变化", dataPacketDiffMap);
         addDiffEntry(jsonArray, "页面主键变化", metaFormDiffMap);
         addDiffEntry(jsonArray, "流程主键变化", flowDefineDiffMap);
         addDiffEntry(jsonArray, "数据字典主键变化", dictionaryDiffMap);
         addDiffEntry(jsonArray, "菜单主键变化", optInfoDiffMap);
         addDiffEntry(jsonArray, "表主键变化", mdTableDiffMap);
-
+        addDiffEntry(jsonArray, "文件主键变化", fileDiffMap);
         return jsonArray;
     }
 
@@ -222,8 +210,6 @@ public class JsonAppVo {
      */
     private void addDiffEntry(JSONArray array, String keyName, Object value) {
         if (value == null) {
-            // 可选：记录警告日志，或者抛出自定义异常
-            // log.warn("主键变化数据为空: {}", keyName);
             return;
         }
         JSONObject jsonObject = new JSONObject();
@@ -338,6 +324,12 @@ public class JsonAppVo {
         logger.info("开始更新应用与表关联...");
         updateTableRelation();
         logger.info("更新应用与表关联完成");
+        logger.info("开始更新文件夹主键");
+        updateFoldInfo();
+        logger.info("更新文件夹主键完成");
+        logger.info("开始更新文件里文件夹");
+        updateFileInfoUseDiffMap();
+        logger.info("更新文件里文件夹完成");
         logger.info("开始更新文件...");
         uploadFiles();
         logger.info("更新文件完成");
@@ -403,7 +395,8 @@ public class JsonAppVo {
             .createWfDefine()
             .createWfNode()
             .createWfTransition()
-            .createTableRelation();
+            .createTableRelation()
+            .createFileFolder();
     }
 
 
@@ -1160,6 +1153,133 @@ public class JsonAppVo {
         }
     }
 
+    /**
+     * 更新文件夹信息
+     * 此方法主要用于更新文件夹的主键信息，通过比较现有数据和新数据，
+     * 来确定如何更新或保持文件夹ID的一致性
+     */
+    private void updateFoldInfo() {
+        if (!uploadFiles || StringUtils.isBlank(zipFilePath)) {
+            return;
+        }
+        // 获取文件夹信息的JSON对象
+        Object mapJsonObject = this.mapJsonObject.get(AppTableNames.FILE_FOLDER_INFO.name());
+        // 如果对象为空，则直接返回
+        if (mapJsonObject == null) {
+            return;
+        }
+
+        // 将JSON对象转换为List<Map<String, Object>>类型
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> list = (List<Map<String, Object>>) mapJsonObject;
+
+        // 获取旧的文件夹信息列表
+        List<FileFolderInfo> finalOldList = convertJavaList(FileFolderInfo.class, AppTableNames.FILE_FOLDER_INFO.name());
+
+        // 初始化映射，用于存储旧的文件夹信息，以便快速查找
+        Map<String, FileFolderInfo> sourceIdMap = new HashMap<>();
+        // 遍历旧的文件夹信息列表，填充映射表
+        if (finalOldList != null) {
+            for (FileFolderInfo oldFolder : finalOldList) {
+                String folderId = oldFolder.getFolderId();
+                String sourceId = oldFolder.getSourceId();
+                String libraryId = oldFolder.getLibraryId();
+                String key;
+                if (!StringBaseOpt.isNvl(sourceId)) {
+                    key = sourceId + ":" + libraryId;
+                } else {
+                    key = folderId + ":" + libraryId;
+                }
+                sourceIdMap.put(key, oldFolder);
+            }
+        }
+
+        // 遍历新的文件夹信息列表，进行数据更新处理
+        for (Map<String, Object> map : list) {
+            String folderId = StringBaseOpt.objectToString(map.get("folderId"));
+            String sourceId = StringBaseOpt.objectToString(map.get("sourceId"));
+            String parentId = StringBaseOpt.objectToString(map.get("parentFolder"));
+
+            // 更新父文件夹ID，如果存在差异
+            String newParentId = fileDiffMap.get(parentId);
+            if (newParentId != null) {
+                map.put("parentFolder", newParentId);
+                parentId = newParentId;
+            }
+
+            // 初始化UUID，用于后续的文件夹ID更新
+            String uuid = "";
+
+            // 如果旧列表存在，尝试查找匹配的文件夹，并获取其UUID
+            if (finalOldList != null) {
+                String sourceKey;
+                if (!StringBaseOpt.isNvl(sourceId)) {
+                    sourceKey = sourceId + ":" + osId;
+                } else {
+                    sourceKey = folderId + ":" + osId;
+                }
+
+                FileFolderInfo oldFolder = sourceIdMap.get(sourceKey);
+                if (oldFolder != null) {
+                    uuid = oldFolder.getFolderId();
+                } else {
+                    // 如果未找到匹配项，则生成新的UUID
+                    uuid = UuidOpt.getUuidAsString();
+                }
+            } else {
+                // 如果旧列表不存在，使用原始文件夹ID作为UUID
+                uuid = folderId;
+            }
+
+            // 如果新旧文件夹ID不匹配，更新文件夹ID映射
+            if (!uuid.equals(folderId)) {
+                folderDiffMap.put(folderId, uuid);
+            }
+
+            // 更新映射中的文件夹ID和库ID
+            map.put("folderId", uuid);
+            map.put("libraryId", osId);
+
+            // 如果sourceId为空，使用原始folderId作为sourceId
+            if (StringBaseOpt.isNvl(sourceId)) {
+                map.put("sourceId", folderId);
+            }
+        }
+        // 遍历列表，更新每个模板的相关字段
+        for (Map<String, Object> map : list) {
+            replaceTemplateFields(map, "parentFolder", folderDiffMap);
+            replaceTemplateFields(map, "folderPath", folderDiffMap);
+        }
+    }
+
+    /**
+     * 使用差异映射更新文件信息
+     * 此方法主要用于根据文件差异映射更新文件信息中的父文件夹ID
+     */
+    private void updateFileInfoUseDiffMap() {
+        if (!uploadFiles || StringUtils.isBlank(zipFilePath)) {
+            return;
+        }
+        // 获取文件信息的JSON对象
+        Object mapJsonObject = this.mapJsonObject.get(AppTableNames.FILE_INFO.name());
+        // 如果对象为空，则直接返回
+        if (mapJsonObject == null) {
+            return;
+        }
+
+        // 将JSON对象转换为List<Map<String, Object>>类型
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> list = (List<Map<String, Object>>) mapJsonObject;
+
+        // 遍历文件信息列表，更新每个文件信息中的父文件夹ID
+        for (Map<String, Object> map : list) {
+            // 根据文件差异映射更新父文件夹ID
+            updateIfMapped(map, "parentFolder", folderDiffMap);
+            replaceTemplateFields(map, "fileShowPath", folderDiffMap);
+            // 更新库ID为当前osId
+            map.put("libraryId", osId);
+        }
+    }
 
     //上传附件
     private void uploadFiles() {
@@ -1211,15 +1331,37 @@ public class JsonAppVo {
             logger.warn("Invalid file name format, no fileId found in '{}'", fileName);
             return;
         }
+        String fileShowPath = "/-1";
+        String parentFolder = "-1";
+        Object mapJsonObject = this.mapJsonObject.get(AppTableNames.FILE_INFO.name());
+        // 如果对象为空，则直接返回
+        if (mapJsonObject != null) {
+
+            // 将JSON对象转换为List<Map<String, Object>>类型
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> list = (List<Map<String, Object>>) mapJsonObject;
+
+            // 遍历文件信息列表，更新每个文件信息中的父文件夹ID
+            for (Map<String, Object> map : list) {
+                String fileId = StringBaseOpt.objectToString(map.get("fileId"));
+                if (fileId.equals(oldFileId)) {
+                    fileShowPath = StringBaseOpt.objectToString(map.get("fileShowPath"));
+                    parentFolder = StringBaseOpt.objectToString(map.get("parentFolder"));
+                }
+            }
+        }
         FileInfo fileInfo = new FileInfo();
         String cleanFileName = fileName.replaceFirst("\\(" + Pattern.quote(oldFileId) + "\\)", "").trim();
         fileInfo.setFileName(cleanFileName);
-        fileInfo.setFileShowPath("/-1");
+        fileInfo.setFileShowPath(fileShowPath);
+        fileInfo.setParentFolder(parentFolder);
         fileInfo.setLibraryId(osId);
         fileInfo.setFileCatalog("A");
         String fileId;
-        try (InputStream inputStream = Files.newInputStream(file.toPath())) {
-            fileId = fileInfoOpt.saveFile(fileInfo, -1, inputStream);
+        // 使用缓冲流处理大文件，减少内存占用
+        try (InputStream inputStream = Files.newInputStream(file.toPath());
+             BufferedInputStream bufferedStream = new BufferedInputStream(inputStream, 8192)) { // 8KB缓冲区
+            fileId = fileInfoOpt.saveFile(fileInfo, -1, bufferedStream);
         } catch (IOException e) {
             logger.error("Failed to read or save file: {}", fileName, e);
             return;
@@ -1291,7 +1433,7 @@ public class JsonAppVo {
                 DataPacket matchSourcePacket = sourceIdMap.get(sourceKey);
                 if (matchSourcePacket != null) {
                     uuid = matchSourcePacket.getPacketId();
-                    map.put(LOG_LEVEL,matchSourcePacket.getLogLevel());
+                    map.put(LOG_LEVEL, matchSourcePacket.getLogLevel());
                     if (ConstantValue.TASK_TYPE_AGENT.equals(taskType)) {
                         map.put(TASK_CRON, matchSourcePacket.getTaskCron());
                         map.put(IS_VALID, matchSourcePacket.getIsValid());
@@ -2003,7 +2145,6 @@ public class JsonAppVo {
         }
     }
 
-
     /**
      * 根据提供的替换项替换map中指定字段的模板内容
      * 此方法用于处理模板替换逻辑，将所有需要替换的内容根据字段键从map中提取出来，
@@ -2023,12 +2164,18 @@ public class JsonAppVo {
         // 将模板内容转换为字符串形式
         String form = templateObj.toString();
         // 遍历所有替换规则，对模板内容进行替换
+        StringBuilder sb = new StringBuilder(form);
         for (Map.Entry<String, String> entry : allReplacements.entrySet()) {
-            // 使用StringUtils的replace方法进行字符串替换
-            form = StringUtils.replace(form, entry.getKey(), entry.getValue());
+            int startIndex = 0;
+            int findIndex;
+            String key = entry.getKey();
+            String value = entry.getValue();
+            while ((findIndex = sb.indexOf(key, startIndex)) != -1) {
+                sb.replace(findIndex, findIndex + key.length(), value);
+                startIndex = findIndex + value.length();
+            }
         }
-        // 将替换后的模板内容放回map中，覆盖原始内容
-        map.put(fieldKey, form);
+        map.put(fieldKey, sb.toString());
     }
 
     /**
@@ -2250,7 +2397,7 @@ public class JsonAppVo {
             return this;
         }
         try {
-            metaformList= convertMap(MetaFormModel.class, list);
+            metaformList = convertMap(MetaFormModel.class, list);
         } catch (Exception e) {
             logger.error("转换 MetaFormModel 出错", e);
         }
@@ -2487,6 +2634,30 @@ public class JsonAppVo {
             }
         } catch (Exception e) {
             logger.error("转换 MetaOptRelation 出错", e);
+        }
+        return this;
+    }
+    private JsonAppVo createFileFolder() {
+        // 防御 mapJsonObject 为 null
+        if (mapJsonObject == null) {
+            return this;
+        }
+        List<Map<String, Object>> list = mapJsonObject.get(AppTableNames.FILE_FOLDER_INFO.name());
+        // 防御 list 为 null
+        if (list == null) {
+            return this;
+        }
+        // 防御 appList 未初始化
+        if (appList == null) {
+            appList = new ArrayList<>();
+        }
+        try {
+            List<Object> convertedList = convertMap(FileFolderInfo.class, list);
+            if (convertedList != null) {
+                appList.addAll(convertedList);
+            }
+        } catch (Exception e) {
+            logger.error("转换 FileFolderInfo 出错", e);
         }
         return this;
     }
