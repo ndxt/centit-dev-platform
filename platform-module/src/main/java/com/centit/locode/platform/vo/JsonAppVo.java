@@ -1797,10 +1797,11 @@ public class JsonAppVo {
      * 如果映射中存在则更新
      */
     private void updateIfMapped(Map<String, Object> map, String key, Map<String, String> diffMap) {
-        if (map == null || key == null || diffMap == null || diffMap.isEmpty()) {
+        if (map == null || mapIsEmpty(map) || key == null || diffMap == null || diffMap.isEmpty()) {
             return;
         }
         String value = StringBaseOpt.objectToString(map.get(key));
+        if( StringBaseOpt.isNvl(value)) return;
         String newValue = diffMap.get(value);
         if (!StringBaseOpt.isNvl(newValue)) {
             map.put(key, newValue);
