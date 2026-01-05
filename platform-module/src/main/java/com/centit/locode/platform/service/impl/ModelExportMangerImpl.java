@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -66,6 +65,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private final Map<String, String> oldApplicationSql = new HashMap<>(16);
     private final Map<String, String> newDatabaseSql = new HashMap<>(4);
     private final Map<String, String> oldDatabaseSql = new HashMap<>(4);
+    private static final String ZIP_EXTENSION = ".zip";
+    private static final String CSV_EXTENSION = ".csv";
+    private static final String UTF_8 = "UTF-8";
 
     @PostConstruct
     void init() {
@@ -131,51 +133,83 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public String downModel(String osId, Map<String, Object> parameters) throws IOException {
         // 生成唯一的文件ID
-        String fileId = DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss") + "_" + UUID.randomUUID().toString().substring(0, 8);
+        String fileId = generateFileId();
         // 创建目标目录
-        File targetDir = new File(appHome, fileId);
-        String filePath = targetDir.getAbsolutePath();
+        String filePath = createTargetDirectory(fileId);
 
         // 初始化参数映射，至少包含osId
-        Map<String, Object> paramsMap = new HashMap<>(1);
-        paramsMap.put("osId", osId);
-
-        // 判断是否需要导出模型
-        boolean isModelExport = false;
-        if (parameters != null && parameters.containsKey("optId")) {
-            String optId = StringBaseOpt.objectToString(parameters.get("optId"));
-            if (StringUtils.isNotBlank(optId)) {
-                paramsMap.put("optId", optId);
-                isModelExport = true;
-            }
-        }
+        Map<String, Object> paramsMap = buildParamsMap(osId, parameters);
 
         // 处理SQL条目并写入文件
         processSqlEntries(applicationSql, paramsMap, filePath);
         processSqlEntries(newDatabaseSql, paramsMap, filePath);
 
         // 如果不需要导出模型，则压缩文件信息
+        boolean isModelExport = isModelExport(parameters);
         if (!isModelExport) {
-            try {
-                compressFileInfo(osId, filePath);
-            } catch (IOException e) {
-                throw new ObjectException(e);
+            compressFileInfo(osId, filePath);
+        }
+        compressAndCleanup(filePath, fileId);
+        return fileId;
+    }
+
+    private String generateFileId() {
+        return DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss")
+            + "_" + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private String createTargetDirectory(String fileId) throws IOException {
+        File targetDir = new File(appHome, fileId);
+        String filePath = targetDir.getAbsolutePath();
+
+        if (!targetDir.mkdirs() && !targetDir.isDirectory()) {
+            throw new IOException("无法创建目录: " + filePath);
+        }
+
+        return filePath;
+    }
+
+    private Map<String, Object> buildParamsMap(String osId, Map<String, Object> parameters) {
+        Map<String, Object> paramsMap = new HashMap<>(2);
+        paramsMap.put("osId", osId);
+
+        if (parameters != null && parameters.containsKey("optId")) {
+            String optId = StringBaseOpt.objectToString(parameters.get("optId"));
+            if (StringUtils.isNotBlank(optId)) {
+                paramsMap.put("optId", optId);
             }
         }
 
-        // 创建并压缩目标目录为ZIP文件
-        File zipFile = new File(targetDir.getParent(), targetDir.getName() + ".zip");
-        ZipCompressor.compress(zipFile.getAbsolutePath(), filePath);
+        return paramsMap;
+    }
 
-        // 尝试删除临时文件目录
-        try {
-            FileSystemOpt.deleteDirect(filePath);
-        } catch (Exception e) {
-            // 可选：记录删除失败的日志
+    private boolean isModelExport(Map<String, Object> parameters) {
+        if (parameters == null) {
+            return false;
         }
 
-        // 返回生成的文件ID
-        return fileId;
+        Object optId = parameters.get("optId");
+        if (optId == null) {
+            return false;
+        }
+
+        String optIdStr = StringBaseOpt.objectToString(optId);
+        return StringUtils.isNotBlank(optIdStr);
+    }
+
+    private void compressAndCleanup(String filePath, String fileId) throws IOException {
+        File targetDir = new File(appHome, fileId);
+        File zipFile = new File(targetDir.getParent(), targetDir.getName() + ZIP_EXTENSION);
+
+        try {
+            ZipCompressor.compress(zipFile.getAbsolutePath(), filePath);
+        } finally {
+            try {
+                FileSystemOpt.deleteDirect(filePath);
+            } catch (Exception e) {
+                logger.warn("删除临时文件目录失败: {}", filePath, e);
+            }
+        }
     }
 
     /**
@@ -193,11 +227,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
             return;
         }
 
-        // 遍历sqlEntries中的每个条目，为每个条目生成一个文件
-        for (Map.Entry<String, String> entry : sqlEntries.entrySet()) {
-            // 调用createFile方法，传入参数映射、SQL语句、文件名和基础路径
-            createFile(params, entry.getValue(), entry.getKey(), basePath);
-        }
+        // 遍历sqlEntries中的每个条目，为每个条目生成一个文件,将集合处理改为流式处理
+        sqlEntries.entrySet().parallelStream().forEach(entry -> {
+            try {
+                createFile(params, entry.getValue(), entry.getKey(), basePath);
+            } catch (IOException e) {
+                throw new RuntimeException("处理SQL条目失败: " + entry.getKey(), e);
+            }
+        });
     }
 
 
@@ -228,33 +265,38 @@ public class ModelExportMangerImpl implements ModelExportManager {
      */
     private void createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws IOException {
         // 创建File对象以检查目录是否存在
-        File file = new File(filePath);
-        // 如果目录不存在，则尝试创建
-        if (!file.exists()) {
-            // 如果创建目录失败，则抛出异常
-            if (!file.mkdirs()) {
-                throw new IOException("无法创建目录: " + filePath);
-            }
-        }
+        ensureDirectoryExists(filePath);
 
         // 执行SQL查询并获取结果作为JSONArray
         JSONArray jsonArray = DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, sql, map);
 
         // 如果是特定的文件名且map中包含特定键，则对结果进行额外处理
-        if (fileName.equals(AppTableNames.F_OPTINFO.name()) && map.containsKey("optId")) {
+        if (AppTableNames.F_OPTINFO.name().equals(fileName) && map.containsKey("optId")) {
             jsonArray = parentOpt(jsonArray, map.get("optId"));
         }
 
         // 使用FileOutputStream打开文件流，并确保在操作完成后关闭流
-        try (FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")) {
-            // 将JSONArray中的数据保存到CSV文件中，指定字符编码为GBK
-            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "UTF-8");
-        } catch (IOException e) {
-            // 如果文件写入过程中发生IOException，抛出自定义异常
-            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION, "导出文件出错" + e.getMessage());
+        writeJsonArrayToCsv(jsonArray, filePath, fileName);
+    }
+
+    private void ensureDirectoryExists(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists() && !file.mkdirs()) {
+            throw new IOException("无法创建目录: " + filePath);
         }
     }
 
+    private void writeJsonArrayToCsv(JSONArray jsonArray, String filePath, String fileName)
+        throws IOException {
+        String csvFilePath = filePath + File.separator + fileName + CSV_EXTENSION;
+
+        try (FileOutputStream fos = new FileOutputStream(csvFilePath)) {
+            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, UTF_8);
+        } catch (IOException e) {
+            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION,
+                "导出文件出错: " + e.getMessage());
+        }
+    }
 
     /**
      * 根据给定的选项ID收集所有父选项信息
@@ -406,54 +448,56 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * @throws IOException 如果文件操作失败，则抛出IOException
      */
     private void compressFileInfo(String osId, String filePath) throws IOException {
-        // 定义文件分隔符，用于构建文件路径
-        final String FILE_SEPARATOR = File.separator;
-
 
         // 执行SQL查询，获取文件信息列表
-        JSONArray jsonArray= DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, applicationSql.get(AppTableNames.FILE_INFO.name()), CollectionsOpt.createHashMap("osId", osId));
+        JSONArray jsonArray = DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, applicationSql.get(AppTableNames.FILE_INFO.name()), CollectionsOpt.createHashMap("osId", osId));
         // 如果没有查询到文件信息，则直接返回
         if (jsonArray == null || jsonArray.isEmpty()) {
             return;
         }
 
         // 构建文件信息路径和压缩文件路径
-        String fileInfoPath = filePath + FILE_SEPARATOR + "file";
-        String zipFilePath = fileInfoPath + ".zip";
+        String fileInfoPath = filePath + File.separator + "file";
+        String zipFilePath = fileInfoPath +ZIP_EXTENSION;
 
-        // 创建文件信息目录，如果目录不存在且创建失败，则抛出运行时异常
+        createAndPopulateFileDirectory(jsonArray, fileInfoPath);
+        compressAndCleanupFileDirectory(fileInfoPath, zipFilePath);
+
+    }
+    private void createAndPopulateFileDirectory(JSONArray jsonArray, String fileInfoPath)
+        throws IOException {
         File fileDir = new File(fileInfoPath);
-        if (!fileDir.exists()) {
-            if (!fileDir.mkdirs()) {
-                throw new RuntimeException("Failed to create directory: " + fileDir.getAbsolutePath());
-            }
+        if (!fileDir.exists() && !fileDir.mkdirs()) {
+            throw new RuntimeException("Failed to create directory: " + fileDir.getAbsolutePath());
         }
 
-        // 遍历文件信息列表，将每个文件复制到文件信息目录中
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             String fileId = jsonObject.getString("fileId");
             String fileName = jsonObject.getString("fileName");
 
-            try (InputStream inputStream = fileInfoOpt.loadFileStream(fileId)) {
-                if (inputStream != null) {
-                    String fileIdPath = fileInfoPath + FILE_SEPARATOR + "(" + fileId + ")" + fileName;
-                    FileSystemOpt.createFile(inputStream, fileIdPath);
-                }
-            } catch (Exception e) {
-                // 如果复制文件时发生异常，则跳过当前文件，继续复制下一个文件
-                continue;
-            }
+            copyFileToDirectory(fileId, fileName, fileInfoPath);
         }
+    }
 
-        // 压缩文件信息目录为ZIP文件，无论压缩成功与否，最后都会删除文件信息目录
+    private void copyFileToDirectory(String fileId, String fileName, String fileInfoPath) {
+        try (InputStream inputStream = fileInfoOpt.loadFileStream(fileId)) {
+            if (inputStream != null) {
+                String fileIdPath = fileInfoPath + File.separator + "(" + fileId + ")" + fileName;
+                FileSystemOpt.createFile(inputStream, fileIdPath);
+            }
+        } catch (Exception e) {
+            logger.warn("复制文件时发生异常，跳过文件: {}", fileId, e);
+        }
+    }
+
+    private void compressAndCleanupFileDirectory(String fileInfoPath, String zipFilePath) {
         try {
             ZipCompressor.compress(zipFilePath, fileInfoPath);
         } finally {
             FileSystemOpt.deleteDirect(fileInfoPath);
         }
     }
-
     /**
      * 上传并解压模型文件（ZIP格式），然后解析其中的CSV文件到JSON对象
      *
@@ -619,7 +663,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * 将其转换为JSON格式，然后根据JSON数据更新或创建应用程序及相关元数据
      *
      * @param jsonObject  包含应用程序信息的JSON对象，结构如下
-     *    {"runDDL":true/false,"runDictionary":true/false,"runMetaData":true/false,"jsonAppVo":{"F_DATABASE_INFO":[{"databaseCode":"","mapDataCode":""}],"file":"","targetOsId":"","DDL":""}}
+     *                    {"runDDL":true/false,"runDictionary":true/false,"runMetaData":true/false,"jsonAppVo":{"F_DATABASE_INFO":[{"databaseCode":"","mapDataCode":""}],"file":"","targetOsId":"","DDL":""}}
      * @param userDetails 当前用户信息，用于记录操作者
      * @return 返回包含差异ID的JSONArray，表示此次导入新增或更新的记录ID
      * @throws Exception 如果解析过程中遇到错误或缺少必要信息，则抛出异常
@@ -671,7 +715,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         // 获取是否运行DDL的标志
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
-        List<ResponseData> responseDataList=new ArrayList<>();
+        List<ResponseData> responseDataList = new ArrayList<>();
         try {
             // 根据runDDL标志决定是否执行DDL操作
             if (!jsonAppVo.getAppList().isEmpty()) {
@@ -750,7 +794,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         // 返回差异ID，表示此次导入影响的记录
         JSONObject databaseResult = new JSONObject();
-        databaseResult.put("数据库发布结果",responseDataList);
+        databaseResult.put("数据库发布结果", responseDataList);
         JSONArray result = jsonAppVo.getDiffIds();
         result.add(databaseResult);
         return result;
