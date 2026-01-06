@@ -794,7 +794,25 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         // 返回差异ID，表示此次导入影响的记录
         JSONObject databaseResult = new JSONObject();
-        databaseResult.put("数据库发布结果", responseDataList);
+        JSONArray responseDataArray = new JSONArray();
+        if (!responseDataList.isEmpty()) {
+            for (ResponseData responseData : responseDataList) {
+                if (responseData != null) {
+                    try {
+                        // 将 ResponseData 对象安全地添加到 JSONArray
+                        responseDataArray.add(responseData);
+                    } catch (Exception e) {
+                        logger.error("添加 ResponseData 到数组时出错: {}", e.getMessage(), e);
+                        // 降级处理：创建包含错误信息的对象
+                        JSONObject errorObj = new JSONObject();
+                        errorObj.put("error", "响应数据转换失败");
+                        errorObj.put("message", e.getMessage());
+                        responseDataArray.add(errorObj);
+                    }
+                }
+            }
+        }
+        databaseResult.put("数据库发布结果", responseDataArray);
         JSONArray result = jsonAppVo.getDiffIds();
         result.add(databaseResult);
         return result;
