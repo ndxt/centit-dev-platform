@@ -813,8 +813,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
         }
         databaseResult.put("数据库发布结果", responseDataArray);
-        JSONArray result = jsonAppVo.getDiffIds();
+        JSONArray result = new JSONArray();
         result.add(databaseResult);
+        result.add(jsonAppVo.getDiffIds());
         return result;
     }
 
