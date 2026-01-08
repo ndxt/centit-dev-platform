@@ -281,7 +281,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         if(application == null) {
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "应用："+osId +" 不存在！");
         }
-        FileIOOpt.writeStringToFile(application.toString(), applicationFile);
+        FileIOOpt.writeStringToFile(JSON.toJSONString(application,JSONWriter.Feature.PrettyFormat), applicationFile);
         String topUnit = application.getString("topUnit");
 
         exportDictionaries(osId, appFileRoot);
