@@ -498,6 +498,74 @@ public class ModelExportMangerImpl implements ModelExportManager {
             FileSystemOpt.deleteDirect(fileInfoPath);
         }
     }
+
+    /**
+     * 验证数据库连接，带重试机制
+     * @param dao 数据库操作对象
+     * @param operationName 操作名称，用于日志记录
+     * @return 连接是否有效
+     */
+    private boolean validateDatabaseConnection(ApplicationTemplateDao dao, String operationName) {
+        for (int retry = 0; retry < 3; retry++) {
+            try {
+                dao.getJdbcTemplate().execute("SELECT 1");
+                if (retry > 0) {
+                    logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
+                }
+                return true;
+            } catch (Exception e) {
+                logger.warn("{}数据库连接验证失败（第{}次尝试）: {}", operationName, retry + 1, e.getMessage());
+                if (retry < 2) {
+                    // 等待一段时间后重试
+                    try {
+                        Thread.sleep(1000 * (retry + 1)); // 1秒、2秒、3秒
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 分批合并数据，并在每批处理前验证数据库连接
+     * 防止因长时间操作导致数据库连接超时
+     */
+    private void batchMergeWithValidation(ApplicationTemplateDao dao, List<Object> dataList, String listName) {
+        if (dataList == null || dataList.isEmpty()) {
+            return;
+        }
+
+        // 分批大小，每批处理100条记录
+        int batchSize = 100;
+        int totalSize = dataList.size();
+
+        logger.info("开始分批处理 {}，共 {} 条记录，每批 {} 条", listName, totalSize, batchSize);
+
+        for (int i = 0; i < totalSize; i += batchSize) {
+            int end = Math.min(i + batchSize, totalSize);
+            List<Object> batch = dataList.subList(i, end);
+
+            // 每批处理前验证数据库连接
+            if (!validateDatabaseConnection(dao, "")) {
+                logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+                throw new ObjectException("数据库连接验证失败，无法恢复连接");
+            }
+
+            // 执行批量合并
+            try {
+                DatabaseOptUtils.batchMergeObjects(dao, batch);
+                logger.debug("处理 {} 批次 {}-{} 完成", listName, i, end - 1);
+            } catch (Exception e) {
+                logger.error("处理 {} 批次 {}-{} 失败: {}", listName, i, end - 1, e.getMessage(), e);
+                throw new ObjectException("处理 " + listName + " 批次 " + i + "-" + (end - 1) + " 失败", e);
+            }
+        }
+
+        logger.info("完成分批处理 {}，共处理 {} 条记录", listName, totalSize);
+    }
     /**
      * 上传并解压模型文件（ZIP格式），然后解析其中的CSV文件到JSON对象
      *
@@ -582,6 +650,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
             String zipFilePath = jsonObject.getString("file");
 
+            // 验证数据库连接是否仍然有效
+            if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+                logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+                throw new ObjectException("数据库连接验证失败，无法恢复连接");
+            }
+
             // 初始化一个空的JSON对象，用于存储解析后的数据
             JSONObject sourceJson = new JSONObject();
             // 调用方法解析CSV数据到JSON格式
@@ -596,8 +670,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
             JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), osId, currentUserDetails, appHome, fileInfoOpt, zipFilePath);
             // 设置不上传文件的标志
             jsonAppVo.setUploadFiles(false);
-            // 更新主要信息
-            jsonAppVo.updatePrimary();
+            // 更新主要信息（仅执行prepareApp必需的更新步骤，减少不必要的操作）
+            jsonAppVo.updatePrimaryForPrepareApp();
 
             // 从jsonAppVo中提取待处理的表列表、列列表和数据库信息列表
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
@@ -651,6 +725,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             return returnJson;
         } catch (Exception e) {
             // 记录异常日志（建议替换为 logger.error）
+            logger.error(osId+"预处理时发生异常：{}", e.getMessage(), e);
             throw new ObjectException(e.getMessage(), e);
         }
     }
@@ -674,6 +749,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
         // 检查输入参数是否满足基本要求
         if (jsonObject == null || !jsonObject.containsKey("jsonAppVo")) {
             throw new IllegalArgumentException("jsonObject 或 jsonAppVo 字段不能为空");
+        }
+
+        // 验证数据库连接是否仍然有效
+        if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+            logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+            throw new ObjectException("数据库连接验证失败，无法恢复连接");
         }
 
         // 提取应用程序信息并初始化源JSON对象
@@ -730,38 +811,44 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     logger.info("更改待发布完成");
                 }
                 // 批量合并对象到数据库
-                logger.info("开始更新数据");
+                logger.info(osId+"开始更新数据");
                 try {
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPacketList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPacketDraftList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaformList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaformDraftList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWorkFlowList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWfNodeList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWfTransitionList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPendingMetaObject());
+                    // 验证数据库连接是否仍然有效，防止连接超时
+                    if (!validateDatabaseConnection(applicationTemplateDao, osId)) {
+                        logger.error(osId+"数据库连接验证失败，无法恢复连接，终止处理");
+                        throw new ObjectException(osId+"数据库连接验证失败，无法恢复连接");
+                    }
+                    // 分批处理数据，避免单次操作数据量过大导致超时
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getAppList(), "appList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPacketList(), "packetList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPacketDraftList(), "packetDraftList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaformList(), "metaformList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaformDraftList(), "metaformDraftList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWorkFlowList(), "workFlowList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWfNodeList(), "wfNodeList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWfTransitionList(), "wfTransitionList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPendingMetaObject(), "pendingMetaObject");
                 } catch (Exception e) {
-                    logger.error("批量合并对象时发生异常：{}", e.getMessage(), e);
-                    throw new ObjectException("批量合并对象失败", e);
+                    logger.error(osId+"批量合并对象时发生异常：{}", e.getMessage(), e);
+                    throw new ObjectException(osId+"批量合并对象失败", e);
                 }
-                logger.info("更新数据完成");
+                logger.info(osId+"更新数据完成");
                 // 如果需要运行DDL，发布所有数据库
                 if (runDDL) {
 
                     try {
-                        logger.info("开始发布数据库");
+                        logger.info(osId+"开始发布数据库");
                         for (String databaseCode : jsonAppVo.getPublishDatabaseCode()) {
                             ResponseData responseData = metaTableManager.publishDatabase(databaseCode, jsonAppVo.getUserCode());
                             if (responseData.getCode() < 0) {
-                                logger.error("发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
+                                logger.error(osId+"发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
                                 // 错误继续执行，不中断循环
                                 responseDataList.add(responseData);
                             }
                         }
-                        logger.info("发布数据库完成");
+                        logger.info(osId+"发布数据库完成");
                     } catch (Exception e) {
-                        logger.error("发布数据库时发生异常：{}", e.getMessage(), e);
+                        logger.error(osId+"发布数据库时发生异常：{}", e.getMessage(), e);
                         // 异常继续执行，不中断主流程
                     }
                 }
@@ -769,9 +856,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
             // 处理元对象，如果存在，则批量合并到数据库
             if (!jsonAppVo.getMetaObject().isEmpty()) {
-                logger.info("开始更新元数据");
-                DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
-                logger.info("更新元数据完成");
+                logger.info(osId+"开始更新元数据");
+                batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaObject(), "metaData");
+                logger.info(osId+"更新元数据完成");
             }
 
             // 刷新缓存，确保最新数据被正确处理
@@ -780,7 +867,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             logger.info("刷新缓存完成");
         } catch (Exception e) {
             // 保留原始异常堆栈信息，并抛出带有详细错误信息的运行时异常
-            String errorMessage = "导入应用过程中发生异常: " + e.getMessage();
+            String errorMessage = osId+"导入应用过程中发生异常: " + e.getMessage();
             logger.error(errorMessage, e); // 记录详细的错误日志
             throw new RuntimeException(errorMessage, e);
         } finally {
@@ -858,6 +945,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
 
         try {
+            // 验证数据库连接是否仍然有效
+            if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+                logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+                throw new ObjectException("数据库连接验证失败，无法恢复连接");
+            }
+
             // 创建一个包含查询参数的Map，用于执行SQL查询
             Map<String, Object> mapApplication = CollectionsOpt.createHashMap("osId", osId);
             // 创建一个空的JSONObject用于存储查询结果
@@ -894,6 +987,13 @@ public class ModelExportMangerImpl implements ModelExportManager {
         if (sqlEntries == null || sqlEntries.isEmpty()) {
             return;
         }
+
+        // 验证数据库连接是否仍然有效
+        if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+            logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+            throw new ObjectException("数据库连接验证失败，无法恢复连接");
+        }
+
         // 遍历SQL条目，执行查询并将结果添加到jsonObject中
         for (Map.Entry<String, String> entry : sqlEntries.entrySet()) {
             // 使用DatabaseOptUtils工具类执行SQL查询，并将结果转换为JSONArray

@@ -240,16 +240,16 @@ public class JsonAppVo {
      */
     public void prepareApp() throws ObjectException {
         try {
-            logger.info("开始更新主配置...");
+            logger.info(osId+"开始更新主配置...");
             updatePrimary();
-            logger.info("主配置更新完成");
+            logger.info(osId+"主配置更新完成");
 
-            logger.info("开始创建应用程序对象...");
+            logger.info(osId+"开始创建应用程序对象...");
             createAppObject();
-            logger.info("应用程序对象创建完成");
+            logger.info(osId+"应用程序对象创建完成");
         } catch (Exception e) {
-            logger.error("应用程序初始化失败", e);
-            throw new ObjectException("Prepare app failed", e);
+            logger.error(osId+"应用程序初始化失败", e);
+            throw new ObjectException(osId+" Prepare app failed", e);
         }
     }
 
@@ -316,6 +316,16 @@ public class JsonAppVo {
         executeUpdateStep("流程转换", this::updateWfTransition);
         executeUpdateStep("接口主键更新", this::updatePacketUseDiffMap);
         executeUpdateStep("页面主键更新", this::updateMetaFormUseDiffMap);
+    }
+
+    /**
+     * 简化版更新主配置（仅执行prepareApp必需的更新步骤）
+     * 用于prepareApp函数，减少不必要的更新操作
+     */
+    public void updatePrimaryForPrepareApp() {
+        executeUpdateStep("数据库配置", this::setDatabaseDiffMap);
+        executeUpdateStep("表配置", this::updateMdTable);
+        executeUpdateStep("字段配置", this::updateMdColumn);
     }
 
     /**
@@ -847,9 +857,12 @@ public class JsonAppVo {
         }
 
         // 更新模板字段
-        for (Map<String, Object> map : list) {
-            replaceTemplateFields(map, PARENT_FOLDER, folderDiffMap);
-            replaceTemplateFields(map, "folderPath", folderDiffMap);
+        if (!folderDiffMap.isEmpty()) {
+            Pattern pattern = compileReplacementPattern(folderDiffMap);
+            for (Map<String, Object> map : list) {
+                replaceTemplateFieldsWithPattern(map, PARENT_FOLDER, pattern, folderDiffMap);
+                replaceTemplateFieldsWithPattern(map, "folderPath", pattern, folderDiffMap);
+            }
         }
     }
 
@@ -857,11 +870,20 @@ public class JsonAppVo {
         if (!uploadFiles || StringUtils.isBlank(zipFilePath)) return;
 
         List<Map<String, Object>> list = getList(AppTableNames.FILE_INFO.name());
-        if (list == null) return;
+        if (list == null || list.isEmpty()) return;
 
-        list.forEach(map -> {
+        // 如果没有需要替换的内容，直接返回
+        if (folderDiffMap.isEmpty()) {
+            return;
+        }
+
+        // 预编译正则表达式，避免在循环中重复编译
+        Pattern pattern = compileReplacementPattern(folderDiffMap);
+
+        // 使用并行流处理，提高大数据量处理性能
+        list.parallelStream().forEach(map -> {
             updateIfMapped(map, PARENT_FOLDER, folderDiffMap);
-            replaceTemplateFields(map, FILE_SHOW_PATH, folderDiffMap);
+            replaceTemplateFieldsWithPattern(map, FILE_SHOW_PATH, pattern, folderDiffMap);
             map.put(LIBRARY_ID, osId);
         });
     }
@@ -1361,19 +1383,29 @@ public class JsonAppVo {
 
     private void updateWfDefineUseDiffMap() {
         List<Map<String, Object>> list = getList(AppTableNames.WF_FLOW_DEFINE.name());
-        if (list == null) return;
+        if (list == null || list.isEmpty()) return;
 
+        // 合并所有替换映射
         Map<String, String> allReplacements = new HashMap<>();
         allReplacements.putAll(metaFormDiffMap);
         allReplacements.putAll(dataPacketDiffMap);
         allReplacements.putAll(optInfoDiffMap);
 
-        for (Map<String, Object> map : list) {
+        // 如果没有需要替换的内容，直接返回
+        if (allReplacements.isEmpty()) {
+            return;
+        }
+
+        // 预编译正则表达式，避免在循环中重复编译
+        Pattern pattern = compileReplacementPattern(allReplacements);
+
+        // 使用并行流处理，提高大数据量处理性能
+        list.parallelStream().forEach(map -> {
             updateIfMapped(map, FIRST_NODE_ID, wfNodeDiffMap);
             updateIfMapped(map, OPT_ID, optInfoDiffMap);
             updateIfMapped(map, FLOW_CODE, flowDefineDiffMap);
-            replaceTemplateFields(map, FLOW_XML_DESC, allReplacements);
-        }
+            replaceTemplateFieldsWithPattern(map, FLOW_XML_DESC, pattern, allReplacements);
+        });
     }
 
     private void updateWfTransition() {
@@ -1428,8 +1460,9 @@ public class JsonAppVo {
 
     private void updatePacketUseDiffMap() {
         List<Map<String, Object>> list = getList(AppTableNames.Q_DATA_PACKET.name());
-        if (list == null) return;
+        if (list == null || list.isEmpty()) return;
 
+        // 合并所有替换映射
         Map<String, String> replacementMap = new HashMap<>();
         replacementMap.putAll(mdTableDiffMap);
         replacementMap.putAll(databaseDiffMap);
@@ -1438,13 +1471,25 @@ public class JsonAppVo {
         replacementMap.putAll(fileDiffMap);
         replacementMap.putAll(flowDefineDiffMap);
 
-        list.forEach(map -> replaceTemplateFields(map, DATA_OPT_DESC_JSON, replacementMap));
+        // 如果没有需要替换的内容，直接返回
+        if (replacementMap.isEmpty()) {
+            return;
+        }
+
+        // 预编译正则表达式，避免在循环中重复编译
+        Pattern pattern = compileReplacementPattern(replacementMap);
+
+        // 使用并行流处理，提高大数据量处理性能
+        list.parallelStream().forEach(map -> {
+            replaceTemplateFieldsWithPattern(map, DATA_OPT_DESC_JSON, pattern, replacementMap);
+        });
     }
 
     private void updateMetaFormUseDiffMap() {
         List<Map<String, Object>> list = getList(AppTableNames.M_META_FORM_MODEL.name());
-        if (list == null) return;
+        if (list == null || list.isEmpty()) return;
 
+        // 合并所有替换映射
         Map<String, String> allReplacements = new HashMap<>();
         allReplacements.putAll(metaFormDiffMap);
         allReplacements.putAll(dataPacketDiffMap);
@@ -1452,11 +1497,79 @@ public class JsonAppVo {
         allReplacements.putAll(fileDiffMap);
         allReplacements.putAll(flowDefineDiffMap);
 
-        for (Map<String, Object> map : list) {
-            replaceTemplateFields(map, FORM_TEMPLATE, allReplacements);
-            replaceTemplateFields(map, MOBILE_FORM_TEMPLATE, allReplacements);
-            replaceTemplateFields(map, STRUCTURE_FUNCTION, allReplacements);
+        // 如果没有需要替换的内容，直接返回
+        if (allReplacements.isEmpty()) {
+            return;
         }
+
+        // 预编译正则表达式，避免在循环中重复编译
+        Pattern pattern = compileReplacementPattern(allReplacements);
+
+        // 使用并行流处理，提高大数据量处理性能
+        list.parallelStream().forEach(map -> {
+            replaceTemplateFieldsWithPattern(map, FORM_TEMPLATE, pattern, allReplacements);
+            replaceTemplateFieldsWithPattern(map, MOBILE_FORM_TEMPLATE, pattern, allReplacements);
+            replaceTemplateFieldsWithPattern(map, STRUCTURE_FUNCTION, pattern, allReplacements);
+        });
+    }
+
+    /**
+     * 编译替换正则表达式
+     */
+    private Pattern compileReplacementPattern(Map<String, String> replacements) {
+        if (replacements == null || replacements.isEmpty()) {
+            return null;
+        }
+
+        StringBuilder patternBuilder = new StringBuilder();
+        boolean first = true;
+        for (String key : replacements.keySet()) {
+            if (!first) {
+                patternBuilder.append("|");
+            }
+            patternBuilder.append(Pattern.quote(key));
+            first = false;
+        }
+
+        return Pattern.compile(patternBuilder.toString());
+    }
+
+    /**
+     * 使用预编译的正则表达式替换模板字段
+     */
+    private void replaceTemplateFieldsWithPattern(Map<String, Object> map, String fieldKey,
+                                                   Pattern pattern, Map<String, String> replacements) {
+        Object templateObj = map.get(fieldKey);
+        if (templateObj == null || pattern == null || replacements == null || replacements.isEmpty()) {
+            return;
+        }
+
+        String form = templateObj.toString();
+        String result = replaceWithPrecompiledPattern(form, pattern, replacements);
+        map.put(fieldKey, result);
+    }
+
+    /**
+     * 使用预编译的正则表达式进行替换
+     */
+    private String replaceWithPrecompiledPattern(String text, Pattern pattern, Map<String, String> replacements) {
+        if (StringUtils.isBlank(text) || pattern == null) {
+            return text;
+        }
+
+        Matcher matcher = pattern.matcher(text);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            String matchedKey = matcher.group();
+            String replacement = replacements.get(matchedKey);
+            if (replacement != null) {
+                matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+            }
+        }
+        matcher.appendTail(result);
+
+        return result.toString();
     }
 
     // ==================== 创建对象方法 ====================
@@ -1735,12 +1848,12 @@ public class JsonAppVo {
      */
     private void executeUpdateStep(String stepName, Runnable updateMethod) {
         try {
-            logger.info("开始更新{}", stepName);
+            logger.info(osId+"开始更新{}", stepName);
             updateMethod.run();
-            logger.info("{}更新完成", stepName);
+            logger.info(osId+"{}更新完成", stepName);
         } catch (Exception e) {
-            logger.error("{}更新失败", stepName, e);
-            throw new ObjectException(stepName + "更新失败", e);
+            logger.error(osId+"{}更新失败", stepName, e);
+            throw new ObjectException(osId+stepName + "更新失败", e);
         }
     }
 
