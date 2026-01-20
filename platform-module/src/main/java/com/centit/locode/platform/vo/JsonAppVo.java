@@ -36,7 +36,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,6 +60,12 @@ public class JsonAppVo {
     protected static final Logger logger = LoggerFactory.getLogger(JsonAppVo.class);
 
     // ==================== 常量定义 ====================
+
+    // 线程池配置 - 根据CPU核心数动态调整
+    private static final int CPU_CORES = Runtime.getRuntime().availableProcessors();
+    private static final int THREAD_POOL_SIZE = Math.max(4, Math.min(CPU_CORES * 2, 16));
+    private static final int BATCH_SIZE = 50; // 每批处理的页面数量
+    private static final int QUEUE_CAPACITY = 1000; // 任务队列容量
 
     private static final String OS_ID = "osId";
     private static final String PAGE_FLOW = "pageFlow";
@@ -1509,22 +1516,93 @@ public class JsonAppVo {
         // 记录处理开始
         long startTime = System.currentTimeMillis();
         int totalSize = list.size();
-        logger.info("{}开始更新{}个页面的主键映射", osId, totalSize);
+        logger.info("{}开始更新{}个页面的主键映射，使用{}个线程，每批{}个页面",
+            osId, totalSize, THREAD_POOL_SIZE, BATCH_SIZE);
 
-        // 使用并行流处理，提高大数据量处理性能
-        list.parallelStream().forEach(map -> {
-            try {
-                replaceTemplateFieldsWithPattern(map, FORM_TEMPLATE, pattern, allReplacements);
-                replaceTemplateFieldsWithPattern(map, MOBILE_FORM_TEMPLATE, pattern, allReplacements);
-                replaceTemplateFieldsWithPattern(map, STRUCTURE_FUNCTION, pattern, allReplacements);
-            } catch (Exception e) {
-                logger.error("{}更新页面主键映射失败: {}", osId, e.getMessage(), e);
+        // 使用自定义线程池和批量处理
+        ExecutorService executor = new ThreadPoolExecutor(
+            THREAD_POOL_SIZE,
+            THREAD_POOL_SIZE,
+            0L,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(QUEUE_CAPACITY),
+            new ThreadFactory() {
+                private final AtomicInteger threadNumber = new AtomicInteger(1);
+                @Override
+                public Thread newThread(Runnable r) {
+                    Thread t = new Thread(r, "PageUpdate-" + osId + "-" + threadNumber.getAndIncrement());
+                    t.setDaemon(false);
+                    return t;
+                }
+            },
+            new ThreadPoolExecutor.CallerRunsPolicy() // 队列满时由调用线程执行
+        );
+
+        try {
+            // 分批处理
+            int totalBatches = (int) Math.ceil((double) totalSize / BATCH_SIZE);
+            CountDownLatch batchLatch = new CountDownLatch(totalBatches);
+            AtomicInteger processedCount = new AtomicInteger(0);
+            AtomicInteger errorCount = new AtomicInteger(0);
+
+            for (int batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
+                final int start = batchIndex * BATCH_SIZE;
+                final int end = Math.min(start + BATCH_SIZE, totalSize);
+                final int batchNum = batchIndex + 1;
+
+                executor.submit(() -> {
+                    try {
+                        // 处理当前批次
+                        for (int i = start; i < end; i++) {
+                            Map<String, Object> map = list.get(i);
+                            try {
+                                replaceTemplateFieldsWithPattern(map, FORM_TEMPLATE, pattern, allReplacements);
+                                replaceTemplateFieldsWithPattern(map, MOBILE_FORM_TEMPLATE, pattern, allReplacements);
+                                replaceTemplateFieldsWithPattern(map, STRUCTURE_FUNCTION, pattern, allReplacements);
+                                processedCount.incrementAndGet();
+                            } catch (Exception e) {
+                                errorCount.incrementAndGet();
+                                logger.error("{}处理第{}个页面失败: {}", osId, i + 1, e.getMessage());
+                            }
+                        }
+
+                        // 批次完成日志
+                        if (batchNum % 10 == 0 || batchNum == totalBatches) {
+                            logger.info("{}批次 {}/{} 完成，已处理 {} 个页面",
+                                osId, batchNum, totalBatches, processedCount.get());
+                        }
+                    } finally {
+                        batchLatch.countDown();
+                    }
+                });
             }
-        });
 
-        // 记录处理完成
-        long duration = System.currentTimeMillis() - startTime;
-        logger.info("{}页面主键映射更新完成，共处理{}个页面，耗时{}ms", osId, totalSize, duration);
+            // 等待所有批次完成
+            try {
+                batchLatch.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                logger.warn("{}页面更新被中断", osId);
+            }
+
+            // 记录处理完成
+            long duration = System.currentTimeMillis() - startTime;
+            double pagesPerSecond = totalSize / (duration / 1000.0);
+            logger.info("{}页面主键映射更新完成，共处理{}个页面，耗时{}ms ({}页/秒)，错误{}个",
+                osId, totalSize, duration, String.format("%.2f", pagesPerSecond), errorCount.get());
+
+        } finally {
+            // 关闭线程池
+            executor.shutdown();
+            try {
+                if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     /**
