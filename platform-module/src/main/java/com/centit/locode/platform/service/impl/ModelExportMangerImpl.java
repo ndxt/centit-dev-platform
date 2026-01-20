@@ -506,19 +506,52 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * @return 连接是否有效
      */
     private boolean validateDatabaseConnection(ApplicationTemplateDao dao, String operationName) {
-        for (int retry = 0; retry < 3; retry++) {
+        for (int retry = 0; retry < 5; retry++) {
             try {
-                dao.getJdbcTemplate().execute("SELECT 1");
-                if (retry > 0) {
-                    logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
+                // 使用更可靠的连接验证方式
+                String validationQuery = "SELECT 1";
+                if (dao.getJdbcTemplate().getDataSource() != null) {
+                    try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection();
+                         java.sql.Statement stmt = conn.createStatement();
+                         java.sql.ResultSet rs = stmt.executeQuery(validationQuery)) {
+                        if (rs.next()) {
+                            if (retry > 0) {
+                                logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
+                            }
+                            return true;
+                        }
+                    }
+                } else {
+                    // 回退到简单查询
+                    dao.getJdbcTemplate().execute("SELECT 1");
+                    if (retry > 0) {
+                        logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
+                    }
+                    return true;
                 }
-                return true;
             } catch (Exception e) {
                 logger.warn("{}数据库连接验证失败（第{}次尝试）: {}", operationName, retry + 1, e.getMessage());
-                if (retry < 2) {
-                    // 等待一段时间后重试
+
+                if (retry < 4) {
+                    // 指数退避策略：1s, 2s, 4s, 8s
+                    long baseWait = (long) Math.pow(2, retry) * 1000;
+                    // 添加随机抖动（0-500ms）避免惊群效应
+                    long jitter = (long) (Math.random() * 500);
+                    long waitTime = baseWait + jitter;
+
                     try {
-                        Thread.sleep(1000 * (retry + 1)); // 1秒、2秒、3秒
+                        Thread.sleep(waitTime);
+
+                        // 尝试刷新连接池（如果可用）
+                        if (dao.getDataSource() != null) {
+                            try {
+                                // 这里可以根据具体的连接池实现添加刷新逻辑
+                                // 例如 HikariCP: ((HikariDataSource)dao.getDataSource()).softEvictConnections();
+                                logger.debug("尝试刷新数据库连接池");
+                            } catch (Exception poolException) {
+                                logger.debug("刷新连接池失败: {}", poolException.getMessage());
+                            }
+                        }
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
                         return false;
@@ -527,6 +560,29 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
         }
         return false;
+    }
+
+    /**
+     * 记录连接池状态信息
+     * 用于监控和诊断数据库连接问题
+     */
+    private void logConnectionPoolStatus(ApplicationTemplateDao dao) {
+        try {
+            if (dao.getDataSource() != null) {
+                // 检查是否为 HikariCP 连接池
+                if (dao.getDataSource() instanceof com.zaxxer.hikari.HikariDataSource) {
+                    com.zaxxer.hikari.HikariDataSource hikariDS = (com.zaxxer.hikari.HikariDataSource) dao.getDataSource();
+                    logger.info("连接池状态 - 活跃连接: {}, 空闲连接: {}, 总连接: {}, 等待连接: {}",
+                        hikariDS.getHikariPoolMXBean().getActiveConnections(),
+                        hikariDS.getHikariPoolMXBean().getIdleConnections(),
+                        hikariDS.getHikariPoolMXBean().getTotalConnections(),
+                        hikariDS.getHikariPoolMXBean().getThreadsAwaitingConnection());
+                }
+                // 可以添加其他连接池的监控逻辑
+            }
+        } catch (Exception e) {
+            logger.debug("无法获取连接池状态: {}", e.getMessage());
+        }
     }
 
     /**
@@ -548,8 +604,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
             int end = Math.min(i + batchSize, totalSize);
             List<Object> batch = dataList.subList(i, end);
 
-            // 每批处理前验证数据库连接
-            if (!validateDatabaseConnection(dao, "")) {
+            // 每批处理前记录连接池状态并验证数据库连接
+            logConnectionPoolStatus(dao);
+            if (!validateDatabaseConnection(dao, "batchMergeWithValidation")) {
                 logger.error("数据库连接验证失败，无法恢复连接，终止处理");
                 throw new ObjectException("数据库连接验证失败，无法恢复连接");
             }
@@ -751,8 +808,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
             throw new IllegalArgumentException("jsonObject 或 jsonAppVo 字段不能为空");
         }
 
+        // 记录连接池状态（用于监控和诊断）
+        logConnectionPoolStatus(applicationTemplateDao);
+
         // 验证数据库连接是否仍然有效
-        if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+        if (!validateDatabaseConnection(applicationTemplateDao, "importApp")) {
             logger.error("数据库连接验证失败，无法恢复连接，终止处理");
             throw new ObjectException("数据库连接验证失败，无法恢复连接");
         }
@@ -945,8 +1005,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
 
         try {
+            // 记录连接池状态（用于监控和诊断）
+            logConnectionPoolStatus(applicationTemplateDao);
+
             // 验证数据库连接是否仍然有效
-            if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+            if (!validateDatabaseConnection(applicationTemplateDao, "getOldApplication")) {
                 logger.error("数据库连接验证失败，无法恢复连接，终止处理");
                 throw new ObjectException("数据库连接验证失败，无法恢复连接");
             }
