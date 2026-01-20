@@ -1487,30 +1487,70 @@ public class JsonAppVo {
 
     private void updateMetaFormUseDiffMap() {
         List<Map<String, Object>> list = getList(AppTableNames.M_META_FORM_MODEL.name());
-        if (list == null || list.isEmpty()) return;
+        if (list == null || list.isEmpty()) {
+            logger.debug("{}页面列表为空，跳过主键更新", osId);
+            return;
+        }
 
-        // 合并所有替换映射
-        Map<String, String> allReplacements = new HashMap<>();
+        // 合并所有替换映射 - 使用更高效的合并方式
+        Map<String, String> allReplacements = mergeDiffMaps();
+        if (allReplacements.isEmpty()) {
+            logger.debug("{}没有需要替换的页面主键映射", osId);
+            return;
+        }
+
+        // 预编译正则表达式，避免在循环中重复编译
+        Pattern pattern = compileReplacementPattern(allReplacements);
+        if (pattern == null) {
+            logger.warn("{}正则表达式编译失败，跳过页面主键更新", osId);
+            return;
+        }
+
+        // 记录处理开始
+        long startTime = System.currentTimeMillis();
+        int totalSize = list.size();
+        logger.info("{}开始更新{}个页面的主键映射", osId, totalSize);
+
+        // 使用并行流处理，提高大数据量处理性能
+        list.parallelStream().forEach(map -> {
+            try {
+                replaceTemplateFieldsWithPattern(map, FORM_TEMPLATE, pattern, allReplacements);
+                replaceTemplateFieldsWithPattern(map, MOBILE_FORM_TEMPLATE, pattern, allReplacements);
+                replaceTemplateFieldsWithPattern(map, STRUCTURE_FUNCTION, pattern, allReplacements);
+            } catch (Exception e) {
+                logger.error("{}更新页面主键映射失败: {}", osId, e.getMessage(), e);
+            }
+        });
+
+        // 记录处理完成
+        long duration = System.currentTimeMillis() - startTime;
+        logger.info("{}页面主键映射更新完成，共处理{}个页面，耗时{}ms", osId, totalSize, duration);
+    }
+
+    /**
+     * 合并所有差异映射
+     * 优化：使用更高效的合并方式，避免重复创建HashMap
+     */
+    private Map<String, String> mergeDiffMaps() {
+        // 计算总大小以预分配容量
+        int totalSize = metaFormDiffMap.size() + dataPacketDiffMap.size() + dictionaryDiffMap.size()
+            + fileDiffMap.size() + flowDefineDiffMap.size();
+
+        if (totalSize == 0) {
+            return Collections.emptyMap();
+        }
+
+        // 预分配容量，减少扩容开销
+        Map<String, String> allReplacements = new HashMap<>(totalSize + 1);
+
+        // 按优先级合并映射
         allReplacements.putAll(metaFormDiffMap);
         allReplacements.putAll(dataPacketDiffMap);
         allReplacements.putAll(dictionaryDiffMap);
         allReplacements.putAll(fileDiffMap);
         allReplacements.putAll(flowDefineDiffMap);
 
-        // 如果没有需要替换的内容，直接返回
-        if (allReplacements.isEmpty()) {
-            return;
-        }
-
-        // 预编译正则表达式，避免在循环中重复编译
-        Pattern pattern = compileReplacementPattern(allReplacements);
-
-        // 使用并行流处理，提高大数据量处理性能
-        list.parallelStream().forEach(map -> {
-            replaceTemplateFieldsWithPattern(map, FORM_TEMPLATE, pattern, allReplacements);
-            replaceTemplateFieldsWithPattern(map, MOBILE_FORM_TEMPLATE, pattern, allReplacements);
-            replaceTemplateFieldsWithPattern(map, STRUCTURE_FUNCTION, pattern, allReplacements);
-        });
+        return allReplacements;
     }
 
     /**
