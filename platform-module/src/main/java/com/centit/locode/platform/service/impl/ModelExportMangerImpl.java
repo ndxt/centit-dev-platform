@@ -143,12 +143,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         // 处理SQL条目并写入文件
         processSqlEntries(applicationSql, paramsMap, filePath);
         processSqlEntries(newDatabaseSql, paramsMap, filePath);
-
-        // 如果不需要导出模型，则压缩文件信息
-        boolean isModelExport = isModelExport(parameters);
-        if (!isModelExport) {
-            compressFileInfo(osId, filePath);
-        }
+        compressFileInfo(osId, filePath);
         compressAndCleanup(filePath, fileId);
         return fileId;
     }
@@ -458,12 +453,13 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         // 构建文件信息路径和压缩文件路径
         String fileInfoPath = filePath + File.separator + "file";
-        String zipFilePath = fileInfoPath +ZIP_EXTENSION;
+        String zipFilePath = fileInfoPath + ZIP_EXTENSION;
 
         createAndPopulateFileDirectory(jsonArray, fileInfoPath);
         compressAndCleanupFileDirectory(fileInfoPath, zipFilePath);
 
     }
+
     private void createAndPopulateFileDirectory(JSONArray jsonArray, String fileInfoPath)
         throws IOException {
         File fileDir = new File(fileInfoPath);
@@ -501,7 +497,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     /**
      * 验证数据库连接，带重试机制
-     * @param dao 数据库操作对象
+     *
+     * @param dao           数据库操作对象
      * @param operationName 操作名称，用于日志记录
      * @return 连接是否有效
      */
@@ -623,6 +620,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         logger.info("完成分批处理 {}，共处理 {} 条记录", listName, totalSize);
     }
+
     /**
      * 上传并解压模型文件（ZIP格式），然后解析其中的CSV文件到JSON对象
      *
@@ -682,7 +680,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 file.delete();
             }
         }
-        dir.delete();
+        if (dir != null) {
+            dir.delete();
+        }
     }
 
 
@@ -782,7 +782,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             return returnJson;
         } catch (Exception e) {
             // 记录异常日志（建议替换为 logger.error）
-            logger.error(osId+"预处理时发生异常：{}", e.getMessage(), e);
+            logger.error(osId + "预处理时发生异常：{}", e.getMessage(), e);
             throw new ObjectException(e.getMessage(), e);
         }
     }
@@ -871,12 +871,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     logger.info("更改待发布完成");
                 }
                 // 批量合并对象到数据库
-                logger.info(osId+"开始更新数据");
+                logger.info(osId + "开始更新数据");
                 try {
                     // 验证数据库连接是否仍然有效，防止连接超时
                     if (!validateDatabaseConnection(applicationTemplateDao, osId)) {
-                        logger.error(osId+"数据库连接验证失败，无法恢复连接，终止处理");
-                        throw new ObjectException(osId+"数据库连接验证失败，无法恢复连接");
+                        logger.error(osId + "数据库连接验证失败，无法恢复连接，终止处理");
+                        throw new ObjectException(osId + "数据库连接验证失败，无法恢复连接");
                     }
                     // 分批处理数据，避免单次操作数据量过大导致超时
                     batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getAppList(), "appList");
@@ -889,26 +889,26 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWfTransitionList(), "wfTransitionList");
                     batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPendingMetaObject(), "pendingMetaObject");
                 } catch (Exception e) {
-                    logger.error(osId+"批量合并对象时发生异常：{}", e.getMessage(), e);
-                    throw new ObjectException(osId+"批量合并对象失败", e);
+                    logger.error(osId + "批量合并对象时发生异常：{}", e.getMessage(), e);
+                    throw new ObjectException(osId + "批量合并对象失败", e);
                 }
-                logger.info(osId+"更新数据完成");
+                logger.info(osId + "更新数据完成");
                 // 如果需要运行DDL，发布所有数据库
                 if (runDDL) {
 
                     try {
-                        logger.info(osId+"开始发布数据库");
+                        logger.info(osId + "开始发布数据库");
                         for (String databaseCode : jsonAppVo.getPublishDatabaseCode()) {
                             ResponseData responseData = metaTableManager.publishDatabase(databaseCode, jsonAppVo.getUserCode());
                             if (responseData.getCode() < 0) {
-                                logger.error(osId+"发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
+                                logger.error(osId + "发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
                                 // 错误继续执行，不中断循环
                                 responseDataList.add(responseData);
                             }
                         }
-                        logger.info(osId+"发布数据库完成");
+                        logger.info(osId + "发布数据库完成");
                     } catch (Exception e) {
-                        logger.error(osId+"发布数据库时发生异常：{}", e.getMessage(), e);
+                        logger.error(osId + "发布数据库时发生异常：{}", e.getMessage(), e);
                         // 异常继续执行，不中断主流程
                     }
                 }
@@ -916,9 +916,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
             // 处理元对象，如果存在，则批量合并到数据库
             if (!jsonAppVo.getMetaObject().isEmpty()) {
-                logger.info(osId+"开始更新元数据");
+                logger.info(osId + "开始更新元数据");
                 batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaObject(), "metaData");
-                logger.info(osId+"更新元数据完成");
+                logger.info(osId + "更新元数据完成");
             }
 
             // 刷新缓存，确保最新数据被正确处理
@@ -927,7 +927,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             logger.info("刷新缓存完成");
         } catch (Exception e) {
             // 保留原始异常堆栈信息，并抛出带有详细错误信息的运行时异常
-            String errorMessage = osId+"导入应用过程中发生异常: " + e.getMessage();
+            String errorMessage = osId + "导入应用过程中发生异常: " + e.getMessage();
             logger.error(errorMessage, e); // 记录详细的错误日志
             throw new RuntimeException(errorMessage, e);
         } finally {
