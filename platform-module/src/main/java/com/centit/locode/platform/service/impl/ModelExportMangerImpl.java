@@ -496,6 +496,48 @@ public class ModelExportMangerImpl implements ModelExportManager {
     }
 
     /**
+     * 判断异常是否为数据库连接相关异常
+     *
+     * @param e 异常对象
+     * @return 是否为连接异常
+     */
+    private boolean isConnectionError(Exception e) {
+        if (e == null) {
+            return false;
+        }
+
+        // 检查异常类名
+        String exceptionClassName = e.getClass().getName();
+        if (exceptionClassName.contains("CommunicationsException")
+            || exceptionClassName.contains("SQLRecoverableException")
+            || exceptionClassName.contains("SQLTransientConnectionException")) {
+            return true;
+        }
+
+        // 检查异常消息
+        String message = e.getMessage();
+        if (message != null) {
+            if (message.contains("Communications link failure")
+                || message.contains("Connection")
+                || message.contains("connection")
+                || message.contains("timeout")
+                || message.contains("timed out")
+                || message.contains("closed")
+                || message.contains("broken")) {
+                return true;
+            }
+        }
+
+        // 递归检查 cause
+        Throwable cause = e.getCause();
+        if (cause instanceof Exception) {
+            return isConnectionError((Exception) cause);
+        }
+
+        return false;
+    }
+
+    /**
      * 验证数据库连接，带重试机制
      *
      * @param dao           数据库操作对象
@@ -585,6 +627,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
     /**
      * 分批合并数据，并在每批处理前验证数据库连接
      * 防止因长时间操作导致数据库连接超时
+     *
+     * 优化策略：
+     * 1. 在事务内部通过定期执行轻量查询保持连接活跃
+     * 2. 捕获连接异常并自动重试
+     * 3. 每批处理后短暂休息，避免连接池耗尽
+     * 4. 详细的进度监控
      */
     private void batchMergeWithValidation(ApplicationTemplateDao dao, List<Object> dataList, String listName) {
         if (dataList == null || dataList.isEmpty()) {
@@ -594,31 +642,133 @@ public class ModelExportMangerImpl implements ModelExportManager {
         // 分批大小，每批处理100条记录
         int batchSize = 100;
         int totalSize = dataList.size();
+        int totalBatches = (int) Math.ceil((double) totalSize / batchSize);
 
-        logger.info("开始分批处理 {}，共 {} 条记录，每批 {} 条", listName, totalSize, batchSize);
+        logger.info("开始分批处理 {}，共 {} 条记录，每批 {} 条，共 {} 批", listName, totalSize, batchSize, totalBatches);
+
+        long startTime = System.currentTimeMillis();
+        long lastKeepAliveTime = startTime;
+        int processedCount = 0;
 
         for (int i = 0; i < totalSize; i += batchSize) {
+            int batchNumber = (i / batchSize) + 1;
             int end = Math.min(i + batchSize, totalSize);
             List<Object> batch = dataList.subList(i, end);
 
-            // 每批处理前记录连接池状态并验证数据库连接
-            logConnectionPoolStatus(dao);
-            if (!validateDatabaseConnection(dao, "batchMergeWithValidation")) {
-                logger.error("数据库连接验证失败，无法恢复连接，终止处理");
-                throw new ObjectException("数据库连接验证失败，无法恢复连接");
+            // 每10批或每5分钟记录一次连接池状态
+            long currentTime = System.currentTimeMillis();
+            if (batchNumber % 10 == 1 || (currentTime - startTime) > 300000) {
+                logConnectionPoolStatus(dao);
             }
 
-            // 执行批量合并
-            try {
-                DatabaseOptUtils.batchMergeObjects(dao, batch);
-                logger.debug("处理 {} 批次 {}-{} 完成", listName, i, end - 1);
-            } catch (Exception e) {
-                logger.error("处理 {} 批次 {}-{} 失败: {}", listName, i, end - 1, e.getMessage(), e);
-                throw new ObjectException("处理 " + listName + " 批次 " + i + "-" + (end - 1) + " 失败", e);
+            // 每隔2分钟执行一次保活查询，防止连接超时
+            // 这在长事务中非常重要
+            if (currentTime - lastKeepAliveTime > 120000) {
+                try {
+                    keepConnectionAlive(dao);
+                    lastKeepAliveTime = currentTime;
+                    logger.debug("执行连接保活查询");
+                } catch (Exception e) {
+                    logger.warn("连接保活查询失败: {}", e.getMessage());
+                }
+            }
+
+            // 执行批量合并，带重试机制
+            int maxRetries = 3;
+            boolean success = false;
+            Exception lastException = null;
+
+            for (int retry = 0; retry < maxRetries && !success; retry++) {
+                try {
+                    if (retry > 0) {
+                        logger.info("重试处理 {} 批次 {}-{}（第 {} 次重试）", listName, i, end - 1, retry);
+                        // 重试前执行保活查询
+                        try {
+                            keepConnectionAlive(dao);
+                        } catch (Exception e) {
+                            logger.warn("重试前保活查询失败: {}", e.getMessage());
+                        }
+                        Thread.sleep(1000);
+                    }
+
+                    DatabaseOptUtils.batchMergeObjects(dao, batch);
+                    processedCount += batch.size();
+
+                    if (batchNumber % 10 == 0 || batchNumber == totalBatches) {
+                        long elapsed = System.currentTimeMillis() - startTime;
+                        double progress = (double) processedCount / totalSize * 100;
+                        logger.info("处理 {} 进度: {}/{} ({:.1f}%), 已用时: {} 秒",
+                            listName, processedCount, totalSize, String.format("%.1f", progress), elapsed / 1000);
+                    } else {
+                        logger.debug("处理 {} 批次 {}/{} ({}-{}) 完成", listName, batchNumber, totalBatches, i, end - 1);
+                    }
+
+                    success = true;
+                } catch (Exception e) {
+                    lastException = e;
+
+                    // 判断是否为连接异常（通过异常类名和消息判断）
+                    boolean isConnectionException = isConnectionError(e);
+
+                    if (isConnectionException) {
+                        logger.warn("处理 {} 批次 {}-{} 时连接失败（第 {} 次尝试）: {}",
+                            listName, i, end - 1, retry + 1, e.getMessage());
+
+                        if (retry < maxRetries - 1) {
+                            try {
+                                // 等待后重试
+                                long waitTime = (long) Math.pow(2, retry) * 1000;
+                                logger.info("等待 {} 毫秒后重试", waitTime);
+                                Thread.sleep(waitTime);
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                                throw new ObjectException("处理被中断", ie);
+                            }
+                        }
+                    } else {
+                        // 其他异常直接抛出，不重试
+                        logger.error("处理 {} 批次 {}-{} 失败: {}", listName, i, end - 1, e.getMessage(), e);
+                        throw new ObjectException("处理 " + listName + " 批次 " + i + "-" + (end - 1) + " 失败", e);
+                    }
+                }
+            }
+
+            if (!success) {
+                logger.error("处理 {} 批次 {}-{} 失败，已重试 {} 次", listName, i, end - 1, maxRetries);
+                throw new ObjectException("处理 " + listName + " 批次 " + i + "-" + (end - 1) + " 失败，连接持续失败", lastException);
+            }
+
+            // 每处理一批后短暂休息，避免连接池压力过大
+            // 特别是在处理大量数据时，给数据库和连接池一些喘息时间
+            if (batchNumber % 20 == 0 && batchNumber < totalBatches) {
+                try {
+                    logger.debug("已处理 {} 批，短暂休息 100ms", batchNumber);
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    logger.warn("休息被中断");
+                }
             }
         }
 
-        logger.info("完成分批处理 {}，共处理 {} 条记录", listName, totalSize);
+        long totalTime = System.currentTimeMillis() - startTime;
+        logger.info("完成分批处理 {}，共处理 {} 条记录，耗时 {} 秒", listName, totalSize, totalTime / 1000);
+    }
+
+    /**
+     * 执行轻量级查询保持连接活跃
+     * 在长事务中定期调用此方法可以防止数据库连接超时
+     *
+     * @param dao 数据库操作对象
+     */
+    private void keepConnectionAlive(ApplicationTemplateDao dao) {
+        try {
+            // 执行一个非常轻量的查询，不会对性能造成影响
+            dao.getJdbcTemplate().queryForObject("SELECT 1", Integer.class);
+        } catch (Exception e) {
+            logger.debug("保活查询执行失败: {}", e.getMessage());
+            // 不抛出异常，避免影响主流程
+        }
     }
 
     /**
@@ -793,6 +943,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * <p>
      * 该方法负责解析JSON对象中的应用信息，并根据提供的文件路径解析CSV数据，
      * 将其转换为JSON格式，然后根据JSON数据更新或创建应用程序及相关元数据
+     * <p>
+     * 注意：使用长事务超时配置，确保大数据量导入不会超时
      *
      * @param jsonObject  包含应用程序信息的JSON对象，结构如下
      *                    {"runDDL":true/false,"runDictionary":true/false,"runMetaData":true/false,"jsonAppVo":{"F_DATABASE_INFO":[{"databaseCode":"","mapDataCode":""}],"file":"","targetOsId":"","DDL":""}}
@@ -801,7 +953,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * @throws Exception 如果解析过程中遇到错误或缺少必要信息，则抛出异常
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, timeout = 7200)  // 2小时超时
     public JSONArray importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
         // 检查输入参数是否满足基本要求
         if (jsonObject == null || !jsonObject.containsKey("jsonAppVo")) {
