@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -944,7 +945,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * 该方法负责解析JSON对象中的应用信息，并根据提供的文件路径解析CSV数据，
      * 将其转换为JSON格式，然后根据JSON数据更新或创建应用程序及相关元数据
      * <p>
-     * 注意：使用长事务超时配置，确保大数据量导入不会超时
+     * 注意：使用长事务超时配置和 READ_COMMITTED 隔离级别，确保使用行锁而不是表锁
      *
      * @param jsonObject  包含应用程序信息的JSON对象，结构如下
      *                    {"runDDL":true/false,"runDictionary":true/false,"runMetaData":true/false,"jsonAppVo":{"F_DATABASE_INFO":[{"databaseCode":"","mapDataCode":""}],"file":"","targetOsId":"","DDL":""}}
@@ -953,7 +954,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * @throws Exception 如果解析过程中遇到错误或缺少必要信息，则抛出异常
      */
     @Override
-    @Transactional(rollbackFor = Exception.class, timeout = 7200)  // 2小时超时
+    @Transactional(
+        rollbackFor = Exception.class,
+        timeout = 7200,
+        isolation = Isolation.READ_COMMITTED  // 使用 READ_COMMITTED 减少锁范围
+    )
     public JSONArray importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
         // 检查输入参数是否满足基本要求
         if (jsonObject == null || !jsonObject.containsKey("jsonAppVo")) {
