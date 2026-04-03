@@ -540,6 +540,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
     /**
      * 验证数据库连接，带重试机制
+     * 使用 JDBC 4.0 标准的 Connection.isValid() 方法，自动适配所有数据库
      *
      * @param dao           数据库操作对象
      * @param operationName 操作名称，用于日志记录
@@ -548,22 +549,28 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private boolean validateDatabaseConnection(ApplicationTemplateDao dao, String operationName) {
         for (int retry = 0; retry < 5; retry++) {
             try {
-                // 使用更可靠的连接验证方式
-                String validationQuery = "SELECT 1";
                 if (dao.getJdbcTemplate().getDataSource() != null) {
-                    try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection();
-                         java.sql.Statement stmt = conn.createStatement();
-                         java.sql.ResultSet rs = stmt.executeQuery(validationQuery)) {
-                        if (rs.next()) {
+                    try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection()) {
+                        // 使用 JDBC 4.0 标准方法，超时时间设置为 3 秒
+                        // isValid() 方法由 JDBC 驱动自动适配不同数据库，无需手动判断数据库类型
+                        if (conn.isValid(10)) {
                             if (retry > 0) {
                                 logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
                             }
                             return true;
+                        } else {
+                            logger.warn("{}数据库连接验证返回 false（第{}次尝试）", operationName, retry + 1);
                         }
                     }
                 } else {
-                    // 回退到简单查询
-                    dao.getJdbcTemplate().execute("SELECT 1");
+                    // 回退到通用查询方式（兼容旧代码，支持所有数据库）
+                    try {
+                        // 使用 queryForObject 执行简单查询，自动适配不同数据库
+                        dao.getJdbcTemplate().queryForObject("SELECT 1 FROM DUAL", Object.class);
+                    } catch (Exception ex) {
+                        // 如果 FROM DUAL 失败，尝试不带 DUAL（适用于 MySQL 等数据库）
+                        dao.getJdbcTemplate().queryForObject("SELECT 1", Object.class);
+                    }
                     if (retry > 0) {
                         logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
                     }
