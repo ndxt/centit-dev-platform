@@ -777,7 +777,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             if (dao.getJdbcTemplate().getDataSource() != null) {
                 try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection()) {
                     // 设置 3 秒超时，如果连接有效则返回 true
-                    conn.isValid(3);
+                    conn.isValid(10);
                 }
             } else {
                 // 回退到通用查询（兼容旧代码）
