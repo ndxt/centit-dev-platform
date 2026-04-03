@@ -766,15 +766,29 @@ public class ModelExportMangerImpl implements ModelExportManager {
     /**
      * 执行轻量级查询保持连接活跃
      * 在长事务中定期调用此方法可以防止数据库连接超时
+     * 使用 JDBC 4.0 标准的 Connection.isValid() 方法，自动适配所有数据库
      *
      * @param dao 数据库操作对象
      */
     private void keepConnectionAlive(ApplicationTemplateDao dao) {
         try {
-            // 执行一个非常轻量的查询，不会对性能造成影响
-            dao.getJdbcTemplate().queryForObject("SELECT 1", Integer.class);
+            // 使用 JDBC 4.0 标准方法验证连接，无需执行 SQL
+            // isValid() 由 JDBC 驱动自动适配不同数据库（Oracle、MySQL、PostgreSQL 等）
+            if (dao.getJdbcTemplate().getDataSource() != null) {
+                try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection()) {
+                    // 设置 3 秒超时，如果连接有效则返回 true
+                    conn.isValid(3);
+                }
+            } else {
+                // 回退到通用查询（兼容旧代码）
+                try {
+                    dao.getJdbcTemplate().queryForObject("SELECT 1 FROM DUAL", Integer.class);
+                } catch (Exception ex) {
+                    dao.getJdbcTemplate().queryForObject("SELECT 1", Integer.class);
+                }
+            }
         } catch (Exception e) {
-            logger.debug("保活查询执行失败: {}", e.getMessage());
+            logger.debug("保活查询执行失败：{}", e.getMessage());
             // 不抛出异常，避免影响主流程
         }
     }
