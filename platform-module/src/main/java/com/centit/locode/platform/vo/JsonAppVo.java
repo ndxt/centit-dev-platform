@@ -8,6 +8,7 @@ import com.centit.dde.adapter.po.DataPacketDraft;
 import com.centit.dde.adapter.po.DataPacketParam;
 import com.centit.dde.adapter.po.DataPacketParamDraft;
 import com.centit.dde.utils.ConstantValue;
+import com.centit.fileserver.common.FileBaseInfo;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.fileserver.po.FileFolderInfo;
 import com.centit.fileserver.po.FileInfo;
@@ -20,6 +21,7 @@ import com.centit.product.metadata.po.*;
 import com.centit.support.algorithm.*;
 import com.centit.support.common.JavaBeanMetaData;
 import com.centit.support.common.ObjectException;
+import com.centit.support.file.FileMD5Maker;
 import com.centit.support.file.FileSystemOpt;
 import com.centit.workflow.po.*;
 import lombok.Getter;
@@ -29,10 +31,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -247,16 +248,16 @@ public class JsonAppVo {
      */
     public void prepareApp() throws ObjectException {
         try {
-            logger.info(osId+"开始更新主配置...");
+            logger.info(osId + "开始更新主配置...");
             updatePrimary();
-            logger.info(osId+"主配置更新完成");
+            logger.info(osId + "主配置更新完成");
 
-            logger.info(osId+"开始创建应用程序对象...");
+            logger.info(osId + "开始创建应用程序对象...");
             createAppObject();
-            logger.info(osId+"应用程序对象创建完成");
+            logger.info(osId + "应用程序对象创建完成");
         } catch (Exception e) {
-            logger.error(osId+"应用程序初始化失败", e);
-            throw new ObjectException(osId+" Prepare app failed", e);
+            logger.error(osId + "应用程序初始化失败", e);
+            throw new ObjectException(osId + " Prepare app failed", e);
         }
     }
 
@@ -957,14 +958,60 @@ public class JsonAppVo {
         fileInfo.setLibraryId(osId);
         fileInfo.setFileCatalog("A");
 
-        try (InputStream inputStream = Files.newInputStream(file.toPath());
-             BufferedInputStream bufferedStream = new BufferedInputStream(inputStream, 8192)) {
-            String fileId = fileInfoOpt.saveFile(fileInfo, -1, bufferedStream);
+        // 修复：读取文件到字节数组，避免InputStream被重复读取的问题
+        byte[] fileBytes;
+        try {
+            fileBytes = Files.readAllBytes(file.toPath());
+        } catch (IOException e) {
+            logger.error("读取文件失败: {}", fileName, e);
+            return;
+        }
+
+        try {
+            // 使用ByteArrayInputStream计算MD5，这样可以多次读取
+            try (ByteArrayInputStream md5Stream = new ByteArrayInputStream(fileBytes)) {
+                fileInfo.setFileMd5(FileMD5Maker.makeFileMD5(md5Stream));
+            }
+
+            FileBaseInfo fileBaseInfo = fileInfoOpt.getFileInfo(oldFileId);
+            String fileId;
+
+            if (fileBaseInfo == null) {
+                // 文件不存在，直接保存
+                fileInfo.setFileId(oldFileId);
+                try (ByteArrayInputStream saveStream = new ByteArrayInputStream(fileBytes)) {
+                    fileId = fileInfoOpt.saveFile(fileInfo, -1, saveStream);
+                }
+            } else {
+                // 文件已存在，比较MD5和其他属性决定是否重新保存
+                String existingMd5 = fileBaseInfo.getFileMd5();
+                String existingParentFolder = fileBaseInfo.getParentFolder();
+                String existingFileName = fileBaseInfo.getFileName();
+                String existingLibraryId = fileBaseInfo.getLibraryId();
+
+                // 修复：添加空指针检查
+                boolean isSameFile = existingMd5 != null && existingMd5.equals(fileInfo.getFileMd5())
+                    && Objects.equals(existingParentFolder, fileInfo.getParentFolder())
+                    && Objects.equals(existingFileName, fileInfo.getFileName())
+                    && Objects.equals(existingLibraryId, fileInfo.getLibraryId());
+
+                if (isSameFile) {
+                    // 文件内容未变化，使用原有fileId
+                    fileId = oldFileId;
+                } else {
+                    // 文件内容有变化，重新保存
+                    try (ByteArrayInputStream saveStream = new ByteArrayInputStream(fileBytes)) {
+                        fileId = fileInfoOpt.saveFile(fileInfo, -1, saveStream);
+                    }
+                }
+            }
+
+            // 记录fileId变化
             if (fileId != null && !fileId.equals(oldFileId)) {
                 fileDiffMap.put(oldFileId, fileId);
             }
-        } catch (IOException e) {
-            logger.error("读取或保存文件失败: {}", fileName, e);
+        } catch (Exception e) {
+            logger.error("保存文件失败: {}", fileName, e);
         }
     }
 
@@ -1528,6 +1575,7 @@ public class JsonAppVo {
             new LinkedBlockingQueue<>(QUEUE_CAPACITY),
             new ThreadFactory() {
                 private final AtomicInteger threadNumber = new AtomicInteger(1);
+
                 @Override
                 public Thread newThread(Runnable r) {
                     Thread t = new Thread(r, "PageUpdate-" + osId + "-" + threadNumber.getAndIncrement());
@@ -1656,7 +1704,7 @@ public class JsonAppVo {
      * 使用预编译的正则表达式替换模板字段
      */
     private void replaceTemplateFieldsWithPattern(Map<String, Object> map, String fieldKey,
-                                                   Pattern pattern, Map<String, String> replacements) {
+                                                  Pattern pattern, Map<String, String> replacements) {
         Object templateObj = map.get(fieldKey);
         if (templateObj == null || pattern == null || replacements == null || replacements.isEmpty()) {
             return;
@@ -1966,12 +2014,12 @@ public class JsonAppVo {
      */
     private void executeUpdateStep(String stepName, Runnable updateMethod) {
         try {
-            logger.info(osId+"开始更新{}", stepName);
+            logger.info(osId + "开始更新{}", stepName);
             updateMethod.run();
-            logger.info(osId+"{}更新完成", stepName);
+            logger.info(osId + "{}更新完成", stepName);
         } catch (Exception e) {
-            logger.error(osId+"{}更新失败", stepName, e);
-            throw new ObjectException(osId+stepName + "更新失败", e);
+            logger.error(osId + "{}更新失败", stepName, e);
+            throw new ObjectException(osId + stepName + "更新失败", e);
         }
     }
 
@@ -2032,7 +2080,7 @@ public class JsonAppVo {
             return;
         }
         String value = StringBaseOpt.objectToString(map.get(key));
-        if( StringBaseOpt.isNvl(value)) return;
+        if (StringBaseOpt.isNvl(value)) return;
         String newValue = diffMap.get(value);
         if (!StringBaseOpt.isNvl(newValue)) {
             map.put(key, newValue);
