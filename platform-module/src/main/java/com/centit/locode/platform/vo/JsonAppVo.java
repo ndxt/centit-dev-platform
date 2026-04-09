@@ -1007,7 +1007,7 @@ public class JsonAppVo {
             }
 
             // 记录fileId变化
-            if (fileId != null && !fileId.equals(oldFileId)) {
+            if (StringUtils.isNotBlank(fileId) && !fileId.equals(oldFileId)) {
                 fileDiffMap.put(oldFileId, fileId);
             }
         } catch (Exception e) {
