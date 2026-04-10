@@ -972,7 +972,7 @@ public class JsonAppVo {
             try (ByteArrayInputStream md5Stream = new ByteArrayInputStream(fileBytes)) {
                 fileInfo.setFileMd5(FileMD5Maker.makeFileMD5(md5Stream));
             }
-
+            fileInfo.setFileSize((long) fileBytes.length);
             FileBaseInfo fileBaseInfo = fileInfoOpt.getFileInfo(oldFileId);
             String fileId;
 
@@ -980,7 +980,7 @@ public class JsonAppVo {
                 // 文件不存在，直接保存
                 fileInfo.setFileId(oldFileId);
                 try (ByteArrayInputStream saveStream = new ByteArrayInputStream(fileBytes)) {
-                    fileId = fileInfoOpt.saveFile(fileInfo, -1, saveStream);
+                    fileId = fileInfoOpt.saveFile(fileInfo, fileInfo.getFileSize(), saveStream);
                 }
             } else {
                 // 文件已存在，比较MD5和其他属性决定是否重新保存
@@ -1001,7 +1001,7 @@ public class JsonAppVo {
                 } else {
                     // 文件内容有变化，重新保存
                     try (ByteArrayInputStream saveStream = new ByteArrayInputStream(fileBytes)) {
-                        fileId = fileInfoOpt.saveFile(fileInfo, -1, saveStream);
+                        fileId = fileInfoOpt.saveFile(fileInfo, fileInfo.getFileSize(), saveStream);
                     }
                 }
             }
