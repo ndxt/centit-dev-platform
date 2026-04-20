@@ -725,11 +725,11 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
                         if (retry < maxRetries - 1) {
                             try {
-                                // 在重新获取连接前先验证并刷新连接池
-                                if (validateDatabaseConnection(dao, listName + " 重试验证")) {
-                                    logger.info("连接验证成功，使用新连接重试");
-                                } else {
-                                    logger.warn("连接验证失败，继续尝试重试");
+                                // 检测到连接异常，强制刷新HikariCP连接池，移除所有失效连接
+                                if (dao.getDataSource() instanceof com.zaxxer.hikari.HikariDataSource) {
+                                    com.zaxxer.hikari.HikariDataSource hikariDS = (com.zaxxer.hikari.HikariDataSource) dao.getDataSource();
+                                    hikariDS.getHikariPoolMXBean().softEvictConnections();
+                                    logger.info("已刷新HikariCP连接池");
                                 }
                                 // 等待后重试
                                 long waitTime = (long) Math.pow(2, retry) * 1000;
