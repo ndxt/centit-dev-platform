@@ -511,7 +511,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         String exceptionClassName = e.getClass().getName();
         if (exceptionClassName.contains("CommunicationsException")
             || exceptionClassName.contains("SQLRecoverableException")
-            || exceptionClassName.contains("SQLTransientConnectionException")) {
+            || exceptionClassName.contains("SQLTransientConnectionException")
+            || exceptionClassName.contains("SQLNonTransientConnectionException")) {
             return true;
         }
 
@@ -724,6 +725,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
                         if (retry < maxRetries - 1) {
                             try {
+                                // 在重新获取连接前先验证并刷新连接池
+                                if (validateDatabaseConnection(dao, listName + " 重试验证")) {
+                                    logger.info("连接验证成功，使用新连接重试");
+                                } else {
+                                    logger.warn("连接验证失败，继续尝试重试");
+                                }
                                 // 等待后重试
                                 long waitTime = (long) Math.pow(2, retry) * 1000;
                                 logger.info("等待 {} 毫秒后重试", waitTime);
