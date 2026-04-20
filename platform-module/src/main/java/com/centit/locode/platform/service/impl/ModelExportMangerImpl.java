@@ -979,24 +979,10 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * @throws Exception 如果解析过程中遇到错误或缺少必要信息，则抛出异常
      */
     @Override
-    @Transactional(
-        rollbackFor = Exception.class,
-        timeout = 7200,
-        isolation = Isolation.READ_COMMITTED  // 使用 READ_COMMITTED 减少锁范围
-    )
     public JSONArray importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
         // 检查输入参数是否满足基本要求
         if (jsonObject == null || !jsonObject.containsKey("jsonAppVo")) {
             throw new IllegalArgumentException("jsonObject 或 jsonAppVo 字段不能为空");
-        }
-
-        // 记录连接池状态（用于监控和诊断）
-        logConnectionPoolStatus(applicationTemplateDao);
-
-        // 验证数据库连接是否仍然有效
-        if (!validateDatabaseConnection(applicationTemplateDao, "importApp")) {
-            logger.error("数据库连接验证失败，无法恢复连接，终止处理");
-            throw new ObjectException("数据库连接验证失败，无法恢复连接");
         }
 
         // 提取应用程序信息并初始化源JSON对象
@@ -1009,7 +995,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             throw new IllegalArgumentException("文件路径不能为空");
         }
 
-        // 解析CSV文件到JSON对象
+        // 解析CSV文件到JSON对象（不使用事务）
         parseCsvToJson(sourceJson, filePath);
 
         // 如果存在数据库信息，则添加到源JSON对象中
@@ -1033,8 +1019,25 @@ public class ModelExportMangerImpl implements ModelExportManager {
         jsonAppVo.setRunDictionary(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDictionary"), true));
         jsonAppVo.setRunMetaData(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runMetaData"), true));
 
-        // 准备应用程序数据，包括解析和设置必要的信息
+        // 准备应用程序数据，包括解析和设置必要的信息（不使用事务）
         jsonAppVo.prepareApp();
+
+        // 执行数据库操作，使用事务
+        return doImportWithTransaction(jsonObject, userDetails, jsonAppVo, filePath, osId);
+    }
+
+    /**
+     * 执行导入的数据库操作部分，使用事务
+     */
+    @Transactional(
+        rollbackFor = Exception.class,
+        timeout = 7200,
+        isolation = Isolation.READ_COMMITTED
+    )
+    protected JSONArray doImportWithTransaction(JSONObject jsonObject, CentitUserDetails userDetails, 
+                                                JsonAppVo jsonAppVo, String filePath, String osId) throws Exception {
+        // 记录连接池状态（用于监控和诊断）
+        logConnectionPoolStatus(applicationTemplateDao);
 
         // 获取是否运行DDL的标志
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
