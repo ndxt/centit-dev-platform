@@ -1034,7 +1034,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         timeout = 7200,
         isolation = Isolation.READ_COMMITTED
     )
-    protected JSONArray doImportWithTransaction(JSONObject jsonObject, CentitUserDetails userDetails, 
+    protected JSONArray doImportWithTransaction(JSONObject jsonObject, CentitUserDetails userDetails,
                                                 JsonAppVo jsonAppVo, String filePath, String osId) throws Exception {
         // 记录连接池状态（用于监控和诊断）
         logConnectionPoolStatus(applicationTemplateDao);
@@ -1148,6 +1148,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         JSONArray result = new JSONArray();
         result.add(databaseResult);
         result.add(jsonAppVo.getDiffIds());
+        logger.info(osId + "导入完成，结果: {}", result);
         return result;
     }
 
