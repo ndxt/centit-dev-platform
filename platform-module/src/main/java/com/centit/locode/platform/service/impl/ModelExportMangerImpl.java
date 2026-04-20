@@ -683,7 +683,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
 
             // 执行批量合并，带重试机制
-            int maxRetries = 3;
+            int maxRetries = 5;
             boolean success = false;
             Exception lastException = null;
 
@@ -691,13 +691,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 try {
                     if (retry > 0) {
                         logger.info("重试处理 {} 批次 {}-{}（第 {} 次重试）", listName, i, end - 1, retry);
-                        // 重试前执行保活查询
-                        try {
-                            keepConnectionAlive(dao);
-                        } catch (Exception e) {
-                            logger.warn("重试前保活查询失败: {}", e.getMessage());
+                        // 检测到连接异常，强制刷新HikariCP连接池，移除所有失效连接
+                        if (dao.getDataSource() instanceof com.zaxxer.hikari.HikariDataSource) {
+                            com.zaxxer.hikari.HikariDataSource hikariDS = (com.zaxxer.hikari.HikariDataSource) dao.getDataSource();
+                            hikariDS.getHikariPoolMXBean().softEvictConnections();
+                            logger.info("已刷新HikariCP连接池");
                         }
-                        Thread.sleep(1000);
+                        // 等待更长时间让连接池恢复
+                        long waitTime = (long) Math.pow(2, retry) * 1500;
+                        logger.info("等待 {} 毫秒后重试", waitTime);
+                        Thread.sleep(waitTime);
                     }
 
                     DatabaseOptUtils.batchMergeObjects(dao, batch);
@@ -725,12 +728,6 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
                         if (retry < maxRetries - 1) {
                             try {
-                                // 检测到连接异常，强制刷新HikariCP连接池，移除所有失效连接
-                                if (dao.getDataSource() instanceof com.zaxxer.hikari.HikariDataSource) {
-                                    com.zaxxer.hikari.HikariDataSource hikariDS = (com.zaxxer.hikari.HikariDataSource) dao.getDataSource();
-                                    hikariDS.getHikariPoolMXBean().softEvictConnections();
-                                    logger.info("已刷新HikariCP连接池");
-                                }
                                 // 等待后重试
                                 long waitTime = (long) Math.pow(2, retry) * 1000;
                                 logger.info("等待 {} 毫秒后重试", waitTime);
