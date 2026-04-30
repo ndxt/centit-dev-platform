@@ -3,6 +3,7 @@ package com.centit.locode.platform.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 import com.centit.fileserver.common.FileInfoOpt;
 import com.centit.framework.jdbc.dao.DatabaseOptUtils;
 import com.centit.framework.model.security.CentitUserDetails;
@@ -48,7 +49,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
     private void exportJsonArrayToFile(String sqlSen, Object[] params, String jsonFilePath) throws IOException {
         JSONArray jsonArray = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, sqlSen, params);
         if(jsonArray != null) {
-            FileIOOpt.writeStringToFile(jsonArray.toString(), jsonFilePath);
+            FileIOOpt.writeStringToFile(JSON.toJSONString(jsonArray,JSONWriter.Feature.PrettyFormat), jsonFilePath);
         }
     }
 
@@ -100,7 +101,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                         table.put("viewSql", viewSql);
                     }
 
-                    FileIOOpt.writeStringToFile(table.toString(),
+                    FileIOOpt.writeStringToFile(JSON.toJSONString(table.toString(),JSONWriter.Feature.PrettyFormat),
                         dictDir + File.separator + tableId + ".json");
                 }
             }
@@ -122,7 +123,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                     JSONArray dictionaries = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao,
                         sqlDictionary, new Object[]{catalog.getString("catalogCode")});
                     catalog.put("details", dictionaries);
-                    FileIOOpt.writeStringToFile(catalog.toString(),
+                    FileIOOpt.writeStringToFile(JSON.toJSONString(catalog.toString(),JSONWriter.Feature.PrettyFormat),
                         dictDir + File.separator + catalog.getString("catalogCode") + ".json");
                 }
             }
@@ -161,7 +162,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                 if (obj instanceof JSONObject) {
                     JSONObject page = (JSONObject) obj;
                     deserializeFields(page, "formTemplate", "mobileFormTemplate", "structureFunction");
-                    FileIOOpt.writeStringToFile(page.toString(),
+                    FileIOOpt.writeStringToFile(JSON.toJSONString(page,JSONWriter.Feature.PrettyFormat),
                         dictDir + File.separator + page.getString("modelId") + ".json");
                 }
             }
@@ -188,7 +189,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                         api.put("params", params);
                     }
 
-                    FileIOOpt.writeStringToFile(api.toString(),
+                    FileIOOpt.writeStringToFile(JSON.toJSONString(api,JSONWriter.Feature.PrettyFormat),
                         dictDir + File.separator + packetId + ".json");
                 }
             }
@@ -218,7 +219,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                 fileDir + File.separator + "library.json");
         }
 
-        exportJsonArrayToFile(fileInfoSql, new Object[]{osId}, fileDir + File.separator + "fileInfo.json");
+//        exportJsonArrayToFile(fileInfoSql, new Object[]{osId}, fileDir + File.separator + "fileInfo.json");
         JSONArray fileInfos = DatabaseOptUtils.listObjectsBySqlAsJson(applicationTemplateDao, fileInfoSql, new Object[]{osId});
         if(fileInfos != null) {
             for(Object obj : fileInfos) {
@@ -237,7 +238,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
                 }
             }
 
-            FileIOOpt.writeStringToFile(fileInfos.toString(),
+            FileIOOpt.writeStringToFile(JSON.toJSONString(fileInfos.toString(),JSONWriter.Feature.PrettyFormat),
                 fileDir + File.separator + "fileInfo.json");
         }
         exportJsonArrayToFile(fileStoreSql, new Object[]{osId}, fileDir + File.separator + "storeInfo.json");
@@ -280,7 +281,7 @@ public class EnvironmentExportManagerImpl implements EnvironmentExportManager {
         if(application == null) {
             throw new ObjectException(ObjectException.DATA_VALIDATE_ERROR, "应用："+osId +" 不存在！");
         }
-        FileIOOpt.writeStringToFile(application.toString(), applicationFile);
+        FileIOOpt.writeStringToFile(JSON.toJSONString(application,JSONWriter.Feature.PrettyFormat), applicationFile);
         String topUnit = application.getString("topUnit");
 
         exportDictionaries(osId, appFileRoot);

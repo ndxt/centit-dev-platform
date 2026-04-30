@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -38,7 +39,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -66,6 +66,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
     private final Map<String, String> oldApplicationSql = new HashMap<>(16);
     private final Map<String, String> newDatabaseSql = new HashMap<>(4);
     private final Map<String, String> oldDatabaseSql = new HashMap<>(4);
+    private static final String ZIP_EXTENSION = ".zip";
+    private static final String CSV_EXTENSION = ".csv";
+    private static final String UTF_8 = "UTF-8";
 
     @PostConstruct
     void init() {
@@ -86,6 +89,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(AppTableNames.F_DATACATALOG.name(), "select * from f_datacatalog where CATALOG_CODE in " + "(select dictionary_id from m_application_dictionary where [:osId | os_id=:osId]) and catalog_style<>'S'");
         applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " + "(select a.dictionary_id from m_application_dictionary a join f_datacatalog b on a.dictionary_id=b.CATALOG_CODE where [:osId | a.os_id=:osId] and catalog_style<>'S')");
         applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
+        applicationSql.put(AppTableNames.FILE_INFO.name(), "select a.file_id, a.file_name,a.file_md5,a.parent_folder,a.file_type,a.library_id,a.file_show_path from file_info a join file_store_info b on a.file_md5=b.file_md5 where [:osId | a.library_id=:osId] and a.file_catalog in ('A','B')");
+        applicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.folder_path from file_folder_info a where [:osId | a.library_id=:osId] " +
+            "and folder_id in (select a.parent_folder from file_info a join file_store_info b on a.file_md5=b.file_md5 where [:osId | a.library_id=:osId] and a.file_catalog in ('A','B'))");
 
         newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])" + " and database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
         newDatabaseSql.put(AppTableNames.F_MD_COLUMN.name(), "select * from f_md_column where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])");
@@ -109,6 +115,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
         oldApplicationSql.put(AppTableNames.WF_OPT_VARIABLE_DEFINE.name(), "select VARIABLE_NAME,OPT_ID,OPT_VARIABLE_ID from wf_opt_variable_define");
         oldApplicationSql.put(AppTableNames.F_DATACATALOG.name(), "select catalog_code,top_unit,source_id from f_datacatalog");
         oldApplicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select id,os_id,dictionary_id from m_application_dictionary");
+        oldApplicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.source_id from file_folder_info a ");
+
     }
 
     /**
@@ -126,51 +134,78 @@ public class ModelExportMangerImpl implements ModelExportManager {
     @Override
     public String downModel(String osId, Map<String, Object> parameters) throws IOException {
         // 生成唯一的文件ID
-        String fileId = DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss") + "_" + UUID.randomUUID().toString().substring(0, 8);
+        String fileId = generateFileId();
         // 创建目标目录
-        File targetDir = new File(appHome, fileId);
-        String filePath = targetDir.getAbsolutePath();
+        String filePath = createTargetDirectory(fileId);
 
         // 初始化参数映射，至少包含osId
-        Map<String, Object> paramsMap = new HashMap<>(1);
-        paramsMap.put("osId", osId);
-
-        // 判断是否需要导出模型
-        boolean isModelExport = false;
-        if (parameters != null && parameters.containsKey("optId")) {
-            String optId = StringBaseOpt.objectToString(parameters.get("optId"));
-            if (StringUtils.isNotBlank(optId)) {
-                paramsMap.put("optId", optId);
-                isModelExport = true;
-            }
-        }
+        Map<String, Object> paramsMap = buildParamsMap(osId, parameters);
 
         // 处理SQL条目并写入文件
         processSqlEntries(applicationSql, paramsMap, filePath);
         processSqlEntries(newDatabaseSql, paramsMap, filePath);
+        compressFileInfo(osId, filePath);
+        compressAndCleanup(filePath, fileId);
+        return fileId;
+    }
 
-        // 如果不需要导出模型，则压缩文件信息
-        if (!isModelExport) {
-            try {
-                compressFileInfo(osId, filePath);
-            } catch (IOException e) {
-                throw new ObjectException(e);
+    private String generateFileId() {
+        return DatetimeOpt.convertDateToString(DatetimeOpt.currentUtilDate(), "YYYYMMddHHmmss")
+            + "_" + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private String createTargetDirectory(String fileId) throws IOException {
+        File targetDir = new File(appHome, fileId);
+        String filePath = targetDir.getAbsolutePath();
+
+        if (!targetDir.mkdirs() && !targetDir.isDirectory()) {
+            throw new IOException("无法创建目录: " + filePath);
+        }
+
+        return filePath;
+    }
+
+    private Map<String, Object> buildParamsMap(String osId, Map<String, Object> parameters) {
+        Map<String, Object> paramsMap = new HashMap<>(2);
+        paramsMap.put("osId", osId);
+
+        if (parameters != null && parameters.containsKey("optId")) {
+            String optId = StringBaseOpt.objectToString(parameters.get("optId"));
+            if (StringUtils.isNotBlank(optId)) {
+                paramsMap.put("optId", optId);
             }
         }
 
-        // 创建并压缩目标目录为ZIP文件
-        File zipFile = new File(targetDir.getParent(), targetDir.getName() + ".zip");
-        ZipCompressor.compress(zipFile.getAbsolutePath(), filePath);
+        return paramsMap;
+    }
 
-        // 尝试删除临时文件目录
-        try {
-            FileSystemOpt.deleteDirect(filePath);
-        } catch (Exception e) {
-            // 可选：记录删除失败的日志
+    private boolean isModelExport(Map<String, Object> parameters) {
+        if (parameters == null) {
+            return false;
         }
 
-        // 返回生成的文件ID
-        return fileId;
+        Object optId = parameters.get("optId");
+        if (optId == null) {
+            return false;
+        }
+
+        String optIdStr = StringBaseOpt.objectToString(optId);
+        return StringUtils.isNotBlank(optIdStr);
+    }
+
+    private void compressAndCleanup(String filePath, String fileId) throws IOException {
+        File targetDir = new File(appHome, fileId);
+        File zipFile = new File(targetDir.getParent(), targetDir.getName() + ZIP_EXTENSION);
+
+        try {
+            ZipCompressor.compress(zipFile.getAbsolutePath(), filePath);
+        } finally {
+            try {
+                FileSystemOpt.deleteDirect(filePath);
+            } catch (Exception e) {
+                logger.warn("删除临时文件目录失败: {}", filePath, e);
+            }
+        }
     }
 
     /**
@@ -188,11 +223,14 @@ public class ModelExportMangerImpl implements ModelExportManager {
             return;
         }
 
-        // 遍历sqlEntries中的每个条目，为每个条目生成一个文件
-        for (Map.Entry<String, String> entry : sqlEntries.entrySet()) {
-            // 调用createFile方法，传入参数映射、SQL语句、文件名和基础路径
-            createFile(params, entry.getValue(), entry.getKey(), basePath);
-        }
+        // 遍历sqlEntries中的每个条目，为每个条目生成一个文件,将集合处理改为流式处理
+        sqlEntries.entrySet().parallelStream().forEach(entry -> {
+            try {
+                createFile(params, entry.getValue(), entry.getKey(), basePath);
+            } catch (IOException e) {
+                throw new RuntimeException("处理SQL条目失败: " + entry.getKey(), e);
+            }
+        });
     }
 
 
@@ -223,33 +261,38 @@ public class ModelExportMangerImpl implements ModelExportManager {
      */
     private void createFile(Map<String, Object> map, String sql, String fileName, String filePath) throws IOException {
         // 创建File对象以检查目录是否存在
-        File file = new File(filePath);
-        // 如果目录不存在，则尝试创建
-        if (!file.exists()) {
-            // 如果创建目录失败，则抛出异常
-            if (!file.mkdirs()) {
-                throw new IOException("无法创建目录: " + filePath);
-            }
-        }
+        ensureDirectoryExists(filePath);
 
         // 执行SQL查询并获取结果作为JSONArray
         JSONArray jsonArray = DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, sql, map);
 
         // 如果是特定的文件名且map中包含特定键，则对结果进行额外处理
-        if (fileName.equals(AppTableNames.F_OPTINFO.name()) && map.containsKey("optId")) {
+        if (AppTableNames.F_OPTINFO.name().equals(fileName) && map.containsKey("optId")) {
             jsonArray = parentOpt(jsonArray, map.get("optId"));
         }
 
         // 使用FileOutputStream打开文件流，并确保在操作完成后关闭流
-        try (FileOutputStream fos = new FileOutputStream(filePath + File.separator + fileName + ".csv")) {
-            // 将JSONArray中的数据保存到CSV文件中，指定字符编码为GBK
-            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, "UTF-8");
-        } catch (IOException e) {
-            // 如果文件写入过程中发生IOException，抛出自定义异常
-            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION, "导出文件出错" + e.getMessage());
+        writeJsonArrayToCsv(jsonArray, filePath, fileName);
+    }
+
+    private void ensureDirectoryExists(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists() && !file.mkdirs()) {
+            throw new IOException("无法创建目录: " + filePath);
         }
     }
 
+    private void writeJsonArrayToCsv(JSONArray jsonArray, String filePath, String fileName)
+        throws IOException {
+        String csvFilePath = filePath + File.separator + fileName + CSV_EXTENSION;
+
+        try (FileOutputStream fos = new FileOutputStream(csvFilePath)) {
+            CsvFileIO.saveJSON2OutputStream(jsonArray, fos, true, null, UTF_8);
+        } catch (IOException e) {
+            throw new ObjectException(ResponseData.HTTP_IO_EXCEPTION,
+                "导出文件出错: " + e.getMessage());
+        }
+    }
 
     /**
      * 根据给定的选项ID收集所有父选项信息
@@ -401,50 +444,356 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * @throws IOException 如果文件操作失败，则抛出IOException
      */
     private void compressFileInfo(String osId, String filePath) throws IOException {
-        // 定义文件分隔符，用于构建文件路径
-        final String FILE_SEPARATOR = File.separator;
 
-        // SQL查询语句，用于获取指定库ID和分类的文件信息
-        String fileInfoSql = "select a.file_id, a.file_name from file_info a join file_store_info b on a.file_md5=b.file_md5 where a.library_id=:osId and a.file_catalog in ('A','B')";
         // 执行SQL查询，获取文件信息列表
-        List<Object[]> objects = DatabaseOptUtils.listObjectsByNamedSql(applicationTemplateDao, fileInfoSql, CollectionsOpt.createHashMap("osId", osId));
+        JSONArray jsonArray = DatabaseOptUtils.listObjectsByParamsDriverSqlAsJson(applicationTemplateDao, applicationSql.get(AppTableNames.FILE_INFO.name()), CollectionsOpt.createHashMap("osId", osId));
         // 如果没有查询到文件信息，则直接返回
-        if (objects == null || objects.isEmpty()) {
+        if (jsonArray == null || jsonArray.isEmpty()) {
             return;
         }
 
         // 构建文件信息路径和压缩文件路径
-        String fileInfoPath = filePath + FILE_SEPARATOR + "file";
-        String zipFilePath = fileInfoPath + ".zip";
+        String fileInfoPath = filePath + File.separator + "file";
+        String zipFilePath = fileInfoPath + ZIP_EXTENSION;
 
-        // 创建文件信息目录，如果目录不存在且创建失败，则抛出运行时异常
+        createAndPopulateFileDirectory(jsonArray, fileInfoPath);
+        compressAndCleanupFileDirectory(fileInfoPath, zipFilePath);
+
+    }
+
+    private void createAndPopulateFileDirectory(JSONArray jsonArray, String fileInfoPath)
+        throws IOException {
         File fileDir = new File(fileInfoPath);
-        if (!fileDir.exists()) {
-            if (!fileDir.mkdirs()) {
-                throw new RuntimeException("Failed to create directory: " + fileDir.getAbsolutePath());
-            }
+        if (!fileDir.exists() && !fileDir.mkdirs()) {
+            throw new RuntimeException("Failed to create directory: " + fileDir.getAbsolutePath());
         }
 
-        // 遍历文件信息列表，将每个文件复制到文件信息目录中
-        for (Object[] object : objects) {
-            String fileId = StringBaseOpt.castObjectToString(object[0]);
-            String fileName = StringBaseOpt.castObjectToString(object[1]);
-            try (InputStream inputStream = fileInfoOpt.loadFileStream(fileId)) {
-                if (inputStream != null) {
-                    String fileIdPath = fileInfoPath + FILE_SEPARATOR + "(" + fileId + ")" + fileName;
-                    FileSystemOpt.createFile(inputStream, fileIdPath);
-                }
-            } catch (Exception e) {
-                // 如果复制文件时发生异常，则跳过当前文件，继续复制下一个文件
-                continue;
-            }
-        }
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String fileId = jsonObject.getString("fileId");
+            String fileName = jsonObject.getString("fileName");
 
-        // 压缩文件信息目录为ZIP文件，无论压缩成功与否，最后都会删除文件信息目录
+            copyFileToDirectory(fileId, fileName, fileInfoPath);
+        }
+    }
+
+    private void copyFileToDirectory(String fileId, String fileName, String fileInfoPath) {
+        try (InputStream inputStream = fileInfoOpt.loadFileStream(fileId)) {
+            if (inputStream != null) {
+                String fileIdPath = fileInfoPath + File.separator + "(" + fileId + ")" + fileName;
+                FileSystemOpt.createFile(inputStream, fileIdPath);
+            }
+        } catch (Exception e) {
+            logger.warn("复制文件时发生异常，跳过文件: {}", fileId, e);
+        }
+    }
+
+    private void compressAndCleanupFileDirectory(String fileInfoPath, String zipFilePath) {
         try {
             ZipCompressor.compress(zipFilePath, fileInfoPath);
         } finally {
             FileSystemOpt.deleteDirect(fileInfoPath);
+        }
+    }
+
+    /**
+     * 判断异常是否为数据库连接相关异常
+     *
+     * @param e 异常对象
+     * @return 是否为连接异常
+     */
+    private boolean isConnectionError(Exception e) {
+        if (e == null) {
+            return false;
+        }
+
+        // 检查异常类名
+        String exceptionClassName = e.getClass().getName();
+        if (exceptionClassName.contains("CommunicationsException")
+            || exceptionClassName.contains("SQLRecoverableException")
+            || exceptionClassName.contains("SQLTransientConnectionException")
+            || exceptionClassName.contains("SQLNonTransientConnectionException")) {
+            return true;
+        }
+
+        // 检查异常消息
+        String message = e.getMessage();
+        if (message != null) {
+            if (message.contains("Communications link failure")
+                || message.contains("Connection")
+                || message.contains("connection")
+                || message.contains("timeout")
+                || message.contains("timed out")
+                || message.contains("closed")
+                || message.contains("broken")) {
+                return true;
+            }
+        }
+
+        // 递归检查 cause
+        Throwable cause = e.getCause();
+        if (cause instanceof Exception) {
+            return isConnectionError((Exception) cause);
+        }
+
+        return false;
+    }
+
+    /**
+     * 验证数据库连接，带重试机制
+     * 使用 JDBC 4.0 标准的 Connection.isValid() 方法，自动适配所有数据库
+     *
+     * @param dao           数据库操作对象
+     * @param operationName 操作名称，用于日志记录
+     * @return 连接是否有效
+     */
+    private boolean validateDatabaseConnection(ApplicationTemplateDao dao, String operationName) {
+        for (int retry = 0; retry < 5; retry++) {
+            try {
+                if (dao.getJdbcTemplate().getDataSource() != null) {
+                    try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection()) {
+                        // 使用 JDBC 4.0 标准方法，超时时间设置为 3 秒
+                        // isValid() 方法由 JDBC 驱动自动适配不同数据库，无需手动判断数据库类型
+                        if (conn.isValid(10)) {
+                            if (retry > 0) {
+                                logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
+                            }
+                            return true;
+                        } else {
+                            logger.warn("{}数据库连接验证返回 false（第{}次尝试）", operationName, retry + 1);
+                        }
+                    }
+                } else {
+                    // 回退到通用查询方式（兼容旧代码，支持所有数据库）
+                    try {
+                        // 使用 queryForObject 执行简单查询，自动适配不同数据库
+                        dao.getJdbcTemplate().queryForObject("SELECT 1 FROM DUAL", Object.class);
+                    } catch (Exception ex) {
+                        // 如果 FROM DUAL 失败，尝试不带 DUAL（适用于 MySQL 等数据库）
+                        dao.getJdbcTemplate().queryForObject("SELECT 1", Object.class);
+                    }
+                    if (retry > 0) {
+                        logger.info("{}数据库连接验证成功（第{}次重试）", operationName, retry + 1);
+                    }
+                    return true;
+                }
+            } catch (Exception e) {
+                logger.warn("{}数据库连接验证失败（第{}次尝试）: {}", operationName, retry + 1, e.getMessage());
+
+                if (retry < 4) {
+                    // 指数退避策略：1s, 2s, 4s, 8s
+                    long baseWait = (long) Math.pow(2, retry) * 1000;
+                    // 添加随机抖动（0-500ms）避免惊群效应
+                    long jitter = (long) (Math.random() * 500);
+                    long waitTime = baseWait + jitter;
+
+                    try {
+                        Thread.sleep(waitTime);
+
+                        // 尝试刷新连接池（如果可用）
+                        if (dao.getDataSource() != null) {
+                            try {
+                                // 这里可以根据具体的连接池实现添加刷新逻辑
+                                // 例如 HikariCP: ((HikariDataSource)dao.getDataSource()).softEvictConnections();
+                                logger.debug("尝试刷新数据库连接池");
+                            } catch (Exception poolException) {
+                                logger.debug("刷新连接池失败: {}", poolException.getMessage());
+                            }
+                        }
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 记录连接池状态信息
+     * 用于监控和诊断数据库连接问题
+     */
+    private void logConnectionPoolStatus(ApplicationTemplateDao dao) {
+        try {
+            if (dao.getDataSource() != null) {
+                // 检查是否为 HikariCP 连接池
+                if (dao.getDataSource() instanceof com.zaxxer.hikari.HikariDataSource) {
+                    com.zaxxer.hikari.HikariDataSource hikariDS = (com.zaxxer.hikari.HikariDataSource) dao.getDataSource();
+                    logger.info("连接池状态 - 活跃连接: {}, 空闲连接: {}, 总连接: {}, 等待连接: {}",
+                        hikariDS.getHikariPoolMXBean().getActiveConnections(),
+                        hikariDS.getHikariPoolMXBean().getIdleConnections(),
+                        hikariDS.getHikariPoolMXBean().getTotalConnections(),
+                        hikariDS.getHikariPoolMXBean().getThreadsAwaitingConnection());
+                }
+                // 可以添加其他连接池的监控逻辑
+            }
+        } catch (Exception e) {
+            logger.debug("无法获取连接池状态: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * 分批合并数据，并在每批处理前验证数据库连接
+     * 防止因长时间操作导致数据库连接超时
+     *
+     * 优化策略：
+     * 1. 在事务内部通过定期执行轻量查询保持连接活跃
+     * 2. 捕获连接异常并自动重试
+     * 3. 每批处理后短暂休息，避免连接池耗尽
+     * 4. 详细的进度监控
+     */
+    private void batchMergeWithValidation(ApplicationTemplateDao dao, List<Object> dataList, String listName) {
+        if (dataList == null || dataList.isEmpty()) {
+            return;
+        }
+
+        // 分批大小，每批处理100条记录
+        int batchSize = 100;
+        int totalSize = dataList.size();
+        int totalBatches = (int) Math.ceil((double) totalSize / batchSize);
+
+        logger.info("开始分批处理 {}，共 {} 条记录，每批 {} 条，共 {} 批", listName, totalSize, batchSize, totalBatches);
+
+        long startTime = System.currentTimeMillis();
+        long lastKeepAliveTime = startTime;
+        int processedCount = 0;
+
+        for (int i = 0; i < totalSize; i += batchSize) {
+            int batchNumber = (i / batchSize) + 1;
+            int end = Math.min(i + batchSize, totalSize);
+            List<Object> batch = dataList.subList(i, end);
+
+            // 每10批或每5分钟记录一次连接池状态
+            long currentTime = System.currentTimeMillis();
+            if (batchNumber % 10 == 1 || (currentTime - startTime) > 300000) {
+                logConnectionPoolStatus(dao);
+            }
+
+            // 每隔2分钟执行一次保活查询，防止连接超时
+            // 这在长事务中非常重要
+            if (currentTime - lastKeepAliveTime > 120000) {
+                try {
+                    keepConnectionAlive(dao);
+                    lastKeepAliveTime = currentTime;
+                    logger.debug("执行连接保活查询");
+                } catch (Exception e) {
+                    logger.warn("连接保活查询失败: {}", e.getMessage());
+                }
+            }
+
+            // 执行批量合并，带重试机制
+            int maxRetries = 5;
+            boolean success = false;
+            Exception lastException = null;
+
+            for (int retry = 0; retry < maxRetries && !success; retry++) {
+                try {
+                    if (retry > 0) {
+                        logger.info("重试处理 {} 批次 {}-{}（第 {} 次重试）", listName, i, end - 1, retry);
+                        // 检测到连接异常，强制刷新HikariCP连接池，移除所有失效连接
+                        if (dao.getDataSource() instanceof com.zaxxer.hikari.HikariDataSource) {
+                            com.zaxxer.hikari.HikariDataSource hikariDS = (com.zaxxer.hikari.HikariDataSource) dao.getDataSource();
+                            hikariDS.getHikariPoolMXBean().softEvictConnections();
+                            logger.info("已刷新HikariCP连接池");
+                        }
+                        // 等待更长时间让连接池恢复
+                        long waitTime = (long) Math.pow(2, retry) * 1500;
+                        logger.info("等待 {} 毫秒后重试", waitTime);
+                        Thread.sleep(waitTime);
+                    }
+
+                    DatabaseOptUtils.batchMergeObjects(dao, batch);
+                    processedCount += batch.size();
+
+                    if (batchNumber % 10 == 0 || batchNumber == totalBatches) {
+                        long elapsed = System.currentTimeMillis() - startTime;
+                        double progress = (double) processedCount / totalSize * 100;
+                        logger.info("处理 {} 进度: {}/{} ({:.1f}%), 已用时: {} 秒",
+                            listName, processedCount, totalSize, String.format("%.1f", progress), elapsed / 1000);
+                    } else {
+                        logger.debug("处理 {} 批次 {}/{} ({}-{}) 完成", listName, batchNumber, totalBatches, i, end - 1);
+                    }
+
+                    success = true;
+                } catch (Exception e) {
+                    lastException = e;
+
+                    // 判断是否为连接异常（通过异常类名和消息判断）
+                    boolean isConnectionException = isConnectionError(e);
+
+                    if (isConnectionException) {
+                        logger.warn("处理 {} 批次 {}-{} 时连接失败（第 {} 次尝试）: {}",
+                            listName, i, end - 1, retry + 1, e.getMessage());
+
+                        if (retry < maxRetries - 1) {
+                            try {
+                                // 等待后重试
+                                long waitTime = (long) Math.pow(2, retry) * 1000;
+                                logger.info("等待 {} 毫秒后重试", waitTime);
+                                Thread.sleep(waitTime);
+                            } catch (InterruptedException ie) {
+                                Thread.currentThread().interrupt();
+                                throw new ObjectException("处理被中断", ie);
+                            }
+                        }
+                    } else {
+                        // 其他异常直接抛出，不重试
+                        logger.error("处理 {} 批次 {}-{} 失败: {}", listName, i, end - 1, e.getMessage(), e);
+                        throw new ObjectException("处理 " + listName + " 批次 " + i + "-" + (end - 1) + " 失败", e);
+                    }
+                }
+            }
+
+            if (!success) {
+                logger.error("处理 {} 批次 {}-{} 失败，已重试 {} 次", listName, i, end - 1, maxRetries);
+                throw new ObjectException("处理 " + listName + " 批次 " + i + "-" + (end - 1) + " 失败，连接持续失败", lastException);
+            }
+
+            // 每处理一批后短暂休息，避免连接池压力过大
+            // 特别是在处理大量数据时，给数据库和连接池一些喘息时间
+            if (batchNumber % 20 == 0 && batchNumber < totalBatches) {
+                try {
+                    logger.debug("已处理 {} 批，短暂休息 100ms", batchNumber);
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    logger.warn("休息被中断");
+                }
+            }
+        }
+
+        long totalTime = System.currentTimeMillis() - startTime;
+        logger.info("完成分批处理 {}，共处理 {} 条记录，耗时 {} 秒", listName, totalSize, totalTime / 1000);
+    }
+
+    /**
+     * 执行轻量级查询保持连接活跃
+     * 在长事务中定期调用此方法可以防止数据库连接超时
+     * 使用 JDBC 4.0 标准的 Connection.isValid() 方法，自动适配所有数据库
+     *
+     * @param dao 数据库操作对象
+     */
+    private void keepConnectionAlive(ApplicationTemplateDao dao) {
+        try {
+            // 使用 JDBC 4.0 标准方法验证连接，无需执行 SQL
+            // isValid() 由 JDBC 驱动自动适配不同数据库（Oracle、MySQL、PostgreSQL 等）
+            if (dao.getJdbcTemplate().getDataSource() != null) {
+                try (java.sql.Connection conn = dao.getJdbcTemplate().getDataSource().getConnection()) {
+                    // 设置 3 秒超时，如果连接有效则返回 true
+                    conn.isValid(10);
+                }
+            } else {
+                // 回退到通用查询（兼容旧代码）
+                try {
+                    dao.getJdbcTemplate().queryForObject("SELECT 1 FROM DUAL", Integer.class);
+                } catch (Exception ex) {
+                    dao.getJdbcTemplate().queryForObject("SELECT 1", Integer.class);
+                }
+            }
+        } catch (Exception e) {
+            logger.debug("保活查询执行失败：{}", e.getMessage());
+            // 不抛出异常，避免影响主流程
         }
     }
 
@@ -507,7 +856,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
                 file.delete();
             }
         }
-        dir.delete();
+        if (dir != null) {
+            dir.delete();
+        }
     }
 
 
@@ -532,6 +883,12 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
             String zipFilePath = jsonObject.getString("file");
 
+            // 验证数据库连接是否仍然有效
+            if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+                logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+                throw new ObjectException("数据库连接验证失败，无法恢复连接");
+            }
+
             // 初始化一个空的JSON对象，用于存储解析后的数据
             JSONObject sourceJson = new JSONObject();
             // 调用方法解析CSV数据到JSON格式
@@ -546,8 +903,8 @@ public class ModelExportMangerImpl implements ModelExportManager {
             JsonAppVo jsonAppVo = new JsonAppVo(sourceJson, getOldApplication(osId), osId, currentUserDetails, appHome, fileInfoOpt, zipFilePath);
             // 设置不上传文件的标志
             jsonAppVo.setUploadFiles(false);
-            // 更新主要信息
-            jsonAppVo.updatePrimary();
+            // 更新主要信息（仅执行prepareApp必需的更新步骤，减少不必要的操作）
+            jsonAppVo.updatePrimaryForPrepareApp();
 
             // 从jsonAppVo中提取待处理的表列表、列列表和数据库信息列表
             List<Map<String, Object>> pendingTableList = jsonAppVo.getMapJsonObject().get(AppTableNames.F_MD_TABLE.name());
@@ -601,6 +958,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             return returnJson;
         } catch (Exception e) {
             // 记录异常日志（建议替换为 logger.error）
+            logger.error(osId + "预处理时发生异常：{}", e.getMessage(), e);
             throw new ObjectException(e.getMessage(), e);
         }
     }
@@ -611,14 +969,16 @@ public class ModelExportMangerImpl implements ModelExportManager {
      * <p>
      * 该方法负责解析JSON对象中的应用信息，并根据提供的文件路径解析CSV数据，
      * 将其转换为JSON格式，然后根据JSON数据更新或创建应用程序及相关元数据
+     * <p>
+     * 注意：使用长事务超时配置和 READ_COMMITTED 隔离级别，确保使用行锁而不是表锁
      *
-     * @param jsonObject  包含应用程序信息的JSON对象，必须包含"jsonAppVo"字段
+     * @param jsonObject  包含应用程序信息的JSON对象，结构如下
+     *                    {"runDDL":true/false,"runDictionary":true/false,"runMetaData":true/false,"jsonAppVo":{"F_DATABASE_INFO":[{"databaseCode":"","mapDataCode":""}],"file":"","targetOsId":"","DDL":""}}
      * @param userDetails 当前用户信息，用于记录操作者
      * @return 返回包含差异ID的JSONArray，表示此次导入新增或更新的记录ID
      * @throws Exception 如果解析过程中遇到错误或缺少必要信息，则抛出异常
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public JSONArray importApp(JSONObject jsonObject, CentitUserDetails userDetails) throws Exception {
         // 检查输入参数是否满足基本要求
         if (jsonObject == null || !jsonObject.containsKey("jsonAppVo")) {
@@ -635,7 +995,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             throw new IllegalArgumentException("文件路径不能为空");
         }
 
-        // 解析CSV文件到JSON对象
+        // 解析CSV文件到JSON对象（不使用事务）
         parseCsvToJson(sourceJson, filePath);
 
         // 如果存在数据库信息，则添加到源JSON对象中
@@ -659,12 +1019,29 @@ public class ModelExportMangerImpl implements ModelExportManager {
         jsonAppVo.setRunDictionary(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDictionary"), true));
         jsonAppVo.setRunMetaData(BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runMetaData"), true));
 
-        // 准备应用程序数据，包括解析和设置必要的信息
+        // 准备应用程序数据，包括解析和设置必要的信息（不使用事务）
         jsonAppVo.prepareApp();
+
+        // 执行数据库操作，使用事务
+        return doImportWithTransaction(jsonObject, userDetails, jsonAppVo, filePath, osId);
+    }
+
+    /**
+     * 执行导入的数据库操作部分，使用事务
+     */
+    @Transactional(
+        rollbackFor = Exception.class,
+        timeout = 7200,
+        isolation = Isolation.READ_COMMITTED
+    )
+    protected JSONArray doImportWithTransaction(JSONObject jsonObject, CentitUserDetails userDetails,
+                                                JsonAppVo jsonAppVo, String filePath, String osId) throws Exception {
+        // 记录连接池状态（用于监控和诊断）
+        logConnectionPoolStatus(applicationTemplateDao);
 
         // 获取是否运行DDL的标志
         boolean runDDL = BooleanBaseOpt.castObjectToBoolean(jsonObject.get("runDDL"), true);
-        List<ResponseData> responseDataList=new ArrayList<>();
+        List<ResponseData> responseDataList = new ArrayList<>();
         try {
             // 根据runDDL标志决定是否执行DDL操作
             if (!jsonAppVo.getAppList().isEmpty()) {
@@ -679,38 +1056,44 @@ public class ModelExportMangerImpl implements ModelExportManager {
                     logger.info("更改待发布完成");
                 }
                 // 批量合并对象到数据库
-                logger.info("开始更新数据");
+                logger.info(osId + "开始更新数据");
                 try {
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getAppList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPacketList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPacketDraftList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaformList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaformDraftList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWorkFlowList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWfNodeList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getWfTransitionList());
-                    DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getPendingMetaObject());
+                    // 验证数据库连接是否仍然有效，防止连接超时
+                    if (!validateDatabaseConnection(applicationTemplateDao, osId)) {
+                        logger.error(osId + "数据库连接验证失败，无法恢复连接，终止处理");
+                        throw new ObjectException(osId + "数据库连接验证失败，无法恢复连接");
+                    }
+                    // 分批处理数据，避免单次操作数据量过大导致超时
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getAppList(), "appList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPacketList(), "packetList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPacketDraftList(), "packetDraftList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaformList(), "metaformList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaformDraftList(), "metaformDraftList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWorkFlowList(), "workFlowList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWfNodeList(), "wfNodeList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getWfTransitionList(), "wfTransitionList");
+                    batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getPendingMetaObject(), "pendingMetaObject");
                 } catch (Exception e) {
-                    logger.error("批量合并对象时发生异常：{}", e.getMessage(), e);
-                    throw new ObjectException("批量合并对象失败", e);
+                    logger.error(osId + "批量合并对象时发生异常：{}", e.getMessage(), e);
+                    throw new ObjectException(osId + "批量合并对象失败", e);
                 }
-                logger.info("更新数据完成");
+                logger.info(osId + "更新数据完成");
                 // 如果需要运行DDL，发布所有数据库
                 if (runDDL) {
 
                     try {
-                        logger.info("开始发布数据库");
+                        logger.info(osId + "开始发布数据库");
                         for (String databaseCode : jsonAppVo.getPublishDatabaseCode()) {
                             ResponseData responseData = metaTableManager.publishDatabase(databaseCode, jsonAppVo.getUserCode());
                             if (responseData.getCode() < 0) {
-                                logger.error("发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
+                                logger.error(osId + "发布数据库 {} 失败: {}, 数据: {}", databaseCode, responseData.getMessage(), JSON.toJSONString(responseData.getData()));
                                 // 错误继续执行，不中断循环
                                 responseDataList.add(responseData);
                             }
                         }
-                        logger.info("发布数据库完成");
+                        logger.info(osId + "发布数据库完成");
                     } catch (Exception e) {
-                        logger.error("发布数据库时发生异常：{}", e.getMessage(), e);
+                        logger.error(osId + "发布数据库时发生异常：{}", e.getMessage(), e);
                         // 异常继续执行，不中断主流程
                     }
                 }
@@ -718,9 +1101,9 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
             // 处理元对象，如果存在，则批量合并到数据库
             if (!jsonAppVo.getMetaObject().isEmpty()) {
-                logger.info("开始更新元数据");
-                DatabaseOptUtils.batchMergeObjects(applicationTemplateDao, jsonAppVo.getMetaObject());
-                logger.info("更新元数据完成");
+                logger.info(osId + "开始更新元数据");
+                batchMergeWithValidation(applicationTemplateDao, jsonAppVo.getMetaObject(), "metaData");
+                logger.info(osId + "更新元数据完成");
             }
 
             // 刷新缓存，确保最新数据被正确处理
@@ -729,7 +1112,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
             logger.info("刷新缓存完成");
         } catch (Exception e) {
             // 保留原始异常堆栈信息，并抛出带有详细错误信息的运行时异常
-            String errorMessage = "导入应用过程中发生异常: " + e.getMessage();
+            String errorMessage = osId + "导入应用过程中发生异常: " + e.getMessage();
             logger.error(errorMessage, e); // 记录详细的错误日志
             throw new RuntimeException(errorMessage, e);
         } finally {
@@ -743,9 +1126,29 @@ public class ModelExportMangerImpl implements ModelExportManager {
 
         // 返回差异ID，表示此次导入影响的记录
         JSONObject databaseResult = new JSONObject();
-        databaseResult.put("数据库发布结果",responseDataList);
-        JSONArray result = jsonAppVo.getDiffIds();
+        JSONArray responseDataArray = new JSONArray();
+        if (!responseDataList.isEmpty()) {
+            for (ResponseData responseData : responseDataList) {
+                if (responseData != null) {
+                    try {
+                        // 将 ResponseData 对象安全地添加到 JSONArray
+                        responseDataArray.add(responseData);
+                    } catch (Exception e) {
+                        logger.error("添加 ResponseData 到数组时出错: {}", e.getMessage(), e);
+                        // 降级处理：创建包含错误信息的对象
+                        JSONObject errorObj = new JSONObject();
+                        errorObj.put("error", "响应数据转换失败");
+                        errorObj.put("message", e.getMessage());
+                        responseDataArray.add(errorObj);
+                    }
+                }
+            }
+        }
+        databaseResult.put("数据库发布结果", responseDataArray);
+        JSONArray result = new JSONArray();
         result.add(databaseResult);
+        result.add(jsonAppVo.getDiffIds());
+        logger.info(osId + "导入完成，结果: {}", result);
         return result;
     }
 
@@ -788,6 +1191,15 @@ public class ModelExportMangerImpl implements ModelExportManager {
         }
 
         try {
+            // 记录连接池状态（用于监控和诊断）
+            logConnectionPoolStatus(applicationTemplateDao);
+
+            // 验证数据库连接是否仍然有效
+            if (!validateDatabaseConnection(applicationTemplateDao, "getOldApplication")) {
+                logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+                throw new ObjectException("数据库连接验证失败，无法恢复连接");
+            }
+
             // 创建一个包含查询参数的Map，用于执行SQL查询
             Map<String, Object> mapApplication = CollectionsOpt.createHashMap("osId", osId);
             // 创建一个空的JSONObject用于存储查询结果
@@ -824,6 +1236,13 @@ public class ModelExportMangerImpl implements ModelExportManager {
         if (sqlEntries == null || sqlEntries.isEmpty()) {
             return;
         }
+
+        // 验证数据库连接是否仍然有效
+        if (!validateDatabaseConnection(applicationTemplateDao, "")) {
+            logger.error("数据库连接验证失败，无法恢复连接，终止处理");
+            throw new ObjectException("数据库连接验证失败，无法恢复连接");
+        }
+
         // 遍历SQL条目，执行查询并将结果添加到jsonObject中
         for (Map.Entry<String, String> entry : sqlEntries.entrySet()) {
             // 使用DatabaseOptUtils工具类执行SQL查询，并将结果转换为JSONArray
