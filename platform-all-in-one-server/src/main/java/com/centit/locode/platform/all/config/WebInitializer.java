@@ -4,9 +4,11 @@ import com.centit.framework.config.WebConfig;
 import com.centit.support.file.PropertiesReader;
 import org.springframework.web.WebApplicationInitializer;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.Properties;
+import com.centit.dde.filter.SourceConnectCleanupFilter;
 
 /**
  * Created by zou_wy on 2017/3/29.
@@ -80,5 +82,11 @@ public class WebInitializer implements WebApplicationInitializer {
         if(jdbcUrl !=null && jdbcUrl.startsWith("jdbc:h2")){
             WebConfig.initializeH2Console(servletContext);
         }
+        // 兜底清理 Filter：每个请求结束时强制归还 ThreadLocal 上的数据库连接，
+        // 防止业务代码漏调释放导致连接泄漏、连接池耗尽。
+        FilterRegistration.Dynamic sourceConnectCleanupFilter =
+            servletContext.addFilter("sourceConnectCleanupFilter", SourceConnectCleanupFilter.class);
+        sourceConnectCleanupFilter.addMappingForUrlPatterns(null, false, "/*");
+        sourceConnectCleanupFilter.setAsyncSupported(true);
     }
 }
