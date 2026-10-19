@@ -90,7 +90,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         applicationSql.put(AppTableNames.F_DATADICTIONARY.name(), "select * from f_datadictionary where CATALOG_CODE in " + "(select a.dictionary_id from m_application_dictionary a join f_datacatalog b on a.dictionary_id=b.CATALOG_CODE where [:osId | a.os_id=:osId] and catalog_style<>'S')");
         applicationSql.put(AppTableNames.M_APPLICATION_DICTIONARY.name(), "select * from m_application_dictionary where [:osId | os_id=:osId]");
         applicationSql.put(AppTableNames.FILE_INFO.name(), "select a.file_id, a.file_name,a.file_md5,a.parent_folder,a.file_type,a.library_id,a.file_show_path from file_info a join file_store_info b on a.file_md5=b.file_md5 where [:osId | a.library_id=:osId] and a.file_catalog in ('A','B')");
-        applicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.folder_path from file_folder_info a where [:osId | a.library_id=:osId] " +
+        applicationSql.put(AppTableNames.FILE_FOLDER_INFO.name(), "select a.folder_id,a.folder_name,a.parent_folder,a.library_id,a.folder_path,a.source_id from file_folder_info a where [:osId | a.library_id=:osId] " +
             "and folder_id in (select a.parent_folder from file_info a join file_store_info b on a.file_md5=b.file_md5 where [:osId | a.library_id=:osId] and a.file_catalog in ('A','B'))");
 
         newDatabaseSql.put(AppTableNames.F_MD_TABLE.name(), "select * from f_md_table where table_id in (select table_id from f_table_opt_relation where [:osId | OS_ID=:osId] [:(splitforin)optId | and opt_id in (:optId)])" + " and database_code in (select DATABASE_ID from m_application_resources where [:osId | os_id=:osId])");
@@ -1124,18 +1124,23 @@ public class ModelExportMangerImpl implements ModelExportManager {
             }
         }
 
-        // 返回差异ID，表示此次导入影响的记录
+        // 返回差异ID,表示此次导入影响的记录
         JSONObject databaseResult = new JSONObject();
         JSONArray responseDataArray = new JSONArray();
         if (!responseDataList.isEmpty()) {
             for (ResponseData responseData : responseDataList) {
                 if (responseData != null) {
                     try {
-                        // 将 ResponseData 对象安全地添加到 JSONArray
-                        responseDataArray.add(responseData);
+                        // 将 ResponseData 对象转换为 JSONObject 后添加到数组
+                        // 避免直接添加对象导致的序列化问题
+                        JSONObject responseJson = new JSONObject();
+                        responseJson.put("code", responseData.getCode());
+                        responseJson.put("message", responseData.getMessage());
+                        responseJson.put("data", responseData.getData());
+                        responseDataArray.add(responseJson);
                     } catch (Exception e) {
                         logger.error("添加 ResponseData 到数组时出错: {}", e.getMessage(), e);
-                        // 降级处理：创建包含错误信息的对象
+                        // 降级处理:创建包含错误信息的对象
                         JSONObject errorObj = new JSONObject();
                         errorObj.put("error", "响应数据转换失败");
                         errorObj.put("message", e.getMessage());
@@ -1148,7 +1153,7 @@ public class ModelExportMangerImpl implements ModelExportManager {
         JSONArray result = new JSONArray();
         result.add(databaseResult);
         result.add(jsonAppVo.getDiffIds());
-        logger.info(osId + "导入完成，结果: {}", result);
+        logger.info(osId + "导入完成,结果: {}", result);
         return result;
     }
 
